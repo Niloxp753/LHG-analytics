@@ -1,6 +1,7 @@
 /** @format */
 
 import NextAuthProvider from '@/providers/nextAuthProvider';
+import { Toaster } from '@/components/ui/sonner';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -23,7 +24,13 @@ export default async function RootLayout({
 	return (
 		<html lang='pt-BR'>
 			<body className={inter.className}>
-				<NextAuthProvider>{children}</NextAuthProvider>
+				<NextAuthProvider>
+					<Toaster
+						richColors
+						position='top-right'
+					/>
+					{children}
+				</NextAuthProvider>
 			</body>
 		</html>
 	);

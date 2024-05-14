@@ -17,6 +17,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export default function FormLogin() {
 	const router = useRouter();
@@ -42,10 +43,20 @@ export default function FormLogin() {
 			if (!response?.error) {
 				router.refresh();
 				router.push('/dashboard');
+				form.reset();
+					toast.success('Usuário Logado - 200', {
+						description: 'Credenciais válidas',
+					});
 			} else {
-				alert('Email ou senha invalidos');
+				toast.error('Não Autorizado - 401', {
+					description: 'E-mail ou senha inválidos',
+				});
+				form.reset();
 			}
 		} catch (error) {
+			toast.error('Algo deu errado - 500', {
+				description: 'Erro interno do servidor',
+			});
 			console.log(error);
 			alert(error);
 		}
