@@ -5,7 +5,6 @@ import logo from '@/assets/images/logo-lush.png';
 import { Card } from '@/components/ui/card';
 import Image from 'next/image';
 import FormLogin from './formLogin';
-import Link from 'next/link';
 
 export default function Login() {
 	return (
