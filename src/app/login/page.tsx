@@ -1,10 +1,10 @@
 /** @format */
 
 import capaLogin from '@/assets/images/capa-login.png';
-import logo from '@/assets/images/logo-lush.png';
+import logo from '@/assets/images/logo-analytics.png';
 import { Card } from '@/components/ui/card';
 import Image from 'next/image';
-import FormLogin from './formLogin';
+import FormLogin from './components/formLogin';
 
 export default function Login() {
 	return (
@@ -15,9 +15,9 @@ export default function Login() {
 					className='mx-auto h-fit  mt-20 z-50'>
 					<Image
 						src={logo}
-						width={340}
+						width={280}
 						height={80}
-						alt='Logo Lush Motéis'></Image>
+						alt='Logo LHG Analytics'></Image>
 				</a>
 				<Image
 					src={capaLogin}
@@ -34,7 +34,7 @@ export default function Login() {
 					width={140}
 					height={80}
 					alt='Logo Lush Motéis'></Image>
-				<Card className='mx-auto grid w-[348px] gap-6 border-purple-300 bg-zinc-800 p-4'>
+				<Card className='mx-auto grid w-[348px] gap-6 border-zinc-600 bg-zinc-800 p-4'>
 					<div className='grid gap-3 text-center'>
 						<h1 className='text-3xl font-bold text-zinc-50'>Login</h1>
 						<p className='text-balance text-zinc-200 text-sm'>

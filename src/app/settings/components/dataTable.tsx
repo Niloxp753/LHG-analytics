@@ -38,101 +38,102 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 
-const data: Payment[] = [
+const data: User[] = [
 	{
 		id: 'm5gr84i9',
-		amount: 316,
+		name: 'João Silva',
 		status: 'success',
 		email: 'ken99@yahoo.com',
 	},
 	{
 		id: '3u1reuv4',
-		amount: 242,
+		name: 'Maria Oliveira',
 		status: 'success',
 		email: 'Abe45@gmail.com',
 	},
 	{
 		id: 'derv1ws0',
-		amount: 837,
+		name: 'Pedro Santos',
 		status: 'processing',
 		email: 'Monserrat44@gmail.com',
 	},
 	{
 		id: '5kma53ae',
-		amount: 874,
+		name: 'Ana Costa',
 		status: 'success',
 		email: 'Silas22@gmail.com',
 	},
 	{
 		id: '5kma53ae',
-		amount: 874,
+		name: 'Lucas Pereira',
 		status: 'success',
 		email: 'Silas22@gmail.com',
 	},
 	{
 		id: '5kma53ae',
-		amount: 874,
+		name: 'Júlia Ferreira',
 		status: 'success',
 		email: 'Silas22@gmail.com',
 	},
 	{
 		id: '5kma53ae',
-		amount: 874,
+		name: 'Marcos Almeida',
 		status: 'success',
 		email: 'Silas22@gmail.com',
 	},
 	{
 		id: '5kma53ae',
-		amount: 874,
+		name: 'Carolina Ribeiro',
 		status: 'success',
 		email: 'Silas22@gmail.com',
 	},
 	{
 		id: '5kma53ae',
-		amount: 874,
+		name: 'Rafael Lima',
 		status: 'success',
 		email: 'Silas22@gmail.com',
 	},
 	{
 		id: '5kma53ae',
-		amount: 874,
+		name: 'Beatriz Sousa',
 		status: 'success',
 		email: 'Silas22@gmail.com',
 	},
 	{
 		id: 'bhqecj4p',
-		amount: 721,
+		name: 'Felipe Carvalho',
 		status: 'failed',
 		email: 'carmella@hotmail.com',
 	},
 ];
 
-export type Payment = {
+export type User = {
 	id: string;
-	amount: number;
-	status: 'pending' | 'processing' | 'success' | 'failed';
+	name: string;
+	status?: 'pending' | 'processing' | 'success' | 'failed';
+	cpf?: string;
 	email: string;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<User>[] = [
 	{
 		id: 'select',
 		header: ({ table }) => (
 			<Checkbox
-			className='border-zinc-50'
+				className='border-zinc-50'
 				checked={
 					table.getIsAllPageRowsSelected() ||
 					(table.getIsSomePageRowsSelected() && 'indeterminate')
 				}
 				onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-				aria-label='Select all'
+				aria-label='Selecionar Tudo'
 			/>
 		),
 		cell: ({ row }) => (
 			<Checkbox
 				checked={row.getIsSelected()}
 				onCheckedChange={(value) => row.toggleSelected(!!value)}
-				aria-label='Select row'
+				aria-label='Selecionar Linha'
 			/>
 		),
 		enableSorting: false,
@@ -160,19 +161,13 @@ export const columns: ColumnDef<Payment>[] = [
 		cell: ({ row }) => <div className='lowercase'>{row.getValue('email')}</div>,
 	},
 	{
-		accessorKey: 'amount',
-		header: () => <div className='text-right'>Amount</div>,
-		cell: ({ row }) => {
-			const amount = parseFloat(row.getValue('amount'));
-
-			// Format the amount as a dollar amount
-			const formatted = new Intl.NumberFormat('en-US', {
-				style: 'currency',
-				currency: 'USD',
-			}).format(amount);
-
-			return <div className='text-right font-medium'>{formatted}</div>;
-		},
+		accessorKey: 'name',
+		header: () => <div className='text-center'>Nome</div>,
+		cell: ({ row }) => (
+			<div className='text-center font-medium text-zinc-50'>
+				{row.getValue('name')}
+			</div>
+		),
 	},
 	{
 		id: 'actions',
@@ -250,7 +245,7 @@ export function DataTableDemo() {
 						<Button
 							variant='default'
 							className='ml-auto'>
-							Columns <ChevronDown className='ml-2 h-4 w-4' />
+							Colunas <ChevronDown className='ml-2 h-4 w-4' />
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align='end'>
@@ -274,7 +269,7 @@ export function DataTableDemo() {
 				</DropdownMenu>
 			</div>
 			<div className='rounded-md border'>
-				<Table >
+				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>
@@ -323,8 +318,8 @@ export function DataTableDemo() {
 			</div>
 			<div className='flex items-center justify-end space-x-2 py-4'>
 				<div className='flex-1 text-sm text-muted-foreground'>
-					{table.getFilteredSelectedRowModel().rows.length} of{' '}
-					{table.getFilteredRowModel().rows.length} row(s) selected.
+					{table.getFilteredSelectedRowModel().rows.length} de{' '}
+					{table.getFilteredRowModel().rows.length} linha(s) selecionada.
 				</div>
 				<div className='space-x-2'>
 					<Button
@@ -332,14 +327,14 @@ export function DataTableDemo() {
 						size='sm'
 						onClick={() => table.previousPage()}
 						disabled={!table.getCanPreviousPage()}>
-						Previous
+						Anterior
 					</Button>
 					<Button
 						variant='default'
 						size='sm'
 						onClick={() => table.nextPage()}
 						disabled={!table.getCanNextPage()}>
-						Next
+						Próximo
 					</Button>
 				</div>
 			</div>

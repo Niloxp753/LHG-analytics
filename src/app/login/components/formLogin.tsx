@@ -44,9 +44,9 @@ export default function FormLogin() {
 				router.refresh();
 				router.push('/dashboard');
 				form.reset();
-					toast.success('Usuário Logado - 200', {
-						description: 'Credenciais válidas',
-					});
+				toast.success('Usuário Logado - 200', {
+					description: 'Credenciais válidas',
+				});
 			} else {
 				toast.error('Não Autorizado - 401', {
 					description: 'E-mail ou senha inválidos',
@@ -75,6 +75,7 @@ export default function FormLogin() {
 							<FormLabel className='text-zinc-100'>E-mail</FormLabel>
 							<FormControl>
 								<Input
+									className='bg-zinc-700 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
 									type='email'
 									{...field}
 									placeholder='email@email.com'
@@ -93,6 +94,7 @@ export default function FormLogin() {
 							<FormLabel className='text-zinc-100'>Senha</FormLabel>
 							<FormControl>
 								<Input
+									className='bg-zinc-700 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
 									type='password'
 									{...field}
 									placeholder='********'

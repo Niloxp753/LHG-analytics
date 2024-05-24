@@ -5,6 +5,7 @@ import { Toaster } from '@/components/ui/sonner';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import logo from '@/assets/images/favcon.png';
 
 const inter = Inter({
 	subsets: ['latin'],
@@ -23,6 +24,11 @@ export default async function RootLayout({
 }>) {
 	return (
 		<html lang='pt-BR'>
+			<link
+				rel='shortcut icon'
+				href={'/favcon.png'}
+				type='image/x-icon'
+			/>
 			<body className={inter.className}>
 				<NextAuthProvider>
 					<Toaster
