@@ -42,7 +42,7 @@ export default function FormLogin() {
 
 			if (!response?.error) {
 				router.refresh();
-				router.push('/dashboard');
+				router.push('/general');
 				form.reset();
 				toast.success('Usuário Logado - 200', {
 					description: 'Credenciais válidas',

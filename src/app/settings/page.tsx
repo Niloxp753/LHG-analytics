@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { DataTableDemo } from './components/dataTable';
-import Sidebar from '@/components/sidebar';
+import Sidebar from '@/app/(dashboard)/components/sidebar';
 
 export default function Page() {
 	return (

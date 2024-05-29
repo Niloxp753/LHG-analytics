@@ -2,6 +2,9 @@
 
 import capaLogin from '@/assets/images/capa-login.png';
 import logo from '@/assets/images/logo-analytics.png';
+import logoLush from '@/assets/images/logo-lush.png';
+import logoTout from '@/assets/images/logo_tout.png';
+import logoAC from '@/assets/images/logo_andar_de_cima.png';
 import { Card } from '@/components/ui/card';
 import Image from 'next/image';
 import FormLogin from './components/formLogin';
@@ -22,10 +25,33 @@ export default function Login() {
 				<Image
 					src={capaLogin}
 					alt='Image'
-					width='1800'
-					height='900'
-					className='h-full w-full object-cover grayscale absolute left-0 top-0'
+					width='1400'
+					height='700'
+					className='h-full w-full object-cover grayscale absolute left-0 top-0 opacity-30'
 				/>
+				<div className='flex m-auto items-baseline justify-center gap-10 absolute lg:left-[10%] xl:left-[25%] 2xl:left-[30%] bottom-1/3'>
+					<Image
+						src={logoLush}
+						alt='Image'
+						width='100'
+						height='40'
+						className='h-full w-full '
+					/>{' '}
+					<Image
+						src={logoTout}
+						alt='Image'
+						width='100'
+						height='40'
+						className='h-full w-full '
+					/>{' '}
+					<Image
+						src={logoAC}
+						alt='Image'
+						width='240'
+						height='70'
+						className='h-full w-full'
+					/>
+				</div>
 			</div>
 			<div className='flex items-center gap-10 flex-col justify-center w-full lg:w-1/3'>
 				<Image
@@ -34,14 +60,13 @@ export default function Login() {
 					width={140}
 					height={80}
 					alt='Logo Lush Motéis'></Image>
-				<Card className='mx-auto grid w-[348px] gap-6 border-zinc-600 bg-zinc-800 p-4'>
+				<Card className='mx-auto grid w-[320px] gap-5 border-zinc-600 bg-zinc-800 p-4'>
 					<div className='grid gap-3 text-center'>
 						<h1 className='text-3xl font-bold text-zinc-50'>Login</h1>
-						<p className='text-balance text-zinc-200 text-sm'>
+						<p className=' text-zinc-200 text-center text-balance'>
 							Entre com seus dados abaixo para fazer login
 						</p>
 					</div>
-
 					<FormLogin />
 				</Card>
 			</div>

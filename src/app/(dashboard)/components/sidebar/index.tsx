@@ -2,8 +2,8 @@
 
 import { BarChart3, UserRoundCog } from 'lucide-react';
 import Link from 'next/link';
-import BtnFilter from '../btnFilter';
-import BtnSignOut from '../btnSingOut';
+import BtnFilter from '../../../../components/btnFilter';
+import BtnSignOut from '../../../../components/btnSingOut';
 
 export default function Sidebar() {
 	return (
@@ -16,22 +16,33 @@ export default function Sidebar() {
 					<UserRoundCog />
 				</Link>
 				<Link
-					href={'/dashboard'}
+					href={'/general'}
 					className='p-3 bg-zinc-950 flex gap-4 rounded-xl text-lg font-medium  hover:bg-zinc-800 transition-all duration-300 ease-linear'>
-					Painel Geral
+					Visão Geral
 					<BarChart3 />
 				</Link>
 				<Link
-					href={'/settings'}
+					href={'/restaurant'}
 					className='p-3 bg-zinc-950 flex gap-4 rounded-xl text-lg font-medium  hover:bg-zinc-800 transition-all duration-300 ease-linear'>
-					Painel de Locações
+					Restaurantes
+				</Link>
+
+				<Link
+					href={'/reservations'}
+					className='p-3 bg-zinc-950 rounded-xl flex gap-4 text-lg font-medium  hover:bg-zinc-800 transition-all duration-300 ease-linear'>
+					Reservas
 				</Link>
 				<Link
-					href={'/settings'}
+					href={'/operational'}
 					className='p-3 bg-zinc-950 rounded-xl flex gap-4 text-lg font-medium  hover:bg-zinc-800 transition-all duration-300 ease-linear'>
-					Painel de KPI's
+					Operacional
 				</Link>
-				<div className='flex flex-col bg-zinc-500 rounded-xl gap-5  p-3'>
+				<Link
+					href={'/nps'}
+					className='p-3 bg-zinc-950 flex gap-4 rounded-xl text-lg font-medium  hover:bg-zinc-800 transition-all duration-300 ease-linear'>
+					Avaliações
+				</Link>
+				{/* <div className='flex flex-col bg-zinc-500 rounded-xl gap-5  p-3'>
 					<h2 className='text-center text-lg'>
 						Selecione as opções abaixo para filtrar
 					</h2>
@@ -41,7 +52,7 @@ export default function Sidebar() {
 					<BtnFilter href={'/settings'}>Tipos de Locação</BtnFilter>
 
 					<BtnFilter href={'/settings'}>Unidades</BtnFilter>
-				</div>
+				</div> */}
 			</div>
 			<BtnSignOut />
 		</div>

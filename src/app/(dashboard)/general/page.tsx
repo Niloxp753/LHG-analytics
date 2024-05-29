@@ -1,9 +1,8 @@
 /** @format */
 
-import BtnSignOut from '@/components/btnSingOut';
-import Sidebar from '@/components/sidebar';
+import Sidebar from '@/app/(dashboard)/components/sidebar';
 
-export default async function Home() {
+export default async function General() {
 	return (
 		<main className='flex h-screen w-full items-center gap-10 flex-col justify-center bg-zinc-950'>
 			<Sidebar />
