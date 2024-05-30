@@ -1,60 +1,112 @@
 /** @format */
+'use client';
 
-import { BarChart3, UserRoundCog } from 'lucide-react';
+import {
+	BarChart3,
+	ChevronFirst,
+	ChevronLast,
+	PieChart,
+	ScanEye,
+	ScatterChart,
+	UserRoundCog,
+	UtensilsCrossed,
+} from 'lucide-react';
 import Link from 'next/link';
-import BtnFilter from '../../../../components/btnFilter';
 import BtnSignOut from '../../../../components/btnSingOut';
+import React, { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 export default function Sidebar() {
+	const [isOpen, setIsOpen] = useState(true);
+	const searchParams = useSearchParams();
+	const selected = searchParams.get('menu');
+
+	function handleToggle(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
+		e.stopPropagation();
+		e.preventDefault();
+		if (isOpen) {
+			setIsOpen(false);
+		} else {
+			setIsOpen(true);
+		}
+	}
+
 	return (
-		<div className='h-screen w-1/6 bg-zinc-900 absolute left-0 p-5 flex flex-col justify-between'>
-			<div className='text-zinc-100 flex flex-col gap-5 rounded-xl p-3 bg-zinc-600'>
+		<div className='h-screen w-fit bg-zinc-900 absolute left-0 p-2 flex flex-col justify-between'>
+			<span
+				onClick={(e) => handleToggle(e)}
+				className='cursor-pointer bg-zinc-950 w-fit top-0 right-0 absolute p-1 rounded justify-between hover:bg-zinc-800 transition-all duration-300 ease-linear z-50 text-white'>
+				{isOpen ? <ChevronFirst /> : <ChevronLast />}
+			</span>
+			<div className='text-zinc-100 flex flex-col w-fit gap-5 rounded-xl p-3 mt-10'>
 				<Link
-					href={'/settings'}
-					className='p-3 flex gap-4 bg-violet-400 rounded-xl text-lg font-medium text-zinc-900 hover:bg-violet-500 transition-all duration-300 ease-linear'>
-					Painel Admin
+					href={'/settings?menu=admin'}
+					className={`p-3 flex gap-4 ${
+						selected == 'admin'
+							? 'bg-violet-400 hover:bg-violet-500 text-zinc-900'
+							: 'bg-zinc-950 hover:bg-zinc-800 text-zinc-50'
+					}   rounded justify-between text-lg font-semibold transition-all duration-300 ease-linear`}>
+					{isOpen ? <p> Painel Admin</p> : null}
+
 					<UserRoundCog />
 				</Link>
 				<Link
-					href={'/general'}
-					className='p-3 bg-zinc-950 flex gap-4 rounded-xl text-lg font-medium  hover:bg-zinc-800 transition-all duration-300 ease-linear'>
-					Visão Geral
+					href={'/general?menu=general'}
+					className={`p-3 flex gap-4 ${
+						selected == 'general'
+							? 'bg-violet-400 hover:bg-violet-500 text-zinc-900'
+							: 'bg-zinc-950 hover:bg-zinc-800 text-zinc-50'
+					}   rounded justify-between text-lg font-semibold transition-all duration-300 ease-linear`}>
+					{isOpen ? <p>Visão Geral</p> : null}
+
 					<BarChart3 />
 				</Link>
 				<Link
-					href={'/restaurant'}
-					className='p-3 bg-zinc-950 flex gap-4 rounded-xl text-lg font-medium  hover:bg-zinc-800 transition-all duration-300 ease-linear'>
-					Restaurantes
+					href={'/restaurant?menu=restaurant'}
+					className={`p-3 flex gap-4 ${
+						selected == 'restaurant'
+							? 'bg-violet-400 hover:bg-violet-500 text-zinc-900'
+							: 'bg-zinc-950 hover:bg-zinc-800 text-zinc-50'
+					}   rounded justify-between text-lg font-semibold transition-all duration-300 ease-linear`}>
+					{isOpen! ? <p>Restaurantes</p> : null}
+
+					<UtensilsCrossed />
 				</Link>
 
 				<Link
-					href={'/reservations'}
-					className='p-3 bg-zinc-950 rounded-xl flex gap-4 text-lg font-medium  hover:bg-zinc-800 transition-all duration-300 ease-linear'>
-					Reservas
+					href={'/reservations?menu=reservations'}
+					className={`p-3 flex gap-4 ${
+						selected == 'reservations'
+							? 'bg-violet-400 hover:bg-violet-500 text-zinc-900'
+							: 'bg-zinc-950 hover:bg-zinc-800 text-zinc-50'
+					}   rounded justify-between text-lg font-semibold transition-all duration-300 ease-linear`}>
+					{isOpen! ? <p>Reservas</p> : null}
+
+					<ScatterChart />
 				</Link>
 				<Link
-					href={'/operational'}
-					className='p-3 bg-zinc-950 rounded-xl flex gap-4 text-lg font-medium  hover:bg-zinc-800 transition-all duration-300 ease-linear'>
-					Operacional
+					href={'/operational?menu=operational'}
+					className={`p-3 flex gap-4 ${
+						selected == 'operational'
+							? 'bg-violet-400 hover:bg-violet-500 text-zinc-900'
+							: 'bg-zinc-950 hover:bg-zinc-800 text-zinc-50'
+					}   rounded justify-between text-lg font-semibold transition-all duration-300 ease-linear`}>
+					{isOpen! ? <p>Operacional</p> : null}
+
+					<PieChart />
 				</Link>
 				<Link
-					href={'/nps'}
-					className='p-3 bg-zinc-950 flex gap-4 rounded-xl text-lg font-medium  hover:bg-zinc-800 transition-all duration-300 ease-linear'>
-					Avaliações
+					href={'/nps?menu=nps'}
+					className={`p-3 flex gap-4 ${
+						selected == 'nps'
+							? 'bg-violet-400 hover:bg-violet-500 text-zinc-900'
+							: 'bg-zinc-950 hover:bg-zinc-800 text-zinc-50'
+					}   rounded justify-between text-lg font-semibold transition-all duration-300 ease-linear`}>
+					{isOpen! ? <p>Avaliações</p> : null}
+					<ScanEye />
 				</Link>
-				{/* <div className='flex flex-col bg-zinc-500 rounded-xl gap-5  p-3'>
-					<h2 className='text-center text-lg'>
-						Selecione as opções abaixo para filtrar
-					</h2>
-
-					<BtnFilter href={'/settings'}>Tipos de Suítes</BtnFilter>
-
-					<BtnFilter href={'/settings'}>Tipos de Locação</BtnFilter>
-
-					<BtnFilter href={'/settings'}>Unidades</BtnFilter>
-				</div> */}
 			</div>
-			<BtnSignOut />
+			<BtnSignOut isOpened={isOpen} />
 		</div>
 	);
 }

@@ -233,7 +233,7 @@ export function DataTableDemo() {
 		<div className='w-3/4 ml-auto'>
 			<div className='flex items-center py-4'>
 				<Input
-					placeholder='Filter emails...'
+					placeholder='Procure por e-mails..'
 					value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
 					onChange={(event) =>
 						table.getColumn('email')?.setFilterValue(event.target.value)
