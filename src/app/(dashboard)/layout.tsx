@@ -1,6 +1,6 @@
 /** @format */
 
-import Sidebar from './components/sidebar';
+import Sidebar from './components/SidebarMenu';
 
 export default async function DashLayout({
 	children,
