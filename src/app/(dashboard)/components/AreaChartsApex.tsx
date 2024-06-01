@@ -1,6 +1,6 @@
 /** @format */
-'use client';
 
+'use client';
 import React from 'react';
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from './ResponsiveContainerChart';
@@ -8,8 +8,8 @@ import ResponsiveContainerChart from './ResponsiveContainerChart';
 export default function AreaChartsApex() {
 	const options: ApexCharts.ApexOptions = {
 		chart: {
-			id: 'area-bar',
-			stacked: true,
+			id: 'test-bar',
+			stacked: false,
 			type: 'area',
 			foreColor: '#fafafa',
 			zoom: {
@@ -20,7 +20,14 @@ export default function AreaChartsApex() {
 				show: false,
 			},
 		},
-		legend: {},
+		legend: {
+			showForSingleSeries: true,
+			position: 'top',
+			horizontalAlign: 'left',
+			fontSize: '16px',
+			onItemHover: { highlightDataSeries: true },
+			onItemClick: { toggleDataSeries: false },
+		},
 		grid: {
 			borderColor: '#a78bfa',
 			show: true,
@@ -32,6 +39,13 @@ export default function AreaChartsApex() {
 		},
 		dataLabels: {
 			enabled: true,
+			distributed: true,
+			background: {
+				enabled: true,
+				borderRadius: 4,
+				padding: 12,
+				borderWidth: 1,
+			},
 			style: { colors: ['#5b21b6'] },
 		},
 		colors: ['#a78bfa'],
@@ -44,17 +58,15 @@ export default function AreaChartsApex() {
 		},
 
 		markers: {
-			size: 5,
+			size: 0,
 			colors: ['#a78bfa'],
+			hover: { size: 0 },
+			strokeWidth: 0,
+		},
 
-			strokeWidth: 3,
-		},
-		title: {
-			text: 'Faturamento',
-			style: { color: '#fafafa', fontSize: '20px' },
-		},
 		xaxis: {
-			axisBorder: { show: false },
+			axisBorder: { show: true },
+
 			categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
 		},
 		yaxis: { show: false, labels: { show: true } },
@@ -62,8 +74,13 @@ export default function AreaChartsApex() {
 		plotOptions: { area: { fillTo: 'end' } },
 	};
 
-	const series = [{ name: 'Vendas', data: [30, 40, 45, 50, 49, 60, 70, 91] }];
-
+	const series: ApexAxisChartSeries | ApexNonAxisChartSeries = [
+		{
+			name: 'Faturamento',
+			data: [30, 40, 45, 50, 49, 60, 70, 91],
+			type: 'area',
+		},
+	];
 	return (
 		<ResponsiveContainerChart>
 			<Chart
@@ -71,8 +88,7 @@ export default function AreaChartsApex() {
 				series={series}
 				type='area'
 				width={'100%'}
-				height={300}
-			/>
+				height={300}></Chart>
 		</ResponsiveContainerChart>
 	);
 }

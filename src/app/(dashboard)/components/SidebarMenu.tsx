@@ -21,7 +21,7 @@ export default function SidebarMenu() {
 	const openned = searchParams.get('open') || 'true';
 
 	return (
-		<div className='h-screen w-fit bg-zinc-900 absolute left-0 p-2 flex flex-col justify-between'>
+		<div className='h-screen w-fit bg-zinc-900 fixed left-0 p-2 flex flex-col justify-between'>
 			<Link
 				href={`${
 					openned == 'true'
@@ -34,7 +34,7 @@ export default function SidebarMenu() {
 			<div className='text-zinc-100 flex flex-col w-fit gap-5 rounded-xl p-3 mt-10'>
 				<Link
 					href={`/settings?menu=admin&open=${openned}`}
-					className={`p-3 flex gap-4 ${
+					className={`p-2.5 flex gap-3 ${
 						selected == 'admin'
 							? 'bg-violet-400 hover:bg-violet-500 text-zinc-900'
 							: 'bg-zinc-950 hover:bg-zinc-700 text-zinc-50'
@@ -45,7 +45,7 @@ export default function SidebarMenu() {
 				</Link>
 				<Link
 					href={`/general?menu=general&open=${openned}`}
-					className={`p-3 flex gap-4 ${
+					className={`p-2.5 flex gap-3 ${
 						selected == 'general'
 							? 'bg-violet-400 hover:bg-violet-500 text-zinc-900'
 							: 'bg-zinc-950 hover:bg-zinc-700 text-zinc-50'
@@ -56,7 +56,7 @@ export default function SidebarMenu() {
 				</Link>
 				<Link
 					href={`/restaurant?menu=restaurant&open=${openned}`}
-					className={`p-3 flex gap-4 ${
+					className={`p-2.5 flex gap-3 ${
 						selected == 'restaurant'
 							? 'bg-violet-400 hover:bg-violet-500 text-zinc-900'
 							: 'bg-zinc-950 hover:bg-zinc-700 text-zinc-50'
@@ -68,7 +68,7 @@ export default function SidebarMenu() {
 
 				<Link
 					href={`/reservations?menu=reservations&open=${openned}`}
-					className={`p-3 flex gap-4 ${
+					className={`p-2.5 flex gap-3 ${
 						selected == 'reservations'
 							? 'bg-violet-400 hover:bg-violet-500 text-zinc-900'
 							: 'bg-zinc-950 hover:bg-zinc-700 text-zinc-50'
@@ -79,7 +79,7 @@ export default function SidebarMenu() {
 				</Link>
 				<Link
 					href={`/operational?menu=operational&open=${openned}`}
-					className={`p-3 flex gap-4 ${
+					className={`p-2.5 flex gap-3 ${
 						selected == 'operational'
 							? 'bg-violet-400 hover:bg-violet-500 text-zinc-900'
 							: 'bg-zinc-950 hover:bg-zinc-700 text-zinc-50'
@@ -90,7 +90,7 @@ export default function SidebarMenu() {
 				</Link>
 				<Link
 					href={`/nps?menu=nps&open=${openned}`}
-					className={`p-3 flex gap-4 ${
+					className={`p-2.5 flex gap-3 ${
 						selected == 'nps'
 							? 'bg-violet-400 hover:bg-violet-500 text-zinc-900'
 							: 'bg-zinc-950 hover:bg-zinc-700 text-zinc-50'

@@ -18,7 +18,7 @@ interface CardDetailsProps {
 export default function CardDetails({ title, value }: CardDetailsProps) {
 	return (
 		<div>
-			<Card className='bg-transparent text-zinc-50 w-[228px] h-[112px] border border-zinc-100/40 bg-zinc-800'>
+			<Card className='bg-transparent text-zinc-50 w-48 h-[96px] border border-zinc-100/40 bg-zinc-800'>
 				<CardHeader>
 					<CardTitle className='text-xl'>{title}</CardTitle>
 				</CardHeader>

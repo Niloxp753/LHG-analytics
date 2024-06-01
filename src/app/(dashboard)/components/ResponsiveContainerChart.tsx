@@ -1,5 +1,5 @@
 /** @format */
-
+'use client';
 import React from 'react';
 
 export default function ResponsiveContainerChart({
@@ -8,6 +8,8 @@ export default function ResponsiveContainerChart({
 	children: React.ReactNode;
 }) {
 	return (
-		<div className=' rounded-lg m-2 p-4 h-full bg-zinc-800 border border-zinc-100/40'>{children}</div>
+		<div className=' rounded-lg p-4 w-full h-full bg-zinc-800 border border-zinc-100/40'>
+			{children}
+		</div>
 	);
 }
