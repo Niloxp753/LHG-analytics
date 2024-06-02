@@ -63,30 +63,7 @@ const data: User[] = [
 		status: 'success',
 		email: 'Silas22@gmail.com',
 	},
-	{
-		id: '5kma53ae',
-		name: 'Lucas Pereira',
-		status: 'success',
-		email: 'Silas22@gmail.com',
-	},
-	{
-		id: '5kma53ae',
-		name: 'Júlia Ferreira',
-		status: 'success',
-		email: 'Silas22@gmail.com',
-	},
-	{
-		id: '5kma53ae',
-		name: 'Marcos Almeida',
-		status: 'success',
-		email: 'Silas22@gmail.com',
-	},
-	{
-		id: '5kma53ae',
-		name: 'Carolina Ribeiro',
-		status: 'success',
-		email: 'Silas22@gmail.com',
-	},
+
 	{
 		id: '5kma53ae',
 		name: 'Rafael Lima',
