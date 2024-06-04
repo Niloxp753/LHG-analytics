@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 import React from 'react';
 const AreaChartsApexDouble = dynamic(
-	() => import('@/app/(dashboard)/components/AreaChartsApexDouble'),
+	() => import('@/app/(dashboard)/components/charts/AreaChartsApexDouble'),
 	{ ssr: false },
 );
 

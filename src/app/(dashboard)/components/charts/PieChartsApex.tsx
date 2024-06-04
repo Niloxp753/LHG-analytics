@@ -2,7 +2,7 @@
 
 'use client';
 import Chart from 'react-apexcharts';
-import ResponsiveContainerChart from './ResponsiveContainerChart';
+import ResponsiveContainerChart from '@/app/(dashboard)/components/ResponsiveContainerChart';
 
 export default function PieChartsApex() {
 	const options: ApexCharts.ApexOptions = {

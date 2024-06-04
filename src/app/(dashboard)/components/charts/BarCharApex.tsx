@@ -2,7 +2,7 @@
 
 'use client';
 import Chart from 'react-apexcharts';
-import ResponsiveContainerChart from './ResponsiveContainerChart';
+import ResponsiveContainerChart from '../ResponsiveContainerChart';
 
 export default function BarChartsApex() {
 	const options: ApexCharts.ApexOptions = {

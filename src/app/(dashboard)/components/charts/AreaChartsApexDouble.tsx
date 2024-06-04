@@ -2,11 +2,13 @@
 
 'use client';
 import Chart from 'react-apexcharts';
-import ResponsiveContainerChart from './ResponsiveContainerChart';
+import ResponsiveContainerChart from '../ResponsiveContainerChart';
 
 interface AreaChartsApexProps {
-	serie?: number[];
-	legend?: string;
+	serie01?: number[];
+	serie02?: number[];
+	legend01?: string;
+	legend02?: string;
 }
 
 export default function AreaChartsApex(props: AreaChartsApexProps) {
@@ -43,21 +45,21 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 		},
 		dataLabels: {
 			enabled: true,
-			distributed: true,
+			distributed: false,
 			background: {
 				enabled: true,
 				borderRadius: 4,
 				padding: 12,
 				borderWidth: 1,
+				foreColor: '#fafafa',
 			},
-			style: { colors: ['#5b21b6'] },
+			style: { colors: ['#6d28d9', '#16a34a'] },
 		},
-		colors: ['#a78bfa'],
+		colors: ['#a78bfa', '#bbf7d0'],
 		fill: {
 			gradient: {
 				opacityFrom: 0.8,
 				opacityTo: 0.2,
-				gradientToColors: ['#a78bfa', '#2e1065'],
 			},
 		},
 
@@ -77,10 +79,16 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 		plotOptions: { area: { fillTo: 'end' } },
 	};
 
-	const series: ApexAxisChartSeries = [
+	const series: ApexAxisChartSeries | ApexNonAxisChartSeries = [
 		{
-			name: props.legend || 'Faturamento',
-			data: props.serie || [30, 40, 45, 50, 49, 60, 70, 91],
+			name: props.legend01 || 'Faturamento',
+			data: props.serie01 || [30, 40, 45, 50, 49, 60, 70, 91],
+			type: 'area',
+		},
+
+		{
+			name: props.legend02,
+			data: props.serie02 || [],
 			type: 'area',
 		},
 	];
