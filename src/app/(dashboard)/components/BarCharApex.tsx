@@ -19,13 +19,11 @@ export default function BarChartsApex() {
 				show: false,
 			},
 		},
-		legend: {
-			showForSingleSeries: true,
-			position: 'top',
-			horizontalAlign: 'left',
-			fontSize: '16px',
-			onItemHover: { highlightDataSeries: true },
-			onItemClick: { toggleDataSeries: false },
+		title: {
+			align: 'left',
+			text: 'Faturamento por Suíte',
+			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 'normal' },
+			margin: 8,
 		},
 
 		grid: {

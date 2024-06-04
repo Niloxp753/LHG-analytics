@@ -4,7 +4,12 @@
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from './ResponsiveContainerChart';
 
-export default function AreaChartsApex() {
+interface AreaChartsApexProps {
+	serie?: number[];
+	legend?: string;
+}
+
+export default function AreaChartsApex(props: AreaChartsApexProps) {
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: 'test-bar',
@@ -50,7 +55,7 @@ export default function AreaChartsApex() {
 		colors: ['#a78bfa'],
 		fill: {
 			gradient: {
-				opacityFrom: 0.5,
+				opacityFrom: 0.8,
 				opacityTo: 0.2,
 				gradientToColors: ['#a78bfa', '#2e1065'],
 			},
@@ -72,10 +77,10 @@ export default function AreaChartsApex() {
 		plotOptions: { area: { fillTo: 'end' } },
 	};
 
-	const series: ApexAxisChartSeries | ApexNonAxisChartSeries = [
+	const series: ApexAxisChartSeries = [
 		{
-			name: 'Faturamento',
-			data: [30, 40, 45, 50, 49, 60, 70, 91],
+			name: props.legend || 'Faturamento',
+			data: props.serie || [30, 40, 45, 50, 49, 60, 70, 91],
 			type: 'area',
 		},
 	];
@@ -86,7 +91,7 @@ export default function AreaChartsApex() {
 				series={series}
 				type='area'
 				width={'100%'}
-				height={300}></Chart>
+				height={270}></Chart>
 		</ResponsiveContainerChart>
 	);
 }

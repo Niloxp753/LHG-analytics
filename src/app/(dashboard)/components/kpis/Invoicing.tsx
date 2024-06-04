@@ -9,8 +9,8 @@ const AreaChartsApex = dynamic(
 
 export default function Invoicing() {
 	return (
-		<div className=' max-h-[420px] h-full '>
+		<>
 			<AreaChartsApex />
-		</div>
+		</>
 	);
 }
