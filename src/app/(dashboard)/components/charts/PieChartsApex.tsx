@@ -22,13 +22,18 @@ export default function PieChartsApex() {
 			},
 		},
 		legend: {
+			width: 360,
 			position: 'bottom',
-			fontSize: '14px',
+			fontSize: '11px',
 			labels: {
 				colors: '#f4f4f5',
 			},
 			onItemHover: { highlightDataSeries: false },
 			onItemClick: { toggleDataSeries: false },
+			containerMargin: {
+				left: 0,
+				top: 2,
+			},
 		},
 		title: {
 			align: 'center',
@@ -37,13 +42,13 @@ export default function PieChartsApex() {
 			margin: 8,
 		},
 
-		colors: ['#a78bfa', '#fef08a', '#bbf7d0'],
-		labels: ['Lush', 'Tout', 'Andar de Cima'],
+		colors: ['#a78bfa', '#fef08a', '#bbf7d0', '#fda4af'],
+		labels: ['Lush Ipiranga', 'Lush Guarujá', 'Tout', 'Andar de Cima'],
 		stroke: { show: false },
 		dataLabels: {
 			enabled: true,
 			style: {
-				colors: ['#7c3aed', '#ca8a04', '#16a34a'],
+				colors: ['#7c3aed', '#ca8a04', '#16a34a', '#be123c'],
 				fontWeight: 'semibold',
 				fontSize: '14px',
 			},
@@ -95,7 +100,7 @@ export default function PieChartsApex() {
 				options={options}
 				width={'100%'}
 				height={316}
-				series={[40, 20, 45]}
+				series={[40, 20, 45, 25]}
 				type='pie'></Chart>
 		</ResponsiveContainerChart>
 	);

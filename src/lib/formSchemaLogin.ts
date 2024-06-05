@@ -2,7 +2,7 @@
 
 import { coerce, z } from 'zod';
 
-export const formSchema = z.object({
+export const formSchemaLogin = z.object({
 	email: z.string({ coerce: true }).email({
 		message: 'E-mail obrigatório',
 	}),

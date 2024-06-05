@@ -28,7 +28,7 @@ export default function General({
 					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-2 justify-end `}>
 					<Header />
 				</div>
-				<div className=' w-full h-full flex gap-2 flex-col justify-start mt-48'>
+				<div className=' w-full h-full flex gap-2 flex-col justify-start mt-44'>
 					<div className='flex w-full gap-2 h-full'>
 						<div className='h-full w-1/4 flex items-center justify-center'>
 							<InvoicingXUnity />

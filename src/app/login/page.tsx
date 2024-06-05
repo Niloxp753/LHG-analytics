@@ -12,7 +12,7 @@ import FormLogin from './components/formLogin';
 export default function Login() {
 	return (
 		<div className='w-full flex h-screen bg-zinc-950 overflow-hidden'>
-			<div className='hidden bg-zinc-800 lg:flex relative lg:w-2/3 h-full '>
+			<div className='hidden bg-zinc-800 lg:flex relative lg:w-2/3 h-full flex-col justify-between items-center'>
 				<a
 					href='/'
 					className='mx-auto h-fit  mt-20 z-50'>
@@ -29,27 +29,24 @@ export default function Login() {
 					height='700'
 					className='h-full w-full object-cover grayscale absolute left-0 top-0 opacity-30'
 				/>
-				<div className='flex m-auto items-baseline justify-center gap-10 absolute lg:left-[10%] xl:left-[25%] 2xl:left-[30%] bottom-1/3'>
+				<div className='flex mx-auto items-baseline justify-center gap-10 w-fit mb-60 z-50'>
 					<Image
 						src={logoLush}
 						alt='Image'
-						width='100'
-						height='40'
-						className='h-full w-full '
-					/>{' '}
+						width={120}
+						height={60}
+					/>
 					<Image
 						src={logoTout}
 						alt='Image'
-						width='100'
-						height='40'
-						className='h-full w-full '
-					/>{' '}
+						width={120}
+						height={60}
+					/>
 					<Image
 						src={logoAC}
 						alt='Image'
-						width='240'
-						height='70'
-						className='h-full w-full'
+						width={220}
+						height={110}
 					/>
 				</div>
 			</div>
@@ -59,7 +56,7 @@ export default function Login() {
 					src={logo}
 					width={140}
 					height={80}
-					alt='Logo Lush Motéis'></Image>
+					alt='Logo LHG Analytics'></Image>
 				<Card className='mx-auto grid w-[320px] gap-5 border-zinc-600 bg-zinc-800 p-4'>
 					<div className='grid gap-3 text-center'>
 						<h1 className='text-3xl font-bold text-zinc-50'>Login</h1>

@@ -11,26 +11,29 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { formSchema } from '@/lib/formSchema';
+import { formSchemaLogin } from '@/lib/formSchemaLogin';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { useState } from 'react';
 
 export default function FormLogin() {
 	const router = useRouter();
-	const form = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+	const [isPending, setIsPending] = useState(false);
+	const form = useForm<z.infer<typeof formSchemaLogin>>({
+		resolver: zodResolver(formSchemaLogin),
 		defaultValues: {
 			email: '',
 			password: '',
 		},
 	});
 
-	async function onSubmit(values: z.infer<typeof formSchema>) {
+	async function onSubmit(values: z.infer<typeof formSchemaLogin>) {
 		try {
+			setIsPending(true);
 			const email = values.email;
 			const password = values.password;
 			const response = await signIn('credentials', {
@@ -52,6 +55,7 @@ export default function FormLogin() {
 					description: 'E-mail ou senha inválidos',
 				});
 				form.reset();
+				setIsPending(false);
 			}
 		} catch (error) {
 			toast.error('Algo deu errado - 500', {
@@ -59,6 +63,7 @@ export default function FormLogin() {
 			});
 			console.log(error);
 			alert(error);
+			setIsPending(false);
 		}
 	}
 
@@ -107,9 +112,14 @@ export default function FormLogin() {
 				/>
 
 				<Button
+					disabled={isPending}
 					type='submit'
-					className='w-full font-medium bg-purple-400 text-zinc-900 text-lg hover:bg-purple-500 duration-300 ease-linear transition-all'>
-					Entrar
+					className='w-full font-medium disabled:grayscale disabled:cursor-none bg-purple-400 text-zinc-900 text-lg hover:bg-purple-500 duration-300 ease-linear transition-all'>
+					{isPending ? (
+						<span className='bg-transparent h-6 w-6 border-l border-t border-zinc-50 rounded-full animate-spin' />
+					) : (
+						<p>Entrar</p>
+					)}
 				</Button>
 			</form>
 		</Form>
