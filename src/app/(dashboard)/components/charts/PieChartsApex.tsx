@@ -22,18 +22,14 @@ export default function PieChartsApex() {
 			},
 		},
 		legend: {
-			width: 360,
+			itemMargin: { vertical: 6 },
 			position: 'bottom',
-			fontSize: '11px',
+			fontSize: '14px',
 			labels: {
 				colors: '#f4f4f5',
 			},
 			onItemHover: { highlightDataSeries: false },
 			onItemClick: { toggleDataSeries: false },
-			containerMargin: {
-				left: 0,
-				top: 2,
-			},
 		},
 		title: {
 			align: 'center',
