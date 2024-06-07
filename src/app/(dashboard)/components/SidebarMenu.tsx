@@ -47,7 +47,7 @@ export default function SidebarMenu() {
 				{openned == 'true' ? <ChevronLeft /> : <ChevronRight />}
 			</Link>
 			<div className='flex flex-col justify-between h-full'>
-				<div className='text-zinc-100 flex flex-col w-fit gap-5 rounded-xl p-3 mt-10 '>
+				<div className='text-zinc-100 flex flex-col w-fit gap-5 rounded p-3 mt-10 '>
 					<BtnSidebarMenu
 						icon={<UserRoundCog />}
 						selected={selected}

@@ -7,7 +7,7 @@ import ResponsiveContainerChart from '@/app/(dashboard)/components/ResponsiveCon
 export default function PieChartsApex() {
 	const options: ApexCharts.ApexOptions = {
 		chart: {
-			id: 'pie-chart',
+			id: 'donut-chart',
 			foreColor: '#000',
 			dropShadow: {
 				enabled: false,
@@ -16,7 +16,7 @@ export default function PieChartsApex() {
 				enabled: false,
 			},
 			width: 380,
-			type: 'pie',
+			type: 'donut',
 			toolbar: {
 				show: false,
 			},
@@ -46,8 +46,9 @@ export default function PieChartsApex() {
 			style: {
 				colors: ['#7c3aed', '#ca8a04', '#16a34a', '#be123c'],
 				fontWeight: 'semibold',
-				fontSize: '14px',
+				fontSize: '12px',
 			},
+			dropShadow: { enabled: true },
 			background: {
 				enabled: true,
 				padding: 12,
@@ -70,7 +71,7 @@ export default function PieChartsApex() {
 						value: {
 							show: true,
 							fontSize: '32px',
-							color: '#3f3f46',
+							color: '#fafafa',
 							fontWeight: 'bold',
 						},
 						name: {
@@ -97,7 +98,7 @@ export default function PieChartsApex() {
 				width={'100%'}
 				height={316}
 				series={[40, 20, 45, 25]}
-				type='pie'></Chart>
+				type='donut'></Chart>
 		</ResponsiveContainerChart>
 	);
 }

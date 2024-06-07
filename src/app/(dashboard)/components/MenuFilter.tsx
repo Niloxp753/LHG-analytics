@@ -23,8 +23,7 @@ export default function MenuFilter() {
 				Filtrar
 				<SlidersHorizontal size={20} />
 			</SheetTrigger>
-			<SheetContent
-				className='bg-zinc-950 text-zinc-50 flex flex-col gap-20'>
+			<SheetContent className='bg-zinc-950 text-zinc-50 flex flex-col gap-8'>
 				<SheetHeader className='text-zinc-50'>
 					<SheetTitle className='text-zinc-50'>
 						Selecione as opções para filtrar
@@ -34,7 +33,7 @@ export default function MenuFilter() {
 						no dashboard
 					</SheetDescription>
 				</SheetHeader>
-				<Card className='bg-zinc-800 p-2'>
+				<Card className='bg-zinc-800 p-2 max-w-[600px] mx-auto'>
 					<CardContent>
 						<FormFilter />
 					</CardContent>

@@ -18,7 +18,7 @@ export default function BtnSidebarMenu(props: BtnSidebarMenuProps) {
 			href={props.href}
 			className={`p-2.5 flex gap-3 ${
 				props.selected == props.role
-					? 'bg-violet-400 hover:bg-violet-500 text-zinc-900'
+					? 'bg-violet-400 text-zinc-900'
 					: 'bg-zinc-950 hover:bg-zinc-700 text-zinc-50'
 			}   rounded justify-between font-semibold transition-all duration-300 ease-linear`}>
 			{props.openned == 'true' ? props.children : null}

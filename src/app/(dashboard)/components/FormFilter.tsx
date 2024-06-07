@@ -93,7 +93,7 @@ export default function FormFilter() {
 												<Button
 													variant={'outline'}
 													className={cn(
-														'w-[240px] pl-3 text-left font-normal bg-zinc-800 text-zinc-200',
+														'w-[220px] pl-3 text-left font-normal bg-zinc-800 text-zinc-200',
 														!field.value && 'text-muted-foreground',
 													)}>
 													{field.value ? (
@@ -132,7 +132,7 @@ export default function FormFilter() {
 												<Button
 													variant={'outline'}
 													className={cn(
-														'w-[240px] pl-3 text-left font-normal bg-zinc-800 text-zinc-200',
+														'w-[220px] pl-3 text-left font-normal bg-zinc-800 text-zinc-200',
 														!field.value && 'text-muted-foreground',
 													)}>
 													{field.value ? (
@@ -158,8 +158,45 @@ export default function FormFilter() {
 							)}
 						/>
 					</div>
+					<div className='w-full'>
+						<FormField
+							control={form.control}
+							name='category'
+							render={({ field }) => (
+								<FormItem className='w-full max-w-lg'>
+									<FormLabel className='text-zinc-100 font-bold'>
+										Categoria da Suíte
+									</FormLabel>
+									<MultiSelector
+										className=' p-0 m-0 border bg-zinc-800 rounded'
+										onValuesChange={field.onChange}
+										values={field.value}>
+										<MultiSelectorTrigger className='p-0 '>
+											<MultiSelectorInput
+												className='text-zinc-100'
+												placeholder='Selecione para filtrar'
+											/>
+										</MultiSelectorTrigger>
+										<MultiSelectorContent className='border'>
+											<MultiSelectorList className='bg-zinc-800 text-zinc-100 border'>
+												{suiteName.map((unity, index) => {
+													return (
+														<MultiSelectorItem
+															key={index}
+															value={unity}>
+															{unity}
+														</MultiSelectorItem>
+													);
+												})}
+											</MultiSelectorList>
+										</MultiSelectorContent>
+									</MultiSelector>
+								</FormItem>
+							)}
+						/>
+					</div>
 
-					<div className='flex justify-between items-start w-full'>
+					<div className='flex justify-between gap-5 items-start w-full'>
 						<div>
 							<FormField
 								control={form.control}
@@ -237,43 +274,6 @@ export default function FormFilter() {
 						</div>
 					</div>
 
-					<div className='w-full'>
-						<FormField
-							control={form.control}
-							name='category'
-							render={({ field }) => (
-								<FormItem className='w-full'>
-									<FormLabel className='text-zinc-100 font-bold'>
-										Categoria da Suíte
-									</FormLabel>
-									<MultiSelector
-										className=' p-0 m-0 border bg-zinc-800 rounded'
-										onValuesChange={field.onChange}
-										values={field.value}>
-										<MultiSelectorTrigger className='p-0 '>
-											<MultiSelectorInput
-												className='text-zinc-100'
-												placeholder='Selecione para filtrar'
-											/>
-										</MultiSelectorTrigger>
-										<MultiSelectorContent className='border'>
-											<MultiSelectorList className='bg-zinc-800 text-zinc-100 border'>
-												{suiteName.map((unity, index) => {
-													return (
-														<MultiSelectorItem
-															key={index}
-															value={unity}>
-															{unity}
-														</MultiSelectorItem>
-													);
-												})}
-											</MultiSelectorList>
-										</MultiSelectorContent>
-									</MultiSelector>
-								</FormItem>
-							)}
-						/>
-					</div>
 					<Button className='bg-violet-400 text-zinc-950 font-semibold hover:bg-violet-500 mt-4'>
 						Atualizar Dashboard
 					</Button>
