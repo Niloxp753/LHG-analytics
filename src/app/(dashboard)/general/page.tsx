@@ -8,6 +8,7 @@ import LocationXRevPar from '../components/kpis/LocationXRevPar';
 import TicketXTRevPar from '../components/kpis/TicketXTRevPar';
 import TicketXRevPar from '../components/kpis/TicketXTRevPar';
 import Occupation from '../components/kpis/Occupation';
+import InvoicingXLocation from '../components/kpis/InvoicingXLocation';
 
 export default function General({
 	searchParams,
@@ -48,6 +49,7 @@ export default function General({
 						</div>
 					</div>
 					<div className='flex h-full w-full gap-2'>
+						<InvoicingXLocation />
 						<Occupation />
 					</div>
 				</div>

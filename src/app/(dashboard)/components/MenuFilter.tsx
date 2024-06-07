@@ -34,7 +34,7 @@ export default function MenuFilter() {
 						no dashboard
 					</SheetDescription>
 				</SheetHeader>
-				<Card className='bg-zinc-800 p-4'>
+				<Card className='bg-zinc-800 p-2'>
 					<CardContent>
 						<FormFilter />
 					</CardContent>
