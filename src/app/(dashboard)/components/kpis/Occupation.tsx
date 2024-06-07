@@ -2,19 +2,17 @@
 
 import dynamic from 'next/dynamic';
 import React from 'react';
-const AreaChartsApexDouble = dynamic(
-	() => import('@/app/(dashboard)/components/charts/AreaChartsApexDouble'),
+const AreaChartsApex = dynamic(
+	() => import('@/app/(dashboard)/components/charts/AreaChartsApex'),
 	{ ssr: false },
 );
 
 export default function Occupation() {
 	return (
 		<>
-			<AreaChartsApexDouble
-				legend01='Tx de Ocupação'
-				legend02='ADR'
-				serie01={[120, 100, 150, 220]}
-				serie02={[70, 175, 125, 250]}
+			<AreaChartsApex
+				legend='Tx de Ocupação'
+				serie={[50, 60, 70, 65, 75, 90, 65]}
 			/>
 		</>
 	);

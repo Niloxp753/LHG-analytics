@@ -66,7 +66,7 @@ export default function FormFilter() {
 	const form = useForm<z.infer<typeof formSchemaFilter>>({
 		resolver: zodResolver(formSchemaFilter),
 		defaultValues: {
-			startDate: new Date('01/01/2024'),
+			startDate: new Date('06/01/2024'),
 			endDate: new Date(),
 			location: locationsName,
 			unity: unityName,

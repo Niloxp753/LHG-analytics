@@ -1,14 +1,13 @@
 /** @format */
 
 import Header from '../components/Header';
-import Categories from '../components/kpis/InvoicingXCategories';
 import Invoicing from '../components/kpis/Invoicing';
+import Categories from '../components/kpis/InvoicingXCategories';
+import InvoicingXLocation from '../components/kpis/InvoicingXLocation';
 import InvoicingXUnity from '../components/kpis/InvoicingXUnity';
 import LocationXRevPar from '../components/kpis/LocationXRevPar';
-import TicketXTRevPar from '../components/kpis/TicketXTRevPar';
-import TicketXRevPar from '../components/kpis/TicketXTRevPar';
 import Occupation from '../components/kpis/Occupation';
-import InvoicingXLocation from '../components/kpis/InvoicingXLocation';
+import TicketXRevPar from '../components/kpis/TicketXTRevPar';
 
 export default function General({
 	searchParams,
