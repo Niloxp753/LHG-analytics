@@ -22,7 +22,7 @@ const handler = NextAuth({
 				const user = {
 					id: '1',
 					name: 'David',
-					email: 'ddavid.diniz@gmail.com',
+					email: 'thiago@lhgmoteis.com.br',
 					password: '123456789',
 					role: 'admin',
 				};
