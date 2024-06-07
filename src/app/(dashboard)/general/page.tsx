@@ -14,6 +14,8 @@ export default function General({
 }: {
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
+
+	
 	let open = searchParams.open || 'true';
 
 	return (
