@@ -1,12 +1,18 @@
 /** @format */
 
-import { Sidebar } from 'lucide-react';
-import React from 'react';
+import React, { Suspense } from 'react';
+import SidebarMenu from './components/SidebarMenu';
 
-export default function Template({ children }: { children: React.ReactNode }) {
+export default function Template({
+	children,
+}: Readonly<{
+	children: React.ReactNode;
+}>) {
 	return (
 		<>
-			<Sidebar />
+			<Suspense>
+				<SidebarMenu />
+			</Suspense>
 			{children}
 		</>
 	);
