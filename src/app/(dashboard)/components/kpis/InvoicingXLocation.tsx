@@ -10,7 +10,7 @@ const ColumnChart = dynamic(
 export default function InvoicingXLocation() {
 	return (
 		<>
-			<ColumnChart />
+			<ColumnChart title={'Faturamento por tipo de locação'} />
 		</>
 	);
 }

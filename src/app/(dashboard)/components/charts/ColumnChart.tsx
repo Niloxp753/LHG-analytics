@@ -4,7 +4,7 @@
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
 
-export default function BarChartsApex() {
+export default function ColumnChart({ title }: { title: string }) {
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: 'bar-chart',
@@ -21,7 +21,7 @@ export default function BarChartsApex() {
 		},
 		title: {
 			align: 'left',
-			text: 'Faturamento por Tipo de Locação',
+			text: title,
 			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 'normal' },
 			margin: 8,
 		},

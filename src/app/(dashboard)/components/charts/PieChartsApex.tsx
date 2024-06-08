@@ -39,7 +39,7 @@ export default function PieChartsApex() {
 		},
 
 		colors: ['#a78bfa', '#fef08a', '#bbf7d0', '#fda4af'],
-		labels: ['Lush Ipiranga', 'Lush Guarujá', 'Tout', 'Andar de Cima'],
+		labels: ['Lush Ipiranga', 'Lush Guarujá', 'Tout Campinas', 'Andar de Cima'],
 		stroke: { show: false },
 		dataLabels: {
 			enabled: true,

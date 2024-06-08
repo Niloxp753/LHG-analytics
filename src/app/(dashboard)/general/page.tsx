@@ -6,7 +6,11 @@ import Categories from '../components/kpis/InvoicingXCategories';
 import InvoicingXLocation from '../components/kpis/InvoicingXLocation';
 import InvoicingXUnity from '../components/kpis/InvoicingXUnity';
 import LocationXRevPar from '../components/kpis/LocationXRevPar';
+import LocationsXLocationsName from '../components/kpis/LocationsXLocationsName';
+import LocationsxUnity from '../components/kpis/LocationsxUnity';
 import Occupation from '../components/kpis/Occupation';
+import TKTxUnity from '../components/kpis/TKTxUnity';
+import TRevParXUnity from '../components/kpis/TRevParXUnity';
 import TicketXRevPar from '../components/kpis/TicketXTRevPar';
 
 export default function General({
@@ -14,12 +18,10 @@ export default function General({
 }: {
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
-
-	
 	let open = searchParams.open || 'true';
 
 	return (
-		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-5'>
+		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-5 py-10'>
 			<div
 				className={`relative w-full ${
 					open == 'true' ? 'max-w-[82vw]' : 'max-w-[90vw]'
@@ -30,12 +32,12 @@ export default function General({
 					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-2 justify-end `}>
 					<Header />
 				</div>
-				<div className=' w-full h-full flex gap-2 flex-col justify-start mt-44'>
+				<div className=' w-full h-full flex gap-2 flex-col justify-start mt-36'>
 					<div className='flex w-full gap-2 h-full'>
-						<div className='h-full w-1/4 flex items-center justify-center'>
-							<InvoicingXUnity />
+						<div className='h-full w-1/2 flex items-center justify-center'>
+							<InvoicingXLocation />
 						</div>
-						<div className=' w-3/4'>
+						<div className='w-1/2'>
 							<Invoicing />
 						</div>
 					</div>
@@ -50,8 +52,24 @@ export default function General({
 						</div>
 					</div>
 					<div className='flex h-full w-full gap-2'>
-						<InvoicingXLocation />
 						<Occupation />
+						<LocationsXLocationsName />
+					</div>
+					<div className='flex gap-2'>
+						<div className='w-1/4'>
+							<InvoicingXUnity />
+						</div>
+						<div className='w-3/4'>
+							<LocationsxUnity />
+						</div>
+					</div>
+					<div className='flex gap-2'>
+						<div className='w-1/2'>
+							<TKTxUnity />
+						</div>
+						<div className='w-1/2'>
+							<TRevParXUnity />
+						</div>
 					</div>
 				</div>
 			</div>
