@@ -1,11 +1,10 @@
 /** @format */
 
-import NextAuthProvider from '@/providers/nextAuthProvider';
 import { Toaster } from '@/components/ui/sonner';
+import NextAuthProvider from '@/providers/nextAuthProvider';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import logo from '@/assets/images/favcon.png';
 
 const inter = Inter({
 	subsets: ['latin'],
