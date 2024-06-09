@@ -28,7 +28,7 @@ export default async function RootLayout({
 				href={'/favcon.png'}
 				type='image/x-icon'
 			/>
-			<body className={inter.className}>
+			<body className={inter.className} >
 				<NextAuthProvider>
 					<Toaster
 						richColors

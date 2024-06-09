@@ -47,7 +47,7 @@ export default function SidebarMenu() {
 				{openned == 'true' ? <ChevronLeft /> : <ChevronRight />}
 			</Link>
 			<div className='flex flex-col justify-between h-full'>
-				<div className='text-zinc-100 flex flex-col w-fit gap-5 rounded p-3 mt-10 '>
+				<div className='text-zinc-100 flex flex-col h-full w-fit gap-5 rounded p-3 mt-10 '>
 					<BtnSidebarMenu
 						icon={<UserRoundCog />}
 						selected={selected}
@@ -96,8 +96,10 @@ export default function SidebarMenu() {
 						role={'nps'}>
 						<p>Avaliações</p>
 					</BtnSidebarMenu>
+					<div className='mt-auto'>
+						<BtnSignOut isOpened={openned} />
+					</div>
 				</div>
-				<BtnSignOut isOpened={openned} />
 			</div>
 		</div>
 	);

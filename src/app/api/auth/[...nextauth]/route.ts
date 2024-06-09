@@ -21,7 +21,7 @@ const handler = NextAuth({
 			async authorize(credentials, req) {
 				const user = {
 					id: '1',
-					name: 'David',
+					name: 'Thiago LHG',
 					email: 'thiago@lhgmoteis.com.br',
 					password: '123456789',
 					role: 'admin',

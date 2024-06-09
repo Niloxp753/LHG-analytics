@@ -2,7 +2,6 @@
 
 'use client';
 
-import * as React from 'react';
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -15,8 +14,13 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react';
-
+import {
+	ArrowUpDown,
+	ChevronDown,
+	MoreHorizontal,
+	UserPlus,
+} from 'lucide-react';
+import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -37,49 +41,64 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
+import { Search } from 'lucide-react';
 
 const data: User[] = [
 	{
 		id: 'm5gr84i9',
 		name: 'João Silva',
-		status: 'success',
+		cpf: '00000000000',
+		password: '123456789',
+		status: 'inativo',
 		email: 'ken99@yahoo.com',
 	},
 	{
 		id: '3u1reuv4',
 		name: 'Maria Oliveira',
-		status: 'success',
+		cpf: '00000000000',
+		password: '123456789',
+		status: 'ativo',
 		email: 'Abe45@gmail.com',
 	},
 	{
 		id: 'derv1ws0',
 		name: 'Pedro Santos',
-		status: 'processing',
+		cpf: '00000000000',
+		password: '123456789',
+		status: 'ativo',
 		email: 'Monserrat44@gmail.com',
 	},
 	{
 		id: '5kma53ae',
 		name: 'Ana Costa',
-		status: 'success',
+		cpf: '00000000000',
+		password: '123456789',
+		status: 'ativo',
 		email: 'Silas22@gmail.com',
 	},
 
 	{
 		id: '5kma53ae',
 		name: 'Rafael Lima',
-		status: 'success',
+		cpf: '00000000000',
+		password: '123456789',
+		status: 'ativo',
 		email: 'Silas22@gmail.com',
 	},
 	{
 		id: '5kma53ae',
 		name: 'Beatriz Sousa',
-		status: 'success',
+		cpf: '00000000000',
+		password: '123456789',
+		status: 'ativo',
 		email: 'Silas22@gmail.com',
 	},
 	{
 		id: 'bhqecj4p',
 		name: 'Felipe Carvalho',
-		status: 'failed',
+		cpf: '00000000000',
+		password: '123456789',
+		status: 'ativo',
 		email: 'carmella@hotmail.com',
 	},
 ];
@@ -87,9 +106,10 @@ const data: User[] = [
 export type User = {
 	id: string;
 	name: string;
-	status?: 'pending' | 'processing' | 'success' | 'failed';
+	status?: 'ativo' | 'inativo';
 	cpf?: string;
 	email: string;
+	password?: string;
 };
 
 export const columns: ColumnDef<User>[] = [
@@ -124,6 +144,27 @@ export const columns: ColumnDef<User>[] = [
 		),
 	},
 	{
+		accessorKey: 'name',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant='default'
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+					Nome
+					<ArrowUpDown className='ml-2 h-4 w-4' />
+				</Button>
+			);
+		},
+		cell: ({ row }) => (
+			<div className='font-medium text-zinc-50'>{row.getValue('name')}</div>
+		),
+	},
+	{
+		accessorKey: 'cpf',
+		header: 'CPF',
+		cell: ({ row }) => <div className='capitalize'>{row.getValue('cpf')}</div>,
+	},
+	{
 		accessorKey: 'email',
 		header: ({ column }) => {
 			return (
@@ -138,19 +179,28 @@ export const columns: ColumnDef<User>[] = [
 		cell: ({ row }) => <div className='lowercase'>{row.getValue('email')}</div>,
 	},
 	{
-		accessorKey: 'name',
-		header: () => <div className='text-center'>Nome</div>,
+		accessorKey: 'password',
+		header: 'Senha',
 		cell: ({ row }) => (
-			<div className='text-center font-medium text-zinc-50'>
-				{row.getValue('name')}
-			</div>
+			<div className='capitalize'>{row.getValue('password')}</div>
 		),
 	},
+
 	{
 		id: 'actions',
 		enableHiding: false,
 		cell: ({ row }) => {
 			const payment = row.original;
+
+			function handleDelete(payment: User) {
+				return alert(`Usuário ${payment.name} será deletado`);
+			}
+
+			function handleCopy(payment: User) {
+				return alert(
+					`Dados de usuário ${payment.name} ${payment.password} ${payment.email} ${payment.cpf} ${payment.password} foram copiados`,
+				);
+			}
 
 			return (
 				<DropdownMenu>
@@ -162,15 +212,29 @@ export const columns: ColumnDef<User>[] = [
 							<MoreHorizontal className='h-4 w-4' />
 						</Button>
 					</DropdownMenuTrigger>
-					<DropdownMenuContent align='end'>
-						<DropdownMenuLabel>Actions</DropdownMenuLabel>
+					<DropdownMenuContent
+						align='end'
+						className='bg-zinc-800 text-zinc-200'>
+						<DropdownMenuLabel className='text-zinc-50 font-bold text-lg'>
+							Menu
+						</DropdownMenuLabel>
 						<DropdownMenuItem
-							onClick={() => navigator.clipboard.writeText(payment.id)}>
-							Copy payment ID
+							className='cursor-pointer'
+							onClick={() => handleCopy(payment)}>
+							Copiar dados
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>View customer</DropdownMenuItem>
-						<DropdownMenuItem>View payment details</DropdownMenuItem>
+						<DropdownMenuItem className='cursor-pointer'>
+							Editar Usuário
+						</DropdownMenuItem>
+						<DropdownMenuItem className='cursor-pointer'>
+							Inativar usuário
+						</DropdownMenuItem>
+						<DropdownMenuItem
+							onClick={() => handleDelete(payment)}
+							className='hover:bg-red-500 transition-all duration-300 ease-linear cursor-pointer font-semibold bg-red-800'>
+							Deletar Usuário
+						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			);
@@ -207,43 +271,54 @@ export function DataTableDemo() {
 	});
 
 	return (
-		<div className='w-3/4 ml-auto'>
+		<div className='w-full px-10'>
 			<div className='flex items-center py-4'>
-				<Input
-					placeholder='Procure por e-mails..'
-					value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
-					onChange={(event) =>
-						table.getColumn('email')?.setFilterValue(event.target.value)
-					}
-					className='max-w-sm bg-zinc-50 text-zinc-950'
-				/>
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button
-							variant='default'
-							className='ml-auto'>
-							Colunas <ChevronDown className='ml-2 h-4 w-4' />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align='end'>
-						{table
-							.getAllColumns()
-							.filter((column) => column.getCanHide())
-							.map((column) => {
-								return (
-									<DropdownMenuCheckboxItem
-										key={column.id}
-										className='capitalize'
-										checked={column.getIsVisible()}
-										onCheckedChange={(value) =>
-											column.toggleVisibility(!!value)
-										}>
-										{column.id}
-									</DropdownMenuCheckboxItem>
-								);
-							})}
-					</DropdownMenuContent>
-				</DropdownMenu>
+				<div className='flex items-center justify-start bg-zinc-50 rounded pl-2'>
+					<Search
+						className='text-zinc-800'
+						size={24}
+					/>
+					<span className='h-6 w-[1.5px] mx-1.5 rounded-full  bg-zinc-600/40'></span>
+					<Input
+						placeholder='Procure pelo nome'
+						value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+						onChange={(event) =>
+							table.getColumn('name')?.setFilterValue(event.target.value)
+						}
+						className='max-w-sm border-none outline-none ring-0 focus-within:ring-0 text-zinc-950'></Input>
+				</div>
+				<div className='flex gap-5 items-center justify-center ml-auto'>
+					<Button className='ml-auto flex gap-4 w-fit text-zinc-800 font-semibold bg-violet-400 hover:bg-violet-500 transition-all duration-300 ease-linear'>
+						Adicionar Usuário <UserPlus size={20} />
+					</Button>
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button
+								variant='default'
+								className='ml-auto'>
+								Colunas <ChevronDown className='ml-2 h-4 w-4' />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align='end'>
+							{table
+								.getAllColumns()
+								.filter((column) => column.getCanHide())
+								.map((column) => {
+									return (
+										<DropdownMenuCheckboxItem
+											key={column.id}
+											className='capitalize'
+											checked={column.getIsVisible()}
+											onCheckedChange={(value) =>
+												column.toggleVisibility(!!value)
+											}>
+											{column.id}
+										</DropdownMenuCheckboxItem>
+									);
+								})}
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</div>
 			</div>
 			<div className='rounded-md border'>
 				<Table>
@@ -301,6 +376,7 @@ export function DataTableDemo() {
 				<div className='space-x-2'>
 					<Button
 						variant='default'
+						className='disabled:grayscale'
 						size='sm'
 						onClick={() => table.previousPage()}
 						disabled={!table.getCanPreviousPage()}>
@@ -309,6 +385,7 @@ export function DataTableDemo() {
 					<Button
 						variant='default'
 						size='sm'
+						className='disabled:grayscale'
 						onClick={() => table.nextPage()}
 						disabled={!table.getCanNextPage()}>
 						Próximo

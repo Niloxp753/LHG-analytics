@@ -33,11 +33,14 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 		},
 		legend: {
 			showForSingleSeries: true,
-			position: 'right',
-			horizontalAlign: 'left',
-			fontSize: '12px',
+			position: 'bottom',
+			horizontalAlign: 'center',
+			fontSize: '14x',
 			onItemHover: { highlightDataSeries: true },
 			onItemClick: { toggleDataSeries: false },
+			itemMargin: {
+				vertical: 8,
+			},
 		},
 		grid: {
 			borderColor: '#a78bfa',
@@ -77,7 +80,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 			categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
 		},
 		yaxis: { show: false, labels: { show: true } },
-		stroke: { curve: 'smooth' },
+		stroke: { curve: 'smooth', width: 2 },
 		plotOptions: { area: { fillTo: 'end' } },
 	};
 
