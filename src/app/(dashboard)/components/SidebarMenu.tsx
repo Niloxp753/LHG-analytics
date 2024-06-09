@@ -25,18 +25,19 @@ export default function SidebarMenu() {
 
 	return (
 		<div className='h-screen w-fit bg-zinc-900 fixed left-0 p-2 flex flex-col justify-start'>
-			{openned === 'true' ? (
-				<a
-					href='/'
-					className='flex items-center justify-between w-fit mx-auto my-4'>
-					<Image
-						src={logo}
-						alt={'Logo LHG Analytics'}
-						width={120}
-						height={1000}></Image>
-				</a>
-			) : null}
-
+			<div className='h-24'>
+				{openned === 'true' ? (
+					<a
+						href='/'
+						className='flex items-center justify-between w-fit mx-auto my-4'>
+						<Image
+							src={logo}
+							alt={'Logo LHG Analytics'}
+							width={120}
+							height={100}></Image>
+					</a>
+				) : null}
+			</div>
 			<Link
 				href={`${
 					openned == 'true'

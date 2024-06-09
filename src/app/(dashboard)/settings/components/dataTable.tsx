@@ -271,7 +271,7 @@ export function DataTableDemo() {
 	});
 
 	return (
-		<div className='w-full px-10'>
+		<div className='w-full pr-10'>
 			<div className='flex items-center py-4'>
 				<div className='flex items-center justify-start bg-zinc-50 rounded pl-2'>
 					<Search
