@@ -1,6 +1,13 @@
 /** @format */
 
-import React from 'react';
+import {
+	Activity,
+	AlarmClockCheck,
+	DoorClosed,
+	HandCoins,
+	Sigma,
+	SquarePercent,
+} from 'lucide-react';
 import CardDetails from './CardDetails';
 import MenuFilter from './MenuFilter';
 
@@ -12,28 +19,37 @@ export default function Header() {
 			</div>
 			<div className={`flex justify-between items-center w-full relative `}>
 				<CardDetails
+					type='money'
+					icon={<HandCoins />}
 					title={'Faturamento'}
 					value={120000}
 				/>
 				<CardDetails
+					icon={<Sigma />}
 					title={'Locações'}
-					value={120000}
+					value={500}
 				/>
 				<CardDetails
+					type='money'
+					icon={<SquarePercent />}
 					title={'Ticket Médio'}
-					value={120000}
+					value={240}
 				/>
 				<CardDetails
+					type='money'
+					icon={<Activity />}
 					title={'RevPar'}
-					value={120000}
+					value={320}
 				/>
 				<CardDetails
+					icon={<DoorClosed />}
 					title={'Tx de Ocupação'}
-					value={120000}
+					value={'40%'}
 				/>
 				<CardDetails
+					icon={<AlarmClockCheck />}
 					title={'TMO'}
-					value={120000}
+					value={'4 horas'}
 				/>
 			</div>
 		</>

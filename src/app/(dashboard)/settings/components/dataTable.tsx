@@ -2,27 +2,9 @@
 
 'use client';
 
-import {
-	ColumnDef,
-	ColumnFiltersState,
-	SortingState,
-	VisibilityState,
-	flexRender,
-	getCoreRowModel,
-	getFilteredRowModel,
-	getPaginationRowModel,
-	getSortedRowModel,
-	useReactTable,
-} from '@tanstack/react-table';
-import {
-	ArrowUpDown,
-	ChevronDown,
-	MoreHorizontal,
-	UserPlus,
-} from 'lucide-react';
-import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { toast } from 'sonner';
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
@@ -41,13 +23,34 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { Search } from 'lucide-react';
+import {
+	ColumnDef,
+	ColumnFiltersState,
+	SortingState,
+	VisibilityState,
+	flexRender,
+	getCoreRowModel,
+	getFilteredRowModel,
+	getPaginationRowModel,
+	getSortedRowModel,
+	useReactTable,
+} from '@tanstack/react-table';
+import {
+	ArrowUpDown,
+	ChevronDown,
+	MoreHorizontal,
+	Pencil,
+	Search,
+	Trash2,
+} from 'lucide-react';
+import * as React from 'react';
+import { ModalCreateUser } from './ModalCreateUser';
 
 const data: User[] = [
 	{
 		id: 'm5gr84i9',
 		name: 'João Silva',
-		cpf: '00000000000',
+		CPF: '00000000000',
 		password: '123456789',
 		status: 'inativo',
 		email: 'ken99@yahoo.com',
@@ -55,7 +58,7 @@ const data: User[] = [
 	{
 		id: '3u1reuv4',
 		name: 'Maria Oliveira',
-		cpf: '00000000000',
+		CPF: '00000000000',
 		password: '123456789',
 		status: 'ativo',
 		email: 'Abe45@gmail.com',
@@ -63,7 +66,7 @@ const data: User[] = [
 	{
 		id: 'derv1ws0',
 		name: 'Pedro Santos',
-		cpf: '00000000000',
+		CPF: '00000000000',
 		password: '123456789',
 		status: 'ativo',
 		email: 'Monserrat44@gmail.com',
@@ -71,7 +74,7 @@ const data: User[] = [
 	{
 		id: '5kma53ae',
 		name: 'Ana Costa',
-		cpf: '00000000000',
+		CPF: '00000000000',
 		password: '123456789',
 		status: 'ativo',
 		email: 'Silas22@gmail.com',
@@ -80,7 +83,7 @@ const data: User[] = [
 	{
 		id: '5kma53ae',
 		name: 'Rafael Lima',
-		cpf: '00000000000',
+		CPF: '00000000000',
 		password: '123456789',
 		status: 'ativo',
 		email: 'Silas22@gmail.com',
@@ -88,7 +91,7 @@ const data: User[] = [
 	{
 		id: '5kma53ae',
 		name: 'Beatriz Sousa',
-		cpf: '00000000000',
+		CPF: '00000000000',
 		password: '123456789',
 		status: 'ativo',
 		email: 'Silas22@gmail.com',
@@ -96,7 +99,7 @@ const data: User[] = [
 	{
 		id: 'bhqecj4p',
 		name: 'Felipe Carvalho',
-		cpf: '00000000000',
+		CPF: '00000000000',
 		password: '123456789',
 		status: 'ativo',
 		email: 'carmella@hotmail.com',
@@ -107,7 +110,7 @@ export type User = {
 	id: string;
 	name: string;
 	status?: 'ativo' | 'inativo';
-	cpf?: string;
+	CPF?: string;
 	email: string;
 	password?: string;
 };
@@ -160,9 +163,9 @@ export const columns: ColumnDef<User>[] = [
 		),
 	},
 	{
-		accessorKey: 'cpf',
+		accessorKey: 'CPF',
 		header: 'CPF',
-		cell: ({ row }) => <div className='capitalize'>{row.getValue('cpf')}</div>,
+		cell: ({ row }) => <div className='capitalize'>{row.getValue('CPF')}</div>,
 	},
 	{
 		accessorKey: 'email',
@@ -193,13 +196,27 @@ export const columns: ColumnDef<User>[] = [
 			const payment = row.original;
 
 			function handleDelete(payment: User) {
-				return alert(`Usuário ${payment.name} será deletado`);
+				return toast.success('Usuário Deletado - 200', {
+					description: `Usuário ${payment.name} será deletado`,
+				});
 			}
 
 			function handleCopy(payment: User) {
-				return alert(
-					`Dados de usuário ${payment.name} ${payment.password} ${payment.email} ${payment.cpf} ${payment.password} foram copiados`,
-				);
+				return toast.success('Dados Copiados - 200', {
+					description: `Dados de usuário ${payment.name} ${payment.password} ${payment.email} ${payment.CPF} ${payment.password} foram copiados`,
+				});
+			}
+
+			function handleUpdate(payment: User) {
+				return toast.success('Dados Alterados - 200', {
+					description: `Dados de usuário ${payment.name} ${payment.password} ${payment.email} ${payment.CPF} ${payment.password} foram copiados`,
+				});
+			}
+
+			function handleInactive(payment: User) {
+				return toast.success(' - 200', {
+					description: `Dados de usuário ${payment.name} ${payment.password} ${payment.email} ${payment.CPF} ${payment.password} foram copiados`,
+				});
 			}
 
 			return (
@@ -271,9 +288,9 @@ export function DataTableDemo() {
 	});
 
 	return (
-		<div className='w-full pr-10'>
+		<div className='w-full pr-10 '>
 			<div className='flex items-center py-4'>
-				<div className='flex items-center justify-start bg-zinc-50 rounded pl-2'>
+				<div className='flex items-center justify-start bg-zinc-50 rounded pl-2 '>
 					<Search
 						className='text-zinc-800'
 						size={24}
@@ -288,8 +305,15 @@ export function DataTableDemo() {
 						className='max-w-sm border-none outline-none ring-0 focus-within:ring-0 text-zinc-950'></Input>
 				</div>
 				<div className='flex gap-5 items-center justify-center ml-auto'>
-					<Button className='ml-auto flex gap-4 w-fit text-zinc-800 font-semibold bg-violet-400 hover:bg-violet-500 transition-all duration-300 ease-linear'>
-						Adicionar Usuário <UserPlus size={20} />
+					<ModalCreateUser />
+					<Button className='flex gap-3 items-center font-semibold bg-zinc-700 border hover:bg-zinc-900'>
+						Editar Usuário <Pencil size={20} />
+					</Button>
+					<Button
+						variant={'destructive'}
+						className='hover:bg-red-800 font-semibold flex gap-3 items-center'>
+						Deletar Usuário
+						<Trash2 size={20} />
 					</Button>
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
@@ -361,7 +385,7 @@ export function DataTableDemo() {
 								<TableCell
 									colSpan={columns.length}
 									className='h-24 text-center'>
-									No results.
+									sem resultados.
 								</TableCell>
 							</TableRow>
 						)}

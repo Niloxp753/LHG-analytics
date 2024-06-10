@@ -12,23 +12,37 @@ import React from 'react';
 
 interface CardDetailsProps {
 	title: string;
-	value: number;
+	value: number | string;
+	icon: any;
+	type?: string;
 }
 
-export default function CardDetails({ title, value }: CardDetailsProps) {
+export default function CardDetails({
+	title,
+	value,
+	icon,
+	type,
+}: CardDetailsProps) {
 	return (
 		<div>
 			<Card className='text-zinc-50 min-w-[28vh] w-full h-fit border border-zinc-100/40 bg-zinc-900'>
 				<CardHeader>
-					<CardTitle className='text-xl'>{title}</CardTitle>
+					<CardTitle className='text-xl flex gap-3 items-center'>
+						{icon}
+						{title}
+					</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<p>
-						{value.toLocaleString('pt-BR', {
-							style: 'currency',
-							currency: 'BRL',
-						})}
-					</p>
+					{type == 'money' ? (
+						<p>
+							{value.toLocaleString('pt-BR', {
+								style: 'currency',
+								currency: 'BRL',
+							})}
+						</p>
+					) : (
+						<p>{value}</p>
+					)}
 				</CardContent>
 			</Card>
 		</div>
