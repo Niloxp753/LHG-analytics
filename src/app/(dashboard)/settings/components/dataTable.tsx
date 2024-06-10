@@ -224,7 +224,7 @@ export const columns: ColumnDef<User>[] = [
 					<DropdownMenuTrigger asChild>
 						<Button
 							variant='default'
-							className='h-8 w-8 p-0'>
+							className='h-8 w-8 p-0 bg-zinc-800'>
 							<span className='sr-only'>Open menu</span>
 							<MoreHorizontal className='h-4 w-4' />
 						</Button>
@@ -306,7 +306,7 @@ export function DataTableDemo() {
 				</div>
 				<div className='flex gap-5 items-center justify-center ml-auto'>
 					<ModalCreateUser />
-					<Button className='flex gap-3 items-center font-semibold bg-zinc-700 border hover:bg-zinc-900'>
+					<Button className='flex gap-3 items-center font-semibold bg-zinc-900 border hover:bg-zinc-700'>
 						Editar Usuário <Pencil size={20} />
 					</Button>
 					<Button
@@ -345,7 +345,7 @@ export function DataTableDemo() {
 				</div>
 			</div>
 			<div className='rounded-md border'>
-				<Table>
+				<Table className='bg-zinc-900'>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>

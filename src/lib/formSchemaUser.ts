@@ -12,7 +12,7 @@ export const formSchemaUser = z.object({
 	email: z.string({ coerce: true }).email({
 		message: 'E-mail obrigatório',
 	}),
-	cpf: cpf({ message: 'CPF obrigatório' }),
+	cpf: cpf({ message: 'CPF inválido' }),
 	password: z
 		.string({ coerce: true })
 		.min(8, { message: 'A senha deve ter no mínimo 8 dígitos' }),
