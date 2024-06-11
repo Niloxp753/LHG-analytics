@@ -87,7 +87,7 @@ export default function SidebarMenu() {
 						openned={openned}
 						href={`/operational?menu=operational&open=${openned}`}
 						role={'operational'}>
-						<p>Reservas</p>
+						<p>Operacional</p>
 					</BtnSidebarMenu>
 					<BtnSidebarMenu
 						icon={<ScanEye />}
