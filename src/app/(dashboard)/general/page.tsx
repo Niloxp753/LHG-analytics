@@ -14,7 +14,7 @@ export default function General({
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
 	const open = searchParams.open || 'true';
-	const menu = searchParams.menu;
+	const menu = 'general';
 
 	return (
 		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-5 py-10'>
