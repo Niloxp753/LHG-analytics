@@ -19,7 +19,7 @@ import { Card, CardContent } from '@/components/ui/card';
 export default function MenuFilter() {
 	return (
 		<Sheet>
-			<SheetTrigger className='text-zinc-950 flex items-center justify-center gap-4 font-bold h-full w-full'>
+			<SheetTrigger className='text-zinc-950 py-1 w-fit px-3 rounded flex items-center justify-center gap-4 font-bold h-full bg-violet-400 hover:bg-violet-500 transition-all duration-300 ease-linear cursor-pointer'>
 				Filtrar
 				<SlidersHorizontal size={20} />
 			</SheetTrigger>
