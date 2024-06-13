@@ -43,13 +43,6 @@ export const locationsName = [
 	'Pernoite',
 ];
 
-const unityName = [
-	'Lush Ipiranga',
-	'Lush Guarujá',
-	'Tout Campinas',
-	'Andar de Cima',
-];
-
 const suiteName = [
 	'Lush',
 	'Lush Pop',
@@ -69,7 +62,6 @@ export default function FormFilter() {
 			startDate: new Date('06/01/2024'),
 			endDate: new Date(),
 			location: locationsName,
-			unity: unityName,
 			category: suiteName,
 		},
 	});
@@ -202,12 +194,12 @@ export default function FormFilter() {
 								control={form.control}
 								name='location'
 								render={({ field }) => (
-									<FormItem className='w-full max-w-[248px]'>
+									<FormItem className='w-full max-w-lg'>
 										<FormLabel className='text-zinc-100 font-bold'>
 											Tipos de Locação
 										</FormLabel>
 										<MultiSelector
-											className='w-fit max-w-xs p-0 m-0 border bg-zinc-800 rounded'
+											className='w-fit  p-0 m-0 border bg-zinc-800 rounded'
 											onValuesChange={field.onChange}
 											values={field.value}>
 											<MultiSelectorTrigger className='p-0 '>
@@ -224,44 +216,6 @@ export default function FormFilter() {
 																key={index}
 																value={location}>
 																{location}
-															</MultiSelectorItem>
-														);
-													})}
-												</MultiSelectorList>
-											</MultiSelectorContent>
-										</MultiSelector>
-									</FormItem>
-								)}
-							/>
-						</div>
-
-						<div>
-							<FormField
-								control={form.control}
-								name='unity'
-								render={({ field }) => (
-									<FormItem className='w-full max-w-[248px]'>
-										<FormLabel className='text-zinc-100 font-bold'>
-											Unidade Motel
-										</FormLabel>
-										<MultiSelector
-											className='w-fit max-w-xs p-0 m-0 border bg-zinc-800 rounded'
-											onValuesChange={field.onChange}
-											values={field.value}>
-											<MultiSelectorTrigger className='p-0 '>
-												<MultiSelectorInput
-													className='text-zinc-100'
-													placeholder='Selecione para filtrar'
-												/>
-											</MultiSelectorTrigger>
-											<MultiSelectorContent className='border'>
-												<MultiSelectorList className='bg-zinc-800 text-zinc-100 border'>
-													{unityName.map((unity, index) => {
-														return (
-															<MultiSelectorItem
-																key={index}
-																value={unity}>
-																{unity}
 															</MultiSelectorItem>
 														);
 													})}

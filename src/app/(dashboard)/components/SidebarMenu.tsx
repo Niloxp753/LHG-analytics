@@ -22,6 +22,7 @@ export default function SidebarMenu() {
 	const searchParams = useSearchParams();
 	const selected = searchParams.get('menu') || 'general';
 	const openned = searchParams.get('open') || 'true';
+	const preSet = searchParams.get('set') || '7days';
 
 	return (
 		<div className='h-screen w-fit bg-zinc-900 fixed left-0 p-2 flex flex-col justify-start'>
@@ -41,8 +42,8 @@ export default function SidebarMenu() {
 			<Link
 				href={`${
 					openned == 'true'
-						? `?menu=${selected}&open=false`
-						: `?menu=${selected}&open=true`
+						? `?menu=${selected}&open=false&set=${preSet}`
+						: `?menu=${selected}&open=true&set=${preSet}`
 				}`}
 				className='cursor-pointer bg-zinc-950 w-fit top-0 right-0 absolute p-1 rounded justify-between hover:bg-zinc-700 transition-all duration-300 ease-linear z-50 text-white'>
 				{openned == 'true' ? <ChevronLeft /> : <ChevronRight />}
@@ -53,7 +54,7 @@ export default function SidebarMenu() {
 						icon={<UserRoundCog />}
 						selected={selected}
 						openned={openned}
-						href={`/settings?menu=admin&open=${openned}`}
+						href={`/settings?menu=admin&open=${openned}&set=${preSet}`}
 						role={'admin'}>
 						<p>Painel Admin</p>
 					</BtnSidebarMenu>
@@ -61,7 +62,7 @@ export default function SidebarMenu() {
 						icon={<BarChart3 />}
 						selected={selected}
 						openned={openned}
-						href={`/general?menu=general&open=${openned}`}
+						href={`/general?menu=general&open=${openned}&set=${preSet}`}
 						role={'general'}>
 						<p>Visão Geral</p>
 					</BtnSidebarMenu>
@@ -69,7 +70,7 @@ export default function SidebarMenu() {
 						icon={<UtensilsCrossed />}
 						selected={selected}
 						openned={openned}
-						href={`/restaurant?menu=restaurant&open=${openned}`}
+						href={`/restaurant?menu=restaurant&open=${openned}&set=${preSet}`}
 						role={'restaurant'}>
 						<p>Restaurantes</p>
 					</BtnSidebarMenu>
@@ -77,7 +78,7 @@ export default function SidebarMenu() {
 						icon={<ScatterChart />}
 						selected={selected}
 						openned={openned}
-						href={`/reservations?menu=reservations&open=${openned}`}
+						href={`/reservations?menu=reservations&open=${openned}&set=${preSet}`}
 						role={'reservations'}>
 						<p>Reservas</p>
 					</BtnSidebarMenu>
@@ -85,7 +86,7 @@ export default function SidebarMenu() {
 						icon={<PieChart />}
 						selected={selected}
 						openned={openned}
-						href={`/operational?menu=operational&open=${openned}`}
+						href={`/operational?menu=operational&open=${openned}&set=${preSet}`}
 						role={'operational'}>
 						<p>Operacional</p>
 					</BtnSidebarMenu>
@@ -93,7 +94,7 @@ export default function SidebarMenu() {
 						icon={<ScanEye />}
 						selected={selected}
 						openned={openned}
-						href={`/nps?menu=nps&open=${openned}`}
+						href={`/nps?menu=nps&open=${openned}&set=${preSet}`}
 						role={'nps'}>
 						<p>Avaliações</p>
 					</BtnSidebarMenu>

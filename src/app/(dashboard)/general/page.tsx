@@ -7,6 +7,10 @@ import LocationsxUnity from '../components/kpis/LocationsxUnity';
 import TKTxUnity from '../components/kpis/TKTxUnity';
 import TRevParXUnity from '../components/kpis/TRevParXUnity';
 import SparkChart from '../components/charts/SparkChart';
+import Invoicing from '../components/kpis/Invoicing';
+import Occupation from '../components/kpis/Occupation';
+import InvoicingXUnityXTime from '../components/kpis/InvoicingXUnityXTime';
+import OccupationXUnity from '../components/kpis/OccupationXUnity';
 
 export default function General({
 	searchParams,
@@ -15,6 +19,7 @@ export default function General({
 }) {
 	const open = searchParams.open || 'true';
 	const menu = 'general';
+	const preSet = searchParams.set;
 
 	return (
 		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-5 py-10'>
@@ -45,27 +50,31 @@ export default function General({
 							<TRevParXUnity />
 						</div>
 					</div>
+					<div className='flex flex-col gap-2'>
+						<InvoicingXUnityXTime />
+						<OccupationXUnity />
+					</div>
 					<div className='grid grid-cols-4 mt-10 gap-5'>
 						<CardLink
-							href={`/lushipiranga?menu=${menu}&open=${open}`}
+							href={`/lushipiranga?menu=${menu}&open=${open}&set=${preSet}`}
 							title={'Lush Ipiranga'}
 							content={
 								<SparkChart serie={[35, 40, 55, 45, 50, 40]} />
 							}></CardLink>
 						<CardLink
-							href={`/lushguaruja?menu=${menu}&open=${open}`}
+							href={`/lushguaruja?menu=${menu}&open=${open}&set=${preSet}`}
 							title={'Lush Guarujá'}
 							content={
 								<SparkChart serie={[45, 30, 55, 35, 60, 40]} />
 							}></CardLink>
 						<CardLink
-							href={`/andardecima?menu=${menu}&open=${open}`}
+							href={`/andardecima?menu=${menu}&open=${open}&set=${preSet}`}
 							title={'Andar de Cima'}
 							content={
 								<SparkChart serie={[55, 30, 55, 45, 50, 60]} />
 							}></CardLink>
 						<CardLink
-							href={`/toutcampinas?menu=${menu}&open=${open}`}
+							href={`/toutcampinas?menu=${menu}&open=${open}&set=${preSet}`}
 							title={'Tout Campinas'}
 							content={
 								<SparkChart serie={[45, 40, 55, 35, 55, 30]} />
