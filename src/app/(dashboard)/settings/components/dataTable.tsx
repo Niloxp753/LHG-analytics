@@ -52,7 +52,8 @@ const data: User[] = [
 		name: 'João Silva',
 		CPF: '00000000000',
 		password: '123456789',
-		status: 'inativo',
+		status: 'admin',
+		unidade: 'Lush Ipiranga',
 		email: 'ken99@yahoo.com',
 	},
 	{
@@ -60,24 +61,27 @@ const data: User[] = [
 		name: 'Maria Oliveira',
 		CPF: '00000000000',
 		password: '123456789',
-		status: 'ativo',
+		status: 'gestor',
 		email: 'Abe45@gmail.com',
+		unidade: 'Lush Guarujá',
 	},
 	{
 		id: 'derv1ws0',
 		name: 'Pedro Santos',
 		CPF: '00000000000',
 		password: '123456789',
-		status: 'ativo',
+		status: 'gestor',
 		email: 'Monserrat44@gmail.com',
+		unidade: 'Lush Guarujá',
 	},
 	{
 		id: '5kma53ae',
 		name: 'Ana Costa',
 		CPF: '00000000000',
 		password: '123456789',
-		status: 'ativo',
+		status: 'gestor',
 		email: 'Silas22@gmail.com',
+		unidade: 'Andar de Cima',
 	},
 
 	{
@@ -85,34 +89,38 @@ const data: User[] = [
 		name: 'Rafael Lima',
 		CPF: '00000000000',
 		password: '123456789',
-		status: 'ativo',
+		status: 'gestor',
 		email: 'Silas22@gmail.com',
+		unidade: 'Tout Campinas',
 	},
 	{
 		id: '5kma53ae',
 		name: 'Beatriz Sousa',
 		CPF: '00000000000',
 		password: '123456789',
-		status: 'ativo',
+		status: 'gestor',
 		email: 'Silas22@gmail.com',
+		unidade: 'Lush Ipiranga',
 	},
 	{
 		id: 'bhqecj4p',
 		name: 'Felipe Carvalho',
 		CPF: '00000000000',
 		password: '123456789',
-		status: 'ativo',
+		status: 'gestor',
 		email: 'carmella@hotmail.com',
+		unidade: 'Tout Campinas',
 	},
 ];
 
 export type User = {
 	id: string;
 	name: string;
-	status?: 'ativo' | 'inativo';
+	status?: 'admin' | 'gestor';
 	CPF?: string;
 	email: string;
 	password?: string;
+	unidade: 'Lush Ipiranga' | 'Lush Guarujá' | 'Tout Campinas' | 'Andar de Cima';
 };
 
 export const columns: ColumnDef<User>[] = [
@@ -166,6 +174,13 @@ export const columns: ColumnDef<User>[] = [
 		accessorKey: 'CPF',
 		header: 'CPF',
 		cell: ({ row }) => <div className='capitalize'>{row.getValue('CPF')}</div>,
+	},
+	{
+		accessorKey: 'unidade',
+		header: 'Unidade',
+		cell: ({ row }) => (
+			<div className='capitalize'>{row.getValue('unidade')}</div>
+		),
 	},
 	{
 		accessorKey: 'email',
@@ -244,9 +259,7 @@ export const columns: ColumnDef<User>[] = [
 						<DropdownMenuItem className='cursor-pointer'>
 							Editar Usuário
 						</DropdownMenuItem>
-						<DropdownMenuItem className='cursor-pointer'>
-							Inativar usuário
-						</DropdownMenuItem>
+
 						<DropdownMenuItem
 							onClick={() => handleDelete(payment)}
 							className='hover:bg-red-500 transition-all duration-300 ease-linear cursor-pointer font-semibold bg-red-800'>

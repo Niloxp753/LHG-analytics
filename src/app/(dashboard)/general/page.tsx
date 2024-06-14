@@ -19,7 +19,7 @@ export default function General({
 }) {
 	const open = searchParams.open || 'true';
 	const menu = 'general';
-	const preSet = searchParams.set;
+	const preSet = searchParams.set || '7days';
 
 	return (
 		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-5 py-10'>
