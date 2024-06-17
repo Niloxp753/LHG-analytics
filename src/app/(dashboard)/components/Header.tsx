@@ -21,9 +21,9 @@ export default function Header() {
 	const selected = searchParams.get('menu') || 'general';
 	const openned = searchParams.get('open') || 'true';
 	const preSet = searchParams.get('set') || '7days';
-	console.log(pathname);
+
 	return (
-		<div className='flex ml-auto flex-col gap-2 w-full '>
+		<div className='flex ml-auto flex-col gap-2 w-full pt-5 pb-3 '>
 			<div
 				className={`ml-auto flex gap-5  items-center w-full ${
 					pathname == '/general' ? 'justify-end' : 'justify-between'

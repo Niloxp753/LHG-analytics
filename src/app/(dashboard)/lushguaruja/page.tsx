@@ -27,12 +27,12 @@ export default function LushGuaruja({
 					className={`bg-zinc-950/50 py-4 ml-auto ${
 						open == 'true' ? 'w-[82vw]' : 'w-[90vw] '
 					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-2 justify-end `}>
-					<h2 className='text-zinc-50 font-bold text-2xl'>
+					<h2 className='text-zinc-50 font-bold text-3xl'>
 						Unidade <span className='text-violet-400'>Lush Guarujá</span>
 					</h2>
 					<Header />
 				</div>
-				<div className=' w-full h-full flex gap-2 flex-col justify-start mt-44'>
+				<div className=' w-full h-full flex gap-2 flex-col justify-start mt-52'>
 					<div className='flex w-full gap-2 h-full'>
 						<div className='h-full w-1/2 flex items-center justify-center'>
 							<InvoicingXLocation />
@@ -46,7 +46,7 @@ export default function LushGuaruja({
 							<Categories />
 						</div>
 
-						<div className='w-2/3 h-full gap-2 flex items-center justify-center flex-col'>
+						<div className='w-2/3 h-full gap-2 flex items-center justify-between flex-col'>
 							<LocationXRevPar />
 							<TicketXRevPar />
 						</div>

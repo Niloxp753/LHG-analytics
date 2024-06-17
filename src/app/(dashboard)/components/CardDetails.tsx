@@ -15,6 +15,7 @@ interface CardDetailsProps {
 	value: number | string;
 	icon: any;
 	type?: string;
+	description?: string;
 }
 
 export default function CardDetails({
@@ -22,15 +23,17 @@ export default function CardDetails({
 	value,
 	icon,
 	type,
+	description,
 }: CardDetailsProps) {
 	return (
 		<div>
 			<Card className='text-zinc-50 min-w-[28vh] w-full h-fit border border-zinc-100/40 bg-zinc-900'>
 				<CardHeader>
-					<CardTitle className='text-xl flex gap-3 items-center'>
-						{icon}
+					<CardTitle className='text-xl flex gap-3 items-center justify-between'>
 						{title}
+						{icon}
 					</CardTitle>
+					{description && <CardDescription>{description}</CardDescription>}
 				</CardHeader>
 				<CardContent>
 					{type == 'money' ? (

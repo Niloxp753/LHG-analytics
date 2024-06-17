@@ -21,7 +21,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 		chart: {
 			id: 'line-bar',
 			stacked: false,
-			type: 'line',
+			type: 'area',
 			foreColor: '#fafafa',
 			zoom: {
 				enabled: false,
@@ -68,6 +68,12 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 			text: props.title,
 			style: { fontWeight: 'normal', fontSize: '18px' },
 		},
+		fill: {
+			gradient: {
+				opacityFrom: 0.5,
+				opacityTo: 0.2,
+			},
+		},
 		markers: {
 			size: 5,
 			colors: ['#7c3aed', '#ca8a04', '#16a34a', '#be123c'],
@@ -80,7 +86,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 			categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
 		},
 		yaxis: { show: false, labels: { show: true } },
-		stroke: { curve: 'straight', width: 2 },
+		stroke: { curve: 'smooth', width: 2 },
 		plotOptions: { area: { fillTo: 'end' } },
 	};
 
@@ -88,23 +94,23 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 		{
 			name: props.legend01 || 'Faturamento',
 			data: props.serie01 || [30, 40, 45, 50, 49, 60, 70, 91],
-			type: 'line',
+			type: 'area',
 		},
 
 		{
 			name: props.legend02,
 			data: props.serie02 || [],
-			type: 'line',
+			type: 'area',
 		},
 		{
 			name: props.legend03,
 			data: props.serie03 || [],
-			type: 'line',
+			type: 'area',
 		},
 		{
 			name: props.legend04,
 			data: props.serie04 || [],
-			type: 'line',
+			type: 'area',
 		},
 	];
 	return (
@@ -112,9 +118,9 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 			<Chart
 				options={options}
 				series={series}
-				type='line'
+				type='area'
 				width={'100%'}
-				height={270}></Chart>
+				height={240}></Chart>
 		</ResponsiveContainerChart>
 	);
 }

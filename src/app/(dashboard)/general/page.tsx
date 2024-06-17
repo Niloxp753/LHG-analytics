@@ -6,11 +6,13 @@ import InvoicingXUnity from '../components/kpis/InvoicingXUnity';
 import LocationsxUnity from '../components/kpis/LocationsxUnity';
 import TKTxUnity from '../components/kpis/TKTxUnity';
 import TRevParXUnity from '../components/kpis/TRevParXUnity';
-import SparkChart from '../components/charts/SparkChart';
-import Invoicing from '../components/kpis/Invoicing';
-import Occupation from '../components/kpis/Occupation';
+import dynamic from 'next/dynamic';
 import InvoicingXUnityXTime from '../components/kpis/InvoicingXUnityXTime';
 import OccupationXUnity from '../components/kpis/OccupationXUnity';
+const SparkChart = dynamic(
+	() => import('@/app/(dashboard)/components/charts/SparkChart'),
+	{ ssr: false },
+);
 
 export default function General({
 	searchParams,
@@ -33,7 +35,7 @@ export default function General({
 					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-2 justify-end `}>
 					<Header />
 				</div>
-				<div className=' w-full h-full flex gap-2 flex-col justify-start mt-36'>
+				<div className=' w-full h-full flex gap-2 flex-col justify-start mt-44'>
 					<div className='flex gap-2'>
 						<div className='w-1/4'>
 							<InvoicingXUnity />

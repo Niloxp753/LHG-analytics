@@ -102,7 +102,7 @@ export default function BarChartsApex() {
 				series={series}
 				type='bar'
 				width={'100%'}
-				height={600}></Chart>
+				height={540}></Chart>
 		</ResponsiveContainerChart>
 	);
 }

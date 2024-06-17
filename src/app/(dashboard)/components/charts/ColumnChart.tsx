@@ -98,7 +98,7 @@ export default function ColumnChart({ title }: { title: string }) {
 				series={series}
 				type='bar'
 				width={'100%'}
-				height={268}></Chart>
+				height={240}></Chart>
 		</ResponsiveContainerChart>
 	);
 }

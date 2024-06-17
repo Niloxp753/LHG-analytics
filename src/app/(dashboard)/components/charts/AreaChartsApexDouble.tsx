@@ -99,7 +99,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 				series={series}
 				type='area'
 				width={'100%'}
-				height={270}></Chart>
+				height={240}></Chart>
 		</ResponsiveContainerChart>
 	);
 }
