@@ -26,28 +26,26 @@ export default function CardDetails({
 	description,
 }: CardDetailsProps) {
 	return (
-		<div>
-			<Card className='text-zinc-50 min-w-[28vh] w-full h-fit border border-zinc-100/40 bg-zinc-900'>
-				<CardHeader>
-					<CardTitle className='text-xl flex gap-3 items-center justify-between'>
-						{title}
-						{icon}
-					</CardTitle>
-					{description && <CardDescription>{description}</CardDescription>}
-				</CardHeader>
-				<CardContent>
-					{type == 'money' ? (
-						<p>
-							{value.toLocaleString('pt-BR', {
-								style: 'currency',
-								currency: 'BRL',
-							})}
-						</p>
-					) : (
-						<p>{value}</p>
-					)}
-				</CardContent>
-			</Card>
-		</div>
+		<Card className='text-zinc-50 w-full h-fit border-none bg-gradient-to-br from-zinc-800 to-zinc-900 '>
+			<CardHeader>
+				<CardTitle className='text-xl flex gap-3 items-center justify-between'>
+					{title}
+					{icon}
+				</CardTitle>
+				{description && <CardDescription>{description}</CardDescription>}
+			</CardHeader>
+			<CardContent>
+				{type == 'money' ? (
+					<p>
+						{value.toLocaleString('pt-BR', {
+							style: 'currency',
+							currency: 'BRL',
+						})}
+					</p>
+				) : (
+					<p>{value}</p>
+				)}
+			</CardContent>
+		</Card>
 	);
 }

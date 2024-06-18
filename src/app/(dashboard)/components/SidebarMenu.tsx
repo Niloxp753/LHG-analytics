@@ -25,7 +25,7 @@ export default function SidebarMenu() {
 	const preSet = searchParams.get('set') || '7days';
 
 	return (
-		<div className='h-screen w-fit bg-zinc-900 fixed left-0 p-2 flex flex-col justify-start'>
+		<div className='h-screen w-fit bg-gradient-to-br from-zinc-800 to-zinc-900 fixed left-0 p-2 flex flex-col justify-start'>
 			<div className='h-24'>
 				{openned === 'true' ? (
 					<a

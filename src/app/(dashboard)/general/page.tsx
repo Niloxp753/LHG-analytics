@@ -24,7 +24,7 @@ export default function General({
 	const preSet = searchParams.set || '7days';
 
 	return (
-		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-5 py-10'>
+		<main className='flex h-full w-full min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden px-5 py-10'>
 			<div
 				className={`relative w-full ${
 					open == 'true' ? 'max-w-[82vw]' : 'max-w-[90vw]'
@@ -32,11 +32,11 @@ export default function General({
 				<div
 					className={`bg-zinc-950/50 py-4 ${
 						open == 'true' ? 'w-[82vw]' : 'w-[90vw] '
-					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-2 justify-end `}>
+					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-5 justify-end `}>
 					<Header />
 				</div>
-				<div className=' w-full h-full flex gap-2 flex-col justify-start mt-44'>
-					<div className='flex gap-2'>
+				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-44'>
+					<div className='flex gap-5'>
 						<div className='w-1/4'>
 							<InvoicingXUnity />
 						</div>
@@ -44,7 +44,7 @@ export default function General({
 							<LocationsxUnity />
 						</div>
 					</div>
-					<div className='flex gap-2'>
+					<div className='flex gap-5'>
 						<div className='w-1/2'>
 							<TKTxUnity />
 						</div>
@@ -52,7 +52,7 @@ export default function General({
 							<TRevParXUnity />
 						</div>
 					</div>
-					<div className='flex flex-col gap-2'>
+					<div className='flex flex-col gap-5'>
 						<InvoicingXUnityXTime />
 						<OccupationXUnity />
 					</div>

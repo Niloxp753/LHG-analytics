@@ -2,19 +2,17 @@
 
 'use client';
 
-import React from 'react';
+import { Card, CardContent } from '@/components/ui/card';
 import {
 	Sheet,
 	SheetContent,
 	SheetDescription,
-	SheetFooter,
 	SheetHeader,
 	SheetTitle,
 	SheetTrigger,
 } from '@/components/ui/sheet';
 import { SlidersHorizontal } from 'lucide-react';
 import FormFilter from './FormFilter';
-import { Card, CardContent } from '@/components/ui/card';
 
 export default function MenuFilter() {
 	return (
@@ -28,12 +26,12 @@ export default function MenuFilter() {
 					<SheetTitle className='text-zinc-50'>
 						Selecione as opções para filtrar
 					</SheetTitle>
-					<SheetDescription className='text-zinc-200'>
+					<SheetDescription className='text-zinc-400'>
 						Após selecionar os filtros clique em atualizar para ver as mudanças
 						no dashboard
 					</SheetDescription>
 				</SheetHeader>
-				<Card className='bg-zinc-800 p-2 max-w-[600px] mx-auto'>
+				<Card className='bg-gradient-to-br to-zinc-900 from-zinc-800 border-none p-2 max-w-[600px] mx-auto'>
 					<CardContent>
 						<FormFilter />
 					</CardContent>

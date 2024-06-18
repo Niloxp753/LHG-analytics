@@ -7,6 +7,8 @@ import ResponsiveContainerChart from '../ResponsiveContainerChart';
 interface AreaChartsApexProps {
 	serie?: number[];
 	legend?: string;
+	color?: string;
+	labelColor?: string;
 }
 
 export default function AreaChartsApex(props: AreaChartsApexProps) {
@@ -42,6 +44,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			},
 		},
 		dataLabels: {
+			style: { colors: [props.labelColor ? props.labelColor : '#5b21b6'] },
 			enabled: true,
 			distributed: true,
 			background: {
@@ -50,20 +53,18 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 				padding: 12,
 				borderWidth: 1,
 			},
-			style: { colors: ['#5b21b6'] },
 		},
-		colors: ['#a78bfa'],
+		colors: [props.color ? props.color : '#a78bfa'],
 		fill: {
 			gradient: {
 				opacityFrom: 0.8,
 				opacityTo: 0.2,
-				gradientToColors: ['#a78bfa', '#2e1065'],
 			},
 		},
 
 		markers: {
 			size: 0,
-			colors: ['#a78bfa'],
+			colors: [props.color ? props.color : '#a78bfa'],
 			hover: { size: 0 },
 			strokeWidth: 0,
 		},

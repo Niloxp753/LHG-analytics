@@ -6,11 +6,13 @@ import Header from '../components/Header';
 import Invoicing from '../components/kpis/Invoicing';
 import Categories from '../components/kpis/InvoicingXCategories';
 import InvoicingXLocation from '../components/kpis/InvoicingXLocation';
-import LocationXRevPar from '../components/kpis/LocationXRevPar';
-import LocationsXLocationsName from '../components/kpis/LocationsXLocationsName';
+import Locations from '../components/kpis/Locations';
 import Occupation from '../components/kpis/Occupation';
+import TRevPar from '../components/kpis/TRevPar';
 import { TableKPI } from '../components/kpis/TableKpis';
-import TicketXRevPar from '../components/kpis/TicketXTRevPar';
+import Ticket from '../components/kpis/Ticket';
+import RevPar from '../components/kpis/RevPar';
+import OccupationCasaLush from '../components/kpis/OccupationCasaLush';
 
 export default function LushIpiranga({
 	searchParams,
@@ -34,8 +36,8 @@ export default function LushIpiranga({
 					</h2>
 					<Header />
 				</div>
-				<div className=' w-full h-full flex gap-2 flex-col justify-start mt-52'>
-					<div className='flex w-full gap-2 h-full'>
+				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-52'>
+					<div className='flex w-full gap-5 h-full'>
 						<div className='h-full w-1/2 flex items-center justify-center'>
 							<InvoicingXLocation />
 						</div>
@@ -43,19 +45,24 @@ export default function LushIpiranga({
 							<Invoicing />
 						</div>
 					</div>
-					<div className='gap-2 h-fit w-full flex justify-between '>
+					<div className='gap-5 h-fit w-full flex justify-between '>
 						<div className='w-1/3'>
 							<Categories />
 						</div>
 
-						<div className='w-2/3 h-full flex gap-2 justify-between flex-col '>
-							<LocationXRevPar />
-							<TicketXRevPar />
+						<div className='w-2/3 h-full flex gap-5 justify-between flex-col '>
+							<Locations />
+
+							<RevPar />
 						</div>
 					</div>
-					<div className='flex h-full w-full gap-2'>
+					<div className='flex gap-5 items-center'>
+						<Ticket />
+						<TRevPar />
+					</div>
+					<div className='flex h-full w-full gap-5'>
 						<Occupation />
-						<LocationsXLocationsName />
+						<OccupationCasaLush />
 					</div>
 					<div className='w-full h-full flex items-baseline justify-between'>
 						<div className='w-2/3'>

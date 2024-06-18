@@ -69,7 +69,7 @@ export default function FormFilter() {
 	return (
 		<>
 			<Form {...form}>
-				<form className='grid gap-4 pt-4'>
+				<form className='grid gap-4 pt-4 '>
 					<div className='flex items-center justify-between'>
 						<FormField
 							control={form.control}
@@ -85,7 +85,7 @@ export default function FormFilter() {
 												<Button
 													variant={'outline'}
 													className={cn(
-														'w-[220px] pl-3 text-left font-normal bg-zinc-800 text-zinc-200',
+														'w-[220px] pl-3 text-left font-normal border-none bg-zinc-700 text-zinc-200',
 														!field.value && 'text-muted-foreground',
 													)}>
 													{field.value ? (
@@ -124,7 +124,7 @@ export default function FormFilter() {
 												<Button
 													variant={'outline'}
 													className={cn(
-														'w-[220px] pl-3 text-left font-normal bg-zinc-800 text-zinc-200',
+														'w-[220px] pl-3 text-left font-normal border-none bg-zinc-700 text-zinc-200',
 														!field.value && 'text-muted-foreground',
 													)}>
 													{field.value ? (
@@ -160,16 +160,16 @@ export default function FormFilter() {
 										Categoria da Suíte
 									</FormLabel>
 									<MultiSelector
-										className=' p-0 m-0 border bg-zinc-800 rounded'
+										className=' p-0 m-0  bg-zinc-700 rounded'
 										onValuesChange={field.onChange}
 										values={field.value}>
 										<MultiSelectorTrigger className='p-0 '>
 											<MultiSelectorInput
-												className='text-zinc-100'
+												className='text-zinc-100 placeholder:text-zinc-400'
 												placeholder='Selecione para filtrar'
 											/>
 										</MultiSelectorTrigger>
-										<MultiSelectorContent className='border'>
+										<MultiSelectorContent className=''>
 											<MultiSelectorList className='bg-zinc-800 text-zinc-100 border'>
 												{suiteName.map((unity, index) => {
 													return (
@@ -199,12 +199,12 @@ export default function FormFilter() {
 											Tipos de Locação
 										</FormLabel>
 										<MultiSelector
-											className='w-fit  p-0 m-0 border bg-zinc-800 rounded'
+											className='w-fit  p-0 m-0 bg-zinc-700 rounded'
 											onValuesChange={field.onChange}
 											values={field.value}>
 											<MultiSelectorTrigger className='p-0 '>
 												<MultiSelectorInput
-													className='text-zinc-100'
+													className='text-zinc-100 placeholder:text-zinc-400'
 													placeholder='Selecione para filtrar'
 												/>
 											</MultiSelectorTrigger>

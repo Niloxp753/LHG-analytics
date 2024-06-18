@@ -81,7 +81,7 @@ export default function Header() {
 					<MenuFilter />
 				</div>
 			</div>
-			<div className={`flex justify-between  items-center gap-2 `}>
+			<div className={`flex justify-between  items-center gap-5 w-full `}>
 				<CardDetails
 					type='money'
 					icon={<HandCoins />}

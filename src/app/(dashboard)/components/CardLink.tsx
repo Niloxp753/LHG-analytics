@@ -16,7 +16,7 @@ export default function CardLink(props: CardLinkProps) {
 			<Link
 				href={props.href}
 				className='bg-zinc-800'>
-				<Card className='bg-zinc-800 border border-zinc-200/50 text-zinc-100 hover:bg-zinc-700 duration-300 transition-all ease-linear hover:border-violet-400'>
+				<Card className='bg-gradient-to-br from-zinc-800 to-zinc-900 border-transparent text-zinc-100 hover:bg-zinc-700 duration-300 transition-all ease-linear hover:border-violet-400'>
 					<CardHeader>
 						<CardTitle>{props.title}</CardTitle>
 					</CardHeader>

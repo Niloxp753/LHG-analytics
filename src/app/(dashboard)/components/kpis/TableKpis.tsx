@@ -116,21 +116,23 @@ export function TableKPI() {
 	return (
 		<Table className='mt-5 bg-zinc-900 rounded-lg'>
 			<TableHeader className='bg-violet-900 rounded-lg'>
-				<TableRow className='hover:bg-violet-800 rounded-lg transition-all duration-300 ease-linear'>
+				<TableRow className='hover:bg-violet-800 rounded-lg transition-all duration-300 ease-linear text-center'>
 					<TableHead>Categoria</TableHead>
-					<TableHead>Locações</TableHead>
-					<TableHead>Receita Total</TableHead>
-					<TableHead>Ticket Médio</TableHead>
-					<TableHead>Giro</TableHead>
-					<TableHead>TRevPar</TableHead>
-					<TableHead>TMO</TableHead>
-					<TableHead>TX de Ocupação</TableHead>
+					<TableHead className='text-center'>Locações</TableHead>
+					<TableHead className='text-center'>Receita Total</TableHead>
+					<TableHead className='text-center'>Ticket Médio</TableHead>
+					<TableHead className='text-center'>Giro</TableHead>
+					<TableHead className='text-center'>TRevPar</TableHead>
+					<TableHead className='text-center'>TMO</TableHead>
+					<TableHead className='text-center'>TX de Ocupação</TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody className='text-zinc-100'>
 				{data.map((invoice) => (
-					<TableRow key={invoice.id}>
-						<TableCell className='font-bold w-1/5'>
+					<TableRow
+						key={invoice.id}
+						className='text-center'>
+						<TableCell className='font-bold text-left'>
 							{invoice.Categoria}
 						</TableCell>
 						<TableCell>{invoice.locations}</TableCell>
@@ -158,9 +160,9 @@ export function TableKPI() {
 					</TableRow>
 				))}
 			</TableBody>
-			<TableFooter className=' text-zinc-100 bg-zinc-700 font-bold'>
-				<TableRow>
-					<TableCell className=' w-1/5'>Total</TableCell>
+			<TableFooter className=' text-zinc-100 bg-zinc-700 font-bold hover:bg-zinc-700'>
+				<TableRow className='text-center hover:bg-zinc-700'>
+					<TableCell className=' w-1/5 text-left'>Total</TableCell>
 					<TableCell>2835</TableCell>
 					<TableCell>R$ 1.793.028</TableCell>
 					<TableCell>R$ 632</TableCell>

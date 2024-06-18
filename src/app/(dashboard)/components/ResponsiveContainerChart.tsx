@@ -8,7 +8,7 @@ export default function ResponsiveContainerChart({
 	children: React.ReactNode;
 }) {
 	return (
-		<div className='rounded p-4 w-full h-full  bg-zinc-900 border border-zinc-100/40'>
+		<div className='rounded p-4 w-full h-full  bg-gradient-to-br from-zinc-800 to-zinc-900 border-none'>
 			{children}
 		</div>
 	);
