@@ -357,11 +357,13 @@ export function DataTableDemo() {
 					</DropdownMenu>
 				</div>
 			</div>
-			<div className='rounded-md border'>
+			<div className='rounded-md'>
 				<Table className='bg-zinc-900'>
-					<TableHeader>
+					<TableHeader className='bg-violet-900 hover:bg-violet-900'>
 						{table.getHeaderGroups().map((headerGroup) => (
-							<TableRow key={headerGroup.id}>
+							<TableRow
+								className='hover:bg-violet-900 bg-violet-900'
+								key={headerGroup.id}>
 								{headerGroup.headers.map((header) => {
 									return (
 										<TableHead key={header.id}>

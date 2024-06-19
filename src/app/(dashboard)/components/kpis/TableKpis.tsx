@@ -116,7 +116,7 @@ export function TableKPI() {
 	return (
 		<Table className='mt-5 bg-zinc-900 rounded-lg'>
 			<TableHeader className='bg-violet-900 rounded-lg'>
-				<TableRow className='hover:bg-violet-800 rounded-lg transition-all duration-300 ease-linear text-center'>
+				<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
 					<TableHead>Categoria</TableHead>
 					<TableHead className='text-center'>Locações</TableHead>
 					<TableHead className='text-center'>Receita Total</TableHead>
