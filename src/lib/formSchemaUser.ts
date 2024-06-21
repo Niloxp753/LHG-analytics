@@ -16,4 +16,8 @@ export const formSchemaUser = z.object({
 	password: z
 		.string({ coerce: true })
 		.min(8, { message: 'A senha deve ter no mínimo 8 dígitos' }),
+	unidade: z.string({
+		coerce: true,
+		description: 'Lush Ipiranga, Lush Guarujá, Andar de Cima ou Tout Campinas',
+	}),
 });

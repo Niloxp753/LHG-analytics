@@ -15,15 +15,17 @@ import MenuFilter from './MenuFilter';
 import Link from 'next/link';
 import { useSearchParams, usePathname } from 'next/navigation';
 
+
 export default function Header() {
 	const searchParams = useSearchParams();
 	const pathname = usePathname();
 	const selected = searchParams.get('menu') || 'general';
 	const openned = searchParams.get('open') || 'true';
 	const preSet = searchParams.get('set') || '7days';
+	
 
 	return (
-		<div className='flex ml-auto flex-col gap-2 w-full pt-5 pb-3 '>
+		<div className='flex ml-auto flex-col gap-2 w-full pt-3 pb-1 '>
 			<div
 				className={`ml-auto flex gap-5  items-center w-full ${
 					pathname == '/general' ? 'justify-end' : 'justify-between'
@@ -83,34 +85,64 @@ export default function Header() {
 			</div>
 			<div className={`flex justify-between  items-center gap-5 w-full `}>
 				<CardDetails
+					description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+						preSet == '30days' ? '30 dias atrás' : ''
+					} ${preSet == '6months' ? '6 meses atrás' : ''}${
+						preSet == '12months' ? '12 meses atrás' : ''
+					}`}
 					type='money'
 					icon={<HandCoins />}
 					title={'Faturamento'}
 					value={120000}
 				/>
 				<CardDetails
+					description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+						preSet == '30days' ? '30 dias atrás' : ''
+					} ${preSet == '6months' ? '6 meses atrás' : ''}${
+						preSet == '12months' ? '12 meses atrás' : ''
+					}`}
 					icon={<Sigma />}
 					title={'Locações'}
 					value={500}
 				/>
 				<CardDetails
+					description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+						preSet == '30days' ? '30 dias atrás' : ''
+					} ${preSet == '6months' ? '6 meses atrás' : ''}${
+						preSet == '12months' ? '12 meses atrás' : ''
+					}`}
 					type='money'
 					icon={<SquarePercent />}
 					title={'Ticket Médio'}
 					value={240}
 				/>
 				<CardDetails
+					description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+						preSet == '30days' ? '30 dias atrás' : ''
+					} ${preSet == '6months' ? '6 meses atrás' : ''}${
+						preSet == '12months' ? '12 meses atrás' : ''
+					}`}
 					type='money'
 					icon={<Activity />}
 					title={'RevPar'}
 					value={320}
 				/>
 				<CardDetails
+					description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+						preSet == '30days' ? '30 dias atrás' : ''
+					} ${preSet == '6months' ? '6 meses atrás' : ''}${
+						preSet == '12months' ? '12 meses atrás' : ''
+					}`}
 					icon={<DoorClosed />}
 					title={'Tx de Ocupação'}
 					value={'40%'}
 				/>
 				<CardDetails
+					description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+						preSet == '30days' ? '30 dias atrás' : ''
+					} ${preSet == '6months' ? '6 meses atrás' : ''}${
+						preSet == '12months' ? '12 meses atrás' : ''
+					}`}
 					icon={<AlarmClockCheck />}
 					title={'TMO'}
 					value={'4 horas'}

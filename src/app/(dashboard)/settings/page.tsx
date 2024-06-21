@@ -1,7 +1,7 @@
 /** @format */
 
-import { DataTableDemo } from './components/dataTable';
 import { getServerSession } from 'next-auth';
+import { TableUser } from './components/tableUser';
 
 export default async function Page({
 	searchParams,
@@ -23,7 +23,7 @@ export default async function Page({
 						<span className='text-violet-400'>{session?.user?.name}</span>
 					</h2>
 
-					<DataTableDemo />
+					<TableUser />
 				</div>
 			</div>
 		</main>

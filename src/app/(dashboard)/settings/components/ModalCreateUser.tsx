@@ -37,6 +37,7 @@ export function ModalCreateUser() {
 			password: '',
 			cpf: '',
 			name: '',
+			unidade: '',
 		},
 	});
 
@@ -128,6 +129,29 @@ export function ModalCreateUser() {
 											{...field}
 											required
 											placeholder='E-mail do usuário'
+											className='bg-zinc-700 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name='unidade'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel
+										htmlFor='unidade'
+										className='text-zinc-100'>
+										Unidade
+									</FormLabel>
+									<FormControl>
+										<Input
+											id='unidade'
+											{...field}
+											required
+											placeholder='Unidade do usuário'
 											className='bg-zinc-700 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
 										/>
 									</FormControl>
