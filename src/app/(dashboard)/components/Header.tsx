@@ -5,8 +5,11 @@ import {
 	Activity,
 	AlarmClockCheck,
 	ArrowLeftToLine,
+	ArrowRightToLine,
 	DoorClosed,
 	HandCoins,
+	PanelTopClose,
+	PanelTopOpen,
 	Sigma,
 	SquarePercent,
 } from 'lucide-react';
@@ -14,7 +17,7 @@ import CardDetails from './CardDetails';
 import MenuFilter from './MenuFilter';
 import Link from 'next/link';
 import { useSearchParams, usePathname } from 'next/navigation';
-
+import { useState } from 'react';
 
 export default function Header() {
 	const searchParams = useSearchParams();
@@ -22,7 +25,7 @@ export default function Header() {
 	const selected = searchParams.get('menu') || 'general';
 	const openned = searchParams.get('open') || 'true';
 	const preSet = searchParams.get('set') || '7days';
-	
+	const [openMenu, setOpenMenu] = useState(true);
 
 	return (
 		<div className='flex ml-auto flex-col gap-2 w-full pt-3 pb-1 '>
@@ -41,7 +44,16 @@ export default function Header() {
 					</Link>
 				)}
 
-				<div className='flex gap-5 items-center'>
+				<div className={`flex gap-5 items-center `}>
+					<div
+						onClick={() => setOpenMenu(!openMenu)}
+						className='absolute -bottom-5 right-0 bg-violet-400 hover:bg-violet-500 cursor-pointer'>
+						{openMenu ? (
+							<PanelTopClose size={24} />
+						) : (
+							<PanelTopOpen size={24} />
+						)}
+					</div>
 					<div className='flex items-center gap-5 text-zinc-100 w-full text-sm'>
 						<Link
 							href={`?menu=${selected}&open=${openned}&set=7days`}
@@ -83,7 +95,10 @@ export default function Header() {
 					<MenuFilter />
 				</div>
 			</div>
-			<div className={`flex justify-between  items-center gap-5 w-full `}>
+			<div
+				className={`${
+					!openMenu ? 'hidden' : 'flex'
+				} justify-between  items-center gap-5 w-full `}>
 				<CardDetails
 					description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
 						preSet == '30days' ? '30 dias atrás' : ''
@@ -138,10 +153,10 @@ export default function Header() {
 					value={'40%'}
 				/>
 				<CardDetails
-					description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
-						preSet == '30days' ? '30 dias atrás' : ''
-					} ${preSet == '6months' ? '6 meses atrás' : ''}${
-						preSet == '12months' ? '12 meses atrás' : ''
+					description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+						preSet == '30days' ? '30 dias atrás ' : ''
+					} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+						preSet == '12months' ? '12 meses atrás ' : ''
 					}`}
 					icon={<AlarmClockCheck />}
 					title={'TMO'}
