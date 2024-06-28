@@ -4,7 +4,13 @@
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '@/app/(dashboard)/components/ResponsiveContainerChart';
 
-export default function PieChartsApex() {
+interface PieChartsApexProps {
+	title?: string;
+	labels?: string[];
+	data?: any[];
+}
+
+export default function PieChartsApex(props: PieChartsApexProps) {
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: 'donut-chart',
@@ -33,18 +39,20 @@ export default function PieChartsApex() {
 		},
 		title: {
 			align: 'center',
-			text: 'Faturamento por unidade',
+			text: props.title ? props.title : 'Faturamento por unidade',
 			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 'normal' },
 			margin: 8,
 		},
 
-		colors: ['#a78bfa', '#fef08a', '#bbf7d0', '#fda4af'],
-		labels: ['Lush Ipiranga', 'Lush Guarujá', 'Tout Campinas', 'Andar de Cima'],
+		colors: ['#a78bfa', '#fef08a', '#bbf7d0', '#fda4af', '#38bdf8'],
+		labels: props.labels
+			? props.labels
+			: ['Lush Ipiranga', 'Lush Guarujá', 'Tout Campinas', 'Andar de Cima'],
 		stroke: { show: false },
 		dataLabels: {
 			enabled: true,
 			style: {
-				colors: ['#7c3aed', '#ca8a04', '#16a34a', '#be123c'],
+				colors: ['#7c3aed', '#ca8a04', '#16a34a', '#be123c', '#1d4ed8'],
 				fontWeight: 'semibold',
 				fontSize: '12px',
 			},
@@ -97,7 +105,7 @@ export default function PieChartsApex() {
 				options={options}
 				width={'100%'}
 				height={316}
-				series={[40, 20, 45, 25]}
+				series={props.data ? props.data : [40, 20, 45, 25]}
 				type='donut'></Chart>
 		</ResponsiveContainerChart>
 	);

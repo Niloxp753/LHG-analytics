@@ -11,7 +11,6 @@ import Occupation from '../components/kpis/Occupation';
 import OccupationCasaLush from '../components/kpis/OccupationCasaLush';
 import RevPar from '../components/kpis/RevPar';
 import TRevPar from '../components/kpis/TRevPar';
-
 import Ticket from '../components/kpis/Ticket';
 import { TableKpiCategory } from '../components/kpis/TableKpiCategory';
 import { TableKpiGiro } from '../components/kpis/TableKpiGiro';

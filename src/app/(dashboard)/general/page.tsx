@@ -33,9 +33,12 @@ export default function General({
 					className={`bg-zinc-950/50 py-4 ${
 						open == 'true' ? 'w-[82vw]' : 'w-[90vw] '
 					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-5 justify-end `}>
+					<h2 className='text-zinc-50 font-bold text-3xl'>
+						Visão <span className='text-violet-400'>Geral</span>
+					</h2>
 					<Header />
 				</div>
-				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-44'>
+				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-60'>
 					<div className='flex gap-5'>
 						<div className='w-1/4'>
 							<InvoicingXUnity />
