@@ -1,22 +1,20 @@
 /** @format */
 
-import React from 'react';
+import { Crown, Cylinder, Database, DatabaseZap } from 'lucide-react';
+import CardDetails from '../components/CardDetails';
+import Header from '../components/Header';
 import Invoicing from '../components/kpis/Invoicing';
 import Categories from '../components/kpis/InvoicingXCategories';
 import InvoicingXLocation from '../components/kpis/InvoicingXLocation';
-import LocationXRevPar from '../components/kpis/RevPar';
-import LocationsXLocationsName from '../components/kpis/LocationsXLocationsName';
-import Occupation from '../components/kpis/Occupation';
-import TicketXRevPar from '../components/kpis/Ticket';
-import Header from '../components/Header';
-import Ticket from '../components/kpis/Ticket';
-import { Cylinder, Database, DatabaseZap, Crown } from 'lucide-react';
-import CardDetails from '../components/CardDetails';
 import Locations from '../components/kpis/Locations';
+import Occupation from '../components/kpis/Occupation';
 import OccupationCasaLush from '../components/kpis/OccupationCasaLush';
 import RevPar from '../components/kpis/RevPar';
 import TRevPar from '../components/kpis/TRevPar';
-import { TableKPI } from '../components/kpis/TableKpis';
+import { TableKpiCategory } from '../components/kpis/TableKpiCategory';
+import { TableKpiGiro } from '../components/kpis/TableKpiGiro';
+import { TableKpiOccupation } from '../components/kpis/TableKpiOccupation';
+import Ticket from '../components/kpis/Ticket';
 
 export default function AndarDeCima({
 	searchParams,
@@ -71,7 +69,7 @@ export default function AndarDeCima({
 					</div>
 					<div className='w-full h-full flex items-baseline justify-between'>
 						<div className='w-2/3'>
-							<TableKPI />
+							<TableKpiCategory />
 						</div>
 						<div className='w-1/4 flex flex-col h-full justify-between gap-5'>
 							<CardDetails
@@ -99,6 +97,10 @@ export default function AndarDeCima({
 								description='Análise Separada Casa Lush'
 							/>
 						</div>
+					</div>
+					<div className='flex gap-5'>
+						<TableKpiGiro />
+						<TableKpiOccupation />
 					</div>
 				</div>
 			</div>

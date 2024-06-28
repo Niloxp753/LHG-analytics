@@ -1,22 +1,22 @@
 /** @format */
 'use client';
 
+import logo from '@/assets/images/logo-analytics.png';
 import {
 	BarChart3,
-	ChevronLeft,
-	ChevronRight,
+	ChevronsLeft,
+	ChevronsRight,
 	PieChart,
 	ScanEye,
 	ScatterChart,
 	UserRoundCog,
 	UtensilsCrossed,
 } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import BtnSignOut from '../../../components/btnSingOut';
 import BtnSidebarMenu from './BtnSidebarMenu';
-import logo from '@/assets/images/logo-analytics.png';
-import Image from 'next/image';
 
 export default function SidebarMenu() {
 	const searchParams = useSearchParams();
@@ -45,8 +45,18 @@ export default function SidebarMenu() {
 						? `?menu=${selected}&open=false&set=${preSet}`
 						: `?menu=${selected}&open=true&set=${preSet}`
 				}`}
-				className='cursor-pointer bg-zinc-950 w-fit top-0 right-0 absolute p-1 rounded justify-between hover:bg-zinc-700 transition-all duration-300 ease-linear z-50 text-white'>
-				{openned == 'true' ? <ChevronLeft /> : <ChevronRight />}
+				className='cursor-pointer bg-zinc-800 w-fit h-full top-0 -right-6 absolute  rounded justify-between hover:bg-zinc-700 transition-all duration-300 ease-linear z-50 text-white'>
+				{openned == 'true' ? (
+					<ChevronsLeft
+						size={24}
+						className='mt-auto h-screen '
+					/>
+				) : (
+					<ChevronsRight
+						size={24}
+						className='mt-auto h-screen'
+					/>
+				)}
 			</Link>
 			<div className='flex flex-col justify-between h-full'>
 				<div className='text-zinc-100 flex flex-col h-full w-fit gap-5 rounded p-3 mt-10 '>

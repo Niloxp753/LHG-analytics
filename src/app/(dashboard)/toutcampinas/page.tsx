@@ -11,8 +11,11 @@ import Occupation from '../components/kpis/Occupation';
 import OccupationCasaLush from '../components/kpis/OccupationCasaLush';
 import RevPar from '../components/kpis/RevPar';
 import TRevPar from '../components/kpis/TRevPar';
-import { TableKPI } from '../components/kpis/TableKpis';
+
+import { TableKpiGiro } from '../components/kpis/TableKpiGiro';
+import { TableKpiOccupation } from '../components/kpis/TableKpiOccupation';
 import Ticket from '../components/kpis/Ticket';
+import { TableKpiCategory } from '../components/kpis/TableKpiCategory';
 
 export default function ToutCampinas({
 	searchParams,
@@ -66,7 +69,7 @@ export default function ToutCampinas({
 					</div>
 					<div className='w-full h-full flex items-baseline justify-between'>
 						<div className='w-2/3'>
-							<TableKPI />
+							<TableKpiCategory />
 						</div>
 						<div className='w-1/4 flex flex-col h-full justify-between gap-5'>
 							<CardDetails
@@ -94,6 +97,10 @@ export default function ToutCampinas({
 								description='Análise Separada Casa Lush'
 							/>
 						</div>
+					</div>
+					<div className='flex gap-5'>
+						<TableKpiGiro />
+						<TableKpiOccupation />
 					</div>
 				</div>
 			</div>

@@ -9,10 +9,12 @@ import InvoicingXLocation from '../components/kpis/InvoicingXLocation';
 import Locations from '../components/kpis/Locations';
 import Occupation from '../components/kpis/Occupation';
 import TRevPar from '../components/kpis/TRevPar';
-import { TableKPI } from '../components/kpis/TableKpis';
+import { TableKpiCategory } from '../components/kpis/TableKpiCategory';
 import Ticket from '../components/kpis/Ticket';
 import RevPar from '../components/kpis/RevPar';
 import OccupationCasaLush from '../components/kpis/OccupationCasaLush';
+import { TableKpiGiro } from '../components/kpis/TableKpiGiro';
+import { TableKpiOccupation } from '../components/kpis/TableKpiOccupation';
 
 export default function LushIpiranga({
 	searchParams,
@@ -36,7 +38,7 @@ export default function LushIpiranga({
 					</h2>
 					<Header />
 				</div>
-				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-52'>
+				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-60'>
 					<div className='flex w-full gap-5 h-full'>
 						<div className='h-full w-1/2 flex items-center justify-center'>
 							<InvoicingXLocation />
@@ -66,7 +68,7 @@ export default function LushIpiranga({
 					</div>
 					<div className='w-full h-full flex items-baseline justify-between'>
 						<div className='w-2/3'>
-							<TableKPI />
+							<TableKpiCategory />
 						</div>
 						<div className='w-1/4 flex flex-col h-full justify-between gap-5'>
 							<CardDetails
@@ -94,6 +96,10 @@ export default function LushIpiranga({
 								description='Análise Separada Casa Lush'
 							/>
 						</div>
+					</div>
+					<div className='flex gap-5'>
+						<TableKpiGiro />
+						<TableKpiOccupation />
 					</div>
 				</div>
 			</div>

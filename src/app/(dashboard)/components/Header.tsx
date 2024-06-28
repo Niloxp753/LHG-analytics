@@ -6,6 +6,8 @@ import {
 	AlarmClockCheck,
 	ArrowLeftToLine,
 	ArrowRightToLine,
+	ChevronsDown,
+	ChevronsUp,
 	DoorClosed,
 	HandCoins,
 	PanelTopClose,
@@ -47,11 +49,17 @@ export default function Header() {
 				<div className={`flex gap-5 items-center `}>
 					<div
 						onClick={() => setOpenMenu(!openMenu)}
-						className='absolute -bottom-5 right-0 bg-violet-400 hover:bg-violet-500 cursor-pointer'>
+						className='absolute text-white rounded -bottom-5 left-0 flex bg-zinc-800 hover:bg-zinc-700 transition-all ease-linear duration-300 cursor-pointer w-full py-1'>
 						{openMenu ? (
-							<PanelTopClose size={24} />
+							<ChevronsUp
+								className='mx-auto'
+								size={24}
+							/>
 						) : (
-							<PanelTopOpen size={24} />
+							<ChevronsDown
+								className='mx-auto'
+								size={24}
+							/>
 						)}
 					</div>
 					<div className='flex items-center gap-5 text-zinc-100 w-full text-sm'>

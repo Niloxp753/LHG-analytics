@@ -112,7 +112,7 @@ const data = [
 	},
 ];
 
-export function TableKPI() {
+export function TableKpiCategory() {
 	return (
 		<Table className='mt-5 bg-zinc-900 rounded-lg'>
 			<TableHeader className='bg-violet-900 rounded-lg'>
