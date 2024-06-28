@@ -1,21 +1,13 @@
 /** @format */
 
-import { Crown, Cylinder, Database, DatabaseZap } from 'lucide-react';
-import CardDetails from '../components/CardDetails';
 import Header from '../components/Header';
 import Invoicing from '../components/kpis/Invoicing';
 import Categories from '../components/kpis/InvoicingXCategories';
+import InvoicingXChannel from '../components/kpis/InvoicingXChannel';
 import InvoicingXLocation from '../components/kpis/InvoicingXLocation';
 import Locations from '../components/kpis/Locations';
-import Occupation from '../components/kpis/Occupation';
-import OccupationCasaLush from '../components/kpis/OccupationCasaLush';
 import RevPar from '../components/kpis/RevPar';
-import TRevPar from '../components/kpis/TRevPar';
-import Ticket from '../components/kpis/Ticket';
-import { TableKpiCategory } from '../components/kpis/TableKpiCategory';
-import { TableKpiGiro } from '../components/kpis/TableKpiGiro';
-import { TableKpiOccupation } from '../components/kpis/TableKpiOccupation';
-import InvoicingXChannel from '../components/kpis/InvoicingXChannel';
+import { TableReservs } from '../components/kpis/TableReservs';
 
 export default function Reservations({
 	searchParams,
@@ -62,6 +54,9 @@ export default function Reservations({
 
 					<div>
 						<Invoicing />
+					</div>
+					<div>
+						<TableReservs />
 					</div>
 				</div>
 			</div>
