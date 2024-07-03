@@ -4,7 +4,15 @@
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
 
-export default function BarChartsApex() {
+interface BarChartsApexProps {
+	title: string;
+	colors: string[];
+	categories: string[];
+	series: ApexAxisChartSeries | ApexNonAxisChartSeries;
+	dataLabelColors: string[];
+}
+
+export default function BarChartsApex(props: BarChartsApexProps) {
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: 'bar-chart',
@@ -21,7 +29,7 @@ export default function BarChartsApex() {
 		},
 		title: {
 			align: 'left',
-			text: 'Faturamento por Suíte',
+			text: props.title ? props.title : 'Faturamento por Suíte',
 			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 'normal' },
 			margin: 8,
 		},
@@ -44,9 +52,11 @@ export default function BarChartsApex() {
 				padding: 12,
 				borderWidth: 1,
 			},
-			style: { colors: ['#5b21b6'] },
+			style: {
+				colors: props.dataLabelColors ? props.dataLabelColors : ['#5b21b6'],
+			},
 		},
-		colors: ['#a78bfa'],
+		colors: props.colors ? props.colors : ['#a78bfa'],
 		fill: {
 			gradient: {
 				opacityFrom: 0.5,
@@ -65,17 +75,19 @@ export default function BarChartsApex() {
 		xaxis: {
 			type: 'category',
 			axisBorder: { show: true },
-			categories: [
-				'Lush',
-				'Lush Pop',
-				'Lush Hidro',
-				'Lush Lounge',
-				'Lush Spa',
-				'Lush Cine',
-				'Lush Splash',
-				'Lush Spa Splash',
-				'Casa Lush',
-			],
+			categories: props.categories
+				? props.categories
+				: [
+						'Lush',
+						'Lush Pop',
+						'Lush Hidro',
+						'Lush Lounge',
+						'Lush Spa',
+						'Lush Cine',
+						'Lush Splash',
+						'Lush Spa Splash',
+						'Casa Lush',
+				  ],
 		},
 		yaxis: { show: true, labels: { show: true } },
 		stroke: { curve: 'smooth' },

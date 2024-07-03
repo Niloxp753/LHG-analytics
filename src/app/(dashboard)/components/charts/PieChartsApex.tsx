@@ -8,6 +8,8 @@ interface PieChartsApexProps {
 	title?: string;
 	labels?: string[];
 	data?: any[];
+	colors?: string[];
+	dataLabelColors?: string[];
 }
 
 export default function PieChartsApex(props: PieChartsApexProps) {
@@ -28,7 +30,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 			},
 		},
 		legend: {
-			itemMargin: { vertical: 6 },
+			itemMargin: { vertical: 8, horizontal: 28 },
 			position: 'bottom',
 			fontSize: '14px',
 			labels: {
@@ -44,7 +46,9 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 			margin: 8,
 		},
 
-		colors: ['#a78bfa', '#fef08a', '#bbf7d0', '#fda4af', '#38bdf8'],
+		colors: props.colors
+			? props.colors
+			: ['#a78bfa', '#fef08a', '#bbf7d0', '#fda4af', '#38bdf8'],
 		labels: props.labels
 			? props.labels
 			: ['Lush Ipiranga', 'Lush Guarujá', 'Tout Campinas', 'Andar de Cima'],
@@ -52,7 +56,9 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 		dataLabels: {
 			enabled: true,
 			style: {
-				colors: ['#7c3aed', '#ca8a04', '#16a34a', '#be123c', '#1d4ed8'],
+				colors: props.dataLabelColors
+					? props.dataLabelColors
+					: ['#7c3aed', '#ca8a04', '#16a34a', '#be123c', '#1d4ed8'],
 				fontWeight: 'semibold',
 				fontSize: '12px',
 			},

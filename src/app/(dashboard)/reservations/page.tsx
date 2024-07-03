@@ -1,13 +1,17 @@
 /** @format */
 
-import Header from '../components/Header';
+import InvoicingXChannel from '@/app/(dashboard)/reservations/components/kpis/InvoicingXChannel';
 import Invoicing from '../components/kpis/Invoicing';
 import Categories from '../components/kpis/InvoicingXCategories';
-import InvoicingXChannel from '../components/kpis/InvoicingXChannel';
 import InvoicingXLocation from '../components/kpis/InvoicingXLocation';
 import Locations from '../components/kpis/Locations';
 import RevPar from '../components/kpis/RevPar';
 import { TableReservs } from '../components/kpis/TableReservs';
+import HeaderReservations from './components/HeaderReservations';
+import InvoicingXLocations from './components/kpis/RepXReservs';
+import LocationsXReservs from './components/kpis/LocationsXReservs';
+import InvoicingXReservs from './components/kpis/InvoicingXReservs';
+import CategoriesXReservs from './components/kpis/CategoriesXReservs';
 
 export default function Reservations({
 	searchParams,
@@ -29,12 +33,12 @@ export default function Reservations({
 					<h2 className='text-zinc-50 font-bold text-3xl'>
 						Painel de <span className='text-violet-400'>Reservas</span>
 					</h2>
-					<Header />
+					<HeaderReservations />
 				</div>
 				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-60'>
 					<div className='flex w-full gap-5 h-[340px]'>
 						<div className='h-full w-full flex items-center justify-center'>
-							<InvoicingXLocation />
+							<LocationsXReservs />
 						</div>
 						<div className='w-1/2'>
 							<InvoicingXChannel />
@@ -42,13 +46,12 @@ export default function Reservations({
 					</div>
 					<div className='gap-5 h-fit w-full flex justify-between '>
 						<div className='w-1/3'>
-							<Categories />
+							<CategoriesXReservs />
 						</div>
 
 						<div className='w-2/3 h-full flex gap-5 justify-between flex-col '>
-							<Locations />
-
-							<RevPar />
+							<InvoicingXLocations />
+							<InvoicingXReservs />
 						</div>
 					</div>
 
