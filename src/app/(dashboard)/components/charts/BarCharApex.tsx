@@ -29,7 +29,7 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 		},
 		title: {
 			align: 'left',
-			text: props.title ? props.title : 'Faturamento por Suíte',
+			text: props.title,
 			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 'normal' },
 			margin: 8,
 		},
@@ -53,10 +53,10 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 				borderWidth: 1,
 			},
 			style: {
-				colors: props.dataLabelColors ? props.dataLabelColors : ['#5b21b6'],
+				colors: props.dataLabelColors,
 			},
 		},
-		colors: props.colors ? props.colors : ['#a78bfa'],
+		colors: props.colors,
 		fill: {
 			gradient: {
 				opacityFrom: 0.5,
@@ -75,19 +75,7 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 		xaxis: {
 			type: 'category',
 			axisBorder: { show: true },
-			categories: props.categories
-				? props.categories
-				: [
-						'Lush',
-						'Lush Pop',
-						'Lush Hidro',
-						'Lush Lounge',
-						'Lush Spa',
-						'Lush Cine',
-						'Lush Splash',
-						'Lush Spa Splash',
-						'Casa Lush',
-				  ],
+			categories: props.categories,
 		},
 		yaxis: { show: true, labels: { show: true } },
 		stroke: { curve: 'smooth' },
