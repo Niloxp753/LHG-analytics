@@ -151,6 +151,17 @@ export default function HeaderReservations() {
 					title={'Representatividade'}
 					value={19}
 				/>
+
+				<CardDetails
+					description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+						preSet == '30days' ? '30 dias atrás ' : ''
+					} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+						preSet == '12months' ? '12 meses atrás ' : ''
+					}`}
+					icon={<Blend />}
+					title={'Meta de Representatividade'}
+					value={22}
+				/>
 			</div>
 		</div>
 	);

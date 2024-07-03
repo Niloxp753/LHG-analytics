@@ -10,7 +10,11 @@ const AreaChartsApex = dynamic(
 export default function InvoicingXReservs() {
 	return (
 		<>
-			<AreaChartsApex legend='Faturamento de Reservas' />
+			<AreaChartsApex
+				color='#2dd4bf'
+				labelColor='#115e59'
+				legend='Faturamento de Reservas'
+			/>
 		</>
 	);
 }

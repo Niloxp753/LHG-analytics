@@ -56,7 +56,7 @@ export default function Reservations({
 					</div>
 
 					<div>
-						<Invoicing />
+						{/* <Invoicing /> */}
 					</div>
 					<div>
 						<TableReservs />

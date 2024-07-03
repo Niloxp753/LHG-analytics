@@ -13,8 +13,8 @@ export default function TRevPar() {
 			<AreaChartsApex
 				serie={[80, 60, 55, 73, 60, 75, 60, 70]}
 				legend='TRevPar'
-				color='#86efac'
-				labelColor='#14532d'
+				color='#2dd4bf'
+				labelColor='#115e59'
 			/>
 		</div>
 	);

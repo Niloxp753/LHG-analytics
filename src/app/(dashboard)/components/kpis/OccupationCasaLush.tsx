@@ -13,8 +13,8 @@ export default function OccupationCasaLush() {
 			<AreaChartsApex
 				legend='Tx de Ocupação - Casa Lush'
 				serie={[50, 65, 55, 75, 65, 60, 75]}
-				color='#86efac'
-				labelColor='#14532d'
+				color='#2dd4bf'
+				labelColor='#115e59'
 			/>
 		</>
 	);

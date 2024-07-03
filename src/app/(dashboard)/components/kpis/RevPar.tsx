@@ -13,8 +13,8 @@ export default function RevPar() {
 			<AreaChartsApex
 				serie={[80, 70, 55, 60, 65, 65, 70, 60]}
 				legend='RevPar'
-				color='#86efac'
-				labelColor='#14532d'
+				color='#2dd4bf'
+				labelColor='#115e59'
 			/>
 		</div>
 	);
