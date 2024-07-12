@@ -107,7 +107,7 @@ export default function HeaderReservations() {
 			<div
 				className={`${
 					!openMenu ? 'hidden' : 'flex'
-				} justify-between  items-center gap-5 w-full `}>
+				} justify-between  items-center gap-2 w-full `}>
 				<CardDetails
 					description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
 						preSet == '30days' ? '30 dias atrás ' : ''
@@ -159,7 +159,7 @@ export default function HeaderReservations() {
 						preSet == '12months' ? '12 meses atrás ' : ''
 					}`}
 					icon={<Blend />}
-					title={'Meta de Representatividade'}
+					title={'Meta de Repres.'}
 					value={22}
 				/>
 			</div>

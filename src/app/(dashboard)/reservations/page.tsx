@@ -12,6 +12,8 @@ import InvoicingXLocations from './components/kpis/RepXReservs';
 import LocationsXReservs from './components/kpis/LocationsXReservs';
 import InvoicingXReservs from './components/kpis/InvoicingXReservs';
 import CategoriesXReservs from './components/kpis/CategoriesXReservs';
+import InvoicingXTypes from './components/kpis/InvoicingXTypes';
+import Representation from './components/kpis/Representation';
 
 export default function Reservations({
 	searchParams,
@@ -54,9 +56,9 @@ export default function Reservations({
 							<InvoicingXReservs />
 						</div>
 					</div>
-
-					<div>
-						{/* <Invoicing /> */}
+					<div className='flex items-center justify-between gap-5'>
+						<Representation />
+						<InvoicingXTypes />
 					</div>
 					<div>
 						<TableReservs />

@@ -110,7 +110,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 			<Chart
 				options={options}
 				width={'100%'}
-				height={316}
+				height={290}
 				series={props.data ? props.data : [40, 20, 45, 25]}
 				type='donut'></Chart>
 		</ResponsiveContainerChart>

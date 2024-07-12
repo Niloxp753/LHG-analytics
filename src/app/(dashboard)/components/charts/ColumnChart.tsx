@@ -4,7 +4,13 @@
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
 
-export default function ColumnChart({ title }: { title: string }) {
+interface ColumnChartProps {
+	title: string;
+	categories: string[];
+	data: any[];
+}
+
+export default function ColumnChart(props: ColumnChartProps) {
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: 'bar-chart',
@@ -21,7 +27,7 @@ export default function ColumnChart({ title }: { title: string }) {
 		},
 		title: {
 			align: 'left',
-			text: title,
+			text: props.title,
 			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 'normal' },
 			margin: 8,
 		},
@@ -64,14 +70,9 @@ export default function ColumnChart({ title }: { title: string }) {
 		xaxis: {
 			type: 'category',
 			axisBorder: { show: true },
-			categories: [
-				'3 horas',
-				'6 horas',
-				'12 horas',
-				'Day Use',
-				'Diária',
-				'Pernoite',
-			],
+			categories: props.categories
+				? props.categories
+				: ['3 horas', '6 horas', '12 horas', 'Day Use', 'Diária', 'Pernoite'],
 		},
 		yaxis: { show: false, labels: { show: true } },
 		stroke: { curve: 'smooth' },
@@ -87,7 +88,7 @@ export default function ColumnChart({ title }: { title: string }) {
 	const series: ApexAxisChartSeries | ApexNonAxisChartSeries = [
 		{
 			name: 'Faturamento',
-			data: [30, 40, 45, 50, 49, 60],
+			data: props.data ? props.data : [30, 40, 45, 50, 49, 60],
 			type: 'bar',
 		},
 	];
