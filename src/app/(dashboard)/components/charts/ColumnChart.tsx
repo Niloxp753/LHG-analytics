@@ -6,8 +6,8 @@ import ResponsiveContainerChart from '../ResponsiveContainerChart';
 
 interface ColumnChartProps {
 	title: string;
-	categories: string[];
-	data: any[];
+	categories?: string[];
+	data?: any[];
 }
 
 export default function ColumnChart(props: ColumnChartProps) {
