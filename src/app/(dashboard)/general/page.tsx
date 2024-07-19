@@ -40,10 +40,10 @@ export default function General({
 				</div>
 				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-64'>
 					<div className='flex gap-5'>
-						<div className='w-1/4'>
+						<div className='w-1/3'>
 							<InvoicingXUnity />
 						</div>
-						<div className='w-3/4'>
+						<div className='w-2/3'>
 							<LocationsxUnity />
 						</div>
 					</div>
