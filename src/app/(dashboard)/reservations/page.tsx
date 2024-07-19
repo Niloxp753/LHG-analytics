@@ -38,7 +38,7 @@ export default function Reservations({
 					<HeaderReservations />
 				</div>
 				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-60'>
-					<div className='flex w-full gap-5 h-[340px]'>
+					<div className='flex w-full gap-5 h-[240px]'>
 						<div className='h-full w-full flex items-center justify-center'>
 							<LocationsXReservs />
 						</div>
@@ -56,9 +56,14 @@ export default function Reservations({
 							<InvoicingXReservs />
 						</div>
 					</div>
-					<div className='flex items-center justify-between gap-5'>
-						<Representation />
-						<InvoicingXTypes />
+					<div className='flex items-center justify-between gap-5 h-full w-full'>
+						<div className='w-2/3 h-full'>
+							<Representation />
+						</div>
+
+						<div className='w-1/3 h-full'>
+							<InvoicingXTypes />
+						</div>
 					</div>
 					<div>
 						<TableReservs />
@@ -68,7 +73,7 @@ export default function Reservations({
 							Indicadores de E-Commerce
 						</h2>
 						<div className='flex flex-col items-start justify-between gap-5'>
-							<div className='w-full flex  h-full justify-between gap-5'>
+							<div className='w-full flex  h-full justify-between gap-2'>
 								<CardDetails
 									title={'Reservas'}
 									value={'572'}
@@ -100,7 +105,7 @@ export default function Reservations({
 									icon={<SiGoogleads />}
 								/>
 							</div>
-							<div className='w-full flex items-center justify-between gap-5'>
+							<div className='w-full flex flex-col items-center justify-between gap-5'>
 								<EcommerceRevervs />
 								<EcommerceRevenue />
 							</div>

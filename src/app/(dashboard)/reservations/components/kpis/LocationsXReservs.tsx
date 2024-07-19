@@ -9,7 +9,7 @@ const AreaChartsApex = dynamic(
 
 export default function LocationsXReservs() {
 	return (
-		<div className='max-h-[440px] h-full w-full flex items-center justify-center'>
+		<div className='h-full w-full flex items-center justify-center'>
 			<AreaChartsApex
 				serie={[80, 60, 55, 73, 60, 75, 60, 70]}
 				legend='Número de Reservas'

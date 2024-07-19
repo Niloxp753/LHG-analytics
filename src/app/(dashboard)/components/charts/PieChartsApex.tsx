@@ -46,7 +46,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 			align: 'center',
 			text: props.title ? props.title : 'Faturamento por unidade',
 			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 'bold' },
-			margin: 10,
+			margin: 8,
 		},
 
 		colors: ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9', '#fb7185'],
@@ -65,7 +65,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 			dropShadow: { enabled: true },
 			background: {
 				enabled: true,
-				padding: 12,
+				padding: 8,
 				borderRadius: 8,
 				dropShadow: {
 					enabled: false,
@@ -110,7 +110,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 			<Chart
 				options={options}
 				width={'100%'}
-				height={290}
+				height={220}
 				series={props.data ? props.data : [40, 20, 45, 25]}
 				type='donut'></Chart>
 		</ResponsiveContainerChart>
