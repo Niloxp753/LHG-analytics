@@ -44,9 +44,11 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			},
 		},
 		dataLabels: {
-			style: { colors: [props.labelColor ? props.labelColor : '#5b21b6'] },
+			style: {
+				colors: ['#7c3aed', '#2563eb', '#4f46e5', '#c026d3', '#e11d48'],
+			},
 			enabled: true,
-			distributed: true,
+			distributed: false,
 			background: {
 				enabled: true,
 				borderRadius: 4,
@@ -54,7 +56,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 				borderWidth: 1,
 			},
 		},
-		colors: [props.color ? props.color : '#a78bfa'],
+		colors: ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9'],
 		fill: {
 			gradient: {
 				opacityFrom: 0.8,
@@ -64,7 +66,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 
 		markers: {
 			size: 0,
-			colors: [props.color ? props.color : '#a78bfa'],
+			colors: ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9'],
 			hover: { size: 0 },
 			strokeWidth: 0,
 		},

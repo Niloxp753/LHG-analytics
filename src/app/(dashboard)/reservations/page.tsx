@@ -1,19 +1,19 @@
 /** @format */
 
 import InvoicingXChannel from '@/app/(dashboard)/reservations/components/kpis/InvoicingXChannel';
-import Invoicing from '../components/kpis/Invoicing';
-import Categories from '../components/kpis/InvoicingXCategories';
-import InvoicingXLocation from '../components/kpis/InvoicingXLocation';
-import Locations from '../components/kpis/Locations';
-import RevPar from '../components/kpis/RevPar';
+import { Coins, HandCoins, Sigma, SquarePercent } from 'lucide-react';
+import { SiGoogleads, SiMeta } from 'react-icons/si';
+import CardDetails from '../components/CardDetails';
 import { TableReservs } from '../components/kpis/TableReservs';
 import HeaderReservations from './components/HeaderReservations';
-import InvoicingXLocations from './components/kpis/RepXReservs';
-import LocationsXReservs from './components/kpis/LocationsXReservs';
-import InvoicingXReservs from './components/kpis/InvoicingXReservs';
 import CategoriesXReservs from './components/kpis/CategoriesXReservs';
+import InvoicingXReservs from './components/kpis/InvoicingXReservs';
 import InvoicingXTypes from './components/kpis/InvoicingXTypes';
+import LocationsXReservs from './components/kpis/LocationsXReservs';
 import Representation from './components/kpis/Representation';
+import InvoicingXLocations from './components/kpis/RepXReservs';
+import EcommerceRevervs from './components/kpis/ecommerce-reservas';
+import EcommerceRevenue from './components/kpis/ecommerce-receita';
 
 export default function Reservations({
 	searchParams,
@@ -62,6 +62,49 @@ export default function Reservations({
 					</div>
 					<div>
 						<TableReservs />
+					</div>
+					<div>
+						<h2 className='text-4xl font-bold text-zinc-50 mt-10 mb-5'>
+							Indicadores de E-Commerce
+						</h2>
+						<div className='flex flex-col items-start justify-between gap-5'>
+							<div className='w-full flex  h-full justify-between gap-5'>
+								<CardDetails
+									title={'Reservas'}
+									value={'572'}
+									icon={<Sigma />}
+								/>
+								<CardDetails
+									title={'Receita'}
+									value={'R$414.752'}
+									icon={<HandCoins />}
+								/>
+								<CardDetails
+									title={'Ticket Médio'}
+									value={'R$725'}
+									icon={<SquarePercent />}
+								/>
+								<CardDetails
+									title={'Total em mídia'}
+									value={'R$24.640'}
+									icon={<Coins />}
+								/>
+								<CardDetails
+									title={'investimento Meta'}
+									value={'R$14.610'}
+									icon={<SiMeta />}
+								/>
+								<CardDetails
+									title={'investimento Google'}
+									value={'R$10.040'}
+									icon={<SiGoogleads />}
+								/>
+							</div>
+							<div className='w-full flex items-center justify-between gap-5'>
+								<EcommerceRevervs />
+								<EcommerceRevenue />
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

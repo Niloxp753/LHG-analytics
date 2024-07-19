@@ -73,16 +73,16 @@ export default function General({
 								<SparkChart serie={[45, 30, 55, 35, 60, 40]} />
 							}></CardLink>
 						<CardLink
-							href={`/andardecima?menu=${menu}&open=${open}&set=${preSet}`}
-							title={'Andar de Cima'}
-							content={
-								<SparkChart serie={[55, 30, 55, 45, 50, 60]} />
-							}></CardLink>
-						<CardLink
 							href={`/toutcampinas?menu=${menu}&open=${open}&set=${preSet}`}
 							title={'Tout Campinas'}
 							content={
 								<SparkChart serie={[45, 40, 55, 35, 55, 30]} />
+							}></CardLink>{' '}
+						<CardLink
+							href={`/andardecima?menu=${menu}&open=${open}&set=${preSet}`}
+							title={'Andar de Cima'}
+							content={
+								<SparkChart serie={[55, 30, 55, 45, 50, 60]} />
 							}></CardLink>
 					</div>
 				</div>

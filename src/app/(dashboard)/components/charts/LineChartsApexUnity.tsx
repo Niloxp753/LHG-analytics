@@ -61,9 +61,11 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 				borderWidth: 1,
 				foreColor: '#fafafa',
 			},
-			style: { colors: ['#7c3aed', '#fbbf24', '#115e59', '#ef4444'] },
+			style: {
+				colors: ['#7c3aed', '#2563eb', '#4f46e5', '#c026d3', '#e11d48'],
+			},
 		},
-		colors: ['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444'],
+		colors: ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9'],
 		title: {
 			text: props.title,
 			style: { fontWeight: 'normal', fontSize: '18px' },
@@ -76,7 +78,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 		},
 		markers: {
 			size: 5,
-			colors: ['#5b21b6', '#d97706', '#115e59', '#991b1b'],
+			colors: ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9'],
 			hover: { size: 8 },
 			strokeWidth: 1,
 		},

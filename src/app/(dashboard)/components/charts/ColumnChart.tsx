@@ -99,7 +99,7 @@ export default function ColumnChart(props: ColumnChartProps) {
 				series={series}
 				type='bar'
 				width={'100%'}
-				height={240}></Chart>
+				height={290}></Chart>
 		</ResponsiveContainerChart>
 	);
 }
