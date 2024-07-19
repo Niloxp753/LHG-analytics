@@ -43,7 +43,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 			onItemClick: { toggleDataSeries: false },
 		},
 		title: {
-			align: 'center',
+			align: 'left',
 			text: props.title ? props.title : 'Faturamento por unidade',
 			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 'bold' },
 			margin: 8,

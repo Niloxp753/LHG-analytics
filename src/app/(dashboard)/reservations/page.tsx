@@ -37,8 +37,8 @@ export default function Reservations({
 					</h2>
 					<HeaderReservations />
 				</div>
-				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-60'>
-					<div className='flex w-full gap-5 h-[240px]'>
+				<div className=' w-full  flex gap-5 flex-col justify-start mt-60'>
+					<div className='flex w-full gap-5 h-[280px]'>
 						<div className='h-full w-full flex items-center justify-center'>
 							<LocationsXReservs />
 						</div>

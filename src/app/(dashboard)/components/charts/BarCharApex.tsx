@@ -30,7 +30,7 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 		title: {
 			align: 'left',
 			text: props.title,
-			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 'normal' },
+			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 'bold' },
 			margin: 8,
 		},
 

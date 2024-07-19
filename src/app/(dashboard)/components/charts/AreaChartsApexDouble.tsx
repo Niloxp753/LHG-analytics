@@ -31,6 +31,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			position: 'top',
 			horizontalAlign: 'left',
 			fontSize: '16px',
+			fontWeight: 'bold',
 			onItemHover: { highlightDataSeries: true },
 			onItemClick: { toggleDataSeries: false },
 		},

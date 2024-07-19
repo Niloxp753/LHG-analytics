@@ -28,7 +28,7 @@ export default function ColumnChart(props: ColumnChartProps) {
 		title: {
 			align: 'left',
 			text: props.title,
-			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 'normal' },
+			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 'bold' },
 			margin: 8,
 		},
 		grid: {
