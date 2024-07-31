@@ -8,6 +8,7 @@ interface ColumnChartProps {
 	title: string;
 	categories?: string[];
 	data?: any[];
+	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | undefined;
 }
 
 export default function ColumnChart(props: ColumnChartProps) {
@@ -16,6 +17,7 @@ export default function ColumnChart(props: ColumnChartProps) {
 			id: 'bar-chart',
 			stacked: false,
 			type: 'bar',
+
 			foreColor: '#fafafa',
 			zoom: {
 				enabled: false,
@@ -29,7 +31,7 @@ export default function ColumnChart(props: ColumnChartProps) {
 			align: 'left',
 			text: props.title,
 			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 'bold' },
-			margin: 8,
+			margin: 4,
 		},
 		grid: {
 			borderColor: '#a78bfa',
@@ -42,16 +44,18 @@ export default function ColumnChart(props: ColumnChartProps) {
 		},
 		dataLabels: {
 			enabled: true,
-			distributed: true,
+			distributed: false,
 			background: {
 				enabled: true,
 				borderRadius: 4,
 				padding: 12,
 				borderWidth: 1,
 			},
-			style: { colors: ['#5b21b6'] },
+			style: {
+				colors: ['#7c3aed', '#2563eb', '#4f46e5', '#c026d3', '#e11d48'],
+			},
 		},
-		colors: ['#a78bfa'],
+		colors: ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9'],
 		fill: {
 			gradient: {
 				opacityFrom: 0.5,
@@ -62,7 +66,7 @@ export default function ColumnChart(props: ColumnChartProps) {
 
 		markers: {
 			size: 0,
-			colors: ['#a78bfa'],
+			colors: ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9'],
 			hover: { size: 0 },
 			strokeWidth: 0,
 		},
@@ -70,6 +74,7 @@ export default function ColumnChart(props: ColumnChartProps) {
 		xaxis: {
 			type: 'category',
 			axisBorder: { show: true },
+
 			categories: props.categories
 				? props.categories
 				: ['3 horas', '6 horas', '12 horas', 'Day Use', 'Diária', 'Pernoite'],
@@ -79,27 +84,22 @@ export default function ColumnChart(props: ColumnChartProps) {
 		plotOptions: {
 			bar: {
 				borderRadius: 4,
+				columnWidth: 40,
 				borderRadiusApplication: 'end',
 				horizontal: false,
+				rangeBarOverlap: true,
 			},
 		},
 	};
 
-	const series: ApexAxisChartSeries | ApexNonAxisChartSeries = [
-		{
-			name: 'Faturamento',
-			data: props.data ? props.data : [30, 40, 45, 50, 49, 60],
-			type: 'bar',
-		},
-	];
 	return (
 		<ResponsiveContainerChart>
 			<Chart
 				options={options}
-				series={series}
+				series={props.series}
 				type='bar'
 				width={'100%'}
-				height={220}></Chart>
+				height={240}></Chart>
 		</ResponsiveContainerChart>
 	);
 }

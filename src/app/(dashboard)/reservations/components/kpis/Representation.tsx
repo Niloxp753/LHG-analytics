@@ -11,7 +11,9 @@ export default function Representation() {
 	return (
 		<>
 			<ColumnChart
-				data={[25, 27, 29, 25, 26, 30, 29, 25, 26, 29, 26, 30]}
+				series={[
+					{ name: 'Rep De Reservas', data: [25, 27, 29, 25, 26, 30, 29, 25, 26, 29, 26, 30] },
+				]}
 				categories={[
 					'jan/2024',
 					'fav/2024',

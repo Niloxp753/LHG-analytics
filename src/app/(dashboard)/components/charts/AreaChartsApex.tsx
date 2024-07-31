@@ -9,6 +9,7 @@ interface AreaChartsApexProps {
 	legend?: string;
 	color?: string;
 	labelColor?: string;
+	categories?: string[];
 }
 
 export default function AreaChartsApex(props: AreaChartsApexProps) {
@@ -74,7 +75,9 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 
 		xaxis: {
 			axisBorder: { show: true },
-			categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
+			categories: props.categories
+				? props.categories
+				: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
 		},
 		yaxis: { show: false, labels: { show: true } },
 		stroke: { curve: 'smooth' },
