@@ -11,7 +11,7 @@ export default function TKTXLocation() {
 	return (
 		<div className='w-full'>
 			<ColumnChart
-				title={'Ticket Médio A&B Por Locação %'}
+				title={'Ticket Médio A&B Por Locação'}
 				series={[
 					{
 						name: 'Ticket Médio A&B Por Locação',
