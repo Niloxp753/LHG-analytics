@@ -11,7 +11,7 @@ export default function RevenuePercent() {
 	return (
 		<div className='w-full'>
 			<ColumnChart
-				title={'Faturamento A&B %'}
+				title={'Faturamento A&B / Faturamento Total %'}
 				series={[
 					{
 						name: 'Faturamento A&B %',

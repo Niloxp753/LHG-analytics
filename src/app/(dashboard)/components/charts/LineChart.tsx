@@ -1,0 +1,135 @@
+/** @format */
+
+'use client';
+import Chart from 'react-apexcharts';
+import ResponsiveContainerChart from '../ResponsiveContainerChart';
+
+interface AreaChartsApexProps {
+	title: string;
+	categories?: string[];
+	data?: any[];
+	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | undefined;
+	height: string | number | undefined;
+}
+
+export default function LineChartsApexUnity(props: AreaChartsApexProps) {
+	const options: ApexCharts.ApexOptions = {
+		chart: {
+			id: 'line-bar',
+			stacked: false,
+			width: '90%',
+			type: 'line',
+			foreColor: '#fafafa',
+			zoom: {
+				enabled: false,
+			},
+			toolbar: {
+				autoSelected: 'pan',
+				show: false,
+			},
+		},
+		legend: {
+			showForSingleSeries: true,
+			position: 'top',
+			horizontalAlign: 'center',
+			fontSize: '14x',
+			fontWeight: 'bold',
+			onItemHover: { highlightDataSeries: true },
+			onItemClick: { toggleDataSeries: false },
+			itemMargin: {
+				vertical: 8,
+			},
+		},
+		grid: {
+			borderColor: 'rgba(255,255,255,0.2)',
+			xaxis: {
+				lines: {
+					show: true,
+				},
+			},
+			show: true,
+			yaxis: {
+				lines: {
+					show: true,
+				},
+			},
+		},
+		dataLabels: {
+			enabled: false,
+			distributed: false,
+			background: {
+				enabled: true,
+				borderRadius: 4,
+				padding: 12,
+				borderWidth: 1,
+				foreColor: '#fafafa',
+			},
+			style: {
+				colors: [
+					'#7c3aed',
+					'#2563eb',
+					'#4f46e5',
+					'#c026d3',
+					'#e11d48',
+					'#ea580c',
+					'#ca8a04',
+					'#65a30d',
+				],
+			},
+		},
+		colors: [
+			'#a78bfa',
+			'#60a5fa',
+			'#818cf8',
+			'#e879f9',
+			'#fb7185',
+			'#fb923c',
+			'#facc15',
+			'#a3e635',
+		],
+		title: {
+			text: props.title,
+			style: { fontWeight: 'bold', fontSize: '18px' },
+		},
+		fill: {
+			gradient: {
+				opacityFrom: 0.5,
+				opacityTo: 0.2,
+			},
+		},
+		markers: {
+			size: 5,
+			colors: [
+				'#7c3aed',
+				'#2563eb',
+				'#4f46e5',
+				'#c026d3',
+				'#e11d48',
+				'#ea580c',
+				'#ca8a04',
+				'#65a30d',
+			],
+			hover: { size: 8 },
+			strokeWidth: 1,
+		},
+
+		xaxis: {
+			axisBorder: { show: true },
+			categories: props.categories,
+		},
+		yaxis: { show: true, labels: { show: true }, axisBorder: { show: true } },
+		stroke: { curve: 'smooth', width: 2 },
+		plotOptions: { area: { fillTo: 'end' } },
+	};
+
+	return (
+		<ResponsiveContainerChart>
+			<Chart
+				options={options}
+				series={props.series}
+				type='line'
+				width={'100%'}
+				height={props.height}></Chart>
+		</ResponsiveContainerChart>
+	);
+}

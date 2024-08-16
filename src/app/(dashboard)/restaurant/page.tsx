@@ -1,13 +1,12 @@
 /** @format */
 
-import { TableReservs } from '../components/kpis/TableReservs';
-import CategoriesXReservs from '../reservations/components/kpis/CategoriesXReservs';
-import InvoicingXChannel from '../reservations/components/kpis/InvoicingXChannel';
-import InvoicingXReservs from '../reservations/components/kpis/InvoicingXReservs';
-import InvoicingXTypes from '../reservations/components/kpis/InvoicingXTypes';
-import Representation from '../reservations/components/kpis/Representation';
 import HeaderRestaurants from './components/HeaderRestaurants';
+import { AReports } from './components/kpis/AReports';
+import { BReports } from './components/kpis/BReports';
+import CategoryA from './components/kpis/CategoryA';
+import CategoryB from './components/kpis/CategoryB';
 import CMV from './components/kpis/cmv';
+import { CReports } from './components/kpis/CReports';
 import { MinusSell } from './components/kpis/MinusSell';
 import { MostSell } from './components/kpis/MostSell';
 import RevenueABXCost from './components/kpis/revenueABXCost';
@@ -58,8 +57,15 @@ export default function Restaurant({
 							<MinusSell />
 						</div>
 					</div>
-					<div className=''>
+					<div className='flex flex-col gap-5 mb-5'>
 						<RevenueXGroup />
+						<CategoryA />
+						<CategoryB />
+						<div className='flex items-start gap-5'>
+							<BReports />
+							<CReports />
+						</div>
+						<AReports />
 					</div>
 				</div>
 			</div>

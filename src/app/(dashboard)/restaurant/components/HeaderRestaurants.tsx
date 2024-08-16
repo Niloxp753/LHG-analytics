@@ -133,7 +133,7 @@ export default function HeaderRestaurants() {
 					}`}
 					type='money'
 					icon={<SquarePercent />}
-					title={'Ticket Médio'}
+					title={'Ticket Médio A&B'}
 					value={860}
 				/>
 
@@ -155,7 +155,7 @@ export default function HeaderRestaurants() {
 						preSet == '12months' ? '12 meses atrás ' : ''
 					}`}
 					icon={<DiamondPercent />}
-					title={'TKT Médio de A&B Por Locação'}
+					title={'TKT Médio A&B / Locação'}
 					value={22}
 				/>
 			</div>

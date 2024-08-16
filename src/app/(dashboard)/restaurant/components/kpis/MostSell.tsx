@@ -61,6 +61,31 @@ const data = [
 		items: 'Risoto De Camarão',
 		sells: 87,
 	},
+	{
+		id: 11,
+		items: 'MIX DE BRUSCHETTAS',
+		sells: 84,
+	},
+	{
+		id: 12,
+		items: 'PICANHA (CORTES ESPECIAIS)',
+		sells: 77,
+	},
+	{
+		id: 13,
+		items: 'FRANGO CROCANTE',
+		sells: 80,
+	},
+	{
+		id: 14,
+		items: 'CEVICHE',
+		sells: 74,
+	},
+	{
+		id: 15,
+		items: 'QUADRADINHOS DE TAPIOCA',
+		sells: 72,
+	},
 ];
 
 export function MostSell() {
@@ -77,7 +102,7 @@ export function MostSell() {
 					<TableRow
 						key={invoice.id}
 						className='text-center'>
-						<TableCell className='font-bold text-left'>
+						<TableCell className='font-bold text-left capitalize'>
 							{invoice.items}
 						</TableCell>
 						<TableCell>{invoice.sells}</TableCell>

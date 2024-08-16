@@ -31,7 +31,7 @@ export default function CardDetails({
 	return (
 		<Card className='text-zinc-50 w-full h-fit border-none bg-gradient-to-br from-zinc-800 to-zinc-900 '>
 			<CardHeader>
-				<CardTitle className='text-base flex items-center justify-between'>
+				<CardTitle className='text-sm flex items-center justify-between'>
 					{title}
 					{icon}
 				</CardTitle>

@@ -61,6 +61,31 @@ const data = [
 		items: 'Cafe Brunch',
 		sells: 40,
 	},
+	{
+		id: 11,
+		items: 'MINI CHURROS COM DOCE DE LEITE',
+		sells: 49,
+	},
+	{
+		id: 12,
+		items: 'RAVIOLI DE TRES QUEIJOS',
+		sells: 53,
+	},
+	{
+		id: 13,
+		items: 'FRALDINHA',
+		sells: 56,
+	},
+	{
+		id: 14,
+		items: 'STEAK TARTARE COM CHIPS DE BATATA DOCE',
+		sells: 61,
+	},
+	{
+		id: 15,
+		items: 'TABUA DE FRIOS',
+		sells: 62,
+	},
 ];
 
 export function MinusSell() {
@@ -77,7 +102,7 @@ export function MinusSell() {
 					<TableRow
 						key={invoice.id}
 						className='text-center'>
-						<TableCell className='font-bold text-left'>
+						<TableCell className='font-bold text-left capitalize'>
 							{invoice.items}
 						</TableCell>
 						<TableCell>{invoice.sells}</TableCell>

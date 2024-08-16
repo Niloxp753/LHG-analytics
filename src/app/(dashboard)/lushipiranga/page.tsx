@@ -40,10 +40,8 @@ export default function LushIpiranga({
 				</div>
 				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-60'>
 					<div className='flex w-full gap-5 h-full'>
-						<div className='h-full w-1/2 flex items-center justify-center'>
+						<div className='h-full w-full flex flex-col gap-5 items-center justify-center'>
 							<InvoicingXLocation />
-						</div>
-						<div className='w-1/2'>
 							<Invoicing />
 						</div>
 					</div>
@@ -58,11 +56,11 @@ export default function LushIpiranga({
 							<RevPar />
 						</div>
 					</div>
-					<div className='flex gap-5 items-center'>
+					<div className='flex gap-5 flex-col items-center'>
 						<Ticket />
 						<TRevPar />
 					</div>
-					<div className='flex h-full w-full gap-5'>
+					<div className='flex flex-col  h-full w-full gap-5'>
 						<Occupation />
 						<OccupationCasaLush />
 					</div>

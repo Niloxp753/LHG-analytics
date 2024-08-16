@@ -1,0 +1,94 @@
+/** @format */
+
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableFooter,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from '@/components/ui/table';
+
+const data = [
+	{
+		id: 1,
+		items: 'PRODUTOS EROTICOS',
+		revenue: 59306,
+		revenuePercent: '35,16%',
+		quantity: 6048,
+		quantityPercent: '73,63%',
+	},
+	{
+		id: 2,
+		items: 'CONVENIENCIA E HIGIENE',
+		revenue: 22125,
+		revenuePercent: '13,12%',
+		quantity: 6048,
+		quantityPercent: '73,63%',
+	},
+	{
+		id: 3,
+		items: 'ITENS EXTRAS',
+		revenue: 11313,
+		revenuePercent: '6,71%',
+		quantity: 6048,
+		quantityPercent: '73,63%',
+	},
+	{
+		id: 4,
+		items: 'RESERVAS',
+		revenue: 13852,
+		revenuePercent: '8,21%',
+		quantity: 6048,
+		quantityPercent: '73,63%',
+	},
+	{
+		id: 5,
+		items: 'SOUVENIR',
+		revenue: 17286,
+		revenuePercent: '10,25%',
+		quantity: 6048,
+		quantityPercent: '73,63%',
+	},
+];
+
+export function CReports() {
+	return (
+		<Table className='mt-5 bg-zinc-900 rounded-lg'>
+			<TableHeader className='bg-violet-900 rounded-lg'>
+				<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
+					<TableHead>Relatório de Produtos Adicionais</TableHead>
+					<TableHead className='text-center'>Receita</TableHead>{' '}
+					<TableHead className='text-center'>% Receita</TableHead>
+					<TableHead className='text-center'>QNTD</TableHead>{' '}
+					<TableHead className='text-center'>% QNTD</TableHead>{' '}
+				</TableRow>
+			</TableHeader>
+			<TableBody className='text-zinc-100'>
+				{data.map((invoice) => (
+					<TableRow
+						key={invoice.id}
+						className='text-center'>
+						<TableCell className='font-bold text-left capitalize'>
+							{invoice.items}
+						</TableCell>
+						<TableCell>{invoice.revenue}</TableCell>{' '}
+						<TableCell>{invoice.revenuePercent}</TableCell>{' '}
+						<TableCell>{invoice.quantity}</TableCell>{' '}
+						<TableCell>{invoice.quantityPercent}</TableCell>
+					</TableRow>
+				))}
+			</TableBody>
+			<TableFooter className='w-full text-white bg-zinc-700 text-center font-bold'>
+				<TableRow>
+					<TableCell>Total</TableCell>
+					<TableCell>R$ 168.670,00</TableCell>
+					<TableCell>40,36%</TableCell>
+					<TableCell className=''>8412</TableCell>{' '}
+					<TableCell className=''>100%</TableCell>
+				</TableRow>
+			</TableFooter>
+		</Table>
+	);
+}

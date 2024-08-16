@@ -149,7 +149,7 @@ export function TableKpiOccupation() {
 			</TableBody>
 			<TableFooter className=' text-zinc-100 bg-zinc-700 font-bold hover:bg-zinc-700'>
 				<TableRow className='text-center hover:bg-zinc-700'>
-					<TableCell className=' w-1/5 text-left'>Total Occupation</TableCell>
+					<TableCell className=' w-1/5 text-left'>Total</TableCell>
 					<TableCell>1.15</TableCell>
 					<TableCell>1.09</TableCell>
 					<TableCell>1.32</TableCell>

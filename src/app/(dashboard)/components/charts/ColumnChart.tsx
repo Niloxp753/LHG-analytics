@@ -84,7 +84,7 @@ export default function ColumnChart(props: ColumnChartProps) {
 		plotOptions: {
 			bar: {
 				borderRadius: 4,
-				columnWidth: 40,
+				columnWidth: 28,
 				borderRadiusApplication: 'end',
 				horizontal: false,
 				rangeBarOverlap: true,
