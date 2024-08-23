@@ -5,7 +5,7 @@ import { AReports } from './components/kpis/AReports';
 import { BReports } from './components/kpis/BReports';
 import CategoryA from './components/kpis/CategoryA';
 import CategoryB from './components/kpis/CategoryB';
-import CMV from '@/app/(dashboard)/restaurant/components/kpis/CMV';
+import CMV from './components/kpis/CMV';
 import CoustDayXWorker from './components/kpis/CoustDayXWorker';
 import CoustXAB from './components/kpis/CoustXAB';
 import CoustXWorker from './components/kpis/CoustXWorker';
