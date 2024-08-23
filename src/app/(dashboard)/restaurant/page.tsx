@@ -5,7 +5,6 @@ import { AReports } from './components/kpis/AReports';
 import { BReports } from './components/kpis/BReports';
 import CategoryA from './components/kpis/CategoryA';
 import CategoryB from './components/kpis/CategoryB';
-import CMV from './components/kpis/CMV';
 import CoustDayXWorker from './components/kpis/CoustDayXWorker';
 import CoustXAB from './components/kpis/CoustXAB';
 import CoustXWorker from './components/kpis/CoustXWorker';
@@ -17,6 +16,7 @@ import RevenuePercent from './components/kpis/RevenuePercent';
 import RevenueXGroup from './components/kpis/RevenueXGroup';
 import TKTXLocation from './components/kpis/TKTXLocation';
 import CardDetails from '../components/CardDetails';
+import CMV from './components/kpis/CMV';
 
 export default function Restaurant({
 	searchParams,
