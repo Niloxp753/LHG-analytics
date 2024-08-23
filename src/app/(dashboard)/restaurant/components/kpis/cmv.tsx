@@ -11,8 +11,13 @@ export default function CMV() {
 	return (
 		<div className='w-full'>
 			<AreaChartsApex
-				legend={'Custo Da Mercadoria Vendida (CMV)'}
-				serie={[44, 55, 57, 56, 61, 58, 63, 60, 66, 55, 57, 56]}
+				legend={'Custo Por Mercadoria Vendida'}
+				series={[
+					{
+						name: 'CMV',
+						data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 55, 57, 56],
+					},
+				]}
 				categories={[
 					'jan/24',
 					'fev/24',

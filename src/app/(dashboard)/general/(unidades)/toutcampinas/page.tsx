@@ -1,22 +1,23 @@
 /** @format */
 
 import { Crown, Cylinder, Database, DatabaseZap } from 'lucide-react';
-import CardDetails from '../components/CardDetails';
-import Header from '../components/Header';
-import Invoicing from '../components/kpis/Invoicing';
-import Categories from '../components/kpis/InvoicingXCategories';
-import InvoicingXLocation from '../components/kpis/InvoicingXLocation';
-import Locations from '../components/kpis/Locations';
-import Occupation from '../components/kpis/Occupation';
-import OccupationCasaLush from '../components/kpis/OccupationCasaLush';
-import RevPar from '../components/kpis/RevPar';
-import TRevPar from '../components/kpis/TRevPar';
-import Ticket from '../components/kpis/Ticket';
-import { TableKpiCategory } from '../components/kpis/TableKpiCategory';
-import { TableKpiGiro } from '../components/kpis/TableKpiGiro';
-import { TableKpiOccupation } from '../components/kpis/TableKpiOccupation';
+import CardDetails from '@/app/(dashboard)/components/CardDetails';
+import Header from '@/app/(dashboard)/components/Header';
+import Invoicing from '@/app/(dashboard)/components/kpis/Invoicing';
+import Categories from '@/app/(dashboard)/components/kpis/InvoicingXCategories';
+import InvoicingXLocation from '@/app/(dashboard)/components/kpis/InvoicingXLocation';
+import Locations from '@/app/(dashboard)/components/kpis/Locations';
+import Occupation from '@/app/(dashboard)/components/kpis/Occupation';
+import OccupationCasaLush from '@/app/(dashboard)/components/kpis/OccupationCasaLush';
+import RevPar from '@/app/(dashboard)/components/kpis/RevPar';
+import TRevPar from '@/app/(dashboard)/components/kpis/TRevPar';
 
-export default function LushGuaruja({
+import { TableKpiGiro } from '@/app/(dashboard)/components/kpis/TableKpiGiro';
+import { TableKpiOccupation } from '@/app/(dashboard)/components/kpis/TableKpiOccupation';
+import Ticket from '@/app/(dashboard)/components/kpis/Ticket';
+import { TableKpiCategory } from '@/app/(dashboard)/components/kpis/TableKpiCategory';
+
+export default function ToutCampinas({
 	searchParams,
 }: {
 	searchParams: { [key: string]: string | string[] | undefined };
@@ -34,11 +35,12 @@ export default function LushGuaruja({
 						open == 'true' ? 'w-[82vw]' : 'w-[90vw] '
 					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-2 justify-end `}>
 					<h2 className='text-zinc-50 font-bold text-3xl'>
-						Unidade <span className='text-violet-400'>Lush Guarujá</span>
+						Geral - Unidade{' '}
+						<span className='text-violet-400'>Tout Campinas</span>
 					</h2>
 					<Header />
 				</div>
-				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-60'>
+				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-52'>
 					<div className='flex w-full gap-5 h-full'>
 						<div className='h-full w-1/2 flex items-center justify-center'>
 							<InvoicingXLocation />
@@ -97,7 +99,7 @@ export default function LushGuaruja({
 							/>
 						</div>
 					</div>
-					<div className='flex gap-5'>
+					<div className='flex gap-5 flex-col'>
 						<TableKpiGiro />
 						<TableKpiOccupation />
 					</div>

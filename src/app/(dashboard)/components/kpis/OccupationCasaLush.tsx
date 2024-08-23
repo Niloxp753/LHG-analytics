@@ -12,9 +12,28 @@ export default function OccupationCasaLush() {
 		<>
 			<AreaChartsApex
 				legend='Tx de Ocupação - Casa Lush'
-				serie={[50, 65, 55, 75, 65, 60, 75]}
+				series={[
+					{
+						data: [50, 65, 55, 75, 65, 60, 75, 55, 75, 65, 75, 55],
+						name: 'Taxa de Ocupação - Casa Lush',
+					},
+				]}
 				color='#2dd4bf'
 				labelColor='#115e59'
+				categories={[
+					'jan/24',
+					'fev/24',
+					'mar/24',
+					'abr/24',
+					'mai/24',
+					'jun/24',
+					'jul/24',
+					'ago/24',
+					'set/24',
+					'out/24',
+					'nov/24',
+					'dez/24',
+				]}
 			/>
 		</>
 	);

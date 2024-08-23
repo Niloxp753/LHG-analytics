@@ -5,7 +5,10 @@ import { AReports } from './components/kpis/AReports';
 import { BReports } from './components/kpis/BReports';
 import CategoryA from './components/kpis/CategoryA';
 import CategoryB from './components/kpis/CategoryB';
-import CMV from './components/kpis/cmv';
+import CMV from '@/app/(dashboard)/restaurant/components/kpis/CMV';
+import CoustDayXWorker from './components/kpis/CoustDayXWorker';
+import CoustXAB from './components/kpis/CoustXAB';
+import CoustXWorker from './components/kpis/CoustXWorker';
 import { CReports } from './components/kpis/CReports';
 import { MinusSell } from './components/kpis/MinusSell';
 import { MostSell } from './components/kpis/MostSell';
@@ -13,6 +16,7 @@ import RevenueABXCost from './components/kpis/revenueABXCost';
 import RevenuePercent from './components/kpis/RevenuePercent';
 import RevenueXGroup from './components/kpis/RevenueXGroup';
 import TKTXLocation from './components/kpis/TKTXLocation';
+import CardDetails from '../components/CardDetails';
 
 export default function Restaurant({
 	searchParams,
@@ -45,7 +49,7 @@ export default function Restaurant({
 					<div className='h-full w-full flex items-center justify-center'>
 						<CMV />
 					</div>
-					<div className='gap-5 h-fit w-full flex justify-between '>
+					<div className='gap-5 h-fit w-full flex justify-between flex-col xl:flex-row'>
 						<RevenuePercent />
 						<TKTXLocation />
 					</div>
@@ -66,6 +70,40 @@ export default function Restaurant({
 							<CReports />
 						</div>
 						<AReports />
+						<div className='flex flex-col gap-5'>
+							<h2 className='text-zinc-50 font-bold text-2xl mt-10'>
+								Gastos E Custos Gerais
+							</h2>
+							<CoustDayXWorker />
+							<CoustXWorker />
+							<div className='flex-col xl:flex-row flex gap-5'>
+								<div className='w-full'>
+									<CoustXAB />
+								</div>
+								<div className='xl:w-1/3 flex xl:flex-col justify-between gap-5'>
+									<CardDetails
+										title={'Compras Enxoval A&B - 2023'}
+										value={'R$44.554'}
+										icon={undefined}
+									/>
+									<CardDetails
+										title={'Compras Enxoval A&B - 2024'}
+										value={'R$15.948'}
+										icon={undefined}
+									/>
+									<CardDetails
+										title={'Compras Utensílios - 2023'}
+										value={'R$20.083'}
+										icon={undefined}
+									/>
+									<CardDetails
+										title={'Compras Utensílios - 2024'}
+										value={'R$1.943'}
+										icon={undefined}
+									/>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

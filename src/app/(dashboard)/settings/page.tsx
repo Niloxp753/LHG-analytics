@@ -1,7 +1,6 @@
 /** @format */
 
 import { getServerSession } from 'next-auth';
-import { TableUser } from './components/tableUser';
 import { DataTableDemo } from './components/dataTable';
 
 export default async function Page({

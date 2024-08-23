@@ -5,7 +5,7 @@ import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
 
 interface AreaChartsApexProps {
-	serie?: number[];
+	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | undefined;
 	legend?: string;
 	color?: string;
 	labelColor?: string;
@@ -84,21 +84,14 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 		plotOptions: { area: { fillTo: 'end' } },
 	};
 
-	const series: ApexAxisChartSeries = [
-		{
-			name: props.legend || 'Faturamento',
-			data: props.serie || [30, 40, 45, 50, 49, 60, 70, 91],
-			type: 'area',
-		},
-	];
 	return (
 		<ResponsiveContainerChart>
 			<Chart
 				options={options}
-				series={series}
+				series={props.series}
 				type='area'
 				width={'100%'}
-				height={240}></Chart>
+				height={260}></Chart>
 		</ResponsiveContainerChart>
 	);
 }

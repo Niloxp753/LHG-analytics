@@ -34,7 +34,7 @@ export default function General({
 						open == 'true' ? 'w-[82vw]' : 'w-[90vw] '
 					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-5 justify-end `}>
 					<h2 className='text-zinc-50 font-bold text-3xl'>
-						Visão <span className='text-violet-400'>Geral</span>
+						Visão<span className='text-violet-400'>Geral</span>
 					</h2>
 					<Header />
 				</div>
@@ -61,25 +61,25 @@ export default function General({
 					</div>
 					<div className='grid grid-cols-4 mt-10 gap-5'>
 						<CardLink
-							href={`/lushipiranga?menu=${menu}&open=${open}&set=${preSet}`}
+							href={`/general/lushipiranga?menu=${menu}&open=${open}&set=${preSet}`}
 							title={'Lush Ipiranga'}
 							content={
 								<SparkChart serie={[35, 40, 55, 45, 50, 40]} />
 							}></CardLink>
 						<CardLink
-							href={`/lushguaruja?menu=${menu}&open=${open}&set=${preSet}`}
+							href={`/general/lushguaruja?menu=${menu}&open=${open}&set=${preSet}`}
 							title={'Lush Guarujá'}
 							content={
 								<SparkChart serie={[45, 30, 55, 35, 60, 40]} />
 							}></CardLink>
 						<CardLink
-							href={`/toutcampinas?menu=${menu}&open=${open}&set=${preSet}`}
+							href={`/general/toutcampinas?menu=${menu}&open=${open}&set=${preSet}`}
 							title={'Tout Campinas'}
 							content={
 								<SparkChart serie={[45, 40, 55, 35, 55, 30]} />
 							}></CardLink>{' '}
 						<CardLink
-							href={`/andardecima?menu=${menu}&open=${open}&set=${preSet}`}
+							href={`/general/andardecima?menu=${menu}&open=${open}&set=${preSet}`}
 							title={'Andar de Cima'}
 							content={
 								<SparkChart serie={[55, 30, 55, 45, 50, 60]} />

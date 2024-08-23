@@ -10,7 +10,15 @@ const AreaChartsApex = dynamic(
 export default function Invoicing() {
 	return (
 		<>
-			<AreaChartsApex legend='Faturamento Total' />
+			<AreaChartsApex
+				series={[
+					{
+						data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 55, 57, 56],
+						name: 'Faturamento Total',
+					},
+				]}
+				legend='Faturamento Total'
+			/>
 		</>
 	);
 }
