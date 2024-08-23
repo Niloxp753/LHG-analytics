@@ -16,7 +16,7 @@ import RevenuePercent from './components/kpis/RevenuePercent';
 import RevenueXGroup from './components/kpis/RevenueXGroup';
 import TKTXLocation from './components/kpis/TKTXLocation';
 import CardDetails from '../components/CardDetails';
-import CMV from './components/kpis/CMV';
+import Cmv from './components/kpis/cmv';
 
 export default function Restaurant({
 	searchParams,
@@ -47,7 +47,7 @@ export default function Restaurant({
 						</div>
 					</div>
 					<div className='h-full w-full flex items-center justify-center'>
-						<CMV />
+						<Cmv />
 					</div>
 					<div className='gap-5 h-fit w-full flex justify-between flex-col xl:flex-row'>
 						<RevenuePercent />

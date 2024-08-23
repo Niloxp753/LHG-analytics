@@ -1,5 +1,7 @@
 /** @format */
 
+
+'use client';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const AreaChartsApex = dynamic(
@@ -7,7 +9,7 @@ const AreaChartsApex = dynamic(
 	{ ssr: false },
 );
 
-export default function CMV() {
+export default function Cmv() {
 	return (
 		<div className='w-full'>
 			<AreaChartsApex
