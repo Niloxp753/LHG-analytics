@@ -40,7 +40,7 @@ export default function HeaderReservations() {
 					<></>
 				) : (
 					<Link
-						href={`/general?menu=${selected}&open=${openned}&set=${preSet}`}
+						href={`/reservations?menu=${selected}&open=${openned}&set=${preSet}`}
 						className='text-zinc-50 border flex gap-2 border-violet-400 py-1 px-3 rounded transition-all duration-300 ease-linear hover:bg-violet-400 hover:text-zinc-900 font-semibold text-sm items-center'>
 						<ArrowLeftToLine size={20} />
 						Voltar
