@@ -5,21 +5,18 @@ import {
 	Activity,
 	AlarmClockCheck,
 	ArrowLeftToLine,
-	ArrowRightToLine,
 	ChevronsDown,
 	ChevronsUp,
 	DoorClosed,
 	HandCoins,
-	PanelTopClose,
-	PanelTopOpen,
 	Sigma,
 	SquarePercent,
 } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 import CardDetails from './CardDetails';
 import MenuFilter from './MenuFilter';
-import Link from 'next/link';
-import { useSearchParams, usePathname } from 'next/navigation';
-import { useState } from 'react';
 
 export default function Header() {
 	const searchParams = useSearchParams();
@@ -30,9 +27,9 @@ export default function Header() {
 	const [openMenu, setOpenMenu] = useState(true);
 
 	return (
-		<div className='flex ml-auto flex-col gap-2 w-full pt-1 pb-1 '>
+		<div className='flex ml-auto flex-col gap-0 md:gap-5 w-full pt-1 pb-1 '>
 			<div
-				className={`ml-auto flex gap-5  items-center w-full ${
+				className={`ml-auto flex gap-5 items-center w-full ${
 					pathname == '/general' ? 'justify-end' : 'justify-between'
 				} `}>
 				{pathname == '/general' ? (
@@ -62,7 +59,7 @@ export default function Header() {
 							/>
 						)}
 					</div>
-					<div className='flex items-center gap-5 text-zinc-100 w-full text-sm'>
+					<div className='md:flex items-center gap-5 text-zinc-100 w-full text-sm hidden'>
 						<Link
 							href={`?menu=${selected}&open=${openned}&set=7days`}
 							className={`w-fit  cursor-pointer  border flex gap-2 ${
@@ -100,13 +97,17 @@ export default function Header() {
 							Últimos 12 meses
 						</Link>
 					</div>
-					<MenuFilter />
+					<div className='hidden md:flex'>
+						<MenuFilter />
+					</div>
 				</div>
 			</div>
 			<div
 				className={`${
-					!openMenu ? 'hidden' : 'flex'
-				} justify-between  items-center gap-5 w-full `}>
+					!openMenu
+						? 'hidden'
+						: 'md:flex md:flex-row grid h-[84vh] md:h-full grid-cols-2'
+				} justify-between items-center gap-2 w-full px-1  `}>
 				<CardDetails
 					description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
 						preSet == '30days' ? '30 dias atrás ' : ''

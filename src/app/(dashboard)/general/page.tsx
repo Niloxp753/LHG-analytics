@@ -33,25 +33,25 @@ export default function General({
 					className={`bg-zinc-950/50 py-4 ${
 						open == 'true' ? 'w-[82vw]' : 'w-[90vw] '
 					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-5 justify-end `}>
-					<h2 className='text-zinc-50 font-bold text-3xl'>
-						Visão<span className='text-violet-400'>Geral</span>
+					<h2 className='text-zinc-50 font-bold text-3xl text-center md:text-start'>
+						Visão<span className='text-violet-400'> {''}Geral</span>
 					</h2>
 					<Header />
 				</div>
 				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-64'>
-					<div className='flex gap-5'>
-						<div className='w-1/3'>
+					<div className='flex gap-5 flex-col md:flex-row'>
+						<div className='md:w-1/3'>
 							<InvoicingXUnity />
 						</div>
-						<div className='w-2/3'>
+						<div className='md:w-2/3'>
 							<LocationsxUnity />
 						</div>
 					</div>
-					<div className='flex gap-5'>
-						<div className='w-1/2'>
+					<div className='flex gap-5 flex-col md:flex-row'>
+						<div className='md:w-1/2'>
 							<TKTxUnity />
 						</div>
-						<div className='w-1/2'>
+						<div className='md:w-1/2'>
 							<TRevParXUnity />
 						</div>
 					</div>
@@ -59,30 +59,30 @@ export default function General({
 						<InvoicingXUnityXTime />
 						<OccupationXUnity />
 					</div>
-					<div className='grid grid-cols-4 mt-10 gap-5'>
+					<div className='grid md:grid-cols-4 mt-10 gap-5'>
 						<CardLink
 							href={`/general/lushipiranga?menu=${menu}&open=${open}&set=${preSet}`}
 							title={'Lush Ipiranga'}
 							content={
-								<SparkChart serie={[35, 40, 55, 45, 50, 40]} />
+								<SparkChart serie={[35, 40, 55, 45, 50, 40, 55, 45, 50]} />
 							}></CardLink>
 						<CardLink
 							href={`/general/lushguaruja?menu=${menu}&open=${open}&set=${preSet}`}
 							title={'Lush Guarujá'}
 							content={
-								<SparkChart serie={[45, 30, 55, 35, 60, 40]} />
+								<SparkChart serie={[45, 30, 55, 55, 45, 50, 35, 60, 40]} />
 							}></CardLink>
 						<CardLink
 							href={`/general/toutcampinas?menu=${menu}&open=${open}&set=${preSet}`}
 							title={'Tout Campinas'}
 							content={
-								<SparkChart serie={[45, 40, 55, 35, 55, 30]} />
+								<SparkChart serie={[45, 40, 55, 45, 30, 55, 35, 55, 30]} />
 							}></CardLink>{' '}
 						<CardLink
 							href={`/general/andardecima?menu=${menu}&open=${open}&set=${preSet}`}
 							title={'Andar de Cima'}
 							content={
-								<SparkChart serie={[55, 30, 55, 45, 50, 60]} />
+								<SparkChart serie={[55, 30, 55, 45, 50, 60, 55, 35, 55]} />
 							}></CardLink>
 					</div>
 				</div>
