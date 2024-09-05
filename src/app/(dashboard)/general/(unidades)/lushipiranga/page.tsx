@@ -24,17 +24,18 @@ export default function LushIpiranga({
 	const open = searchParams.open || 'true';
 	const menu = searchParams.menu;
 	return (
-		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-5 py-10'>
+		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-3 md:px-5 py-10'>
 			<div
-				className={`relative w-full ${
-					open == 'true' ? 'max-w-[82vw]' : 'max-w-[90vw]'
-				}  ml-auto flex `}>
+				className={`relative  ${
+					open == 'true' ? 'md:max-w-[82vw]' : 'md:max-w-[90vw]'
+				}  md:ml-auto flex w-full`}>
 				<div
 					className={`bg-zinc-950/50 py-4 ml-auto ${
 						open == 'true' ? 'w-[82vw]' : 'w-[90vw] '
 					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-2 justify-end `}>
 					<h2 className='text-zinc-50 font-bold text-3xl'>
-						Geral - Unidade <span className='text-violet-400'>Lush Ipiranga</span>
+						Geral - Unidade{' '}
+						<span className='text-violet-400'>Lush Ipiranga</span>
 					</h2>
 					<Header />
 				</div>
@@ -45,14 +46,13 @@ export default function LushIpiranga({
 							<Invoicing />
 						</div>
 					</div>
-					<div className='gap-5 h-fit w-full flex justify-between '>
-						<div className='w-1/3'>
+					<div className='gap-5 h-fit w-full flex flex-col md:flex-row justify-between '>
+						<div className='md:w-1/3'>
 							<Categories />
 						</div>
 
-						<div className='w-2/3 h-full flex gap-5 justify-between flex-col '>
+						<div className='md:w-2/3 h-full flex gap-5 justify-between flex-col '>
 							<Locations />
-
 							<RevPar />
 						</div>
 					</div>
@@ -64,11 +64,11 @@ export default function LushIpiranga({
 						<Occupation />
 						<OccupationCasaLush />
 					</div>
-					<div className='w-full h-full flex items-baseline justify-between'>
-						<div className='w-2/3'>
+					<div className='w-full h-full flex-col gap-5 md:flex-row flex items-baseline justify-between'>
+						<div className='md:w-2/3 w-full'>
 							<TableKpiCategory />
 						</div>
-						<div className='w-1/4 flex flex-col h-full justify-between gap-5'>
+						<div className='md:w-1/4 flex w-full flex-col h-full justify-between gap-5'>
 							<CardDetails
 								title={'Econômicas'}
 								value={'37%'}
@@ -95,7 +95,7 @@ export default function LushIpiranga({
 							/>
 						</div>
 					</div>
-					<div className='flex gap-5 flex-col'>
+					<div className='flex gap-5 flex-col w-full'>
 						<TableKpiGiro />
 						<TableKpiOccupation />
 					</div>

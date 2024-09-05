@@ -27,9 +27,9 @@ export default function Header() {
 	const [openMenu, setOpenMenu] = useState(true);
 
 	return (
-		<div className='flex ml-auto flex-col gap-0 md:gap-5 w-full pt-1 pb-1 '>
+		<div className='flex mx-auto md:ml-auto flex-col gap-0 md:gap-5 w-full pt-1 pb-1 px-2 md:px-0'>
 			<div
-				className={`ml-auto flex gap-5 items-center w-full ${
+				className={`md:ml-auto mx-auto  flex gap-5 items-center w-full ${
 					pathname == '/general' ? 'justify-end' : 'justify-between'
 				} `}>
 				{pathname == '/general' ? (
@@ -46,7 +46,7 @@ export default function Header() {
 				<div className={`flex gap-5 items-center `}>
 					<div
 						onClick={() => setOpenMenu(!openMenu)}
-						className='absolute text-white rounded -bottom-5 left-0 flex bg-zinc-800 hover:bg-zinc-700 transition-all ease-linear duration-300 cursor-pointer w-full py-1'>
+						className='absolute text-white rounded bottom-1 md:-bottom-5 left-0 flex bg-zinc-800 hover:bg-zinc-700 transition-all ease-linear duration-300 cursor-pointer w-full py-1'>
 						{openMenu ? (
 							<ChevronsUp
 								className='mx-auto'
@@ -106,8 +106,8 @@ export default function Header() {
 				className={`${
 					!openMenu
 						? 'hidden'
-						: 'md:flex md:flex-row grid h-[84vh] md:h-full grid-cols-2'
-				} justify-between items-center gap-2 w-full px-1  `}>
+						: 'md:flex md:flex-row grid h-[86vh] md:h-full grid-cols-2'
+				} justify-between items-start gap-2 w-full px-1  `}>
 				<CardDetails
 					description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
 						preSet == '30days' ? '30 dias atrás ' : ''

@@ -29,9 +29,9 @@ export default function CardDetails({
 	description,
 }: CardDetailsProps) {
 	return (
-		<Card className='text-zinc-50 w-full h-fit border-none bg-gradient-to-br from-zinc-800 to-zinc-900 '>
+		<Card className='text-zinc-50 w-full h-[24vh] md:h-fit border-none bg-gradient-to-br from-zinc-800 to-zinc-900 '>
 			<CardHeader>
-				<CardTitle className='text-sm flex items-center justify-between'>
+				<CardTitle className='text-sm flex md:items-center justify-between flex-col-reverse md:flex-row gap-5'>
 					{title}
 					{icon}
 				</CardTitle>

@@ -24,23 +24,23 @@ export default function General({
 	const preSet = searchParams.set || '7days';
 
 	return (
-		<main className='flex h-full w-full min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden px-5 py-10'>
+		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 '>
 			<div
-				className={`relative w-full ${
-					open == 'true' ? 'max-w-[82vw]' : 'max-w-[90vw]'
-				}  ml-auto flex `}>
+				className={`relative  ${
+					open == 'true' ? 'md:max-w-[82vw] ' : 'md:max-w-[90vw]'
+				}   flex   md:ml-auto w-full `}>
 				<div
-					className={`bg-zinc-950/50 py-4 ${
-						open == 'true' ? 'w-[82vw]' : 'w-[90vw] '
-					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-5 justify-end `}>
+					className={`bg-zinc-950/50 py-4 w-full  ${
+						open == 'true' ? 'md:w-[82vw]' : 'md:w-[90vw] '
+					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-5 md:justify-end `}>
 					<h2 className='text-zinc-50 font-bold text-3xl text-center md:text-start'>
 						Visão<span className='text-violet-400'> {''}Geral</span>
 					</h2>
 					<Header />
 				</div>
-				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-64'>
-					<div className='flex gap-5 flex-col md:flex-row'>
-						<div className='md:w-1/3'>
+				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-64 px-3'>
+					<div className='flex gap-5 flex-col md:flex-row w-full'>
+						<div className='md:w-1/3 w-full'>
 							<InvoicingXUnity />
 						</div>
 						<div className='md:w-2/3'>
