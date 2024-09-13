@@ -26,14 +26,14 @@ export default function LushIpiranga({
 	return (
 		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-3 md:px-5 py-10'>
 			<div
-				className={`relative  ${
+				className={`relative w-full  ${
 					open == 'true' ? 'md:max-w-[82vw]' : 'md:max-w-[90vw]'
-				}  md:ml-auto flex w-full`}>
+				}  md:ml-auto flex `}>
 				<div
-					className={`bg-zinc-950/50 py-4 ml-auto ${
+					className={`bg-zinc-950/50 py-4 ml-auto w-[94vw] ${
 						open == 'true' ? 'w-[82vw]' : 'w-[90vw] '
 					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-2 justify-end `}>
-					<h2 className='text-zinc-50 font-bold text-3xl'>
+					<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-3 text-lg'>
 						Geral - Unidade{' '}
 						<span className='text-violet-400'>Lush Ipiranga</span>
 					</h2>
@@ -67,32 +67,6 @@ export default function LushIpiranga({
 					<div className='w-full h-full flex-col gap-5 md:flex-row flex items-baseline justify-between'>
 						<div className='md:w-2/3 w-full'>
 							<TableKpiCategory />
-						</div>
-						<div className='md:w-1/4 flex w-full flex-col h-full justify-between gap-5'>
-							<CardDetails
-								title={'Econômicas'}
-								value={'37%'}
-								icon={<Cylinder />}
-								description='Lush Pop - Lush - Lush Hidro'
-							/>
-							<CardDetails
-								title={'Intermediárias'}
-								value={'36%'}
-								icon={<Database />}
-								description='Lush Lounge - Lush Spa - Lush Cine'
-							/>
-							<CardDetails
-								title={'Premium'}
-								value={'26%'}
-								icon={<DatabaseZap />}
-								description='Lush Splash - Lush Spa Splash'
-							/>
-							<CardDetails
-								title={'Casa Lush'}
-								value={'1%'}
-								icon={<Crown />}
-								description='Análise Separada Casa Lush'
-							/>
 						</div>
 					</div>
 					<div className='flex gap-5 flex-col w-full'>
