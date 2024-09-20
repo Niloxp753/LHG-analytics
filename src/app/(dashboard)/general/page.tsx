@@ -40,7 +40,7 @@ export default function General({
 				</div>
 				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-64 px-3'>
 					<div className='flex gap-5 flex-col md:flex-row w-full'>
-						<div className='md:w-1/3 w-full'>
+						<div className='md:w-1/3 w-full h-full'>
 							<InvoicingXUnity />
 						</div>
 						<div className='md:w-2/3'>

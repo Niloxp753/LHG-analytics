@@ -119,10 +119,10 @@ const data = [
 console.log(DataUser[0].avatar);
 export function TableUser() {
 	return (
-		<div className='2xl:w-11/12 my-10 '>
+		<div className='2xl:w-11/12 my-10 w-full mx-auto'>
 			<>
 				<MenuOptions />
-				<Table className=' bg-zinc-900 rounded-lg'>
+				<Table className=' bg-zinc-900 rounded-lg w-full'>
 					<TableHeader className='bg-violet-900 rounded-lg'>
 						<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
 							<TableHead>Avatar</TableHead>

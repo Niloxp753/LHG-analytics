@@ -180,8 +180,8 @@ export const SidebarLink = ({
 			href={link?.href!}
 			className={cn(
 				className,
-				`flex items-center justify-start gap-2 px-2 group  group/sidebar py-2 hover:bg-lime-400 ${
-					path == link?.href ? 'bg-lime-400 text-zinc-950' : ''
+				`flex items-center justify-start gap-2 px-2 group  group/sidebar py-2 hover:bg-violet-400 ${
+					path == link?.href ? 'bg-violet-400 text-zinc-950' : ''
 				}  rounded`,
 			)}
 			{...props}>
@@ -221,8 +221,8 @@ export const SidebarItem = ({
 					className={cn(
 						className,
 						`flex items-center justify-start gap-2 px-2 group  group/sidebar py-2 ${
-							path == '/dashboard/profile' ? 'bg-lime-400 text-zinc-950' : ''
-						} hover:bg-lime-400 rounded cursor-pointer`,
+							path == '/dashboard/profile' ? 'bg-violet-400 text-zinc-950' : ''
+						} hover:bg-violet-400 rounded cursor-pointer`,
 					)}
 					{...props}>
 					{icon}
@@ -248,7 +248,7 @@ export const SidebarItem = ({
 				<div className='flex md:flex-col items-center justify-center gap-5'>
 					<Link
 						href={'/dashboard/profile'}
-						className='border-none transition-all duration-200 ease-linear outline-none text-zinc-950 bg-lime-400 py-2 px-4 rounded-md hover:bg-lime-300'>
+						className='border-none transition-all duration-200 ease-linear outline-none text-zinc-950 bg-violet-400 py-2 px-4 rounded-md hover:bg-violet-300'>
 						<p className='flex gap-1 text-zinc-950 font-medium '>
 							<CgProfile className='text-zinc-900 group-hover:text-zinc-900 font-medium h-5 w-5 flex-shrink-0' />
 							Perfil

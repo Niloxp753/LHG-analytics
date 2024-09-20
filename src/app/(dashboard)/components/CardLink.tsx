@@ -16,7 +16,7 @@ export default function CardLink(props: CardLinkProps) {
 			data-title={props.title}
 			className={`data-[title='Lush Ipiranga']:opacity-10`}>
 			{props.title !== 'Lush Ipiranga' ? (
-				<div className='w-full h-full bg-zinc-600/10 flex items-center justify-center'>
+				<div className='w-full h-full bg-zinc-600/10 flex items-center justify-center text-zinc-50/50'>
 					Aguardando integração...
 				</div>
 			) : (

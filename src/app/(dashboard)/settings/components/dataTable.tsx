@@ -301,9 +301,9 @@ export function DataTableDemo() {
 	});
 
 	return (
-		<div className='w-full pr-10 '>
-			<div className='flex items-center py-4'>
-				<div className='flex items-center justify-start bg-zinc-50 rounded pl-2 '>
+		<div className='w-full mx-auto md:pr-10'>
+			<div className='flex items-center py-4 flex-col md:flex-row gap-5 mx-auto w-full'>
+				<div className='flex items-center  justify-start bg-zinc-50 rounded pl-2 '>
 					<Search
 						className='text-zinc-800'
 						size={24}
@@ -317,7 +317,7 @@ export function DataTableDemo() {
 						}
 						className='max-w-sm border-none outline-none ring-0 focus-within:ring-0 text-zinc-950'></Input>
 				</div>
-				<div className='flex gap-5 items-center justify-center ml-auto'>
+				<div className='flex gap-5 items-center justify-center md:ml-auto flex-col md:flex-row mx-auto w-full'>
 					<ModalCreateUser />
 					<Button className='flex gap-3 items-center font-semibold bg-zinc-900 border hover:bg-zinc-700'>
 						Editar Usuário <Pencil size={20} />
@@ -357,8 +357,8 @@ export function DataTableDemo() {
 					</DropdownMenu>
 				</div>
 			</div>
-			<div className='rounded-md'>
-				<Table className='bg-zinc-900'>
+			<div className='rounded-md w-full'>
+				<Table className='bg-zinc-900 w-full mr-auto'>
 					<TableHeader className='bg-violet-900 hover:bg-violet-900'>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow
