@@ -20,7 +20,7 @@ export default function Categories() {
 				]}
 				dataLabelColors={['#5b21b6']}
 				colors={['#a78bfa']}
-				title='Faturamento por Suíte'
+				title='Faturamento por Categoria de Suíte'
 				categories={[
 					'Lush',
 					'Lush Pop',

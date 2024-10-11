@@ -1,6 +1,17 @@
 /** @format */
 
-import { Crown, Cylinder, Database, DatabaseZap } from 'lucide-react';
+import {
+	Activity,
+	AlarmClockCheck,
+	Crown,
+	Cylinder,
+	Database,
+	DatabaseZap,
+	DoorClosed,
+	HandCoins,
+	Sigma,
+	SquarePercent,
+} from 'lucide-react';
 import CardDetails from '@/app/(dashboard)/components/CardDetails';
 import Header from '@/app/(dashboard)/components/Header';
 import Invoicing from '@/app/(dashboard)/components/kpis/Invoicing';
@@ -23,6 +34,7 @@ export default function LushIpiranga({
 }) {
 	const open = searchParams.open || 'true';
 	const menu = searchParams.menu;
+	const preSet = searchParams.set || '7days';
 	return (
 		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-3 md:px-5 py-10'>
 			<div
@@ -40,6 +52,71 @@ export default function LushIpiranga({
 					<Header />
 				</div>
 				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-28'>
+					<div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							type='money'
+							icon={<HandCoins />}
+							title={'Faturamento'}
+							value={120000}
+						/>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							icon={<Sigma />}
+							title={'Locações'}
+							value={500}
+						/>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+								preSet == '30days' ? '30 dias atrá s' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							type='money'
+							icon={<SquarePercent />}
+							title={'Ticket Médio'}
+							value={240}
+						/>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							type='money'
+							icon={<Activity />}
+							title={'RevPar'}
+							value={320}
+						/>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							icon={<DoorClosed />}
+							title={'Tx de Ocupação'}
+							value={'40%'}
+						/>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							icon={<AlarmClockCheck />}
+							title={'TMO'}
+							value={'4 horas'}
+						/>
+					</div>
 					<div className='flex w-full gap-5 h-full'>
 						<div className='h-full w-full flex flex-col gap-5 items-center justify-center'>
 							<InvoicingXLocation />
