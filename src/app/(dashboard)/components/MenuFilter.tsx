@@ -17,7 +17,7 @@ import FormFilter from './FormFilter';
 export default function MenuFilter() {
 	return (
 		<Sheet>
-			<SheetTrigger className='text-zinc-950 py-1 w-fit px-3 text-sm rounded flex items-center justify-center gap-4 font-bold h-full bg-violet-400 hover:bg-violet-500 transition-all duration-300 ease-linear cursor-pointer'>
+			<SheetTrigger className='text-zinc-950 py-1 w-fit px-3 text-sm rounded md:flex items-center justify-center gap-4 font-bold h-full bg-violet-400 hover:bg-violet-500 transition-all duration-300 ease-linear cursor-pointer hidden'>
 				Filtrar
 				<SlidersHorizontal size={20} />
 			</SheetTrigger>

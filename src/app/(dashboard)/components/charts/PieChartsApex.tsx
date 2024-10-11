@@ -17,6 +17,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: 'donut-chart',
+			stacked: false,
 			foreColor: '#000',
 			dropShadow: {
 				enabled: false,
@@ -24,7 +25,6 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 			zoom: {
 				enabled: false,
 			},
-			width: 380,
 			type: 'donut',
 
 			toolbar: {
@@ -107,11 +107,11 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 	};
 
 	return (
-		<ResponsiveContainerChart>
+		<ResponsiveContainerChart height='280'>
 			<Chart
 				options={options}
 				width={'100%'}
-				height={props.height ? props.height : 280}
+				height={248}
 				series={props.data ? props.data : [40, 20, 45, 25]}
 				type='donut'></Chart>
 		</ResponsiveContainerChart>

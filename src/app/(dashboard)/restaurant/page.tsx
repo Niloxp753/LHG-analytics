@@ -1,5 +1,14 @@
 /** @format */
 
+import {
+	HandCoins,
+	Sigma,
+	SquarePercent,
+	TrendingDown,
+	DiamondPercent,
+	TrendingUp,
+} from 'lucide-react';
+import CardDetails from '../components/CardDetails';
 import CardLink from '../components/CardLink';
 import SparkChart from '../components/charts/SparkChart';
 import HeaderRestaurants from './components/HeaderRestaurants';
@@ -9,6 +18,7 @@ import UnityxCoust from './components/kpis/UnityxCoust';
 import UnityxRevenue from './components/kpis/UnityxRevenue';
 import UnityxRevenuexTime from './components/kpis/UnityxRevenuexTime';
 import UnityxTKTxTime from './components/kpis/UnityxTKTxTime';
+import Header from '../components/Header';
 
 export default function Restaurant({
 	searchParams,
@@ -20,21 +30,87 @@ export default function Restaurant({
 	const menu = 'restaurant';
 
 	return (
-		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-5 py-10'>
+		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-2 py-10'>
 			<div
-				className={`relative w-full h-full ${
-					open == 'true' ? 'max-w-[82vw]' : 'max-w-[90vw]'
-				} mx-auto md:mx-0  md:ml-auto flex `}>
+				className={`relative  ${
+					open == 'true' ? 'md:max-w-[82vw] ' : 'md:max-w-[90vw]'
+				}   flex   md:ml-auto w-full `}>
 				<div
-					className={`bg-zinc-950/50 py-4 md:ml-auto ${
-						open == 'true' ? 'w-[82vw]' : 'w-[90vw] '
-					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-2 justify-end `}>
-					<h2 className='text-zinc-50 font-bold text-xl md:text-3xl text-center md:text-start'>
-						Painel de <span className='text-violet-400'>Restaurantes</span>
+					className={`bg-zinc-950/50 py-4 w-full  ${
+						open == 'true' ? 'md:w-[82vw]' : 'md:w-[90vw] '
+					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-5 md:justify-end `}>
+					<h2 className='text-zinc-50 font-bold text-xl md:text-3xl text-center'>
+						Painel de<span className='text-violet-400'> {''}Restaurante</span>
 					</h2>
-					<HeaderRestaurants />
+					<Header />
 				</div>
-				<div className='w-full flex flex-col mt-60 h-full'>
+				<div className='w-full flex flex-col mt-28 h-full gap-5'>
+					<div className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3'>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							type='money'
+							icon={<HandCoins />}
+							title={'Receita De A&B'}
+							value={341518}
+						/>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							icon={<Sigma />}
+							title={'Nº De Vendas'}
+							value={397}
+						/>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+								preSet == '30days' ? '30 dias atrá s' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							type='money'
+							icon={<SquarePercent />}
+							title={'Ticket Médio A&B'}
+							value={860}
+						/>
+
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							icon={<TrendingUp />}
+							title={'CMV Total'}
+							value={19}
+						/>
+
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							icon={<DiamondPercent />}
+							title={'TKT Médio A&B / Locação'}
+							value={22}
+						/>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							icon={<DiamondPercent />}
+							title={'TKT Médio A&B / Locação'}
+							value={22}
+						/>
+					</div>
 					<div className='flex md:gap-10 gap-5 mb-5 flex-col md:flex-row mx-auto w-full h-full'>
 						<UnityxRevenue />
 						<UnityxCoust />

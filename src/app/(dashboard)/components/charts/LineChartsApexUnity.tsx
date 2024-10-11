@@ -27,7 +27,6 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 				enabled: false,
 			},
 			toolbar: {
-				autoSelected: 'pan',
 				show: false,
 			},
 		},
@@ -35,13 +34,10 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 			showForSingleSeries: true,
 			position: 'bottom',
 			horizontalAlign: 'center',
-			fontSize: '14x',
+			fontSize: '12x',
 			fontWeight: 'bold',
 			onItemHover: { highlightDataSeries: true },
 			onItemClick: { toggleDataSeries: false },
-			itemMargin: {
-				vertical: 4,
-			},
 		},
 		grid: {
 			borderColor: '#a78bfa',
@@ -69,7 +65,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 		colors: ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9'],
 		title: {
 			text: props.title,
-			style: { fontWeight: 'bold', fontSize: '18px' },
+			style: { fontWeight: 'bold', fontSize: '16px' },
 		},
 		fill: {
 			gradient: {
@@ -117,13 +113,13 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 		},
 	];
 	return (
-		<ResponsiveContainerChart>
+		<ResponsiveContainerChart height='280'>
 			<Chart
 				options={options}
 				series={series}
 				type='area'
 				width={'100%'}
-				height={280}></Chart>
+				height={240}></Chart>
 		</ResponsiveContainerChart>
 	);
 }

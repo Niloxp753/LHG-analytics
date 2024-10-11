@@ -9,6 +9,15 @@ import TRevParXUnity from '../components/kpis/TRevParXUnity';
 import dynamic from 'next/dynamic';
 import InvoicingXUnityXTime from '../components/kpis/InvoicingXUnityXTime';
 import OccupationXUnity from '../components/kpis/OccupationXUnity';
+import CardDetails from '../components/CardDetails';
+import {
+	HandCoins,
+	Sigma,
+	SquarePercent,
+	Activity,
+	DoorClosed,
+	AlarmClockCheck,
+} from 'lucide-react';
 const SparkChart = dynamic(
 	() => import('@/app/(dashboard)/components/charts/SparkChart'),
 	{ ssr: false },
@@ -33,17 +42,83 @@ export default function General({
 					className={`bg-zinc-950/50 py-4 w-full  ${
 						open == 'true' ? 'md:w-[82vw]' : 'md:w-[90vw] '
 					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-5 md:justify-end `}>
-					<h2 className='text-zinc-50 font-bold text-3xl text-center md:text-start'>
+					<h2 className='text-zinc-50 font-bold text-3xl text-center'>
 						Visão<span className='text-violet-400'> {''}Geral</span>
 					</h2>
 					<Header />
 				</div>
-				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-64 px-3'>
-					<div className='flex gap-5 flex-col md:flex-row w-full'>
-						<div className='md:w-1/3 w-full h-full'>
+
+				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-28'>
+					<div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							type='money'
+							icon={<HandCoins />}
+							title={'Faturamento'}
+							value={120000}
+						/>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							icon={<Sigma />}
+							title={'Locações'}
+							value={500}
+						/>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+								preSet == '30days' ? '30 dias atrá s' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							type='money'
+							icon={<SquarePercent />}
+							title={'Ticket Médio'}
+							value={240}
+						/>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							type='money'
+							icon={<Activity />}
+							title={'RevPar'}
+							value={320}
+						/>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							icon={<DoorClosed />}
+							title={'Tx de Ocupação'}
+							value={'40%'}
+						/>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							icon={<AlarmClockCheck />}
+							title={'TMO'}
+							value={'4 horas'}
+						/>
+					</div>
+					<div className='flex gap-5 flex-col md:flex-row w-full h-full '>
+						<div className='md:w-1/3 w-full h-full '>
 							<InvoicingXUnity />
 						</div>
-						<div className='md:w-2/3'>
+						<div className='md:w-2/3 h-full '>
 							<LocationsxUnity />
 						</div>
 					</div>

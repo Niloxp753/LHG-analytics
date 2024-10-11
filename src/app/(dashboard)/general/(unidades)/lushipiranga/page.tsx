@@ -39,19 +39,19 @@ export default function LushIpiranga({
 					</h2>
 					<Header />
 				</div>
-				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-60'>
+				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-28'>
 					<div className='flex w-full gap-5 h-full'>
 						<div className='h-full w-full flex flex-col gap-5 items-center justify-center'>
 							<InvoicingXLocation />
 							<Invoicing />
 						</div>
 					</div>
-					<div className='gap-5 h-fit w-full flex flex-col md:flex-row justify-between '>
-						<div className='md:w-1/3'>
+					<div className='gap-5 h-full w-full flex flex-col md:flex-row justify-between '>
+						<div className='md:w-1/2'>
 							<Categories />
 						</div>
 
-						<div className='md:w-2/3 h-full flex gap-5 justify-between flex-col '>
+						<div className='md:w-1/2 h-full flex gap-5 justify-between flex-col '>
 							<Locations />
 							<RevPar />
 						</div>
@@ -65,7 +65,7 @@ export default function LushIpiranga({
 						<OccupationCasaLush />
 					</div>
 					<div className='w-full h-full flex-col gap-5 md:flex-row flex items-baseline justify-between'>
-						<div className='md:w-2/3 w-full'>
+						<div className='w-full'>
 							<TableKpiCategory />
 						</div>
 					</div>

@@ -17,6 +17,14 @@ import RevenueABXCost from '../../components/kpis/revenueABXCost';
 import RevenuePercent from '../../components/kpis/RevenuePercent';
 import RevenueXGroup from '../../components/kpis/RevenueXGroup';
 import TKTXLocation from '../../components/kpis/TKTXLocation';
+import Header from '@/app/(dashboard)/components/Header';
+import {
+	HandCoins,
+	Sigma,
+	SquarePercent,
+	TrendingUp,
+	DiamondPercent,
+} from 'lucide-react';
 
 export default function Restaurant({
 	searchParams,
@@ -24,27 +32,93 @@ export default function Restaurant({
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
 	const open = searchParams.open || 'true';
+	const preSet = searchParams.set || '7days';
+	const menu = 'restaurant';
 
 	return (
 		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-5 py-10'>
 			<div
-				className={`relative w-full ${
-					open == 'true' ? 'max-w-[82vw]' : 'max-w-[90vw]'
-				}  ml-auto flex `}>
+				className={`relative  ${
+					open == 'true' ? 'md:max-w-[82vw] ' : 'md:max-w-[90vw]'
+				}   flex   md:ml-auto w-full `}>
 				<div
-					className={`bg-zinc-950/50 py-4 ml-auto ${
-						open == 'true' ? 'w-[82vw]' : 'w-[90vw] '
-					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-2 justify-end `}>
-					<h2 className='text-zinc-50 font-bold text-3xl'>
-						Painel de <span className='text-violet-400'>Restaurantes</span>
+					className={`bg-zinc-950/50 py-4 w-full  ${
+						open == 'true' ? 'md:w-[82vw]' : 'md:w-[90vw] '
+					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-5 md:justify-end `}>
+					<h2 className='text-zinc-50 font-bold text-xl md:text-3xl text-center'>
+						Painel de<span className='text-violet-400'> {''}Restaurante</span>
 					</h2>
-					<HeaderRestaurants />
+					<Header />
 				</div>
-				<div className=' w-full  flex gap-5 flex-col justify-start mt-60'>
-					<div className='flex w-full gap-5 h-[320px]'>
-						<div className='h-full w-full flex items-center justify-center'>
-							<RevenueABXCost />
-						</div>
+				<div className=' w-full  flex gap-5 flex-col justify-start mt-28'>
+					<div className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3'>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							type='money'
+							icon={<HandCoins />}
+							title={'Receita De A&B'}
+							value={341518}
+						/>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							icon={<Sigma />}
+							title={'Nº De Vendas'}
+							value={397}
+						/>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+								preSet == '30days' ? '30 dias atrá s' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							type='money'
+							icon={<SquarePercent />}
+							title={'Ticket Médio A&B'}
+							value={860}
+						/>
+
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							icon={<TrendingUp />}
+							title={'CMV Total'}
+							value={19}
+						/>
+
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							icon={<DiamondPercent />}
+							title={'TKT Médio A&B / Locação'}
+							value={22}
+						/>
+						<CardDetails
+							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							icon={<DiamondPercent />}
+							title={'TKT Médio A&B / Locação'}
+							value={22}
+						/>
+					</div>
+					<div className='flex w-full gap-5 h-full'>
+						<RevenueABXCost />
 					</div>
 					<div className='h-full w-full flex items-center justify-center'>
 						<Cmv />
@@ -53,11 +127,11 @@ export default function Restaurant({
 						<RevenuePercent />
 						<TKTXLocation />
 					</div>
-					<div className='flex items-center justify-between gap-5 h-full w-full'>
-						<div className='w-1/2 h-full'>
+					<div className='flex flex-col md:flex-row items-center justify-between gap-5 h-full w-full'>
+						<div className='md:w-1/2 h-full'>
 							<MostSell />
 						</div>
-						<div className='w-1/2 h-full'>
+						<div className='md:w-1/2 h-full'>
 							<MinusSell />
 						</div>
 					</div>
@@ -65,7 +139,7 @@ export default function Restaurant({
 						<RevenueXGroup />
 						<CategoryA />
 						<CategoryB />
-						<div className='flex items-start gap-5'>
+						<div className='flex items-start gap-5 flex-col'>
 							<BReports />
 							<CReports />
 						</div>
@@ -80,7 +154,7 @@ export default function Restaurant({
 								<div className='w-full'>
 									<CoustXAB />
 								</div>
-								<div className='xl:w-1/3 flex xl:flex-col justify-between gap-5'>
+								<div className='xl:w-1/3 w-full flex flex-col justify-between gap-5'>
 									<CardDetails
 										title={'Compras Enxoval A&B - 2023'}
 										value={'R$44.554'}

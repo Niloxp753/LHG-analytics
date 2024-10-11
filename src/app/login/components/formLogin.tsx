@@ -19,6 +19,7 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { useState } from 'react';
+import { Loader2 } from 'lucide-react';
 
 export default function FormLogin() {
 	const router = useRouter();
@@ -116,7 +117,7 @@ export default function FormLogin() {
 					type='submit'
 					className='w-full font-medium disabled:grayscale disabled:cursor-none bg-purple-400 text-zinc-900 text-lg hover:bg-purple-500 duration-300 ease-linear transition-all'>
 					{isPending ? (
-						<span className='bg-transparent h-6 w-6 border-l border-t border-zinc-50 rounded-full animate-spin' />
+						<Loader2 className='size-5 animate-spin' />
 					) : (
 						<p>Entrar</p>
 					)}

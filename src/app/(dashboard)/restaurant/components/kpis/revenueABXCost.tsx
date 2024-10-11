@@ -15,11 +15,11 @@ export default function RevenueABXCost() {
 				series={[
 					{
 						name: 'Receita A&B',
-						data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 55, 57, 56],
+						data: [44, 55, 57, 56, 61, 58],
 					},
 					{
 						name: 'Custo',
-						data: [76, 85, 101, 98, 87, 105, 91, 114, 94, 101, 98, 87],
+						data: [76, 85, 101, 98, 87, 105],
 					},
 				]}
 				categories={[
@@ -29,12 +29,6 @@ export default function RevenueABXCost() {
 					'abr/24',
 					'mai/24',
 					'jun/24',
-					'jul/24',
-					'ago/24',
-					'set/24',
-					'out/24',
-					'nov/24',
-					'dez/24',
 				]}
 			/>
 		</div>
