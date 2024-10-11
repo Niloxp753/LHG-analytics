@@ -105,31 +105,14 @@ export function SidebarDemo(props: SidebarProps) {
 	return (
 		<div
 			className={cn(
-				' md:flex-row w-fit overflow-hidden',
-				' fixed z-[999999999999999999999999] left-0  md:border-r-2 border-violet-400 rounded-r-md md:bottom-0 ', // for your use case, use `h-screen` instead of `h-[60vh]`
+				' md:flex-row w-fit z-50 overflow-hidden',
+				' fixed z-50 left-0  md:border-r-2 border-violet-400 rounded-r-md md:bottom-0 ', // for your use case, use `h-screen` instead of `h-[60vh]`
 			)}>
 			<Sidebar
 				open={open}
 				setOpen={setOpen}>
 				<SidebarBody className='justify-between gap-10 border-r-2 border-violet-400 rounded-r-md'>
 					<div className='flex flex-col flex-1 overflow-y-auto overflow-x-hidden'>
-						{/* {open ? (
-							<Image
-								width={150}
-								height={150}
-								src={logo}
-								alt={'Logo UPLead CRM'}
-								className='object-contain flex-shrink-0 h-10 w-fit ml-0 scale-105 mt-2'
-							/>
-						) : (
-							<Image
-								width={50}
-								height={50}
-								src={logoIcon}
-								alt={'Logo UPLead CRM'}
-								className='object-contain flex-shrink-0 h-10 mt-2'
-							/>
-						)} */}
 						<div className='mt-8 flex flex-col gap-5'>
 							{links.map((link, idx) => (
 								<SidebarLink
@@ -139,16 +122,6 @@ export function SidebarDemo(props: SidebarProps) {
 							))}
 						</div>
 					</div>
-					{/* <SidebarItem
-						label={props?.name}
-						icon={
-							<CgProfile
-								className={`${
-									path == '/dashboard/profile' ? 'text-zinc-950' : '*:'
-								} text-zinc-200 group-hover:text-zinc-950 font-medium h-5 w-5 flex-shrink-0 `}
-							/>
-						}
-					/> */}
 				</SidebarBody>
 			</Sidebar>
 		</div>

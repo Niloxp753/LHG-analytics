@@ -44,7 +44,7 @@ export default function Restaurant({
 				<div
 					className={`bg-zinc-950/50 py-4 w-full  ${
 						open == 'true' ? 'md:w-[82vw]' : 'md:w-[90vw] '
-					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-5 md:justify-end `}>
+					} backdrop-blur-md fixed z-40 top-0 flex flex-col gap-5 md:justify-end `}>
 					<h2 className='text-zinc-50 font-bold text-xl md:text-3xl text-center'>
 						Painel de<span className='text-violet-400'> {''}Restaurante</span>
 					</h2>

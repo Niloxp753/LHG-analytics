@@ -220,7 +220,7 @@ export const SidebarItem = ({
 				<div
 					className={cn(
 						className,
-						`flex items-center justify-start gap-2 px-2 group  group/sidebar py-2 ${
+						`flex items-center justify-start gap-2 px-2 group z-50  group/sidebar py-2 ${
 							path == '/dashboard/profile' ? 'bg-violet-400 text-zinc-950' : ''
 						} hover:bg-violet-400 rounded cursor-pointer`,
 					)}

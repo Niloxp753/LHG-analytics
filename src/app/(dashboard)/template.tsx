@@ -12,10 +12,10 @@ export default function Template({
 	return (
 		<>
 			<Suspense>
-				<div className='md:hidden'>
+				<div className=' z-50'>
 					<SidebarDemo />
 				</div>
-				<div className='hidden md:block'>
+				<div className='hidden md:block z-50'>
 					<SidebarMenu />
 				</div>
 			</Suspense>
