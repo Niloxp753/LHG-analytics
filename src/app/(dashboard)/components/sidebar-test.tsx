@@ -105,7 +105,7 @@ export function SidebarDemo(props: SidebarProps) {
 	return (
 		<div
 			className={cn(
-				' md:flex-row w-fit z-50 overflow-hidden',
+				' md:flex-row w-fit z-[9999999999999999] overflow-hidden',
 				' fixed z-50 left-0  md:border-r-2 border-violet-400 rounded-r-md md:bottom-0 ', // for your use case, use `h-screen` instead of `h-[60vh]`
 			)}>
 			<Sidebar
