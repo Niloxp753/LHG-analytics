@@ -45,9 +45,8 @@ export default function LushIpiranga({
 					className={`bg-zinc-950/50 z-40 py-4 ml-auto w-[94vw] ${
 						open == 'true' ? 'w-[82vw]' : 'w-[90vw] '
 					} backdrop-blur-md fixed top-0 flex flex-col gap-2 justify-end `}>
-					<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-3 text-lg'>
-						Geral - Unidade{' '}
-						<span className='text-violet-400'>Lush Ipiranga</span>
+					<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-1.5 text-xl'>
+						Visão Geral - <span className='text-violet-400'>Lush Ipiranga</span>
 					</h2>
 					<Header />
 				</div>

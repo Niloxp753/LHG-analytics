@@ -1,19 +1,20 @@
 /** @format */
 
 import InvoicingXChannel from '@/app/(dashboard)/reservations/components/kpis/InvoicingXChannel';
-import { Coins, HandCoins, Sigma, SquarePercent } from 'lucide-react';
+import { Blend, Coins, HandCoins, Sigma, SquarePercent } from 'lucide-react';
 import { SiGoogleads, SiMeta } from 'react-icons/si';
 import CardDetails from '../components/CardDetails';
+import CardLink from '../components/CardLink';
+import SparkChart from '../components/charts/SparkChart';
+import Header from '../components/Header';
 import { TableReservs } from '../components/kpis/TableReservs';
-import HeaderReservations from './components/HeaderReservations';
 import CategoriesXReservs from './components/kpis/CategoriesXReservs';
+import EcommerceRevenue from './components/kpis/ecommerce-receita';
+import EcommerceRevervs from './components/kpis/ecommerce-reservas';
 import InvoicingXReservs from './components/kpis/InvoicingXReservs';
 import InvoicingXTypes from './components/kpis/InvoicingXTypes';
 import LocationsXReservs from './components/kpis/LocationsXReservs';
 import Representation from './components/kpis/Representation';
-import InvoicingXLocations from './components/kpis/RepXReservs';
-import EcommerceRevervs from './components/kpis/ecommerce-reservas';
-import EcommerceRevenue from './components/kpis/ecommerce-receita';
 
 export default function Reservations({
 	searchParams,
@@ -22,58 +23,105 @@ export default function Reservations({
 }) {
 	const open = searchParams.open || 'true';
 	const menu = searchParams.menu;
+	const preSet = searchParams.set || '7days';
+
 	return (
-		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-5 py-10'>
+		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>
 			<div
-				className={`relative w-full ${
-					open == 'true' ? 'max-w-[82vw]' : 'max-w-[90vw]'
-				}  ml-auto flex `}>
+				className={`relative  ${
+					open == 'true' ? 'md:max-w-[82vw] ' : 'md:max-w-[90vw]'
+				}   flex  md:ml-auto w-full `}>
 				<div
-					className={`bg-zinc-950/50 py-4 ml-auto ${
-						open == 'true' ? 'w-[82vw]' : 'w-[90vw] '
-					} backdrop-blur-md fixed z-50 top-0 flex flex-col gap-2 justify-end `}>
-					<h2 className='text-zinc-50 font-bold text-xl md:text-3xl'>
-						Painel de <span className='text-violet-400'>Reservas</span>
+					className={`bg-zinc-950/50 py-4 w-full  ${
+						open == 'true' ? 'md:w-[82vw]' : 'md:w-[90vw] '
+					} backdrop-blur-md fixed z-40 top-0 flex flex-col gap-5 md:justify-end `}>
+					<h2 className='text-zinc-50 font-bold text-2xl md:text-3xl text-center pt-1'>
+						Painel de<span className='text-violet-400'> {''}Reservas</span>
 					</h2>
-					<HeaderReservations />
+					<Header />
 				</div>
-				<div className=' w-full  flex gap-5 flex-col justify-start mt-60'>
-					<div className='flex w-full gap-5 h-[280px]'>
-						<div className='h-full w-full flex items-center justify-center'>
-							<LocationsXReservs />
-						</div>
-						<div className='w-1/2'>
-							<InvoicingXChannel />
+				<div className=' w-full  flex gap-5 flex-col justify-start mt-28 px-3 md:px-0'>
+					<div>
+						<div
+							className={`justify-between  items-center grid md:grid-cols-5 gap-5 grid-cols-1 `}>
+							<CardDetails
+								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+									preSet == '30days' ? '30 dias atrás ' : ''
+								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+									preSet == '12months' ? '12 meses atrás ' : ''
+								}`}
+								type='money'
+								icon={<HandCoins />}
+								title={'Receita De Reservas'}
+								value={341518}
+							/>
+							<CardDetails
+								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+									preSet == '30days' ? '30 dias atrás ' : ''
+								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+									preSet == '12months' ? '12 meses atrás ' : ''
+								}`}
+								icon={<Sigma />}
+								title={'Número De Reservas'}
+								value={397}
+							/>
+							<CardDetails
+								description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+									preSet == '30days' ? '30 dias atrá s' : ''
+								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+									preSet == '12months' ? '12 meses atrás ' : ''
+								}`}
+								type='money'
+								icon={<SquarePercent />}
+								title={'Ticket Médio'}
+								value={860}
+							/>
+
+							<CardDetails
+								description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+									preSet == '30days' ? '30 dias atrás ' : ''
+								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+									preSet == '12months' ? '12 meses atrás ' : ''
+								}`}
+								icon={<Blend />}
+								title={'Representatividade'}
+								value={19}
+							/>
+
+							<CardDetails
+								description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
+									preSet == '30days' ? '30 dias atrás ' : ''
+								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+									preSet == '12months' ? '12 meses atrás ' : ''
+								}`}
+								icon={<Blend />}
+								title={'Meta de Repres.'}
+								value={22}
+							/>
 						</div>
 					</div>
-					<div className='gap-5 h-fit w-full flex justify-between '>
-						<div className='w-1/3'>
-							<CategoriesXReservs />
-						</div>
-
-						<div className='w-2/3 h-full flex gap-5 justify-between flex-col '>
-							<InvoicingXLocations />
-							<InvoicingXReservs />
-						</div>
+					<div className='flex gap-5'>
+						<InvoicingXTypes />
+						<InvoicingXChannel />
+					</div>
+					<div className='gap-5 h-fit w-full flex flex-col justify-between '>
+						<CategoriesXReservs />
+						<InvoicingXReservs />
 					</div>
 					<div className='flex items-center justify-between gap-5 h-full w-full'>
-						<div className='w-2/3 h-full'>
-							<Representation />
-						</div>
-
-						<div className='w-1/3 h-full'>
-							<InvoicingXTypes />
-						</div>
+						<Representation />
+						<LocationsXReservs />
 					</div>
 					<div>
 						<TableReservs />
 					</div>
+
 					<div>
 						<h2 className='text-4xl font-bold text-zinc-50 mt-10 mb-5'>
 							Indicadores de E-Commerce
 						</h2>
 						<div className='flex flex-col items-start justify-between gap-5'>
-							<div className='w-full flex  h-full justify-between gap-2'>
+							<div className='w-full grid grid-cols-1 md:grid-cols-3  h-full justify-between gap-5'>
 								<CardDetails
 									title={'Reservas'}
 									value={'572'}
@@ -110,6 +158,32 @@ export default function Reservations({
 								<EcommerceRevenue />
 							</div>
 						</div>
+					</div>
+					<div className='grid md:grid-cols-4 mt-10 gap-5'>
+						<CardLink
+							href={`/reservations/lushipiranga?menu=${menu}&open=${open}&set=${preSet}`}
+							title={'Lush Ipiranga'}
+							content={
+								<SparkChart serie={[35, 40, 55, 45, 50, 40]} />
+							}></CardLink>
+						<CardLink
+							href={`/reservations/lushguaruja?menu=${menu}&open=${open}&set=${preSet}`}
+							title={'Lush Guarujá'}
+							content={
+								<SparkChart serie={[45, 30, 55, 35, 60, 40]} />
+							}></CardLink>
+						<CardLink
+							href={`/reservations/toutcampinas?menu=${menu}&open=${open}&set=${preSet}`}
+							title={'Tout Campinas'}
+							content={
+								<SparkChart serie={[45, 40, 55, 35, 55, 30]} />
+							}></CardLink>{' '}
+						<CardLink
+							href={`/reservations/andardecima?menu=${menu}&open=${open}&set=${preSet}`}
+							title={'Andar de Cima'}
+							content={
+								<SparkChart serie={[55, 30, 55, 45, 50, 60]} />
+							}></CardLink>
 					</div>
 				</div>
 			</div>

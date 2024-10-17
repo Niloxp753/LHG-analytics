@@ -11,18 +11,16 @@ const PieChartsApex = dynamic(
 
 export default function InvoicingXChannel() {
 	return (
-		<ResponsiveContainerChart>
-			<PieChartsApex
-				data={[59.9, 1.5, 14.3, 5.4, 18.9]}
-				title='Faturamento Por Canal'
-				labels={[
-					'Site Programadas',
-					'Guia Programada',
-					'Guia GO',
-					'Diretas',
-					'Site Imediatas',
-				]}
-			/>
-		</ResponsiveContainerChart>
+		<PieChartsApex
+			data={[59.9, 1.5, 14.3, 5.4, 18.9]}
+			title='Faturamento Por Canal'
+			labels={[
+				'Site Programadas',
+				'Guia Programada',
+				'Guia GO',
+				'Diretas',
+				'Site Imediatas',
+			]}
+		/>
 	);
 }

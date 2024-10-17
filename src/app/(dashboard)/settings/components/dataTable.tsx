@@ -301,9 +301,9 @@ export function DataTableDemo() {
 	});
 
 	return (
-		<div className='w-full mx-auto md:pr-10'>
+		<div className='w-full mx-auto md:pr-10 px-3'>
 			<div className='flex items-center py-4 flex-col md:flex-row gap-5 mx-auto w-full'>
-				<div className='flex items-center  justify-start bg-zinc-50 rounded pl-2 '>
+				<div className='flex items-center w-full justify-start bg-zinc-50 rounded pl-2 '>
 					<Search
 						className='text-zinc-800'
 						size={24}
@@ -317,48 +317,48 @@ export function DataTableDemo() {
 						}
 						className='max-w-sm border-none outline-none ring-0 focus-within:ring-0 text-zinc-950'></Input>
 				</div>
-				<div className='flex gap-5 items-center justify-center md:ml-auto flex-col md:flex-row mx-auto w-full'>
+				<div className='flex items-center justify-between md:ml-auto md:flex-row mx-auto w-full gap-3'>
 					<ModalCreateUser />
-					<Button className='flex gap-3 items-center font-semibold bg-zinc-900 border hover:bg-zinc-700'>
-						Editar Usuário <Pencil size={20} />
+					<Button className='flex gap-3 items-center font-semibold bg-zinc-900 border border-border hover:bg-zinc-700'>
+						Editar <Pencil size={20} />
 					</Button>
 					<Button
 						variant={'destructive'}
 						className='hover:bg-red-800 font-semibold flex gap-3 items-center'>
-						Deletar Usuário
+						Deletar
 						<Trash2 size={20} />
 					</Button>
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button
-								variant='default'
-								className='ml-auto'>
-								Colunas <ChevronDown className='ml-2 h-4 w-4' />
-							</Button>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent align='end'>
-							{table
-								.getAllColumns()
-								.filter((column) => column.getCanHide())
-								.map((column) => {
-									return (
-										<DropdownMenuCheckboxItem
-											key={column.id}
-											className='capitalize'
-											checked={column.getIsVisible()}
-											onCheckedChange={(value) =>
-												column.toggleVisibility(!!value)
-											}>
-											{column.id}
-										</DropdownMenuCheckboxItem>
-									);
-								})}
-						</DropdownMenuContent>
-					</DropdownMenu>
 				</div>
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button
+							variant='default'
+							className='ml-auto'>
+							Colunas <ChevronDown className='ml-2 h-4 w-4' />
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align='end'>
+						{table
+							.getAllColumns()
+							.filter((column) => column.getCanHide())
+							.map((column) => {
+								return (
+									<DropdownMenuCheckboxItem
+										key={column.id}
+										className='capitalize'
+										checked={column.getIsVisible()}
+										onCheckedChange={(value) =>
+											column.toggleVisibility(!!value)
+										}>
+										{column.id}
+									</DropdownMenuCheckboxItem>
+								);
+							})}
+					</DropdownMenuContent>
+				</DropdownMenu>
 			</div>
 			<div className='rounded-md w-full'>
-				<Table className='bg-zinc-900 w-full mr-auto'>
+				<Table className='bg-zinc-900 w-full mr-auto text-zinc-100'>
 					<TableHeader className='bg-violet-900 hover:bg-violet-900'>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow

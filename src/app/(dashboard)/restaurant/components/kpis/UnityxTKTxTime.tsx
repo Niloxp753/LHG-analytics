@@ -55,7 +55,7 @@ export default function UnityxTKTxTime() {
 					'nov/24',
 					'dez/24',
 				]}
-				height={400}
+				height={440}
 			/>
 		</div>
 	);

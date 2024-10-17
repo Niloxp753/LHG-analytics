@@ -36,17 +36,17 @@ export default function Restaurant({
 	const menu = 'restaurant';
 
 	return (
-		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-5 py-10'>
+		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-3 md:px-5 py-10'>
 			<div
-				className={`relative  ${
-					open == 'true' ? 'md:max-w-[82vw] ' : 'md:max-w-[90vw]'
-				}   flex   md:ml-auto w-full `}>
+				className={`relative w-full  ${
+					open == 'true' ? 'md:max-w-[82vw]' : 'md:max-w-[90vw]'
+				}  md:ml-auto flex z-40 `}>
 				<div
-					className={`bg-zinc-950/50 py-4 w-full  ${
-						open == 'true' ? 'md:w-[82vw]' : 'md:w-[90vw] '
-					} backdrop-blur-md fixed z-40 top-0 flex flex-col gap-5 md:justify-end `}>
-					<h2 className='text-zinc-50 font-bold text-xl md:text-3xl text-center'>
-						Painel de<span className='text-violet-400'> {''}Restaurante</span>
+					className={`bg-zinc-950/50 z-40 py-4 ml-auto w-[94vw] ${
+						open == 'true' ? 'w-[82vw]' : 'w-[90vw] '
+					} backdrop-blur-md fixed top-0 flex flex-col gap-2 justify-end `}>
+					<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-2 text-xl'>
+						Restaurante - <span className='text-violet-400'>Lush Ipiranga</span>
 					</h2>
 					<Header />
 				</div>

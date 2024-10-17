@@ -147,7 +147,7 @@ export const MobileSidebar = ({
 								ease: 'easeInOut',
 							}}
 							className={cn(
-								'fixed h-full w-full inset-0 bg-zinc-800  p-10 z-[100] flex flex-col justify-between',
+								'fixed h-full w-full inset-0 bg-zinc-950  p-10 z-[100] flex flex-col justify-between',
 								className,
 							)}>
 							<div
@@ -194,7 +194,7 @@ export const SidebarLink = ({
 				}}
 				className={`${
 					path == link?.href ? 'text-zinc-950 font-medium' : ''
-				} text-zinc-200 text-sm group-hover/sidebar:translate-x-1 transition-all duration-150 whitespace-pre inline-block !p-0 !m-0 ease-linear group group-hover:text-zinc-900 group-hover:font-medium`}>
+				} text-zinc-200 group-hover/sidebar:translate-x-1 transition-all duration-150 whitespace-pre inline-block !p-0 !m-0 ease-linear group group-hover:text-zinc-900 group-hover:font-medium text-base`}>
 				{link?.label}
 			</motion.span>
 		</Link>

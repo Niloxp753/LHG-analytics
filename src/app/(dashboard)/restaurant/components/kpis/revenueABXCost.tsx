@@ -2,16 +2,16 @@
 
 import dynamic from 'next/dynamic';
 import React from 'react';
-const ColumnChart = dynamic(
-	() => import('@/app/(dashboard)/components/charts/ColumnChart'),
+const AreaChartsApex = dynamic(
+	() => import('@/app/(dashboard)/components/charts/AreaChartsApex'),
 	{ ssr: false },
 );
 
 export default function RevenueABXCost() {
 	return (
 		<div className='w-full'>
-			<ColumnChart
-				title={'Receita A&B X Custo'}
+			<AreaChartsApex
+				legend={'Receita A&B X Custo'}
 				series={[
 					{
 						name: 'Receita A&B',

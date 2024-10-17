@@ -10,12 +10,10 @@ const PieChartsApex = dynamic(
 
 export default function InvoicingXTypes() {
 	return (
-		<div className='h-full'>
-			<PieChartsApex
-				title='Formas de Pagamento'
-				data={[183, 221, 5]}
-				labels={['PIX', 'Cartão de Crédito', 'Boleto']}
-			/>
-		</div>
+		<PieChartsApex
+			title='Formas de Pagamento'
+			data={[183, 221, 5]}
+			labels={['PIX', 'Cartão de Crédito', 'Boleto']}
+		/>
 	);
 }

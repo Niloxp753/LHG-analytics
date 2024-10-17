@@ -9,7 +9,7 @@ const LineChart = dynamic(
 
 export default function CoustXAB() {
 	return (
-		<div className='w-full'>
+		<div className='w-full h-full'>
 			<LineChart
 				title={'Gastos Com Material de A&B'}
 				series={[

@@ -38,6 +38,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 			onItemClick: { toggleDataSeries: false },
 			itemMargin: {
 				vertical: 8,
+				horizontal: 20,
 			},
 		},
 		grid: {
