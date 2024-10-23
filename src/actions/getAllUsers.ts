@@ -5,6 +5,6 @@
 import { getAllUsers } from '@/http/getUsers';
 
 export async function getAllUsersAction() {
-	const resp = await getAllUsers();
+	const resp = getAllUsers();
 	return resp;
 }

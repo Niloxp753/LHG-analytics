@@ -4,6 +4,7 @@ import { getAllUserByEmailAction } from '@/actions/getUserByEmail';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import * as bcrypt from 'bcrypt';
+import { getAllUsersAction } from '@/actions/getAllUsers';
 
 const handler = NextAuth({
 	// Configure one or more authentication providers
@@ -21,19 +22,26 @@ const handler = NextAuth({
 				},
 			},
 			async authorize(credentials, req) {
-				const user = await getAllUserByEmailAction(credentials?.email!);
+				const users = await getAllUsersAction();
+				const user = users.find((u) => u.email === credentials?.email);
 
-				const isvalidPass = bcrypt.compare(
-					credentials?.password!,
-					user.password,
-				);
-
-				if (!isvalidPass) {
-					// Any object returned will be saved in `user` property of the JWT
-					return null;
+				if (user) {
+					const isvalidPass = await bcrypt.compare(
+						credentials?.password!,
+						user.password,
+					);
+					
+					if (!isvalidPass) {
+					
+						// Any object returned will be saved in `user` property of the JWT
+						return null;
+					} else {
+						return user;
+					}
 				}
+
+				return null;
 				// If you return null then an error will be displayed advising the user to check their details.
-				return user;
 
 				// You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
 			},
@@ -42,20 +50,22 @@ const handler = NextAuth({
 	],
 	callbacks: {
 		jwt: async ({ token, user }) => {
-			if(user){
-				token.email = user.email,
-				token.name = user.name
+			if (user) {
+				return { ...(token = { email: user.email, name: user.name }) };
 			}
-			return token
+			return token;
 		},
 		session: async ({ session, token }) => {
-			return {
-				...session,
-				user: {
-					name: token.name,
-					email: token.email,
-				},
-			};
+			if (token) {
+				return {
+					...session,
+					user: {
+						name: token.name,
+						email: token.email,
+					},
+				};
+			}
+			return session;
 		},
 	},
 	pages: {

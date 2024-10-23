@@ -4,7 +4,6 @@
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { toast } from 'sonner';
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
@@ -39,91 +38,25 @@ import {
 	ArrowUpDown,
 	ChevronDown,
 	MoreHorizontal,
-	Pencil,
 	Search,
-	Trash2,
+	UserMinus,
+	UserRoundCog,
 } from 'lucide-react';
 import * as React from 'react';
 import { ModalCreateUser } from './ModalCreateUser';
 
-const data: User[] = [
-	{
-		id: 'm5gr84i9',
-		name: 'João Silva',
-		CPF: '00000000000',
-		password: '123456789',
-		status: 'admin',
-		unidade: 'Lush Ipiranga',
-		email: 'ken99@yahoo.com',
-	},
-	{
-		id: '3u1reuv4',
-		name: 'Maria Oliveira',
-		CPF: '00000000000',
-		password: '123456789',
-		status: 'gestor',
-		email: 'Abe45@gmail.com',
-		unidade: 'Lush Guarujá',
-	},
-	{
-		id: 'derv1ws0',
-		name: 'Pedro Santos',
-		CPF: '00000000000',
-		password: '123456789',
-		status: 'gestor',
-		email: 'Monserrat44@gmail.com',
-		unidade: 'Lush Guarujá',
-	},
-	{
-		id: '5kma53ae',
-		name: 'Ana Costa',
-		CPF: '00000000000',
-		password: '123456789',
-		status: 'gestor',
-		email: 'Silas22@gmail.com',
-		unidade: 'Andar de Cima',
-	},
-
-	{
-		id: '5kma53ae',
-		name: 'Rafael Lima',
-		CPF: '00000000000',
-		password: '123456789',
-		status: 'gestor',
-		email: 'Silas22@gmail.com',
-		unidade: 'Tout Campinas',
-	},
-	{
-		id: '5kma53ae',
-		name: 'Beatriz Sousa',
-		CPF: '00000000000',
-		password: '123456789',
-		status: 'gestor',
-		email: 'Silas22@gmail.com',
-		unidade: 'Lush Ipiranga',
-	},
-	{
-		id: 'bhqecj4p',
-		name: 'Felipe Carvalho',
-		CPF: '00000000000',
-		password: '123456789',
-		status: 'gestor',
-		email: 'carmella@hotmail.com',
-		unidade: 'Tout Campinas',
-	},
-];
-
-export type User = {
+interface IUser {
 	id: string;
-	name: string;
-	status?: 'admin' | 'gestor';
-	CPF?: string;
 	email: string;
-	password?: string;
-	unidade: 'Lush Ipiranga' | 'Lush Guarujá' | 'Tout Campinas' | 'Andar de Cima';
-};
+	name: string;
+	cpf: string;
+	password: string;
+	role: string;
+	companyId: number;
+	companyName?: string;
+}
 
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<IUser | undefined | any>[] = [
 	{
 		id: 'select',
 		header: ({ table }) => (
@@ -148,11 +81,9 @@ export const columns: ColumnDef<User>[] = [
 		enableHiding: false,
 	},
 	{
-		accessorKey: 'status',
+		accessorKey: 'role',
 		header: 'Status',
-		cell: ({ row }) => (
-			<div className='capitalize'>{row.getValue('status')}</div>
-		),
+		cell: ({ row }) => <div className='capitalize'>{row.getValue('role')}</div>,
 	},
 	{
 		accessorKey: 'name',
@@ -171,15 +102,15 @@ export const columns: ColumnDef<User>[] = [
 		),
 	},
 	{
-		accessorKey: 'CPF',
+		accessorKey: 'cpf',
 		header: 'CPF',
-		cell: ({ row }) => <div className='capitalize'>{row.getValue('CPF')}</div>,
+		cell: ({ row }) => <div className='capitalize'>{row.getValue('cpf')}</div>,
 	},
 	{
-		accessorKey: 'unidade',
+		accessorKey: 'companyName',
 		header: 'Unidade',
 		cell: ({ row }) => (
-			<div className='capitalize'>{row.getValue('unidade')}</div>
+			<div className='capitalize'>{row.getValue('companyName')}</div>
 		),
 	},
 	{
@@ -196,13 +127,6 @@ export const columns: ColumnDef<User>[] = [
 		},
 		cell: ({ row }) => <div className='lowercase'>{row.getValue('email')}</div>,
 	},
-	{
-		accessorKey: 'password',
-		header: 'Senha',
-		cell: ({ row }) => (
-			<div className='capitalize'>{row.getValue('password')}</div>
-		),
-	},
 
 	{
 		id: 'actions',
@@ -210,29 +134,29 @@ export const columns: ColumnDef<User>[] = [
 		cell: ({ row }) => {
 			const payment = row.original;
 
-			function handleDelete(payment: User) {
-				return toast.success('Usuário Deletado - 200', {
-					description: `Usuário ${payment.name} será deletado`,
-				});
-			}
+			// function handleDelete(payment: User) {
+			// 	return toast.success('Usuário Deletado - 200', {
+			// 		description: `Usuário ${payment.name} será deletado`,
+			// 	});
+			// }
 
-			function handleCopy(payment: User) {
-				return toast.success('Dados Copiados - 200', {
-					description: `Dados de usuário ${payment.name} ${payment.password} ${payment.email} ${payment.CPF} ${payment.password} foram copiados`,
-				});
-			}
+			// function handleCopy(payment: User) {
+			// 	return toast.success('Dados Copiados - 200', {
+			// 		description: `Dados de usuário ${payment.name} ${payment.password} ${payment.email} ${payment.CPF} ${payment.password} foram copiados`,
+			// 	});
+			// }
 
-			function handleUpdate(payment: User) {
-				return toast.success('Dados Alterados - 200', {
-					description: `Dados de usuário ${payment.name} ${payment.password} ${payment.email} ${payment.CPF} ${payment.password} foram copiados`,
-				});
-			}
+			// function handleUpdate(payment: User) {
+			// 	return toast.success('Dados Alterados - 200', {
+			// 		description: `Dados de usuário ${payment.name} ${payment.password} ${payment.email} ${payment.CPF} ${payment.password} foram copiados`,
+			// 	});
+			// }
 
-			function handleInactive(payment: User) {
-				return toast.success(' - 200', {
-					description: `Dados de usuário ${payment.name} ${payment.password} ${payment.email} ${payment.CPF} ${payment.password} foram copiados`,
-				});
-			}
+			// function handleInactive(payment: User) {
+			// 	return toast.success(' - 200', {
+			// 		description: `Dados de usuário ${payment.name} ${payment.password} ${payment.email} ${payment.CPF} ${payment.password} foram copiados`,
+			// 	});
+			// }
 
 			return (
 				<DropdownMenu>
@@ -250,9 +174,7 @@ export const columns: ColumnDef<User>[] = [
 						<DropdownMenuLabel className='text-zinc-50 font-bold text-lg'>
 							Menu
 						</DropdownMenuLabel>
-						<DropdownMenuItem
-							className='cursor-pointer'
-							onClick={() => handleCopy(payment)}>
+						<DropdownMenuItem className='cursor-pointer'>
 							Copiar dados
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
@@ -260,9 +182,7 @@ export const columns: ColumnDef<User>[] = [
 							Editar Usuário
 						</DropdownMenuItem>
 
-						<DropdownMenuItem
-							onClick={() => handleDelete(payment)}
-							className='hover:bg-red-500 transition-all duration-300 ease-linear cursor-pointer font-semibold bg-red-800'>
+						<DropdownMenuItem className='hover:bg-red-500 transition-all duration-300 ease-linear cursor-pointer font-semibold bg-red-800'>
 							Deletar Usuário
 						</DropdownMenuItem>
 					</DropdownMenuContent>
@@ -272,7 +192,9 @@ export const columns: ColumnDef<User>[] = [
 	},
 ];
 
-export function DataTableDemo() {
+export function DataTableDemo({ data }: { data: IUser[] }) {
+	// const data = await getAllUsersAction();
+
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
 		[],
@@ -317,16 +239,16 @@ export function DataTableDemo() {
 						}
 						className='max-w-sm border-none outline-none ring-0 focus-within:ring-0 text-zinc-950'></Input>
 				</div>
-				<div className='flex items-center justify-between md:ml-auto md:flex-row mx-auto w-full gap-3'>
+				<div className='flex items-center justify-between md:justify-start  md:ml-auto md:flex-row mx-auto w-full gap-3'>
 					<ModalCreateUser />
 					<Button className='flex gap-3 items-center font-semibold bg-zinc-900 border border-border hover:bg-zinc-700'>
-						Editar <Pencil size={20} />
+						Editar <UserRoundCog size={20} />
 					</Button>
 					<Button
 						variant={'destructive'}
 						className='hover:bg-red-800 font-semibold flex gap-3 items-center'>
 						Deletar
-						<Trash2 size={20} />
+						<UserMinus size={20} />
 					</Button>
 				</div>
 				<DropdownMenu>

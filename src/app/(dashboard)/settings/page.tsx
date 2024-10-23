@@ -2,6 +2,7 @@
 
 import { getServerSession } from 'next-auth';
 import { DataTableDemo } from './components/dataTable';
+import { getAllUsersAction } from '@/actions/getAllUsers';
 
 export default async function Page({
 	searchParams,
@@ -9,8 +10,10 @@ export default async function Page({
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
 	const session = await getServerSession();
-	console.log(session);
+
 	let open = searchParams.open || 'true';
+
+	const data = await getAllUsersAction();
 
 	return (
 		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden md:px-5 py-10 '>
@@ -27,9 +30,7 @@ export default async function Page({
 						<span className='text-violet-400'>{session?.user?.name}</span>
 					</h2>
 				</div>
-				<div className='mt-14'>
-					<DataTableDemo />
-				</div>
+				<div className='mt-14'>{data && <DataTableDemo data={data} />}</div>
 			</div>
 		</main>
 	);

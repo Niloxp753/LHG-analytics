@@ -1,6 +1,7 @@
 /** @format */
 
 interface User {
+	id: string;
 	email?: string;
 	name?: string;
 	cpf?: string;
@@ -12,7 +13,7 @@ interface User {
 
 const endpoint = process.env.NEXT_PUBLIC_BACKEND_ENDPOINT;
 
-export async function getAllUserByEmail(email: string) {
+export async function getAllUserByEmail(email: string): Promise<User> {
 	const resp = await fetch(`${endpoint}/email/${email}`, {
 		next: {
 			tags: ['users'],
@@ -20,6 +21,6 @@ export async function getAllUserByEmail(email: string) {
 	});
 
 	const user = resp.json();
-	console.log(user);
+
 	return user;
 }

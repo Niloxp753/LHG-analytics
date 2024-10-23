@@ -1,6 +1,7 @@
 /** @format */
 
 interface User {
+	id: string;
 	email: string;
 	name: string;
 	cpf: string;
@@ -10,15 +11,14 @@ interface User {
 	companyName?: string;
 }
 
-const endpoint = process.env.NEXT_PUBLIC_BACKEND_ENDPOINT;
+const endpoint = process.env.BACKEND_ENDPOINT;
 
 export async function getAllUsers(): Promise<User[]> {
-	const resp = await fetch(endpoint!, {
+	const resp = await fetch(`${endpoint!}/users/all`, {
 		next: {
 			tags: ['users'],
 		},
 	});
 
-	const users = resp.json();
-	return users;
+	return resp.json();
 }

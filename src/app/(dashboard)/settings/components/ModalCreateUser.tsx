@@ -70,19 +70,19 @@ export function ModalCreateUser() {
 			<DialogTrigger
 				onClick={() => setModal(true)}
 				asChild>
-				<Button className='ml-auto flex gap-4 w-fit text-zinc-800 font-semibold bg-violet-400 hover:bg-violet-500 transition-all duration-300 ease-linear'>
-					Adicionar Usuário <UserPlus size={20} />
+				<Button className='flex gap-4 w-fit text-zinc-800 font-semibold bg-violet-400 hover:bg-violet-500 transition-all duration-300 ease-linear'>
+					Adicionar <UserPlus size={20} />
 				</Button>
 			</DialogTrigger>
-			<DialogContent className='sm:max-w-[425px] bg-zinc-800 text-zinc-100'>
+			<DialogContent className='sm:max-w-[425px] bg-zinc-950 text-zinc-100 max-w-sm rounded-md'>
 				<DialogClose
 					onClick={() => setModal(false)}
 					className=' ml-auto text-zinc-500 hover:text-zinc-100 duration-300 transition-all ease-linear'>
 					<X />
 				</DialogClose>
 				<DialogHeader>
-					<DialogTitle>Cadastrar Usuário</DialogTitle>
-					<DialogDescription className='text-zinc-400'>
+					<DialogTitle className='text-xl'>Cadastrar Usuário</DialogTitle>
+					<DialogDescription className='text-zinc-400 text-balance text-xs'>
 						Preencha os campos para cadastrar um novo usuário
 					</DialogDescription>
 				</DialogHeader>
@@ -106,7 +106,7 @@ export function ModalCreateUser() {
 											{...field}
 											required
 											placeholder='Nome do usuário'
-											className='bg-zinc-700 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
+											className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
 										/>
 									</FormControl>
 									<FormMessage />
@@ -129,7 +129,7 @@ export function ModalCreateUser() {
 											{...field}
 											required
 											placeholder='E-mail do usuário'
-											className='bg-zinc-700 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
+											className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
 										/>
 									</FormControl>
 									<FormMessage />
@@ -152,7 +152,7 @@ export function ModalCreateUser() {
 											{...field}
 											required
 											placeholder='Unidade do usuário'
-											className='bg-zinc-700 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
+											className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
 										/>
 									</FormControl>
 									<FormMessage />
@@ -175,7 +175,7 @@ export function ModalCreateUser() {
 											{...field}
 											required
 											placeholder='CPF do usuário'
-											className='bg-zinc-700 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
+											className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
 										/>
 									</FormControl>
 									<FormMessage />
@@ -190,7 +190,7 @@ export function ModalCreateUser() {
 									<FormLabel className='text-zinc-100'>Senha</FormLabel>
 									<FormControl>
 										<Input
-											className='bg-zinc-700 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
+											className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
 											{...field}
 											placeholder='********'
 											required
