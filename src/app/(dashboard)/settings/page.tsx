@@ -9,6 +9,7 @@ export default async function Page({
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
 	const session = await getServerSession();
+	console.log(session);
 	let open = searchParams.open || 'true';
 
 	return (

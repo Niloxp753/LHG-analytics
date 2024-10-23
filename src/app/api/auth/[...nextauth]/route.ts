@@ -1,7 +1,9 @@
 /** @format */
 
+import { getAllUserByEmailAction } from '@/actions/getUserByEmail';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import * as bcrypt from 'bcrypt';
 
 const handler = NextAuth({
 	// Configure one or more authentication providers
@@ -19,17 +21,14 @@ const handler = NextAuth({
 				},
 			},
 			async authorize(credentials, req) {
-				const user = {
-					id: '1',
-					name: 'Thiago LHG',
-					email: 'thiago@lhgmoteis.com.br',
-					password: '123456789',
-					role: 'admin',
-				};
+				const user = await getAllUserByEmailAction(credentials?.email!);
 
-				const isValidEmail = user.email === credentials?.email;
-				const isValidPassword = user.password === credentials?.password;
-				if (!isValidEmail || !isValidPassword) {
+				const isvalidPass = bcrypt.compare(
+					credentials?.password!,
+					user.password,
+				);
+
+				if (!isvalidPass) {
 					// Any object returned will be saved in `user` property of the JWT
 					return null;
 				}
@@ -43,14 +42,11 @@ const handler = NextAuth({
 	],
 	callbacks: {
 		jwt: async ({ token, user }) => {
-			const customUser = user as unknown as any;
-			if (user) {
-				return {
-					...token,
-					role: customUser.role,
-				};
+			if(user){
+				token.email = user.email,
+				token.name = user.name
 			}
-			return token;
+			return token
 		},
 		session: async ({ session, token }) => {
 			return {
@@ -58,7 +54,6 @@ const handler = NextAuth({
 				user: {
 					name: token.name,
 					email: token.email,
-					role: token.role,
 				},
 			};
 		},
