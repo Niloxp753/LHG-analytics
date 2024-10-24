@@ -2,9 +2,9 @@
 
 'use server';
 
-import { getAllUsers } from '@/http/getUsers';
+import { getAllUsers } from '@/http/user/getUsers';
 
 export async function getAllUsersAction() {
-	const resp = getAllUsers();
+	const resp = await getAllUsers();
 	return resp;
 }

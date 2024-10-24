@@ -9,7 +9,7 @@ export interface User {
 	password: string;
 	unidade: string;
 	status: string;
-	CPF: string;
+	cpf: string;
 }
 
 function createFakeData(size: number) {

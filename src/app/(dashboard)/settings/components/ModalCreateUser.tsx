@@ -26,6 +26,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { createUsersAction } from '@/actions/createUser';
 
 export function ModalCreateUser() {
 	const [isPending, setIsPending] = useState(false);
@@ -38,19 +39,22 @@ export function ModalCreateUser() {
 			cpf: '',
 			name: '',
 			unidade: '',
+			role: 'MANAGER',
 		},
 	});
 
-	function onSubmit(values: z.infer<typeof formSchemaUser>) {
+	async function onSubmit(values: z.infer<typeof formSchemaUser>) {
 		try {
 			setIsPending(true);
 			const email = values.email;
 			const password = values.password;
 			const name = values.name;
 			const cpf = values.cpf;
+			const role = values.role;
+			await createUsersAction({ email, password, name, cpf, role });
 			form.reset();
 			toast.success('Usuário Cadastrado - 200', {
-				description: `${name} ${email} ${password} ${cpf} Novo usuário salvo no banco de dados`,
+				description: `${name} ${email} ${password} ${cpf} ${role} - Novo usuário salvo no banco de dados`,
 			});
 			setModal(false);
 		} catch (error) {

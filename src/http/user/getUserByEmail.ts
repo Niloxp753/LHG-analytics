@@ -15,6 +15,7 @@ const endpoint = process.env.NEXT_PUBLIC_BACKEND_ENDPOINT;
 
 export async function getAllUserByEmail(email: string): Promise<User> {
 	const resp = await fetch(`${endpoint}/email/${email}`, {
+		method: 'GET',
 		next: {
 			tags: ['users'],
 		},
