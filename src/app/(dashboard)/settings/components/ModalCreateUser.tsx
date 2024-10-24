@@ -27,6 +27,13 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { createUsersAction } from '@/actions/createUser';
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select';
 
 export function ModalCreateUser() {
 	const [isPending, setIsPending] = useState(false);
@@ -51,10 +58,11 @@ export function ModalCreateUser() {
 			const name = values.name;
 			const cpf = values.cpf;
 			const role = values.role;
-			await createUsersAction({ email, password, name, cpf, role });
+			const companyId = Number(values.unidade);
+			await createUsersAction({ email, password, name, cpf, role, companyId });
 			form.reset();
 			toast.success('Usuário Cadastrado - 200', {
-				description: `${name} ${email} ${password} ${cpf} ${role} - Novo usuário salvo no banco de dados`,
+				description: `${name} ${email} ${password} ${cpf} ${role}  - Novo usuário salvo no banco de dados`,
 			});
 			setModal(false);
 		} catch (error) {
@@ -63,9 +71,6 @@ export function ModalCreateUser() {
 			});
 			setModal(true);
 			setIsPending(false);
-			// 	console.log(error);
-			// 	alert(error);
-			// 	setIsPending(false);
 		}
 		setIsPending(false);
 	}
@@ -150,15 +155,33 @@ export function ModalCreateUser() {
 										className='text-zinc-100'>
 										Unidade
 									</FormLabel>
-									<FormControl>
-										<Input
-											id='unidade'
-											{...field}
-											required
-											placeholder='Unidade do usuário'
-											className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
-										/>
-									</FormControl>
+									<Select
+										onValueChange={field.onChange}
+										defaultValue={field.value}>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder='Selecione uma unidade' />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											<SelectItem value={'1'}>Lush Ipiranga</SelectItem>
+											<SelectItem
+												disabled
+												value={'2'}>
+												Lush Guarujá
+											</SelectItem>
+											<SelectItem
+												disabled
+												value={'3'}>
+												Andar de Cima
+											</SelectItem>
+											<SelectItem
+												disabled
+												value={'4'}>
+												Tout Campinas
+											</SelectItem>
+										</SelectContent>
+									</Select>
 									<FormMessage />
 								</FormItem>
 							)}

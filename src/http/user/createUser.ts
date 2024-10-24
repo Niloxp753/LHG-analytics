@@ -20,18 +20,22 @@ export async function createUser({
 	password,
 	role,
 	companyId = 1,
-}: IUser): Promise<IUser> {
-	const resp = await api.post(`users`, {
-		next: { tags: ['users'] },
-		json: {
-			email,
-			name,
-			cpf,
-			password,
-			role,
-			companyId,
-		},
-	});
+}: IUser): Promise<IUser | null | undefined> {
+	try {
+		const resp = await api.post(`users`, {
+			next: { tags: ['users'] },
+			json: {
+				email,
+				name,
+				cpf,
+				password,
+				role,
+				companyId,
+			},
+		});
 
-	return resp.json();
+		return resp.json();
+	} catch (error) {
+		console.error(error);
+	}
 }
