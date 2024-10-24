@@ -13,7 +13,7 @@ interface User {
 
 const endpoint = process.env.BACKEND_ENDPOINT;
 
-export async function getAllUsers(): Promise<User[]> {
+export async function getAllUsers(): Promise<any[]> {
 	const resp = await fetch(`${endpoint!}/users/all`, {
 		method: 'GET',
 		next: {

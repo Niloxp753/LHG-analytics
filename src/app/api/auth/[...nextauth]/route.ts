@@ -22,7 +22,7 @@ const handler = NextAuth({
 			},
 			async authorize(credentials, req) {
 				const users = await getAllUsersAction();
-				const user = users.find((u) => u.email === credentials?.email);
+				const user = users?.find((u) => u.email === credentials?.email);
 
 				if (user) {
 					const isvalidPass = await bcrypt.compare(
@@ -44,7 +44,6 @@ const handler = NextAuth({
 
 				// You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
 			},
-			type: 'credentials',
 		}),
 		// ...add more providers here
 	],
