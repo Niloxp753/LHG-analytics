@@ -44,17 +44,8 @@ import {
 } from 'lucide-react';
 import * as React from 'react';
 import { ModalCreateUser } from './ModalCreateUser';
+import { IUser } from '@/http/user/createUser';
 
-interface IUser {
-	id: string;
-	email: string;
-	name: string;
-	cpf: string;
-	password: string;
-	role: string;
-	companyId: number;
-	companyName?: string;
-}
 
 export const columns: ColumnDef<IUser | undefined | any>[] = [
 	{
