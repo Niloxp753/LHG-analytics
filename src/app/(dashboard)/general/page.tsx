@@ -1,26 +1,16 @@
 /** @format */
 
+import dynamic from 'next/dynamic';
+import BigNumbers from '../components/bignumber';
 import CardLink from '../components/CardLink';
 import Header from '../components/Header';
 import InvoicingXUnity from '../components/kpis/InvoicingXUnity';
+import InvoicingXUnityXTime from '../components/kpis/InvoicingXUnityXTime';
 import LocationsxUnity from '../components/kpis/LocationsxUnity';
+import OccupationXUnity from '../components/kpis/OccupationXUnity';
 import TKTxUnity from '../components/kpis/TKTxUnity';
 import TRevParXUnity from '../components/kpis/TRevParXUnity';
-import dynamic from 'next/dynamic';
-import InvoicingXUnityXTime from '../components/kpis/InvoicingXUnityXTime';
-import OccupationXUnity from '../components/kpis/OccupationXUnity';
-import CardDetails from '../components/CardDetails';
-import {
-	HandCoins,
-	Sigma,
-	SquarePercent,
-	Activity,
-	DoorClosed,
-	AlarmClockCheck,
-} from 'lucide-react';
 import { getCompanyAction } from './actions/getCompany';
-import BigNumberds from '../components/bignumber';
-import BigNumbers from '../components/bignumber';
 const SparkChart = dynamic(
 	() => import('@/app/(dashboard)/components/charts/SparkChart'),
 	{ ssr: false },

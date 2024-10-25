@@ -81,7 +81,7 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onSubmit)}
-				className='grid gap-4 z-[99999999999999999999999999999999999999] '>
+				className='grid gap-4'>
 				<FormField
 					control={form.control}
 					name='name'

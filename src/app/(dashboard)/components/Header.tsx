@@ -46,15 +46,6 @@ export default function Header() {
 						} border-violet-400 py-1 px-3 rounded transition-all duration-300 ease-linear hover:bg-violet-400 hover:text-zinc-900 font-semibold`}>
 						Últimos 6 meses
 					</Link>
-					<Link
-						href={`?menu=${selected}&open=${openned}&set=12months`}
-						className={`w-fit  cursor-pointer  border flex gap-2 ${
-							preSet == '12months'
-								? 'bg-violet-400 text-zinc-900 '
-								: 'text-zinc-50 bg-transparent'
-						} border-violet-400 py-1 px-3 rounded transition-all duration-300 ease-linear hover:bg-violet-400 hover:text-zinc-900 font-semibold`}>
-						Últimos 12 meses
-					</Link>
 				</div>
 				<div className='hidden md:flex'>
 					<MenuFilter />

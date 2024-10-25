@@ -14,18 +14,19 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 import { IUser } from '@/http/user/createUser';
+import { IUserUp } from '@/http/user/updateUser';
 import { Loader2, UserMinus } from 'lucide-react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 interface ModalDeleteProps {
-	user: IUser;
+	user: IUser | IUserUp;
 }
 
 export default function ModalDelete({ user }: ModalDeleteProps) {
 	const [pending, setPending] = useState(false);
 
-	async function handleDelete(user: IUser) {
+	async function handleDelete(user: IUser | IUserUp) {
 		setPending(true);
 		try {
 			await deleteUserAction(user.id!);
@@ -43,14 +44,7 @@ export default function ModalDelete({ user }: ModalDeleteProps) {
 
 	return (
 		<Dialog>
-			<DialogTrigger asChild>
-				<Button
-					variant={'destructive'}
-					className='hover:bg-red-800 font-semibold flex gap-3 items-center w-full'>
-					Deletar
-					<UserMinus size={20} />
-				</Button>
-			</DialogTrigger>
+			<DialogTrigger asChild></DialogTrigger>
 			<DialogContent className='dark'>
 				<DialogHeader>
 					<DialogTitle className='text-zinc-100'>Confirmação</DialogTitle>
