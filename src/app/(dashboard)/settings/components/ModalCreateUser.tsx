@@ -84,196 +84,196 @@ export function ModalCreateUser() {
 					Adicionar <UserPlus size={20} />
 				</Button>
 			</DialogTrigger>
-			<DialogOverlay onClick={() => setModal(false)}>
-				<DialogContent className='sm:max-w-[425px] text-zinc-100 max-w-sm rounded-md dark'>
-					<DialogClose
-						onClick={() => setModal(false)}
-						className=' ml-auto text-zinc-500 hover:text-zinc-100 duration-300 transition-all ease-linear'>
-						<X />
-					</DialogClose>
-					<DialogHeader>
-						<DialogTitle className='text-xl'>Cadastrar Usuário</DialogTitle>
-						<DialogDescription className='text-zinc-400 text-balance text-xs'>
-							Preencha os campos para cadastrar um novo usuário
-						</DialogDescription>
-					</DialogHeader>
-					<Form {...form}>
-						<form
-							onSubmit={form.handleSubmit(onSubmit)}
-							className='grid gap-4'>
-							<FormField
-								control={form.control}
-								name='name'
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel
-											htmlFor='name'
-											className='text-zinc-100'>
-											Nome
-										</FormLabel>
-										<FormControl>
-											<Input
-												id='name'
-												{...field}
-												required
-												placeholder='Nome do usuário'
-												className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name='email'
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel
-											htmlFor='email'
-											className='text-zinc-100'>
-											E-mail
-										</FormLabel>
-										<FormControl>
-											<Input
-												id='email'
-												type='email'
-												{...field}
-												required
-												placeholder='E-mail do usuário'
-												className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name='cpf'
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel
-											htmlFor='cpf'
-											className='text-zinc-100'>
-											CPF
-										</FormLabel>
-										<FormControl>
-											<Input
-												id='cpf'
-												{...field}
-												required
-												placeholder='CPF do usuário'
-												className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name='role'
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel
-											htmlFor='role'
-											className='text-zinc-100'>
-											Cargo
-										</FormLabel>
-										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}>
-											<FormControl>
-												<SelectTrigger>
-													<SelectValue placeholder='Selecione um cargo' />
-												</SelectTrigger>
-											</FormControl>
-											<SelectContent>
-												<SelectItem value={'MANAGER'}>Gerente</SelectItem>
-												<SelectItem value={'ADMIN'}>Administrador</SelectItem>
-											</SelectContent>
-										</Select>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
 
-							<FormField
-								control={form.control}
-								name='unidade'
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel
-											htmlFor='unidade'
-											className='text-zinc-100'>
-											Unidade
-										</FormLabel>
-										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}>
-											<FormControl>
-												<SelectTrigger>
-													<SelectValue placeholder='Selecione uma unidade' />
-												</SelectTrigger>
-											</FormControl>
-											<SelectContent>
-												<SelectItem value={'1'}>Lush Ipiranga</SelectItem>
-												<SelectItem
-													disabled
-													value={'2'}>
-													Lush Guarujá
-												</SelectItem>
-												<SelectItem
-													disabled
-													value={'3'}>
-													Andar de Cima
-												</SelectItem>
-												<SelectItem
-													disabled
-													value={'4'}>
-													Tout Campinas
-												</SelectItem>
-											</SelectContent>
-										</Select>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-
-							<FormField
-								control={form.control}
-								name='password'
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel className='text-zinc-100'>Senha</FormLabel>
+			<DialogContent className='sm:max-w-[425px] text-zinc-100 max-w-sm rounded-md dark'>
+				<DialogClose
+					onClick={() => setModal(false)}
+					className=' ml-auto text-zinc-500 hover:text-zinc-100 duration-300 transition-all ease-linear'>
+					<X />
+				</DialogClose>
+				<DialogHeader>
+					<DialogTitle className='text-xl'>Cadastrar Usuário</DialogTitle>
+					<DialogDescription className='text-zinc-400 text-balance text-xs'>
+						Preencha os campos para cadastrar um novo usuário
+					</DialogDescription>
+				</DialogHeader>
+				<Form {...form}>
+					<form
+						onSubmit={form.handleSubmit(onSubmit)}
+						className='grid gap-4'>
+						<FormField
+							control={form.control}
+							name='name'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel
+										htmlFor='name'
+										className='text-zinc-100'>
+										Nome
+									</FormLabel>
+									<FormControl>
+										<Input
+											id='name'
+											{...field}
+											required
+											placeholder='Nome do usuário'
+											className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name='email'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel
+										htmlFor='email'
+										className='text-zinc-100'>
+										E-mail
+									</FormLabel>
+									<FormControl>
+										<Input
+											id='email'
+											type='email'
+											{...field}
+											required
+											placeholder='E-mail do usuário'
+											className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name='cpf'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel
+										htmlFor='cpf'
+										className='text-zinc-100'>
+										CPF
+									</FormLabel>
+									<FormControl>
+										<Input
+											id='cpf'
+											{...field}
+											required
+											placeholder='CPF do usuário'
+											className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name='role'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel
+										htmlFor='role'
+										className='text-zinc-100'>
+										Cargo
+									</FormLabel>
+									<Select
+										onValueChange={field.onChange}
+										defaultValue={field.value}>
 										<FormControl>
-											<Input
-												className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
-												{...field}
-												placeholder='********'
-												required
-											/>
+											<SelectTrigger>
+												<SelectValue placeholder='Selecione um cargo' />
+											</SelectTrigger>
 										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
+										<SelectContent>
+											<SelectItem value={'MANAGER'}>Gerente</SelectItem>
+											<SelectItem value={'ADMIN'}>Administrador</SelectItem>
+										</SelectContent>
+									</Select>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
 
-							<Button
-								disabled={isPending}
-								type='submit'
-								className='w-full font-medium disabled:grayscale disabled:cursor-none bg-purple-400 text-zinc-900 text-lg hover:bg-purple-500 duration-300 ease-linear transition-all'>
-								{isPending ? (
-									<span className='bg-transparent h-6 w-6 border-l border-t border-zinc-50 rounded-full animate-spin' />
-								) : (
-									<p>Cadastrar</p>
-								)}
-							</Button>
-						</form>
-					</Form>
-				</DialogContent>
-			</DialogOverlay>
+						<FormField
+							control={form.control}
+							name='unidade'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel
+										htmlFor='unidade'
+										className='text-zinc-100'>
+										Unidade
+									</FormLabel>
+									<Select
+										onValueChange={field.onChange}
+										defaultValue={field.value}>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder='Selecione uma unidade' />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											<SelectItem value={'1'}>Lush Ipiranga</SelectItem>
+											<SelectItem
+												disabled
+												value={'2'}>
+												Lush Guarujá
+											</SelectItem>
+											<SelectItem
+												disabled
+												value={'3'}>
+												Andar de Cima
+											</SelectItem>
+											<SelectItem
+												disabled
+												value={'4'}>
+												Tout Campinas
+											</SelectItem>
+										</SelectContent>
+									</Select>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name='password'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel className='text-zinc-100'>Senha</FormLabel>
+									<FormControl>
+										<Input
+											className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
+											{...field}
+											placeholder='********'
+											required
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<Button
+							disabled={isPending}
+							type='submit'
+							className='w-full font-medium disabled:grayscale disabled:cursor-none bg-purple-400 text-zinc-900 text-lg hover:bg-purple-500 duration-300 ease-linear transition-all'>
+							{isPending ? (
+								<span className='bg-transparent h-6 w-6 border-l border-t border-zinc-50 rounded-full animate-spin' />
+							) : (
+								<p>Cadastrar</p>
+							)}
+						</Button>
+					</form>
+				</Form>
+			</DialogContent>
+			<DialogOverlay onClick={() => setModal(false)} />
 		</Dialog>
 	);
 }

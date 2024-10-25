@@ -96,7 +96,7 @@ export default function ColumnActions({ user }: { user: IUserUp | IUser }) {
 					<DropdownMenuSeparator />
 
 					<DropdownMenuItem
-						className='cursor-pointer'
+						className='cursor-pointer hover:bg-red-800'
 						onClick={() => (setOpenDrop(false), setOpenDialogDel(true))}
 						asChild>
 						<Button
@@ -110,54 +110,52 @@ export default function ColumnActions({ user }: { user: IUserUp | IUser }) {
 			</DropdownMenu>
 
 			<Dialog open={openDialogEdit}>
-				<DialogOverlay onClick={() => setOpenDialogEdit(false)}>
-					<DialogContent className='dark text-zinc-100 sm:max-w-[425px] max-w-sm'>
-						<DialogHeader>
-							<DialogClose
-								onClick={() => setOpenDialogEdit(false)}
-								className=' ml-auto text-zinc-500 hover:text-zinc-100 duration-300 transition-all ease-linear'>
-								<X />
-							</DialogClose>
-							<DialogTitle className='text-xl'>Editar Usuário</DialogTitle>
-							<DialogDescription className='text-zinc-400 text-balance text-xs'>
-								Preencha os campos para atualizar usuário já existente
-							</DialogDescription>
-						</DialogHeader>
-						<FormUpdate user={user} />
-					</DialogContent>
-				</DialogOverlay>
+				<DialogContent className='dark text-zinc-100 sm:max-w-[425px] max-w-sm'>
+					<DialogHeader>
+						<DialogClose
+							onClick={() => setOpenDialogEdit(false)}
+							className=' ml-auto text-zinc-500 hover:text-zinc-100 duration-300 transition-all ease-linear'>
+							<X />
+						</DialogClose>
+						<DialogTitle className='text-xl'>Editar Usuário</DialogTitle>
+						<DialogDescription className='text-zinc-400 text-balance text-xs'>
+							Preencha os campos para atualizar usuário já existente
+						</DialogDescription>
+					</DialogHeader>
+					<FormUpdate user={user} />
+				</DialogContent>
+				<DialogOverlay onClick={() => setOpenDialogEdit(false)} />
 			</Dialog>
 
 			<Dialog open={openDialogDel}>
-				<DialogOverlay onClick={() => setOpenDialogDel(false)}>
-					<DialogContent className='dark'>
-						<DialogHeader>
-							<DialogClose
-								onClick={() => setOpenDialogDel(false)}
-								className=' ml-auto text-zinc-500 hover:text-zinc-100 duration-300 transition-all ease-linear'>
-								<X />
-							</DialogClose>
-							<DialogTitle className='text-zinc-100'>Confirmação</DialogTitle>
-							<DialogDescription>
-								Os dados excluídos não serão recuperados. Tem certeza que deseja
-								deletar o usuário?
-							</DialogDescription>
-						</DialogHeader>
-						<DialogFooter>
-							<Button
-								onClick={() => handleDelete(user)}
-								disabled={pending}
-								variant={'destructive'}
-								className='hover:bg-red-800 font-semibold w-full'>
-								{pending ? (
-									<Loader2 className='size-4 animate-spin' />
-								) : (
-									'Deletar Permanentemente'
-								)}
-							</Button>
-						</DialogFooter>
-					</DialogContent>
-				</DialogOverlay>
+				<DialogContent className='dark'>
+					<DialogHeader>
+						<DialogClose
+							onClick={() => setOpenDialogDel(false)}
+							className=' ml-auto text-zinc-500 hover:text-zinc-100 duration-300 transition-all ease-linear'>
+							<X />
+						</DialogClose>
+						<DialogTitle className='text-zinc-100'>Confirmação</DialogTitle>
+						<DialogDescription>
+							Os dados excluídos não serão recuperados. Tem certeza que deseja
+							deletar o usuário?
+						</DialogDescription>
+					</DialogHeader>
+					<DialogFooter>
+						<Button
+							onClick={() => handleDelete(user)}
+							disabled={pending}
+							variant={'destructive'}
+							className='hover:bg-red-800 font-semibold w-full'>
+							{pending ? (
+								<Loader2 className='size-4 animate-spin' />
+							) : (
+								'Deletar Permanentemente'
+							)}
+						</Button>
+					</DialogFooter>
+				</DialogContent>
+				<DialogOverlay onClick={() => setOpenDialogDel(false)} />
 			</Dialog>
 		</>
 	);
