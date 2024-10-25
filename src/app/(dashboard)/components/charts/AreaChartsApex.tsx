@@ -49,13 +49,27 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			style: {
 				colors: ['#7c3aed', '#2563eb', '#4f46e5', '#c026d3', '#e11d48'],
 			},
-			enabled: true,
+			enabled: false,
+			formatter: (val: number) =>
+				`${val.toLocaleString('pt-BR', {
+					style: 'currency',
+					currency: 'BRL',
+				})}`,
 			distributed: false,
 			background: {
 				enabled: true,
 				borderRadius: 4,
 				padding: 12,
 				borderWidth: 1,
+			},
+		},
+		tooltip: {
+			y: {
+				formatter: (val: number) =>
+					`${val.toLocaleString('pt-BR', {
+						style: 'currency',
+						currency: 'BRL',
+					})}`,
 			},
 		},
 		colors: ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9'],
@@ -67,10 +81,19 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 		},
 
 		markers: {
-			size: 0,
-			colors: ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9'],
-			hover: { size: 0 },
-			strokeWidth: 0,
+			size: 5,
+			colors: [
+				'#7c3aed',
+				'#2563eb',
+				'#4f46e5',
+				'#c026d3',
+				'#e11d48',
+				'#ea580c',
+				'#ca8a04',
+				'#65a30d',
+			],
+			hover: { size: 8 },
+			strokeWidth: 1,
 		},
 
 		xaxis: {

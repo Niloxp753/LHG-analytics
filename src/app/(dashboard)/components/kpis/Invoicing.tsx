@@ -7,17 +7,36 @@ const AreaChartsApex = dynamic(
 	{ ssr: false },
 );
 
-export default function Invoicing() {
+export default function Invoicing(data: any) {
+	const revenueByDate = data.data;
+	const totalRevenueData: any[] = [];
+	const dates: any[] = [];
+
+	revenueByDate.forEach((item: any) => {
+		const date = Object.keys(item)[0];
+		const value = item[date].totalValue;
+
+		// Adiciona a data e converte o valor para número
+		dates.push(date);
+		totalRevenueData.push(
+			parseFloat(value.replace(/[^0-9,]/g, '').replace(',', '.')),
+		);
+	});
+
+	const result = {
+		name: 'Faturamento total',
+		data: totalRevenueData,
+		dates: dates,
+	};
+
+	// Exibe o resultado
+
 	return (
 		<>
 			<AreaChartsApex
-				series={[
-					{
-						data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 55, 57, 56],
-						name: 'Faturamento Total',
-					},
-				]}
+				series={[result]}
 				legend='Faturamento Total'
+				categories={result.dates}
 			/>
 		</>
 	);

@@ -7,52 +7,99 @@ const LineChart = dynamic(
 	{ ssr: false },
 );
 
-export default function InvoicingXLocation() {
+export default function InvoicingXLocation(data: any) {
+	const billingRentalType = data.data;
+
+	const datas = billingRentalType.map((item: any) => Object.keys(item)[0]);
+
+	const rentalTypeMapping = {
+		OVERNIGHT: 'Pernoite',
+		DAILY: 'Diária',
+		DAY_USE: 'Day Use',
+		TWELVE_HOURS: 'Doze Horas',
+		SIX_HOURS: 'Seis Horas',
+		THREE_HOURS: 'Três Horas',
+	};
+
+	const organizedValues = {
+		Pernoite: [],
+		Diária: [],
+		'Day Use': [],
+		'Doze Horas': [],
+		'Seis Horas': [],
+		'Três Horas': [],
+	};
+
+	billingRentalType.forEach((item: any) => {
+		const rentals = item[Object.keys(item)[0]]; // Obtém os valores de locação
+
+		// Percorre cada tipo de locação
+		rentals.forEach((rental: any) => {
+			const type = Object.keys(rental)[0];
+			const value = rental[type].totalValue;
+
+			// Converte o valor para número e adiciona ao tipo correspondente
+			// eslint-disable-next-line
+			organizedValues[rentalTypeMapping[type]].push(
+				parseFloat(value.replace(/[^0-9,]/g, '').replace(',', '.')),
+			); // Mantém como número
+		});
+	});
+
+	// Converte para o formato desejado
+	const result = Object.keys(organizedValues).map((type) => ({
+		name: type,
+		// eslint-disable-next-line
+		data: organizedValues[type],
+	}));
+
+	// Exibe os valores organizados
+
+	// const processData = (billingRentalType: any[]) => {
+	// 	const seriesData = {
+	// 		'3 horas': [],
+	// 		'6 horas': [],
+	// 		'12 horas': [],
+	// 		'Day Use': [],
+	// 		Diária: [],
+	// 		Pernoite: [],
+	// 	};
+
+	// 	billingRentalType.forEach((entry: any) => {
+	// 		const date = Object.keys(entry)[0]; // Pega a data
+	// 		const rentals = entry[date];
+
+	// 		rentals.forEach((rental: any) => {
+	// 			const rentalType = Object.keys(rental)[0]; // Pega o tipo de locação
+	// 			const totalValue = parseFloat(
+	// 				rental[rentalType].totalValue
+	// 					.replace('R$ ', '')
+	// 					.replace('.', '')
+	// 					.replace(',', '.'),
+	// 			); // Converte o valor para número
+
+	// 			// Adiciona o valor ao array correspondente
+	// 			if (seriesData[rentalType]) {
+	// 				seriesData[rentalType].push(totalValue);
+	// 			}
+	// 		});
+	// 	});
+
+	// 	return Object.keys(seriesData).map((key) => ({
+	// 		name: key,
+	// 		data: seriesData[key],
+	// 	}));
+	// };
+
+	// const series = processData(billingRentalType);
+
 	return (
 		<>
 			<LineChart
-				series={[
-					{
-						name: '3 horas',
-						data: [78, 87, 96, 51, 96, 31, 48, 57, 86, 41, 97, 36],
-					},
-					{
-						name: '6 horas',
-						data: [66, 31, 45, 77, 86, 78, 87, 96, 51, 65, 87, 96],
-					},
-					{
-						name: '12 horas',
-						data: [91, 38, 47, 56, 31, 48, 57, 66, 31, 45, 77, 86],
-					},
-					{
-						name: 'Day Use',
-						data: [81, 68, 77, 86, 91, 38, 47, 56, 71, 85, 57, 66],
-					},
-					{
-						name: 'Diária',
-						data: [41, 58, 67, 76, 81, 68, 77, 86, 41, 97, 36, 31],
-					},
-					{
-						name: 'Pernoite',
-						data: [34, 45, 57, 66, 41, 58, 67, 76, 61, 75, 47, 36],
-					},
-				]}
 				title={'Faturamento por tipo de locação'}
 				height={400}
-				categories={[
-					'jan/24',
-					'fev/24',
-					'mar/24',
-					'abr/24',
-					'mai/24',
-					'jun/24',
-					'jul/24',
-					'ago/24',
-					'set/24',
-					'out/24',
-					'nov/24',
-					'dez/24',
-				]}
+				series={result}
+				categories={datas}
 			/>
 		</>
 	);

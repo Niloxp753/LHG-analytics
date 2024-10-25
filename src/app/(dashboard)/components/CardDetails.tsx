@@ -7,7 +7,6 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card';
-import { faker } from '@faker-js/faker';
 import { MoveDown, MoveUp } from 'lucide-react';
 
 interface CardDetailsProps {
@@ -17,9 +16,6 @@ interface CardDetailsProps {
 	type?: string;
 	description?: string;
 }
-
-const revenue = faker.finance.amount({ symbol: 'R$' });
-const location = faker.number.int(24);
 
 export default function CardDetails({
 	title,
@@ -35,12 +31,7 @@ export default function CardDetails({
 					{title}
 					{icon}
 				</CardTitle>
-				{description && (
-					<CardDescription>
-						{description}
-						{type == 'money' ? revenue : location}
-					</CardDescription>
-				)}
+				{description && <CardDescription>{description}</CardDescription>}
 			</CardHeader>
 			<CardContent>
 				{type == 'money' ? (
@@ -59,11 +50,11 @@ export default function CardDetails({
 				) : (
 					<p className='flex gap-1 items-center'>
 						{value}
-						<MoveUp
+						{/* <MoveUp
 							className='drop-shadow-[0px_4px_8px_rgba(34,197,94)]'
 							color='#22c55e'
 							size={16}
-						/>
+						/> */}
 					</p>
 				)}
 			</CardContent>

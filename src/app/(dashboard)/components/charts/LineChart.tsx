@@ -65,6 +65,11 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 				borderWidth: 1,
 				foreColor: '#fafafa',
 			},
+			formatter: (val: number) =>
+				`${val.toLocaleString('pt-BR', {
+					style: 'currency',
+					currency: 'BRL',
+				})}`,
 			style: {
 				colors: [
 					'#7c3aed',
@@ -76,6 +81,15 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 					'#ca8a04',
 					'#65a30d',
 				],
+			},
+		},
+		tooltip: {
+			y: {
+				formatter: (val: number) =>
+					`${val.toLocaleString('pt-BR', {
+						style: 'currency',
+						currency: 'BRL',
+					})}`,
 			},
 		},
 		colors: [

@@ -18,19 +18,24 @@ import {
 	DoorClosed,
 	AlarmClockCheck,
 } from 'lucide-react';
+import { getCompanyAction } from './actions/getCompany';
+import BigNumberds from '../components/bignumber';
+import BigNumbers from '../components/bignumber';
 const SparkChart = dynamic(
 	() => import('@/app/(dashboard)/components/charts/SparkChart'),
 	{ ssr: false },
 );
 
-export default function General({
+export default async function General({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | string[] | undefined };
+	searchParams: { [key: string]: string | undefined };
 }) {
 	const open = searchParams.open || 'true';
 	const menu = 'general';
 	const preSet = searchParams.set || '7days';
+
+	const data = await getCompanyAction(preSet);
 
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 '>
@@ -49,71 +54,15 @@ export default function General({
 				</div>
 
 				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-28'>
-					<div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
-						<CardDetails
-							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-								preSet == '30days' ? '30 dias atrás ' : ''
-							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-								preSet == '12months' ? '12 meses atrás ' : ''
-							}`}
-							type='money'
-							icon={<HandCoins />}
-							title={'Faturamento'}
-							value={120000}
-						/>
-						<CardDetails
-							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-								preSet == '30days' ? '30 dias atrás ' : ''
-							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-								preSet == '12months' ? '12 meses atrás ' : ''
-							}`}
-							icon={<Sigma />}
-							title={'Locações'}
-							value={500}
-						/>
-						<CardDetails
-							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
-								preSet == '30days' ? '30 dias atrá s' : ''
-							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-								preSet == '12months' ? '12 meses atrás ' : ''
-							}`}
-							type='money'
-							icon={<SquarePercent />}
-							title={'Ticket Médio'}
-							value={240}
-						/>
-						<CardDetails
-							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-								preSet == '30days' ? '30 dias atrás ' : ''
-							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-								preSet == '12months' ? '12 meses atrás ' : ''
-							}`}
-							type='money'
-							icon={<Activity />}
-							title={'RevPar'}
-							value={320}
-						/>
-						<CardDetails
-							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
-								preSet == '30days' ? '30 dias atrás ' : ''
-							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-								preSet == '12months' ? '12 meses atrás ' : ''
-							}`}
-							icon={<DoorClosed />}
-							title={'Tx de Ocupação'}
-							value={'40%'}
-						/>
-						<CardDetails
-							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-								preSet == '30days' ? '30 dias atrás ' : ''
-							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-								preSet == '12months' ? '12 meses atrás ' : ''
-							}`}
-							icon={<AlarmClockCheck />}
-							title={'TMO'}
-							value={'4 horas'}
-						/>
-					</div>
+					<BigNumbers
+						data={data.BigNumbers}
+						description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+							preSet == '30days' ? '30 dias atrás ' : ''
+						} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+							preSet == '12months' ? '12 meses atrás ' : ''
+						}`}
+					/>
+
 					<div className='flex gap-5 flex-col md:flex-row w-full h-full '>
 						<div className='md:w-1/3 w-full h-full '>
 							<InvoicingXUnity />
