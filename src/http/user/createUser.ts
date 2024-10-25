@@ -9,7 +9,7 @@ export interface IUser {
 	cpf: string;
 	password: string;
 	role: string;
-	companyId?: number;
+	companyId: number;
 	companyName?: string;
 }
 
@@ -20,9 +20,9 @@ export async function createUser({
 	password,
 	role,
 	companyId = 1,
-}: IUser): Promise<IUser | null | undefined> {
+}: IUser) {
 	try {
-		const resp = await api.post(`users`, {
+		await api.post(`users`, {
 			next: { tags: ['users'] },
 			json: {
 				email,
@@ -33,9 +33,8 @@ export async function createUser({
 				companyId,
 			},
 		});
-
-		return resp.json();
 	} catch (error) {
 		console.error(error);
+		return error;
 	}
 }

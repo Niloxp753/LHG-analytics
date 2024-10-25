@@ -5,7 +5,7 @@
 import { createUser, IUser } from '@/http/user/createUser';
 import { revalidateTag } from 'next/cache';
 
-export async function createUsersAction(props: IUser) {
+export async function createUserAction(props: IUser) {
 	try {
 		const resp = await createUser(props);
 		revalidateTag('users');

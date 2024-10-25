@@ -26,7 +26,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { createUsersAction } from '@/actions/createUser';
+import { createUserAction } from '@/actions/createUser';
 import {
 	Select,
 	SelectContent,
@@ -59,10 +59,10 @@ export function ModalCreateUser() {
 			const cpf = values.cpf;
 			const role = values.role;
 			const companyId = Number(values.unidade);
-			await createUsersAction({ email, password, name, cpf, role, companyId });
+			await createUserAction({ email, password, name, cpf, role, companyId });
 			form.reset();
-			toast.success('Usuário Cadastrado - 200', {
-				description: `${name} ${email} ${password} ${cpf} ${role}  - Novo usuário salvo no banco de dados`,
+			toast.success('Usuário Cadastrado - 204', {
+				description: `${name} - Novo usuário salvo no banco de dados`,
 			});
 			setModal(false);
 		} catch (error) {
@@ -135,6 +135,7 @@ export function ModalCreateUser() {
 									<FormControl>
 										<Input
 											id='email'
+											type='email'
 											{...field}
 											required
 											placeholder='E-mail do usuário'
@@ -145,6 +146,57 @@ export function ModalCreateUser() {
 								</FormItem>
 							)}
 						/>
+						<FormField
+							control={form.control}
+							name='cpf'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel
+										htmlFor='cpf'
+										className='text-zinc-100'>
+										CPF
+									</FormLabel>
+									<FormControl>
+										<Input
+											id='cpf'
+											{...field}
+											required
+											placeholder='CPF do usuário'
+											className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name='role'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel
+										htmlFor='role'
+										className='text-zinc-100'>
+										Cargo
+									</FormLabel>
+									<Select
+										onValueChange={field.onChange}
+										defaultValue={field.value}>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder='Selecione um cargo' />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											<SelectItem value={'MANAGER'}>Gerente</SelectItem>
+											<SelectItem value={'ADMIN'}>Administrador</SelectItem>
+										</SelectContent>
+									</Select>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
 						<FormField
 							control={form.control}
 							name='unidade'
@@ -186,29 +238,7 @@ export function ModalCreateUser() {
 								</FormItem>
 							)}
 						/>
-						<FormField
-							control={form.control}
-							name='cpf'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel
-										htmlFor='cpf'
-										className='text-zinc-100'>
-										CPF
-									</FormLabel>
-									<FormControl>
-										<Input
-											id='cpf'
-											{...field}
-											required
-											placeholder='CPF do usuário'
-											className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
+
 						<FormField
 							control={form.control}
 							name='password'

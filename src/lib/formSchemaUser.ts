@@ -20,5 +20,6 @@ export const formSchemaUser = z.object({
 	unidade: z.string({
 		coerce: true,
 		description: 'Lush Ipiranga, Lush Guarujá, Andar de Cima ou Tout Campinas',
+		message: 'informe a unidade do usuário',
 	}),
 });
