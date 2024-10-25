@@ -84,9 +84,6 @@ export function DataTableDemo({ data }: { data: IUser[] }) {
 				</div>
 				<div className='flex items-center justify-between md:justify-start  md:ml-auto md:flex-row mx-auto w-full gap-3'>
 					<ModalCreateUser />
-					<Button className='flex gap-3 items-center font-semibold bg-zinc-900 border border-border hover:bg-zinc-700'>
-						Editar <UserRoundCog size={20} />
-					</Button>
 				</div>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>

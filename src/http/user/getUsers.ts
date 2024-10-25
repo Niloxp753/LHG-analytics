@@ -1,5 +1,7 @@
 /** @format */
 
+import { api } from '../api-client';
+
 interface User {
 	id?: string;
 	email: string;
@@ -11,15 +13,8 @@ interface User {
 	companyName?: string;
 }
 
-const endpoint = process.env.BACKEND_ENDPOINT;
-
 export async function getAllUsers(): Promise<any[]> {
-	const resp = await fetch(`${endpoint!}/users/all`, {
-		method: 'GET',
-		next: {
-			tags: ['users'],
-		},
-	});
+	const resp = await api.get(`users/all`, { next: { tags: ['users'] } });
 
 	return resp.json();
 }

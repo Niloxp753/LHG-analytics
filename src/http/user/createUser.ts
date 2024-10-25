@@ -8,7 +8,7 @@ export interface IUser {
 	name: string;
 	cpf: string;
 	password: string;
-	role: string;
+	role?: 'ADMIN' | 'MANAGER';
 	companyId: number;
 	companyName?: string;
 }

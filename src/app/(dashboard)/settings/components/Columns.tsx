@@ -1,47 +1,38 @@
 /** @format */
+'use client';
 
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
+	DropdownMenuGroup,
 	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
+	DropdownMenuSub,
+	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
-import ModalDelete from './modalDelete';
-import { Checkbox } from '@/components/ui/checkbox';
-import { ColumnDef } from '@tanstack/react-table';
 import { IUser } from '@/http/user/createUser';
+import { ColumnDef } from '@tanstack/react-table';
+import { ArrowUpDown, MoreHorizontal, UserRoundCog, X } from 'lucide-react';
+import ModalDelete from './modalDelete';
+import ModalEditUser from './modalEdituser';
+import {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '@/components/ui/dialog';
+import FormUpdate from './formUpdate';
 
 export const columns: ColumnDef<IUser | undefined | any>[] = [
 	{
-		id: 'select',
-		header: ({ table }) => (
-			<Checkbox
-				className='border-zinc-50'
-				checked={
-					table.getIsAllPageRowsSelected() ||
-					(table.getIsSomePageRowsSelected() && 'indeterminate')
-				}
-				onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-				aria-label='Selecionar Tudo'
-			/>
-		),
-		cell: ({ row }) => (
-			<Checkbox
-				checked={row.getIsSelected()}
-				onCheckedChange={(value) => row.toggleSelected(!!value)}
-				aria-label='Selecionar Linha'
-			/>
-		),
-		enableSorting: false,
-		enableHiding: false,
-	},
-	{
 		accessorKey: 'role',
-		header: 'Status',
+		header: 'Cargo',
 		cell: ({ row }) => <div className='capitalize'>{row.getValue('role')}</div>,
 	},
 	{
@@ -93,48 +84,48 @@ export const columns: ColumnDef<IUser | undefined | any>[] = [
 		cell: ({ row }) => {
 			const user = row.original;
 
-			// function handleCopy(payment: User) {
-			// 	return toast.success('Dados Copiados - 200', {
-			// 		description: `Dados de usuário ${payment.name} ${payment.password} ${payment.email} ${payment.CPF} ${payment.password} foram copiados`,
-			// 	});
-			// }
-
-			// function handleUpdate(payment: User) {
-			// 	return toast.success('Dados Alterados - 200', {
-			// 		description: `Dados de usuário ${payment.name} ${payment.password} ${payment.email} ${payment.CPF} ${payment.password} foram copiados`,
-			// 	});
-			// }
-
-			// function handleInactive(payment: User) {
-			// 	return toast.success(' - 200', {
-			// 		description: `Dados de usuário ${payment.name} ${payment.password} ${payment.email} ${payment.CPF} ${payment.password} foram copiados`,
-			// 	});
-			// }
-
 			return (
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
-						<Button
-							variant='default'
-							className='h-8 w-8 p-0 bg-zinc-800'>
+						<Button className='h-8 w-8 p-0 bg-zinc-800'>
 							<span className='sr-only'>Open menu</span>
 							<MoreHorizontal className='h-4 w-4' />
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent
+						aria-activedescendant=''
 						align='end'
-						className='dark'>
+						className='dark '>
 						<DropdownMenuLabel className='text-zinc-50 font-bold text-lg'>
 							Menu
 						</DropdownMenuLabel>
-						<DropdownMenuItem className='cursor-pointer'>
-							Copiar dados
-						</DropdownMenuItem>
+
 						<DropdownMenuSeparator />
-						<DropdownMenuItem className='cursor-pointer'>
-							Editar Usuário
+
+						<DropdownMenuSub>
+							<DropdownMenuSubTrigger>
+								<Button
+									type='button'
+									variant={'ghost'}
+									className='font-semibold flex gap-3 items-center w-full'>
+									Editar <UserRoundCog size={20} />
+								</Button>
+							</DropdownMenuSubTrigger>
+							<DropdownMenuContent className='dark px-8 py-4'>
+								<Dialog>
+									<DialogTitle className='text-xl'>Editar Usuário</DialogTitle>
+									<DialogDescription className='text-zinc-400 text-balance text-xs'>
+										Preencha os campos para atualizar usuário já existente
+									</DialogDescription>
+									<FormUpdate user={user} />
+								</Dialog>
+							</DropdownMenuContent>
+						</DropdownMenuSub>
+
+						<DropdownMenuSeparator />
+						<DropdownMenuItem asChild>
+							<ModalDelete user={user} />
 						</DropdownMenuItem>
-						<ModalDelete user={user} />
 					</DropdownMenuContent>
 				</DropdownMenu>
 			);
