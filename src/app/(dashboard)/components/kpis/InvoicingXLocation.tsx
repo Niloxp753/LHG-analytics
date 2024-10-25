@@ -7,12 +7,27 @@ const LineChart = dynamic(
 	{ ssr: false },
 );
 
+interface Rental {
+	[key: string]: {
+		totalValue: string;
+	};
+}
+
+interface BillingRentalType {
+	[date: string]: Rental[];
+}
+
+interface OrganizedValues {
+	[key: string]: number[];
+}
+
+
 export default function InvoicingXLocation(data: any) {
-	const billingRentalType = data.data;
+	const billingRentalType: BillingRentalType[] = data.data;
 
-	const datas = billingRentalType.map((item: any) => Object.keys(item)[0]);
+	const datas = billingRentalType.map((item) => Object.keys(item)[0]);
 
-	const rentalTypeMapping = {
+	const rentalTypeMapping: { [key: string]: string } = {
 		OVERNIGHT: 'Pernoite',
 		DAILY: 'Diária',
 		DAY_USE: 'Day Use',
@@ -21,7 +36,7 @@ export default function InvoicingXLocation(data: any) {
 		THREE_HOURS: 'Três Horas',
 	};
 
-	const organizedValues = {
+	const organizedValues: OrganizedValues = {
 		Pernoite: [],
 		Diária: [],
 		'Day Use': [],
@@ -30,11 +45,11 @@ export default function InvoicingXLocation(data: any) {
 		'Três Horas': [],
 	};
 
-	billingRentalType.forEach((item: any) => {
+	billingRentalType.forEach((item) => {
 		const rentals = item[Object.keys(item)[0]]; // Obtém os valores de locação
 
 		// Percorre cada tipo de locação
-		rentals.forEach((rental: any) => {
+		rentals.forEach((rental) => {
 			const type = Object.keys(rental)[0];
 			const value = rental[type].totalValue;
 
