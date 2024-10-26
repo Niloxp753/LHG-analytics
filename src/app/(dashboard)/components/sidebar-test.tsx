@@ -7,6 +7,8 @@ import {
 	SidebarBody,
 	SidebarLink,
 } from '@/app/(dashboard)/components/sidebar-aceternity';
+import BtnSignOut from '@/components/btnSingOut';
+import { User } from '@/http/user/getUsers';
 import { cn } from '@/lib/utils';
 import {
 	BarChart3,
@@ -19,86 +21,93 @@ import {
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
-type SidebarProps = {
-	name?: string | null | undefined;
-	href?: string;
-	slug?: string;
-};
-
-export function SidebarDemo(props: SidebarProps) {
+export function SidebarDemo({ user }: { user?: User }) {
 	const path = usePathname();
 	const searchParams = useSearchParams();
 	const selected = searchParams.get('menu') || 'general';
 	const openned = searchParams.get('open') || 'true';
 	const preSet = searchParams.get('set') || '7days';
+
 	const links = [
 		{
 			label: 'Painel Admin',
 			href: `/settings?menu=admin&open=${openned}&set=${preSet}`,
+			slug: '/settings',
 			icon: (
 				<UserRoundCog
 					className={` ${
-						path.endsWith(props.slug!) ? 'text-zinc-900' : ''
+						path.endsWith('/settings') ? 'text-zinc-900' : ''
 					} text-zinc-200 group-hover:text-zinc-900 h-5 w-5 flex-shrink-0`}
 				/>
 			),
 		},
 		{
 			label: 'Visão Geral',
-			href: `/general?menu=general&open=${openned}&set=${preSet}`,
+			href: `/general?menu=${selected}&open=${openned}&set=${preSet}`,
+			slug: '/general',
 			icon: (
 				<BarChart3
 					className={` ${
-						path.endsWith('/pipeline') ? 'text-zinc-900' : ''
+						path.endsWith('/general') ? 'text-zinc-900' : ''
 					} text-zinc-200 group-hover:text-zinc-900 h-5 w-5 flex-shrink-0`}
 				/>
 			),
 		},
 		{
 			label: 'Restaurantes',
-			href: `/restaurant?menu=restaurant&open=${openned}&set=${preSet}`,
+			slug: '/restaurant',
+			href: `/restaurant?menu=${selected}&open=${openned}&set=${preSet}`,
 			icon: (
 				<UtensilsCrossed
 					className={` ${
-						path.endsWith('/tasks') ? 'text-zinc-900' : ''
+						path.endsWith('/restaurant') ? 'text-zinc-900' : ''
 					} text-zinc-200 group-hover:text-zinc-900 h-5 w-5 flex-shrink-0`}
 				/>
 			),
 		},
 		{
 			label: 'Reservas',
-			href: `/reservations?menu=reservations&open=${openned}&set=${preSet}`,
+			slug: '/reservations',
+			href: `/reservations?menu=${selected}s&open=${openned}&set=${preSet}`,
 			icon: (
 				<ScatterChart
 					className={` ${
-						path.endsWith('/companies') ? 'text-zinc-900' : ''
+						path.endsWith('/reservations') ? 'text-zinc-900' : ''
 					} text-zinc-200 group-hover:text-zinc-900 h-5 w-5 flex-shrink-0`}
 				/>
 			),
 		},
 		{
 			label: 'Operacional',
-			href: `/operational?menu=operational&open=${openned}&set=${preSet}`,
+			slug: '/operational',
+			href: `/operational?menu=${selected}&open=${openned}&set=${preSet}`,
 			icon: (
 				<PieChart
 					className={` ${
-						path.endsWith('/contacts') ? 'text-zinc-900' : ''
+						path.endsWith('/operational') ? 'text-zinc-900' : ''
 					} text-zinc-200 group-hover:text-zinc-900 h-5 w-5 flex-shrink-0`}
 				/>
 			),
 		},
 		{
 			label: 'Avaliações',
+			slug: '/nps',
 			href: `/nps?menu=nps&open=${openned}&set=${preSet}`,
 			icon: (
 				<ScanEye
 					className={` ${
-						path.endsWith('/quotes') ? 'text-zinc-900' : ''
+						path.endsWith('/nps') ? 'text-zinc-900' : ''
 					} text-zinc-200 group-hover:text-zinc-900 h-5 w-5 flex-shrink-0`}
 				/>
 			),
 		},
 	];
+
+	let newLinks: typeof links = [];
+
+	if (user?.role !== 'ADMIN') {
+		newLinks = links.slice(1);
+	}
 
 	const [open, setOpen] = useState(false);
 
@@ -114,14 +123,26 @@ export function SidebarDemo(props: SidebarProps) {
 				<SidebarBody className='justify-between gap-10 border-r-2 border-violet-400 rounded-r-md'>
 					<div className='flex flex-col flex-1 overflow-y-auto overflow-x-hidden'>
 						<div className='mt-8 flex flex-col gap-5'>
-							{links.map((link, idx) => (
-								<SidebarLink
-									key={idx}
-									link={link}
-								/>
-							))}
+							{user?.role !== 'ADMIN'
+								? newLinks.map((link, idx) => {
+										return (
+											<SidebarLink
+												key={idx}
+												link={link}
+											/>
+										);
+								  })
+								: links.map((link, idx) => {
+										return (
+											<SidebarLink
+												key={idx}
+												link={link}
+											/>
+										);
+								  })}
 						</div>
 					</div>
+					<BtnSignOut isOpened={'true'} />
 				</SidebarBody>
 			</Sidebar>
 		</div>

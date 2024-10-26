@@ -1,8 +1,9 @@
 /** @format */
 
+import { getAllUsersAction } from '@/actions/getAllUsers';
 import { getServerSession } from 'next-auth';
 import { DataTableDemo } from './components/dataTable';
-import { getAllUsersAction } from '@/actions/getAllUsers';
+import { redirect } from 'next/navigation';
 
 export default async function Page({
 	searchParams,
@@ -13,7 +14,14 @@ export default async function Page({
 
 	let open = searchParams.open || 'true';
 
-	const data = await getAllUsersAction();
+	const users = await getAllUsersAction();
+	const emailLogged = session?.user?.email;
+
+	const user = users?.find((u) => u.email === emailLogged);
+
+	if (user?.role !== 'ADMIN') {
+		redirect('/general?menu=general');
+	}
 
 	return (
 		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden md:px-5 py-10 '>
@@ -30,7 +38,7 @@ export default async function Page({
 						<span className='text-violet-400'>{session?.user?.name}</span>
 					</h2>
 				</div>
-				<div className='mt-14'>{data && <DataTableDemo data={data} />}</div>
+				<div className='mt-14'>{users && <DataTableDemo data={users} />}</div>
 			</div>
 		</main>
 	);

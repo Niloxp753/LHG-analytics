@@ -2,7 +2,7 @@
 
 import { api } from '../api-client';
 
-interface User {
+export interface User {
 	id?: string;
 	email: string;
 	name: string;
@@ -13,7 +13,7 @@ interface User {
 	companyName?: string;
 }
 
-export async function getAllUsers(): Promise<any[]> {
+export async function getAllUsers(): Promise<User[]> {
 	const resp = await api.get(`users/all`, { next: { tags: ['users'] } });
 
 	return resp.json();

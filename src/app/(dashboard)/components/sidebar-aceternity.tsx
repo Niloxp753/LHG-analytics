@@ -1,24 +1,17 @@
 /** @format */
 'use client';
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { IconMenu2, IconX } from '@tabler/icons-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link, { LinkProps } from 'next/link';
-import React, { createContext, useContext, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { CgProfile } from 'react-icons/cg';
-import BtnSignOut from '@/components/btnSingOut/index';
-import SidebarMenu from './SidebarMenu';
+import React, { createContext, useContext, useState } from 'react';
 
 interface Links {
 	label: string | null | undefined;
 	href: string;
 	icon?: React.JSX.Element | React.ReactNode;
+	slug: string;
 }
 
 interface SidebarContextProps {
@@ -175,14 +168,15 @@ export const SidebarLink = ({
 }) => {
 	const { open, animate } = useSidebar();
 	const path = usePathname();
+
 	return (
 		<Link
 			href={link?.href!}
 			className={cn(
 				className,
-				`flex items-center justify-start gap-2 px-2 group  group/sidebar py-2 hover:bg-violet-400 ${
-					path == link?.href ? 'bg-violet-400 text-zinc-950' : ''
-				}  rounded`,
+				`flex items-center justify-start gap-2 px-2 group  group/sidebar py-2 hover:bg-violet-400 rounded ${
+					path.endsWith(link?.slug!) ? 'bg-violet-400' : ''
+				}`,
 			)}
 			{...props}>
 			{link?.icon}
@@ -192,71 +186,11 @@ export const SidebarLink = ({
 					display: animate ? (open ? 'inline-block' : 'none') : 'inline-block',
 					opacity: animate ? (open ? 1 : 0) : 1,
 				}}
-				className={`${
-					path == link?.href ? 'text-zinc-950 font-medium' : ''
-				} text-zinc-200 group-hover/sidebar:translate-x-1 transition-all duration-150 whitespace-pre inline-block !p-0 !m-0 ease-linear group group-hover:text-zinc-900 group-hover:font-medium text-base`}>
+				className={` ${
+					path.endsWith(link?.slug!) ? 'text-zinc-950' : ''
+				} text-zinc-200 group-hover/sidebar:translate-x-1 transition-all duration-150 whitespace-pre inline-block !p-0 !m-0 ease-linear group group-hover:text-zinc-950 group-hover:font-medium text-base`}>
 				{link?.label}
 			</motion.span>
 		</Link>
-	);
-};
-
-export const SidebarItem = ({
-	className,
-	label,
-	icon,
-	...props
-}: {
-	className?: string;
-	label?: string | null | undefined;
-	icon?: React.JSX.Element | React.ReactNode;
-	props?: LinkProps;
-}) => {
-	const { open, animate } = useSidebar();
-	const path = usePathname();
-	return (
-		<Popover>
-			<PopoverTrigger asChild>
-				<div
-					className={cn(
-						className,
-						`flex items-center justify-start gap-2 px-2 group z-50  group/sidebar py-2 ${
-							path == '/dashboard/profile' ? 'bg-violet-400 text-zinc-950' : ''
-						} hover:bg-violet-400 rounded cursor-pointer`,
-					)}
-					{...props}>
-					{icon}
-					<motion.span
-						animate={{
-							display: animate
-								? open
-									? 'inline-block'
-									: 'none'
-								: 'inline-block',
-							opacity: animate ? (open ? 1 : 0) : 1,
-						}}
-						className={`text-zinc-200 ${
-							path == '/dashboard/profile' ? 'text-zinc-950 font-medium' : ''
-						} text-sm group-hover/sidebar:translate-x-1 transition-all duration-150 whitespace-pre inline-block !p-0 !m-0 ease-linear group group-hover:text-zinc-900 group-hover:font-medium`}>
-						{label}
-					</motion.span>
-				</div>
-			</PopoverTrigger>
-			<PopoverContent
-				align='start'
-				className='px-10 py-10 md:py-5 w-full h-fit bg-zinc-900 border-zinc-300/50 '>
-				<div className='flex md:flex-col items-center justify-center gap-5'>
-					<Link
-						href={'/dashboard/profile'}
-						className='border-none transition-all duration-200 ease-linear outline-none text-zinc-950 bg-violet-400 py-2 px-4 rounded-md hover:bg-violet-300'>
-						<p className='flex gap-1 text-zinc-950 font-medium '>
-							<CgProfile className='text-zinc-900 group-hover:text-zinc-900 font-medium h-5 w-5 flex-shrink-0' />
-							Perfil
-						</p>
-					</Link>
-					<BtnSignOut isOpened={''} />
-				</div>
-			</PopoverContent>
-		</Popover>
 	);
 };

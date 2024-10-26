@@ -1,6 +1,9 @@
 /** @format */
 
 import { getAllUsersAction } from '@/actions/getAllUsers';
+import { api } from '@/http/api-client';
+import { User } from '@/http/user/getUsers';
+import { IUserUp } from '@/http/user/updateUser';
 import * as bcrypt from 'bcrypt';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -21,13 +24,15 @@ const handler = NextAuth({
 				},
 			},
 			async authorize(credentials, req) {
-				const users = await getAllUsersAction();
-				const user = users?.find((u) => u.email === credentials?.email);
+				const users: User[] | any = await api
+					.get(`users/all`, { next: { tags: ['users'] } })
+					.json();
+				const user = users?.find((u: User) => u.email === credentials?.email);
 
 				if (user) {
 					const isvalidPass = await bcrypt.compare(
 						credentials?.password!,
-						user.password,
+						user.password!,
 					);
 
 					if (!isvalidPass) {
@@ -37,9 +42,7 @@ const handler = NextAuth({
 						return user;
 					}
 				}
-
 				return null;
-
 				// If you return null then an error will be displayed advising the user to check their details.
 
 				// You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
@@ -48,23 +51,25 @@ const handler = NextAuth({
 		// ...add more providers here
 	],
 	callbacks: {
-		jwt: async ({ token, user }) => {
+		jwt: async ({ token, user, session, account, profile }) => {
 			if (user) {
-				return { ...(token = { email: user.email, name: user.name }) };
+				return {
+					...token,
+					...user,
+					...session,
+					...account,
+					...profile,
+				};
 			}
 			return token;
 		},
-		session: async ({ session, token }) => {
-			if (token) {
-				return {
-					...session,
-					user: {
-						name: token.name,
-						email: token.email,
-					},
-				};
-			}
-			return session;
+		session: async ({ session, token, newSession, user }) => {
+			return {
+				...token,
+				...user,
+				...session,
+				...newSession,
+			};
 		},
 	},
 	pages: {

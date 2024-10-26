@@ -30,12 +30,13 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
-import { ChevronDown, Search, UserRoundCog } from 'lucide-react';
+import { ChevronDown, Search } from 'lucide-react';
 import * as React from 'react';
 import { columns } from './Columns';
 import { ModalCreateUser } from './ModalCreateUser';
+import { User } from '@/http/user/getUsers';
 
-export function DataTableDemo({ data }: { data: IUser[] }) {
+export function DataTableDemo({ data }: { data: User[] }) {
 	// const data = await getAllUsersAction();
 
 	const [sorting, setSorting] = React.useState<SortingState>([]);

@@ -17,8 +17,9 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import BtnSignOut from '../../../components/btnSingOut';
 import BtnSidebarMenu from './BtnSidebarMenu';
+import { User } from '@/http/user/getUsers';
 
-export default function SidebarMenu() {
+export default function SidebarMenu({ user }: { user?: User }) {
 	const searchParams = useSearchParams();
 	const selected = searchParams.get('menu') || 'general';
 	const openned = searchParams.get('open') || 'true';
@@ -60,14 +61,17 @@ export default function SidebarMenu() {
 			</Link>
 			<div className='flex flex-col justify-between h-full'>
 				<div className='text-zinc-100 flex flex-col h-full w-fit gap-5 rounded p-3 mt-10 '>
-					<BtnSidebarMenu
-						icon={<UserRoundCog />}
-						selected={selected}
-						openned={openned}
-						href={`/settings?menu=admin&open=${openned}&set=${preSet}`}
-						role={'admin'}>
-						<p>Painel Admin</p>
-					</BtnSidebarMenu>
+					{user?.role === 'ADMIN' && (
+						<BtnSidebarMenu
+							icon={<UserRoundCog />}
+							selected={selected}
+							openned={openned}
+							href={`/settings?menu=admin&open=${openned}&set=${preSet}`}
+							role={'admin'}>
+							<p>Painel Admin</p>
+						</BtnSidebarMenu>
+					)}
+
 					<BtnSidebarMenu
 						icon={<BarChart3 />}
 						selected={selected}
