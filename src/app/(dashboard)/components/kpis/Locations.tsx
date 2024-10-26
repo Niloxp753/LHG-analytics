@@ -7,18 +7,38 @@ const AreaChartsApex = dynamic(
 	{ ssr: false },
 );
 
-export default function Locations() {
+export default function Locations(data: any) {
+	const rentalsByDate = data.data;
+	const totalRevenueData: any[] = [];
+	const dates: any[] = [];
+
+	rentalsByDate.forEach((item: any) => {
+		const date = Object.keys(item)[0];
+		const value = item[date].totalRentalsApartments;
+
+		// Adiciona a data e converte o valor para número
+		dates.push(date);
+		totalRevenueData.push(value);
+	});
+
+	const result = {
+		name: 'Quantidade de locações',
+		data: totalRevenueData,
+		dates: dates,
+	};
+
 	return (
-		<div className='max-h-[440px] h-full w-full flex items-center justify-center'>
+		<>
 			<AreaChartsApex
 				series={[
 					{
-						data: [80, 60, 55, 73, 60, 75, 60, 70],
-						name: 'Quantidade de locações',
+						data: result.data,
+						name: result.name,
 					},
 				]}
 				legend='Locações'
+				categories={result.dates}
 			/>
-		</div>
+		</>
 	);
 }

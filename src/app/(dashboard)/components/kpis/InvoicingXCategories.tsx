@@ -7,31 +7,43 @@ const BarCharApex = dynamic(
 	{ ssr: false },
 );
 
-export default function Categories() {
+export default function Categories(data: any) {
+	const revenueBySuiteCategory = data.data;
+	const totalRevenueData: any[] = [];
+	const categories: any[] = [];
+
+	revenueBySuiteCategory.forEach((item: any) => {
+		const category = Object.keys(item)[0];
+		const value = item[category].totalValue;
+
+		// Adiciona a data e converte o valor para número
+		categories.push(category);
+		totalRevenueData.push(
+			parseFloat(value.replace(/[^0-9,]/g, '').replace(',', '.')),
+		);
+	});
+
+	const result = {
+		name: 'Faturamento por Categoria de Suíte',
+		data: totalRevenueData,
+		dates: categories,
+	};
+
 	return (
 		<>
 			<BarCharApex
+				money
 				series={[
 					{
 						name: 'Faturamento',
-						data: [30, 40, 45, 50, 49, 60, 70, 91, 120],
+						data: result.data,
 						type: 'bar',
 					},
 				]}
 				dataLabelColors={['#5b21b6']}
 				colors={['#a78bfa']}
 				title='Faturamento por Categoria de Suíte'
-				categories={[
-					'Lush',
-					'Lush Pop',
-					'Lush Hidro',
-					'Lush Lounge',
-					'Lush Spa',
-					'Lush Cine',
-					'Lush Splash',
-					'Lush Spa Splash',
-					'Casa Lush',
-				]}
+				categories={result.dates}
 			/>
 		</>
 	);

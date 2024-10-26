@@ -10,6 +10,7 @@ interface BarChartsApexProps {
 	categories: string[];
 	series: ApexAxisChartSeries | ApexNonAxisChartSeries;
 	dataLabelColors: string[];
+	money?: boolean;
 }
 
 export default function BarChartsApex(props: BarChartsApexProps) {
@@ -45,6 +46,15 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 		},
 		dataLabels: {
 			enabled: true,
+			formatter: (val: number) =>
+				`${
+					props.money
+						? val.toLocaleString('pt-BR', {
+								style: 'currency',
+								currency: 'BRL',
+						  })
+						: val
+				}`,
 			distributed: true,
 			background: {
 				enabled: true,
@@ -54,6 +64,19 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 			},
 			style: {
 				colors: props.dataLabelColors,
+			},
+		},
+		tooltip: {
+			y: {
+				formatter: (val: number) =>
+					`${
+						props.money
+							? val.toLocaleString('pt-BR', {
+									style: 'currency',
+									currency: 'BRL',
+							  })
+							: val
+					}`,
 			},
 		},
 		colors: props.colors,

@@ -46,7 +46,7 @@ export default function SidebarMenu({ user }: { user?: User }) {
 						? `?menu=${selected}&open=false&set=${preSet}`
 						: `?menu=${selected}&open=true&set=${preSet}`
 				}`}
-				className='cursor-pointer bg-zinc-800 w-fit h-full top-0 -right-6 absolute  rounded justify-between hover:bg-zinc-700 transition-all duration-300 ease-linear z-50 text-white'>
+				className='cursor-pointer bg-zinc-900 w-fit h-full top-0 -right-6 absolute  rounded justify-between hover:bg-zinc-800 transition-all duration-300 ease-linear z-50 text-white'>
 				{openned == 'true' ? (
 					<ChevronsLeft
 						size={24}

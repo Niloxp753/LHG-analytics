@@ -34,6 +34,7 @@ export default function Invoicing(data: any) {
 	return (
 		<>
 			<AreaChartsApex
+				money
 				series={[result]}
 				legend='Faturamento Total'
 				categories={result.dates}

@@ -17,7 +17,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 		chart: {
 			id: 'line-bar',
 			stacked: false,
-			width: '90%',
+			width: '95%',
 			type: 'line',
 			foreColor: '#fafafa',
 			zoom: {
@@ -42,7 +42,8 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 			},
 		},
 		grid: {
-			borderColor: 'rgba(255,255,255,0.2)',
+			borderColor: 'rgba(255,255,255,0.1)',
+
 			xaxis: {
 				lines: {
 					show: true,
@@ -65,11 +66,6 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 				borderWidth: 1,
 				foreColor: '#fafafa',
 			},
-			formatter: (val: number) =>
-				`${val.toLocaleString('pt-BR', {
-					style: 'currency',
-					currency: 'BRL',
-				})}`,
 			style: {
 				colors: [
 					'#7c3aed',
@@ -132,7 +128,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 			axisBorder: { show: true },
 			categories: props.categories,
 		},
-		yaxis: { show: true, labels: { show: true }, axisBorder: { show: true } },
+		yaxis: { show: false, labels: { show: true }, axisBorder: { show: true } },
 		stroke: { curve: 'smooth', width: 2 },
 		plotOptions: { area: { fillTo: 'end' } },
 	};

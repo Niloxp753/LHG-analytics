@@ -10,15 +10,17 @@ interface AreaChartsApexProps {
 	color?: string;
 	labelColor?: string;
 	categories?: string[];
+	money?: boolean;
 }
 
 export default function AreaChartsApex(props: AreaChartsApexProps) {
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: 'test-bar',
-			stacked: false,
+			stacked: true,
 			type: 'area',
 			foreColor: '#fafafa',
+
 			zoom: {
 				enabled: false,
 			},
@@ -66,10 +68,14 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 		tooltip: {
 			y: {
 				formatter: (val: number) =>
-					`${val.toLocaleString('pt-BR', {
-						style: 'currency',
-						currency: 'BRL',
-					})}`,
+					`${
+						props.money
+							? val.toLocaleString('pt-BR', {
+									style: 'currency',
+									currency: 'BRL',
+							  })
+							: val
+					}`,
 			},
 		},
 		colors: ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9'],
@@ -98,13 +104,19 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 
 		xaxis: {
 			axisBorder: { show: true },
+			offsetX: 14,
+			stepSize: 100,
+			labels: {
+				rotate: 45,
+				show: true,
+			},
 			categories: props.categories
 				? props.categories
 				: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
 		},
 		yaxis: { show: false, labels: { show: true } },
 		stroke: { curve: 'smooth' },
-		plotOptions: { area: { fillTo: 'end' } },
+		plotOptions: { area: { fillTo: 'origin' } },
 	};
 
 	return (
