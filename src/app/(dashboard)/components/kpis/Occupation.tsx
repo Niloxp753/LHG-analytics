@@ -23,8 +23,8 @@ interface Result {
 	dates: string[];
 }
 
-export default function Occupation(data: any) {
-	const occupancyRateByDate: OccupancyRateEntry[] = data.data;
+export default async function Occupation(data: any) {
+	const occupancyRateByDate: OccupancyRateEntry[] = await data.data;
 
 	const transformedData: TransformedOccupancyEntry[] = occupancyRateByDate
 		.map((item: OccupancyRateEntry): TransformedOccupancyEntry => {

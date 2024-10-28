@@ -23,8 +23,8 @@ interface Result {
 	dates: string[];
 }
 
-export default function Locations(data: any) {
-	const rentalsByDate: RentalsEntry[] = data.data;
+export default async function Locations(data: any) {
+	const rentalsByDate: RentalsEntry[] = await data.data;
 
 	const transformedData: TransformedEntry[] = rentalsByDate
 		.map((item: RentalsEntry): TransformedEntry => {

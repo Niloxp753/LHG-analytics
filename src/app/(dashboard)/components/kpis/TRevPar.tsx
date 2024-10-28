@@ -23,8 +23,8 @@ interface Result {
 	dates: string[];
 }
 
-export default function TRevPar(data: any) {
-	const trevparByDate: TrevparEntry[] = data.data;
+export default async function TRevPar(data: any) {
+	const trevparByDate: TrevparEntry[] = await  data.data;
 
 	const transformedData: TransformedEntry[] = trevparByDate
 		.map((item: TrevparEntry): TransformedEntry => {

@@ -1,7 +1,7 @@
 /** @format */
 
-import CardDetails from '@/app/(dashboard)/components/CardDetails';
 import Header from '@/app/(dashboard)/components/Header';
+import BigNumbers from '@/app/(dashboard)/components/bignumber';
 import Invoicing from '@/app/(dashboard)/components/kpis/Invoicing';
 import Categories from '@/app/(dashboard)/components/kpis/InvoicingXCategories';
 import InvoicingXLocation from '@/app/(dashboard)/components/kpis/InvoicingXLocation';
@@ -14,16 +14,7 @@ import { TableKpiCategory } from '@/app/(dashboard)/components/kpis/TableKpiCate
 import { TableKpiGiro } from '@/app/(dashboard)/components/kpis/TableKpiGiro';
 import { TableKpiOccupation } from '@/app/(dashboard)/components/kpis/TableKpiOccupation';
 import Ticket from '@/app/(dashboard)/components/kpis/Ticket';
-import {
-	Activity,
-	AlarmClockCheck,
-	DoorClosed,
-	HandCoins,
-	Sigma,
-	SquarePercent,
-} from 'lucide-react';
 import { getCompanyAction } from '../../actions/getCompany';
-import BigNumbers from '@/app/(dashboard)/components/bignumber';
 
 export default async function LushIpiranga({
 	searchParams,

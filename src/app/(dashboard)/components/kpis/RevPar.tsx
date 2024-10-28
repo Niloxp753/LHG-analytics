@@ -23,8 +23,8 @@ interface Result {
 	dates: string[];
 }
 
-export default function RevPar(data: any) {
-	const revparByDate: RevparEntry[] = data.data;
+export default async function RevPar(data: any) {
+	const revparByDate: RevparEntry[] = await data.data;
 
 	const transformedData: TransformedEntry[] = revparByDate
 		.map((item: RevparEntry): TransformedEntry => {
