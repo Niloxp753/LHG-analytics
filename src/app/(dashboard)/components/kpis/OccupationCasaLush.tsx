@@ -11,15 +11,13 @@ export default function OccupationCasaLush() {
 	return (
 		<>
 			<AreaChartsApex
-				legend='Tx de Ocupação - Casa Lush'
+				id='casa-lush'
 				series={[
 					{
 						data: [50, 65, 55, 75, 65, 60, 75, 55, 75, 65, 75, 55],
 						name: 'Taxa de Ocupação - Casa Lush',
 					},
 				]}
-				color='#2dd4bf'
-				labelColor='#115e59'
 				categories={[
 					'jan/24',
 					'fev/24',
