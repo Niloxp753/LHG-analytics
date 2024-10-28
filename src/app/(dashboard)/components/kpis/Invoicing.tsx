@@ -1,4 +1,5 @@
 /** @format */
+'use client';
 
 import dynamic from 'next/dynamic';
 import React from 'react';
@@ -18,8 +19,8 @@ interface TransformedEntry {
 	totalValue: number;
 }
 
-export default async  function Invoicing(data: any) {
-	const revenueByDate: RevenueEntry[] = await data.data;
+export default function Invoicing(data: any) {
+	const revenueByDate: RevenueEntry[] = data.data;
 
 	const transformedData: TransformedEntry[] = revenueByDate
 		.map((item: RevenueEntry): TransformedEntry => {
@@ -47,13 +48,12 @@ export default async  function Invoicing(data: any) {
 		dates: transformedData.map((entry: TransformedEntry) => entry.date),
 	};
 
-
 	// Exibe o resultado
 
 	return (
 		<>
 			<AreaChartsApex
-				id='invoicing'
+				id='invoicing-ipiranga'
 				money
 				series={[{ data: result.values, name: 'Faturamento Total' }]}
 				categories={result.dates}

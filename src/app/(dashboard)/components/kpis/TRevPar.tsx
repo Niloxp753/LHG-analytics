@@ -1,5 +1,7 @@
 /** @format */
 
+'use client';
+
 import dynamic from 'next/dynamic';
 import React from 'react';
 const AreaChartsApex = dynamic(
@@ -23,8 +25,8 @@ interface Result {
 	dates: string[];
 }
 
-export default async function TRevPar(data: any) {
-	const trevparByDate: TrevparEntry[] = await  data.data;
+export default  function TRevPar(data: any) {
+	const trevparByDate: TrevparEntry[] =  data.data;
 
 	const transformedData: TransformedEntry[] = trevparByDate
 		.map((item: TrevparEntry): TransformedEntry => {

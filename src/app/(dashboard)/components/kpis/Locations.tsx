@@ -1,11 +1,16 @@
 /** @format */
 
+import { Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import React from 'react';
+import React, { Suspense } from 'react';
 const AreaChartsApex = dynamic(
 	() => import('@/app/(dashboard)/components/charts/AreaChartsApex'),
 	{ ssr: false },
 );
+
+interface Data {
+	data: RentalsEntry[];
+}
 
 interface RentalsEntry {
 	[date: string]: {
@@ -23,8 +28,8 @@ interface Result {
 	dates: string[];
 }
 
-export default async function Locations(data: any) {
-	const rentalsByDate: RentalsEntry[] = await data.data;
+export default function Locations(data: Data) {
+	const rentalsByDate: RentalsEntry[] = data.data;
 
 	const transformedData: TransformedEntry[] = rentalsByDate
 		.map((item: RentalsEntry): TransformedEntry => {
@@ -46,17 +51,15 @@ export default async function Locations(data: any) {
 	};
 
 	return (
-		<>
-			<AreaChartsApex
-				id='locations'
-				series={[
-					{
-						data: result.values,
-						name: 'Quantidade de Locações',
-					},
-				]}
-				categories={result.dates}
-			/>
-		</>
+		<AreaChartsApex
+			id='locations'
+			series={[
+				{
+					data: result.values,
+					name: 'Quantidade de Locações',
+				},
+			]}
+			categories={result.dates}
+		/>
 	);
 }

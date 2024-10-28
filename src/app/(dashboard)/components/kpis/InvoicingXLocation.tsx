@@ -1,4 +1,5 @@
 /** @format */
+'use client';
 
 import dynamic from 'next/dynamic';
 import React from 'react';
@@ -21,9 +22,8 @@ interface OrganizedValues {
 	[key: string]: number[];
 }
 
-
-export default async function InvoicingXLocation(data: any) {
-	const billingRentalType: BillingRentalType[] = await data.data;
+export default function InvoicingXLocation(data: any) {
+	const billingRentalType: BillingRentalType[] = data.data;
 
 	const datas = billingRentalType.map((item) => Object.keys(item)[0]);
 

@@ -1,4 +1,6 @@
 /** @format */
+'use client';
+
 
 import dynamic from 'next/dynamic';
 import React from 'react';
@@ -23,8 +25,8 @@ interface Result {
 	dates: string[];
 }
 
-export default async function RevPar(data: any) {
-	const revparByDate: RevparEntry[] = await data.data;
+export default function RevPar(data: any) {
+	const revparByDate: RevparEntry[] = data.data;
 
 	const transformedData: TransformedEntry[] = revparByDate
 		.map((item: RevparEntry): TransformedEntry => {
@@ -49,7 +51,7 @@ export default async function RevPar(data: any) {
 	return (
 		<>
 			<AreaChartsApex
-				id='revpar'
+				id='revpar-ipiranga'
 				series={[{ data: result.values, name: 'RevPar' }]}
 				categories={result.dates}
 				money

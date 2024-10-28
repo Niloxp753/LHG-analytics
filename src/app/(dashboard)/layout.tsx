@@ -1,12 +1,12 @@
 /** @format */
 
-import React, { Suspense } from 'react';
-import SidebarMenu from './components/SidebarMenu';
-import { SidebarDemo } from './components/sidebar-test';
 import { getAllUsersAction } from '@/actions/getAllUsers';
 import { getServerSession } from 'next-auth';
+import React from 'react';
+import SidebarMenu from './components/SidebarMenu';
+import { SidebarDemo } from './components/sidebar-test';
 
-export default async function Template({
+export default async function DashLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;

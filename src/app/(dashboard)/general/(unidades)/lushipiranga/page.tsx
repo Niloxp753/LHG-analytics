@@ -15,6 +15,8 @@ import { TableKpiGiro } from '@/app/(dashboard)/components/kpis/TableKpiGiro';
 import { TableKpiOccupation } from '@/app/(dashboard)/components/kpis/TableKpiOccupation';
 import Ticket from '@/app/(dashboard)/components/kpis/Ticket';
 import { getCompanyAction } from '../../actions/getCompany';
+import { Suspense } from 'react';
+import { Loader2 } from 'lucide-react';
 
 export default async function LushIpiranga({
 	searchParams,
@@ -22,7 +24,6 @@ export default async function LushIpiranga({
 	searchParams: { [key: string]: string | undefined };
 }) {
 	const open = searchParams.open || 'true';
-	const menu = searchParams.menu;
 	const preSet = searchParams.set || '7days';
 
 	const data = await getCompanyAction(preSet);
@@ -42,6 +43,7 @@ export default async function LushIpiranga({
 					</h2>
 					<Header />
 				</div>
+
 				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-28'>
 					<BigNumbers
 						data={data.BigNumbers}

@@ -1,4 +1,5 @@
 /** @format */
+'use client';
 
 import dynamic from 'next/dynamic';
 import React from 'react';
@@ -23,8 +24,8 @@ interface Result {
 	dates: string[];
 }
 
-export default async function Occupation(data: any) {
-	const occupancyRateByDate: OccupancyRateEntry[] = await data.data;
+export default function Occupation(data: any) {
+	const occupancyRateByDate: OccupancyRateEntry[] = data.data;
 
 	const transformedData: TransformedOccupancyEntry[] = occupancyRateByDate
 		.map((item: OccupancyRateEntry): TransformedOccupancyEntry => {
