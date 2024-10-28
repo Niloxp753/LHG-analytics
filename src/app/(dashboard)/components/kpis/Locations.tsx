@@ -8,10 +8,6 @@ const AreaChartsApex = dynamic(
 	{ ssr: false },
 );
 
-interface Data {
-	data: RentalsEntry[];
-}
-
 interface RentalsEntry {
 	[date: string]: {
 		totalRentalsApartments: number;
@@ -28,7 +24,7 @@ interface Result {
 	dates: string[];
 }
 
-export default function Locations(data: Data) {
+export default function Locations(data: any) {
 	const rentalsByDate: RentalsEntry[] = data.data;
 
 	const transformedData: TransformedEntry[] = rentalsByDate
