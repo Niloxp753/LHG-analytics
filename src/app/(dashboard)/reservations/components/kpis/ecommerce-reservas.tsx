@@ -31,7 +31,7 @@ export default function EcommerceRevervs() {
 					'nov/2024',
 					'dez/2024',
 				]}
-				legend={'Reservas de E-commerce'}
+				
 			/>
 		</>
 	);

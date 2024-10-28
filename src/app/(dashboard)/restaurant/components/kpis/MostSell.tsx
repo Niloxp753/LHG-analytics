@@ -4,10 +4,9 @@ import {
 	Table,
 	TableBody,
 	TableCell,
-	TableFooter,
 	TableHead,
 	TableHeader,
-	TableRow,
+	TableRow
 } from '@/components/ui/table';
 
 const data = [

@@ -11,7 +11,7 @@ export default function CoustXWorker() {
 	return (
 		<div className='w-full'>
 			<AreaChartsApex
-				legend={'Custo Por Mês / Colaborador'}
+				
 				series={[
 					{
 						name: 'Custo Total',

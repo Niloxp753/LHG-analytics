@@ -26,7 +26,7 @@ export default function EcommerceRevenue() {
 					'nov/2024',
 					'dez/2024',
 				]}
-				legend={'Receita de E-commerce'}
+				
 			/>
 		</>
 	);

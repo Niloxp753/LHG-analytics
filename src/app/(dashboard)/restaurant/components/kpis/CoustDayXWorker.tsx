@@ -11,7 +11,7 @@ export default function cc() {
 	return (
 		<div className='w-full'>
 			<AreaChartsApex
-				legend={'Custo Por Dia / Colaborador'}
+				
 				series={[
 					{
 						name: 'Custo Médio Por Dia',

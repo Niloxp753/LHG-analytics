@@ -9,7 +9,8 @@ interface AreaChartsApexProps {
 	categories?: string[];
 	money?: boolean;
 	percent?: boolean;
-	id: string;
+	id?: string;
+	legend?: string;
 }
 
 export default function AreaChartsApex(props: AreaChartsApexProps) {

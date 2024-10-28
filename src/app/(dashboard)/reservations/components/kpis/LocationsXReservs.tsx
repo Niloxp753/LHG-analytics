@@ -17,7 +17,6 @@ export default function LocationsXReservs() {
 						name: 'Nº de reservas',
 					},
 				]}
-				legend='Número de Reservas'
 				categories={[
 					'jan/24',
 					'fev/24',

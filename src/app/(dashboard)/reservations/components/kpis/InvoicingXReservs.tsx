@@ -11,9 +11,6 @@ export default function InvoicingXReservs() {
 	return (
 		<>
 			<AreaChartsApex
-				color='#2dd4bf'
-				labelColor='#115e59'
-				legend='Faturamento de Reservas'
 				categories={[
 					'jan/24',
 					'fev/24',
