@@ -9,12 +9,10 @@ const LineChart = dynamic(
 );
 
 interface Rental {
-	[key: string]: {
-		totalValue: string;
-	};
+	totalValue: string;
 }
 
-interface BillingRentalType {
+interface BillingRental {
 	[date: string]: Rental[];
 }
 
@@ -22,8 +20,20 @@ interface OrganizedValues {
 	[key: string]: number[];
 }
 
+interface ResultEntry {
+	name: string;
+	data: number[];
+	dates: string[];
+}
+
+interface DataWithValues {
+	date: string;
+	type: string;
+	value: number;
+}
+
 export default function InvoicingXLocation(data: any) {
-	const billingRentalType: BillingRentalType[] = data.data;
+	const billingRentalType: BillingRental[] = data.data;
 
 	const datas = billingRentalType.map((item) => Object.keys(item)[0]);
 
@@ -45,77 +55,59 @@ export default function InvoicingXLocation(data: any) {
 		'Três Horas': [],
 	};
 
+	const dataWithValues: DataWithValues[] = [];
+
+	// Preenchendo a estrutura com os dados e suas respectivas datas
 	billingRentalType.forEach((item) => {
-		const rentals = item[Object.keys(item)[0]]; // Obtém os valores de locação
+		const date = Object.keys(item)[0];
+		const rentals = item[date];
 
 		// Percorre cada tipo de locação
-		rentals.forEach((rental) => {
+		rentals.forEach((rental: any) => {
 			const type = Object.keys(rental)[0];
 			const value = rental[type].totalValue;
 
-			// Converte o valor para número e adiciona ao tipo correspondente
-			// eslint-disable-next-line
-			organizedValues[rentalTypeMapping[type]].push(
-				parseFloat(value.replace(/[^0-9,]/g, '').replace(',', '.')),
-			); // Mantém como número
+			// Converte o valor para número
+			const numericValue = parseFloat(
+				value.replace(/[^0-9,]/g, '').replace(',', '.'),
+			);
+
+			// Adiciona ao array de dados, agrupando por data e tipo
+			dataWithValues.push({
+				date: date,
+				type: rentalTypeMapping[type],
+				value: numericValue,
+			});
 		});
 	});
 
-	// Converte para o formato desejado
+	// Agora, vamos organizar por data
+	dataWithValues.sort((a, b) => {
+		const dateA: any = new Date(a.date.split('/').reverse().join('-')); // Converter dd/mm/yyyy para yyyy-mm-dd
+		const dateB: any = new Date(b.date.split('/').reverse().join('-'));
+		return dateA - dateB;
+	});
+
+	// Reorganizando os valores em organizedValues conforme a nova ordem
+	dataWithValues.forEach((entry) => {
+		organizedValues[entry.type].push(entry.value);
+	});
+
+	// Converte para o formato desejado, incluindo a data
 	const result = Object.keys(organizedValues).map((type) => ({
 		name: type,
-		// eslint-disable-next-line
 		data: organizedValues[type],
+		dates: dataWithValues
+			.filter((entry) => entry.type === type)
+			.map((entry) => entry.date), // Adiciona as datas correspondentes
 	}));
 
-	// Exibe os valores organizados
-
-	// const processData = (billingRentalType: any[]) => {
-	// 	const seriesData = {
-	// 		'3 horas': [],
-	// 		'6 horas': [],
-	// 		'12 horas': [],
-	// 		'Day Use': [],
-	// 		Diária: [],
-	// 		Pernoite: [],
-	// 	};
-
-	// 	billingRentalType.forEach((entry: any) => {
-	// 		const date = Object.keys(entry)[0]; // Pega a data
-	// 		const rentals = entry[date];
-
-	// 		rentals.forEach((rental: any) => {
-	// 			const rentalType = Object.keys(rental)[0]; // Pega o tipo de locação
-	// 			const totalValue = parseFloat(
-	// 				rental[rentalType].totalValue
-	// 					.replace('R$ ', '')
-	// 					.replace('.', '')
-	// 					.replace(',', '.'),
-	// 			); // Converte o valor para número
-
-	// 			// Adiciona o valor ao array correspondente
-	// 			if (seriesData[rentalType]) {
-	// 				seriesData[rentalType].push(totalValue);
-	// 			}
-	// 		});
-	// 	});
-
-	// 	return Object.keys(seriesData).map((key) => ({
-	// 		name: key,
-	// 		data: seriesData[key],
-	// 	}));
-	// };
-
-	// const series = processData(billingRentalType);
-
 	return (
-		<>
-			<LineChart
-				title={'Faturamento por tipo de locação'}
-				height={400}
-				series={result}
-				categories={datas}
-			/>
-		</>
+		<LineChart
+			title={'Faturamento por tipo de locação'}
+			height={400}
+			series={result}
+			categories={result[0].dates}
+		/>
 	);
 }
