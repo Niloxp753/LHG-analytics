@@ -7,36 +7,55 @@ const AreaChartsApex = dynamic(
 	{ ssr: false },
 );
 
-export default function Invoicing(data: any) {
-	const revenueByDate = data.data;
-	const totalRevenueData: any[] = [];
-	const dates: any[] = [];
-
-	revenueByDate.forEach((item: any) => {
-		const date = Object.keys(item)[0];
-		const value = item[date].totalValue;
-
-		// Adiciona a data e converte o valor para número
-		dates.push(date);
-		totalRevenueData.push(
-			parseFloat(value.replace(/[^0-9,]/g, '').replace(',', '.')),
-		);
-	});
-
-	const result = {
-		name: 'Faturamento total',
-		data: totalRevenueData,
-		dates: dates,
+interface RevenueEntry {
+	[date: string]: {
+		totalValue: string;
 	};
+}
+
+interface TransformedEntry {
+	date: string;
+	totalValue: number;
+}
+
+export default function Invoicing(data: any) {
+	const revenueByDate: RevenueEntry[] = data.data;
+
+	const transformedData: TransformedEntry[] = revenueByDate
+		.map((item: RevenueEntry): TransformedEntry => {
+			const [date, data] = Object.entries(item)[0];
+			// Removendo "R$" e convertendo para número
+			const totalValue = parseFloat(
+				data.totalValue.replace('R$', '').replace('.', '').replace(',', '.'),
+			);
+			return { date, totalValue };
+		})
+		.sort(
+			(a, b) =>
+				new Date(a.date.split('/').reverse().join('-')).getTime() -
+				new Date(b.date.split('/').reverse().join('-')).getTime(),
+		);
+
+	// Estrutura de resultado final
+	interface Result {
+		values: number[];
+		dates: string[];
+	}
+
+	const result: Result = {
+		values: transformedData.map((entry: TransformedEntry) => entry.totalValue),
+		dates: transformedData.map((entry: TransformedEntry) => entry.date),
+	};
+
 
 	// Exibe o resultado
 
 	return (
 		<>
 			<AreaChartsApex
+				id='invoicing'
 				money
-				series={[result]}
-				legend='Faturamento Total'
+				series={[{ data: result.values, name: 'Faturamento Total' }]}
 				categories={result.dates}
 			/>
 		</>

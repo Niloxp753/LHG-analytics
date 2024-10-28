@@ -7,36 +7,54 @@ const AreaChartsApex = dynamic(
 	{ ssr: false },
 );
 
+interface RentalsEntry {
+	[date: string]: {
+		totalRentalsApartments: number;
+	};
+}
+
+interface TransformedEntry {
+	date: string;
+	totalRentals: number;
+}
+
+interface Result {
+	values: number[];
+	dates: string[];
+}
+
 export default function Locations(data: any) {
-	const rentalsByDate = data.data;
-	const totalRevenueData: any[] = [];
-	const dates: any[] = [];
+	const rentalsByDate: RentalsEntry[] = data.data;
 
-	rentalsByDate.forEach((item: any) => {
-		const date = Object.keys(item)[0];
-		const value = item[date].totalRentalsApartments;
+	const transformedData: TransformedEntry[] = rentalsByDate
+		.map((item: RentalsEntry): TransformedEntry => {
+			const [date, data] = Object.entries(item)[0];
+			const totalRentals = data.totalRentalsApartments;
+			return { date, totalRentals };
+		})
+		.sort(
+			(a, b) =>
+				new Date(a.date.split('/').reverse().join('-')).getTime() -
+				new Date(b.date.split('/').reverse().join('-')).getTime(),
+		);
 
-		// Adiciona a data e converte o valor para número
-		dates.push(date);
-		totalRevenueData.push(value);
-	});
-
-	const result = {
-		name: 'Quantidade de locações',
-		data: totalRevenueData,
-		dates: dates,
+	const result: Result = {
+		values: transformedData.map(
+			(entry: TransformedEntry) => entry.totalRentals,
+		),
+		dates: transformedData.map((entry: TransformedEntry) => entry.date),
 	};
 
 	return (
 		<>
 			<AreaChartsApex
+				id='locations'
 				series={[
 					{
-						data: result.data,
-						name: result.name,
+						data: result.values,
+						name: 'Quantidade de Locações',
 					},
 				]}
-				legend='Locações'
 				categories={result.dates}
 			/>
 		</>

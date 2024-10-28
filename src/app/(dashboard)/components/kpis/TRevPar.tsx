@@ -7,33 +7,57 @@ const AreaChartsApex = dynamic(
 	{ ssr: false },
 );
 
-export default function TRevPar() {
+interface TrevparEntry {
+	[date: string]: {
+		trevpar: string;
+	};
+}
+
+interface TransformedEntry {
+	date: string;
+	trevpar: number;
+}
+
+interface Result {
+	values: number[];
+	dates: string[];
+}
+
+export default function TRevPar(data: any) {
+	const trevparByDate: TrevparEntry[] = data.data;
+
+	const transformedData: TransformedEntry[] = trevparByDate
+		.map((item: TrevparEntry): TransformedEntry => {
+			const [date, data] = Object.entries(item)[0];
+			// Removendo "R$" e convertendo para número
+			const trevpar = parseFloat(
+				data.trevpar.replace('R$', '').replace('.', '').replace(',', '.'),
+			);
+			return { date, trevpar };
+		})
+		.sort(
+			(a, b) =>
+				new Date(a.date.split('/').reverse().join('-')).getTime() -
+				new Date(b.date.split('/').reverse().join('-')).getTime(),
+		);
+
+	const result: Result = {
+		values: transformedData.map((entry: TransformedEntry) => entry.trevpar),
+		dates: transformedData.map((entry: TransformedEntry) => entry.date),
+	};
+
 	return (
 		<div className='  max-h-[440px] h-full w-full flex items-center justify-center'>
 			<AreaChartsApex
+				id='trevpar-ipiranga'
 				series={[
 					{
-						data: [80, 60, 55, 73, 60, 75, 60, 70, 73, 60, 75, 60],
+						data: result.values,
 						name: 'TRevPar',
 					},
 				]}
-				legend='TRevPar'
-				color='#2dd4bf'
-				labelColor='#115e59'
-				categories={[
-					'jan/24',
-					'fev/24',
-					'mar/24',
-					'abr/24',
-					'mai/24',
-					'jun/24',
-					'jul/24',
-					'ago/24',
-					'set/24',
-					'out/24',
-					'nov/24',
-					'dez/24',
-				]}
+				categories={result.dates}
+				money
 			/>
 		</div>
 	);

@@ -59,11 +59,12 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 			background: {
 				enabled: true,
 				borderRadius: 4,
-				padding: 12,
+				padding: 10,
 				borderWidth: 1,
 			},
 			style: {
 				colors: props.dataLabelColors,
+				fontSize: '11px',
 			},
 		},
 		tooltip: {
@@ -111,18 +112,11 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 		},
 	};
 
-	const series: ApexAxisChartSeries | ApexNonAxisChartSeries = [
-		{
-			name: 'Faturamento',
-			data: [30, 40, 45, 50, 49, 60, 70, 91, 120],
-			type: 'bar',
-		},
-	];
 	return (
 		<ResponsiveContainerChart>
 			<Chart
 				options={options}
-				series={series}
+				series={props.series}
 				type='bar'
 				width={'100%'}
 				height={620}></Chart>

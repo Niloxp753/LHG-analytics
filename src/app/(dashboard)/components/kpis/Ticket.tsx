@@ -7,31 +7,62 @@ const AreaChartsApex = dynamic(
 	{ ssr: false },
 );
 
-export default function Ticket() {
+interface TicketAverageEntry {
+	[date: string]: {
+		totalTicketAverage: string;
+	};
+}
+
+interface TransformedEntry {
+	date: string;
+	ticketAverage: number;
+}
+
+interface Result {
+	values: number[];
+	dates: string[];
+}
+
+export default function Ticket(data: any) {
+	const ticketAverageByDate: TicketAverageEntry[] = data.data;
+
+	const transformedData: TransformedEntry[] = ticketAverageByDate
+		.map((item: TicketAverageEntry): TransformedEntry => {
+			const [date, data] = Object.entries(item)[0];
+			// Removendo "R$" e convertendo para número
+			const ticketAverage = parseFloat(
+				data.totalTicketAverage
+					.replace('R$', '')
+					.replace('.', '')
+					.replace(',', '.'),
+			);
+			return { date, ticketAverage };
+		})
+		.sort(
+			(a, b) =>
+				new Date(a.date.split('/').reverse().join('-')).getTime() -
+				new Date(b.date.split('/').reverse().join('-')).getTime(),
+		);
+
+	const result: Result = {
+		values: transformedData.map(
+			(entry: TransformedEntry) => entry.ticketAverage,
+		),
+		dates: transformedData.map((entry: TransformedEntry) => entry.date),
+	};
+
 	return (
 		<div className='  max-h-[440px] h-full w-full flex items-center justify-center'>
 			<AreaChartsApex
+				id='ticket-ipiranga'
+				money
 				series={[
 					{
-						data: [70, 65, 60, 70, 65, 70, 70, 65, 65, 70, 70, 65],
+						data: result.values,
 						name: 'Ticket Médio',
 					},
 				]}
-				legend='Ticket Médio'
-				categories={[
-					'jan/24',
-					'fev/24',
-					'mar/24',
-					'abr/24',
-					'mai/24',
-					'jun/24',
-					'jul/24',
-					'ago/24',
-					'set/24',
-					'out/24',
-					'nov/24',
-					'dez/24',
-				]}
+				categories={result.dates}
 			/>
 		</div>
 	);

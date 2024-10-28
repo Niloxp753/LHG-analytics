@@ -7,31 +7,61 @@ const AreaChartsApex = dynamic(
 	{ ssr: false },
 );
 
-export default function Occupation() {
+interface OccupancyRateEntry {
+	[date: string]: {
+		occupancyRate: string;
+	};
+}
+
+interface TransformedOccupancyEntry {
+	date: string;
+	occupancyRate: number;
+}
+
+interface Result {
+	values: number[];
+	dates: string[];
+}
+
+export default function Occupation(data: any) {
+	const occupancyRateByDate: OccupancyRateEntry[] = data.data;
+
+	const transformedData: TransformedOccupancyEntry[] = occupancyRateByDate
+		.map((item: OccupancyRateEntry): TransformedOccupancyEntry => {
+			const [date, data] = Object.entries(item)[0];
+			// Removendo "%" e convertendo para número
+			const occupancyRate = parseFloat(
+				data.occupancyRate.replace('%', '').replace(',', '.'),
+			);
+			return { date, occupancyRate };
+		})
+		.sort(
+			(a, b) =>
+				new Date(a.date.split('/').reverse().join('-')).getTime() -
+				new Date(b.date.split('/').reverse().join('-')).getTime(),
+		);
+
+	const result: Result = {
+		values: transformedData.map(
+			(entry: TransformedOccupancyEntry) => entry.occupancyRate,
+		),
+		dates: transformedData.map(
+			(entry: TransformedOccupancyEntry) => entry.date,
+		),
+	};
+
 	return (
 		<>
 			<AreaChartsApex
-				legend='Tx de Ocupação'
+				id='tx-ocuppation-ipiranga'
+				percent
 				series={[
 					{
-						data: [50, 60, 70, 65, 75, 90, 65, 60, 70, 65, 75, 90],
+						data: result.values,
 						name: 'Taxa de ocupação',
 					},
 				]}
-				categories={[
-					'jan/24',
-					'fev/24',
-					'mar/24',
-					'abr/24',
-					'mai/24',
-					'jun/24',
-					'jul/24',
-					'ago/24',
-					'set/24',
-					'out/24',
-					'nov/24',
-					'dez/24',
-				]}
+				categories={result.dates}
 			/>
 		</>
 	);

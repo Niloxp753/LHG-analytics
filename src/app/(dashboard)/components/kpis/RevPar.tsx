@@ -7,39 +7,53 @@ const AreaChartsApex = dynamic(
 	{ ssr: false },
 );
 
+interface RevparEntry {
+	[date: string]: {
+		revpar: string;
+	};
+}
+
+interface TransformedEntry {
+	date: string;
+	revpar: number;
+}
+
+interface Result {
+	values: number[];
+	dates: string[];
+}
+
 export default function RevPar(data: any) {
-	const revparByDate = data.data;
+	const revparByDate: RevparEntry[] = data.data;
 
-	const totalRevenueData: any[] = [];
-	const dates: any[] = [];
-
-	revparByDate.forEach((item: any) => {
-		const date = Object.keys(item)[0];
-		const value = item[date].revpar;
-
-		// Adiciona a data e converte o valor para número
-		dates.push(date);
-		totalRevenueData.push(
-			parseFloat(value.replace(/[^0-9,]/g, '').replace(',', '.')),
+	const transformedData: TransformedEntry[] = revparByDate
+		.map((item: RevparEntry): TransformedEntry => {
+			const [date, data] = Object.entries(item)[0];
+			// Removendo "R$" e convertendo para número
+			const revpar = parseFloat(
+				data.revpar.replace('R$', '').replace('.', '').replace(',', '.'),
+			);
+			return { date, revpar };
+		})
+		.sort(
+			(a, b) =>
+				new Date(a.date.split('/').reverse().join('-')).getTime() -
+				new Date(b.date.split('/').reverse().join('-')).getTime(),
 		);
-	});
 
-	const result = {
-		name: 'RevPar',
-		data: totalRevenueData,
-		dates: dates,
+	const result: Result = {
+		values: transformedData.map((entry: TransformedEntry) => entry.revpar),
+		dates: transformedData.map((entry: TransformedEntry) => entry.date),
 	};
 
 	return (
-		<div className='h-full w-full flex justify-center items-center'>
+		<>
 			<AreaChartsApex
-				series={[{ data: result.data, name: result.name }]}
-				legend='RevPar'
-				color='#2dd4bf'
-				labelColor='#115e59'
+				id='revpar'
+				series={[{ data: result.values, name: 'RevPar' }]}
 				categories={result.dates}
 				money
 			/>
-		</div>
+		</>
 	);
 }

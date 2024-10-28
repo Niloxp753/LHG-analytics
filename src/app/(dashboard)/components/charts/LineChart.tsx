@@ -126,9 +126,10 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 
 		xaxis: {
 			axisBorder: { show: true },
+			labels: { trim: false, show: true, style: { fontSize: '9px' } },
 			categories: props.categories,
 		},
-		yaxis: { show: false, labels: { show: true }, axisBorder: { show: true } },
+		yaxis: { show: true, labels: { show: false }, axisBorder: { show: false } },
 		stroke: { curve: 'smooth', width: 2 },
 		plotOptions: { area: { fillTo: 'end' } },
 	};

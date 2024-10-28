@@ -6,21 +6,21 @@ import ResponsiveContainerChart from '../ResponsiveContainerChart';
 
 interface AreaChartsApexProps {
 	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | undefined;
-	legend?: string;
-	color?: string;
-	labelColor?: string;
 	categories?: string[];
 	money?: boolean;
+	percent?: boolean;
+	id: string;
 }
 
 export default function AreaChartsApex(props: AreaChartsApexProps) {
 	const options: ApexCharts.ApexOptions = {
 		chart: {
-			id: 'test-bar',
+			id: props.id,
 			stacked: true,
 			type: 'area',
 			foreColor: '#fafafa',
-
+			height: 490,
+			width: '100%',
 			zoom: {
 				enabled: false,
 			},
@@ -38,15 +38,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			onItemHover: { highlightDataSeries: true },
 			onItemClick: { toggleDataSeries: false },
 		},
-		grid: {
-			borderColor: '#a78bfa',
-			show: true,
-			yaxis: {
-				lines: {
-					show: false,
-				},
-			},
-		},
+		grid: { show: false },
 		dataLabels: {
 			style: {
 				colors: ['#7c3aed', '#2563eb', '#4f46e5', '#c026d3', '#e11d48'],
@@ -61,7 +53,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			background: {
 				enabled: true,
 				borderRadius: 4,
-				padding: 12,
+				padding: 4,
 				borderWidth: 1,
 			},
 		},
@@ -74,8 +66,10 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 									style: 'currency',
 									currency: 'BRL',
 							  })
+							: props.percent
+							? val + '%'
 							: val
-					}`,
+					} `,
 			},
 		},
 		colors: ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9'],
@@ -104,17 +98,22 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 
 		xaxis: {
 			axisBorder: { show: true },
-			offsetX: 14,
-			stepSize: 100,
 			labels: {
-				rotate: 45,
+				rotate: 270,
 				show: true,
+				hideOverlappingLabels: false,
+				style: { fontSize: '9px', fontWeight: 'light' },
+				trim: false,
 			},
 			categories: props.categories
 				? props.categories
 				: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
 		},
-		yaxis: { show: false, labels: { show: true } },
+		yaxis: {
+			show: true,
+			labels: { show: false, padding: 400, style: { fontSize: '8px' } },
+			tickAmount: 4,
+		},
 		stroke: { curve: 'smooth' },
 		plotOptions: { area: { fillTo: 'origin' } },
 	};
