@@ -19,8 +19,8 @@ interface Result {
 	categories: string[];
 }
 
-export default function Categories(data: any) {
-	const revenueBySuiteCategory: SuiteCategoryRevenueEntry[] = data.data;
+export default async function Categories(data: any) {
+	const revenueBySuiteCategory: SuiteCategoryRevenueEntry[] = await data.data;
 
 	const transformedData: Result = revenueBySuiteCategory
 		// Ordenando com base em totalValue, convertendo para número antes

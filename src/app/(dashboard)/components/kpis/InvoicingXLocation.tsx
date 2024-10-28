@@ -22,8 +22,8 @@ interface OrganizedValues {
 }
 
 
-export default function InvoicingXLocation(data: any) {
-	const billingRentalType: BillingRentalType[] = data.data;
+export default async function InvoicingXLocation(data: any) {
+	const billingRentalType: BillingRentalType[] = await data.data;
 
 	const datas = billingRentalType.map((item) => Object.keys(item)[0]);
 

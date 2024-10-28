@@ -18,8 +18,8 @@ interface TransformedEntry {
 	totalValue: number;
 }
 
-export default function Invoicing(data: any) {
-	const revenueByDate: RevenueEntry[] = data.data;
+export default async  function Invoicing(data: any) {
+	const revenueByDate: RevenueEntry[] = await data.data;
 
 	const transformedData: TransformedEntry[] = revenueByDate
 		.map((item: RevenueEntry): TransformedEntry => {
