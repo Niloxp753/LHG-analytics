@@ -27,22 +27,22 @@ export default async function LushIpiranga({
 	const data = await getCompanyAction(preSet);
 
 	return (
-		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-3 md:px-5 py-10'>
+		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>
 			<div
-				className={`relative w-full  ${
-					open == 'true' ? 'md:max-w-[82vw]' : 'md:max-w-[90vw]'
-				}  md:ml-auto flex z-40 `}>
+				className={`relative  ${
+					open == 'true' ? 'md:max-w-[82vw] ' : 'md:max-w-[90vw]'
+				}   flex  md:ml-auto w-full `}>
 				<div
-					className={`bg-zinc-950/50 z-40 py-4 ml-auto w-[94vw] ${
+					className={`bg-zinc-950/50 py-4 w-full ${
 						open == 'true' ? 'w-[82vw]' : 'w-[90vw] '
-					} backdrop-blur-md fixed top-0 flex flex-col gap-2 justify-end `}>
+					} backdrop-blur-md fixed top-0 z-40 flex flex-col gap-2 justify-end `}>
 					<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-1.5 text-xl'>
 						Visão Geral - <span className='text-violet-400'>Lush Ipiranga</span>
 					</h2>
 					<Header />
 				</div>
 
-				<div className=' w-full h-full flex gap-5 flex-col justify-start mt-28'>
+				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-28'>
 					<BigNumbers
 						data={data.BigNumbers}
 						description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${

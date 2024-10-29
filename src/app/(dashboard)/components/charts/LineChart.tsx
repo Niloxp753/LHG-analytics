@@ -17,7 +17,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 		chart: {
 			id: 'line-bar',
 			stacked: false,
-			width: '95%',
+			width: '100%',
 			type: 'line',
 			foreColor: '#fafafa',
 			zoom: {
@@ -132,6 +132,41 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 		yaxis: { show: true, labels: { show: false }, axisBorder: { show: false } },
 		stroke: { curve: 'smooth', width: 2 },
 		plotOptions: { area: { fillTo: 'end' } },
+		responsive: [
+			{
+				breakpoint: 580,
+				options: {
+					chart: {
+						height: 440,
+					},
+					legend: {
+						position: 'bottom',
+						offsetY: 20,
+						fontSize: '14x',
+						itemMargin: {
+							vertical: 14,
+							horizontal: 8,
+						},
+					},
+				},
+			},
+			{
+				breakpoint: 3000,
+				options: {
+					chart: {
+						height: 340,
+					},
+					legend: {
+						position: 'top',
+						offsetY: 0,
+						fontSize: '14x',
+						itemMargin: {
+							vertical: 14,
+						},
+					},
+				},
+			},
+		],
 	};
 
 	return (
