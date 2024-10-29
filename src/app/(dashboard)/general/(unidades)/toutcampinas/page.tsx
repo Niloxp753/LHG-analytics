@@ -15,7 +15,6 @@ import TRevPar from '@/app/(dashboard)/components/kpis/TRevPar';
 import { TableKpiGiro } from '@/app/(dashboard)/components/kpis/TableKpiGiro';
 import { TableKpiOccupation } from '@/app/(dashboard)/components/kpis/TableKpiOccupation';
 import Ticket from '@/app/(dashboard)/components/kpis/Ticket';
-import { TableKpiCategory } from '@/app/(dashboard)/components/kpis/TableKpiCategory';
 
 export default function ToutCampinas({
 	searchParams,
@@ -69,9 +68,7 @@ export default function ToutCampinas({
 						<OccupationCasaLush />
 					</div>
 					<div className='w-full h-full flex items-baseline justify-between'>
-						<div className='w-2/3'>
-							<TableKpiCategory />
-						</div>
+						<div className='w-2/3'></div>
 						<div className='w-1/4 flex flex-col h-full justify-between gap-5'>
 							<CardDetails
 								title={'Econômicas'}
