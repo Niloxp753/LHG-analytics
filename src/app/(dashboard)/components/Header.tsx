@@ -25,7 +25,7 @@ export default function Header() {
 							preSet == '7days'
 								? 'bg-violet-400 text-zinc-900 '
 								: 'text-zinc-50 bg-transparent'
-						} border-violet-400 py-1 px-3 rounded transition-all duration-300 ease-linear hover:bg-violet-400 hover:text-zinc-900 font-semibold`}>
+						} border-violet-400 py-1 px-2 rounded transition-all duration-300 ease-linear hover:bg-violet-400 hover:text-zinc-900 font-semibold`}>
 						Últimos 7 dias
 					</Link>
 					<Link

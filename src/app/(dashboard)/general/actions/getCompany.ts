@@ -22,7 +22,7 @@ export async function getCompanyAction(period: string) {
 
 	try {
 		const resp = await getCompany(newPeriod);
-		revalidateTag('company')
+		revalidateTag('company');
 		return resp;
 	} catch (error) {
 		console.error(error);

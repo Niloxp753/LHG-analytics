@@ -17,10 +17,9 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: props.id,
-			stacked: true,
 			type: 'area',
 			foreColor: '#fafafa',
-			height: 490,
+			stacked: false,
 			width: '100%',
 			zoom: {
 				enabled: false,
@@ -103,8 +102,9 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 				rotate: 270,
 				show: true,
 				hideOverlappingLabels: false,
-				style: { fontSize: '9px', fontWeight: 'light' },
+				style: { fontSize: '10px', fontWeight: 'light' },
 				trim: false,
+				offsetX: 3,
 			},
 			categories: props.categories
 				? props.categories
@@ -117,6 +117,24 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 		},
 		stroke: { curve: 'smooth' },
 		plotOptions: { area: { fillTo: 'origin' } },
+		responsive: [
+			{
+				breakpoint: 580,
+				options: {
+					chart: {
+						height: 400,
+					},
+				},
+			},
+			{
+				breakpoint: 3000,
+				options: {
+					chart: {
+						height: 280,
+					},
+				},
+			},
+		],
 	};
 
 	return (

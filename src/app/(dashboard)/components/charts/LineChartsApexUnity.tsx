@@ -23,6 +23,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 			stacked: false,
 			type: 'area',
 			foreColor: '#fafafa',
+			height: 248,
 			zoom: {
 				enabled: false,
 			},
@@ -38,6 +39,8 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 			fontWeight: 'bold',
 			onItemHover: { highlightDataSeries: true },
 			onItemClick: { toggleDataSeries: false },
+			offsetY: 10,
+			itemMargin: { horizontal: 12, vertical: 5 },
 		},
 		grid: {
 			borderColor: '#a78bfa',
@@ -73,6 +76,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 				opacityTo: 0.2,
 			},
 		},
+
 		markers: {
 			size: 5,
 			colors: ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9'],
@@ -87,6 +91,24 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 		yaxis: { show: false, labels: { show: true } },
 		stroke: { curve: 'smooth', width: 2 },
 		plotOptions: { area: { fillTo: 'end' } },
+		responsive: [
+			{
+				breakpoint: 580,
+				options: {
+					chart: {
+						height: 440,
+					},
+				},
+			},
+			{
+				breakpoint: 3000,
+				options: {
+					chart: {
+						height: 248,
+					},
+				},
+			},
+		],
 	};
 
 	const series: ApexAxisChartSeries | ApexNonAxisChartSeries = [
@@ -119,7 +141,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 				series={series}
 				type='area'
 				width={'100%'}
-				height={240}></Chart>
+				height={248}></Chart>
 		</ResponsiveContainerChart>
 	);
 }

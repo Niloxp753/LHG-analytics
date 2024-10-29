@@ -10,13 +10,11 @@ import Occupation from '@/app/(dashboard)/components/kpis/Occupation';
 import OccupationCasaLush from '@/app/(dashboard)/components/kpis/OccupationCasaLush';
 import RevPar from '@/app/(dashboard)/components/kpis/RevPar';
 import TRevPar from '@/app/(dashboard)/components/kpis/TRevPar';
-import { TableKpiCategory } from '@/app/(dashboard)/components/kpis/TableKpiCategory';
+import TableKpiCategory from '@/app/(dashboard)/components/kpis/TableKpiCategory';
 import { TableKpiGiro } from '@/app/(dashboard)/components/kpis/TableKpiGiro';
 import { TableKpiOccupation } from '@/app/(dashboard)/components/kpis/TableKpiOccupation';
 import Ticket from '@/app/(dashboard)/components/kpis/Ticket';
 import { getCompanyAction } from '../../actions/getCompany';
-import { Suspense } from 'react';
-import { Loader2 } from 'lucide-react';
 
 export default async function LushIpiranga({
 	searchParams,
@@ -79,7 +77,10 @@ export default async function LushIpiranga({
 					</div>
 					<div className='w-full h-full flex-col gap-5 md:flex-row flex items-baseline justify-between'>
 						<div className='w-full'>
-							<TableKpiCategory />
+							<TableKpiCategory
+								dataTable={data.DataTableSuiteCategory}
+								datatableResult={data.TotalResult}
+							/>
 						</div>
 					</div>
 					<div className='flex gap-5 flex-col w-full'>

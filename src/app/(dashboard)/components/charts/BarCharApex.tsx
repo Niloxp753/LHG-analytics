@@ -100,6 +100,11 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 			type: 'category',
 			axisBorder: { show: true },
 			categories: props.categories,
+			labels: {
+				style: {
+					fontSize: '10px',
+				},
+			},
 		},
 		yaxis: { show: true, labels: { show: true } },
 		stroke: { curve: 'smooth' },
