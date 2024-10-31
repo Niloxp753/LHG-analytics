@@ -12,6 +12,7 @@ export default function InvoicingXUnity() {
 	return (
 		<>
 			<PieChartsApex
+				height={340}
 				colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
 				dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
 			/>

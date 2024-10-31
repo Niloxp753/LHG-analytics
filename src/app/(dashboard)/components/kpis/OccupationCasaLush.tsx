@@ -1,16 +1,16 @@
 /** @format */
 'use client';
+
 import {
 	Select,
 	SelectContent,
 	SelectGroup,
 	SelectItem,
-	SelectLabel,
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
 import dynamic from 'next/dynamic';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const AreaChartsApex = dynamic(
 	() => import('@/app/(dashboard)/components/charts/AreaChartsApex'),
@@ -58,12 +58,12 @@ export default function OccupationCasaLush(data: any) {
 		});
 
 		// Visualize o resultado para verificar se todos os dados foram transformados corretamente
+		console.log(result);
 		return result;
 	};
 
 	const occupancyRateBySuiteCategory: OccupancyData[] = data.data;
 	const transformedData = transformOccupancyData(occupancyRateBySuiteCategory);
-
 	const [state, setState] = useState('LUSH');
 	const currentSerie = transformedData.find((serie) => {
 		return serie.category === state;
@@ -92,7 +92,7 @@ export default function OccupationCasaLush(data: any) {
 				</SelectContent>
 			</Select>
 			<AreaChartsApex
-				title='Taxa de Ooupação por categoria de suíte'
+				title='Taxa de ocupação por categoria de suíte'
 				percent
 				id='occupation-category'
 				series={[
@@ -101,7 +101,7 @@ export default function OccupationCasaLush(data: any) {
 						name: currentSerie?.category,
 					},
 				]}
-				categories={transformedData[0].categories}
+				categories={currentSerie?.categories}
 			/>
 		</>
 	);
