@@ -34,8 +34,8 @@ export default async function LushIpiranga({
 				}   flex  md:ml-auto w-full `}>
 				<div
 					className={`bg-zinc-950/50 py-4 w-full ${
-						open == 'true' ? 'w-[82vw]' : 'w-[90vw] '
-					} backdrop-blur-md fixed top-0 z-40 flex flex-col gap-2 justify-end `}>
+						open == 'true' ? 'md:w-[82vw]' : 'md:w-[90vw] '
+					} backdrop-blur-md fixed top-0 z-40 flex flex-col gap-2 `}>
 					<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-1.5 text-xl'>
 						Visão Geral - <span className='text-violet-400'>Lush Ipiranga</span>
 					</h2>
@@ -73,7 +73,7 @@ export default async function LushIpiranga({
 					</div>
 					<div className='flex flex-col  h-full w-full gap-5'>
 						<Occupation data={data.OccupancyRateByDate} />
-						<OccupationCasaLush />
+						<OccupationCasaLush data={data.OccupancyRateBySuiteCategory} />
 					</div>
 					<div className='w-full h-full flex-col gap-5 md:flex-row flex items-baseline justify-between'>
 						<div className='w-full'>

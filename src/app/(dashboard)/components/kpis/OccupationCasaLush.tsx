@@ -1,37 +1,107 @@
 /** @format */
-
+'use client';
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select';
 import dynamic from 'next/dynamic';
-import React from 'react';
+import React, { useState } from 'react';
+
 const AreaChartsApex = dynamic(
 	() => import('@/app/(dashboard)/components/charts/AreaChartsApex'),
 	{ ssr: false },
 );
 
-export default function OccupationCasaLush() {
+interface OccupancyData {
+	category: string; // Nome da categoria, por exemplo, 'LUSH'
+	values: number[]; // Array de valores de taxa de ocupação
+	categories: string[]; // Array de datas correspondentes
+}
+
+export default function OccupationCasaLush(data: any) {
+	const transformOccupancyData = (inputData: any): OccupancyData[] => {
+		const result: OccupancyData[] = [];
+
+		inputData.forEach((dateEntry: any) => {
+			Object.entries(dateEntry).forEach(([date, categories]: [string, any]) => {
+				Object.entries(categories).forEach(
+					([category, info]: [string, any]) => {
+						const existingCategory = result.find(
+							(item) => item.category === category.toUpperCase(),
+						);
+
+						// Converte a taxa de ocupação para número
+						const occupancyValue = parseFloat(
+							info.occupancyRate.replace('%', ''),
+						);
+
+						if (existingCategory) {
+							// Se a categoria já existe, adicione o valor e a data
+							existingCategory.values.push(occupancyValue);
+							existingCategory.categories.push(date);
+						} else {
+							// Se a categoria não existe, crie uma nova entrada
+							result.push({
+								category: category.toUpperCase(),
+								values: [occupancyValue],
+								categories: [date],
+							});
+						}
+					},
+				);
+			});
+		});
+
+		// Visualize o resultado para verificar se todos os dados foram transformados corretamente
+		return result;
+	};
+
+	const occupancyRateBySuiteCategory: OccupancyData[] = data.data;
+	const transformedData = transformOccupancyData(occupancyRateBySuiteCategory);
+
+	const [state, setState] = useState('LUSH');
+	const currentSerie = transformedData.find((serie) => {
+		return serie.category === state;
+	});
+
 	return (
 		<>
+			<Select
+				defaultValue={state}
+				onValueChange={(value: string) => setState(value)}>
+				<SelectTrigger className='w-56 text-zinc-50 dark'>
+					<SelectValue placeholder='Selecione uma unidade' />
+				</SelectTrigger>
+				<SelectContent className='dark'>
+					<SelectGroup>
+						<SelectItem value='LUSH'>LUSH</SelectItem>
+						<SelectItem value='LUSH POP'>LUSH POP</SelectItem>
+						<SelectItem value='LUSH SPA'>LUSH SPA</SelectItem>
+						<SelectItem value='LUSH SPA SPLASH'>LUSH SPA SPLASH</SelectItem>
+						<SelectItem value='LUSH LOUNGE'>LUSH LOUNGE</SelectItem>
+						<SelectItem value='LUSH HIDRO'>LUSH HIDRO</SelectItem>
+						<SelectItem value='LUSH SPLASH'>LUSH SPLASH</SelectItem>
+						<SelectItem value='LUSH CINE'>LUSH CINE</SelectItem>
+						<SelectItem value='CASA LUSH'>CASA LUSH</SelectItem>
+					</SelectGroup>
+				</SelectContent>
+			</Select>
 			<AreaChartsApex
-				id='casa-lush'
+				title='Taxa de Ooupação por categoria de suíte'
+				percent
+				id='occupation-category'
 				series={[
 					{
-						data: [50, 65, 55, 75, 65, 60, 75, 55, 75, 65, 75, 55],
-						name: 'Taxa de Ocupação - Casa Lush',
+						data: currentSerie?.values!,
+						name: currentSerie?.category,
 					},
 				]}
-				categories={[
-					'jan/24',
-					'fev/24',
-					'mar/24',
-					'abr/24',
-					'mai/24',
-					'jun/24',
-					'jul/24',
-					'ago/24',
-					'set/24',
-					'out/24',
-					'nov/24',
-					'dez/24',
-				]}
+				categories={transformedData[0].categories}
 			/>
 		</>
 	);

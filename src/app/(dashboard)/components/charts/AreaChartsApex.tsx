@@ -10,7 +10,7 @@ interface AreaChartsApexProps {
 	money?: boolean;
 	percent?: boolean;
 	id?: string;
-	legend?: string;
+	title?: string;
 }
 
 export default function AreaChartsApex(props: AreaChartsApexProps) {
@@ -29,7 +29,12 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 				show: false,
 			},
 		},
+		title: {
+			text: props.title,
+			style: { fontSize: '16px', fontWeight: '600' },
+		},
 		legend: {
+			show: true,
 			showForSingleSeries: true,
 			position: 'top',
 			horizontalAlign: 'left',
@@ -44,7 +49,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 				colors: ['#7c3aed', '#2563eb', '#4f46e5', '#c026d3', '#e11d48'],
 			},
 			enabled: false,
-			formatter: (val: number) =>
+			formatter: (val: number | string) =>
 				`${val.toLocaleString('pt-BR', {
 					style: 'currency',
 					currency: 'BRL',
@@ -59,7 +64,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 		},
 		tooltip: {
 			y: {
-				formatter: (val: number) =>
+				formatter: (val: number | string) =>
 					`${
 						props.money
 							? val.toLocaleString('pt-BR', {
