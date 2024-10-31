@@ -11,6 +11,7 @@ interface AreaChartsApexProps {
 	percent?: boolean;
 	id?: string;
 	title?: string;
+	legend?: string;
 }
 
 export default function AreaChartsApex(props: AreaChartsApexProps) {
