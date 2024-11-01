@@ -58,7 +58,7 @@ export default function OccupationCasaLush(data: any) {
 		});
 
 		// Visualize o resultado para verificar se todos os dados foram transformados corretamente
-		console.log(result);
+
 		return result;
 	};
 

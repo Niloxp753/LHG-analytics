@@ -26,9 +26,9 @@ export default function Invoicing(data: any) {
 		.map((item: RevenueEntry): TransformedEntry => {
 			const [date, data] = Object.entries(item)[0];
 			// Removendo "R$" e convertendo para número
-			const totalValue = parseFloat(
-				data.totalValue.replace('R$', '').replace('.', '').replace(',', '.'),
-			);
+		const totalValue = parseFloat(
+			data.totalValue.replace('R$', '').replace(/\./g, '').replace(',', '.'),
+		);
 			return { date, totalValue };
 		})
 		.sort(
