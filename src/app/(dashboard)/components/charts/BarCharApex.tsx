@@ -44,6 +44,7 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 				},
 			},
 		},
+
 		dataLabels: {
 			enabled: true,
 			formatter: (val: number) =>
@@ -55,7 +56,6 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 						  })
 						: val
 				}`,
-			distributed: true,
 			background: {
 				enabled: true,
 				borderRadius: 4,
@@ -98,9 +98,11 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 
 		xaxis: {
 			type: 'category',
-			axisBorder: { show: true },
+			axisBorder: { show: false },
 			categories: props.categories,
+			axisTicks: { show: false },
 			labels: {
+				show: false,
 				style: {
 					fontSize: '10px',
 				},

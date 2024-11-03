@@ -44,7 +44,7 @@ export default function Categories(data: any) {
 				const [category, data] = Object.entries(item)[0];
 				// Convertendo "R$" e pontos para formato numérico padrão
 				const totalValue = parseFloat(
-					data.totalValue.replace('R$', '').replace('.', '').replace(',', '.'),
+					data.totalValue.replace('R$', '').replace(/\./g, '').replace(',', '.'),
 				);
 				acc.categories.push(category);
 				acc.values.push(totalValue);

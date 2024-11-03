@@ -10,7 +10,7 @@ const AreaChartsApex = dynamic(
 
 interface OccupancyRateEntry {
 	[date: string]: {
-		occupancyRate: string;
+		totalOccupancyRate: string;
 	};
 }
 
@@ -26,13 +26,14 @@ interface Result {
 
 export default function Occupation(data: any) {
 	const occupancyRateByDate: OccupancyRateEntry[] = data.data;
+	console.log(occupancyRateByDate);
 
 	const transformedData: TransformedOccupancyEntry[] = occupancyRateByDate
 		.map((item: OccupancyRateEntry): TransformedOccupancyEntry => {
 			const [date, data] = Object.entries(item)[0];
 			// Removendo "%" e convertendo para número
 			const occupancyRate = parseFloat(
-				data.occupancyRate.replace('%', '').replace(',', '.'),
+				data.totalOccupancyRate.replace('%', '').replace(',', '.'),
 			);
 			return { date, occupancyRate };
 		})

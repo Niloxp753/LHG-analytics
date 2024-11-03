@@ -31,7 +31,7 @@ export default async function LushIpiranga({
 			<div
 				className={`relative  ${
 					open == 'true' ? 'md:max-w-[82vw] ' : 'md:max-w-[90vw]'
-				}   flex  md:ml-auto w-full `}>
+				}   flex md:ml-auto  w-full `}>
 				<div
 					className={`bg-zinc-950/50 py-4 w-full ${
 						open == 'true' ? 'md:w-[82vw]' : 'md:w-[90vw] '

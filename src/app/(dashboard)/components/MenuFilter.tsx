@@ -17,9 +17,9 @@ import FormFilter from './FormFilter';
 export default function MenuFilter() {
 	return (
 		<Sheet>
-			<SheetTrigger className='text-zinc-950 py-1 w-fit px-3 text-sm rounded md:flex items-center justify-center gap-4 font-bold h-full bg-violet-400 hover:bg-violet-500 transition-all duration-300 ease-linear cursor-pointer hidden'>
+			<SheetTrigger className='text-zinc-950 py-2 w-fit px-3 text-sm rounded md:flex items-center justify-center gap-4 font-bold h-full bg-violet-400 hover:bg-violet-500 transition-all duration-300 ease-linear cursor-pointer hidden'>
 				Filtrar
-				<SlidersHorizontal size={20} />
+				<SlidersHorizontal size={16} />
 			</SheetTrigger>
 			<SheetContent className='bg-zinc-950 text-zinc-50 flex flex-col gap-8'>
 				<SheetHeader className='text-zinc-50'>
@@ -31,7 +31,7 @@ export default function MenuFilter() {
 						no dashboard
 					</SheetDescription>
 				</SheetHeader>
-				<Card className='bg-gradient-to-br to-zinc-900 from-zinc-800 border-none p-2 max-w-[600px] mx-auto'>
+				<Card className='bg-transparent border-none p-2 max-w-[600px] mx-auto'>
 					<CardContent>
 						<FormFilter />
 					</CardContent>

@@ -53,7 +53,7 @@ export default function FormFilter() {
 												<Button
 													variant={'outline'}
 													className={cn(
-														'w-[220px] pl-3 text-left font-normal border-none bg-zinc-700 text-zinc-200',
+														'w-[220px] pl-3 text-left font-normal border-none bg-zinc-800 text-zinc-200',
 														!field.value && 'text-muted-foreground',
 													)}>
 													{field.value ? (
@@ -94,7 +94,7 @@ export default function FormFilter() {
 												<Button
 													variant={'outline'}
 													className={cn(
-														'w-[220px] pl-3 text-left font-normal border-none bg-zinc-700 text-zinc-200',
+														'w-[220px] pl-3 text-left font-normal border-none bg-zinc-800 text-zinc-200',
 														!field.value && 'text-muted-foreground',
 													)}>
 													{field.value ? (

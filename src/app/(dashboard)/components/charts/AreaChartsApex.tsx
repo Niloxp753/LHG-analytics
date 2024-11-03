@@ -105,7 +105,6 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 		xaxis: {
 			axisBorder: { show: true },
 			labels: {
-				rotate: 270,
 				show: true,
 				hideOverlappingLabels: false,
 				style: { fontSize: '10px', fontWeight: 'light' },
