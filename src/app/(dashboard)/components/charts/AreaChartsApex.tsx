@@ -103,22 +103,23 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 		},
 
 		xaxis: {
+			type: 'category',
+			crosshairs: {
+				show: true,
+			},
+
 			axisBorder: { show: true },
+			tickPlacement: 'between',
 			labels: {
 				show: true,
-				hideOverlappingLabels: false,
+				hideOverlappingLabels: true,
 				style: { fontSize: '10px', fontWeight: 'light' },
 				trim: false,
-				offsetX: 3,
 			},
-			categories: props.categories
-				? props.categories
-				: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
+			categories: props.categories,
 		},
 		yaxis: {
-			show: true,
-			labels: { show: false, padding: 400, style: { fontSize: '8px' } },
-			tickAmount: 4,
+			show: false,
 		},
 		stroke: { curve: 'smooth' },
 		plotOptions: { area: { fillTo: 'origin' } },

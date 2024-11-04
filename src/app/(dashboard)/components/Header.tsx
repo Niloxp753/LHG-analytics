@@ -4,9 +4,6 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import MenuFilter from './MenuFilter';
-import { Button } from '@/components/ui/button';
-import { useState } from 'react';
-import { Loader2 } from 'lucide-react';
 
 export default function Header() {
 	const searchParams = useSearchParams();

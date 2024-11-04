@@ -125,6 +125,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 		},
 
 		xaxis: {
+			type: 'category',
 			axisBorder: { show: true },
 			labels: { trim: false, show: true, style: { fontSize: '9px' } },
 			categories: props.categories,

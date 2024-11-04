@@ -41,7 +41,6 @@ export default async function LushIpiranga({
 					</h2>
 					<Header />
 				</div>
-
 				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-28'>
 					<BigNumbers
 						data={data.BigNumbers}
@@ -54,7 +53,6 @@ export default async function LushIpiranga({
 					<div className='flex w-full gap-5 h-full'>
 						<div className='h-full w-full flex flex-col gap-5 items-center justify-center'>
 							<InvoicingXLocation data={data.BillingRentalType} />
-							<Invoicing data={data.RevenueByDate} />
 						</div>
 					</div>
 					<div className='gap-5 h-full w-full flex flex-col md:flex-row justify-between '>
@@ -63,13 +61,14 @@ export default async function LushIpiranga({
 						</div>
 
 						<div className='md:w-1/2 h-full flex gap-5 justify-between flex-col '>
-							<Locations data={data.RentalsByDate} />
+							<TRevPar data={data.TrevparByDate} />
 							<RevPar data={data.RevparByDate} />
 						</div>
 					</div>
 					<div className='flex gap-5 flex-col items-center'>
+						<Invoicing data={data.RevenueByDate} />
+						<Locations data={data.RentalsByDate} />
 						<Ticket data={data.TicketAverageByDate} />
-						<TRevPar data={data.TrevparByDate} />
 					</div>
 					<div className='flex flex-col  h-full w-full gap-5'>
 						<Occupation data={data.OccupancyRateByDate} />
@@ -84,8 +83,8 @@ export default async function LushIpiranga({
 						</div>
 					</div>
 					<div className='flex gap-5 flex-col w-full'>
-						<TableKpiGiro />
-						<TableKpiOccupation />
+						<TableKpiGiro data={data.DataTableGiroByWeek} />
+						<TableKpiOccupation data={data.DataTableOccupancyRateByWeek} />
 					</div>
 				</div>
 			</div>

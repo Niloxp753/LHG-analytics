@@ -56,7 +56,22 @@ export default function OccupationCasaLush(data: any) {
 				);
 			});
 		});
+		result.forEach((item) => {
+			const combined = item.categories.map((cat, index) => ({
+				category: cat,
+				value: item.values[index],
+			}));
 
+			combined.sort(
+				(a, b) =>
+					new Date(a.category.split('/').reverse().join('-')).getTime() -
+					new Date(b.category.split('/').reverse().join('-')).getTime(),
+			);
+
+			// Atualiza os arrays ordenados
+			item.categories = combined.map((item) => item.category);
+			item.values = combined.map((item) => item.value);
+		});
 		// Visualize o resultado para verificar se todos os dados foram transformados corretamente
 
 		return result;

@@ -1,6 +1,7 @@
 /** @format */
 'use client';
 
+import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const AreaChartsApex = dynamic(
@@ -22,13 +23,16 @@ interface TransformedEntry {
 export default function Invoicing(data: any) {
 	const revenueByDate: RevenueEntry[] = data.data;
 
+	if (!revenueByDate) {
+		return <Skeleton className='w-full h-[280]' />;
+	}
 	const transformedData: TransformedEntry[] = revenueByDate
 		.map((item: RevenueEntry): TransformedEntry => {
 			const [date, data] = Object.entries(item)[0];
 			// Removendo "R$" e convertendo para número
-		const totalValue = parseFloat(
-			data.totalValue.replace('R$', '').replace(/\./g, '').replace(',', '.'),
-		);
+			const totalValue = parseFloat(
+				data.totalValue.replace('R$', '').replace(/\./g, '').replace(',', '.'),
+			);
 			return { date, totalValue };
 		})
 		.sort(

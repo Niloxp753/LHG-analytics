@@ -26,7 +26,6 @@ interface Result {
 
 export default function Occupation(data: any) {
 	const occupancyRateByDate: OccupancyRateEntry[] = data.data;
-	console.log(occupancyRateByDate);
 
 	const transformedData: TransformedOccupancyEntry[] = occupancyRateByDate
 		.map((item: OccupancyRateEntry): TransformedOccupancyEntry => {

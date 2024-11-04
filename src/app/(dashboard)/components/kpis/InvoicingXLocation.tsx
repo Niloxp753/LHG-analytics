@@ -35,8 +35,6 @@ interface DataWithValues {
 export default function InvoicingXLocation(data: any) {
 	const billingRentalType: BillingRental[] = data.data;
 
-	const datas = billingRentalType.map((item) => Object.keys(item)[0]);
-
 	const rentalTypeMapping: { [key: string]: string } = {
 		OVERNIGHT: 'Pernoite',
 		DAILY: 'Diária',

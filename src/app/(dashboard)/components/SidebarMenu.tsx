@@ -2,6 +2,7 @@
 'use client';
 
 import logo from '@/assets/images/logo-analytics.png';
+import { User } from '@/http/user/getUsers';
 import {
 	BarChart3,
 	ChevronsLeft,
@@ -17,7 +18,6 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import BtnSignOut from '../../../components/btnSingOut';
 import BtnSidebarMenu from './BtnSidebarMenu';
-import { User } from '@/http/user/getUsers';
 
 export default function SidebarMenu({ user }: { user?: User }) {
 	const searchParams = useSearchParams();

@@ -52,7 +52,6 @@ export default async function General({
 							preSet == '12months' ? '12 meses atrás ' : ''
 						}`}
 					/>
-
 					<div className='flex gap-5 flex-col md:flex-row w-full h-full '>
 						<div className='md:w-1/3 w-full h-full '>
 							<InvoicingXUnity />

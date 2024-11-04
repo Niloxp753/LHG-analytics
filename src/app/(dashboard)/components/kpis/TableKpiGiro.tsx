@@ -10,118 +10,72 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 
-const data = [
-	{
-		id: 1,
-		Categoria: 'Lush Pop',
-		domingo: 1.18,
-		segunda: 0.92,
-		terca: 1.06,
-		quarta: 0.85,
-		quinta: 0.6,
-		sexta: 1.15,
-		sabado: 1.8,
-	},
-	{
-		id: 2,
-		Categoria: 'Lush',
-		domingo: 1.53,
-		segunda: 1.18,
-		terca: 1.33,
-		quarta: 1.38,
-		quinta: 1.53,
-		sexta: 2.44,
-		sabado: 3.0,
-	},
-	{
-		id: 3,
-		Categoria: 'Lush Hidro',
-		domingo: 1.92,
-		segunda: 1.33,
-		terca: 1.23,
-		quarta: 1.54,
-		quinta: 1.88,
-		sexta: 2.67,
-		sabado: 2.25,
-	},
-	{
-		id: 4,
-		Categoria: 'Lush Lounge',
-		domingo: 1.06,
-		segunda: 1.15,
-		terca: 1.6,
-		quarta: 1.44,
-		quinta: 1.56,
-		sexta: 2.5,
-		sabado: 3.31,
-	},
-	{
-		id: 5,
-		Categoria: 'Lush Spa',
-		domingo: 1.61,
-		segunda: 1.04,
-		terca: 1.33,
-		quarta: 1.71,
-		quinta: 1.93,
-		sexta: 1.89,
-		sabado: 2.2,
-	},
-	{
-		id: 6,
-		Categoria: 'Lush Cine',
-		domingo: 1.88,
-		segunda: 1.4,
-		terca: 1.3,
-		quarta: 1.25,
-		quinta: 1.5,
-		sexta: 2.5,
-		sabado: 2.88,
-	},
-	{
-		id: 7,
-		Categoria: 'Lush Splash',
-		domingo: 1.58,
-		segunda: 0.89,
-		terca: 1.42,
-		quarta: 1.42,
-		quinta: 1.47,
-		sexta: 1.64,
-		sabado: 2.0,
-	},
-	{
-		id: 8,
-		Categoria: 'Lush Spa Splash',
-		domingo: 1.54,
-		segunda: 1.31,
-		terca: 1.54,
-		quarta: 1.82,
-		quinta: 1.68,
-		sexta: 1.64,
-		sabado: 1.71,
-	},
-	{
-		id: 9,
-		Categoria: 'Casa Lush',
-		domingo: 1.0,
-		segunda: 1.09,
-		terca: 1.32,
-		quarta: 1.44,
-		quinta: 1.52,
-		sexta: 1.91,
-		sabado: 2.23,
-	},
-];
+interface DataItem {
+	giro: string;
+	totalGiro: string;
+}
 
-export function TableKpiGiro() {
+interface CategoryData {
+	[day: string]: DataItem;
+}
+
+interface DataTableEntry {
+	[category: string]: CategoryData;
+}
+
+interface DataOutput {
+	categoria: string;
+	[key: string]: string | number | undefined; // Permite qualquer chave de string com valor `number` ou `undefined`
+}
+
+export function TableKpiGiro(dataGiro: any) {
+	const dataTableGiroByWeek: DataTableEntry[] = dataGiro.data;
+
+	const week: { [key: string]: string } = {
+		sábado: 'sabado',
+		'sexta-feira': 'sexta',
+		'quinta-feira': 'quinta',
+		'quarta-feira': 'quarta',
+		'terça-feira': 'terca',
+		'segunda-feira': 'segunda',
+		domingo: 'domingo',
+	};
+
+	const data: DataOutput[] = [];
+	const total: { [key: string]: number } = {};
+
+	dataTableGiroByWeek.forEach((item, index) => {
+		const category = Object.keys(item)[0];
+		const weekData = item[category.toUpperCase()] as CategoryData;
+
+		const newEntry: DataOutput = { categoria: category };
+
+		for (const [day, values] of Object.entries(weekData)) {
+			const newDay = week[day];
+			if (newDay) {
+				newEntry[newDay] = parseFloat(values.giro);
+
+				// Popula `total` apenas na primeira iteração com os valores de `totalGiro`
+				if (index === 0) {
+					total[newDay] = parseFloat(values.totalGiro);
+				}
+			}
+		}
+
+		data.push(newEntry);
+	});
+
+	// Exibindo o resultado final
+
 	return (
 		<Table
 			title='Giro por Dia da Semana'
 			className='mt-5 bg-zinc-900 rounded-lg'>
 			<TableHeader className='bg-violet-900 rounded-lg text-sm'>
 				<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
-					<TableHead>junho/24</TableHead>
-					<TableHead className='text-center text-xs '>Domingo</TableHead>
-					<TableHead className='text-center text-xs '>Segunda-Feira</TableHead>
+					<TableHead>Categorias</TableHead>
+					<TableHead className='text-center text-xs'>Domingo</TableHead>
+					<TableHead className='text-center text-xs'>Segunda-Feira</TableHead>
 					<TableHead className='text-center text-xs'>Terça-Feira</TableHead>
 					<TableHead className='text-center text-xs '>Quarta-Feira</TableHead>
 					<TableHead className='text-center text-xs '>Quinta-Feira</TableHead>
@@ -130,12 +84,12 @@ export function TableKpiGiro() {
 				</TableRow>
 			</TableHeader>
 			<TableBody className='text-zinc-100'>
-				{data.map((invoice) => (
+				{data.map((invoice, index) => (
 					<TableRow
-						key={invoice.id}
+						key={index}
 						className='text-center'>
 						<TableCell className='font-bold text-left'>
-							{invoice.Categoria}
+							{invoice.categoria}
 						</TableCell>
 						<TableCell>{invoice.domingo}</TableCell>
 						<TableCell>{invoice.segunda}</TableCell>
@@ -150,13 +104,13 @@ export function TableKpiGiro() {
 			<TableFooter className=' text-zinc-100 bg-zinc-700 font-bold hover:bg-zinc-700'>
 				<TableRow className='text-center hover:bg-zinc-700'>
 					<TableCell className=' w-1/5 text-left'>Total Giro</TableCell>
-					<TableCell>1.15</TableCell>
-					<TableCell>1.09</TableCell>
-					<TableCell>1.32</TableCell>
-					<TableCell>1.44</TableCell>
-					<TableCell>1.52</TableCell>
-					<TableCell>1.91</TableCell>
-					<TableCell>2.23</TableCell>
+					<TableCell>{total.domingo}</TableCell>
+					<TableCell>{total.segunda}</TableCell>
+					<TableCell>{total.terca}</TableCell>
+					<TableCell>{total.quarta}</TableCell>
+					<TableCell>{total.quinta}</TableCell>
+					<TableCell>{total.sexta}</TableCell>
+					<TableCell>{total.sabado}</TableCell>
 				</TableRow>
 			</TableFooter>
 		</Table>

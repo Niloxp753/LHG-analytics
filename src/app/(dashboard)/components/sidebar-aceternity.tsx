@@ -79,33 +79,7 @@ export const Sidebar = ({
 export const SidebarBody = (props: React.ComponentProps<typeof motion.div>) => {
 	return (
 		<>
-			<DesktopSidebar {...props} />
 			<MobileSidebar {...(props as React.ComponentProps<'div'>)} />
-		</>
-	);
-};
-
-export const DesktopSidebar = ({
-	className,
-	children,
-	...props
-}: React.ComponentProps<typeof motion.div>) => {
-	const { open, setOpen, animate } = useSidebar();
-	return (
-		<>
-			<motion.div
-				className={cn(
-					'md:h-[85vh] 2xl:h-[90vh]  px-4 py-4 hidden md:flex md:flex-col bg-zinc-900 text-zinc-100 w-[300px] flex-shrink-0',
-					className,
-				)}
-				animate={{
-					width: animate ? (open ? '300px' : '70px') : '300px',
-				}}
-				onMouseEnter={() => setOpen(true)}
-				onMouseLeave={() => setOpen(false)}
-				{...props}>
-				{children}
-			</motion.div>
 		</>
 	);
 };
@@ -166,11 +140,12 @@ export const SidebarLink = ({
 	className?: string;
 	props?: LinkProps;
 }) => {
-	const { open, animate } = useSidebar();
+	const { open, animate, setOpen } = useSidebar();
 	const path = usePathname();
 
 	return (
 		<Link
+			onClick={() => setOpen(false)}
 			href={link?.href!}
 			className={cn(
 				className,
