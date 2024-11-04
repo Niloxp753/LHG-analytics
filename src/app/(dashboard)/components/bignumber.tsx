@@ -31,7 +31,7 @@ export default function BigNumbers(props: BigNumbersProps) {
 							description={props.description}
 							icon={<HandCoins />}
 							title={'Faturamento'}
-							value={d.totalValue}
+							value={d.totalAllValue}
 						/>
 						<CardDetails
 							description={props.description}

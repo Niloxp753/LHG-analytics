@@ -41,11 +41,11 @@ export default function CardDetails({
 							currency: 'BRL',
 						})}
 
-						<MoveDown
+						{/* <MoveDown
 							className='drop-shadow-[0px_4px_8px_rgba(239,68,68)]'
 							color='#ef4444'
 							size={16}
-						/>
+						/> */}
 					</p>
 				) : (
 					<p className='flex gap-1 items-center'>
