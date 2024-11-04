@@ -11,7 +11,7 @@ export default function Loading() {
 				className='animate-pulse '
 				src={logo}
 				alt={'Logo LHG Analytics'}
-				width={320}
+				width={360}
 				height={200}></Image>
 		</div>
 	);
