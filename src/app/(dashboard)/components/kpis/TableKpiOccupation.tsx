@@ -105,7 +105,7 @@ export function TableKpiOccupation(dataOccupation: any) {
 			<TableFooter className=' text-zinc-100 bg-zinc-700 font-bold hover:bg-zinc-700'>
 				<TableRow className='text-center hover:bg-zinc-700'>
 					<TableCell className=' w-1/5 text-left'>
-						Total Tempo de Ocupação
+						Total Tx de Ocupação
 					</TableCell>
 					<TableCell>{totalOccupancy.domingo}</TableCell>
 					<TableCell>{totalOccupancy.segunda}</TableCell>
