@@ -57,7 +57,7 @@ export default async function TableKpiCategory({
 		id: 1,
 		Categoria: 'Total',
 		locations: dataResult.totalAllRentalsApartments.toString(),
-		revenue: dataResult.totalValue,
+		revenue: dataResult.totalAllValue,
 		ticket: dataResult.totalAllTicketAverage,
 		giro: parseFloat(dataResult.totalGiro),
 		revpar: dataResult.totalRevpar,

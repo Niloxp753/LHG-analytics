@@ -11,13 +11,13 @@ const AreaChartsApex = dynamic(
 
 interface TrevparEntry {
 	[date: string]: {
-		trevpar: string;
+		totalTrevpar: string;
 	};
 }
 
 interface TransformedEntry {
 	date: string;
-	trevpar: number;
+	totalTrevpar: number;
 }
 
 interface Result {
@@ -25,17 +25,17 @@ interface Result {
 	dates: string[];
 }
 
-export default  function TRevPar(data: any) {
-	const trevparByDate: TrevparEntry[] =  data.data;
+export default function TRevPar(data: any) {
+	const trevparByDate: TrevparEntry[] = data.data;
 
 	const transformedData: TransformedEntry[] = trevparByDate
 		.map((item: TrevparEntry): TransformedEntry => {
 			const [date, data] = Object.entries(item)[0];
 			// Removendo "R$" e convertendo para número
-			const trevpar = parseFloat(
-				data.trevpar.replace('R$', '').replace('.', '').replace(',', '.'),
+			const totalTrevpar = parseFloat(
+				data.totalTrevpar.replace('R$', '').replace('.', '').replace(',', '.'),
 			);
-			return { date, trevpar };
+			return { date, totalTrevpar };
 		})
 		.sort(
 			(a, b) =>
@@ -44,7 +44,9 @@ export default  function TRevPar(data: any) {
 		);
 
 	const result: Result = {
-		values: transformedData.map((entry: TransformedEntry) => entry.trevpar),
+		values: transformedData.map(
+			(entry: TransformedEntry) => entry.totalTrevpar,
+		),
 		dates: transformedData.map((entry: TransformedEntry) => entry.date),
 	};
 

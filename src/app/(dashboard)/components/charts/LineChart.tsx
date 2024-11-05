@@ -163,6 +163,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 						fontSize: '14x',
 						itemMargin: {
 							vertical: 14,
+							horizontal: 4,
 						},
 					},
 				},

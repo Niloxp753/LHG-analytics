@@ -9,7 +9,7 @@ const AreaChartsApex = dynamic(
 
 interface TicketAverageEntry {
 	[date: string]: {
-		totalTicketAverage: string;
+		totalAllTicketAverage: string;
 	};
 }
 
@@ -31,7 +31,7 @@ export default function Ticket(data: any) {
 			const [date, data] = Object.entries(item)[0];
 			// Removendo "R$" e convertendo para número
 			const ticketAverage = parseFloat(
-				data.totalTicketAverage
+				data.totalAllTicketAverage
 					.replace('R$', '')
 					.replace('.', '')
 					.replace(',', '.'),

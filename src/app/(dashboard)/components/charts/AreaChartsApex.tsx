@@ -20,8 +20,8 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			id: props.id,
 			type: 'area',
 			foreColor: '#fafafa',
+
 			stacked: false,
-			width: '100%',
 			zoom: {
 				enabled: false,
 			},
@@ -107,14 +107,13 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			crosshairs: {
 				show: true,
 			},
-
-			axisBorder: { show: true },
 			tickPlacement: 'between',
+			axisBorder: { show: true },
 			labels: {
 				show: true,
 				hideOverlappingLabels: true,
 				style: { fontSize: '10px', fontWeight: 'light' },
-				trim: false,
+				trim: true,
 			},
 			categories: props.categories,
 		},
@@ -146,10 +145,10 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 	return (
 		<ResponsiveContainerChart>
 			<Chart
+				width={'99%'}
 				options={options}
 				series={props.series}
 				type='area'
-				width={'100%'}
 				height={280}></Chart>
 		</ResponsiveContainerChart>
 	);

@@ -80,7 +80,7 @@ export function ModalCreateUser() {
 			<DialogTrigger
 				onClick={() => setModal(true)}
 				asChild>
-				<Button className='flex gap-4 w-fit text-zinc-800 font-semibold bg-violet-400 hover:bg-violet-500 transition-all duration-300 ease-linear'>
+				<Button className='flex gap-4 w-full md:w-fit text-zinc-800 font-semibold bg-violet-400 hover:bg-violet-500 transition-all duration-300 ease-linear uppercase md:capitalize'>
 					Adicionar <UserPlus size={20} />
 				</Button>
 			</DialogTrigger>

@@ -11,7 +11,7 @@ const AreaChartsApex = dynamic(
 
 interface RevparEntry {
 	[date: string]: {
-		revpar: string;
+		totalRevpar: string;
 	};
 }
 
@@ -33,7 +33,7 @@ export default function RevPar(data: any) {
 			const [date, data] = Object.entries(item)[0];
 			// Removendo "R$" e convertendo para número
 			const revpar = parseFloat(
-				data.revpar.replace('R$', '').replace('.', '').replace(',', '.'),
+				data.totalRevpar.replace('R$', '').replace('.', '').replace(',', '.'),
 			);
 			return { date, revpar };
 		})

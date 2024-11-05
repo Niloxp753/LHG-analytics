@@ -10,7 +10,7 @@ const AreaChartsApex = dynamic(
 
 interface RentalsEntry {
 	[date: string]: {
-		totalRentalsApartments: number;
+		totalAllRentalsApartments: number;
 	};
 }
 
@@ -30,7 +30,7 @@ export default function Locations(data: any) {
 	const transformedData: TransformedEntry[] = rentalsByDate
 		.map((item: RentalsEntry): TransformedEntry => {
 			const [date, data] = Object.entries(item)[0];
-			const totalRentals = data.totalRentalsApartments;
+			const totalRentals = data.totalAllRentalsApartments;
 			return { date, totalRentals };
 		})
 		.sort(

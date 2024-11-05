@@ -18,7 +18,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { IUser } from '@/http/user/createUser';
+import { User } from '@/http/user/getUsers';
 import {
 	ColumnFiltersState,
 	SortingState,
@@ -34,7 +34,6 @@ import { ChevronDown, Search } from 'lucide-react';
 import * as React from 'react';
 import { columns } from './Columns';
 import { ModalCreateUser } from './ModalCreateUser';
-import { User } from '@/http/user/getUsers';
 
 export function DataTableDemo({ data }: { data: User[] }) {
 	// const data = await getAllUsersAction();
@@ -69,7 +68,7 @@ export function DataTableDemo({ data }: { data: User[] }) {
 	return (
 		<div className='w-full mx-auto md:pr-10 px-3'>
 			<div className='flex items-center py-4 flex-col md:flex-row gap-5 mx-auto w-full'>
-				<div className='flex items-center w-full justify-start bg-zinc-50 rounded pl-2 '>
+				<div className='flex items-center w-full md:w-fit justify-start bg-zinc-50 rounded pl-2 '>
 					<Search
 						className='text-zinc-800'
 						size={24}
@@ -81,7 +80,7 @@ export function DataTableDemo({ data }: { data: User[] }) {
 						onChange={(event) =>
 							table.getColumn('name')?.setFilterValue(event.target.value)
 						}
-						className='max-w-sm border-none outline-none ring-0 focus-within:ring-0 text-zinc-950'></Input>
+						className='md:max-w-sm h-fit border-none outline-none ring-0 focus-within:ring-0 text-zinc-950'></Input>
 				</div>
 				<div className='flex items-center justify-between md:justify-start  md:ml-auto md:flex-row mx-auto w-full gap-3'>
 					<ModalCreateUser />
