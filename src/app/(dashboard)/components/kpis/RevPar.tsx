@@ -1,7 +1,6 @@
 /** @format */
 'use client';
 
-
 import dynamic from 'next/dynamic';
 import React from 'react';
 const AreaChartsApex = dynamic(
@@ -51,6 +50,7 @@ export default function RevPar(data: any) {
 	return (
 		<>
 			<AreaChartsApex
+				width='96%'
 				id='revpar-ipiranga'
 				series={[{ data: result.values, name: 'RevPar' }]}
 				categories={result.dates}

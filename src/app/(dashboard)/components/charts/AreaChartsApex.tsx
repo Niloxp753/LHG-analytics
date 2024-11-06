@@ -12,6 +12,7 @@ interface AreaChartsApexProps {
 	id?: string;
 	title?: string;
 	legend?: string;
+	width?: string;
 }
 
 export default function AreaChartsApex(props: AreaChartsApexProps) {
@@ -20,7 +21,6 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			id: props.id,
 			type: 'area',
 			foreColor: '#fafafa',
-
 			stacked: false,
 			zoom: {
 				enabled: false,
@@ -87,7 +87,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 		},
 
 		markers: {
-			size: 5,
+			size: 3,
 			colors: [
 				'#7c3aed',
 				'#2563eb',
@@ -98,7 +98,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 				'#ca8a04',
 				'#65a30d',
 			],
-			hover: { size: 8 },
+			hover: { size: 5 },
 			strokeWidth: 1,
 		},
 
@@ -107,14 +107,8 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			crosshairs: {
 				show: true,
 			},
-			tickPlacement: 'between',
+
 			axisBorder: { show: true },
-			labels: {
-				show: true,
-				hideOverlappingLabels: true,
-				style: { fontSize: '10px', fontWeight: 'light' },
-				trim: true,
-			},
 			categories: props.categories,
 		},
 		yaxis: {
@@ -128,6 +122,16 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 				options: {
 					chart: {
 						height: 400,
+						width: '100%',
+					},
+					xaxis: {
+						tickPlacement: 'between',
+						labels: {
+							trim: false,
+							style: { fontSize: '8px' },
+							hideOverlappingLabels: true,
+							rotate: 0,
+						},
 					},
 				},
 			},
@@ -136,6 +140,17 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 				options: {
 					chart: {
 						height: 280,
+						width: props.width ? props.width : '100%',
+					},
+					xaxis: {
+						offsetX: 8,
+						tickPlacement: 'between',
+						labels: {
+							trim: false,
+							style: { fontSize: '9px' },
+							hideOverlappingLabels: true,
+							rotate: -45,
+						},
 					},
 				},
 			},
@@ -145,7 +160,6 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 	return (
 		<ResponsiveContainerChart>
 			<Chart
-				width={'99%'}
 				options={options}
 				series={props.series}
 				type='area'

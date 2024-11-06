@@ -53,6 +53,7 @@ export default function TRevPar(data: any) {
 	return (
 		<div className='  max-h-[440px] h-full w-full flex items-center justify-center'>
 			<AreaChartsApex
+				width='96%'
 				id='trevpar-ipiranga'
 				series={[
 					{

@@ -109,7 +109,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 			},
 		},
 		markers: {
-			size: 5,
+			size: 3,
 			colors: [
 				'#7c3aed',
 				'#2563eb',
@@ -120,14 +120,13 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 				'#ca8a04',
 				'#65a30d',
 			],
-			hover: { size: 8 },
+			hover: { size: 5 },
 			strokeWidth: 1,
 		},
 
 		xaxis: {
 			type: 'category',
 			axisBorder: { show: true },
-			labels: { trim: false, show: true, style: { fontSize: '9px' } },
 			categories: props.categories,
 		},
 		yaxis: { show: true, labels: { show: false }, axisBorder: { show: false } },
@@ -139,6 +138,15 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 				options: {
 					chart: {
 						height: 440,
+					},
+					xaxis: {
+						tickPlacement: 'on',
+						labels: {
+							trim: false,
+							style: { fontSize: '8px' },
+							hideOverlappingLabels: true,
+							rotate: 0,
+						},
 					},
 					legend: {
 						position: 'bottom',
@@ -156,6 +164,14 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 				options: {
 					chart: {
 						height: 340,
+					},
+					xaxis: {
+						tickPlacement: 'between',
+						labels: {
+							trim: true,
+							style: { fontSize: '9px' },
+							hideOverlappingLabels: true,
+						},
 					},
 					legend: {
 						position: 'top',
