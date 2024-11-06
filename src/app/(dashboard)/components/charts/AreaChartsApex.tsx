@@ -106,8 +106,8 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			type: 'category',
 			crosshairs: {
 				show: true,
+				
 			},
-
 			axisBorder: { show: true },
 			categories: props.categories,
 		},
@@ -125,6 +125,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 						width: '100%',
 					},
 					xaxis: {
+						offsetX: 7,
 						tickPlacement: 'between',
 						labels: {
 							trim: false,
