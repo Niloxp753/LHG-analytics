@@ -103,10 +103,17 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 		},
 
 		xaxis: {
+			tickPlacement: 'between',
 			type: 'category',
+			labels: {
+				trim: false,
+				style: { fontSize: '8px' },
+				hideOverlappingLabels: true,
+				rotate: 0,
+			},
+			offsetX: 7,
 			crosshairs: {
 				show: true,
-				
 			},
 			axisBorder: { show: true },
 			categories: props.categories,
@@ -124,16 +131,6 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 						height: 400,
 						width: '100%',
 					},
-					xaxis: {
-						offsetX: 7,
-						tickPlacement: 'between',
-						labels: {
-							trim: false,
-							style: { fontSize: '8px' },
-							hideOverlappingLabels: true,
-							rotate: 0,
-						},
-					},
 				},
 			},
 			{
@@ -142,16 +139,6 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 					chart: {
 						height: 280,
 						width: props.width ? props.width : '100%',
-					},
-					xaxis: {
-						offsetX: 7,
-						tickPlacement: 'between',
-						labels: {
-							trim: false,
-							style: { fontSize: '9px' },
-							hideOverlappingLabels: true,
-							rotate: -45,
-						},
 					},
 				},
 			},
