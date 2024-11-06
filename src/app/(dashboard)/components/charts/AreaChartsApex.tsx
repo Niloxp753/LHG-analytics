@@ -143,7 +143,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 						width: props.width ? props.width : '100%',
 					},
 					xaxis: {
-						offsetX: 8,
+						offsetX: 7,
 						tickPlacement: 'between',
 						labels: {
 							trim: false,
