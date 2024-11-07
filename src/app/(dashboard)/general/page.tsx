@@ -10,7 +10,7 @@ import LocationsxUnity from '../components/kpis/LocationsxUnity';
 import OccupationXUnity from '../components/kpis/OccupationXUnity';
 import TKTxUnity from '../components/kpis/TKTxUnity';
 import TRevParXUnity from '../components/kpis/TRevParXUnity';
-import { getCompanyAction } from './actions/getCompany';
+import { getCompanyAction } from '@/actions/getCompany';
 const SparkChart = dynamic(
 	() => import('@/app/(dashboard)/components/charts/SparkChart'),
 	{ ssr: false },

@@ -14,7 +14,7 @@ import TableKpiCategory from '@/app/(dashboard)/components/kpis/TableKpiCategory
 import { TableKpiGiro } from '@/app/(dashboard)/components/kpis/TableKpiGiro';
 import { TableKpiOccupation } from '@/app/(dashboard)/components/kpis/TableKpiOccupation';
 import Ticket from '@/app/(dashboard)/components/kpis/Ticket';
-import { getCompanyAction } from '../../actions/getCompany';
+import { getCompanyAction } from '@/actions/getCompany';
 
 export default async function LushIpiranga({
 	searchParams,
