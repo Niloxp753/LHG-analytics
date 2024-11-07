@@ -10,8 +10,8 @@ const LineChart = dynamic(
 export default function MorningCleaningWorkers() {
 	return (
 		<LineChart
-			height={48}
-			title='Total de limpezas - Tarde'
+			height={480}
+			title='Total de limpezas - Manhã'
 			series={[
 				{
 					name: 'Mona Louis',
@@ -45,20 +45,6 @@ export default function MorningCleaningWorkers() {
 					data: [
 						2443, 3025, 3462, 4700, 4668, 6139, 1907, 3025, 3462, 1568, 5070,
 						3296,
-					],
-				},
-				{
-					name: 'Amanda da Silva',
-					data: [
-						3139, 5525, 2443, 3025, 540, 3275, 1517, 2443, 2025, 3462, 2270,
-						1296,
-					],
-				},
-				{
-					name: 'Vanilda Soares',
-					data: [
-						1296, 1907, 5670, 4700, 3275, 1517, 1768, 5270, 1286, 2443, 3025,
-						3462,
 					],
 				},
 			]}

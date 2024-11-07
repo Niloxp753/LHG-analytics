@@ -43,7 +43,7 @@ export default async function Operational({
 
 				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-28'>
 					<div className='flex gap-5 flex-col w-full h-full '>
-						<div className='w-full h-full flex gap-5'>
+						<div className='w-full h-full flex gap-5 flex-col md:flex-row'>
 							<PerformanceUnity />
 							<CleaningAverageUnity />
 							<TotalCleaningUnity />

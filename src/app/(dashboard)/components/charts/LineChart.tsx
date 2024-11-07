@@ -137,7 +137,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 				breakpoint: 580,
 				options: {
 					chart: {
-						height: 440,
+						height: 580,
 					},
 					xaxis: {
 						tickPlacement: 'on',
