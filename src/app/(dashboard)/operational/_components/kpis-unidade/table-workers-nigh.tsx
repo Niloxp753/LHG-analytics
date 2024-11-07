@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/table';
 import React from 'react';
 
-export default function TableWokersMorning() {
+export default function TableWokersNight() {
 	const data = [
 		{
 			name: 'Marcos Pereira',

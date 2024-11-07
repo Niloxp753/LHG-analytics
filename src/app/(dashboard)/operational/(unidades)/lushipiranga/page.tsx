@@ -5,15 +5,13 @@ import AfternoonCleaningWorkers from '../../_components/kpis-unidade/afternoon-c
 import AvarageCleaning from '../../_components/kpis-unidade/avarage-cleaning';
 import MorningCleaningWorkers from '../../_components/kpis-unidade/morning-cleaning-worker';
 import NightCleaningWorkers from '../../_components/kpis-unidade/night-cleaning-worker';
-import {
-	default as TableWokersAfternoon,
-	default as TableWokersNight,
-} from '../../_components/kpis-unidade/table-workers-afternoon';
 import TableWokersMorning from '../../_components/kpis-unidade/table-workers-morning';
 import TableWokersWeekly from '../../_components/kpis-unidade/table-workers-weekly';
 import TotalCleaning from '../../_components/kpis-unidade/total-cleaning';
 import Performance from '../../_components/kpis-unidade/performance';
 import SuitesOutsourcedInternal from '../../_components/kpis-unidade/suites-outsourced-internal';
+import TableWokersAfternoon from '../../_components/kpis-unidade/table-workers-afternoon';
+import TableWokersNight from '../../_components/kpis-unidade/table-workers-nigh';
 
 export default async function LushIpiranga({
 	searchParams,
@@ -34,8 +32,7 @@ export default async function LushIpiranga({
 						open == 'true' ? 'md:w-[82vw]' : 'md:w-[90vw] '
 					} backdrop-blur-md fixed top-0 z-40 flex flex-col gap-2 `}>
 					<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-1.5 text-xl'>
-						Operacional -{' '}
-						<span className='text-violet-400'>Lush Ipiranga</span>
+						Operacional - <span className='text-violet-400'>Lush Ipiranga</span>
 					</h2>
 					<Header />
 				</div>
