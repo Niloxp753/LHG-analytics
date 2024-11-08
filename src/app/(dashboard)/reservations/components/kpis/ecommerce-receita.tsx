@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 import React from 'react';
 const AreaChartsApex = dynamic(
-	() => import('@/app/(dashboard)/components/charts/AreaChartsApex'),
+	() => import('@/app/(dashboard)/_components/charts/AreaChartsApex'),
 	{ ssr: false },
 );
 
@@ -11,7 +11,12 @@ export default function EcommerceRevenue() {
 	return (
 		<>
 			<AreaChartsApex
-				series={[{data:[25, 27, 29, 28, 27, 30, 29, 27, 26], name:'Receita de e-commerce'}]}
+				series={[
+					{
+						data: [25, 27, 29, 28, 27, 30, 29, 27, 26],
+						name: 'Receita de e-commerce',
+					},
+				]}
 				categories={[
 					'jan/2024',
 					'fav/2024',
@@ -26,7 +31,6 @@ export default function EcommerceRevenue() {
 					'nov/2024',
 					'dez/2024',
 				]}
-				
 			/>
 		</>
 	);

@@ -6,7 +6,7 @@ import {
 	Sidebar,
 	SidebarBody,
 	SidebarLink,
-} from '@/app/(dashboard)/components/sidebar-aceternity';
+} from '@/app/(dashboard)/_components/sidebar-aceternity';
 import BtnSignOut from '@/components/btnSingOut';
 import { User } from '@/http/user/getUsers';
 import { cn } from '@/lib/utils';

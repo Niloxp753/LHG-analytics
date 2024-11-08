@@ -1,6 +1,6 @@
 /** @format */
 
-import CardDetails from '@/app/(dashboard)/components/CardDetails';
+import CardDetails from '@/app/(dashboard)/_components/CardDetails';
 import HeaderRestaurants from '../../components/HeaderRestaurants';
 import { AReports } from '../../components/kpis/AReports';
 import { BReports } from '../../components/kpis/BReports';

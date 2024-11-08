@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 import React from 'react';
 const ColumnChart = dynamic(
-	() => import('@/app/(dashboard)/components/charts/ColumnChart'),
+	() => import('@/app/(dashboard)/_components/charts/ColumnChart'),
 	{ ssr: false },
 );
 

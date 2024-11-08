@@ -3,9 +3,9 @@
 
 import dynamic from 'next/dynamic';
 import React from 'react';
-import ResponsiveContainerChart from '@/app/(dashboard)/components/ResponsiveContainerChart';
+import ResponsiveContainerChart from '@/app/(dashboard)/_components/ResponsiveContainerChart';
 const PieChartsApex = dynamic(
-	() => import('@/app/(dashboard)/components/charts/PieChartsApex'),
+	() => import('@/app/(dashboard)/_components/charts/PieChartsApex'),
 	{ ssr: false },
 );
 

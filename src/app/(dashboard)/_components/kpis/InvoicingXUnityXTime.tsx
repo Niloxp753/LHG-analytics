@@ -3,16 +3,16 @@
 import dynamic from 'next/dynamic';
 import React from 'react';
 const LineChart = dynamic(
-	() => import('@/app/(dashboard)/components/charts/LineChart'),
+	() => import('@/app/(dashboard)/_components/charts/LineChart'),
 	{ ssr: false },
 );
 
-export default function TRevParXUnity() {
+export default function InvoicingXUnityXTime() {
 	return (
 		<>
 			<LineChart
-				title='Trevpar por unidade'
 				height={148}
+				title='Faturamento por Unidade no tempo'
 				series={[
 					{
 						name: 'Lush Ipiranga',

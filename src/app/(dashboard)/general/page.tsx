@@ -1,18 +1,18 @@
 /** @format */
 
 import dynamic from 'next/dynamic';
-import BigNumbers from '../components/bignumber';
-import CardLink from '../components/CardLink';
-import Header from '../components/Header';
-import InvoicingXUnity from '../components/kpis/InvoicingXUnity';
-import InvoicingXUnityXTime from '../components/kpis/InvoicingXUnityXTime';
-import LocationsxUnity from '../components/kpis/LocationsxUnity';
-import OccupationXUnity from '../components/kpis/OccupationXUnity';
-import TKTxUnity from '../components/kpis/TKTxUnity';
-import TRevParXUnity from '../components/kpis/TRevParXUnity';
+import BigNumbers from '../_components/bignumber';
+import CardLink from '../_components/CardLink';
+import Header from '../_components/Header';
+import InvoicingXUnity from '../_components/kpis/InvoicingXUnity';
+import InvoicingXUnityXTime from '../_components/kpis/InvoicingXUnityXTime';
+import LocationsxUnity from '../_components/kpis/LocationsxUnity';
+import OccupationXUnity from '../_components/kpis/OccupationXUnity';
+import TKTxUnity from '../_components/kpis/TKTxUnity';
+import TRevParXUnity from '../_components/kpis/TRevParXUnity';
 import { getCompanyAction } from '@/actions/getCompany';
 const SparkChart = dynamic(
-	() => import('@/app/(dashboard)/components/charts/SparkChart'),
+	() => import('@/app/(dashboard)/_components/charts/SparkChart'),
 	{ ssr: false },
 );
 

@@ -139,10 +139,11 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 						height: 580,
 					},
 					xaxis: {
-						tickPlacement: 'on',
+						axisTicks: { show: false },
+						tickPlacement: 'between',
 						labels: {
 							trim: false,
-							style: { fontSize: '8px' },
+							style: { fontSize: '9px' },
 							hideOverlappingLabels: true,
 							rotate: 0,
 						},

@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 import React from 'react';
 const LineChart = dynamic(
-	() => import('@/app/(dashboard)/components/charts/LineChart'),
+	() => import('@/app/(dashboard)/_components/charts/LineChart'),
 	{ ssr: false },
 );
 

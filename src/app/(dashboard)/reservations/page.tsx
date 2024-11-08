@@ -3,11 +3,11 @@
 import InvoicingXChannel from '@/app/(dashboard)/reservations/components/kpis/InvoicingXChannel';
 import { Blend, Coins, HandCoins, Sigma, SquarePercent } from 'lucide-react';
 import { SiGoogleads, SiMeta } from 'react-icons/si';
-import CardDetails from '../components/CardDetails';
-import CardLink from '../components/CardLink';
-import SparkChart from '../components/charts/SparkChart';
-import Header from '../components/Header';
-import { TableReservs } from '../components/kpis/TableReservs';
+import CardDetails from '../_components/CardDetails';
+import CardLink from '../_components/CardLink';
+import SparkChart from '../_components/charts/SparkChart';
+import Header from '../_components/Header';
+import { TableReservs } from '../_components/kpis/TableReservs';
 import CategoriesXReservs from './components/kpis/CategoriesXReservs';
 import EcommerceRevenue from './components/kpis/ecommerce-receita';
 import EcommerceRevervs from './components/kpis/ecommerce-reservas';

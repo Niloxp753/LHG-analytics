@@ -3,8 +3,8 @@
 import InvoicingXChannel from '@/app/(dashboard)/reservations/components/kpis/InvoicingXChannel';
 import { Blend, Coins, HandCoins, Sigma, SquarePercent } from 'lucide-react';
 import { SiGoogleads, SiMeta } from 'react-icons/si';
-import CardDetails from '../../../components/CardDetails';
-import { TableReservs } from '../../../components/kpis/TableReservs';
+import CardDetails from '../../../_components/CardDetails';
+import { TableReservs } from '../../../_components/kpis/TableReservs';
 import CategoriesXReservs from '../../components/kpis/CategoriesXReservs';
 import EcommerceRevenue from '../../components/kpis/ecommerce-receita';
 import EcommerceRevervs from '../../components/kpis/ecommerce-reservas';
@@ -12,7 +12,7 @@ import InvoicingXReservs from '../../components/kpis/InvoicingXReservs';
 import InvoicingXTypes from '../../components/kpis/InvoicingXTypes';
 import LocationsXReservs from '../../components/kpis/LocationsXReservs';
 import Representation from '../../components/kpis/Representation';
-import Header from '@/app/(dashboard)/components/Header';
+import Header from '@/app/(dashboard)/_components/Header';
 
 export default function Page({
 	searchParams,

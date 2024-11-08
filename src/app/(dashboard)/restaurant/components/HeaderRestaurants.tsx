@@ -1,7 +1,7 @@
 /** @format */
 'use client';
 
-import MenuFilter from '@/app/(dashboard)/components/MenuFilter';
+import MenuFilter from '@/app/(dashboard)/_components/MenuFilter';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 

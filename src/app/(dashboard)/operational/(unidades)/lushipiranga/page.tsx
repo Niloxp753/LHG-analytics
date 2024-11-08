@@ -1,6 +1,6 @@
 /** @format */
 
-import Header from '@/app/(dashboard)/components/Header';
+import Header from '@/app/(dashboard)/_components/Header';
 import AfternoonCleaningWorkers from '../../_components/kpis-unidade/afternoon-cleaning-worker';
 import AvarageCleaning from '../../_components/kpis-unidade/avarage-cleaning';
 import MorningCleaningWorkers from '../../_components/kpis-unidade/morning-cleaning-worker';

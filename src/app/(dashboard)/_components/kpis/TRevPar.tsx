@@ -5,7 +5,7 @@
 import dynamic from 'next/dynamic';
 import React from 'react';
 const AreaChartsApex = dynamic(
-	() => import('@/app/(dashboard)/components/charts/AreaChartsApex'),
+	() => import('@/app/(dashboard)/_components/charts/AreaChartsApex'),
 	{ ssr: false },
 );
 
@@ -53,7 +53,6 @@ export default function TRevPar(data: any) {
 	return (
 		<div className='  max-h-[440px] h-full w-full flex items-center justify-center'>
 			<AreaChartsApex
-				
 				id='trevpar-ipiranga'
 				series={[
 					{

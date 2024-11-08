@@ -1,6 +1,6 @@
 /** @format */
 
-import CardDetails from '@/app/(dashboard)/components/CardDetails';
+import CardDetails from '@/app/(dashboard)/_components/CardDetails';
 import HeaderRestaurants from '../../components/HeaderRestaurants';
 import { AReports } from '../../components/kpis/AReports';
 import { BReports } from '../../components/kpis/BReports';
@@ -17,7 +17,7 @@ import RevenueABXCost from '../../components/kpis/revenueABXCost';
 import RevenuePercent from '../../components/kpis/RevenuePercent';
 import RevenueXGroup from '../../components/kpis/RevenueXGroup';
 import TKTXLocation from '../../components/kpis/TKTXLocation';
-import Header from '@/app/(dashboard)/components/Header';
+import Header from '@/app/(dashboard)/_components/Header';
 import {
 	HandCoins,
 	Sigma,

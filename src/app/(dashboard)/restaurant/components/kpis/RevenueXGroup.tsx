@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 import React from 'react';
 const BarChart = dynamic(
-	() => import('@/app/(dashboard)/components/charts/BarCharApex'),
+	() => import('@/app/(dashboard)/_components/charts/BarCharApex'),
 	{ ssr: false },
 );
 

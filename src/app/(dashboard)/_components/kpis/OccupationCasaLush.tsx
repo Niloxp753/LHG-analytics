@@ -13,7 +13,7 @@ import dynamic from 'next/dynamic';
 import { useState } from 'react';
 
 const AreaChartsApex = dynamic(
-	() => import('@/app/(dashboard)/components/charts/AreaChartsApex'),
+	() => import('@/app/(dashboard)/_components/charts/AreaChartsApex'),
 	{ ssr: false },
 );
 

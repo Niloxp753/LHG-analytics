@@ -8,9 +8,9 @@ import {
 	DiamondPercent,
 	TrendingUp,
 } from 'lucide-react';
-import CardDetails from '../components/CardDetails';
-import CardLink from '../components/CardLink';
-import SparkChart from '../components/charts/SparkChart';
+import CardDetails from '../_components/CardDetails';
+import CardLink from '../_components/CardLink';
+import SparkChart from '../_components/charts/SparkChart';
 import HeaderRestaurants from './components/HeaderRestaurants';
 import UnityxCMV from './components/kpis/UnityxCMV';
 import UnityxCMVxTime from './components/kpis/UnityxCMVxTime';
@@ -18,7 +18,7 @@ import UnityxCoust from './components/kpis/UnityxCoust';
 import UnityxRevenue from './components/kpis/UnityxRevenue';
 import UnityxRevenuexTime from './components/kpis/UnityxRevenuexTime';
 import UnityxTKTxTime from './components/kpis/UnityxTKTxTime';
-import Header from '../components/Header';
+import Header from '../_components/Header';
 
 export default function Restaurant({
 	searchParams,

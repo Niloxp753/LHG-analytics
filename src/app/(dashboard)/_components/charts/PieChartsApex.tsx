@@ -2,7 +2,7 @@
 
 'use client';
 import Chart from 'react-apexcharts';
-import ResponsiveContainerChart from '@/app/(dashboard)/components/ResponsiveContainerChart';
+import ResponsiveContainerChart from '@/app/(dashboard)/_components/ResponsiveContainerChart';
 
 interface PieChartsApexProps {
 	title?: string;

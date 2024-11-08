@@ -1,8 +1,8 @@
 /** @format */
 
 import dynamic from 'next/dynamic';
-import CardLink from '../components/CardLink';
-import Header from '../components/Header';
+import CardLink from '../_components/CardLink';
+import Header from '../_components/Header';
 import AfternoonCleaning from './_components/kpis-geral/afternoon-cleaning';
 import CleaningAverageUnity from './_components/kpis-geral/cleaning-average-unity';
 import MorningCleaning from './_components/kpis-geral/morning-cleaning';
@@ -11,7 +11,7 @@ import PerformanceUnity from './_components/kpis-geral/Performance-unity';
 import TotalCleaningUnity from './_components/kpis-geral/total-cleaning-unity';
 
 const SparkChart = dynamic(
-	() => import('@/app/(dashboard)/components/charts/SparkChart'),
+	() => import('@/app/(dashboard)/_components/charts/SparkChart'),
 	{ ssr: false },
 );
 

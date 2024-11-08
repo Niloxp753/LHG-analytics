@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 import React from 'react';
 const ColumnChart = dynamic(
-	() => import('@/app/(dashboard)/components/charts/ColumnChart'),
+	() => import('@/app/(dashboard)/_components/charts/ColumnChart'),
 	{ ssr: false },
 );
 
@@ -12,7 +12,10 @@ export default function Representation() {
 		<>
 			<ColumnChart
 				series={[
-					{ name: 'Rep De Reservas', data: [25, 27, 29, 25, 26, 30, 29, 25, 26, 29, 26, 30] },
+					{
+						name: 'Rep De Reservas',
+						data: [25, 27, 29, 25, 26, 30, 29, 25, 26, 29, 26, 30],
+					},
 				]}
 				categories={[
 					'jan/2024',

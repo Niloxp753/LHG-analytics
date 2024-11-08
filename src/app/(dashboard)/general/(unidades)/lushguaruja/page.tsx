@@ -1,20 +1,20 @@
 /** @format */
 
 import { Crown, Cylinder, Database, DatabaseZap } from 'lucide-react';
-import CardDetails from '@/app/(dashboard)/components/CardDetails';
-import Header from '@/app/(dashboard)/components/Header';
-import Invoicing from '@/app/(dashboard)/components/kpis/Invoicing';
-import Categories from '@/app/(dashboard)/components/kpis/InvoicingXCategories';
-import InvoicingXLocation from '@/app/(dashboard)/components/kpis/InvoicingXLocation';
-import Locations from '@/app/(dashboard)/components/kpis/Locations';
-import Occupation from '@/app/(dashboard)/components/kpis/Occupation';
-import OccupationCasaLush from '@/app/(dashboard)/components/kpis/OccupationCasaLush';
-import RevPar from '@/app/(dashboard)/components/kpis/RevPar';
-import TRevPar from '@/app/(dashboard)/components/kpis/TRevPar';
-import Ticket from '@/app/(dashboard)/components/kpis/Ticket';
+import CardDetails from '@/app/(dashboard)/_components/CardDetails';
+import Header from '@/app/(dashboard)/_components/Header';
+import Invoicing from '@/app/(dashboard)/_components/kpis/Invoicing';
+import Categories from '@/app/(dashboard)/_components/kpis/InvoicingXCategories';
+import InvoicingXLocation from '@/app/(dashboard)/_components/kpis/InvoicingXLocation';
+import Locations from '@/app/(dashboard)/_components/kpis/Locations';
+import Occupation from '@/app/(dashboard)/_components/kpis/Occupation';
+import OccupationCasaLush from '@/app/(dashboard)/_components/kpis/OccupationCasaLush';
+import RevPar from '@/app/(dashboard)/_components/kpis/RevPar';
+import TRevPar from '@/app/(dashboard)/_components/kpis/TRevPar';
+import Ticket from '@/app/(dashboard)/_components/kpis/Ticket';
 
-import { TableKpiGiro } from '@/app/(dashboard)/components/kpis/TableKpiGiro';
-import { TableKpiOccupation } from '@/app/(dashboard)/components/kpis/TableKpiOccupation';
+import { TableKpiGiro } from '@/app/(dashboard)/_components/kpis/TableKpiGiro';
+import { TableKpiOccupation } from '@/app/(dashboard)/_components/kpis/TableKpiOccupation';
 
 export default function LushGuaruja({
 	searchParams,

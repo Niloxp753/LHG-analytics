@@ -1,11 +1,10 @@
 /** @format */
 
-
 'use client';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const AreaChartsApex = dynamic(
-	() => import('@/app/(dashboard)/components/charts/AreaChartsApex'),
+	() => import('@/app/(dashboard)/_components/charts/AreaChartsApex'),
 	{ ssr: false },
 );
 
@@ -13,7 +12,6 @@ export default function Cmv() {
 	return (
 		<div className='w-full'>
 			<AreaChartsApex
-				
 				series={[
 					{
 						name: 'CMV',

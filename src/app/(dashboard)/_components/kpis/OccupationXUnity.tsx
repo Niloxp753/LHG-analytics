@@ -3,16 +3,16 @@
 import dynamic from 'next/dynamic';
 import React from 'react';
 const LineChart = dynamic(
-	() => import('@/app/(dashboard)/components/charts/LineChart'),
+	() => import('@/app/(dashboard)/_components/charts/LineChart'),
 	{ ssr: false },
 );
 
-export default function LocationsxUnity() {
+export default function OccupationXUnity() {
 	return (
 		<>
 			<LineChart
-				height={48}
-				title='Locações por Unidade'
+				height={148}
+				title='Taxa de ocupação por Unidade'
 				series={[
 					{
 						name: 'Lush Ipiranga',

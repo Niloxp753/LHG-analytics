@@ -3,16 +3,16 @@
 import dynamic from 'next/dynamic';
 import React from 'react';
 const LineChart = dynamic(
-	() => import('@/app/(dashboard)/components/charts/LineChart'),
+	() => import('@/app/(dashboard)/_components/charts/LineChart'),
 	{ ssr: false },
 );
 
-export default function InvoicingXUnityXTime() {
+export default function LocationsxUnity() {
 	return (
 		<>
 			<LineChart
-				height={148}
-				title='Faturamento por Unidade no tempo'
+				height={48}
+				title='Locações por Unidade'
 				series={[
 					{
 						name: 'Lush Ipiranga',
