@@ -133,7 +133,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 					xaxis: {
 						type: 'category',
 						labels: {
-							style: { fontSize: '8px' },
+							style: { fontSize: '9px' },
 						},
 					},
 				},

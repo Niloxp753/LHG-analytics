@@ -1,9 +1,7 @@
 /** @format */
 
-import { getAllUsersAction } from '@/actions/getAllUsers';
 import { api } from '@/http/api-client';
 import { User } from '@/http/user/getUsers';
-import { IUserUp } from '@/http/user/updateUser';
 import * as bcrypt from 'bcrypt';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';

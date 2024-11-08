@@ -42,7 +42,7 @@ export default async function General({
 					</h2>
 					<Header />
 				</div>
-				<div className='flex flex-col mt-28 gap-5 w-full px-3'>
+				<div className='flex flex-col mt-24 gap-5 w-full px-3'>
 					{' '}
 					<div className='grid md:grid-cols-4 mt-10 gap-5'>
 						<CardLink
@@ -51,24 +51,26 @@ export default async function General({
 							content={
 								<SparkChart serie={[35, 40, 55, 45, 50, 40, 55, 45, 50]} />
 							}></CardLink>
-						<CardLink
-							href={`/general/lushguaruja?menu=${menu}&open=${open}&set=${preSet}`}
-							title={'Lush Guarujá'}
-							content={
-								<SparkChart serie={[45, 30, 55, 55, 45, 50, 35, 60, 40]} />
-							}></CardLink>
-						<CardLink
-							href={`/general/toutcampinas?menu=${menu}&open=${open}&set=${preSet}`}
-							title={'Tout Campinas'}
-							content={
-								<SparkChart serie={[45, 40, 55, 45, 30, 55, 35, 55, 30]} />
-							}></CardLink>{' '}
-						<CardLink
-							href={`/general/andardecima?menu=${menu}&open=${open}&set=${preSet}`}
-							title={'Andar de Cima'}
-							content={
-								<SparkChart serie={[55, 30, 55, 45, 50, 60, 55, 35, 55]} />
-							}></CardLink>
+						<div className='hidden'>
+							<CardLink
+								href={`/general/lushguaruja?menu=${menu}&open=${open}&set=${preSet}`}
+								title={'Lush Guarujá'}
+								content={
+									<SparkChart serie={[45, 30, 55, 55, 45, 50, 35, 60, 40]} />
+								}></CardLink>
+							<CardLink
+								href={`/general/toutcampinas?menu=${menu}&open=${open}&set=${preSet}`}
+								title={'Tout Campinas'}
+								content={
+									<SparkChart serie={[45, 40, 55, 45, 30, 55, 35, 55, 30]} />
+								}></CardLink>{' '}
+							<CardLink
+								href={`/general/andardecima?menu=${menu}&open=${open}&set=${preSet}`}
+								title={'Andar de Cima'}
+								content={
+									<SparkChart serie={[55, 30, 55, 45, 50, 60, 55, 35, 55]} />
+								}></CardLink>
+						</div>
 					</div>
 					<div className=' w-full h-full flex gap-5 flex-col md:px-0 '>
 						<BigNumbers

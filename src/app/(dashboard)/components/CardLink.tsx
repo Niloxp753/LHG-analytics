@@ -1,7 +1,7 @@
 /** @format */
 'use client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2 } from 'lucide-react';
+import { ArrowBigRight, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import { useTransition } from 'react';
@@ -34,7 +34,11 @@ export default function CardLink(props: CardLinkProps) {
 						<CardHeader>
 							<CardTitle className={`flex items-center justify-between `}>
 								{props.title}
-								{isPending && <Loader2 className='size-5 animate-spin' />}
+								{isPending ? (
+									<Loader2 className='size-5 animate-spin' />
+								) : (
+									<ArrowBigRight className='size-8 text-violet-400' />
+								)}
 							</CardTitle>
 						</CardHeader>
 						<CardContent>{props.content}</CardContent>
