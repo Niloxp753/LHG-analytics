@@ -114,8 +114,8 @@ export function SidebarDemo({ user }: { user?: User }) {
 	return (
 		<div
 			className={cn(
-				' md:flex-row w-fit z-[9999999999999999] overflow-hidden',
-				' fixed z-50 left-0  md:border-r-2 border-violet-400 rounded-r-md md:bottom-0 ', // for your use case, use `h-screen` instead of `h-[60vh]`
+				' lg:flex-row w-fit z-[9999999999999999] overflow-hidden',
+				' fixed z-50 left-0  lg:border-r-2 border-violet-400 rounded-r-md lg:bottom-0 ', // for your use case, use `h-screen` instead of `h-[60vh]`
 			)}>
 			<Sidebar
 				open={open}

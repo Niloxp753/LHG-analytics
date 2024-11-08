@@ -32,7 +32,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 			},
 		},
 		legend: {
-			position: 'right',
+			position: 'bottom',
 			itemMargin: { vertical: 4 },
 			fontSize: '12px',
 			fontWeight: 'bold',
@@ -107,11 +107,11 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 	};
 
 	return (
-		<ResponsiveContainerChart height='280'>
+		<ResponsiveContainerChart>
 			<Chart
 				options={options}
 				width={'100%'}
-				height={props.height ?? 248}
+				height={344}
 				series={props.data ? props.data : [40, 20, 45, 25]}
 				type='donut'></Chart>
 		</ResponsiveContainerChart>

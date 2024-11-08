@@ -56,11 +56,11 @@ export default async function LushIpiranga({
 						</div>
 					</div>
 					<div className='gap-5 h-full w-full flex flex-col md:flex-row justify-between '>
-						<div className='md:w-1/3'>
+						<div className='md:w-1/3 w-full'>
 							<Categories data={data.RevenueBySuiteCategory} />
 						</div>
 
-						<div className='md:w-2/3 h-full flex gap-5 justify-between flex-col '>
+						<div className='md:w-2/3 w-full h-full flex gap-5 justify-between flex-col '>
 							<TRevPar data={data.TrevparByDate} />
 							<RevPar data={data.RevparByDate} />
 						</div>

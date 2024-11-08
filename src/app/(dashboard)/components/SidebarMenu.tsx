@@ -26,7 +26,7 @@ export default function SidebarMenu({ user }: { user?: User }) {
 	const preSet = searchParams.get('set') || '7days';
 
 	return (
-		<div className='h-screen z-50 w-fit bg-zinc-950 fixed left-0 p-2 flex flex-col justify-start'>
+		<div className='h-screen z-50 w-fit bg-zinc-950 fixed left-0 p-1 flex flex-col justify-start'>
 			<div className='h-24'>
 				{openned === 'true' ? (
 					<a
@@ -49,21 +49,21 @@ export default function SidebarMenu({ user }: { user?: User }) {
 				className='cursor-pointer bg-zinc-900 w-fit h-full top-0 -right-6 absolute  rounded justify-between hover:bg-zinc-800 transition-all duration-300 ease-linear z-50 text-white'>
 				{openned == 'true' ? (
 					<ChevronsLeft
-						size={24}
+						size={20}
 						className='mt-auto h-screen '
 					/>
 				) : (
 					<ChevronsRight
-						size={24}
+						size={20}
 						className='mt-auto h-screen'
 					/>
 				)}
 			</Link>
 			<div className='flex flex-col justify-between h-full'>
-				<div className='text-zinc-100 flex flex-col h-full w-fit gap-5 rounded p-3 mt-10 '>
+				<div className='text-zinc-100 flex flex-col h-full w-fit gap-5 rounded p-2 mt-10 '>
 					{user?.role === 'ADMIN' && (
 						<BtnSidebarMenu
-							icon={<UserRoundCog />}
+							icon={<UserRoundCog size={20} />}
 							selected={selected}
 							openned={openned}
 							href={`/settings?menu=admin&open=${openned}&set=${preSet}`}
@@ -73,7 +73,7 @@ export default function SidebarMenu({ user }: { user?: User }) {
 					)}
 
 					<BtnSidebarMenu
-						icon={<BarChart3 />}
+						icon={<BarChart3 size={20} />}
 						selected={selected}
 						openned={openned}
 						href={`/general?menu=general&open=${openned}&set=${preSet}`}
@@ -81,7 +81,7 @@ export default function SidebarMenu({ user }: { user?: User }) {
 						<p>Visão Geral</p>
 					</BtnSidebarMenu>
 					<BtnSidebarMenu
-						icon={<UtensilsCrossed />}
+						icon={<UtensilsCrossed size={20} />}
 						selected={selected}
 						openned={openned}
 						href={`/restaurant?menu=restaurant&open=${openned}&set=${preSet}`}
@@ -89,7 +89,7 @@ export default function SidebarMenu({ user }: { user?: User }) {
 						<p>Restaurantes</p>
 					</BtnSidebarMenu>
 					<BtnSidebarMenu
-						icon={<ScatterChart />}
+						icon={<ScatterChart size={20} />}
 						selected={selected}
 						openned={openned}
 						href={`/reservations?menu=reservations&open=${openned}&set=${preSet}`}
@@ -97,7 +97,7 @@ export default function SidebarMenu({ user }: { user?: User }) {
 						<p>Reservas</p>
 					</BtnSidebarMenu>
 					<BtnSidebarMenu
-						icon={<PieChart />}
+						icon={<PieChart size={20} />}
 						selected={selected}
 						openned={openned}
 						href={`/operational?menu=operational&open=${openned}&set=${preSet}`}
@@ -105,7 +105,7 @@ export default function SidebarMenu({ user }: { user?: User }) {
 						<p>Operacional</p>
 					</BtnSidebarMenu>
 					<BtnSidebarMenu
-						icon={<ScanEye />}
+						icon={<ScanEye size={20} />}
 						selected={selected}
 						openned={openned}
 						href={`/nps?menu=nps&open=${openned}&set=${preSet}`}

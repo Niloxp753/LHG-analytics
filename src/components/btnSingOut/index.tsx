@@ -30,10 +30,10 @@ export default function BtnSignOut({ isOpened }: { isOpened: string }) {
 			) : isOpened == 'true' ? (
 				<>
 					<p className=''>Sair</p>
-					<LogOut size={20} />
+					<LogOut size={16} />
 				</>
 			) : (
-				<LogOut size={20} />
+				<LogOut size={16} />
 			)}
 		</Button>
 	);

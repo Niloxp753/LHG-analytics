@@ -131,7 +131,6 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 		},
 		yaxis: { show: true, labels: { show: false }, axisBorder: { show: false } },
 		stroke: { curve: 'smooth', width: 2 },
-		plotOptions: { area: { fillTo: 'end' } },
 		responsive: [
 			{
 				breakpoint: 580,
@@ -168,8 +167,9 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 					xaxis: {
 						tickPlacement: 'between',
 						labels: {
-							trim: true,
-							style: { fontSize: '9px' },
+							trim: false,
+							style: { fontSize: '12px' },
+							rotate: 0,
 							hideOverlappingLabels: true,
 						},
 					},

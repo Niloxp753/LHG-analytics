@@ -18,10 +18,10 @@ export default async function DashLayout({
 	const user = users?.find((u) => u.email === emailLogged);
 	return (
 		<>
-			<div className='md:hidden z-50'>
+			<div className='lg:hidden z-50'>
 				<SidebarDemo user={user} />
 			</div>
-			<div className='hidden md:block z-50'>
+			<div className='hidden lg:block z-50'>
 				<SidebarMenu user={user} />
 			</div>
 

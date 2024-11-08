@@ -107,7 +107,6 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			type: 'category',
 			labels: {
 				trim: false,
-				style: { fontSize: '8px' },
 				hideOverlappingLabels: true,
 				rotate: 0,
 			},
@@ -131,6 +130,12 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 						height: 400,
 						width: '100%',
 					},
+					xaxis: {
+						type: 'category',
+						labels: {
+							style: { fontSize: '8px' },
+						},
+					},
 				},
 			},
 			{
@@ -139,6 +144,11 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 					chart: {
 						height: 280,
 						width: props.width ? props.width : '100%',
+					},
+					xaxis: {
+						labels: {
+							style: { fontSize: '12px' },
+						},
 					},
 				},
 			},
