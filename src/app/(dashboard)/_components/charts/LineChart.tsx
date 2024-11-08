@@ -126,6 +126,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 
 		xaxis: {
 			type: 'category',
+			tickPlacement: 'between',
 			axisBorder: { show: true },
 			categories: props.categories,
 		},
@@ -140,7 +141,6 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 					},
 					xaxis: {
 						axisTicks: { show: false },
-						tickPlacement: 'between',
 						labels: {
 							trim: false,
 							style: { fontSize: '9px' },
@@ -166,7 +166,6 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 						height: 340,
 					},
 					xaxis: {
-						tickPlacement: 'between',
 						labels: {
 							trim: false,
 							style: { fontSize: '12px' },
