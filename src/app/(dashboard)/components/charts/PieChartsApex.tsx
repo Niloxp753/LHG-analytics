@@ -32,11 +32,12 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 			},
 		},
 		legend: {
+			show: true,
 			position: 'bottom',
 			itemMargin: { vertical: 4 },
 			fontSize: '12px',
 			fontWeight: 'bold',
-			offsetY: 40,
+			offsetY: 12,
 			labels: {
 				colors: '#f4f4f5',
 			},
@@ -80,7 +81,6 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 		plotOptions: {
 			pie: {
 				expandOnClick: true,
-				offsetY: 10,
 				donut: {
 					labels: {
 						value: {
@@ -96,9 +96,9 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 						total: {
 							show: true,
 							fontSize: '16px',
-							color: '#52525b',
+							color: '#fafafa',
 							fontWeight: 'bold',
-							showAlways: false,
+							showAlways: true,
 						},
 					},
 				},
