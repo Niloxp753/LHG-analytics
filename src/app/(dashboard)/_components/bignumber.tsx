@@ -20,6 +20,7 @@ export default function BigNumbers(props: BigNumbersProps) {
 	if (!props.data) {
 		return <Skeleton className='h-28 w-full' />;
 	}
+	console.log(props.data)
 	return (
 		<div>
 			{props.data.map((d, index) => {
@@ -31,37 +32,37 @@ export default function BigNumbers(props: BigNumbersProps) {
 							description={props.description}
 							icon={<HandCoins />}
 							title={'Faturamento'}
-							value={d.totalAllValue}
+							value={d.currentDate.totalAllValue}
 						/>
 						<CardDetails
 							description={props.description}
 							icon={<Sigma />}
 							title={'Locações'}
-							value={d.totalAllRentalsApartments}
+							value={d.currentDate.totalAllRentalsApartments}
 						/>
 						<CardDetails
 							description={props.description}
 							icon={<SquarePercent />}
 							title={'Ticket Médio'}
-							value={d.totalAllTicketAverage}
+							value={d.currentDate.totalAllTicketAverage}
 						/>
 						<CardDetails
 							description={props.description}
 							icon={<Activity />}
 							title={'Revpar'}
-							value={d.totalAllRevpar}
+							value={d.currentDate.totalAllRevpar}
 						/>
 						<CardDetails
 							description={props.description}
 							icon={<DoorClosed />}
 							title={'Tx de Ocupação'}
-							value={d.totalAllOccupancyRate}
+							value={d.currentDate.totalAllOccupancyRate}
 						/>
 						<CardDetails
 							description={props.description}
 							icon={<AlarmClockCheck />}
 							title={'TMO'}
-							value={d.totalAverageOccupationTime}
+							value={d.currentDate.totalAverageOccupationTime}
 						/>
 					</div>
 				);
