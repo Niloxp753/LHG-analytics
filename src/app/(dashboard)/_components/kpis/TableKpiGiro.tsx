@@ -28,7 +28,7 @@ interface DataOutput {
 	[key: string]: string | number | undefined; // Permite qualquer chave de string com valor `number` ou `undefined`
 }
 
-export function TableKpiGiro(dataGiro: any) {
+export function TableKpiGiro(dataGiro?: any) {
 	const dataTableGiroByWeek: DataTableEntry[] = dataGiro.data;
 
 	const week: { [key: string]: string } = {
@@ -44,7 +44,7 @@ export function TableKpiGiro(dataGiro: any) {
 	const data: DataOutput[] = [];
 	const total: { [key: string]: number } = {};
 
-	dataTableGiroByWeek.forEach((item, index) => {
+	dataTableGiroByWeek?.forEach((item, index) => {
 		const category = Object.keys(item)[0];
 		const weekData = item[category.toUpperCase()] as CategoryData;
 

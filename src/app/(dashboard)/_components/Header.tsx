@@ -5,6 +5,8 @@ import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import LinkPreSet from './LinkPreSet';
 import MenuFilter from './MenuFilter';
+import FormFilter from './FormFilter';
+import ModalFilter from './ModalFilter';
 
 export default function Header() {
 	const searchParams = useSearchParams();
@@ -20,10 +22,10 @@ export default function Header() {
 	];
 
 	return (
-		<div className=' pt-1 pb-1 w-full'>
+		<div className=' pt-1 pb-1 w-full px-4'>
 			<div
-				className={`flex gap-5 items-center w-full max-w-sm md:max-w-full justify-center mx-auto `}>
-				<div className='flex items-center justify-between md:justify-center md:gap-5 w-full text-zinc-100 text-xs md:text-sm'>
+				className={`flex gap-5 items-end justify-between md:justify-center w-full flex-col md:flex-row `}>
+				<div className='flex justify-between md:justify-start md:gap-5 w-full text-zinc-100 text-xs md:text-sm'>
 					{links.map((l, index) => {
 						return (
 							<LinkPreSet
@@ -37,10 +39,9 @@ export default function Header() {
 								href={`?menu=${selected}&open=${openned}&set=${l.tag}`}></LinkPreSet>
 						);
 					})}
-
-					<div className='hidden md:flex'>
-						<MenuFilter />
-					</div>
+				</div>
+				<div className='hidden md:flex'>
+					<FormFilter />
 				</div>
 			</div>
 		</div>

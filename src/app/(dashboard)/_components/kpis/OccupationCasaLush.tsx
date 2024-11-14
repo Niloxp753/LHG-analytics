@@ -23,11 +23,11 @@ interface OccupancyData {
 	categories: string[]; // Array de datas correspondentes
 }
 
-export default function OccupationCasaLush(data: any) {
+export default function OccupationCasaLush(data?: any) {
 	const transformOccupancyData = (inputData: any): OccupancyData[] => {
 		const result: OccupancyData[] = [];
 
-		inputData.forEach((dateEntry: any) => {
+		inputData?.forEach((dateEntry: any) => {
 			Object.entries(dateEntry).forEach(([date, categories]: [string, any]) => {
 				Object.entries(categories).forEach(
 					([category, info]: [string, any]) => {

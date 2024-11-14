@@ -24,11 +24,11 @@ interface Result {
 	dates: string[];
 }
 
-export default function RevPar(data: any) {
+export default function RevPar(data?: any) {
 	const revparByDate: RevparEntry[] = data.data;
 
 	const transformedData: TransformedEntry[] = revparByDate
-		.map((item: RevparEntry): TransformedEntry => {
+		?.map((item: RevparEntry): TransformedEntry => {
 			const [date, data] = Object.entries(item)[0];
 			// Removendo "R$" e convertendo para número
 			const revpar = parseFloat(
@@ -43,16 +43,16 @@ export default function RevPar(data: any) {
 		);
 
 	const result: Result = {
-		values: transformedData.map((entry: TransformedEntry) => entry.revpar),
-		dates: transformedData.map((entry: TransformedEntry) => entry.date),
+		values: transformedData?.map((entry: TransformedEntry) => entry.revpar),
+		dates: transformedData?.map((entry: TransformedEntry) => entry.date),
 	};
 
 	return (
 		<>
 			<AreaChartsApex
 				id='revpar-ipiranga'
-				series={[{ data: result.values, name: 'RevPar' }]}
-				categories={result.dates}
+				series={[{ data: result?.values, name: 'RevPar' }]}
+				categories={result?.dates}
 				money
 			/>
 		</>

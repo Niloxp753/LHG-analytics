@@ -25,11 +25,11 @@ interface Result {
 	dates: string[];
 }
 
-export default function TRevPar(data: any) {
+export default function TRevPar(data?: any) {
 	const trevparByDate: TrevparEntry[] = data.data;
 
 	const transformedData: TransformedEntry[] = trevparByDate
-		.map((item: TrevparEntry): TransformedEntry => {
+		?.map((item: TrevparEntry): TransformedEntry => {
 			const [date, data] = Object.entries(item)[0];
 			// Removendo "R$" e convertendo para número
 			const totalTrevpar = parseFloat(
@@ -44,10 +44,10 @@ export default function TRevPar(data: any) {
 		);
 
 	const result: Result = {
-		values: transformedData.map(
+		values: transformedData?.map(
 			(entry: TransformedEntry) => entry.totalTrevpar,
 		),
-		dates: transformedData.map((entry: TransformedEntry) => entry.date),
+		dates: transformedData?.map((entry: TransformedEntry) => entry.date),
 	};
 
 	return (

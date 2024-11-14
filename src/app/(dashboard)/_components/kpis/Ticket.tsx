@@ -23,11 +23,11 @@ interface Result {
 	dates: string[];
 }
 
-export default function Ticket(data: any) {
+export default function Ticket(data?: any) {
 	const ticketAverageByDate: TicketAverageEntry[] = data.data;
 
 	const transformedData: TransformedEntry[] = ticketAverageByDate
-		.map((item: TicketAverageEntry): TransformedEntry => {
+		?.map((item: TicketAverageEntry): TransformedEntry => {
 			const [date, data] = Object.entries(item)[0];
 			// Removendo "R$" e convertendo para número
 			const ticketAverage = parseFloat(
@@ -45,10 +45,10 @@ export default function Ticket(data: any) {
 		);
 
 	const result: Result = {
-		values: transformedData.map(
+		values: transformedData?.map(
 			(entry: TransformedEntry) => entry.ticketAverage,
 		),
-		dates: transformedData.map((entry: TransformedEntry) => entry.date),
+		dates: transformedData?.map((entry: TransformedEntry) => entry.date),
 	};
 
 	return (

@@ -24,8 +24,8 @@ interface SuiteCategory {
 }
 
 interface TableKpiCategoryProps {
-	dataTable: SuiteCategory[];
-	datatableResult: any;
+	dataTable?: SuiteCategory[];
+	datatableResult?: any;
 }
 
 export default async function TableKpiCategory({
@@ -34,7 +34,7 @@ export default async function TableKpiCategory({
 }: TableKpiCategoryProps) {
 	const dataTableSuiteCategory = dataTable;
 
-	const formattedData = dataTableSuiteCategory.map((item, index) => {
+	const formattedData = dataTableSuiteCategory?.map((item, index) => {
 		const [categoria, data] = Object.entries(item)[0]; // Extrai a categoria e os dados
 
 		return {
@@ -56,14 +56,14 @@ export default async function TableKpiCategory({
 	const formattedTotalResult: SuiteCategory = {
 		id: 1,
 		Categoria: 'Total',
-		locations: dataResult.totalAllRentalsApartments.toString(),
-		revenue: dataResult.totalAllValue,
-		ticket: dataResult.totalAllTicketAverage,
-		giro: parseFloat(dataResult.totalGiro),
-		revpar: dataResult.totalRevpar,
-		trevpar: dataResult.totalTrevpar,
-		tmo: dataResult.totalAverageOccupationTime,
-		occupation: dataResult.totalOccupancyRate,
+		locations: dataResult?.totalAllRentalsApartments.toString(),
+		revenue: dataResult?.totalAllValue,
+		ticket: dataResult?.totalAllTicketAverage,
+		giro: parseFloat(dataResult?.totalGiro),
+		revpar: dataResult?.totalRevpar,
+		trevpar: dataResult?.totalTrevpar,
+		tmo: dataResult?.totalAverageOccupationTime,
+		occupation: dataResult?.totalOccupancyRate,
 	};
 
 	return (
@@ -82,7 +82,7 @@ export default async function TableKpiCategory({
 				</TableRow>
 			</TableHeader>
 			<TableBody className='text-zinc-100'>
-				{formattedData.map((invoice) => (
+				{formattedData?.map((invoice) => (
 					<TableRow
 						key={invoice.id}
 						className='text-center'>

@@ -24,11 +24,11 @@ interface Result {
 	dates: string[];
 }
 
-export default function Occupation(data: any) {
+export default function Occupation(data?: any) {
 	const occupancyRateByDate: OccupancyRateEntry[] = data.data;
 
 	const transformedData: TransformedOccupancyEntry[] = occupancyRateByDate
-		.map((item: OccupancyRateEntry): TransformedOccupancyEntry => {
+		?.map((item: OccupancyRateEntry): TransformedOccupancyEntry => {
 			const [date, data] = Object.entries(item)[0];
 			// Removendo "%" e convertendo para número
 			const occupancyRate = parseFloat(
@@ -43,10 +43,10 @@ export default function Occupation(data: any) {
 		);
 
 	const result: Result = {
-		values: transformedData.map(
+		values: transformedData?.map(
 			(entry: TransformedOccupancyEntry) => entry.occupancyRate,
 		),
-		dates: transformedData.map(
+		dates: transformedData?.map(
 			(entry: TransformedOccupancyEntry) => entry.date,
 		),
 	};

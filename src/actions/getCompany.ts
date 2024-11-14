@@ -26,6 +26,6 @@ export async function getCompanyAction(period: string) {
 		return resp;
 	} catch (error) {
 		console.error(error);
-		return error;
+		return null;
 	}
 }

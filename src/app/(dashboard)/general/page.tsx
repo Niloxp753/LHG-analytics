@@ -51,30 +51,28 @@ export default async function General({
 							content={
 								<SparkChart serie={[35, 40, 55, 45, 50, 40, 55, 45, 50]} />
 							}></CardLink>
-						<div className='hidden'>
-							<CardLink
-								href={`/general/lushguaruja?menu=${menu}&open=${open}&set=${preSet}`}
-								title={'Lush Guarujá'}
-								content={
-									<SparkChart serie={[45, 30, 55, 55, 45, 50, 35, 60, 40]} />
-								}></CardLink>
-							<CardLink
-								href={`/general/toutcampinas?menu=${menu}&open=${open}&set=${preSet}`}
-								title={'Tout Campinas'}
-								content={
-									<SparkChart serie={[45, 40, 55, 45, 30, 55, 35, 55, 30]} />
-								}></CardLink>{' '}
-							<CardLink
-								href={`/general/andardecima?menu=${menu}&open=${open}&set=${preSet}`}
-								title={'Andar de Cima'}
-								content={
-									<SparkChart serie={[55, 30, 55, 45, 50, 60, 55, 35, 55]} />
-								}></CardLink>
-						</div>
+						<CardLink
+							href={`/general/lushguaruja?menu=${menu}&open=${open}&set=${preSet}`}
+							title={'Lush Guarujá'}
+							content={
+								<SparkChart serie={[45, 30, 55, 55, 45, 50, 35, 60, 40]} />
+							}></CardLink>
+						<CardLink
+							href={`/general/toutcampinas?menu=${menu}&open=${open}&set=${preSet}`}
+							title={'Tout Campinas'}
+							content={
+								<SparkChart serie={[45, 40, 55, 45, 30, 55, 35, 55, 30]} />
+							}></CardLink>{' '}
+						<CardLink
+							href={`/general/andardecima?menu=${menu}&open=${open}&set=${preSet}`}
+							title={'Andar de Cima'}
+							content={
+								<SparkChart serie={[55, 30, 55, 45, 50, 60, 55, 35, 55]} />
+							}></CardLink>
 					</div>
 					<div className=' w-full h-full flex gap-5 flex-col md:px-0 '>
 						<BigNumbers
-							data={data.BigNumbers}
+							data={data?.BigNumbers}
 							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
 								preSet == '30days' ? '30 dias atrás ' : ''
 							} ${preSet == '6months' ? '6 meses atrás ' : ''}${

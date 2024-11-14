@@ -12,7 +12,7 @@ import CardDetails from './CardDetails';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface BigNumbersProps {
-	data: any[];
+	data?: any[];
 	description: string;
 }
 
@@ -20,7 +20,7 @@ export default function BigNumbers(props: BigNumbersProps) {
 	if (!props.data) {
 		return <Skeleton className='h-28 w-full' />;
 	}
-	console.log(props.data)
+
 	return (
 		<div>
 			{props.data.map((d, index) => {

@@ -12,7 +12,7 @@ export default function SparkChart(props: AreaChartsApexProps) {
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			type: 'area',
-			height: 80,
+		
 			sparkline: {
 				enabled: true,
 			},
@@ -88,7 +88,7 @@ export default function SparkChart(props: AreaChartsApexProps) {
 				series={series}
 				type='area'
 				width={'100%'}
-				height={80}></Chart>
+				height={60}></Chart>
 		</>
 	);
 }

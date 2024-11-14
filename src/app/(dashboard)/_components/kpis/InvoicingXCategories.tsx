@@ -19,12 +19,12 @@ interface Result {
 	categories: string[];
 }
 
-export default function Categories(data: any) {
+export default function Categories(data?: any) {
 	const revenueBySuiteCategory: SuiteCategoryRevenueEntry[] = data.data;
 
 	const transformedData: Result = revenueBySuiteCategory
 		// Ordenando com base em totalValue, convertendo para número antes
-		.sort((a, b) => {
+		?.sort((a, b) => {
 			const valueA = parseFloat(
 				Object.values(a)[0]
 					.totalValue.replace('R$', '')
@@ -63,14 +63,14 @@ export default function Categories(data: any) {
 				series={[
 					{
 						name: 'Faturamento',
-						data: transformedData.values,
+						data: transformedData?.values,
 						type: 'bar',
 					},
 				]}
 				dataLabelColors={['#5b21b6']}
 				colors={['#a78bfa']}
 				title='Faturamento por Categoria de Suíte'
-				categories={transformedData.categories}
+				categories={transformedData?.categories}
 			/>
 		</>
 	);

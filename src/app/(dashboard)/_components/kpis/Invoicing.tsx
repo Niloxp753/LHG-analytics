@@ -20,7 +20,7 @@ interface TransformedEntry {
 	totalValue: number;
 }
 
-export default function Invoicing(data: any) {
+export default function Invoicing(data?: any) {
 	const revenueByDate: RevenueEntry[] = data.data;
 
 	if (!revenueByDate) {

@@ -20,19 +20,13 @@ interface OrganizedValues {
 	[key: string]: number[];
 }
 
-interface ResultEntry {
-	name: string;
-	data: number[];
-	dates: string[];
-}
-
 interface DataWithValues {
 	date: string;
 	type: string;
 	value: number;
 }
 
-export default function InvoicingXLocation(data: any) {
+export default function InvoicingXLocation(data?: any) {
 	const billingRentalType: BillingRental[] = data.data;
 
 	const rentalTypeMapping: { [key: string]: string } = {
@@ -56,12 +50,12 @@ export default function InvoicingXLocation(data: any) {
 	const dataWithValues: DataWithValues[] = [];
 
 	// Preenchendo a estrutura com os dados e suas respectivas datas
-	billingRentalType.forEach((item) => {
+	billingRentalType?.forEach((item) => {
 		const date = Object.keys(item)[0];
 		const rentals = item[date];
 
 		// Percorre cada tipo de locação
-		rentals.forEach((rental: any) => {
+		rentals?.forEach((rental: any) => {
 			const type = Object.keys(rental)[0];
 			const value = rental[type].totalValue;
 
@@ -80,14 +74,14 @@ export default function InvoicingXLocation(data: any) {
 	});
 
 	// Agora, vamos organizar por data
-	dataWithValues.sort((a, b) => {
+	dataWithValues?.sort((a, b) => {
 		const dateA: any = new Date(a.date.split('/').reverse().join('-')); // Converter dd/mm/yyyy para yyyy-mm-dd
 		const dateB: any = new Date(b.date.split('/').reverse().join('-'));
 		return dateA - dateB;
 	});
 
 	// Reorganizando os valores em organizedValues conforme a nova ordem
-	dataWithValues.forEach((entry) => {
+	dataWithValues?.forEach((entry) => {
 		organizedValues[entry.type].push(entry.value);
 	});
 

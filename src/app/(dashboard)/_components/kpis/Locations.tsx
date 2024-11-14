@@ -24,11 +24,11 @@ interface Result {
 	dates: string[];
 }
 
-export default function Locations(data: any) {
+export default function Locations(data?: any) {
 	const rentalsByDate: RentalsEntry[] = data.data;
 
 	const transformedData: TransformedEntry[] = rentalsByDate
-		.map((item: RentalsEntry): TransformedEntry => {
+		?.map((item: RentalsEntry): TransformedEntry => {
 			const [date, data] = Object.entries(item)[0];
 			const totalRentals = data.totalAllRentalsApartments;
 			return { date, totalRentals };
@@ -40,10 +40,10 @@ export default function Locations(data: any) {
 		);
 
 	const result: Result = {
-		values: transformedData.map(
+		values: transformedData?.map(
 			(entry: TransformedEntry) => entry.totalRentals,
 		),
-		dates: transformedData.map((entry: TransformedEntry) => entry.date),
+		dates: transformedData?.map((entry: TransformedEntry) => entry.date),
 	};
 
 	return (
@@ -51,11 +51,11 @@ export default function Locations(data: any) {
 			id='locations'
 			series={[
 				{
-					data: result.values,
+					data: result?.values,
 					name: 'Quantidade de Locações',
 				},
 			]}
-			categories={result.dates}
+			categories={result?.dates}
 		/>
 	);
 }

@@ -28,7 +28,7 @@ interface OccupancyOutput {
 	[key: string]: string | undefined;
 }
 
-export function TableKpiOccupation(dataOccupation: any) {
+export function TableKpiOccupation(dataOccupation?: any) {
 	const dataTableOccupancyRateByWeek: OccupancyTableEntry[] =
 		dataOccupation.data;
 
@@ -45,7 +45,7 @@ export function TableKpiOccupation(dataOccupation: any) {
 	const occupancyData: OccupancyOutput[] = [];
 	const totalOccupancy: { [key: string]: string } = {};
 
-	dataTableOccupancyRateByWeek.forEach((item, index) => {
+	dataTableOccupancyRateByWeek?.forEach((item, index) => {
 		const category = Object.keys(item)[0];
 		const weekData = item[category.toUpperCase()] as CategoryOccupancyData;
 
