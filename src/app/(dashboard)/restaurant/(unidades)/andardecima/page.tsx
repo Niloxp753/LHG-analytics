@@ -1,7 +1,7 @@
 /** @format */
 
 import CardDetails from '@/app/(dashboard)/_components/CardDetails';
-import HeaderRestaurants from '../../components/HeaderRestaurants';
+
 import { AReports } from '../../components/kpis/AReports';
 import { BReports } from '../../components/kpis/BReports';
 import CategoryA from '../../components/kpis/CategoryA';
@@ -38,7 +38,7 @@ export default function Restaurant({
 					<h2 className='text-zinc-50 font-bold text-3xl'>
 						Painel de <span className='text-violet-400'>Restaurantes</span>
 					</h2>
-					<HeaderRestaurants />
+				
 				</div>
 				<div className=' w-full  flex gap-5 flex-col justify-start mt-60'>
 					<div className='flex w-full gap-5 h-[320px]'>

@@ -1,7 +1,14 @@
 /** @format */
 
 import CardDetails from '@/app/(dashboard)/_components/CardDetails';
-import HeaderRestaurants from '../../components/HeaderRestaurants';
+import Header from '@/app/(dashboard)/_components/Header';
+import {
+	DiamondPercent,
+	HandCoins,
+	Sigma,
+	SquarePercent,
+	TrendingUp,
+} from 'lucide-react';
 import { AReports } from '../../components/kpis/AReports';
 import { BReports } from '../../components/kpis/BReports';
 import CategoryA from '../../components/kpis/CategoryA';
@@ -17,14 +24,6 @@ import RevenueABXCost from '../../components/kpis/revenueABXCost';
 import RevenuePercent from '../../components/kpis/RevenuePercent';
 import RevenueXGroup from '../../components/kpis/RevenueXGroup';
 import TKTXLocation from '../../components/kpis/TKTXLocation';
-import Header from '@/app/(dashboard)/_components/Header';
-import {
-	HandCoins,
-	Sigma,
-	SquarePercent,
-	TrendingUp,
-	DiamondPercent,
-} from 'lucide-react';
 
 export default function Restaurant({
 	searchParams,
