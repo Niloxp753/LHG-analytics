@@ -27,6 +27,7 @@ export default async function LushIpiranga({
 	const preSet = searchParams.set || '7days';
 
 	const data = await getCompanyAction(preSet);
+
 	if (!data) {
 		redirect('/');
 	}
