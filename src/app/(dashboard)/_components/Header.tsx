@@ -3,10 +3,8 @@
 
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-import LinkPreSet from './LinkPreSet';
-import MenuFilter from './MenuFilter';
 import FormFilter from './FormFilter';
-import ModalFilter from './ModalFilter';
+import LinkPreSet from './LinkPreSet';
 
 export default function Header() {
 	const searchParams = useSearchParams();

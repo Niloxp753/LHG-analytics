@@ -20,6 +20,7 @@ function Calendar({
 	return (
 		<DayPicker
 			locale={ptBR}
+			formatters={{}}
 			showOutsideDays={showOutsideDays}
 			className={cn('p-3', className)}
 			classNames={{

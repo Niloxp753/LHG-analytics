@@ -1,5 +1,6 @@
 /** @format */
 
+import { getCompanyAction } from '@/actions/getCompany';
 import Header from '@/app/(dashboard)/_components/Header';
 import BigNumbers from '@/app/(dashboard)/_components/bignumber';
 import Invoicing from '@/app/(dashboard)/_components/kpis/Invoicing';
@@ -14,9 +15,7 @@ import TableKpiCategory from '@/app/(dashboard)/_components/kpis/TableKpiCategor
 import { TableKpiGiro } from '@/app/(dashboard)/_components/kpis/TableKpiGiro';
 import { TableKpiOccupation } from '@/app/(dashboard)/_components/kpis/TableKpiOccupation';
 import Ticket from '@/app/(dashboard)/_components/kpis/Ticket';
-import { getCompanyAction } from '@/actions/getCompany';
 import { Suspense } from 'react';
-import { redirect } from 'next/navigation';
 
 export default async function LushIpiranga({
 	searchParams,
@@ -27,10 +26,6 @@ export default async function LushIpiranga({
 	const preSet = searchParams.set || '7days';
 
 	const data = await getCompanyAction(preSet);
-
-	if (!data) {
-		redirect('/');
-	}
 
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>

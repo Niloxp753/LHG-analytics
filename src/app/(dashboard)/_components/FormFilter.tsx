@@ -1,6 +1,7 @@
 /** @format */
 
 'use client';
+import { getCompanyCustomAction } from '@/actions/getCompanyCustom';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -33,16 +34,26 @@ export default function FormFilter() {
 	const [pending, setPending] = useState(false);
 
 	async function onSubmit(data: z.infer<typeof formSchemaFilter>) {
+		const { startDate, endDate } = data;
+		const formattedStartDate = startDate
+			? format(new Date(startDate), 'dd/MM/yyyy')
+			: null;
+		const formattedEndDate = endDate
+			? format(new Date(endDate), 'dd/MM/yyyy')
+			: null;
+
+		setPending(true);
 		try {
-			setPending(true);
-			toast.success('You submitted the following values:', {
-				description: (
-					<pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-						<code className='text-white'>{JSON.stringify(data, null, 2)}</code>
-					</pre>
-				),
-			});
+			const resp = await getCompanyCustomAction(
+				formattedStartDate!,
+				formattedEndDate!,
+			);
+			toast.success('Atualizado com sucesso');
+			console.log(resp);
+			setPending(false);
+			return resp;
 		} catch (error) {
+			toast.error(`Algo deu errado ${error}`);
 			console.log(error);
 			setPending(false);
 		}
@@ -76,7 +87,7 @@ export default function FormFilter() {
 													!field.value && 'text-muted-foreground',
 												)}>
 												{field.value ? (
-													format(field.value, 'PPP')
+													format(field.value, 'dd/MM/yyyy')
 												) : (
 													<span>Escolha uma data</span>
 												)}
@@ -122,7 +133,7 @@ export default function FormFilter() {
 													!field.value && 'text-muted-foreground',
 												)}>
 												{field.value ? (
-													format(new Date(field.value), 'PPP')
+													format(new Date(field.value), 'dd/MM/yyyy')
 												) : (
 													<span>Escolha uma data</span>
 												)}
