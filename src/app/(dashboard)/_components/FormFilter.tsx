@@ -20,45 +20,43 @@ import { formSchemaFilter } from '@/lib/formSchemaFilter';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
-import { CalendarIcon, Loader2 } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowRight, CalendarIcon, Loader2 } from 'lucide-react';
+import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function FormFilter() {
 	const form = useForm<z.infer<typeof formSchemaFilter>>({
 		resolver: zodResolver(formSchemaFilter),
 	});
 
-	const [pending, setPending] = useState(false);
+	const router = useRouter();
+	const [isPending, startTransition] = useTransition();
+	const [formSubmitted, setFormSubmitted] = useState(false);
 
-	async function onSubmit(data: z.infer<typeof formSchemaFilter>) {
+	function onSubmit(data: z.infer<typeof formSchemaFilter>) {
 		const { startDate, endDate } = data;
-		const formattedStartDate = startDate
-			? format(new Date(startDate), 'dd/MM/yyyy')
-			: null;
-		const formattedEndDate = endDate
-			? format(new Date(endDate), 'dd/MM/yyyy')
-			: null;
 
-		setPending(true);
-		try {
-			const resp = await getCompanyCustomAction(
-				formattedStartDate!,
-				formattedEndDate!,
-			);
-			toast.success('Atualizado com sucesso');
-			console.log(resp);
-			setPending(false);
-			return resp;
-		} catch (error) {
-			toast.error(`Algo deu errado ${error}`);
-			console.log(error);
-			setPending(false);
-		}
-		setPending(false);
+		startTransition(() => {
+			try {
+				router.push(`?startDate=${startDate}&endDate=${endDate}`);
+				form.reset();
+				setFormSubmitted(true);
+			} catch {
+				toast.error('Erro ao atualizar');
+			}
+		});
 	}
+
+	useEffect(() => {
+		if (!isPending && formSubmitted) {
+			toast.success('Atualizado com sucesso');
+			setFormSubmitted(false); // Reseta o estado para evitar múltiplos toasts
+		}
+	}, [isPending, formSubmitted]);
 
 	return (
 		<Form {...form}>
@@ -76,7 +74,9 @@ export default function FormFilter() {
 								</FormLabel>
 								<Popover>
 									<PopoverTrigger
-										disabled={pending}
+										disabled={
+											form.formState.isLoading || form.formState.isSubmitting
+										}
 										className='dark'
 										asChild>
 										<FormControl>
@@ -122,7 +122,9 @@ export default function FormFilter() {
 								</FormLabel>
 								<Popover>
 									<PopoverTrigger
-										disabled={pending}
+										disabled={
+											form.formState.isLoading || form.formState.isSubmitting
+										}
 										className='dark'
 										asChild>
 										<FormControl>
@@ -162,12 +164,25 @@ export default function FormFilter() {
 
 				<Button
 					type='submit'
-					disabled={pending}
-					className='bg-violet-400 w-full text-zinc-950 font-semibold hover:bg-violet-500 mt-4'>
-					{pending ? (
-						<Loader2 className='animate-spin size-5' />
+					disabled={
+						form.formState.isLoading ||
+						form.formState.isSubmitting ||
+						!form.formState.isValid ||
+						isPending
+					}
+					className='bg-violet-400 w-full text-zinc-950 font-semibold hover:bg-violet-500 mt-4 flex gap-2'>
+					{form.formState.isLoading ||
+					form.formState.isSubmitting ||
+					isPending ? (
+						<>
+							<p> Atualizar Dashboard</p>
+							<Loader2 className='animate-spin size-5' />
+						</>
 					) : (
-						<p> Atualizar Dashboard</p>
+						<>
+							<p> Atualizar Dashboard</p>
+							<ArrowRight className='size-5' />
+						</>
 					)}
 				</Button>
 			</form>

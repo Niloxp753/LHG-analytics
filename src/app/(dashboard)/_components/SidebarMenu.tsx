@@ -18,12 +18,14 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import BtnSignOut from '../../../components/btnSingOut';
 import BtnSidebarMenu from './BtnSidebarMenu';
+import { useState } from 'react';
 
 export default function SidebarMenu({ user }: { user?: User }) {
 	const searchParams = useSearchParams();
 	const selected = searchParams.get('menu') || 'general';
 	const openned = searchParams.get('open') || 'true';
 	const preSet = searchParams.get('set') || '7days';
+	const [open, setOpen] = useState(true);
 
 	return (
 		<div className='h-screen z-50 w-fit bg-zinc-950 fixed left-0 p-1 flex flex-col justify-start'>
@@ -41,6 +43,8 @@ export default function SidebarMenu({ user }: { user?: User }) {
 				) : null}
 			</div>
 			<Link
+				prefetch
+				onClick={() => setOpen(!open)}
 				href={`${
 					openned == 'true'
 						? `?menu=${selected}&open=false&set=${preSet}`

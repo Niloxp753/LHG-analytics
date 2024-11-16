@@ -10,7 +10,7 @@ export async function getCompanyCustom(
 		const resp = await api.get(
 			`Company/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
 			{
-				next: { tags: ['company'] },
+				next: { tags: ['customCompany'] },
 				timeout: 45000,
 				retry: 3,
 			},

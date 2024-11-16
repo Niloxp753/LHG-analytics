@@ -1,6 +1,7 @@
 /** @format */
 
 import { getCompanyAction } from '@/actions/getCompany';
+import { getCompanyCustomAction } from '@/actions/getCompanyCustom';
 import Header from '@/app/(dashboard)/_components/Header';
 import BigNumbers from '@/app/(dashboard)/_components/bignumber';
 import Invoicing from '@/app/(dashboard)/_components/kpis/Invoicing';
@@ -15,6 +16,7 @@ import TableKpiCategory from '@/app/(dashboard)/_components/kpis/TableKpiCategor
 import { TableKpiGiro } from '@/app/(dashboard)/_components/kpis/TableKpiGiro';
 import { TableKpiOccupation } from '@/app/(dashboard)/_components/kpis/TableKpiOccupation';
 import Ticket from '@/app/(dashboard)/_components/kpis/Ticket';
+import { format } from 'date-fns';
 import { Suspense } from 'react';
 
 export default async function LushIpiranga({
@@ -24,9 +26,29 @@ export default async function LushIpiranga({
 }) {
 	const open = searchParams.open || 'true';
 	const preSet = searchParams.set || '7days';
+	const startDate = searchParams.startDate;
+	const endDate = searchParams.endDate;
+
+	const formattedStartDate =
+		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
+	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
 
 	const data = await getCompanyAction(preSet);
 
+	const customData = await getCompanyCustomAction(
+		formattedStartDate!,
+		formattedEndDate!,
+	);
+
+	async function getData() {
+		if (startDate && endDate) {
+			return customData;
+		} else {
+			return data;
+		}
+	}
+
+	const resp = await getData();
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>
 			<div
@@ -45,7 +67,7 @@ export default async function LushIpiranga({
 				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-36'>
 					<Suspense fallback='...carregando'>
 						<BigNumbers
-							data={data?.BigNumbers}
+							data={resp?.BigNumbers}
 							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
 								preSet == '30days' ? '30 dias atrás ' : ''
 							} ${preSet == '6months' ? '6 meses atrás ' : ''}${

@@ -8,10 +8,10 @@ import LinkPreSet from './LinkPreSet';
 
 export default function Header() {
 	const searchParams = useSearchParams();
-	const [tab, setTab] = useState('7days');
 	const selected = searchParams.get('menu') || 'general';
 	const openned = searchParams.get('open') || 'true';
 	const preSet = searchParams.get('set') || '7days';
+	const [tab, setTab] = useState(preSet);
 
 	const links = [
 		{ label: 'ÚLTIMOS 7 DIAS', tag: '7days' },

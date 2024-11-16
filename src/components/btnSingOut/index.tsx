@@ -27,7 +27,7 @@ export default function BtnSignOut({ isOpened }: { isOpened: string }) {
 			onClick={(e) => handleClick(e)}>
 			{loading ? (
 				<Loader2 className='size-5 animate-spin' />
-			) : isOpened == 'true' ? (
+			) : isOpened === 'true' ? (
 				<>
 					<p className=''>Sair</p>
 					<LogOut size={16} />
