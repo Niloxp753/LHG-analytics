@@ -18,6 +18,6 @@ export async function getCompanyCustom(
 		return resp.json();
 	} catch (error) {
 		console.log(error);
-		throw new Error(`Algo deu errado - ${error}`);
+		return null;
 	}
 }

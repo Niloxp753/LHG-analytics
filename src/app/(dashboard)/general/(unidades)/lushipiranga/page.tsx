@@ -49,7 +49,8 @@ export default async function LushIpiranga({
 	}
 
 	const resp = await getData();
-	return (
+
+	return resp ? (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>
 			<div
 				className={`relative  ${
@@ -136,5 +137,7 @@ export default async function LushIpiranga({
 				</div>
 			</div>
 		</main>
+	) : (
+		<></>
 	);
 }

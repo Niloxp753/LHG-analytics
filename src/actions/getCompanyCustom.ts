@@ -12,11 +12,11 @@ export async function getCompanyCustomAction(
 	try {
 		if (startDate && endDate) {
 			const resp = await getCompanyCustom(startDate, endDate);
-			revalidateTag('customCompany');
+			revalidateTag('company');
 			return resp;
 		}
 	} catch (error) {
 		console.error(error);
-		throw new Error(`Algo deu errado ${error}`);
+		return null;
 	}
 }

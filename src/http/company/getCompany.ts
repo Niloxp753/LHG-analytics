@@ -13,6 +13,6 @@ export async function getCompany(period: string): Promise<any> {
 		return resp.json();
 	} catch (error) {
 		console.log(error);
-		throw new Error(`Algo deu errado - ${error}`);
+		return null;
 	}
 }
