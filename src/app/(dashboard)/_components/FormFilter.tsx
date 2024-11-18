@@ -21,7 +21,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { ArrowRight, CalendarIcon, Loader2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState, useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -38,7 +38,6 @@ export default function FormFilter() {
 
 	const router = useRouter();
 	const [isPending, startTransition] = useTransition();
-	const [formSubmitted, setFormSubmitted] = useState(false);
 
 	function onSubmit(data: z.infer<typeof formSchemaFilter>) {
 		const { startDate, endDate } = data;
@@ -48,20 +47,13 @@ export default function FormFilter() {
 				router.push(
 					`?menu=${menu}&open=${open}&set=${set}&startDate=${startDate}&endDate=${endDate}`,
 				);
+				toast.success('Atualizado com sucesso!');
 				form.reset();
-				setFormSubmitted(true);
 			} catch {
 				toast.error('Erro ao atualizar');
 			}
 		});
 	}
-
-	useEffect(() => {
-		if (!isPending && formSubmitted) {
-			toast.success('Atualizado com sucesso');
-			setFormSubmitted(false); // Reseta o estado para evitar múltiplos toasts
-		}
-	}, [isPending, formSubmitted]);
 
 	return (
 		<Form {...form}>
