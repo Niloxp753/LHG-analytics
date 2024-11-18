@@ -41,17 +41,17 @@ export default function FormFilter() {
 
 	function onSubmit(data: z.infer<typeof formSchemaFilter>) {
 		const { startDate, endDate } = data;
-		try {
-			startTransition(() => {
+		startTransition(() => {
+			try {
 				router.push(
 					`?menu=${menu}&open=${open}&set=${set}&startDate=${startDate}&endDate=${endDate}`,
 				);
 				form.reset();
-			});
-			toast.success('Atualizado com sucesso!');
-		} catch (error) {
-			toast.error('Erro ao atualizar');
-		}
+			} catch (error) {
+				console.log(error);
+				toast.error('Erro ao atualizar');
+			}
+		});
 	}
 
 	return (
