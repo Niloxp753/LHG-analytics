@@ -7,6 +7,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 import { MoveDown, MoveUp } from 'lucide-react';
 
 interface CardDetailsProps {
@@ -24,7 +25,7 @@ export default function CardDetails({
 	type,
 	description,
 }: CardDetailsProps) {
-	return (
+	return value ? (
 		<Card className='text-zinc-50 w-full h-fit border-none bg-gradient-to-br from-zinc-800 to-zinc-900 '>
 			<CardHeader>
 				<CardTitle className='text-lg flex md:items-center justify-between flex-row gap-5'>
@@ -59,5 +60,7 @@ export default function CardDetails({
 				)}
 			</CardContent>
 		</Card>
+	) : (
+		<Skeleton />
 	);
 }

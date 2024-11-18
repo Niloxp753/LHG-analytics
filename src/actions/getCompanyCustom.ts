@@ -3,7 +3,6 @@
 'use server';
 
 import { getCompanyCustom } from '@/http/company/getCompanyCustom';
-import { revalidateTag } from 'next/cache';
 
 export async function getCompanyCustomAction(
 	startDate: string | null,
@@ -12,9 +11,10 @@ export async function getCompanyCustomAction(
 	try {
 		if (startDate && endDate) {
 			const resp = await getCompanyCustom(startDate, endDate);
-			revalidateTag('company');
+			console.log(resp);
 			return resp;
 		}
+		return null;
 	} catch (error) {
 		console.error(error);
 		return null;
