@@ -28,7 +28,7 @@ export default function CardLink(props: CardLinkProps) {
 				</div>
 			) : (
 				<Link
-					prefetch
+					prefetch={false}
 					href={props.href}
 					className={`bg-zinc-800 ${isPending && 'opacity-50 grayscale'}`}>
 					<Card className='bg-gradient-to-br from-zinc-800 to-zinc-900 border-transparent text-zinc-100 hover:bg-zinc-700 duration-300 transition-all ease-linear hover:border-violet-400'>

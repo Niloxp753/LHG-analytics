@@ -11,6 +11,7 @@ import OccupationXUnity from '../_components/kpis/OccupationXUnity';
 import TKTxUnity from '../_components/kpis/TKTxUnity';
 import TRevParXUnity from '../_components/kpis/TRevParXUnity';
 import { getCompanyAction } from '@/actions/getCompany';
+import { Skeleton } from '@/components/ui/skeleton';
 const SparkChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/SparkChart'),
 	{ ssr: false },
@@ -71,14 +72,19 @@ export default async function General({
 							}></CardLink>
 					</div>
 					<div className=' w-full h-full flex gap-5 flex-col md:px-0 '>
-						<BigNumbers
-							data={data?.BigNumbers}
-							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-								preSet == '30days' ? '30 dias atrás ' : ''
-							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-								preSet == '12months' ? '12 meses atrás ' : ''
-							}`}
-						/>
+						{data ? (
+							<BigNumbers
+								data={data?.BigNumbers}
+								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+									preSet == '30days' ? '30 dias atrás ' : ''
+								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+									preSet == '12months' ? '12 meses atrás ' : ''
+								}`}
+							/>
+						) : (
+							<Skeleton />
+						)}
+
 						<div className='flex gap-5 flex-col md:flex-row w-full h-full '>
 							<div className='md:w-1/3 w-full h-full '>
 								<InvoicingXUnity />

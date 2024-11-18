@@ -17,7 +17,6 @@ import { TableKpiGiro } from '@/app/(dashboard)/_components/kpis/TableKpiGiro';
 import { TableKpiOccupation } from '@/app/(dashboard)/_components/kpis/TableKpiOccupation';
 import Ticket from '@/app/(dashboard)/_components/kpis/Ticket';
 import { format } from 'date-fns';
-import { Suspense } from 'react';
 
 export default async function LushIpiranga({
 	searchParams,
@@ -66,73 +65,48 @@ export default async function LushIpiranga({
 					<Header />
 				</div>
 				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-36'>
-					<Suspense fallback='...carregando'>
-						<BigNumbers
-							data={resp?.BigNumbers}
-							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-								preSet == '30days' ? '30 dias atrás ' : ''
-							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-								preSet == '12months' ? '12 meses atrás ' : ''
-							}`}
-						/>
-					</Suspense>
+					<BigNumbers
+						data={resp?.BigNumbers}
+						description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+							preSet == '30days' ? '30 dias atrás ' : ''
+						} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+							preSet == '12months' ? '12 meses atrás ' : ''
+						}`}
+					/>
 					<div className='flex w-full gap-5 h-full'>
 						<div className='h-full w-full flex flex-col gap-5 items-center justify-center'>
-							<Suspense fallback='...carregando'>
-								<InvoicingXLocation data={data?.BillingRentalType} />
-							</Suspense>
+							<InvoicingXLocation data={data?.BillingRentalType} />
 						</div>
 					</div>
 					<div className='gap-5 h-full w-full flex flex-col md:flex-row justify-between '>
 						<div className='md:w-1/3 w-full'>
-							<Suspense fallback='...carregando'>
-								<Categories data={data?.RevenueBySuiteCategory} />
-							</Suspense>
+							<Categories data={data?.RevenueBySuiteCategory} />
 						</div>
-
 						<div className='md:w-2/3 w-full h-full flex gap-5 justify-between flex-col '>
-							<Suspense fallback='...carregando'>
-								<TRevPar data={data?.TrevparByDate} />
-								<RevPar data={data?.RevparByDate} />
-							</Suspense>
+							<TRevPar data={data?.TrevparByDate} />
+							<RevPar data={data?.RevparByDate} />
 						</div>
 					</div>
 					<div className='flex gap-5 flex-col items-center'>
-						<Suspense fallback='...carregando'>
-							<Invoicing data={data?.RevenueByDate} />
-						</Suspense>
-						<Suspense fallback='...carregando'>
-							<Locations data={data?.RentalsByDate} />
-						</Suspense>
-						<Suspense fallback='...carregando'>
-							<Ticket data={data?.TicketAverageByDate} />
-						</Suspense>
+						<Invoicing data={data?.RevenueByDate} />
+						<Locations data={data?.RentalsByDate} />
+						<Ticket data={data?.TicketAverageByDate} />
 					</div>
 					<div className='flex flex-col  h-full w-full gap-5'>
-						<Suspense fallback='...carregando'>
-							<Occupation data={data?.OccupancyRateByDate} />
-						</Suspense>
-						<Suspense fallback='...carregando'>
-							<OccupationCasaLush data={data?.OccupancyRateBySuiteCategory} />
-						</Suspense>
+						<Occupation data={data?.OccupancyRateByDate} />
+						<OccupationCasaLush data={data?.OccupancyRateBySuiteCategory} />
 					</div>
 					<div className='w-full h-full flex-col gap-5 md:flex-row flex items-baseline justify-between'>
 						<div className='w-full'>
-							<Suspense fallback='...carregando'>
-								<TableKpiCategory
-									dataTable={data?.DataTableSuiteCategory}
-									datatableResult={data?.TotalResult}
-								/>
-							</Suspense>
+							<TableKpiCategory
+								dataTable={data?.DataTableSuiteCategory}
+								datatableResult={data?.TotalResult}
+							/>
 						</div>
 					</div>
 					<div className='flex gap-5 flex-col w-full'>
-						<Suspense fallback='...carregando'>
-							<TableKpiGiro data={data?.DataTableGiroByWeek} />
-						</Suspense>
-						<Suspense fallback='...carregando'>
-							<TableKpiOccupation data={data?.DataTableOccupancyRateByWeek} />
-						</Suspense>
+						<TableKpiGiro data={data?.DataTableGiroByWeek} />
+						<TableKpiOccupation data={data?.DataTableOccupancyRateByWeek} />
 					</div>
 				</div>
 			</div>

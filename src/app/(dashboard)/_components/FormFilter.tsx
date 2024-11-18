@@ -1,7 +1,6 @@
 /** @format */
 
 'use client';
-import { getCompanyCustomAction } from '@/actions/getCompanyCustom';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -21,17 +20,21 @@ import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { ArrowRight, CalendarIcon, Loader2 } from 'lucide-react';
-import { useState, useTransition } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 
 export default function FormFilter() {
 	const form = useForm<z.infer<typeof formSchemaFilter>>({
 		resolver: zodResolver(formSchemaFilter),
 	});
+
+	const params = useSearchParams();
+	const open = params.get('open') || 'true';
+	const set = params.get('set') || '7days';
+	const menu = params.get('menu');
 
 	const router = useRouter();
 	const [isPending, startTransition] = useTransition();
@@ -42,7 +45,9 @@ export default function FormFilter() {
 
 		startTransition(() => {
 			try {
-				router.push(`?startDate=${startDate}&endDate=${endDate}`);
+				router.push(
+					`?menu=${menu}&open=${open}&set=${set}&startDate=${startDate}&endDate=${endDate}`,
+				);
 				form.reset();
 				setFormSubmitted(true);
 			} catch {

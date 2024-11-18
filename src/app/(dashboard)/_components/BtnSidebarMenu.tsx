@@ -15,7 +15,7 @@ interface BtnSidebarMenuProps {
 export default function BtnSidebarMenu(props: BtnSidebarMenuProps) {
 	return (
 		<Link
-			prefetch
+			prefetch={false}
 			href={props.href}
 			className={`p-2 flex gap-3 ${
 				props.selected == props.role

@@ -17,13 +17,9 @@ interface BigNumbersProps {
 }
 
 export default function BigNumbers(props: BigNumbersProps) {
-	if (!props.data) {
-		return <Skeleton className='h-28 w-full' />;
-	}
-
 	return (
-		<div>
-			{props.data.map((d, index) => {
+		<>
+			{props?.data?.map((d, index) => {
 				return (
 					<div
 						key={index}
@@ -67,6 +63,6 @@ export default function BigNumbers(props: BigNumbersProps) {
 					</div>
 				);
 			})}
-		</div>
+		</>
 	);
 }

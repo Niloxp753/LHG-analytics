@@ -15,10 +15,11 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import BtnSignOut from '../../../components/btnSingOut';
 import BtnSidebarMenu from './BtnSidebarMenu';
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 
 export default function SidebarMenu({ user }: { user?: User }) {
 	const searchParams = useSearchParams();
@@ -26,6 +27,16 @@ export default function SidebarMenu({ user }: { user?: User }) {
 	const openned = searchParams.get('open') || 'true';
 	const preSet = searchParams.get('set') || '7days';
 	const [open, setOpen] = useState(true);
+	const router = useRouter();
+
+	function handleClick() {
+		setOpen(!open);
+		const url =
+			openned === 'true'
+				? `?menu=${selected}&open=false&set=${preSet}`
+				: `?menu=${selected}&open=true&set=${preSet}`;
+		router.push(url);
+	}
 
 	return (
 		<div className='h-screen z-50 w-fit bg-zinc-950 fixed left-0 p-1 flex flex-col justify-start'>
@@ -42,16 +53,10 @@ export default function SidebarMenu({ user }: { user?: User }) {
 					</a>
 				) : null}
 			</div>
-			<Link
-				prefetch
-				onClick={() => setOpen(!open)}
-				href={`${
-					openned == 'true'
-						? `?menu=${selected}&open=false&set=${preSet}`
-						: `?menu=${selected}&open=true&set=${preSet}`
-				}`}
-				className='cursor-pointer bg-zinc-900 w-fit h-full top-0 -right-6 absolute  rounded justify-between hover:bg-zinc-800 transition-all duration-300 ease-linear z-50 text-white'>
-				{openned == 'true' ? (
+			<Button
+				onClick={() => handleClick()}
+				className='cursor-pointer bg-zinc-900 w-fit px-0 py-0 h-full top-0 -right-6 absolute  rounded justify-between hover:bg-zinc-800 transition-all duration-300 ease-linear z-50 text-white'>
+				{openned === 'true' ? (
 					<ChevronsLeft
 						size={20}
 						className='mt-auto h-screen '
@@ -62,7 +67,7 @@ export default function SidebarMenu({ user }: { user?: User }) {
 						className='mt-auto h-screen'
 					/>
 				)}
-			</Link>
+			</Button>
 			<div className='flex flex-col justify-between h-full'>
 				<div className='text-zinc-100 flex flex-col h-full w-fit gap-5 rounded p-2 mt-10 '>
 					{user?.role === 'ADMIN' && (

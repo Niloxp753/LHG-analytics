@@ -1,6 +1,7 @@
 /** @format */
 'use client';
 
+import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const LineChart = dynamic(
@@ -94,12 +95,14 @@ export default function InvoicingXLocation(data?: any) {
 			.map((entry) => entry.date), // Adiciona as datas correspondentes
 	}));
 
-	return (
+	return result ? (
 		<LineChart
 			title={'Faturamento por tipo de locação'}
 			height={400}
 			series={result}
 			categories={result[0].dates}
 		/>
+	) : (
+		<Skeleton className='h-[400px] w-full' />
 	);
 }
