@@ -1,6 +1,6 @@
 /** @format */
 
-import { coerce, z } from 'zod';
+import { z } from 'zod';
 
 export const formSchemaLogin = z.object({
 	email: z.string({ coerce: true }).email({

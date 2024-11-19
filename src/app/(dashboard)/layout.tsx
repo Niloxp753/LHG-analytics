@@ -24,7 +24,6 @@ export default async function DashLayout({
 			<div className='hidden lg:block z-50'>
 				<SidebarMenu user={user} />
 			</div>
-
 			{children}
 		</>
 	);

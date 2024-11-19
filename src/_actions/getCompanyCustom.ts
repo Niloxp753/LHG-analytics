@@ -13,7 +13,6 @@ export async function getCompanyCustomAction(
 			const resp = await getCompanyCustom(startDate, endDate);
 			return resp;
 		}
-		return null;
 	} catch (error) {
 		console.error(error);
 		return error;
