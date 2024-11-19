@@ -5,18 +5,18 @@ import {
 	HandCoins,
 	Sigma,
 	SquarePercent,
-	TrendingUp
+	TrendingUp,
 } from 'lucide-react';
 import CardDetails from '../_components/CardDetails';
 import CardLink from '../_components/CardLink';
 import SparkChart from '../_components/charts/SparkChart';
 import Header from '../_components/Header';
-import UnityxCMV from './components/kpis/UnityxCMV';
-import UnityxCMVxTime from './components/kpis/UnityxCMVxTime';
-import UnityxCoust from './components/kpis/UnityxCoust';
-import UnityxRevenue from './components/kpis/UnityxRevenue';
-import UnityxRevenuexTime from './components/kpis/UnityxRevenuexTime';
-import UnityxTKTxTime from './components/kpis/UnityxTKTxTime';
+import UnityxCMV from './_components/kpis/UnityxCMV';
+import UnityxCMVxTime from './_components/kpis/UnityxCMVxTime';
+import UnityxCoust from './_components/kpis/UnityxCoust';
+import UnityxRevenue from './_components/kpis/UnityxRevenue';
+import UnityxRevenuexTime from './_components/kpis/UnityxRevenuexTime';
+import UnityxTKTxTime from './_components/kpis/UnityxTKTxTime';
 
 export default function Restaurant({
 	searchParams,

@@ -8,12 +8,12 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from '@/components/ui/table';
+} from '@/_components/ui/table';
 
 const data = [
 	{
 		id: 1,
-		items: 'SOFT DRINKS',
+		items: 'PRODUTOS EROTICOS',
 		revenue: 59306,
 		revenuePercent: '35,16%',
 		quantity: 6048,
@@ -21,7 +21,7 @@ const data = [
 	},
 	{
 		id: 2,
-		items: 'CERVEJAS',
+		items: 'CONVENIENCIA E HIGIENE',
 		revenue: 22125,
 		revenuePercent: '13,12%',
 		quantity: 6048,
@@ -29,7 +29,7 @@ const data = [
 	},
 	{
 		id: 3,
-		items: 'COQUETEIS',
+		items: 'ITENS EXTRAS',
 		revenue: 11313,
 		revenuePercent: '6,71%',
 		quantity: 6048,
@@ -37,7 +37,7 @@ const data = [
 	},
 	{
 		id: 4,
-		items: 'DOSES',
+		items: 'RESERVAS',
 		revenue: 13852,
 		revenuePercent: '8,21%',
 		quantity: 6048,
@@ -45,36 +45,20 @@ const data = [
 	},
 	{
 		id: 5,
-		items: 'GARRAFAS',
+		items: 'SOUVENIR',
 		revenue: 17286,
 		revenuePercent: '10,25%',
 		quantity: 6048,
 		quantityPercent: '73,63%',
 	},
-	{
-		id: 6,
-		items: 'VINHOS E ESPUMANTES',
-		revenue: 42638,
-		revenuePercent: '25,28%',
-		quantity: 6048,
-		quantityPercent: '73,63%',
-	},
-	{
-		id: 7,
-		items: 'COMBOS',
-		revenue: 2150,
-		revenuePercent: '1,27%',
-		quantity: 6048,
-		quantityPercent: '73,63%',
-	},
 ];
 
-export function BReports() {
+export function CReports() {
 	return (
 		<Table className='mt-5 bg-zinc-900 rounded-lg'>
 			<TableHeader className='bg-violet-900 rounded-lg'>
 				<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
-					<TableHead>Relatório de Bebidas</TableHead>
+					<TableHead>Relatório de Produtos Adicionais</TableHead>
 					<TableHead className='text-center'>Receita</TableHead>{' '}
 					<TableHead className='text-center'>% Receita</TableHead>
 					<TableHead className='text-center'>QNTD</TableHead>{' '}

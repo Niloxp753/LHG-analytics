@@ -2,21 +2,21 @@
 
 import CardDetails from '@/app/(dashboard)/_components/CardDetails';
 
-import { AReports } from '../../components/kpis/AReports';
-import { BReports } from '../../components/kpis/BReports';
-import CategoryA from '../../components/kpis/CategoryA';
-import CategoryB from '../../components/kpis/CategoryB';
-import Cmv from '../../components/kpis/cmv';
-import CoustDayXWorker from '../../components/kpis/CoustDayXWorker';
-import CoustXAB from '../../components/kpis/CoustXAB';
-import CoustXWorker from '../../components/kpis/CoustXWorker';
-import { CReports } from '../../components/kpis/CReports';
-import { MinusSell } from '../../components/kpis/MinusSell';
-import { MostSell } from '../../components/kpis/MostSell';
-import RevenueABXCost from '../../components/kpis/revenueABXCost';
-import RevenuePercent from '../../components/kpis/RevenuePercent';
-import RevenueXGroup from '../../components/kpis/RevenueXGroup';
-import TKTXLocation from '../../components/kpis/TKTXLocation';
+import { AReports } from '../../_components/kpis/AReports';
+import { BReports } from '../../_components/kpis/BReports';
+import CategoryA from '../../_components/kpis/CategoryA';
+import CategoryB from '../../_components/kpis/CategoryB';
+import Cmv from '../../_components/kpis/cmv';
+import CoustDayXWorker from '../../_components/kpis/CoustDayXWorker';
+import CoustXAB from '../../_components/kpis/CoustXAB';
+import CoustXWorker from '../../_components/kpis/CoustXWorker';
+import { CReports } from '../../_components/kpis/CReports';
+import { MinusSell } from '../../_components/kpis/MinusSell';
+import { MostSell } from '../../_components/kpis/MostSell';
+import RevenueABXCost from '../../_components/kpis/revenueABXCost';
+import RevenuePercent from '../../_components/kpis/RevenuePercent';
+import RevenueXGroup from '../../_components/kpis/RevenueXGroup';
+import TKTXLocation from '../../_components/kpis/TKTXLocation';
 
 export default function Restaurant({
 	searchParams,
@@ -38,7 +38,6 @@ export default function Restaurant({
 					<h2 className='text-zinc-50 font-bold text-3xl'>
 						Painel de <span className='text-violet-400'>Restaurantes</span>
 					</h2>
-				
 				</div>
 				<div className=' w-full  flex gap-5 flex-col justify-start mt-60'>
 					<div className='flex w-full gap-5 h-[320px]'>
