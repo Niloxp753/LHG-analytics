@@ -73,14 +73,14 @@ export function DataTableDemo({ data }: { data: User[] }) {
 						className='text-zinc-800'
 						size={24}
 					/>
-					<span className='h-6 w-[1.5px] mx-1.5 rounded-full  bg-zinc-600/40'></span>
+					<span className='h-5 w-[1.5px] mx-1.5 rounded-full  bg-zinc-600/40'></span>
 					<Input
 						placeholder='Procure pelo nome'
-						value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+						value={(table.getColumn('Nome')?.getFilterValue() as string) ?? ''}
 						onChange={(event) =>
-							table.getColumn('name')?.setFilterValue(event.target.value)
+							table.getColumn('Nome')?.setFilterValue(event.target.value)
 						}
-						className='md:max-w-sm h-fit border-none outline-none ring-0 focus-within:ring-0 text-zinc-950'></Input>
+						className='md:max-w-sm h-fit border-none outline-none ring-0 focus-within:ring-0 text-zinc-950 z-50 bg-transparent'></Input>
 				</div>
 				<div className='flex items-center justify-between md:justify-start  md:ml-auto md:flex-row mx-auto w-full gap-3'>
 					<ModalCreateUser />
