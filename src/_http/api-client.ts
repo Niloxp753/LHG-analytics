@@ -9,4 +9,5 @@ export const api = ky.create({
 	timeout: 214748364,
 	retry: 3,
 	mode: 'cors',
+	cache: 'no-store',
 });

@@ -3,6 +3,7 @@
 'use server';
 
 import { getCompany } from '@/_http/company/getCompany';
+import { revalidateTag } from 'next/cache';
 
 export async function getCompanyAction(period: string) {
 	let newPeriod = '';
@@ -21,6 +22,7 @@ export async function getCompanyAction(period: string) {
 
 	try {
 		const resp = await getCompany(newPeriod);
+		revalidateTag('company');
 		return resp;
 	} catch (error) {
 		console.error(error);

@@ -7,7 +7,7 @@ class HTTPError extends Error {}
 export async function getCompany(period: string): Promise<any> {
 	const resp = await api.get(`Company/kpis?period=${period}`, {
 		next: { tags: ['company'] },
-		cache:'no-cache'
+		cache:'no-store'
 	});
 
 	if (!resp.ok) {
