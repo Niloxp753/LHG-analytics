@@ -7,9 +7,9 @@ import {
 	SidebarBody,
 	SidebarLink,
 } from '@/app/(dashboard)/_components/sidebar-aceternity';
-import BtnSignOut from '@/components/btnSingOut';
-import { User } from '@/http/user/getUsers';
-import { cn } from '@/lib/utils';
+import BtnSignOut from '@/_components/btnSingOut';
+import { User } from '@/_http/user/getUsers';
+import { cn } from '@/_lib/utils';
 import {
 	BarChart3,
 	PieChart,

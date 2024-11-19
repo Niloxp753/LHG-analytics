@@ -1,13 +1,13 @@
 /** @format */
 
-import capaLogin from '@/assets/images/capa-login.png';
-import logo from '@/assets/images/logo-analytics.png';
-import logoLush from '@/assets/images/logo-lush.png';
-import logoTout from '@/assets/images/logo_tout.png';
-import logoAC from '@/assets/images/logo_andar_de_cima.png';
-import { Card } from '@/components/ui/card';
+import capaLogin from '@/_assets/images/capa-login.png';
+import logo from '@/_assets/images/logo-analytics.png';
+import logoLush from '@/_assets/images/logo-lush.png';
+import logoTout from '@/_assets/images/logo_tout.png';
+import logoAC from '@/_assets/images/logo_andar_de_cima.png';
+import { Card } from '@/_components/ui/card';
 import Image from 'next/image';
-import FormLogin from './components/formLogin';
+import FormLogin from './_components/formLogin';
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 

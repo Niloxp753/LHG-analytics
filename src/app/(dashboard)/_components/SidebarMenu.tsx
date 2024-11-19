@@ -1,8 +1,8 @@
 /** @format */
 'use client';
 
-import logo from '@/assets/images/logo-analytics.png';
-import { User } from '@/http/user/getUsers';
+import logo from '@/_assets/images/logo-analytics.png';
+import { User } from '@/_http/user/getUsers';
 import {
 	BarChart3,
 	ChevronsLeft,
@@ -16,10 +16,10 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
-import BtnSignOut from '../../../components/btnSingOut';
+import BtnSignOut from '../../../_components/btnSingOut';
 import BtnSidebarMenu from './BtnSidebarMenu';
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/_components/ui/button';
 
 export default function SidebarMenu({ user }: { user?: User }) {
 	const searchParams = useSearchParams();

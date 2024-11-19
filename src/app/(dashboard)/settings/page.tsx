@@ -1,8 +1,8 @@
 /** @format */
 
-import { getAllUsersAction } from '@/actions/getAllUsers';
+import { getAllUsersAction } from '@/_actions/getAllUsers';
 import { getServerSession } from 'next-auth';
-import { DataTableDemo } from './components/dataTable';
+import { DataTableDemo } from './_components/dataTable';
 import { redirect } from 'next/navigation';
 
 export default async function Page({

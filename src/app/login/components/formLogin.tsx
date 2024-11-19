@@ -1,7 +1,7 @@
 /** @format */
 
 'use client';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/_components/ui/button';
 import {
 	Form,
 	FormControl,
@@ -9,9 +9,9 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { formSchemaLogin } from '@/lib/formSchemaLogin';
+} from '@/_components/ui/form';
+import { Input } from '@/_components/ui/input';
+import { formSchemaLogin } from '@/_lib/formSchemaLogin';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -20,6 +20,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import React from 'react';
 
 export default function FormLogin() {
 	const router = useRouter();

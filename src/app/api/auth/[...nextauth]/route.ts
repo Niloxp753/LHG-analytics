@@ -1,7 +1,7 @@
 /** @format */
 
-import { api } from '@/http/api-client';
-import { User } from '@/http/user/getUsers';
+import { api } from '@/_http/api-client';
+import { User } from '@/_http/user/getUsers';
 import * as bcrypt from 'bcrypt';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';

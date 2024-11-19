@@ -8,7 +8,7 @@ import {
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from '@/components/ui/select';
+} from '@/_components/ui/select';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 

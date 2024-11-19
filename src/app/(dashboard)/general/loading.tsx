@@ -1,7 +1,7 @@
 /** @format */
 
 import React from 'react';
-import logo from '@/assets/images/logo-analytics.png';
+import logo from '@/_assets/images/logo-analytics.png';
 import Image from 'next/image';
 
 export default function Loading() {

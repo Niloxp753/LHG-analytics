@@ -21,7 +21,6 @@ export default function LinkPreSet({
 
 	return (
 		<Link
-			data-pending={isPending}
 			onClick={() => {
 				startTransition(() => {});
 			}}

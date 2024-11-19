@@ -6,8 +6,8 @@ import {
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
+} from '@/_components/ui/card';
+import { Skeleton } from '@/_components/ui/skeleton';
 import { MoveDown, MoveUp } from 'lucide-react';
 
 interface CardDetailsProps {

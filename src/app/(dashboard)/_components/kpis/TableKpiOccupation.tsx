@@ -8,7 +8,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from '@/components/ui/table';
+} from '@/_components/ui/table';
 
 interface OccupancyData {
 	occupancyRate: string;

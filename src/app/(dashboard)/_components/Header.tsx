@@ -27,9 +27,7 @@ export default function Header() {
 					{links.map((l, index) => {
 						return (
 							<LinkPreSet
-								onClick={() => {
-									setTab(l.tag);
-								}}
+								onClick={() => setTab(l.tag)}
 								tag={l.tag}
 								key={index}
 								preSet={preSet}

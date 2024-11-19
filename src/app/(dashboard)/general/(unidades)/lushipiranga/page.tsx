@@ -1,7 +1,7 @@
 /** @format */
 
-import { getCompanyAction } from '@/actions/getCompany';
-import { getCompanyCustomAction } from '@/actions/getCompanyCustom';
+import { getCompanyAction } from '@/_actions/getCompany';
+import { getCompanyCustomAction } from '@/_actions/getCompanyCustom';
 import Header from '@/app/(dashboard)/_components/Header';
 import BigNumbers from '@/app/(dashboard)/_components/bignumber';
 import Invoicing from '@/app/(dashboard)/_components/kpis/Invoicing';
@@ -39,7 +39,7 @@ export default async function LushIpiranga({
 		formattedEndDate!,
 	);
 
-	async function getData() {
+	function getData() {
 		if (startDate && endDate) {
 			return customData;
 		} else {
@@ -112,6 +112,9 @@ export default async function LushIpiranga({
 			</div>
 		</main>
 	) : (
-		<></>
+		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>
+			{' '}
+			<h3>Aguardadn</h3>
+		</main>
 	);
 }

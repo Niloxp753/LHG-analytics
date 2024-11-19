@@ -1,7 +1,7 @@
 /** @format */
 
-import { Toaster } from '@/components/ui/sonner';
-import NextAuthProvider from '@/providers/nextAuthProvider';
+import { Toaster } from '@/_components/ui/sonner';
+import NextAuthProvider from '@/_providers/nextAuthProvider';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';

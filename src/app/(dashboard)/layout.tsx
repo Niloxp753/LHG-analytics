@@ -1,6 +1,6 @@
 /** @format */
 
-import { getAllUsersAction } from '@/actions/getAllUsers';
+import { getAllUsersAction } from '@/_actions/getAllUsers';
 import { getServerSession } from 'next-auth';
 import React from 'react';
 import SidebarMenu from './_components/SidebarMenu';
