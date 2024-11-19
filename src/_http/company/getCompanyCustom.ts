@@ -11,6 +11,7 @@ export async function getCompanyCustom(
 		`Company/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
 		{
 			next: { tags: ['customCompany'] },
+			cache: 'no-cache',
 		},
 	);
 

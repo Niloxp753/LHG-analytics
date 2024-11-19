@@ -16,6 +16,6 @@ export async function getCompanyCustomAction(
 		return null;
 	} catch (error) {
 		console.error(error);
-		return null;
+		return error;
 	}
 }

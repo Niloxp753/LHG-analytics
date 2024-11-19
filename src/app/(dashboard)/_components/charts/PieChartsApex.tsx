@@ -37,7 +37,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 			itemMargin: { vertical: 4 },
 			fontSize: '12px',
 			fontWeight: 'bold',
-			offsetY: 12,
+			offsetY: 8,
 			labels: {
 				colors: '#f4f4f5',
 			},

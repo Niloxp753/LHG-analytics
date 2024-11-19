@@ -32,7 +32,11 @@ export default function CardDetails({
 					{title}
 					{icon}
 				</CardTitle>
-				{description && <CardDescription>{description}</CardDescription>}
+				{description && (
+					<CardDescription className='text-muted-foreground'>
+						{description}
+					</CardDescription>
+				)}
 			</CardHeader>
 			<CardContent>
 				{type == 'money' ? (

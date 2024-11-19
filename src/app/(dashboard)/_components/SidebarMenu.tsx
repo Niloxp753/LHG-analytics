@@ -2,6 +2,7 @@
 'use client';
 
 import logo from '@/_assets/images/logo-analytics.png';
+import { Button } from '@/_components/ui/button';
 import { User } from '@/_http/user/getUsers';
 import {
 	BarChart3,
@@ -14,12 +15,10 @@ import {
 	UtensilsCrossed,
 } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 import BtnSignOut from '../../../_components/btnSingOut';
 import BtnSidebarMenu from './BtnSidebarMenu';
-import { useState } from 'react';
-import { Button } from '@/_components/ui/button';
 
 export default function SidebarMenu({ user }: { user?: User }) {
 	const searchParams = useSearchParams();

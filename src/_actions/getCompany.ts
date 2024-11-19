@@ -21,10 +21,10 @@ export async function getCompanyAction(period: string) {
 
 	try {
 		const resp = await getCompany(newPeriod);
-
+		console.log(resp);
 		return resp;
 	} catch (error) {
 		console.error(error);
-		return null;
+		return error;
 	}
 }

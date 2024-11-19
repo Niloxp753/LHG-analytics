@@ -28,7 +28,7 @@ export default async function General({
 
 	const data = await getCompanyAction(preSet);
 
-	return (
+	return data ? (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 '>
 			<div
 				className={`relative  ${
@@ -109,5 +109,9 @@ export default async function General({
 				</div>
 			</div>
 		</main>
+	) : (
+		<>
+			<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 '></main>
+		</>
 	);
 }
