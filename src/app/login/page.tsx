@@ -11,11 +11,19 @@ import FormLogin from './_components/formLogin';
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 
-export default async function Login() {
+export default async function Login({
+	searchParams,
+}: {
+	searchParams: { [key: string]: string | undefined };
+}) {
+	const open = searchParams.open || 'true';
+	const menu = 'general';
+	const preSet = searchParams.set || '7days';
+
 	const session = await getServerSession();
 
 	if (session?.user) {
-		redirect('/general');
+		redirect(`/general?menu=${menu}&open=${open}&set=${preSet}`);
 	} else {
 		return (
 			<div className='w-full flex h-screen bg-zinc-950 overflow-hidden'>
