@@ -47,6 +47,7 @@ export default function FormFilter() {
 					`?menu=${menu}&open=${open}&set=${set}&startDate=${startDate}&endDate=${endDate}`,
 				);
 				form.reset();
+				router.refresh();
 			} catch (error) {
 				console.log(error);
 				toast.error('Erro ao atualizar');
