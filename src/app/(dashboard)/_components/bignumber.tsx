@@ -9,7 +9,6 @@ import {
 	SquarePercent,
 } from 'lucide-react';
 import CardDetails from './CardDetails';
-import { Skeleton } from '@/_components/ui/skeleton';
 
 interface BigNumbersProps {
 	data?: any[];
@@ -85,13 +84,6 @@ export default function BigNumbers(props: BigNumbersProps) {
 			);
 		})
 	) : (
-		<div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
-			<Skeleton className='w-full h-32' />
-			<Skeleton className='w-full h-32' />
-			<Skeleton className='w-full h-32' />
-			<Skeleton className='w-full h-32' />
-			<Skeleton className='w-full h-32' />
-			<Skeleton className='w-full h-32' />
-		</div>
+		<></>
 	);
 }
