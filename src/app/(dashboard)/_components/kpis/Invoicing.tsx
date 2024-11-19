@@ -54,14 +54,14 @@ export default function Invoicing(data?: any) {
 
 	// Exibe o resultado
 
-	return (
-		<>
-			<AreaChartsApex
-				id='invoicing-ipiranga'
-				money
-				series={[{ data: result.values, name: 'Faturamento Total' }]}
-				categories={result.dates}
-			/>
-		</>
+	return revenueByDate ? (
+		<AreaChartsApex
+			id='invoicing-ipiranga'
+			money
+			series={[{ data: result.values, name: 'Faturamento Total' }]}
+			categories={result.dates}
+		/>
+	) : (
+		<Skeleton className='w-full h-[300px]' />
 	);
 }

@@ -1,5 +1,6 @@
 /** @format */
 
+import { Skeleton } from '@/_components/ui/skeleton';
 import { Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import React, { Suspense } from 'react';
@@ -27,17 +28,19 @@ interface Result {
 export default function Locations(data?: any) {
 	const rentalsByDate: RentalsEntry[] = data.data;
 
-	const transformedData: TransformedEntry[] = rentalsByDate
-		?.map((item: RentalsEntry): TransformedEntry => {
-			const [date, data] = Object.entries(item)[0];
-			const totalRentals = data.totalAllRentalsApartments;
-			return { date, totalRentals };
-		})
-		.sort(
-			(a, b) =>
-				new Date(a.date.split('/').reverse().join('-')).getTime() -
-				new Date(b.date.split('/').reverse().join('-')).getTime(),
-		);
+	const transformedData: TransformedEntry[] =
+		rentalsByDate &&
+		rentalsByDate
+			?.map((item: RentalsEntry): TransformedEntry => {
+				const [date, data] = Object.entries(item)[0];
+				const totalRentals = data.totalAllRentalsApartments;
+				return { date, totalRentals };
+			})
+			.sort(
+				(a, b) =>
+					new Date(a.date.split('/').reverse().join('-')).getTime() -
+					new Date(b.date.split('/').reverse().join('-')).getTime(),
+			);
 
 	const result: Result = {
 		values: transformedData?.map(
@@ -46,7 +49,7 @@ export default function Locations(data?: any) {
 		dates: transformedData?.map((entry: TransformedEntry) => entry.date),
 	};
 
-	return (
+	return rentalsByDate ? (
 		<AreaChartsApex
 			id='locations'
 			series={[
@@ -57,5 +60,7 @@ export default function Locations(data?: any) {
 			]}
 			categories={result?.dates}
 		/>
+	) : (
+		<Skeleton className='w-full h-[300px]' />
 	);
 }

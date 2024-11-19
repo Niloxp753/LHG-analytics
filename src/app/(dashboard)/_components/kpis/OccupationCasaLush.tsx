@@ -9,6 +9,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/_components/ui/select';
+import { Skeleton } from '@/_components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 
@@ -84,7 +85,7 @@ export default function OccupationCasaLush(data?: any) {
 		return serie.category === state;
 	});
 
-	return (
+	return occupancyRateBySuiteCategory ? (
 		<>
 			<Select
 				defaultValue={state}
@@ -118,6 +119,11 @@ export default function OccupationCasaLush(data?: any) {
 				]}
 				categories={currentSerie?.categories}
 			/>
+		</>
+	) : (
+		<>
+			<Skeleton className='w-56 h-10' />
+			<Skeleton className='w-full h-[300px]' />
 		</>
 	);
 }

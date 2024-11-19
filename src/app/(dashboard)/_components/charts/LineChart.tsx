@@ -82,10 +82,13 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 		tooltip: {
 			y: {
 				formatter: (val: number) =>
-					`${val.toLocaleString('pt-BR', {
-						style: 'currency',
-						currency: 'BRL',
-					})}`,
+					`${
+						val &&
+						val.toLocaleString('pt-BR', {
+							style: 'currency',
+							currency: 'BRL',
+						})
+					}`,
 			},
 		},
 		colors: [

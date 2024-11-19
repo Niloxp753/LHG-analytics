@@ -1,6 +1,7 @@
 /** @format */
 'use client';
 
+import { Skeleton } from '@/_components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const AreaChartsApex = dynamic(
@@ -47,14 +48,14 @@ export default function RevPar(data?: any) {
 		dates: transformedData?.map((entry: TransformedEntry) => entry.date),
 	};
 
-	return (
-		<>
-			<AreaChartsApex
-				id='revpar-ipiranga'
-				series={[{ data: result?.values, name: 'RevPar' }]}
-				categories={result?.dates}
-				money
-			/>
-		</>
+	return revparByDate ? (
+		<AreaChartsApex
+			id='revpar-ipiranga'
+			series={[{ data: result?.values, name: 'RevPar' }]}
+			categories={result?.dates}
+			money
+		/>
+	) : (
+		<Skeleton className='h-[300px] w-full' />
 	);
 }

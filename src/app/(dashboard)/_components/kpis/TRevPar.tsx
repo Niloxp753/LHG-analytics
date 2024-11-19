@@ -2,6 +2,7 @@
 
 'use client';
 
+import { Skeleton } from '@/_components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const AreaChartsApex = dynamic(
@@ -50,7 +51,7 @@ export default function TRevPar(data?: any) {
 		dates: transformedData?.map((entry: TransformedEntry) => entry.date),
 	};
 
-	return (
+	return trevparByDate ? (
 		<div className='  max-h-[440px] h-full w-full flex items-center justify-center'>
 			<AreaChartsApex
 				id='trevpar-ipiranga'
@@ -64,5 +65,7 @@ export default function TRevPar(data?: any) {
 				money
 			/>
 		</div>
+	) : (
+		<Skeleton className='h-[300px] w-full' />
 	);
 }

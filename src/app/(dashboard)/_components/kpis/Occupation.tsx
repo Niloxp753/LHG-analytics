@@ -1,6 +1,7 @@
 /** @format */
 'use client';
 
+import { Skeleton } from '@/_components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const AreaChartsApex = dynamic(
@@ -51,19 +52,19 @@ export default function Occupation(data?: any) {
 		),
 	};
 
-	return (
-		<>
-			<AreaChartsApex
-				id='tx-ocuppation-ipiranga'
-				percent
-				series={[
-					{
-						data: result.values,
-						name: 'Taxa de ocupação',
-					},
-				]}
-				categories={result.dates}
-			/>
-		</>
+	return occupancyRateByDate ? (
+		<AreaChartsApex
+			id='tx-ocuppation-ipiranga'
+			percent
+			series={[
+				{
+					data: result.values,
+					name: 'Taxa de ocupação',
+				},
+			]}
+			categories={result.dates}
+		/>
+	) : (
+		<Skeleton className='w-full h-[300px]' />
 	);
 }

@@ -51,28 +51,29 @@ export default function InvoicingXLocation(data?: any) {
 	const dataWithValues: DataWithValues[] = [];
 
 	// Preenchendo a estrutura com os dados e suas respectivas datas
-	billingRentalType?.forEach((item) => {
-		const date = Object.keys(item)[0];
-		const rentals = item[date];
+	billingRentalType &&
+		billingRentalType?.forEach((item) => {
+			const date = Object.keys(item)[0];
+			const rentals = item[date];
 
-		// Percorre cada tipo de locação
-		rentals?.forEach((rental: any) => {
-			const type = Object.keys(rental)[0];
-			const value = rental[type].totalValue;
+			// Percorre cada tipo de locação
+			rentals?.forEach((rental: any) => {
+				const type = Object.keys(rental)[0];
+				const value = rental[type].totalValue;
 
-			// Converte o valor para número
-			const numericValue = parseFloat(
-				value.replace(/[^0-9,]/g, '').replace(',', '.'),
-			);
+				// Converte o valor para número
+				const numericValue = parseFloat(
+					value.replace(/[^0-9,]/g, '').replace(',', '.'),
+				);
 
-			// Adiciona ao array de dados, agrupando por data e tipo
-			dataWithValues.push({
-				date: date,
-				type: rentalTypeMapping[type],
-				value: numericValue,
+				// Adiciona ao array de dados, agrupando por data e tipo
+				dataWithValues.push({
+					date: date,
+					type: rentalTypeMapping[type],
+					value: numericValue,
+				});
 			});
 		});
-	});
 
 	// Agora, vamos organizar por data
 	dataWithValues?.sort((a, b) => {
@@ -95,7 +96,7 @@ export default function InvoicingXLocation(data?: any) {
 			.map((entry) => entry.date), // Adiciona as datas correspondentes
 	}));
 
-	return result ? (
+	return billingRentalType ? (
 		<LineChart
 			title={'Faturamento por tipo de locação'}
 			height={400}
