@@ -18,6 +18,8 @@ import { TableKpiOccupation } from '@/app/(dashboard)/_components/kpis/TableKpiO
 import Ticket from '@/app/(dashboard)/_components/kpis/Ticket';
 import { format } from 'date-fns';
 
+export const revalidate = 0;
+
 export default async function LushIpiranga({
 	searchParams,
 }: {

@@ -80,7 +80,7 @@ export function DataTableDemo({ data }: { data: User[] }) {
 						onChange={(event) =>
 							table.getColumn('Nome')?.setFilterValue(event.target.value)
 						}
-						className='md:max-w-sm h-fit border-none outline-none ring-0 focus-within:ring-0 text-zinc-950 z-50 bg-transparent'></Input>
+						className='md:max-w-sm h-fit border-none outline-none ring-0 focus-within:ring-0 text-zinc-950 bg-transparent'></Input>
 				</div>
 				<div className='flex items-center justify-between md:justify-start  md:ml-auto md:flex-row mx-auto w-full gap-3'>
 					<ModalCreateUser />

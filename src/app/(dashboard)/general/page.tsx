@@ -1,5 +1,7 @@
 /** @format */
 
+import { getCompanyAction } from '@/_actions/getCompany';
+import { Skeleton } from '@/_components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import BigNumbers from '../_components/bignumber';
 import CardLink from '../_components/CardLink';
@@ -10,13 +12,12 @@ import LocationsxUnity from '../_components/kpis/LocationsxUnity';
 import OccupationXUnity from '../_components/kpis/OccupationXUnity';
 import TKTxUnity from '../_components/kpis/TKTxUnity';
 import TRevParXUnity from '../_components/kpis/TRevParXUnity';
-import { getCompanyAction } from '@/_actions/getCompany';
-import { Skeleton } from '@/_components/ui/skeleton';
-import { Suspense } from 'react';
 const SparkChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/SparkChart'),
 	{ ssr: false },
 );
+
+export const revalidate = 0;
 
 export default async function General({
 	searchParams,
