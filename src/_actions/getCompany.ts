@@ -26,7 +26,7 @@ export async function getCompanyAction(period: string) {
 		revalidatePath('/', 'page');
 		return resp;
 	} catch (error) {
-		console.error(error);
+		console.log(error);
 		return error;
 	}
 }

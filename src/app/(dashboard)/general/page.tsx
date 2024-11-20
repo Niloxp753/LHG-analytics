@@ -24,11 +24,11 @@ export default async function General({
 }: {
 	searchParams: { [key: string]: string | undefined };
 }) {
-	const open = searchParams.open || 'true';
+	const open = searchParams.open ?? 'true';
 	const menu = 'general';
-	const preSet = searchParams.set || '7days';
+	const preSet = searchParams.set ?? '7days';
 
-	const data = await getCompanyAction(preSet);
+	const data = await getCompanyAction(preSet ?? '7days');
 
 	return (
 		<>

@@ -22,9 +22,9 @@ import BtnSidebarMenu from './BtnSidebarMenu';
 
 export default function SidebarMenu({ user }: { user?: User }) {
 	const searchParams = useSearchParams();
-	const selected = searchParams.get('menu') || 'general';
-	const openned = searchParams.get('open') || 'true';
-	const preSet = searchParams.get('set') || '7days';
+	const selected = searchParams.get('menu') ?? 'general';
+	const openned = searchParams.get('open') ?? 'true';
+	const preSet = searchParams.get('set') ?? '7days';
 	const [open, setOpen] = useState(true);
 	const router = useRouter();
 
@@ -40,7 +40,7 @@ export default function SidebarMenu({ user }: { user?: User }) {
 	return (
 		<div className='h-screen z-50 w-fit bg-zinc-950 fixed left-0 p-1 flex flex-col justify-start'>
 			<div className='h-24'>
-				{openned === 'true' ? (
+				{openned === 'true' && (
 					<a
 						href='/'
 						className='flex items-center justify-between w-fit mx-auto my-4'>
@@ -50,7 +50,7 @@ export default function SidebarMenu({ user }: { user?: User }) {
 							width={120}
 							height={100}></Image>
 					</a>
-				) : null}
+				)}
 			</div>
 			<Button
 				onClick={() => handleClick()}

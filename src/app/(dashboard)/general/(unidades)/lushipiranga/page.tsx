@@ -25,8 +25,8 @@ export default async function LushIpiranga({
 }: {
 	searchParams: { [key: string]: string | undefined };
 }) {
-	const open = searchParams.open || 'true';
-	const preSet = searchParams.set || '7days';
+	const open = searchParams.open ?? 'true';
+	const preSet = searchParams.set ?? '7days';
 	const startDate = searchParams.startDate;
 	const endDate = searchParams.endDate;
 
@@ -44,7 +44,7 @@ export default async function LushIpiranga({
 				return customData;
 			}
 		} else {
-			const data = await getCompanyAction(preSet ? preSet : '7days');
+			const data = await getCompanyAction(preSet ?? '7days');
 			if (data) {
 				return data;
 			}
