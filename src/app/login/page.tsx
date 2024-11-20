@@ -23,7 +23,9 @@ export default async function Login({
 	const session = await getServerSession();
 
 	if (session?.user) {
-		redirect(`/general?menu=${menu}&open=${open}&set=${preSet}`);
+		redirect(
+			`/general?menu=${menu}&open=${open ?? 'true'}&set=${preSet ?? '7days'}`,
+		);
 	} else {
 		return (
 			<div className='w-full flex h-screen bg-zinc-950 overflow-hidden'>

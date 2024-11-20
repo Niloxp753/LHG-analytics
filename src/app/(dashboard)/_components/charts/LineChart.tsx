@@ -143,7 +143,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 						height: 580,
 					},
 					xaxis: {
-						axisTicks: { show: false },
+						axisTicks: { show: true },
 						labels: {
 							trim: false,
 							style: { fontSize: '9px' },
