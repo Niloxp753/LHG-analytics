@@ -52,21 +52,26 @@ export default function Ticket(data?: any) {
 		dates: transformedData?.map((entry: TransformedEntry) => entry.date),
 	};
 
-	return ticketAverageByDate ? (
-		<div className='  max-h-[440px] h-full w-full flex items-center justify-center'>
-			<AreaChartsApex
-				id='ticket-ipiranga'
-				money
-				series={[
-					{
-						data: result.values,
-						name: 'Ticket Médio',
-					},
-				]}
-				categories={result.dates}
-			/>
-		</div>
-	) : (
-		<Skeleton className='w-full h-[300px]' />
+	return (
+		<>
+			{ticketAverageByDate ? (
+				<div className='  max-h-[440px] h-full w-full flex items-center justify-center'>
+					<AreaChartsApex
+						id='ticket-ipiranga'
+						money
+						series={[
+							{
+								data: result.values,
+								name: 'Ticket Médio',
+							},
+						]}
+						categories={result.dates}
+					/>
+				</div>
+			) : (
+				<Skeleton className='w-full h-[300px]' />
+			)}
+			;
+		</>
 	);
 }

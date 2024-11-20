@@ -96,14 +96,19 @@ export default function InvoicingXLocation(data?: any) {
 			.map((entry) => entry.date), // Adiciona as datas correspondentes
 	}));
 
-	return billingRentalType ? (
-		<LineChart
-			title={'Faturamento por tipo de locação'}
-			height={400}
-			series={result}
-			categories={result[0].dates}
-		/>
-	) : (
-		<Skeleton className='h-[400px] w-full' />
+	return (
+		<>
+			{billingRentalType ? (
+				<LineChart
+					title={'Faturamento por tipo de locação'}
+					height={400}
+					series={result}
+					categories={result[0].dates}
+				/>
+			) : (
+				<Skeleton className='h-[400px] w-full' />
+			)}
+			;
+		</>
 	);
 }

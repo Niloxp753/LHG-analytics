@@ -85,45 +85,50 @@ export default function OccupationCasaLush(data?: any) {
 		return serie.category === state;
 	});
 
-	return occupancyRateBySuiteCategory ? (
+	return (
 		<>
-			<Select
-				defaultValue={state}
-				onValueChange={(value: string) => setState(value)}>
-				<SelectTrigger className='w-56 text-zinc-50 dark'>
-					<SelectValue placeholder='Selecione uma unidade' />
-				</SelectTrigger>
-				<SelectContent className='dark'>
-					<SelectGroup>
-						<SelectItem value='LUSH'>LUSH</SelectItem>
-						<SelectItem value='LUSH POP'>LUSH POP</SelectItem>
-						<SelectItem value='LUSH SPA'>LUSH SPA</SelectItem>
-						<SelectItem value='LUSH SPA SPLASH'>LUSH SPA SPLASH</SelectItem>
-						<SelectItem value='LUSH LOUNGE'>LUSH LOUNGE</SelectItem>
-						<SelectItem value='LUSH HIDRO'>LUSH HIDRO</SelectItem>
-						<SelectItem value='LUSH SPLASH'>LUSH SPLASH</SelectItem>
-						<SelectItem value='LUSH CINE'>LUSH CINE</SelectItem>
-						<SelectItem value='CASA LUSH'>CASA LUSH</SelectItem>
-					</SelectGroup>
-				</SelectContent>
-			</Select>
-			<AreaChartsApex
-				title='Taxa de ocupação por categoria de suíte'
-				percent
-				id='occupation-category'
-				series={[
-					{
-						data: currentSerie?.values!,
-						name: currentSerie?.category,
-					},
-				]}
-				categories={currentSerie?.categories}
-			/>
-		</>
-	) : (
-		<>
-			<Skeleton className='w-56 h-10' />
-			<Skeleton className='w-full h-[300px]' />
+			{occupancyRateBySuiteCategory ? (
+				<>
+					<Select
+						defaultValue={state}
+						onValueChange={(value: string) => setState(value)}>
+						<SelectTrigger className='w-56 text-zinc-50 dark'>
+							<SelectValue placeholder='Selecione uma unidade' />
+						</SelectTrigger>
+						<SelectContent className='dark'>
+							<SelectGroup>
+								<SelectItem value='LUSH'>LUSH</SelectItem>
+								<SelectItem value='LUSH POP'>LUSH POP</SelectItem>
+								<SelectItem value='LUSH SPA'>LUSH SPA</SelectItem>
+								<SelectItem value='LUSH SPA SPLASH'>LUSH SPA SPLASH</SelectItem>
+								<SelectItem value='LUSH LOUNGE'>LUSH LOUNGE</SelectItem>
+								<SelectItem value='LUSH HIDRO'>LUSH HIDRO</SelectItem>
+								<SelectItem value='LUSH SPLASH'>LUSH SPLASH</SelectItem>
+								<SelectItem value='LUSH CINE'>LUSH CINE</SelectItem>
+								<SelectItem value='CASA LUSH'>CASA LUSH</SelectItem>
+							</SelectGroup>
+						</SelectContent>
+					</Select>
+					<AreaChartsApex
+						title='Taxa de ocupação por categoria de suíte'
+						percent
+						id='occupation-category'
+						series={[
+							{
+								data: currentSerie?.values!,
+								name: currentSerie?.category,
+							},
+						]}
+						categories={currentSerie?.categories}
+					/>
+				</>
+			) : (
+				<>
+					<Skeleton className='w-56 h-10' />
+					<Skeleton className='w-full h-[300px]' />
+				</>
+			)}
+			;
 		</>
 	);
 }
