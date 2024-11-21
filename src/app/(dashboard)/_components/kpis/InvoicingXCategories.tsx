@@ -76,7 +76,7 @@ export default function Categories(data?: any) {
 				/>
 			) : (
 				<>
-					<Skeleton className='w-full h-[560px]' />
+					<Skeleton className='w-full h-[620px]' />
 				</>
 			)}
 			;
