@@ -126,7 +126,7 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 				series={props.series}
 				type='bar'
 				width={'100%'}
-				height={620}></Chart>
+				height={600}></Chart>
 		</ResponsiveContainerChart>
 	);
 }

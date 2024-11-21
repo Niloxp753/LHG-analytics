@@ -162,19 +162,20 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 					xaxis: {
 						axisTicks: { show: true },
 						tickPlacement: 'on',
+						offsetY: 2,
 						labels: {
 							trim: false,
-							style: { fontSize: '11px' },
+							style: { fontSize: '10px' },
 							hideOverlappingLabels: true,
-							rotate: 0,
+							rotate: -45,
 						},
 					},
 					legend: {
 						position: 'bottom',
-						offsetY: 20,
+						offsetY: 10,
 						fontSize: '14x',
 						itemMargin: {
-							vertical: 14,
+							vertical: 8,
 							horizontal: 8,
 						},
 					},

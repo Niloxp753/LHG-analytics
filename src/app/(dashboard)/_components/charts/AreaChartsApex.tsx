@@ -104,11 +104,9 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 
 		xaxis: {
 			type: 'category',
-			tickPlacement: 'between',
 			labels: {
 				trim: false,
 				hideOverlappingLabels: true,
-				rotate: 0,
 			},
 
 			crosshairs: {
@@ -117,12 +115,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			axisBorder: { show: true },
 			categories: props.categories,
 		},
-		yaxis: {
-			show: false,
-			labels: {
-				style: { fontSize: '8px' },
-			},
-		},
+
 		stroke: { curve: 'smooth' },
 		plotOptions: { area: { fillTo: 'origin' } },
 		responsive: [
@@ -134,10 +127,11 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 						width: '100%',
 					},
 					xaxis: {
-						tickPlacement: 'between',
-						offsetX: 6,
+						tickPlacement: 'on',
+						offsetX: 0,
 						labels: {
-							style: { fontSize: '12px' },
+							rotate: -45,
+							style: { fontSize: '10px' },
 						},
 					},
 					yaxis: {
@@ -149,6 +143,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 							show: true,
 						},
 						labels: {
+							style: { fontSize: '10px' },
 							formatter: (val: number | string) =>
 								`${
 									props.money
@@ -173,9 +168,30 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 					},
 					xaxis: {
 						tickPlacement: 'between',
-						offsetX: 7,
+						offsetX: 0,
+						offsetY: 8,
 						labels: {
-							style: { fontSize: '12px' },
+							rotate: -45,
+							style: { fontSize: '11px' },
+						},
+					},
+					yaxis: {
+						show: true,
+						axisBorder: { show: true },
+						labels: {
+							show: true,
+							formatter: (val: number | string) =>
+								`${
+									props.money
+										? val.toLocaleString('pt-BR', {
+												style: 'currency',
+												currency: 'BRL',
+										  })
+										: props.percent
+										? val + '%'
+										: val
+								} `,
+							style: { fontSize: '11px' },
 						},
 					},
 				},

@@ -60,7 +60,6 @@ export default function RevPar(data?: any) {
 			) : (
 				<Skeleton className='h-[310px] w-full' />
 			)}
-			;
 		</>
 	);
 }

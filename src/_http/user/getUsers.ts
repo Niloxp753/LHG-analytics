@@ -16,7 +16,7 @@ export interface User {
 export async function getAllUsers(): Promise<User[]> {
 	const resp = await api.get(`users/all`, {
 		next: { tags: ['users'] },
-		timeout: 45000,
+		timeout: 60000,
 		retry: 3,
 	});
 
