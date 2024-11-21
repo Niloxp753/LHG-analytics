@@ -47,8 +47,8 @@ export default async function LushIpiranga({
 			}
 		} else {
 			const data = await getCompanyAction(preSet ?? '7days');
-			revalidatePath('/');
 			if (data) {
+				revalidatePath('/');
 				return data;
 			}
 		}
