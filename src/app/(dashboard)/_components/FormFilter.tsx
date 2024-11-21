@@ -140,7 +140,7 @@ export default function FormFilter() {
 										</FormControl>
 									</PopoverTrigger>
 									<PopoverContent
-										className='w-full md:w-auto p-0 dark z-50'
+										className='w-full md:w-auto p-0 dark'
 										align='start'>
 										<Calendar
 											mode='single'

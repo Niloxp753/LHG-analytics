@@ -6,7 +6,7 @@ export const maxDuration = 60;
 
 export const api = ky.create({
 	prefixUrl: process.env.BACKEND_ENDPOINT,
-	timeout: 214748364,
+	timeout: 60000,
 	retry: 3,
 	mode: 'cors',
 	cache: 'no-store',
