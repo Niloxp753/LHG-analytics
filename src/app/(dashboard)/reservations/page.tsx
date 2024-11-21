@@ -21,19 +21,14 @@ export default function Reservations({
 }: {
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
-	const open = searchParams.open || 'true';
 	const menu = searchParams.menu;
 	const preSet = searchParams.set || '7days';
 
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>
-			<div
-				className={`relative  ${
-					open == 'true' ? 'md:max-w-[82vw] ' : 'md:max-w-[90vw]'
-				}   flex  md:ml-auto w-full `}>
+			<div className={`relative  md:max-w-[82vw] flex  md:ml-auto w-full `}>
 				<div
-					className={`bg-zinc-950/50 py-4 w-full  ${
-						open == 'true' ? 'md:w-[82vw]' : 'md:w-[90vw] '
+					className={`bg-zinc-950/50 py-4 w-full md:w-[82vw]
 					} backdrop-blur-md fixed z-40 top-0 flex flex-col gap-5 md:justify-end `}>
 					<h2 className='text-zinc-50 font-bold text-2xl md:text-3xl text-center pt-1'>
 						Painel de<span className='text-violet-400'> {''}Reservas</span>
@@ -161,25 +156,25 @@ export default function Reservations({
 					</div>
 					<div className='grid md:grid-cols-4 mt-10 gap-5'>
 						<CardLink
-							href={`/reservations/lushipiranga?menu=${menu}&open=${open}&set=${preSet}`}
+							href={`/reservations/lushipiranga?menu=${menu}&set=${preSet}`}
 							title={'Lush Ipiranga'}
 							content={
 								<SparkChart serie={[35, 40, 55, 45, 50, 40]} />
 							}></CardLink>
 						<CardLink
-							href={`/reservations/lushguaruja?menu=${menu}&open=${open}&set=${preSet}`}
+							href={`/reservations/lushguaruja?menu=${menu}&set=${preSet}`}
 							title={'Lush Guarujá'}
 							content={
 								<SparkChart serie={[45, 30, 55, 35, 60, 40]} />
 							}></CardLink>
 						<CardLink
-							href={`/reservations/toutcampinas?menu=${menu}&open=${open}&set=${preSet}`}
+							href={`/reservations/toutcampinas?menu=${menu}&set=${preSet}`}
 							title={'Tout Campinas'}
 							content={
 								<SparkChart serie={[45, 40, 55, 35, 55, 30]} />
 							}></CardLink>{' '}
 						<CardLink
-							href={`/reservations/andardecima?menu=${menu}&open=${open}&set=${preSet}`}
+							href={`/reservations/andardecima?menu=${menu}&set=${preSet}`}
 							title={'Andar de Cima'}
 							content={
 								<SparkChart serie={[55, 30, 55, 45, 50, 60]} />

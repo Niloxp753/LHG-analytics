@@ -1,6 +1,11 @@
 /** @format */
 'use client';
-import { Card, CardContent, CardHeader, CardTitle } from '@/_components/ui/card';
+import {
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle,
+} from '@/_components/ui/card';
 import { ArrowBigRight, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';

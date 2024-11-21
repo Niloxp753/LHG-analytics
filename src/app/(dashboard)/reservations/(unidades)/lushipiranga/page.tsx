@@ -19,20 +19,13 @@ export default function Page({
 }: {
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
-	const open = searchParams.open || 'true';
-	const menu = searchParams.menu;
 	const preSet = searchParams.set || '7days';
 
 	return (
 		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden md:px-5 py-10'>
-			<div
-				className={`relative w-full ${
-					open == 'true' ? 'md:max-w-[82vw]' : 'md:max-w-[90vw]'
-				}  md:ml-auto flex `}>
+			<div className={`relative w-full md:max-w-[82vw] md:ml-auto flex `}>
 				<div
-					className={`bg-zinc-950/50 py-4 w-full  ${
-						open == 'true' ? 'md:w-[82vw]' : 'md:w-[90vw] '
-					} backdrop-blur-md fixed z-40 top-0 flex flex-col items-center gap-5 md:justify-end `}>
+					className={`bg-zinc-950/50 py-4 w-full md:w-[82vw] backdrop-blur-md fixed z-40 top-0 flex flex-col items-center gap-5 md:justify-end `}>
 					<h2 className='text-zinc-50 font-bold text-xl md:text-3xl text-center py-1.5'>
 						Reservas -{' '}
 						<span className='text-violet-400'> {''}Lush Ipiranga</span>

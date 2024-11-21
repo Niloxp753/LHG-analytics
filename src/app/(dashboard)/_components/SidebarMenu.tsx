@@ -15,7 +15,7 @@ import {
 	UtensilsCrossed,
 } from 'lucide-react';
 import Image from 'next/image';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import BtnSignOut from '../../../_components/btnSingOut';
 import BtnSidebarMenu from './BtnSidebarMenu';
@@ -23,24 +23,17 @@ import BtnSidebarMenu from './BtnSidebarMenu';
 export default function SidebarMenu({ user }: { user?: User }) {
 	const searchParams = useSearchParams();
 	const selected = searchParams.get('menu') ?? 'general';
-	const openned = searchParams.get('open') ?? 'true';
 	const preSet = searchParams.get('set') ?? '7days';
 	const [open, setOpen] = useState(true);
-	const router = useRouter();
 
 	function handleClick() {
 		setOpen(!open);
-		const url =
-			openned === 'true'
-				? `?menu=${selected}&open=false&set=${preSet}`
-				: `?menu=${selected}&open=true&set=${preSet}`;
-		router.push(url);
 	}
 
 	return (
 		<div className='h-screen z-50 w-fit bg-zinc-950 fixed left-0 p-1 flex flex-col justify-start'>
 			<div className='h-24'>
-				{openned === 'true' && (
+				{open && (
 					<a
 						href='/'
 						className='flex items-center justify-between w-fit mx-auto my-4'>
@@ -55,7 +48,7 @@ export default function SidebarMenu({ user }: { user?: User }) {
 			<Button
 				onClick={() => handleClick()}
 				className='cursor-pointer bg-zinc-900 w-fit px-0 py-0 h-full top-0 -right-6 absolute  rounded justify-between hover:bg-zinc-800 transition-all duration-300 ease-linear z-50 text-white'>
-				{openned === 'true' ? (
+				{open ? (
 					<ChevronsLeft
 						size={20}
 						className='mt-auto h-screen '
@@ -73,8 +66,8 @@ export default function SidebarMenu({ user }: { user?: User }) {
 						<BtnSidebarMenu
 							icon={<UserRoundCog size={20} />}
 							selected={selected}
-							openned={openned}
-							href={`/settings?menu=admin&open=${openned}&set=${preSet}`}
+							openned={open}
+							href={`/settings?menu=admin&set=${preSet}`}
 							role={'admin'}>
 							<p>Painel Admin</p>
 						</BtnSidebarMenu>
@@ -83,45 +76,45 @@ export default function SidebarMenu({ user }: { user?: User }) {
 					<BtnSidebarMenu
 						icon={<BarChart3 size={20} />}
 						selected={selected}
-						openned={openned}
-						href={`/general?menu=general&open=${openned}&set=${preSet}`}
+						openned={open}
+						href={`/general?menu=general&set=${preSet}`}
 						role={'general'}>
 						<p>Visão Geral</p>
 					</BtnSidebarMenu>
 					<BtnSidebarMenu
 						icon={<UtensilsCrossed size={20} />}
 						selected={selected}
-						openned={openned}
-						href={`/restaurant?menu=restaurant&open=${openned}&set=${preSet}`}
+						openned={open}
+						href={`/restaurant?menu=restaurant&set=${preSet}`}
 						role={'restaurant'}>
 						<p>Restaurantes</p>
 					</BtnSidebarMenu>
 					<BtnSidebarMenu
 						icon={<ScatterChart size={20} />}
 						selected={selected}
-						openned={openned}
-						href={`/reservations?menu=reservations&open=${openned}&set=${preSet}`}
+						openned={open}
+						href={`/reservations?menu=reservations&set=${preSet}`}
 						role={'reservations'}>
 						<p>Reservas</p>
 					</BtnSidebarMenu>
 					<BtnSidebarMenu
 						icon={<PieChart size={20} />}
 						selected={selected}
-						openned={openned}
-						href={`/operational?menu=operational&open=${openned}&set=${preSet}`}
+						openned={open}
+						href={`/operational?menu=operational&set=${preSet}`}
 						role={'operational'}>
 						<p>Operacional</p>
 					</BtnSidebarMenu>
 					<BtnSidebarMenu
 						icon={<ScanEye size={20} />}
 						selected={selected}
-						openned={openned}
-						href={`/nps?menu=nps&open=${openned}&set=${preSet}`}
+						openned={open}
+						href={`/nps?menu=nps&set=${preSet}`}
 						role={'nps'}>
 						<p>Avaliações</p>
 					</BtnSidebarMenu>
 					<div className='mt-auto'>
-						<BtnSignOut isOpened={openned} />
+						<BtnSignOut isOpened={open} />
 					</div>
 				</div>
 			</div>

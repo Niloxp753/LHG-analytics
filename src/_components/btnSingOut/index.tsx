@@ -6,7 +6,7 @@ import { signOut } from 'next-auth/react';
 import { Button } from '@/_components/ui/button';
 import { Loader2, LogOut } from 'lucide-react';
 
-export default function BtnSignOut({ isOpened }: { isOpened: string }) {
+export default function BtnSignOut({ isOpened }: { isOpened?: boolean }) {
 	const [loading, setLoading] = useState(false);
 
 	function handleClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
@@ -27,7 +27,7 @@ export default function BtnSignOut({ isOpened }: { isOpened: string }) {
 			onClick={(e) => handleClick(e)}>
 			{loading ? (
 				<Loader2 className='size-5 animate-spin' />
-			) : isOpened === 'true' ? (
+			) : isOpened ? (
 				<>
 					<p className=''>Sair</p>
 					<LogOut size={16} />

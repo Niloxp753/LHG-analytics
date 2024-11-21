@@ -25,13 +25,12 @@ export function SidebarDemo({ user }: { user?: User }) {
 	const path = usePathname();
 	const searchParams = useSearchParams();
 	const selected = searchParams.get('menu') || 'general';
-	const openned = searchParams.get('open') || 'true';
 	const preSet = searchParams.get('set') || '7days';
 
 	const links = [
 		{
 			label: 'Painel Admin',
-			href: `/settings?menu=admin&open=${openned}&set=${preSet}`,
+			href: `/settings?menu=admin&set=${preSet}`,
 			slug: '/settings',
 			icon: (
 				<UserRoundCog
@@ -43,7 +42,7 @@ export function SidebarDemo({ user }: { user?: User }) {
 		},
 		{
 			label: 'Visão Geral',
-			href: `/general?menu=${selected}&open=${openned}&set=${preSet}`,
+			href: `/general?menu=${selected}&set=${preSet}`,
 			slug: '/general',
 			icon: (
 				<BarChart3
@@ -56,7 +55,7 @@ export function SidebarDemo({ user }: { user?: User }) {
 		{
 			label: 'Restaurantes',
 			slug: '/restaurant',
-			href: `/restaurant?menu=${selected}&open=${openned}&set=${preSet}`,
+			href: `/restaurant?menu=${selected}&set=${preSet}`,
 			icon: (
 				<UtensilsCrossed
 					className={` ${
@@ -68,7 +67,7 @@ export function SidebarDemo({ user }: { user?: User }) {
 		{
 			label: 'Reservas',
 			slug: '/reservations',
-			href: `/reservations?menu=${selected}s&open=${openned}&set=${preSet}`,
+			href: `/reservations?menu=${selected}s&set=${preSet}`,
 			icon: (
 				<ScatterChart
 					className={` ${
@@ -80,7 +79,7 @@ export function SidebarDemo({ user }: { user?: User }) {
 		{
 			label: 'Operacional',
 			slug: '/operational',
-			href: `/operational?menu=${selected}&open=${openned}&set=${preSet}`,
+			href: `/operational?menu=${selected}&set=${preSet}`,
 			icon: (
 				<PieChart
 					className={` ${
@@ -92,7 +91,7 @@ export function SidebarDemo({ user }: { user?: User }) {
 		{
 			label: 'Avaliações',
 			slug: '/nps',
-			href: `/nps?menu=nps&open=${openned}&set=${preSet}`,
+			href: `/nps?menu=nps&set=${preSet}`,
 			icon: (
 				<ScanEye
 					className={` ${
@@ -142,7 +141,7 @@ export function SidebarDemo({ user }: { user?: User }) {
 								  })}
 						</div>
 					</div>
-					<BtnSignOut isOpened={'true'} />
+					<BtnSignOut />
 				</SidebarBody>
 			</Sidebar>
 		</div>

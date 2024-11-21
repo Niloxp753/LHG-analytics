@@ -30,20 +30,14 @@ export default function Restaurant({
 }: {
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
-	const open = searchParams.open || 'true';
 	const preSet = searchParams.set || '7days';
 	const menu = 'restaurant';
 
 	return (
 		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-3 md:px-5 py-10'>
-			<div
-				className={`relative w-full  ${
-					open == 'true' ? 'md:max-w-[82vw]' : 'md:max-w-[90vw]'
-				}  md:ml-auto flex z-40 `}>
+			<div className={`relative w-full  md:max-w-[82vw] md:ml-auto flex z-40 `}>
 				<div
-					className={`bg-zinc-950/50 z-40 py-4 ml-auto w-[94vw] ${
-						open == 'true' ? 'w-[82vw]' : 'w-[90vw] '
-					} backdrop-blur-md fixed top-0 flex flex-col gap-2 justify-end `}>
+					className={`bg-zinc-950/50 z-40 py-4 ml-auto w-[82vw] backdrop-blur-md fixed top-0 flex flex-col gap-2 justify-end `}>
 					<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-2 text-xl'>
 						Restaurante - <span className='text-violet-400'>Lush Ipiranga</span>
 					</h2>

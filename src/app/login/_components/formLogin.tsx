@@ -34,7 +34,6 @@ export default function FormLogin() {
 
 	const params = useSearchParams();
 
-	const open = params.get('open') || 'true';
 	const menu = 'general';
 	const preSet = params.get('set') || '7days';
 
@@ -52,11 +51,7 @@ export default function FormLogin() {
 
 			if (!response?.error) {
 				router.refresh();
-				router.push(
-					`/general?menu=${menu}&open=${open ?? 'true'}&set=${
-						preSet ?? '7days'
-					}`,
-				);
+				router.push(`/general?menu=${menu}&set=${preSet ?? '7days'}`);
 				form.reset();
 				toast.success('Usuário Logado - 200', {
 					description: 'Credenciais válidas',

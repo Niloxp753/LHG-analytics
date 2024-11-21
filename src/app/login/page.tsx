@@ -16,16 +16,13 @@ export default async function Login({
 }: {
 	searchParams: { [key: string]: string | undefined };
 }) {
-	const open = searchParams.open || 'true';
 	const menu = 'general';
 	const preSet = searchParams.set || '7days';
 
 	const session = await getServerSession();
 
 	if (session?.user) {
-		redirect(
-			`/general?menu=${menu}&open=${open ?? 'true'}&set=${preSet ?? '7days'}`,
-		);
+		redirect(`/general?menu=${menu}&set=${preSet ?? '7days'}`);
 	} else {
 		return (
 			<div className='w-full flex h-screen bg-zinc-950 overflow-hidden'>

@@ -26,7 +26,6 @@ export default async function LushIpiranga({
 }: {
 	searchParams: { [key: string]: string | undefined };
 }) {
-	const open = searchParams.open ?? 'true';
 	const preSet = searchParams.set ?? '7days';
 	const startDate = searchParams.startDate;
 	const endDate = searchParams.endDate;
@@ -61,13 +60,9 @@ export default async function LushIpiranga({
 			{resp ? (
 				<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>
 					<div
-						className={`relative  ${
-							open == 'true' ? 'md:max-w-[82vw] ' : 'md:max-w-[90vw]'
-						}   flex md:ml-auto  w-full `}>
+						className={`relative  md:max-w-[82vw]  flex md:ml-auto  w-full `}>
 						<div
-							className={`bg-zinc-950/50 py-4 w-full ${
-								open == 'true' ? 'md:w-[82vw]' : 'md:w-[90vw] '
-							} backdrop-blur-md fixed top-0 z-40 flex flex-col gap-2 `}>
+							className={`bg-zinc-950/50 py-4 w-full md:w-[82vw] backdrop-blur-md fixed top-0 z-40 flex flex-col gap-2 `}>
 							<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-1.5 text-xl'>
 								Visão Geral -{' '}
 								<span className='text-violet-400'>Lush Ipiranga</span>

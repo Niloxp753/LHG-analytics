@@ -9,7 +9,6 @@ import LinkPreSet from './LinkPreSet';
 export default function Header() {
 	const searchParams = useSearchParams();
 	const selected = searchParams.get('menu') || 'general';
-	const openned = searchParams.get('open') || 'true';
 	const preSet = searchParams.get('set') || '7days';
 	const [tab, setTab] = useState(preSet);
 
@@ -32,7 +31,7 @@ export default function Header() {
 								key={index}
 								preSet={preSet}
 								label={l.label}
-								href={`?menu=${selected}&open=${openned}&set=${l.tag}`}></LinkPreSet>
+								href={`?menu=${selected}&set=${l.tag}`}></LinkPreSet>
 						);
 					})}
 				</div>

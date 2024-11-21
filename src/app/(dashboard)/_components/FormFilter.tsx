@@ -32,7 +32,6 @@ export default function FormFilter() {
 	});
 
 	const params = useSearchParams();
-	const open = params.get('open') || 'true';
 	const set = params.get('set') || '7days';
 	const menu = params.get('menu');
 
@@ -44,7 +43,7 @@ export default function FormFilter() {
 		startTransition(() => {
 			try {
 				router.push(
-					`?menu=${menu}&open=${open}&set=${set}&startDate=${startDate}&endDate=${endDate}`,
+					`?menu=${menu}&set=${set}&startDate=${startDate}&endDate=${endDate}`,
 				);
 				form.reset();
 				router.refresh();
