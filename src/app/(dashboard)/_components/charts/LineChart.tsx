@@ -10,6 +10,8 @@ interface AreaChartsApexProps {
 	data?: any[];
 	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | undefined;
 	height: string | number | undefined;
+	money?: boolean;
+	percent?: boolean;
 }
 
 export default function LineChartsApexUnity(props: AreaChartsApexProps) {
@@ -82,13 +84,10 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 		tooltip: {
 			y: {
 				formatter: (val: number) =>
-					`${
-						val &&
-						val.toLocaleString('pt-BR', {
-							style: 'currency',
-							currency: 'BRL',
-						})
-					}`,
+					`${val.toLocaleString('pt-BR', {
+						style: 'currency',
+						currency: 'BRL',
+					})}`,
 			},
 		},
 		colors: [
@@ -133,7 +132,25 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 			axisBorder: { show: true },
 			categories: props.categories,
 		},
-		yaxis: { show: true, labels: { show: false }, axisBorder: { show: false } },
+		yaxis: {
+			show: true,
+			labels: {
+				show: true,
+				style: { fontSize: '9px' },
+				formatter: (val: number | string) =>
+					`${
+						props.money
+							? val.toLocaleString('pt-BR', {
+									style: 'currency',
+									currency: 'BRL',
+							  })
+							: props.percent
+							? val + '%'
+							: val
+					} `,
+			},
+			axisBorder: { show: true },
+		},
 		stroke: { curve: 'smooth', width: 2 },
 		responsive: [
 			{
@@ -144,9 +161,10 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 					},
 					xaxis: {
 						axisTicks: { show: true },
+						tickPlacement: 'on',
 						labels: {
 							trim: false,
-							style: { fontSize: '9px' },
+							style: { fontSize: '11px' },
 							hideOverlappingLabels: true,
 							rotate: 0,
 						},

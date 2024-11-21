@@ -100,6 +100,7 @@ export default function InvoicingXLocation(data?: any) {
 		<>
 			{billingRentalType ? (
 				<LineChart
+					money
 					title={'Faturamento por tipo de locação'}
 					height={400}
 					series={result}

@@ -22,8 +22,7 @@ export async function getCompanyAction(period: string) {
 
 	try {
 		const resp = await getCompany(newPeriod);
-		revalidateTag('company');
-		revalidatePath('/', 'page');
+		revalidatePath('/');
 		return resp;
 	} catch (error) {
 		console.log(error);

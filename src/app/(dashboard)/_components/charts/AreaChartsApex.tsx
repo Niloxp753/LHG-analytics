@@ -119,6 +119,9 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 		},
 		yaxis: {
 			show: false,
+			labels: {
+				style: { fontSize: '8px' },
+			},
 		},
 		stroke: { curve: 'smooth' },
 		plotOptions: { area: { fillTo: 'origin' } },
@@ -131,10 +134,10 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 						width: '100%',
 					},
 					xaxis: {
-						tickPlacement: 'on',
-						offsetX: 0,
+						tickPlacement: 'between',
+						offsetX: 6,
 						labels: {
-							style: { fontSize: '8px' },
+							style: { fontSize: '12px' },
 						},
 					},
 					yaxis: {
@@ -144,6 +147,19 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 						},
 						axisBorder: {
 							show: true,
+						},
+						labels: {
+							formatter: (val: number | string) =>
+								`${
+									props.money
+										? val.toLocaleString('pt-BR', {
+												style: 'currency',
+												currency: 'BRL',
+										  })
+										: props.percent
+										? val + '%'
+										: val
+								} `,
 						},
 					},
 				},

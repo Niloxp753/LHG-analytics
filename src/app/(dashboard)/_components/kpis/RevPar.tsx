@@ -52,10 +52,10 @@ export default function RevPar(data?: any) {
 		<>
 			{revparByDate ? (
 				<AreaChartsApex
+					money
 					id='revpar-ipiranga'
 					series={[{ data: result?.values, name: 'RevPar' }]}
 					categories={result?.dates}
-					money
 				/>
 			) : (
 				<Skeleton className='h-[310px] w-full' />

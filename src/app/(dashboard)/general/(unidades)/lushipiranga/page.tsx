@@ -17,6 +17,7 @@ import { TableKpiGiro } from '@/app/(dashboard)/_components/kpis/TableKpiGiro';
 import { TableKpiOccupation } from '@/app/(dashboard)/_components/kpis/TableKpiOccupation';
 import Ticket from '@/app/(dashboard)/_components/kpis/Ticket';
 import { format } from 'date-fns';
+import { revalidatePath } from 'next/cache';
 
 export const revalidate = 0;
 
@@ -41,10 +42,12 @@ export default async function LushIpiranga({
 				formattedEndDate!,
 			);
 			if (customData) {
+				revalidatePath('/');
 				return customData;
 			}
 		} else {
 			const data = await getCompanyAction(preSet ?? '7days');
+			revalidatePath('/');
 			if (data) {
 				return data;
 			}
