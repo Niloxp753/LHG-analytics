@@ -54,6 +54,7 @@ export default async function LushIpiranga({
 	}
 
 	const resp = await getData();
+	console.log(resp);
 
 	return (
 		<>
