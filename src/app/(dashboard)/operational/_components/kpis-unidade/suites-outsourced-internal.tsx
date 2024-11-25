@@ -19,7 +19,7 @@ export default function SuitesOutsourcedInternal() {
 			]}
 			data={[40, 78, 80, 28]}
 			height={340}
-			title='Performance de supervisores'
+			title='Limpezas por turno'
 		/>
 	);
 }

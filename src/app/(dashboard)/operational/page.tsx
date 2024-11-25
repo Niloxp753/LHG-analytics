@@ -36,18 +36,6 @@ export default async function Operational({
 				</div>
 
 				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-28'>
-					<div className='flex gap-5 flex-col w-full h-full '>
-						<div className='w-full h-full flex gap-5 flex-col md:flex-row'>
-							<PerformanceUnity />
-							<CleaningAverageUnity />
-							<TotalCleaningUnity />
-						</div>
-					</div>
-					<div className='flex flex-col gap-5'>
-						<MorningCleaning />
-						<AfternoonCleaning />
-						<NightCleaning />
-					</div>
 					<div className='grid md:grid-cols-4 mt-10 gap-5'>
 						<CardLink
 							href={`/operational/lushipiranga?menu=${menu}&set=${preSet}`}
@@ -73,6 +61,18 @@ export default async function Operational({
 							content={
 								<SparkChart serie={[55, 30, 55, 45, 50, 60, 55, 35, 55]} />
 							}></CardLink>
+					</div>
+					<div className='flex gap-5 flex-col w-full h-full '>
+						<div className='w-full h-full flex gap-5 flex-col md:flex-row'>
+							<PerformanceUnity />
+							<CleaningAverageUnity />
+							<TotalCleaningUnity />
+						</div>
+					</div>
+					<div className='flex flex-col gap-5'>
+						<MorningCleaning />
+						<AfternoonCleaning />
+						<NightCleaning />
 					</div>
 				</div>
 			</div>
