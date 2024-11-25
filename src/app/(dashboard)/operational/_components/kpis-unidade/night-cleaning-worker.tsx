@@ -11,7 +11,7 @@ export default function NightCleaningWorkers() {
 	return (
 		<LineChart
 			height={48}
-			title='Total de limpezas - Tarde'
+			title='Total de limpezas - Noite'
 			series={[
 				{
 					name: 'Mona Louis',

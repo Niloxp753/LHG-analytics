@@ -105,14 +105,9 @@ export default function TableWokersNight() {
 						<TableHead className='text-center text-xs'>
 							Dias trabalhados
 						</TableHead>
-						<TableHead className='text-center text-xs'>Folgas no mês</TableHead>
-						<TableHead className='text-center text-xs '>
-							Folga compensatória
+						<TableHead className='text-center text-xs'>
+							Média de limpezas por dia
 						</TableHead>
-						<TableHead className='text-center text-xs '>
-							Atestados/Faltas
-						</TableHead>
-						<TableHead className='text-center text-xs'>Férias</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody className='text-zinc-100'>
@@ -125,10 +120,9 @@ export default function TableWokersNight() {
 							</TableCell>
 							<TableCell>{invoice.totalSuite}</TableCell>
 							<TableCell>{invoice.daysOfWork}</TableCell>
-							<TableCell>{invoice.daysOfSlack}</TableCell>
-							<TableCell>{invoice.daysOfCompensatorySlack}</TableCell>
-							<TableCell>{invoice.daysOfFouls}</TableCell>
-							<TableCell>{invoice.daysOfVacation}</TableCell>
+							<TableCell>
+								{Number(invoice.totalSuite / invoice.daysOfWork).toFixed()}
+							</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
@@ -137,10 +131,9 @@ export default function TableWokersNight() {
 						<TableCell>{total.name}</TableCell>
 						<TableCell>{total.totalSuite}</TableCell>
 						<TableCell>{total.daysOfWork}</TableCell>
-						<TableCell>{total.daysOfSlack}</TableCell>
-						<TableCell>{total.daysOfCompensatorySlack}</TableCell>
-						<TableCell>{total.daysOfFouls}</TableCell>
-						<TableCell>{total.daysOfVacation}</TableCell>
+						<TableCell>
+							{Number(total.totalSuite / total.daysOfWork).toFixed()}
+						</TableCell>
 					</TableRow>
 				</TableFooter>
 			</Table>
