@@ -2,7 +2,7 @@
 
 import Header from '@/app/(dashboard)/_components/Header';
 import AfternoonCleaningWorkers from '../../_components/kpis-unidade/afternoon-cleaning-worker';
-import AvarageCleaning from '../../_components/kpis-unidade/avarage-cleaning';
+
 import MorningCleaningWorkers from '../../_components/kpis-unidade/morning-cleaning-worker';
 import NightCleaningWorkers from '../../_components/kpis-unidade/night-cleaning-worker';
 import TableWokersMorning from '../../_components/kpis-unidade/table-workers-morning';
@@ -38,7 +38,6 @@ export default async function LushIpiranga({
 					</div>
 					<div className='w-full h-full flex gap-5 justify-between flex-col '>
 						<TotalCleaning />
-						<AvarageCleaning />
 					</div>
 					<div className='flex gap-5 flex-col items-center'>
 						<MorningCleaningWorkers />
