@@ -10,6 +10,7 @@ export default function Header() {
 	const searchParams = useSearchParams();
 	const selected = searchParams.get('menu') || 'general';
 	const preSet = searchParams.get('set') || '7days';
+	const startDate = searchParams.get('startDate') || '';
 	const [tab, setTab] = useState(preSet);
 
 	const links = [
@@ -30,6 +31,7 @@ export default function Header() {
 								tag={l.tag}
 								key={index}
 								preSet={preSet}
+								startDate={startDate}
 								label={l.label}
 								href={`?menu=${selected}&set=${l.tag}`}></LinkPreSet>
 						);

@@ -8,12 +8,14 @@ interface LinkPreSetProps extends LinkProps {
 	preSet: string;
 	label: string;
 	tag: string;
+	startDate: string | null;
 }
 
 export default function LinkPreSet({
 	preSet,
 	label,
 	tag,
+	startDate,
 	onClick,
 	...props
 }: LinkPreSetProps) {
@@ -26,7 +28,7 @@ export default function LinkPreSet({
 			}}
 			{...props}
 			className={`w-fit min-w-28 text-xs disabled:opacity-50  cursor-pointer  border flex gap-2 ${
-				preSet == tag
+				preSet == tag && startDate == ''
 					? 'bg-violet-400 text-zinc-900 '
 					: 'text-zinc-50 bg-transparent'
 			} border-violet-400 ${
