@@ -62,7 +62,7 @@ export default async function LushIpiranga({
 					</h2>
 					<Header />
 				</div>
-				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-28'>
+				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-32'>
 					<div className='flex items-center gap-5 justify-between flex-col md:flex-row'>
 						<Performance data={data.SupervisorsPerformance} />
 						<SuitesOutsourcedInternal data={data.ShiftCleaning} />

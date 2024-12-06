@@ -12,7 +12,7 @@ export default function InvoicingXTypes() {
 	return (
 		<PieChartsApex
 			title='Formas de Pagamento'
-			data={[183, 221, 5]}
+			series={[183, 221, 5]}
 			labels={['PIX', 'Cartão de Crédito', 'Boleto']}
 		/>
 	);
