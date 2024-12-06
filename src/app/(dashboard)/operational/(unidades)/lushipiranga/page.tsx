@@ -12,6 +12,7 @@ import Performance from '../../_components/kpis-unidade/performance';
 import SuitesOutsourcedInternal from '../../_components/kpis-unidade/suites-outsourced-internal';
 import TableWokersAfternoon from '../../_components/kpis-unidade/table-workers-afternoon';
 import TableWokersNight from '../../_components/kpis-unidade/table-workers-nigh';
+import { getGovernanceAction } from '@/_actions/getGovernance';
 
 export default async function LushIpiranga({
 	searchParams,
@@ -20,6 +21,7 @@ export default async function LushIpiranga({
 }) {
 	searchParams.menu = 'operational';
 	const preSet = searchParams.set ?? '7days';
+	const data = await getGovernanceAction(preSet ?? '7days');
 
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>
@@ -33,22 +35,31 @@ export default async function LushIpiranga({
 				</div>
 				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-28'>
 					<div className='flex items-center gap-5 justify-between flex-col md:flex-row'>
-						<Performance />
-						<SuitesOutsourcedInternal />
+						<Performance data={data.SupervisorsPerformance} />
+						<SuitesOutsourcedInternal data={data.ShiftCleaning} />
 					</div>
 					<div className='w-full h-full flex gap-5 justify-between flex-col '>
-						<TotalCleaning />
+						<TotalCleaning data={data.CleaningByDate} />
 					</div>
 					<div className='flex gap-5 flex-col items-center'>
-						<MorningCleaningWorkers />
-						<AfternoonCleaningWorkers />
-						<NightCleaningWorkers />
+						<MorningCleaningWorkers
+							categories={data.EmployeeCleaningByShift.categories}
+							series={data.EmployeeCleaningByShift.series[0]}
+						/>
+						<AfternoonCleaningWorkers
+							categories={data.EmployeeCleaningByShift.categories}
+							series={data.EmployeeCleaningByShift.series[1]}
+						/>
+						<NightCleaningWorkers
+							categories={data.EmployeeCleaningByShift.categories}
+							series={data.EmployeeCleaningByShift.series[2]}
+						/>
 					</div>
 
 					<div className='flex gap-5 flex-col w-full'>
-						<TableWokersMorning />
-						<TableWokersAfternoon />
-						<TableWokersNight />
+						<TableWokersMorning dataTable={data.EmployeeReport.Manhã} />
+						<TableWokersAfternoon dataTable={data.EmployeeReport.Tarde} />
+						<TableWokersNight dataTable={data.EmployeeReport.Noite} />
 						<TableWokersWeekly />
 					</div>
 				</div>

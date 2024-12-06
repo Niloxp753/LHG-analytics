@@ -45,7 +45,6 @@ export default function FormFilter() {
 				router.push(
 					`?menu=${menu}&set=${set}&startDate=${startDate}&endDate=${endDate}`,
 				);
-				form.reset();
 				router.refresh();
 			} catch (error) {
 				console.log(error);

@@ -7,7 +7,7 @@ import ResponsiveContainerChart from '@/app/(dashboard)/_components/ResponsiveCo
 interface PieChartsApexProps {
 	title?: string;
 	labels?: string[];
-	data?: any[];
+	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | undefined;
 	colors?: string[];
 	dataLabelColors?: string[];
 	height?: number;
@@ -34,7 +34,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 		legend: {
 			show: true,
 			position: 'bottom',
-			itemMargin: { vertical: 4 },
+			itemMargin: { vertical: 6, horizontal: 30 },
 			fontSize: '12px',
 			fontWeight: 'bold',
 			offsetY: 8,
@@ -112,7 +112,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 				options={options}
 				width={'100%'}
 				height={344}
-				series={props.data ? props.data : [40, 20, 45, 25]}
+				series={props.series ? props.series : [40, 20, 45, 25]}
 				type='donut'></Chart>
 		</ResponsiveContainerChart>
 	);

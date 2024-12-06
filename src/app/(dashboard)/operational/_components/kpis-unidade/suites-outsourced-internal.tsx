@@ -8,16 +8,18 @@ const PieChartsApex = dynamic(
 	{ ssr: false },
 );
 
-export default function SuitesOutsourcedInternal() {
+interface SuitesOutsourcedInternalProps {
+	data: any;
+}
+
+export default function SuitesOutsourcedInternal(
+	data: SuitesOutsourcedInternalProps,
+) {
+	const ShiftCleaning = data.data;
 	return (
 		<PieChartsApex
-			labels={[
-				'Turno da Manhã',
-				'Turno da Tarde',
-				'Turno da Noite',
-				'Terceirizados',
-			]}
-			data={[40, 78, 80, 28]}
+			labels={ShiftCleaning.categories}
+			series={ShiftCleaning.series}
 			height={340}
 			title='Limpezas por turno'
 		/>

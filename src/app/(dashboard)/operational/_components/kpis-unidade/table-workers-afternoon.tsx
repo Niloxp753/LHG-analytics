@@ -11,73 +11,13 @@ import {
 } from '@/_components/ui/table';
 import React from 'react';
 
-export default function TableWokersAfternoon() {
-	const data = [
-		{
-			name: 'Marcos Pereira',
-			totalSuite: 198,
-			daysOfWork: 24,
-			daysOfSlack: 4,
-			daysOfCompensatorySlack: 1,
-			daysOfFouls: 2,
-			daysOfVacation: 0,
-		},
-		{
-			name: 'Ana Cristina',
-			totalSuite: 162,
-			daysOfWork: 26,
-			daysOfSlack: 5,
-			daysOfCompensatorySlack: 0,
-			daysOfFouls: 1,
-			daysOfVacation: 0,
-		},
-		{
-			name: 'Ricardo Sousa',
-			totalSuite: 143,
-			daysOfWork: 22,
-			daysOfSlack: 3,
-			daysOfCompensatorySlack: 0,
-			daysOfFouls: 3,
-			daysOfVacation: 2,
-		},
-		{
-			name: 'Fabiana Oliveira',
-			totalSuite: 189,
-			daysOfWork: 27,
-			daysOfSlack: 4,
-			daysOfCompensatorySlack: 1,
-			daysOfFouls: 0,
-			daysOfVacation: 0,
-		},
-		{
-			name: 'Carlos Mendes',
-			totalSuite: 176,
-			daysOfWork: 25,
-			daysOfSlack: 6,
-			daysOfCompensatorySlack: 0,
-			daysOfFouls: 2,
-			daysOfVacation: 0,
-		},
-		{
-			name: 'Patrícia Costa',
-			totalSuite: 153,
-			daysOfWork: 28,
-			daysOfSlack: 3,
-			daysOfCompensatorySlack: 1,
-			daysOfFouls: 0,
-			daysOfVacation: 0,
-		},
-		{
-			name: 'Jorge Santos',
-			totalSuite: 167,
-			daysOfWork: 23,
-			daysOfSlack: 5,
-			daysOfCompensatorySlack: 0,
-			daysOfFouls: 1,
-			daysOfVacation: 1,
-		},
-	];
+interface TableWokersAfternoonProps {
+	dataTable: any;
+}
 
+export default function TableWokersAfternoon({
+	dataTable,
+}: TableWokersAfternoonProps) {
 	const total = {
 		name: 'Valor Total',
 		totalSuite: 1188,
@@ -111,22 +51,20 @@ export default function TableWokersAfternoon() {
 					</TableRow>
 				</TableHeader>
 				<TableBody className='text-zinc-100'>
-					{data.map((invoice, index) => (
+					{/* {dataTable?.map((data: any, index: number) => (
 						<TableRow
 							key={index}
 							className='text-center'>
-							<TableCell className='font-bold text-left'>
-								{invoice.name}
-							</TableCell>
-							<TableCell>{invoice.totalSuite}</TableCell>
-							<TableCell>{invoice.daysOfWork}</TableCell>
+							<TableCell className='font-bold text-left'>{data.name}</TableCell>
+							<TableCell>{data.totalSuite}</TableCell>
+							<TableCell>{data.daysOfWork}</TableCell>
 							<TableCell>
-								{Number(invoice.totalSuite / invoice.daysOfWork).toFixed()}
+								{Number(data.totalSuite / data.daysOfWork).toFixed()}
 							</TableCell>
 						</TableRow>
-					))}
+					))} */}
 				</TableBody>
-				<TableFooter className=' text-zinc-100 bg-zinc-700 font-bold hover:bg-zinc-700'>
+				{/* <TableFooter className=' text-zinc-100 bg-zinc-700 font-bold hover:bg-zinc-700'>
 					<TableRow className='text-center hover:bg-zinc-700'>
 						<TableCell>{total.name}</TableCell>
 						<TableCell>{total.totalSuite}</TableCell>
@@ -135,7 +73,7 @@ export default function TableWokersAfternoon() {
 							{Number(total.totalSuite / total.daysOfWork).toFixed()}
 						</TableCell>
 					</TableRow>
-				</TableFooter>
+				</TableFooter> */}
 			</Table>
 		</div>
 	);

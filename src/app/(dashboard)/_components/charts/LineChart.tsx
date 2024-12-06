@@ -34,13 +34,13 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 			showForSingleSeries: true,
 			position: 'top',
 			horizontalAlign: 'center',
-			fontSize: '14x',
+			fontSize: '8x',
 			fontWeight: 'bold',
 			onItemHover: { highlightDataSeries: true },
 			onItemClick: { toggleDataSeries: false },
 			itemMargin: {
 				vertical: 8,
-				horizontal: 10,
+				horizontal: 20,
 			},
 		},
 		grid: {
@@ -198,10 +198,10 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 					legend: {
 						position: 'top',
 						offsetY: 0,
-						fontSize: '14x',
+						fontSize: '12x',
 						itemMargin: {
 							vertical: 14,
-							horizontal: 4,
+							horizontal: 12,
 						},
 					},
 				},

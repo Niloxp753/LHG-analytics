@@ -9,6 +9,7 @@ import MorningCleaning from './_components/kpis-geral/morning-cleaning';
 import NightCleaning from './_components/kpis-geral/night-cleaning ';
 import PerformanceUnity from './_components/kpis-geral/Performance-unity';
 import TotalCleaningUnity from './_components/kpis-geral/total-cleaning-unity';
+import { getGovernanceAction } from '@/_actions/getGovernance';
 
 const SparkChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/SparkChart'),
