@@ -49,18 +49,18 @@ export default function TableWokersNight({ dataTable }: TableWokersNightProps) {
 					</TableRow>
 				</TableHeader>
 				<TableBody className='text-zinc-100'>
-					{/* {dataTable?.map((data: any, index: number) => (
+					{dataTable.map((data: any, index: number) => (
 						<TableRow
 							key={index}
 							className='text-center'>
-							<TableCell className='font-bold text-left'>{data.name}</TableCell>
-							<TableCell>{data.totalSuite}</TableCell>
-							<TableCell>{data.daysOfWork}</TableCell>
-							<TableCell>
-								{Number(data.totalSuite / data.daysOfWork).toFixed()}
+							<TableCell className='font-bold text-left'>
+								{data.employeeName}
 							</TableCell>
+							<TableCell>{data.totalSuitesCleanings}</TableCell>
+							<TableCell>{data.totalDaysWorked}</TableCell>
+							<TableCell>{data.averageDailyCleaning}</TableCell>
 						</TableRow>
-					))} */}
+					))}
 				</TableBody>
 				{/* <TableFooter className=' text-zinc-100 bg-zinc-700 font-bold hover:bg-zinc-700'>
 					<TableRow className='text-center hover:bg-zinc-700'>

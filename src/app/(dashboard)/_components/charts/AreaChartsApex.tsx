@@ -48,8 +48,9 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 		dataLabels: {
 			style: {
 				colors: ['#7c3aed', '#2563eb', '#4f46e5', '#c026d3', '#e11d48'],
+				fontSize: '10px',
 			},
-			enabled: false,
+			enabled: true,
 			formatter: (val: number | string) =>
 				`${val.toLocaleString('pt-BR', {
 					style: 'currency',
@@ -126,6 +127,9 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 						height: 400,
 						width: '100%',
 					},
+					dataLabels: {
+						enabled: false,
+					},
 					xaxis: {
 						tickPlacement: 'on',
 						offsetX: 0,
@@ -174,6 +178,9 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 							rotate: -45,
 							style: { fontSize: '11px' },
 						},
+					},
+					dataLabels: {
+						enabled: true,
 					},
 					yaxis: {
 						show: true,

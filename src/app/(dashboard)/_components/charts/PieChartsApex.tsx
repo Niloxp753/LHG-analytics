@@ -34,7 +34,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 		legend: {
 			show: true,
 			position: 'bottom',
-			itemMargin: { vertical: 6, horizontal: 30 },
+			itemMargin: { vertical: 6, horizontal: 32 },
 			fontSize: '12px',
 			fontWeight: 'bold',
 			offsetY: 8,

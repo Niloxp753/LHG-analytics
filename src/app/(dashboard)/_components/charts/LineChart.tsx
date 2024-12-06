@@ -59,12 +59,24 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 			},
 		},
 		dataLabels: {
+			formatter: (val: number | string) =>
+				`${
+					props.money
+						? val.toLocaleString('pt-BR', {
+								style: 'currency',
+								currency: 'BRL',
+						  })
+						: props.percent
+						? val + '%'
+						: val
+				} `,
 			enabled: false,
+
 			distributed: false,
 			background: {
 				enabled: true,
 				borderRadius: 4,
-				padding: 12,
+				padding: 8,
 				borderWidth: 1,
 				foreColor: '#fafafa',
 			},
@@ -79,6 +91,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 					'#ca8a04',
 					'#65a30d',
 				],
+				fontSize:'10px'
 			},
 		},
 		tooltip: {
@@ -159,6 +172,9 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 					chart: {
 						height: 580,
 					},
+					dataLabels: {
+						enabled: false,
+					},
 					xaxis: {
 						axisTicks: { show: true },
 						tickPlacement: 'on',
@@ -186,6 +202,9 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 				options: {
 					chart: {
 						height: 340,
+					},
+					dataLabels: {
+						enabled: true,
 					},
 					xaxis: {
 						labels: {
