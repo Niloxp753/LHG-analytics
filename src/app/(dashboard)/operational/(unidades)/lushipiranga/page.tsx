@@ -2,7 +2,6 @@
 
 import Header from '@/app/(dashboard)/_components/Header';
 import AfternoonCleaningWorkers from '../../_components/kpis-unidade/afternoon-cleaning-worker';
-
 import MorningCleaningWorkers from '../../_components/kpis-unidade/morning-cleaning-worker';
 import NightCleaningWorkers from '../../_components/kpis-unidade/night-cleaning-worker';
 import TableWokersMorning from '../../_components/kpis-unidade/table-workers-morning';
@@ -13,6 +12,8 @@ import SuitesOutsourcedInternal from '../../_components/kpis-unidade/suites-outs
 import TableWokersAfternoon from '../../_components/kpis-unidade/table-workers-afternoon';
 import TableWokersNight from '../../_components/kpis-unidade/table-workers-nigh';
 import { getGovernanceAction } from '@/_actions/getGovernance';
+import { revalidatePath } from 'next/cache';
+import { format } from 'date-fns';
 
 export default async function LushIpiranga({
 	searchParams,
@@ -21,6 +22,34 @@ export default async function LushIpiranga({
 }) {
 	searchParams.menu = 'operational';
 	const preSet = searchParams.set ?? '7days';
+	const startDate = searchParams.startDate;
+	const endDate = searchParams.endDate;
+
+	const formattedStartDate =
+		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
+	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
+
+	// async function getData() {
+	// 	if (startDate && endDate) {
+	// 		const customData = await getCompanyCustomAction(
+	// 			formattedStartDate!,
+	// 			formattedEndDate!,
+	// 		);
+	// 		if (customData) {
+	// 			revalidatePath('/');
+	// 			return customData;
+	// 		}
+	// 	} else {
+	// 		const data = await getGovernanceAction(preSet ?? '7days');
+	// 		if (data) {
+	// 			revalidatePath('/');
+	// 			return data;
+	// 		}
+	// 	}
+	// }
+
+	// const resp = await getData();
+
 	const data = await getGovernanceAction(preSet ?? '7days');
 
 	return (
