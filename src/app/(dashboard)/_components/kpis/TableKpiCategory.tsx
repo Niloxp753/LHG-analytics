@@ -28,7 +28,7 @@ interface TableKpiCategoryProps {
 	datatableResult?: any;
 }
 
-export default async function TableKpiCategory({
+export default function TableKpiCategory({
 	dataTable,
 	datatableResult,
 }: TableKpiCategoryProps) {

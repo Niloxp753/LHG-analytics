@@ -34,7 +34,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 		legend: {
 			show: true,
 			position: 'bottom',
-			itemMargin: { vertical: 6, horizontal: 32 },
+			itemMargin: { vertical: 6, horizontal: 24 },
 			fontSize: '12px',
 			fontWeight: 'bold',
 			offsetY: 8,
@@ -48,7 +48,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 			align: 'left',
 			text: props.title ? props.title : 'Faturamento por unidade',
 			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 'bold' },
-			margin: 8,
+			margin: 12,
 		},
 
 		colors: ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9', '#fb7185'],
@@ -111,7 +111,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 			<Chart
 				options={options}
 				width={'100%'}
-				height={344}
+				height={324}
 				series={props.series ? props.series : [40, 20, 45, 25]}
 				type='donut'></Chart>
 		</ResponsiveContainerChart>

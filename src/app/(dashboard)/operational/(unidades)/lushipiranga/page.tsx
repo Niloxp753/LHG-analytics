@@ -14,6 +14,7 @@ import TableWokersNight from '../../_components/kpis-unidade/table-workers-nigh'
 import { getGovernanceAction } from '@/_actions/getGovernance';
 import { revalidatePath } from 'next/cache';
 import { format } from 'date-fns';
+import BigNumbersOperation from '../../_components/kpis-unidade/big-numbers-operation';
 
 export default async function LushIpiranga({
 	searchParams,
@@ -63,6 +64,14 @@ export default async function LushIpiranga({
 					<Header />
 				</div>
 				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-32'>
+					<BigNumbersOperation
+						data={data?.BigNumbers}
+						description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+							preSet == '30days' ? '30 dias atrás ' : ''
+						} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+							preSet == '12months' ? '12 meses atrás ' : ''
+						}`}
+					/>
 					<div className='flex items-center gap-5 justify-between flex-col md:flex-row'>
 						<Performance data={data.SupervisorsPerformance} />
 						<SuitesOutsourcedInternal data={data.ShiftCleaning} />
@@ -89,7 +98,7 @@ export default async function LushIpiranga({
 						<TableWokersMorning dataTable={data.EmployeeReport.Manhã} />
 						<TableWokersAfternoon dataTable={data.EmployeeReport.Tarde} />
 						<TableWokersNight dataTable={data.EmployeeReport.Noite} />
-						<TableWokersWeekly />
+						<TableWokersWeekly dataTable={data.teamSizing} />
 					</div>
 				</div>
 			</div>
