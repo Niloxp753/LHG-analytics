@@ -121,7 +121,6 @@ export default async function LushIpiranga({
 					<h3>Carregando dados...</h3>
 				</main>
 			)}
-			;
 		</>
 	);
 }

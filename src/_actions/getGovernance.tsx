@@ -26,6 +26,6 @@ export async function getGovernanceAction(period: string) {
 		return resp;
 	} catch (error) {
 		console.log(error);
-		return error;
+		return null;
 	}
 }
