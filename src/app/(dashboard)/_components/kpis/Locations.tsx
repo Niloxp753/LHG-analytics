@@ -49,23 +49,27 @@ export default function Locations(data?: any) {
 		dates: transformedData?.map((entry: TransformedEntry) => entry.date),
 	};
 
-	return (
-		<>
-			{rentalsByDate ? (
-				<AreaChartsApex
-					id='locations'
-					series={[
-						{
-							data: result?.values,
-							name: 'Quantidade de Locações',
-						},
-					]}
-					categories={result?.dates}
-				/>
-			) : (
-				<Skeleton className='w-full h-[300px]' />
-			)}
-			;
-		</>
-	);
+	if (!result.values.length || result.values.length == 0 || !result) {
+		return <Skeleton className='h-[300px] w-full' />;
+	} else {
+		return (
+			<>
+				{rentalsByDate ? (
+					<AreaChartsApex
+						id='locations'
+						series={[
+							{
+								data: result?.values,
+								name: 'Quantidade de Locações',
+							},
+						]}
+						categories={result?.dates}
+					/>
+				) : (
+					<Skeleton className='w-full h-[300px]' />
+				)}
+				;
+			</>
+		);
+	}
 }

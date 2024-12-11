@@ -3,6 +3,7 @@
 'use client';
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
+import { Skeleton } from '@/_components/ui/skeleton';
 
 interface BarChartsApexProps {
 	title: string;
@@ -89,13 +90,6 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 			},
 		},
 
-		markers: {
-			size: 0,
-			colors: ['#a78bfa'],
-			hover: { size: 0 },
-			strokeWidth: 0,
-		},
-
 		xaxis: {
 			type: 'category',
 			axisBorder: { show: false },
@@ -121,12 +115,18 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 
 	return (
 		<ResponsiveContainerChart>
-			<Chart
-				options={options}
-				series={props.series}
-				type='bar'
-				width={'100%'}
-				height={600}></Chart>
+			{props.series ? (
+				<Chart
+					options={options}
+					series={props.series}
+					type='bar'
+					width={'100%'}
+					height={600}></Chart>
+			) : (
+				<>
+					<Skeleton className='w-full h-[600px]'></Skeleton>
+				</>
+			)}
 		</ResponsiveContainerChart>
 	);
 }

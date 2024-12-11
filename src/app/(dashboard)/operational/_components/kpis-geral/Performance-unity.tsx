@@ -12,6 +12,7 @@ export default function PerformanceUnity() {
 	return (
 		<PieChartsApex
 			height={340}
+			series={[40, 56, 85, 60]}
 			title='Performance geral de supervisores'
 			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
 			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}

@@ -56,30 +56,37 @@ export default function Categories(data?: any) {
 			},
 			{ values: [], categories: [] },
 		);
-
-	return (
-		<>
-			{revenueBySuiteCategory ? (
-				<BarCharApex
-					money
-					series={[
-						{
-							name: 'Faturamento',
-							data: transformedData?.values,
-							type: 'bar',
-						},
-					]}
-					dataLabelColors={['#5b21b6']}
-					colors={['#a78bfa']}
-					title='Faturamento por Categoria de Suíte'
-					categories={transformedData?.categories}
-				/>
-			) : (
-				<>
-					<Skeleton className='w-full h-[620px]' />
-				</>
-			)}
-			;
-		</>
-	);
+	if (
+		!transformedData.values.length ||
+		transformedData.values.length == 0 ||
+		!transformedData
+	) {
+		return <Skeleton className='h-[620px] w-full' />;
+	} else {
+		return (
+			<>
+				{revenueBySuiteCategory ? (
+					<BarCharApex
+						money
+						series={[
+							{
+								name: 'Faturamento',
+								data: transformedData?.values,
+								type: 'bar',
+							},
+						]}
+						dataLabelColors={['#5b21b6']}
+						colors={['#a78bfa']}
+						title='Faturamento por Categoria de Suíte'
+						categories={transformedData?.categories}
+					/>
+				) : (
+					<>
+						<Skeleton className='w-full h-[620px]' />
+					</>
+				)}
+				;
+			</>
+		);
+	}
 }

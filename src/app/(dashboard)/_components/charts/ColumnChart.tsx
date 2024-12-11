@@ -3,6 +3,7 @@
 'use client';
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
+import { Skeleton } from '@/_components/ui/skeleton';
 
 interface ColumnChartProps {
 	title: string;
@@ -63,14 +64,6 @@ export default function ColumnChart(props: ColumnChartProps) {
 				gradientToColors: ['#a78bfa', '#2e1065'],
 			},
 		},
-
-		markers: {
-			size: 0,
-			colors: ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9'],
-			hover: { size: 0 },
-			strokeWidth: 0,
-		},
-
 		xaxis: {
 			type: 'category',
 			axisBorder: { show: true },
@@ -94,12 +87,18 @@ export default function ColumnChart(props: ColumnChartProps) {
 
 	return (
 		<ResponsiveContainerChart>
-			<Chart
-				options={options}
-				series={props.series}
-				type='bar'
-				width={'100%'}
-				height={280}></Chart>
+			{props.series ? (
+				<Chart
+					options={options}
+					series={props.series}
+					type='bar'
+					width={'100%'}
+					height={280}></Chart>
+			) : (
+				<>
+					<Skeleton className='w-full h-[280px]'></Skeleton>
+				</>
+			)}
 		</ResponsiveContainerChart>
 	);
 }

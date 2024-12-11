@@ -82,28 +82,29 @@ export default function TableKpiCategory({
 				</TableRow>
 			</TableHeader>
 			<TableBody className='text-zinc-100'>
-				{formattedData?.map((invoice) => (
-					<TableRow
-						key={invoice.id}
-						className='text-center'>
-						<TableCell className='font-bold text-left'>
-							{invoice.Categoria}
-						</TableCell>
-						<TableCell>{invoice.locations}</TableCell>
-						<TableCell>{invoice.revenue}</TableCell>
-						<TableCell>{invoice.ticket}</TableCell>
-						<TableCell>{invoice.giro}</TableCell>
-						<TableCell>{invoice.revpar}</TableCell>
-						<TableCell>{invoice.trevpar}</TableCell>
-						<TableCell>{invoice.tmo}</TableCell>
-						<TableCell>{invoice.occupation}</TableCell>
-					</TableRow>
-				))}
+				{dataTableSuiteCategory &&
+					formattedData?.map((invoice) => (
+						<TableRow
+							key={invoice.id}
+							className='text-center'>
+							<TableCell className='font-bold text-left'>
+								{invoice.Categoria}
+							</TableCell>
+							<TableCell>{invoice.locations}</TableCell>
+							<TableCell>{invoice.revenue}</TableCell>
+							<TableCell>{invoice.ticket}</TableCell>
+							<TableCell>{invoice.giro}</TableCell>
+							<TableCell>{invoice.revpar}</TableCell>
+							<TableCell>{invoice.trevpar}</TableCell>
+							<TableCell>{invoice.tmo}</TableCell>
+							<TableCell>{invoice.occupation}</TableCell>
+						</TableRow>
+					))}
 			</TableBody>
 			<TableFooter className=' text-zinc-100 bg-zinc-700 font-bold hover:bg-zinc-700'>
 				<TableRow className='text-center hover:bg-zinc-700'>
 					<TableCell className=' w-1/5 text-left'>
-						{formattedTotalResult.Categoria}
+						{formattedTotalResult && formattedTotalResult.Categoria}
 					</TableCell>
 					<TableCell>{formattedTotalResult.locations}</TableCell>
 					<TableCell>{formattedTotalResult.revenue}</TableCell>

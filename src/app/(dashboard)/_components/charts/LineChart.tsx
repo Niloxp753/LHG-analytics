@@ -3,6 +3,7 @@
 'use client';
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
+import { Skeleton } from '@/_components/ui/skeleton';
 
 interface AreaChartsApexProps {
 	title: string;
@@ -91,16 +92,22 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 					'#ca8a04',
 					'#65a30d',
 				],
-				fontSize:'10px'
+				fontSize: '10px',
 			},
 		},
 		tooltip: {
 			y: {
-				formatter: (val: number) =>
-					`${val.toLocaleString('pt-BR', {
-						style: 'currency',
-						currency: 'BRL',
-					})}`,
+				formatter: (val: number | string) =>
+					`${
+						props.money
+							? val.toLocaleString('pt-BR', {
+									style: 'currency',
+									currency: 'BRL',
+							  })
+							: props.percent
+							? val + '%'
+							: val
+					} `,
 			},
 		},
 		colors: [
@@ -230,12 +237,18 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 
 	return (
 		<ResponsiveContainerChart>
-			<Chart
-				options={options}
-				series={props.series}
-				type='line'
-				width={'100%'}
-				height={props.height}></Chart>
+			{props.series ? (
+				<Chart
+					options={options}
+					series={props.series}
+					type='line'
+					width={'100%'}
+					height={props.height}></Chart>
+			) : (
+				<>
+					<Skeleton className='w-full h-[340px]'></Skeleton>
+				</>
+			)}
 		</ResponsiveContainerChart>
 	);
 }

@@ -50,24 +50,27 @@ export default function TRevPar(data?: any) {
 		),
 		dates: transformedData?.map((entry: TransformedEntry) => entry.date),
 	};
-
-	return (
-		<>
-			{trevparByDate ? (
-				<AreaChartsApex
-					id='trevpar-ipiranga'
-					series={[
-						{
-							data: result.values,
-							name: 'TRevPar',
-						},
-					]}
-					categories={result.dates}
-					money
-				/>
-			) : (
-				<Skeleton className='h-[310px] w-full' />
-			)}
-		</>
-	);
+	if (!result.values.length || result.values.length == 0 || !result) {
+		return <Skeleton className='h-[310px] w-full' />;
+	} else {
+		return (
+			<>
+				{trevparByDate ? (
+					<AreaChartsApex
+						id='trevpar-ipiranga'
+						series={[
+							{
+								data: result.values,
+								name: 'TRevPar',
+							},
+						]}
+						categories={result.dates}
+						money
+					/>
+				) : (
+					<Skeleton className='h-[310px] w-full' />
+				)}
+			</>
+		);
+	}
 }

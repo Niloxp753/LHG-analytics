@@ -17,7 +17,6 @@ const SparkChart = dynamic(
 	{ ssr: false },
 );
 
-export const revalidate = 0;
 
 export default async function General({
 	searchParams,

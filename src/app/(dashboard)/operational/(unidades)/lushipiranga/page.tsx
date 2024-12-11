@@ -23,12 +23,12 @@ export default async function LushIpiranga({
 }) {
 	searchParams.menu = 'operational';
 	const preSet = searchParams.set ?? '7days';
-	const startDate = searchParams.startDate;
-	const endDate = searchParams.endDate;
+	// const startDate = searchParams.startDate;
+	// const endDate = searchParams.endDate;
 
-	const formattedStartDate =
-		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
-	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
+	// const formattedStartDate =
+	// 	startDate && format(new Date(startDate!), 'dd/MM/yyyy');
+	// const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
 
 	// async function getData() {
 	// 	if (startDate && endDate) {
@@ -76,32 +76,32 @@ export default async function LushIpiranga({
 								}`}
 							/>
 							<div className='flex items-center gap-5 justify-between flex-col md:flex-row'>
-								<Performance data={data.SupervisorsPerformance} />
-								<SuitesOutsourcedInternal data={data.ShiftCleaning} />
+								<Performance data={data?.SupervisorsPerformance} />
+								<SuitesOutsourcedInternal data={data?.ShiftCleaning} />
 							</div>
 							<div className='w-full h-full flex gap-5 justify-between flex-col '>
-								<TotalCleaning data={data.CleaningByDate} />
+								<TotalCleaning data={data?.CleaningByDate} />
 							</div>
 							<div className='flex gap-5 flex-col items-center'>
 								<MorningCleaningWorkers
-									categories={data.EmployeeCleaningByShift.categories}
-									series={data.EmployeeCleaningByShift.series[0]}
+									categories={data?.EmployeeCleaningByShift.categories}
+									series={data?.EmployeeCleaningByShift.series[0]}
 								/>
 								<AfternoonCleaningWorkers
-									categories={data.EmployeeCleaningByShift.categories}
-									series={data.EmployeeCleaningByShift.series[1]}
+									categories={data?.EmployeeCleaningByShift.categories}
+									series={data?.EmployeeCleaningByShift.series[1]}
 								/>
 								<NightCleaningWorkers
-									categories={data.EmployeeCleaningByShift.categories}
-									series={data.EmployeeCleaningByShift.series[2]}
+									categories={data?.EmployeeCleaningByShift.categories}
+									series={data?.EmployeeCleaningByShift.series[2]}
 								/>
 							</div>
 
 							<div className='flex gap-5 flex-col w-full'>
-								<TableWokersMorning dataTable={data.EmployeeReport.Manhã} />
-								<TableWokersAfternoon dataTable={data.EmployeeReport.Tarde} />
-								<TableWokersNight dataTable={data.EmployeeReport.Noite} />
-								<TableWokersWeekly dataTable={data.teamSizing} />
+								<TableWokersMorning dataTable={data?.EmployeeReport.Manhã} />
+								<TableWokersAfternoon dataTable={data?.EmployeeReport.Tarde} />
+								<TableWokersNight dataTable={data?.EmployeeReport.Noite} />
+								<TableWokersWeekly dataTable={data?.teamSizing} />
 							</div>
 						</div>
 					</div>

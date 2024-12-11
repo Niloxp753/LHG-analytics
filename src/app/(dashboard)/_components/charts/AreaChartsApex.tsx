@@ -3,6 +3,7 @@
 'use client';
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
+import { Skeleton } from '@/_components/ui/skeleton';
 
 interface AreaChartsApexProps {
 	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | undefined;
@@ -18,7 +19,7 @@ interface AreaChartsApexProps {
 export default function AreaChartsApex(props: AreaChartsApexProps) {
 	const options: ApexCharts.ApexOptions = {
 		chart: {
-			id: props.id,
+			id: props.id ?? 'chart',
 			type: 'area',
 			foreColor: '#fafafa',
 			stacked: false,
@@ -31,7 +32,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			},
 		},
 		title: {
-			text: props.title,
+			text: props.title ?? 'Visual',
 			style: { fontSize: '16px', fontWeight: '600' },
 		},
 		legend: {
@@ -75,7 +76,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 							  })
 							: props.percent
 							? val + '%'
-							: val
+							: val ?? 10
 					} `,
 			},
 		},
@@ -114,7 +115,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 				show: true,
 			},
 			axisBorder: { show: true },
-			categories: props.categories,
+			categories: props.categories ?? ['categoria1', 'categoria2'],
 		},
 
 		stroke: { curve: 'smooth' },
@@ -168,7 +169,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 				options: {
 					chart: {
 						height: 280,
-						width: props.width ? props.width : '100%',
+						width: props.width ?? '100%',
 					},
 					xaxis: {
 						tickPlacement: 'between',
@@ -196,7 +197,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 										  })
 										: props.percent
 										? val + '%'
-										: val
+										: val ?? 10
 								} `,
 							style: { fontSize: '11px' },
 						},
@@ -208,11 +209,17 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 
 	return (
 		<ResponsiveContainerChart>
-			<Chart
-				options={options}
-				series={props.series}
-				type='area'
-				height={280}></Chart>
+			{props.series ? (
+				<Chart
+					options={options}
+					series={props.series}
+					type='area'
+					height={280}></Chart>
+			) : (
+				<>
+					<Skeleton className='w-full h-[280px]'></Skeleton>
+				</>
+			)}
 		</ResponsiveContainerChart>
 	);
 }

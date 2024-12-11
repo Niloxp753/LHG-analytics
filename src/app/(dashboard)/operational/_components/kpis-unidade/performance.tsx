@@ -1,6 +1,7 @@
 /** @format */
 'use client';
 
+import { Skeleton } from '@/_components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const PieChartsApex = dynamic(
@@ -14,12 +15,24 @@ interface PerformanceProps {
 
 export default function Performance(data: PerformanceProps) {
 	const supPerformance = data.data;
-	return (
+
+	if (
+		!supPerformance.series.length ||
+		supPerformance.series.length == 0 ||
+		!supPerformance
+	) {
+		return <Skeleton className='w-full h-[340px]'></Skeleton>;
+	}
+	return supPerformance ? (
 		<PieChartsApex
-			labels={supPerformance.categories}
-			series={supPerformance.series}
+			labels={supPerformance?.categories}
+			series={supPerformance?.series}
 			height={340}
 			title='Performance de supervisores'
 		/>
+	) : (
+		<>
+			<Skeleton className='w-full h-[340px]'></Skeleton>
+		</>
 	);
 }

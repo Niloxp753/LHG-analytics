@@ -52,21 +52,23 @@ export default function Invoicing(data?: any) {
 		dates: transformedData.map((entry: TransformedEntry) => entry.date),
 	};
 
-	// Exibe o resultado
-
-	return (
-		<>
-			{revenueByDate ? (
-				<AreaChartsApex
-					id='invoicing-ipiranga'
-					money
-					series={[{ data: result.values, name: 'Faturamento Total' }]}
-					categories={result.dates}
-				/>
-			) : (
-				<Skeleton className='w-full h-[300px]' />
-			)}
-			;
-		</>
-	);
+	if (!result.values.length || result.values.length == 0 || !result) {
+		return <Skeleton className='h-[300px] w-full' />;
+	} else {
+		return (
+			<>
+				{revenueByDate ? (
+					<AreaChartsApex
+						id='invoicing-ipiranga'
+						money
+						series={[{ data: result.values, name: 'Faturamento Total' }]}
+						categories={result.dates}
+					/>
+				) : (
+					<Skeleton className='w-full h-[300px]' />
+				)}
+				;
+			</>
+		);
+	}
 }

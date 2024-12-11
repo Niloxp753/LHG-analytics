@@ -3,6 +3,7 @@
 'use client';
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '@/app/(dashboard)/_components/ResponsiveContainerChart';
+import { Skeleton } from '@/_components/ui/skeleton';
 
 interface PieChartsApexProps {
 	title?: string;
@@ -108,12 +109,18 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 
 	return (
 		<ResponsiveContainerChart>
-			<Chart
-				options={options}
-				width={'100%'}
-				height={324}
-				series={props.series ? props.series : [40, 20, 45, 25]}
-				type='donut'></Chart>
+			{props.series ? (
+				<Chart
+					options={options}
+					width={'100%'}
+					height={324}
+					series={props.series ?? [40, 20, 45, 25]}
+					type='donut'></Chart>
+			) : (
+				<>
+					<Skeleton className='w-full h-[324px]'></Skeleton>
+				</>
+			)}
 		</ResponsiveContainerChart>
 	);
 }

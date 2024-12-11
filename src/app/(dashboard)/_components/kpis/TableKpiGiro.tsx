@@ -84,22 +84,23 @@ export function TableKpiGiro(dataGiro?: any) {
 				</TableRow>
 			</TableHeader>
 			<TableBody className='text-zinc-100'>
-				{data.map((invoice, index) => (
-					<TableRow
-						key={index}
-						className='text-center'>
-						<TableCell className='font-bold text-left'>
-							{invoice.categoria}
-						</TableCell>
-						<TableCell>{invoice.domingo}</TableCell>
-						<TableCell>{invoice.segunda}</TableCell>
-						<TableCell>{invoice.terca}</TableCell>
-						<TableCell>{invoice.quarta}</TableCell>
-						<TableCell>{invoice.quinta}</TableCell>
-						<TableCell>{invoice.sexta}</TableCell>
-						<TableCell>{invoice.sabado}</TableCell>
-					</TableRow>
-				))}
+				{dataTableGiroByWeek &&
+					data.map((invoice, index) => (
+						<TableRow
+							key={index}
+							className='text-center'>
+							<TableCell className='font-bold text-left'>
+								{invoice.categoria}
+							</TableCell>
+							<TableCell>{invoice.domingo}</TableCell>
+							<TableCell>{invoice.segunda}</TableCell>
+							<TableCell>{invoice.terca}</TableCell>
+							<TableCell>{invoice.quarta}</TableCell>
+							<TableCell>{invoice.quinta}</TableCell>
+							<TableCell>{invoice.sexta}</TableCell>
+							<TableCell>{invoice.sabado}</TableCell>
+						</TableRow>
+					))}
 			</TableBody>
 			<TableFooter className=' text-zinc-100 bg-zinc-700 font-bold hover:bg-zinc-700'>
 				<TableRow className='text-center hover:bg-zinc-700'>

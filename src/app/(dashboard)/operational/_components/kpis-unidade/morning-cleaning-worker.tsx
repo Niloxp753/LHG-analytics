@@ -1,5 +1,6 @@
 /** @format */
 
+import { Skeleton } from '@/_components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const LineChart = dynamic(
@@ -16,12 +17,20 @@ export default function MorningCleaningWorkers({
 	categories,
 	series,
 }: MorningCleaningWorkersProps) {
-	return (
-		<LineChart
-			height={480}
-			title='Total de limpezas - Manhã'
-			series={series.Manhã}
-			categories={categories}
-		/>
-	);
+	if (!series.Manhã.length || series.Manhã.length == 0 || !series) {
+		return <Skeleton className='w-full h-[480px]'></Skeleton>;
+	} else {
+		return series && categories ? (
+			<LineChart
+				height={480}
+				title='Total de limpezas - Manhã'
+				series={series.Manhã}
+				categories={categories}
+			/>
+		) : (
+			<>
+				<Skeleton className='w-full h-[480px]'></Skeleton>
+			</>
+		);
+	}
 }

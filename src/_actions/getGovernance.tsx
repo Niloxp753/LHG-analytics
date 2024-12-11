@@ -22,7 +22,7 @@ export async function getGovernanceAction(period: string) {
 
 	try {
 		const resp = await getGovernance(newPeriod);
-		revalidatePath('/');
+		revalidatePath('/operational');
 		return resp;
 	} catch (error) {
 		console.log(error);

@@ -48,18 +48,22 @@ export default function RevPar(data?: any) {
 		dates: transformedData?.map((entry: TransformedEntry) => entry.date),
 	};
 
-	return (
-		<>
-			{revparByDate ? (
-				<AreaChartsApex
-					money
-					id='revpar-ipiranga'
-					series={[{ data: result?.values, name: 'RevPar' }]}
-					categories={result?.dates}
-				/>
-			) : (
-				<Skeleton className='h-[310px] w-full' />
-			)}
-		</>
-	);
+	if (!result.values.length || result.values.length == 0 || !result) {
+		return <Skeleton className='h-[400px] w-full' />;
+	} else {
+		return (
+			<>
+				{revparByDate ? (
+					<AreaChartsApex
+						money
+						id='revpar-ipiranga'
+						series={[{ data: result?.values, name: 'RevPar' }]}
+						categories={result?.dates}
+					/>
+				) : (
+					<Skeleton className='h-[310px] w-full' />
+				)}
+			</>
+		);
+	}
 }

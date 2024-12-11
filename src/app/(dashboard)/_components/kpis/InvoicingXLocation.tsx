@@ -96,20 +96,24 @@ export default function InvoicingXLocation(data?: any) {
 			.map((entry) => entry.date), // Adiciona as datas correspondentes
 	}));
 
-	return (
-		<>
-			{billingRentalType ? (
-				<LineChart
-					money
-					title={'Faturamento por tipo de locação'}
-					height={400}
-					series={result}
-					categories={result[0].dates}
-				/>
-			) : (
-				<Skeleton className='h-[400px] w-full' />
-			)}
-			;
-		</>
-	);
+	if (!result.length || result.length == 0 || !result) {
+		return <Skeleton className='h-[400px] w-full' />;
+	} else {
+		return (
+			<>
+				{billingRentalType ? (
+					<LineChart
+						money
+						title={'Faturamento por tipo de locação'}
+						height={400}
+						series={result}
+						categories={result[0].dates}
+					/>
+				) : (
+					<Skeleton className='h-[400px] w-full' />
+				)}
+				;
+			</>
+		);
+	}
 }

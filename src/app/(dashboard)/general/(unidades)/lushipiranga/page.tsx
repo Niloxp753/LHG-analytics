@@ -41,13 +41,13 @@ export default async function LushIpiranga({
 				formattedEndDate!,
 			);
 			if (customData) {
-				revalidatePath('/');
+				revalidatePath('/general');
 				return customData;
 			}
 		} else {
 			const data = await getCompanyAction(preSet ?? '7days');
 			if (data) {
-				revalidatePath('/');
+				revalidatePath('/general');
 				return data;
 			}
 		}

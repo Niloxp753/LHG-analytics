@@ -52,24 +52,28 @@ export default function Occupation(data?: any) {
 		),
 	};
 
-	return (
-		<>
-			{occupancyRateByDate ? (
-				<AreaChartsApex
-					id='tx-ocuppation-ipiranga'
-					percent
-					series={[
-						{
-							data: result.values,
-							name: 'Taxa de ocupação',
-						},
-					]}
-					categories={result.dates}
-				/>
-			) : (
-				<Skeleton className='w-full h-[300px]' />
-			)}
-			;
-		</>
-	);
+	if (!result.values.length || result.values.length == 0 || !result) {
+		return <Skeleton className='h-[300px] w-full' />;
+	} else {
+		return (
+			<>
+				{occupancyRateByDate ? (
+					<AreaChartsApex
+						id='tx-ocuppation-ipiranga'
+						percent
+						series={[
+							{
+								data: result.values,
+								name: 'Taxa de ocupação',
+							},
+						]}
+						categories={result.dates}
+					/>
+				) : (
+					<Skeleton className='w-full h-[300px]' />
+				)}
+				;
+			</>
+		);
+	}
 }

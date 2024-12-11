@@ -85,6 +85,18 @@ export default function OccupationCasaLush(data?: any) {
 		return serie.category === state;
 	});
 
+	if (
+		!currentSerie?.values.length ||
+		currentSerie?.values.length == 0 ||
+		!currentSerie
+	) {
+		return (
+			<>
+				<Skeleton className='w-56 h-10' />
+				<Skeleton className='w-full h-[300px]' />
+			</>
+		);
+	}
 	return (
 		<>
 			{occupancyRateBySuiteCategory ? (

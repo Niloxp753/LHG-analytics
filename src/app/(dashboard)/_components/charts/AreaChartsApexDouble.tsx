@@ -67,7 +67,6 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 		},
 
 		markers: {
-			size: 0,
 			colors: ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9'],
 			hover: { size: 0 },
 			strokeWidth: 0,
