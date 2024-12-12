@@ -32,7 +32,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			},
 		},
 		title: {
-			text: props.title ?? 'Visual',
+			text: props.title,
 			style: { fontSize: '16px', fontWeight: '600' },
 		},
 		legend: {
