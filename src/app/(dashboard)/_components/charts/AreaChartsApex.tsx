@@ -52,11 +52,6 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 				fontSize: '10px',
 			},
 			enabled: true,
-			formatter: (val: number | string) =>
-				`${val.toLocaleString('pt-BR', {
-					style: 'currency',
-					currency: 'BRL',
-				})}`,
 			distributed: false,
 			background: {
 				enabled: true,
@@ -182,6 +177,17 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 					},
 					dataLabels: {
 						enabled: true,
+						formatter: (val: number | string) =>
+							`${
+								props.money
+									? val.toLocaleString('pt-BR', {
+											style: 'currency',
+											currency: 'BRL',
+									  })
+									: props.percent
+									? val + '%'
+									: val
+							} `,
 					},
 					yaxis: {
 						show: true,
@@ -197,7 +203,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 										  })
 										: props.percent
 										? val + '%'
-										: val ?? 10
+										: val
 								} `,
 							style: { fontSize: '11px' },
 						},
