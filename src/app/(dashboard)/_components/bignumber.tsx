@@ -66,12 +66,11 @@ export default function BigNumbers(props: BigNumbersProps) {
 							<CardDetails
 								description={
 									d.PreviousDate &&
-									props.description +
-										d.PreviousDate.totalAllOccupancyRatePreviousData
+									props.description + d.PreviousDate.totalAllGiroPreviousData
 								}
 								icon={<DoorClosed />}
-								title={'Tx de Ocupação'}
-								value={d.currentDate.totalAllOccupancyRate}
+								title={'Giro'}
+								value={d.currentDate.totalAllGiro}
 							/>
 							<CardDetails
 								description={
