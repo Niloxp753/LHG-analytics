@@ -62,25 +62,25 @@ export default function TableWokersWeekly({
 					<TableBody className='text-zinc-100'>
 						<TableRow>
 							<TableCell className='font-bold text-left'>Manhã</TableCell>
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Manhã?.domingo?.totalCleanings ?? '0'}
 							</TableCell>
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Manhã?.segunda?.totalCleanings ?? '0'}
 							</TableCell>{' '}
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Manhã?.terca?.totalCleanings ?? '0'}
 							</TableCell>{' '}
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Manhã?.quarta?.totalCleanings ?? '0'}
 							</TableCell>{' '}
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Manhã?.quinta?.totalCleanings ?? '0'}
 							</TableCell>{' '}
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Manhã?.sexta?.totalCleanings ?? '0'}
 							</TableCell>{' '}
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Manhã?.sabado?.totalCleanings ?? '0'}
 							</TableCell>
 							<TableCell className='font-bold text-center'>
@@ -99,25 +99,25 @@ export default function TableWokersWeekly({
 
 						<TableRow>
 							<TableCell className='font-bold text-left'>Tarde</TableCell>
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Tarde?.domingo?.totalCleanings ?? '0'}
 							</TableCell>
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Tarde?.segunda?.totalCleanings ?? '0'}
 							</TableCell>
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Tarde?.terca?.totalCleanings ?? '0'}
 							</TableCell>
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Tarde?.quarta?.totalCleanings ?? '0'}
 							</TableCell>
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Tarde?.quinta?.totalCleanings ?? '0'}
 							</TableCell>
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Tarde?.sexta?.totalCleanings ?? '0'}
 							</TableCell>
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Tarde?.sabado?.totalCleanings ?? '0'}
 							</TableCell>
 							<TableCell className='font-bold text-center'>
@@ -135,25 +135,25 @@ export default function TableWokersWeekly({
 						</TableRow>
 						<TableRow>
 							<TableCell className='font-bold text-left'>Noite</TableCell>
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Noite?.domingo?.totalCleanings ?? '0'}
 							</TableCell>
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Noite?.segunda?.totalCleanings ?? '0'}
 							</TableCell>
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Noite?.terca?.totalCleanings ?? '0'}
 							</TableCell>
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Noite?.quarta?.totalCleanings ?? '0'}
 							</TableCell>
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Noite?.quinta?.totalCleanings ?? '0'}
 							</TableCell>
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Noite?.sexta?.totalCleanings ?? '0'}
 							</TableCell>
-							<TableCell>
+							<TableCell className='text-center'>
 								{dataTable.Noite?.sabado?.totalCleanings ?? '0'}
 							</TableCell>{' '}
 							<TableCell className='font-bold text-center'>
