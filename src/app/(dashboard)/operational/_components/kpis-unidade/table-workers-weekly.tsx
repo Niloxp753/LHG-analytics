@@ -63,25 +63,25 @@ export default function TableWokersWeekly({
 						<TableRow>
 							<TableCell className='font-bold text-left'>Manhã</TableCell>
 							<TableCell className='text-center'>
-								{dataTable.Manhã?.domingo?.totalCleanings ?? '0'}
+								{dataTable.Manhã?.domingo?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>
 							<TableCell className='text-center'>
-								{dataTable.Manhã?.segunda?.totalCleanings ?? '0'}
+								{dataTable.Manhã?.segunda?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>{' '}
 							<TableCell className='text-center'>
-								{dataTable.Manhã?.terca?.totalCleanings ?? '0'}
+								{dataTable.Manhã?.terca?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>{' '}
 							<TableCell className='text-center'>
-								{dataTable.Manhã?.quarta?.totalCleanings ?? '0'}
+								{dataTable.Manhã?.quarta?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>{' '}
 							<TableCell className='text-center'>
-								{dataTable.Manhã?.quinta?.totalCleanings ?? '0'}
+								{dataTable.Manhã?.quinta?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>{' '}
 							<TableCell className='text-center'>
-								{dataTable.Manhã?.sexta?.totalCleanings ?? '0'}
+								{dataTable.Manhã?.sexta?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>{' '}
 							<TableCell className='text-center'>
-								{dataTable.Manhã?.sabado?.totalCleanings ?? '0'}
+								{dataTable.Manhã?.sabado?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>
 							<TableCell className='font-bold text-center'>
 								{dataTable.Manhã.totalAverageShiftCleaning}
@@ -100,25 +100,25 @@ export default function TableWokersWeekly({
 						<TableRow>
 							<TableCell className='font-bold text-left'>Tarde</TableCell>
 							<TableCell className='text-center'>
-								{dataTable.Tarde?.domingo?.totalCleanings ?? '0'}
+								{dataTable.Tarde?.domingo?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>
 							<TableCell className='text-center'>
-								{dataTable.Tarde?.segunda?.totalCleanings ?? '0'}
+								{dataTable.Tarde?.segunda?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>
 							<TableCell className='text-center'>
-								{dataTable.Tarde?.terca?.totalCleanings ?? '0'}
+								{dataTable.Tarde?.terca?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>
 							<TableCell className='text-center'>
-								{dataTable.Tarde?.quarta?.totalCleanings ?? '0'}
+								{dataTable.Tarde?.quarta?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>
 							<TableCell className='text-center'>
-								{dataTable.Tarde?.quinta?.totalCleanings ?? '0'}
+								{dataTable.Tarde?.quinta?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>
 							<TableCell className='text-center'>
-								{dataTable.Tarde?.sexta?.totalCleanings ?? '0'}
+								{dataTable.Tarde?.sexta?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>
 							<TableCell className='text-center'>
-								{dataTable.Tarde?.sabado?.totalCleanings ?? '0'}
+								{dataTable.Tarde?.sabado?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>
 							<TableCell className='font-bold text-center'>
 								{dataTable.Tarde.totalAverageShiftCleaning}
@@ -136,25 +136,25 @@ export default function TableWokersWeekly({
 						<TableRow>
 							<TableCell className='font-bold text-left'>Noite</TableCell>
 							<TableCell className='text-center'>
-								{dataTable.Noite?.domingo?.totalCleanings ?? '0'}
+								{dataTable.Noite?.domingo?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>
 							<TableCell className='text-center'>
-								{dataTable.Noite?.segunda?.totalCleanings ?? '0'}
+								{dataTable.Noite?.segunda?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>
 							<TableCell className='text-center'>
-								{dataTable.Noite?.terca?.totalCleanings ?? '0'}
+								{dataTable.Noite?.terca?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>
 							<TableCell className='text-center'>
-								{dataTable.Noite?.quarta?.totalCleanings ?? '0'}
+								{dataTable.Noite?.quarta?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>
 							<TableCell className='text-center'>
-								{dataTable.Noite?.quinta?.totalCleanings ?? '0'}
+								{dataTable.Noite?.quinta?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>
 							<TableCell className='text-center'>
-								{dataTable.Noite?.sexta?.totalCleanings ?? '0'}
+								{dataTable.Noite?.sexta?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>
 							<TableCell className='text-center'>
-								{dataTable.Noite?.sabado?.totalCleanings ?? '0'}
+								{dataTable.Noite?.sabado?.averageDailyWeekCleaning ?? '0'}
 							</TableCell>{' '}
 							<TableCell className='font-bold text-center'>
 								{dataTable.Noite.totalAverageShiftCleaning}
