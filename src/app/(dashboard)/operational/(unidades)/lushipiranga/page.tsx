@@ -15,6 +15,7 @@ import { getGovernanceAction } from '@/_actions/getGovernance';
 import { revalidatePath } from 'next/cache';
 import { format } from 'date-fns';
 import BigNumbersOperation from '../../_components/kpis-unidade/big-numbers-operation';
+import { getOperationCustomAction } from '@/_actions/getoperationsCustom';
 
 export default async function LushIpiranga({
 	searchParams,
@@ -23,39 +24,37 @@ export default async function LushIpiranga({
 }) {
 	searchParams.menu = 'operational';
 	const preSet = searchParams.set ?? '7days';
-	// const startDate = searchParams.startDate;
-	// const endDate = searchParams.endDate;
+	const startDate = searchParams.startDate;
+	const endDate = searchParams.endDate;
 
-	// const formattedStartDate =
-	// 	startDate && format(new Date(startDate!), 'dd/MM/yyyy');
-	// const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
+	const formattedStartDate =
+		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
+	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
 
-	// async function getData() {
-	// 	if (startDate && endDate) {
-	// 		const customData = await getCompanyCustomAction(
-	// 			formattedStartDate!,
-	// 			formattedEndDate!,
-	// 		);
-	// 		if (customData) {
-	// 			revalidatePath('/');
-	// 			return customData;
-	// 		}
-	// 	} else {
-	// 		const data = await getGovernanceAction(preSet ?? '7days');
-	// 		if (data) {
-	// 			revalidatePath('/');
-	// 			return data;
-	// 		}
-	// 	}
-	// }
+	async function getData() {
+		if (startDate && endDate) {
+			const customData = await getOperationCustomAction(
+				formattedStartDate!,
+				formattedEndDate!,
+			);
+			if (customData) {
+				revalidatePath('/');
+				return customData;
+			}
+		} else {
+			const data = await getGovernanceAction(preSet ?? '7days');
+			if (data) {
+				revalidatePath('/');
+				return data;
+			}
+		}
+	}
 
-	// const resp = await getData();
-
-	const data = await getGovernanceAction(preSet ?? '7days');
+	const resp = await getData();
 
 	return (
 		<>
-			{data ? (
+			{resp ? (
 				<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-14 md:px-5 '>
 					<div className={`relative md:max-w-[82vw] flex md:ml-auto  w-full `}>
 						<div
@@ -68,7 +67,7 @@ export default async function LushIpiranga({
 						</div>
 						<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-32'>
 							<BigNumbersOperation
-								data={data?.BigNumbers}
+								data={resp?.BigNumbers}
 								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
 									preSet == '30days' ? '30 dias atrás ' : ''
 								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
@@ -76,32 +75,32 @@ export default async function LushIpiranga({
 								}`}
 							/>
 							<div className='flex items-center gap-5 justify-between flex-col md:flex-row'>
-								<Performance data={data?.SupervisorsPerformance} />
-								<SuitesOutsourcedInternal data={data?.ShiftCleaning} />
+								<Performance data={resp?.SupervisorsPerformance} />
+								<SuitesOutsourcedInternal data={resp?.ShiftCleaning} />
 							</div>
 							<div className='w-full h-full flex gap-5 justify-between flex-col '>
-								<TotalCleaning data={data?.CleaningByDate} />
+								<TotalCleaning data={resp?.CleaningByDate} />
 							</div>
 							<div className='flex gap-5 flex-col items-center'>
 								<MorningCleaningWorkers
-									categories={data?.EmployeeCleaningByShift.categories}
-									series={data?.EmployeeCleaningByShift.series[0]}
+									categories={resp?.EmployeeCleaningByShift.categories}
+									series={resp?.EmployeeCleaningByShift.series[0]}
 								/>
 								<AfternoonCleaningWorkers
-									categories={data?.EmployeeCleaningByShift.categories}
-									series={data?.EmployeeCleaningByShift.series[1]}
+									categories={resp?.EmployeeCleaningByShift.categories}
+									series={resp?.EmployeeCleaningByShift.series[1]}
 								/>
 								<NightCleaningWorkers
-									categories={data?.EmployeeCleaningByShift.categories}
-									series={data?.EmployeeCleaningByShift.series[2]}
+									categories={resp?.EmployeeCleaningByShift.categories}
+									series={resp?.EmployeeCleaningByShift.series[2]}
 								/>
 							</div>
 
 							<div className='flex gap-5 flex-col w-full'>
-								<TableWokersMorning dataTable={data?.EmployeeReport.Manhã} />
-								<TableWokersAfternoon dataTable={data?.EmployeeReport.Tarde} />
-								<TableWokersNight dataTable={data?.EmployeeReport.Noite} />
-								<TableWokersWeekly dataTable={data?.teamSizing} />
+								<TableWokersMorning dataTable={resp?.EmployeeReport.Manhã} />
+								<TableWokersAfternoon dataTable={resp?.EmployeeReport.Tarde} />
+								<TableWokersNight dataTable={resp?.EmployeeReport.Noite} />
+								<TableWokersWeekly dataTable={resp?.TeamSizing} />
 							</div>
 						</div>
 					</div>

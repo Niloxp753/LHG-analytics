@@ -22,7 +22,7 @@ export async function getCompanyAction(period: string) {
 
 	try {
 		const resp = await getCompany(newPeriod);
-		revalidatePath('/');
+		revalidatePath('/general');
 		return resp;
 	} catch (error) {
 		console.log(error);
