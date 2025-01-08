@@ -173,27 +173,27 @@ export default function TableWokersWeekly({
 					<TableFooter className=' text-zinc-100 bg-zinc-700 font-bold hover:bg-zinc-700'>
 						<TableRow className='text-center hover:bg-zinc-700'>
 							<TableCell className='font-bold text-center'>Total</TableCell>
-							{/* <TableCell>
-							{dataTable.Totals.totalAverageDailyWeekCleaning.domingo}
-						</TableCell>
-						<TableCell>
-							{dataTable.Totals.totalAverageDailyWeekCleaning.segunda}
-						</TableCell>
-						<TableCell>
-							{dataTable.Totals.totalAverageDailyWeekCleaning.terca}
-						</TableCell>
-						<TableCell>
-							{dataTable.Totals.totalAverageDailyWeekCleaning.quarta}
-						</TableCell>
-						<TableCell>
-							{dataTable.Totals.totalAverageDailyWeekCleaning.quinta}
-						</TableCell>
-						<TableCell>
-							{dataTable.Totals.totalAverageDailyWeekCleaning.sexta}
-						</TableCell>
-						<TableCell>
-							{dataTable.Totals.totalAverageDailyWeekCleaning.sabado}
-						</TableCell> */}
+							<TableCell>
+								{dataTable.Totals.totalAverageDailyWeekCleaning.domingo}
+							</TableCell>
+							<TableCell>
+								{dataTable.Totals.totalAverageDailyWeekCleaning.segunda}
+							</TableCell>
+							<TableCell>
+								{dataTable.Totals.totalAverageDailyWeekCleaning.terca}
+							</TableCell>
+							<TableCell>
+								{dataTable.Totals.totalAverageDailyWeekCleaning.quarta}
+							</TableCell>
+							<TableCell>
+								{dataTable.Totals.totalAverageDailyWeekCleaning.quinta}
+							</TableCell>
+							<TableCell>
+								{dataTable.Totals.totalAverageDailyWeekCleaning.sexta}
+							</TableCell>
+							<TableCell>
+								{dataTable.Totals.totalAverageDailyWeekCleaning.sabado}
+							</TableCell>
 
 							<TableCell>
 								{dataTable.Totals.totalAllAverageShiftCleaning}
