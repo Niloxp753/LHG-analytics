@@ -6,10 +6,9 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/_components/ui/card';
-import { ArrowBigRight, Loader2 } from 'lucide-react';
+import { ArrowUpRight, Loader2 } from 'lucide-react';
 import Link from 'next/link';
-import React from 'react';
-import { useTransition } from 'react';
+import React, { useTransition } from 'react';
 
 interface CardLinkProps {
 	href: string;
@@ -43,7 +42,7 @@ export default function CardLink(props: CardLinkProps) {
 								{isPending ? (
 									<Loader2 className='size-5 animate-spin' />
 								) : (
-									<ArrowBigRight className='size-8 text-violet-400' />
+									<ArrowUpRight className='size-8 text-violet-400' />
 								)}
 							</CardTitle>
 						</CardHeader>

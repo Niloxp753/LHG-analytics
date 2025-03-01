@@ -3,6 +3,7 @@
 'use client';
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
+import { useSearchParams } from 'next/navigation';
 
 interface AreaChartsApexProps {
 	serie01?: number[];
@@ -12,6 +13,8 @@ interface AreaChartsApexProps {
 }
 
 export default function AreaChartsApex(props: AreaChartsApexProps) {
+		const params = useSearchParams();
+		const is30Days = params.get('set') !== '30days';
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: 'test-bar',
@@ -45,7 +48,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			},
 		},
 		dataLabels: {
-			enabled: true,
+			enabled: is30Days,
 			distributed: false,
 			background: {
 				enabled: true,

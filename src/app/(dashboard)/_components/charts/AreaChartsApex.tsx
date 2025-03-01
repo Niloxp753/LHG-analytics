@@ -4,6 +4,7 @@
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
 import { Skeleton } from '@/_components/ui/skeleton';
+import { useSearchParams } from 'next/navigation';
 
 interface AreaChartsApexProps {
 	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | undefined;
@@ -17,12 +18,14 @@ interface AreaChartsApexProps {
 }
 
 export default function AreaChartsApex(props: AreaChartsApexProps) {
+	const params = useSearchParams();
+	const is30Days = params.get('set') !== '30days';
+
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: props.id ?? 'chart',
 			type: 'area',
 			foreColor: '#fafafa',
-			stacked: false,
 			zoom: {
 				enabled: false,
 			},
@@ -101,6 +104,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 
 		xaxis: {
 			type: 'category',
+
 			labels: {
 				trim: false,
 				hideOverlappingLabels: true,
@@ -170,13 +174,14 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 						tickPlacement: 'between',
 						offsetX: 0,
 						offsetY: 8,
+
 						labels: {
 							rotate: -45,
 							style: { fontSize: '11px' },
 						},
 					},
 					dataLabels: {
-						enabled: true,
+						enabled: is30Days,
 						formatter: (val: number | string) =>
 							`${
 								props.money

@@ -4,6 +4,7 @@
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
 import { Skeleton } from '@/_components/ui/skeleton';
+import { useSearchParams } from 'next/navigation';
 
 interface AreaChartsApexProps {
 	title: string;
@@ -16,6 +17,8 @@ interface AreaChartsApexProps {
 }
 
 export default function LineChartsApexUnity(props: AreaChartsApexProps) {
+		const params = useSearchParams();
+		const is30Days = params.get('set') !== '30days';
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: 'line-bar',
@@ -211,7 +214,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 						height: 340,
 					},
 					dataLabels: {
-						enabled: true,
+						enabled: is30Days,
 					},
 					xaxis: {
 						labels: {
