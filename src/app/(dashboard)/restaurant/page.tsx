@@ -121,8 +121,8 @@ export default function Restaurant({
 								<SparkChart serie={[35, 40, 55, 45, 50, 40]} />
 							}></CardLink>
 						<CardLink
-							href={`/restaurant/lushguaruja?menu=${menu}&set=${preSet}`}
-							title={'Lush Guarujá'}
+							href={`/restaurant/lushlapa?menu=${menu}&set=${preSet}`}
+							title={'Lush Lapa'}
 							content={
 								<SparkChart serie={[45, 30, 55, 35, 60, 40]} />
 							}></CardLink>

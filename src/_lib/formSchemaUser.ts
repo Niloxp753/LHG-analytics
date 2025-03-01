@@ -19,7 +19,7 @@ export const formSchemaUser = z.object({
 	role: z.enum(['ADMIN', 'MANAGER']),
 	unidade: z.string({
 		coerce: true,
-		description: 'Lush Ipiranga, Lush Guarujá, Andar de Cima ou Tout Campinas',
+		description: 'Lush Ipiranga, Lush Lapa, Andar de Cima ou Tout Campinas',
 		message: 'informe a unidade do usuário',
 	}),
 });

@@ -44,8 +44,8 @@ export default async function Operational({
 								<SparkChart serie={[35, 40, 55, 45, 50, 40, 55, 45, 50]} />
 							}></CardLink>
 						<CardLink
-							href={`/operational/lushguaruja?menu=${menu}&set=${preSet}`}
-							title={'Lush Guarujá'}
+							href={`/operational/lushlapa?menu=${menu}&set=${preSet}`}
+							title={'Lush Lapa'}
 							content={
 								<SparkChart serie={[45, 30, 55, 55, 45, 50, 35, 60, 40]} />
 							}></CardLink>

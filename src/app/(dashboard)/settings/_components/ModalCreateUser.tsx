@@ -219,11 +219,7 @@ export function ModalCreateUser() {
 										</FormControl>
 										<SelectContent>
 											<SelectItem value={'1'}>Lush Ipiranga</SelectItem>
-											<SelectItem
-												disabled
-												value={'2'}>
-												Lush Guarujá
-											</SelectItem>
+											<SelectItem value={'2'}>Lush Lapa</SelectItem>
 											<SelectItem
 												disabled
 												value={'3'}>

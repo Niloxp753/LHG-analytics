@@ -5,7 +5,7 @@
 import { getCompany } from '@/_http/company/getCompany';
 import { revalidatePath, revalidateTag } from 'next/cache';
 
-export async function getCompanyAction(period: string) {
+export async function getCompanyAction(period: string, company?: string) {
 	let newPeriod = '';
 
 	if (period === '30days') {
@@ -21,7 +21,7 @@ export async function getCompanyAction(period: string) {
 	}
 
 	try {
-		const resp = await getCompany(newPeriod);
+		const resp = await getCompany(newPeriod, company);
 		revalidatePath('/general');
 		return resp;
 	} catch (error) {

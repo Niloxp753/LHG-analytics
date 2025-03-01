@@ -1,24 +1,44 @@
 /** @format */
 
-import { api } from '../api-client';
+import { api, api_lapa } from '../api-client';
 
 class HTTPError extends Error {}
 
-export async function getCompany(period: string): Promise<any> {
+export async function getCompany(
+	period: string,
+	company?: string,
+): Promise<any> {
 	const controller = new AbortController();
 	const timeout = setTimeout(() => controller.abort(), 60000);
 
 	try {
-		const resp = await api.get(`Company/kpis?period=${period}`, {
-			next: { tags: ['company'] },
-			cache: 'no-store',
-			signal: controller.signal,
-		});
+		switch (company) {
+			case 'lapa':
+				const apiURL = api_lapa;
+				const resp_lapa = await apiURL.get(`Company/kpis?period=${period}`, {
+					next: { tags: ['company'] },
+					cache: 'force-cache',
+					signal: controller.signal, // Passa o signal ao fetch
+				});
 
-		if (!resp.ok) {
-			throw new HTTPError(`Fetch error: ${resp.statusText}`);
+				if (!resp_lapa.ok) {
+					throw new HTTPError(`Fetch error: ${resp_lapa.statusText}`);
+				}
+
+				return resp_lapa.json();
+
+			default:
+				const resp = await api.get(`Company/kpis?period=${period}`, {
+					next: { tags: ['company'] },
+					cache: 'force-cache',
+					signal: controller.signal,
+				});
+
+				if (!resp.ok) {
+					throw new HTTPError(`Fetch error: ${resp.statusText}`);
+				}
+				return resp.json();
 		}
-		return resp.json();
 	} catch (error) {
 		if (error instanceof Error) {
 			if (error.name === 'AbortError') {

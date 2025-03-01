@@ -55,7 +55,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 		colors: ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9', '#fb7185'],
 		labels: props.labels
 			? props.labels
-			: ['Lush Ipiranga', 'Lush Guarujá', 'Tout Campinas', 'Andar de Cima'],
+			: ['Lush Ipiranga', 'Lush Lapa', 'Tout Campinas', 'Andar de Cima'],
 		stroke: { show: false },
 		dataLabels: {
 			enabled: true,

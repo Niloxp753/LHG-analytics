@@ -5,7 +5,7 @@
 import { getGovernance } from '@/_http/operation/get-governance';
 import { revalidatePath } from 'next/cache';
 
-export async function getGovernanceAction(period: string) {
+export async function getGovernanceAction(period: string, company?:string) {
 	let newPeriod = '';
 
 	if (period === '30days') {
@@ -21,7 +21,7 @@ export async function getGovernanceAction(period: string) {
 	}
 
 	try {
-		const resp = await getGovernance(newPeriod);
+		const resp = await getGovernance(newPeriod, company);
 		revalidatePath('/operational');
 		return resp;
 	} catch (error) {

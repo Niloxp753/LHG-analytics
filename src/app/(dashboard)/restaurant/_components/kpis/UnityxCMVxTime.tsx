@@ -21,7 +21,7 @@ export default function UnityxCMVxTime() {
 						],
 					},
 					{
-						name: 'Lush Guarujá',
+						name: 'Lush Lapa',
 						data: [
 							688, 689, 2316, 3275, 1517, 5525, 2443, 3025, 3462, 1768, 602,
 							1195,

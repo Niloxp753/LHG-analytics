@@ -162,8 +162,8 @@ export default function Reservations({
 								<SparkChart serie={[35, 40, 55, 45, 50, 40]} />
 							}></CardLink>
 						<CardLink
-							href={`/reservations/lushguaruja?menu=${menu}&set=${preSet}`}
-							title={'Lush Guarujá'}
+							href={`/reservations/lushlapa?menu=${menu}&set=${preSet}`}
+							title={'Lush Lapa'}
 							content={
 								<SparkChart serie={[45, 30, 55, 35, 60, 40]} />
 							}></CardLink>

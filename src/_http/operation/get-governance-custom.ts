@@ -1,30 +1,50 @@
 /** @format */
 
-import { api } from '../api-client';
+import { api, api_lapa } from '../api-client';
 class HTTPError extends Error {}
 
 export async function getOperationCustom(
 	startDate: string,
 	endDate: string,
+	company?: string,
 ): Promise<any> {
 	const controller = new AbortController();
 	const timeout = setTimeout(() => controller.abort(), 60000);
 
 	try {
-		const resp = await api.get(
-			`Governance/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
-			{
-				next: { tags: ['operational'] },
-				cache: 'no-store',
-				signal: controller.signal, // Passa o signal ao fetch
-			},
-		);
+		switch (company) {
+			case 'lapa':
+				const resp_lapa = await api_lapa.get(
+					`Governance/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
+					{
+						next: { tags: ['operational'] },
+						cache: 'force-cache',
+						signal: controller.signal, // Passa o signal ao fetch
+					},
+				);
 
-		if (!resp.ok) {
-			throw new HTTPError(`Fetch error: ${resp.statusText}`);
+				if (!resp_lapa.ok) {
+					throw new HTTPError(`Fetch error: ${resp_lapa.statusText}`);
+				}
+
+				return resp_lapa.json();
+
+			default:
+				const resp = await api.get(
+					`Governance/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
+					{
+						next: { tags: ['operational'] },
+						cache: 'force-cache',
+						signal: controller.signal, // Passa o signal ao fetch
+					},
+				);
+
+				if (!resp.ok) {
+					throw new HTTPError(`Fetch error: ${resp.statusText}`);
+				}
+
+				return resp.json();
 		}
-
-		return resp.json();
 	} catch (error) {
 		if (error instanceof Error) {
 			if (error.name === 'AbortError') {

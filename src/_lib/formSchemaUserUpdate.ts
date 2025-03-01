@@ -23,7 +23,7 @@ export const formSchemaUserUpdate = z.object({
 	unidade: z
 		.string({
 			description:
-				'Lush Ipiranga, Lush Guarujá, Andar de Cima ou Tout Campinas',
+				'Lush Ipiranga, Lush Lapa, Andar de Cima ou Tout Campinas',
 			message: 'informe a unidade do usuário',
 		})
 		.optional(),

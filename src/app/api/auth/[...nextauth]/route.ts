@@ -21,12 +21,14 @@ const handler = NextAuth({
 					type: 'password',
 				},
 			},
-			async authorize(credentials, req) {
-				const users: User[] | any = await api
-					.get(`users/all`, { next: { tags: ['users'] } })
+			async authorize(credentials) {
+				const user: User | any = await api
+					.get(`users/email/${credentials?.email}`, {
+						next: { tags: ['user'] },
+					})
 					.json();
-				const user = users?.find((u: User) => u.email === credentials?.email);
 
+				console.log(user);
 				if (user) {
 					const isvalidPass = await bcrypt.compare(
 						credentials?.password!,

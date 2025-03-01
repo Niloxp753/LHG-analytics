@@ -27,7 +27,7 @@ export default function TableWokersWeekly({
 					</h2>
 					<p className='border border-violet-400 rounded-lg p-4'>
 						Número ideal de suítes limpas:{' '}
-						<strong className='text-lg'>7</strong>
+						<strong className='text-lg'>9</strong>
 					</p>
 				</div>
 				<Table

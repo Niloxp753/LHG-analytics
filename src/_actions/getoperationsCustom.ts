@@ -8,10 +8,11 @@ import { revalidatePath } from 'next/cache';
 export async function getOperationCustomAction(
   startDate: string | null,
   endDate: string | null,
+  company?:string
 ) {
   try {
     if (startDate && endDate) {
-      const resp = await getOperationCustom(startDate, endDate);
+      const resp = await getOperationCustom(startDate, endDate,company);
       revalidatePath('/operational');
       return resp;
     }
