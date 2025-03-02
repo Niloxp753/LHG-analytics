@@ -2,7 +2,7 @@
 
 import React from 'react';
 import CardDetails from '@/app/(dashboard)/_components/CardDetails';
-import { Skeleton } from '@/_components/ui/skeleton';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Eye, HandCoins, Leaf, LeafyGreen } from 'lucide-react';
 
 interface BigNumbersOperationProps {

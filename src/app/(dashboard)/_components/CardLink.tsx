@@ -5,7 +5,7 @@ import {
 	CardContent,
 	CardHeader,
 	CardTitle,
-} from '@/_components/ui/card';
+} from '@/components/ui/card';
 import { ArrowUpRight, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import React, { useTransition } from 'react';

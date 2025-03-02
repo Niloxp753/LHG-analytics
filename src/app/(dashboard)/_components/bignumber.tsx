@@ -9,7 +9,7 @@ import {
 	SquarePercent,
 } from 'lucide-react';
 import CardDetails from './CardDetails';
-import { Skeleton } from '@/_components/ui/skeleton';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface BigNumbersProps {
 	data?: any[];

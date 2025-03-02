@@ -1,25 +1,25 @@
 /** @format */
 'use client';
 
-import { updateUserAction } from '@/_actions/updateUser';
-import { Button } from '@/_components/ui/button';
+import { updateUserAction } from '@/actions/updateUser';
+import { Button } from '@/components/ui/button';
 import {
 	Form,
 	FormControl,
 	FormField,
 	FormItem,
 	FormLabel,
-} from '@/_components/ui/form';
-import { Input } from '@/_components/ui/input';
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from '@/_components/ui/select';
-import { IUserUp } from '@/_http/user/updateUser';
-import { formSchemaUserUpdate } from '@/_lib/formSchemaUserUpdate';
+} from '@/components/ui/select';
+import { IUserUp } from '@/http/user/updateUser';
+import { formSchemaUserUpdate } from '@/lib/formSchemaUserUpdate';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';

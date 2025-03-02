@@ -2,14 +2,14 @@
 
 'use client';
 
-import { Button } from '@/_components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
 	DropdownMenuTrigger,
-} from '@/_components/ui/dropdown-menu';
-import { Input } from '@/_components/ui/input';
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
 import {
 	Table,
 	TableBody,
@@ -17,8 +17,8 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from '@/_components/ui/table';
-import { User } from '@/_http/user/getUsers';
+} from '@/components/ui/table';
+import { User } from '@/http/user/getUsers';
 import {
 	ColumnFiltersState,
 	SortingState,

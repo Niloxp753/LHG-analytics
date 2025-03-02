@@ -2,7 +2,7 @@
 
 'use client';
 
-import { Skeleton } from '@/_components/ui/skeleton';
+import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const AreaChartsApex = dynamic(

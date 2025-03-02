@@ -1,6 +1,6 @@
 /** @format */
 'use client';
-import { Button } from '@/_components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
 	Dialog,
 	DialogContent,
@@ -10,7 +10,7 @@ import {
 	DialogClose,
 	DialogTrigger,
 	DialogOverlay,
-} from '@/_components/ui/dialog';
+} from '@/components/ui/dialog';
 import {
 	Form,
 	FormControl,
@@ -18,23 +18,23 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from '@/_components/ui/form';
-import { Input } from '@/_components/ui/input';
-import { formSchemaUser } from '@/_lib/formSchemaUser';
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { formSchemaUser } from '@/lib/formSchemaUser';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserPlus, X } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { createUserAction } from '@/_actions/createUser';
+import { createUserAction } from '@/actions/createUser';
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from '@/_components/ui/select';
+} from '@/components/ui/select';
 
 export function ModalCreateUser() {
 	const [isPending, setIsPending] = useState(false);

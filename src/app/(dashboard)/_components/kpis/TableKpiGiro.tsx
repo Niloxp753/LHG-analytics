@@ -8,7 +8,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from '@/_components/ui/table';
+} from '@/components/ui/table';
 
 interface DataItem {
 	giro: string;

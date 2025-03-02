@@ -1,9 +1,7 @@
 /** @format */
 
-import { Skeleton } from '@/_components/ui/skeleton';
-import { Loader2 } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
-import React, { Suspense } from 'react';
 const AreaChartsApex = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/AreaChartsApex'),
 	{ ssr: false },

@@ -1,7 +1,7 @@
 /** @format */
 
-import { getCompanyAction } from '@/_actions/getCompany';
-import { Skeleton } from '@/_components/ui/skeleton';
+import { getCompanyAction } from '@/actions/getCompany';
+import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import BigNumbers from '../_components/bignumber';
 import CardLink from '../_components/CardLink';

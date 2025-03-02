@@ -1,7 +1,7 @@
 /** @format */
 
-import { getCompanyAction } from '@/_actions/getCompany';
-import { getCompanyCustomAction } from '@/_actions/getCompanyCustom';
+import { getCompanyAction } from '@/actions/getCompany';
+import { getCompanyCustomAction } from '@/actions/getCompanyCustom';
 import Header from '@/app/(dashboard)/_components/Header';
 import BigNumbers from '@/app/(dashboard)/_components/bignumber';
 import Invoicing from '@/app/(dashboard)/_components/kpis/Invoicing';

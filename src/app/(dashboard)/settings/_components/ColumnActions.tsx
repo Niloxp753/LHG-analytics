@@ -1,6 +1,6 @@
 /** @format */
 
-import { Button } from '@/_components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -8,7 +8,7 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from '@/_components/ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 import {
 	Loader2,
 	MoreHorizontal,
@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 
-import { deleteUserAction } from '@/_actions/deleteUser';
+import { deleteUserAction } from '@/actions/deleteUser';
 import {
 	Dialog,
 	DialogClose,
@@ -28,9 +28,9 @@ import {
 	DialogHeader,
 	DialogOverlay,
 	DialogTitle,
-} from '@/_components/ui/dialog';
-import { IUser } from '@/_http/user/createUser';
-import { IUserUp } from '@/_http/user/updateUser';
+} from '@/components/ui/dialog';
+import { IUser } from '@/http/user/createUser';
+import { IUserUp } from '@/http/user/updateUser';
 import { toast } from 'sonner';
 import FormUpdate from './formUpdate';
 

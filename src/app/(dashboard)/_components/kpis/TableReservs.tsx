@@ -7,7 +7,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow
-} from '@/_components/ui/table';
+} from '@/components/ui/table';
 
 const data = [
 	{

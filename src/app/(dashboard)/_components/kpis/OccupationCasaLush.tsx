@@ -8,8 +8,8 @@ import {
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from '@/_components/ui/select';
-import { Skeleton } from '@/_components/ui/skeleton';
+} from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 

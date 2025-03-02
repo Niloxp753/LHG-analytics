@@ -1,6 +1,6 @@
 /** @format */
 
-import { getAllUsersAction } from '@/_actions/getAllUsers';
+import { getAllUsersAction } from '@/actions/getAllUsers';
 import { getServerSession } from 'next-auth';
 import { DataTableDemo } from './_components/dataTable';
 import { redirect } from 'next/navigation';

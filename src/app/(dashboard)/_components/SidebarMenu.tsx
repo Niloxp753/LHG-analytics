@@ -1,9 +1,9 @@
 /** @format */
 'use client';
 
-import logo from '@/_assets/images/logo-analytics.png';
-import { Button } from '@/_components/ui/button';
-import { User } from '@/_http/user/getUsers';
+import logo from '@/assets/images/logo-analytics.png';
+import { Button } from '@/components/ui/button';
+import { User } from '@/http/user/getUsers';
 import {
 	BarChart3,
 	ChevronsLeft,
@@ -17,7 +17,7 @@ import {
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-import BtnSignOut from '../../../_components/btnSingOut';
+import BtnSignOut from '../../../components/btnSingOut';
 import BtnSidebarMenu from './BtnSidebarMenu';
 
 export default function SidebarMenu({ user }: { user?: User }) {

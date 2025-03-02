@@ -11,11 +11,11 @@ import Performance from '../../_components/kpis-unidade/performance';
 import SuitesOutsourcedInternal from '../../_components/kpis-unidade/suites-outsourced-internal';
 import TableWokersAfternoon from '../../_components/kpis-unidade/table-workers-afternoon';
 import TableWokersNight from '../../_components/kpis-unidade/table-workers-nigh';
-import { getGovernanceAction } from '@/_actions/getGovernance';
+import { getGovernanceAction } from '@/actions/getGovernance';
 import { revalidatePath } from 'next/cache';
 import { format } from 'date-fns';
 import BigNumbersOperation from '../../_components/kpis-unidade/big-numbers-operation';
-import { getOperationCustomAction } from '@/_actions/getoperationsCustom';
+import { getOperationCustomAction } from '@/actions/getoperationsCustom';
 
 export default async function LushIpiranga({
 	searchParams,

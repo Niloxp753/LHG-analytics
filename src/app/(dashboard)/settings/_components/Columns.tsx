@@ -1,8 +1,8 @@
 /** @format */
 'use client';
 
-import { Button } from '@/_components/ui/button';
-import { IUser } from '@/_http/user/createUser';
+import { Button } from '@/components/ui/button';
+import { IUser } from '@/http/user/createUser';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 import ColumnActions from './ColumnActions';

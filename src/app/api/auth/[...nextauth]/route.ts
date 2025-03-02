@@ -1,12 +1,14 @@
 /** @format */
 
-import { api } from '@/_http/api-client';
-import { User } from '@/_http/user/getUsers';
+import { api } from '@/http/api-client';
+import { User } from '@/http/user/getUsers';
 import * as bcrypt from 'bcrypt';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 const handler = NextAuth({
+	session: { strategy: 'jwt' },
+	secret: process.env.NEXTAUTH_SECRET,
 	// Configure one or more authentication providers
 	providers: [
 		CredentialsProvider({
@@ -28,7 +30,6 @@ const handler = NextAuth({
 					})
 					.json();
 
-				console.log(user);
 				if (user) {
 					const isvalidPass = await bcrypt.compare(
 						credentials?.password!,
@@ -52,16 +53,13 @@ const handler = NextAuth({
 	],
 	callbacks: {
 		jwt: async ({ token, user, session, account, profile }) => {
-			if (user) {
-				return {
-					...token,
-					...user,
-					...session,
-					...account,
-					...profile,
-				};
-			}
-			return token;
+			return {
+				...token,
+				...user,
+				...session,
+				...account,
+				...profile,
+			};
 		},
 		session: async ({ session, token, newSession, user }) => {
 			return {
@@ -75,6 +73,7 @@ const handler = NextAuth({
 	pages: {
 		signIn: '/login',
 		error: '/login',
+		signOut: '/login',
 	},
 });
 

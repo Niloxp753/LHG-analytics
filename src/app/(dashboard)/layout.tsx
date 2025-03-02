@@ -1,7 +1,8 @@
 /** @format */
 
-import { getAllUsersAction } from '@/_actions/getAllUsers';
+import { getAllUsersAction } from '@/actions/getAllUsers';
 import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
 import React from 'react';
 import SidebarMenu from './_components/SidebarMenu';
 import { SidebarDemo } from './_components/sidebar-test';
@@ -12,6 +13,10 @@ export default async function DashLayout({
 	children: React.ReactNode;
 }>) {
 	const session = await getServerSession();
+
+	if (!session) {
+		redirect('/login');
+	}
 	const users = await getAllUsersAction();
 	const emailLogged = session?.user?.email;
 
