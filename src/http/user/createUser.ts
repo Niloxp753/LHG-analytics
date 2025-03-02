@@ -10,7 +10,7 @@ export interface IUser {
 	cpf: string;
 	password: string;
 	role?: 'ADMIN' | 'MANAGER';
-	companyId: number;
+	company: string;
 	companyName?: string;
 }
 
@@ -20,7 +20,7 @@ export async function createUser({
 	cpf,
 	password,
 	role,
-	companyId = 1,
+	company,
 }: IUser) {
 	const cookieStore = await cookies();
 	const token = cookieStore.get('next-auth.session-token');
@@ -36,7 +36,7 @@ export async function createUser({
 				cpf,
 				password,
 				role,
-				companyId,
+				company,
 			},
 		});
 	} catch (error) {

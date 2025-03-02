@@ -11,7 +11,7 @@ export async function updateUserAction(props: IUserUp) {
 			email: props.email,
 			id: props.id,
 			name: props.name,
-			companyId: props.companyId,
+			company: props.company,
 			role: props.role,
 			cpf: props.cpf,
 		});

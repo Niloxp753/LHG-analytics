@@ -9,7 +9,7 @@ export interface IUserUp {
 	cpf?: string;
 	password?: string;
 	role?: 'ADMIN' | 'MANAGER';
-	companyId?: number;
+	company: string;
 	companyName?: string;
 }
 
@@ -20,7 +20,7 @@ export async function updateUser({
 	cpf,
 	password,
 	role,
-	companyId = 1,
+	company,
 }: IUserUp) {
 	try {
 		await api.put(`users/${id}`, {
@@ -31,10 +31,9 @@ export async function updateUser({
 				cpf,
 				password,
 				role,
-				companyId,
+				company,
 			},
 		});
-		
 	} catch (error) {
 		console.error(error);
 		return error;

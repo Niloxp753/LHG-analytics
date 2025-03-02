@@ -59,8 +59,8 @@ export function ModalCreateUser() {
 			const name = values.name;
 			const cpf = values.cpf;
 			const role = values.role;
-			const companyId = Number(values.unidade);
-			await createUserAction({ email, password, name, cpf, role, companyId });
+			const company = values.unidade;
+			await createUserAction({ email, password, name, cpf, role, company });
 			form.reset();
 			toast.success('Usuário Cadastrado - 204', {
 				description: `${name} - Novo usuário salvo no banco de dados`,

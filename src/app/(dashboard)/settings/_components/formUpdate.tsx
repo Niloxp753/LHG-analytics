@@ -39,7 +39,7 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 			password: '',
 			cpf: user.cpf,
 			name: user.name,
-			unidade: String(user.companyId),
+			unidade: user.company,
 			role: user.role ?? 'MANAGER',
 		},
 	});
@@ -53,7 +53,7 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 			const cpf = values.cpf;
 			const role = values.role;
 			const id = user.id;
-			const companyId = Number(values.unidade);
+			const company = values.unidade!;
 
 			await updateUserAction({
 				email,
@@ -61,7 +61,7 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 				name,
 				cpf,
 				role,
-				companyId,
+				company,
 				id,
 			});
 			form.reset();
