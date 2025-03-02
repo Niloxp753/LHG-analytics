@@ -22,6 +22,7 @@ export async function getAllUserByEmail(email: string): Promise<User> {
 		method: 'GET',
 		next: {
 			tags: ['users'],
+			revalidate: 120,
 		},
 		headers: {
 			Authorization: `Bearer ${token?.value}`, // Coloca o token no cabeçalho

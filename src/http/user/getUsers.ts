@@ -18,7 +18,7 @@ export async function getAllUsers(): Promise<User[]> {
 	const cookieStore = await cookies();
 	const token = cookieStore.get('next-auth.session-token');
 	const resp = await api.get(`users/all`, {
-		next: { tags: ['users'] },
+		next: { tags: ['users'], revalidate: 120 },
 		timeout: 60000,
 		retry: 3,
 		headers: {

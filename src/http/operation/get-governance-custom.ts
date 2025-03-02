@@ -17,8 +17,8 @@ export async function getOperationCustom(
 				const resp_lapa = await api_lapa.get(
 					`Governance/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
 					{
-						next: { tags: ['operational'] },
-						cache: 'force-cache',
+						next: { tags: ['operational'], revalidate: 120 },
+
 						signal: controller.signal, // Passa o signal ao fetch
 					},
 				);
@@ -33,8 +33,8 @@ export async function getOperationCustom(
 				const resp = await api.get(
 					`Governance/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
 					{
-						next: { tags: ['operational'] },
-						cache: 'force-cache',
+						next: { tags: ['operational'], revalidate: 120 },
+
 						signal: controller.signal, // Passa o signal ao fetch
 					},
 				);

@@ -11,7 +11,6 @@ export const api = ky.create({
 	timeout: 60000,
 	retry: 3,
 	mode: 'cors',
-	cache: 'no-store',
 });
 
 export const api_lapa = ky.create({
@@ -19,5 +18,4 @@ export const api_lapa = ky.create({
 	timeout: 60000,
 	retry: 3,
 	mode: 'cors',
-	cache: 'no-store',
 });

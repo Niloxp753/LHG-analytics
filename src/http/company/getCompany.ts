@@ -16,8 +16,8 @@ export async function getCompany(
 			case 'lapa':
 				const apiURL = api_lapa;
 				const resp_lapa = await apiURL.get(`Company/kpis?period=${period}`, {
-					next: { tags: ['company'] },
-					cache: 'force-cache',
+					next: { tags: ['company'], revalidate: 120 },
+
 					signal: controller.signal, // Passa o signal ao fetch
 				});
 
@@ -29,8 +29,8 @@ export async function getCompany(
 
 			default:
 				const resp = await api.get(`Company/kpis?period=${period}`, {
-					next: { tags: ['company'] },
-					cache: 'force-cache',
+					next: { tags: ['company'], revalidate: 120 },
+
 					signal: controller.signal,
 				});
 
