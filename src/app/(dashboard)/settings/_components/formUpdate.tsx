@@ -192,16 +192,16 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
-									<SelectItem value={'1'}>Lush Ipiranga</SelectItem>
-									<SelectItem value={'2'}>Lush Lapa</SelectItem>
+									<SelectItem value={'Lush Ipiranga'}>Lush Ipiranga</SelectItem>
+									<SelectItem value={'Lush Lapa'}>Lush Lapa</SelectItem>
 									<SelectItem
 										disabled
-										value={'3'}>
+										value={'Andar de Cima'}>
 										Andar de Cima
 									</SelectItem>
 									<SelectItem
 										disabled
-										value={'4'}>
+										value={'Tout Campinas'}>
 										Tout Campinas
 									</SelectItem>
 								</SelectContent>

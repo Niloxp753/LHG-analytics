@@ -97,6 +97,7 @@ export default function OccupationCasaLush(data?: any) {
 			</>
 		);
 	}
+	console.log(transformedData[0].category);
 	return (
 		<>
 			{occupancyRateBySuiteCategory ? (
@@ -109,15 +110,15 @@ export default function OccupationCasaLush(data?: any) {
 						</SelectTrigger>
 						<SelectContent className='dark'>
 							<SelectGroup>
-								<SelectItem value='LUSH'>LUSH</SelectItem>
-								<SelectItem value='LUSH POP'>LUSH POP</SelectItem>
-								<SelectItem value='LUSH SPA'>LUSH SPA</SelectItem>
-								<SelectItem value='LUSH SPA SPLASH'>LUSH SPA SPLASH</SelectItem>
-								<SelectItem value='LUSH LOUNGE'>LUSH LOUNGE</SelectItem>
-								<SelectItem value='LUSH HIDRO'>LUSH HIDRO</SelectItem>
-								<SelectItem value='LUSH SPLASH'>LUSH SPLASH</SelectItem>
-								<SelectItem value='LUSH CINE'>LUSH CINE</SelectItem>
-								<SelectItem value='CASA LUSH'>CASA LUSH</SelectItem>
+								{transformedData.map((item, index) => {
+									return (
+										<SelectItem
+											value={item.category}
+											key={index}>
+											{item.category}
+										</SelectItem>
+									);
+								})}
 							</SelectGroup>
 						</SelectContent>
 					</Select>

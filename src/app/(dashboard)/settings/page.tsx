@@ -11,10 +11,8 @@ export default async function Page({
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
 	const session = await getServerSession();
-
 	const users = await getAllUsersAction();
 	const emailLogged = session?.user?.email;
-
 	const user = users?.find((u) => u.email === emailLogged);
 
 	if (user?.role !== 'ADMIN') {

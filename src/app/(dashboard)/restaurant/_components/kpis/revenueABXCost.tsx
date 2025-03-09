@@ -11,15 +11,11 @@ export default function RevenueABXCost() {
 	return (
 		<div className='w-full'>
 			<AreaChartsApex
-				legend={'Receita A&B X Custo'}
+				legend={'Receita A&B'}
 				series={[
 					{
 						name: 'Receita A&B',
 						data: [44, 55, 57, 56, 61, 58],
-					},
-					{
-						name: 'Custo',
-						data: [76, 85, 101, 98, 87, 105],
 					},
 				]}
 				categories={[

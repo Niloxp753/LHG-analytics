@@ -41,7 +41,7 @@ export const columns: ColumnDef<IUser | undefined | any>[] = [
 	},
 	{
 		id: 'Unidade',
-		accessorKey: 'companyName',
+		accessorKey: 'company',
 		header: 'Unidade',
 		cell: ({ row }) => (
 			<div className='capitalize'>{row.getValue('Unidade')}</div>

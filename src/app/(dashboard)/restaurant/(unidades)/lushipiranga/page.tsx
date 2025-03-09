@@ -138,16 +138,16 @@ export default function Restaurant({
 						</div>
 						<AReports />
 						<div className='flex flex-col gap-5'>
-							<h2 className='text-zinc-50 font-bold text-2xl mt-10'>
+							{/* <h2 className='text-zinc-50 font-bold text-2xl mt-10'>
 								Gastos E Custos Gerais
-							</h2>
-							<CoustDayXWorker />
-							<CoustXWorker />
+							</h2> */}
+							{/* <CoustDayXWorker />
+							<CoustXWorker /> */}
 							<div className='flex-col xl:flex-row flex gap-5'>
-								<div className='w-full'>
+								{/* <div className='w-full'>
 									<CoustXAB />
-								</div>
-								<div className='xl:w-1/3 w-full flex flex-col justify-between gap-5'>
+								</div> */}
+								{/* <div className='xl:w-1/3 w-full flex flex-col justify-between gap-5'>
 									<CardDetails
 										title={'Compras Enxoval A&B - 2023'}
 										value={'R$44.554'}
@@ -168,7 +168,7 @@ export default function Restaurant({
 										value={'R$1.943'}
 										icon={undefined}
 									/>
-								</div>
+								</div> */}
 							</div>
 						</div>
 					</div>
