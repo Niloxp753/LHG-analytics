@@ -17,7 +17,7 @@ export async function getGovernance(
 				const resp_lapa = await api_lapa.get(
 					`Governance/operational?period=${period}`,
 					{
-						next: { tags: ['operational_lapa'], revalidate: 120 },
+						next: { tags: ['operational_lapa'], revalidate: 30 },
 						signal: controller.signal,
 					},
 				);

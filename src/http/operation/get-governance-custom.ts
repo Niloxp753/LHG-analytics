@@ -17,7 +17,7 @@ export async function getOperationCustom(
 				const resp_lapa = await api_lapa.get(
 					`Governance/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
 					{
-						next: { tags: ['operational'], revalidate: 120 },
+						next: { tags: ['operational'], revalidate: 30 },
 
 						signal: controller.signal, // Passa o signal ao fetch
 					},

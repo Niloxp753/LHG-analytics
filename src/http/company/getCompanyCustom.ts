@@ -34,7 +34,7 @@ export async function getCompanyCustom(
 				const resp_ipiranga = await api.get(
 					`Company/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
 					{
-						next: { tags: ['company'] },
+						next: { tags: ['company'], revalidate:30 },
 					
 						signal: controller.signal, // Passa o signal ao fetch
 					},

@@ -40,7 +40,12 @@ const handler = NextAuth({
 						// Any object returned will be saved in `user` property of the JWT
 						return null;
 					} else {
-						return user;
+						return {
+							id: user.id,
+							name: user.name,
+							email: user.email,
+							role: user.role, // Inclua apenas dados primitivos!
+						};
 					}
 				}
 				return null;
@@ -52,22 +57,25 @@ const handler = NextAuth({
 		// ...add more providers here
 	],
 	callbacks: {
-		jwt: async ({ token, user, session, account, profile }) => {
-			return {
-				...token,
-				...user,
-				...session,
-				...account,
-				...profile,
-			};
+		jwt: async ({ token, user }) => {
+			if (user) {
+				token.id = user.id;
+				token.name = user.name;
+				token.email = user.email;
+				// token.role = user.role;
+				return token;
+			}
+			return token;
 		},
-		session: async ({ session, token, newSession, user }) => {
-			return {
-				...token,
-				...user,
-				...session,
-				...newSession,
-			};
+		session: async ({ session, token }) => {
+			if (token) {
+				session.user = {
+					name: token.name,
+					email: token.email,
+				};
+				return session;
+			}
+			return session;
 		},
 	},
 	pages: {

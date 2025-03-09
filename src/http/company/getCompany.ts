@@ -16,7 +16,7 @@ export async function getCompany(
 			case 'lapa':
 				const apiURL = api_lapa;
 				const resp_lapa = await apiURL.get(`Company/kpis?period=${period}`, {
-					next: { tags: ['company'], revalidate: 120 },
+					next: { tags: ['company'], revalidate: 30 },
 
 					signal: controller.signal, // Passa o signal ao fetch
 				});
