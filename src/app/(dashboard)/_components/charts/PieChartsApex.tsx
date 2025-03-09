@@ -113,7 +113,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 				<Chart
 					options={options}
 					width={'100%'}
-					height={324}
+					height={400}
 					series={props.series ?? [40, 20, 45, 25]}
 					type='donut'></Chart>
 			) : (

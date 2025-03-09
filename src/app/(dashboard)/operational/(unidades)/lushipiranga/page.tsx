@@ -53,63 +53,57 @@ export default async function LushIpiranga({
 	const resp = await getData();
 
 	return (
-		<>
-			{resp ? (
-				<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-14 md:px-5 '>
-					<div className={`relative md:max-w-[82vw] flex md:ml-auto  w-full `}>
-						<div
-							className={`bg-zinc-950/50 py-4 w-full md:w-[82vw] backdrop-blur-md fixed top-0 z-40 flex flex-col gap-2 `}>
-							<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-1.5 text-xl'>
-								Operacional -{' '}
-								<span className='text-violet-400'>Lush Ipiranga</span>
-							</h2>
-							<Header />
-						</div>
-						<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-32'>
-							<BigNumbersOperation
-								data={resp?.BigNumbers}
-								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-									preSet == '30days' ? '30 dias atrás ' : ''
-								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-									preSet == '12months' ? '12 meses atrás ' : ''
-								}`}
-							/>
-							<div className='flex items-center gap-5 justify-between flex-col md:flex-row'>
-								<Performance data={resp?.SupervisorsPerformance} />
-								<SuitesOutsourcedInternal data={resp?.ShiftCleaning} />
-							</div>
-							<div className='w-full h-full flex gap-5 justify-between flex-col '>
-								<TotalCleaning data={resp?.CleaningByDate} />
-							</div>
-							<div className='flex gap-5 flex-col items-center'>
-								<MorningCleaningWorkers
-									categories={resp?.EmployeeCleaningByShift.categories}
-									series={resp?.EmployeeCleaningByShift.series[0]}
-								/>
-								<AfternoonCleaningWorkers
-									categories={resp?.EmployeeCleaningByShift.categories}
-									series={resp?.EmployeeCleaningByShift.series[1]}
-								/>
-								<NightCleaningWorkers
-									categories={resp?.EmployeeCleaningByShift.categories}
-									series={resp?.EmployeeCleaningByShift.series[2]}
-								/>
-							</div>
-
-							<div className='flex gap-5 flex-col w-full'>
-								<TableWokersMorning dataTable={resp?.EmployeeReport.Manhã} />
-								<TableWokersAfternoon dataTable={resp?.EmployeeReport.Tarde} />
-								<TableWokersNight dataTable={resp?.EmployeeReport.Noite} />
-								<TableWokersWeekly dataTable={resp?.TeamSizing} />
-							</div>
-						</div>
+		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-14 md:px-5 '>
+			<div className={`relative md:max-w-[82vw] flex md:ml-auto  w-full `}>
+				<div
+					className={`bg-zinc-950/50 py-4 w-full md:w-[82vw] backdrop-blur-md fixed top-0 z-40 flex flex-col gap-2 `}>
+					<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-1.5 text-xl'>
+						Operacional - <span className='text-violet-400'>Lush Ipiranga</span>
+					</h2>
+					<Header />
+				</div>
+				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-20 md:mt-32'>
+					<BigNumbersOperation
+						data={resp?.BigNumbers}
+						description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+							preSet == '30days' ? '30 dias atrás ' : ''
+						} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+							preSet == '12months' ? '12 meses atrás ' : ''
+						}`}
+					/>
+					<div className='flex items-center gap-5 justify-between flex-col md:flex-row'>
+						<Performance data={resp?.SupervisorsPerformance} />
+						<SuitesOutsourcedInternal data={resp?.ShiftCleaning} />
 					</div>
-				</main>
-			) : (
-				<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>
-					<h3>Carregando dados...</h3>
-				</main>
-			)}
-		</>
+					<div className='w-full h-full flex gap-5 justify-between flex-col '>
+						<TotalCleaning data={resp?.CleaningByDate} />
+					</div>
+					<div className='flex gap-5 flex-col items-center'>
+						<MorningCleaningWorkers
+							categories={resp?.EmployeeCleaningByShift.categories}
+							series={resp?.EmployeeCleaningByShift.series[0]}
+						/>
+						<AfternoonCleaningWorkers
+							categories={resp?.EmployeeCleaningByShift.categories}
+							series={resp?.EmployeeCleaningByShift.series[1]}
+						/>
+						<NightCleaningWorkers
+							categories={resp?.EmployeeCleaningByShift.categories}
+							series={resp?.EmployeeCleaningByShift.series[2]}
+						/>
+					</div>
+
+					<div className='flex gap-5 flex-col w-full'>
+						<TableWokersMorning dataTable={resp?.EmployeeReport.Manhã} />
+						<TableWokersAfternoon dataTable={resp?.EmployeeReport.Tarde} />
+						<TableWokersNight dataTable={resp?.EmployeeReport.Noite} />
+						<TableWokersWeekly
+							dataTable={resp?.TeamSizing}
+							idealNumber={7}
+						/>
+					</div>
+				</div>
+			</div>
+		</main>
 	);
 }

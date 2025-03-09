@@ -199,7 +199,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 					legend: {
 						position: 'bottom',
 						offsetY: 10,
-						fontSize: '14x',
+						fontSize: '12x',
 						itemMargin: {
 							vertical: 8,
 							horizontal: 8,

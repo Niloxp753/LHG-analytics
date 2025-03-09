@@ -65,7 +65,7 @@ export default async function LushLapa({
 							</h2>
 							<Header />
 						</div>
-						<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-32'>
+						<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-20 md:mt-32'>
 							<BigNumbersOperation
 								data={resp?.BigNumbers}
 								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
@@ -100,7 +100,10 @@ export default async function LushLapa({
 								<TableWokersMorning dataTable={resp?.EmployeeReport.Manhã} />
 								<TableWokersAfternoon dataTable={resp?.EmployeeReport.Tarde} />
 								<TableWokersNight dataTable={resp?.EmployeeReport.Noite} />
-								<TableWokersWeekly dataTable={resp?.TeamSizing} />
+								<TableWokersWeekly
+									dataTable={resp?.TeamSizing}
+									idealNumber={9}
+								/>
 							</div>
 						</div>
 					</div>

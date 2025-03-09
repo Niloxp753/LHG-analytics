@@ -16,7 +16,6 @@ interface TotalCleaningProps {
 
 export default function TotalCleaning(data: TotalCleaningProps) {
 	const cleaningByDate = data?.data;
-	console.log(cleaningByDate);
 
 	if (
 		!cleaningByDate.series.length ||

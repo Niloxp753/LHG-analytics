@@ -30,7 +30,7 @@ export default function TableWokersMorning({
 
 	return (
 		<div>
-			<h2 className='font-bold text-zinc-50 text-3xl mt-10'>
+			<h2 className='font-bold text-zinc-50 text-xl md:text-3xl mt-10'>
 				Relatório de colaboradores - Manhã
 			</h2>
 			<Table
@@ -39,30 +39,38 @@ export default function TableWokersMorning({
 				<TableHeader className='bg-violet-900 rounded-lg text-sm'>
 					<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
 						<TableHead>Colaborador</TableHead>
-						<TableHead className='text-center text-xs'>
+						<TableHead className='text-center text-xs text-nowrap'>
 							Total de suítes
 						</TableHead>
-						<TableHead className='text-center text-xs'>
+						<TableHead className='text-center text-xs text-nowrap'>
 							Dias trabalhados
 						</TableHead>
-						<TableHead className='text-center text-xs'>
+						<TableHead className='text-center text-xs text-nowrap'>
 							Média de limpezas por dia
 						</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody className='text-zinc-100'>
-					{dataTable.map((data: any, index: number) => (
-						<TableRow
-							key={index}
-							className='text-center'>
-							<TableCell className='font-bold text-left'>
-								{data.employeeName}
+					{!dataTable ? (
+						<TableRow>
+							<TableCell className='font-bold text-left text-nowrap'>
+								Dados não encontrados
 							</TableCell>
-							<TableCell>{data.totalSuitesCleanings}</TableCell>
-							<TableCell>{data.totalDaysWorked}</TableCell>
-							<TableCell>{data.averageDailyCleaning}</TableCell>
 						</TableRow>
-					))}
+					) : (
+						dataTable.map((data: any, index: number) => (
+							<TableRow
+								key={index}
+								className='text-center'>
+								<TableCell className='font-bold text-left text-nowrap'>
+									{data.employeeName}
+								</TableCell>
+								<TableCell>{data.totalSuitesCleanings}</TableCell>
+								<TableCell>{data.totalDaysWorked}</TableCell>
+								<TableCell>{data.averageDailyCleaning}</TableCell>
+							</TableRow>
+						))
+					)}
 				</TableBody>
 				{/* <TableFooter className=' text-zinc-100 bg-zinc-700 font-bold hover:bg-zinc-700'>
 					<TableRow className='text-center hover:bg-zinc-700'>

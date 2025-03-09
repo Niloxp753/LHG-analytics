@@ -35,8 +35,8 @@ export default async function Operational({
 					<Header />
 				</div>
 
-				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-28'>
-					<div className='grid md:grid-cols-4 mt-10 gap-5'>
+				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-24 md:mt-32'>
+					<div className='grid md:grid-cols-4 gap-5'>
 						<CardLink
 							href={`/operational/lushipiranga?menu=${menu}&set=${preSet}`}
 							title={'Lush Ipiranga'}
