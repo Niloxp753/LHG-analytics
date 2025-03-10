@@ -18,8 +18,8 @@ export async function getCompanyCustom(
 				const resp_lapa = await apiURL.get(
 					`Company/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
 					{
-						next: { tags: ['company'], revalidate: 120 },
-					
+						next: { tags: ['company'], revalidate: 30 },
+
 						signal: controller.signal, // Passa o signal ao fetch
 					},
 				);
@@ -34,8 +34,7 @@ export async function getCompanyCustom(
 				const resp_ipiranga = await api.get(
 					`Company/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
 					{
-						next: { tags: ['company'], revalidate:30 },
-					
+						next: { tags: ['company'], revalidate: 30 },
 						signal: controller.signal, // Passa o signal ao fetch
 					},
 				);

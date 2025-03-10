@@ -17,8 +17,18 @@ interface AreaChartsApexProps {
 }
 
 export default function LineChartsApexUnity(props: AreaChartsApexProps) {
-		const params = useSearchParams();
-		const is30Days = params.get('set') !== '30days';
+	const params = useSearchParams();
+	const is30Days = params.get('set') === '30days';
+	const isCustomData = params.get('startDate') !== null;
+
+	function isEnabled() {
+		if (is30Days || isCustomData) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: 'line-bar',
@@ -75,7 +85,6 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 						: val
 				} `,
 			enabled: false,
-
 			distributed: false,
 			background: {
 				enabled: true,
@@ -214,7 +223,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 						height: 340,
 					},
 					dataLabels: {
-						enabled: is30Days,
+						enabled: isEnabled(),
 					},
 					xaxis: {
 						labels: {

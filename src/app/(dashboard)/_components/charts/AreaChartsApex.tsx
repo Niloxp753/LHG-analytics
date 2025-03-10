@@ -19,7 +19,16 @@ interface AreaChartsApexProps {
 
 export default function AreaChartsApex(props: AreaChartsApexProps) {
 	const params = useSearchParams();
-	const is30Days = params.get('set') !== '30days';
+	const is30Days = params.get('set') === '30days';
+	const isCustomData = params.get('startDate') !== null;
+
+	function isEnabled() {
+		if (is30Days || isCustomData) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 	const options: ApexCharts.ApexOptions = {
 		chart: {
@@ -54,7 +63,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 				colors: ['#7c3aed', '#2563eb', '#4f46e5', '#c026d3', '#e11d48'],
 				fontSize: '10px',
 			},
-			enabled: true,
+			enabled: isEnabled(),
 			distributed: false,
 			background: {
 				enabled: true,
@@ -181,7 +190,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 						},
 					},
 					dataLabels: {
-						enabled: is30Days,
+						enabled: isEnabled(),
 						formatter: (val: number | string) =>
 							`${
 								props.money

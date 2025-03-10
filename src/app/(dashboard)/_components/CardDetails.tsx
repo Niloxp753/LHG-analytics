@@ -53,7 +53,7 @@ export default function CardDetails({
 					</p>
 				) : (
 					<p className='flex gap-1 items-center'>
-						{value}
+						{value.toLocaleString('pt-BR')}
 						{/* <MoveUp
 							className='drop-shadow-[0px_4px_8px_rgba(34,197,94)]'
 							color='#22c55e'
