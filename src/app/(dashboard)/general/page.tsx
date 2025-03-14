@@ -12,6 +12,9 @@ import LocationsxUnity from '../_components/kpis/LocationsxUnity';
 import OccupationXUnity from '../_components/kpis/OccupationXUnity';
 import TKTxUnity from '../_components/kpis/TKTxUnity';
 import TRevParXUnity from '../_components/kpis/TRevParXUnity';
+import { getGeneralPageData } from '@/actions/initial-pages/general';
+import { format } from 'date-fns';
+import BigNumbersCompany from './_components/big-numbers-company';
 const SparkChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/SparkChart'),
 	{ ssr: false },
@@ -24,9 +27,43 @@ export default async function General({
 }) {
 	const menu = 'general';
 	const preSet = searchParams.set ?? '7days';
+	const startDate = searchParams.startDate;
+	const endDate = searchParams.endDate;
 
-	const data = await getCompanyAction(preSet ?? '7days');
+	const formattedStartDate =
+		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
+	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
 
+	async function getData() {
+		if (startDate && endDate) {
+			const customData = await getGeneralPageData({
+				startDate: formattedStartDate,
+				endDate: formattedEndDate,
+			});
+			if (customData) {
+				return customData;
+			}
+			return { ok: false, data: null, error: 'Algo deu errado' };
+		} else {
+			const data = await getGeneralPageData({ period: preSet });
+			if (data) {
+				return data;
+			}
+			return { ok: false, data: null, error: 'Algo deu errado' };
+		}
+	}
+
+	const resp = await getData();
+
+	if (!resp.ok) {
+		console.log(resp.error);
+		return (
+			<div className='text-muted-foreground'>
+				Não foi possível encontrar os dados
+			</div>
+		);
+	}
+	
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 '>
 			<div className={`relative md:max-w-[82vw] flex  md:ml-auto w-full `}>
@@ -65,8 +102,9 @@ export default async function General({
 							}></CardLink>
 					</div>
 					<div className=' w-full h-full flex gap-5 flex-col md:px-0 '>
-						<BigNumbers
-							data={data?.BigNumbers}
+						<BigNumbersCompany
+							ipiranga={resp.data ? resp.data[0]?.BigNumbers : null}
+							lapa={resp.data ? resp.data[1].BigNumbers : null}
 							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
 								preSet == '30days' ? '30 dias atrás ' : ''
 							} ${preSet == '6months' ? '6 meses atrás ' : ''}${

@@ -3,7 +3,7 @@
 'use server';
 
 import { getCompany } from '@/http/company/getCompany';
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { revalidatePath } from 'next/cache';
 
 export async function getCompanyAction(period: string, company?: string) {
 	let newPeriod = '';
