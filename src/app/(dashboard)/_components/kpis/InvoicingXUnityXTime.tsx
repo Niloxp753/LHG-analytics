@@ -1,61 +1,45 @@
 /** @format */
 
+import { NormalizeRevenueByDate } from '@/utils/normalize-revenue-by-date';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const LineChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/LineChart'),
 	{ ssr: false },
 );
+interface RevenueEntry {
+	[date: string]: {
+		totalValue: string;
+	};
+}
 
-export default function InvoicingXUnityXTime() {
+interface InvoicingXUnityXTimeProps {
+	ipiranga: RevenueEntry[];
+	lapa: RevenueEntry[];
+}
+export default function InvoicingXUnityXTime({
+	ipiranga,
+	lapa,
+}: InvoicingXUnityXTimeProps) {
+	const revenueByDateIpiranga = NormalizeRevenueByDate({ data: ipiranga });
+	const revenueByDateLapa = NormalizeRevenueByDate({ data: lapa });
 	return (
 		<>
 			<LineChart
+				money
 				height={148}
 				title='Faturamento por Unidade no tempo'
 				series={[
 					{
 						name: 'Lush Ipiranga',
-						data: [
-							3275, 1517, 1768, 1228, 2443, 3025, 3462, 5525, 1768, 602, 1195,
-							1195,
-						],
+						data: revenueByDateIpiranga.values,
 					},
 					{
 						name: 'Lush Lapa',
-						data: [
-							688, 689, 2316, 3275, 1517, 5525, 2443, 3025, 3462, 1768, 602,
-							1195,
-						],
-					},
-					{
-						name: 'Tout Campinas',
-						data: [
-							1907, 5670, 1296, 1228, 540, 3275, 1517, 1768, 602, 1195, 1195,
-						],
-					},
-					{
-						name: 'Andar de Cima',
-						data: [
-							2443, 3025, 3462, 4700, 4668, 8139, 1907, 5670, 1296, 1907, 5670,
-							1296,
-						],
+						data: revenueByDateLapa.values,
 					},
 				]}
-				categories={[
-					'jan/24',
-					'fev/24',
-					'mar/24',
-					'abr/24',
-					'mai/24',
-					'jun/24',
-					'jul/24',
-					'ago/24',
-					'set/24',
-					'out/24',
-					'nov/24',
-					'dez/24',
-				]}
+				categories={revenueByDateIpiranga.dates}
 			/>
 		</>
 	);

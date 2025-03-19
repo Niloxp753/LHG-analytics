@@ -1,5 +1,6 @@
 /** @format */
 
+import { NormalizeTKTMedio } from '@/utils/normalize-tkm-medio';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const LineChart = dynamic(
@@ -7,55 +8,37 @@ const LineChart = dynamic(
 	{ ssr: false },
 );
 
-export default function TKTxUnity() {
+interface TKTxUnityProps {
+	ipiranga: RentalsEntry[];
+	lapa: RentalsEntry[];
+}
+
+interface RentalsEntry {
+	[date: string]: {
+		totalAllTicketAverage: string;
+	};
+}
+
+export default function TKTxUnity({ ipiranga, lapa }: TKTxUnityProps) {
+	const ticketAverageByDateIpiranga = NormalizeTKTMedio({ data: ipiranga });
+	const ticketAverageByDateLapa = NormalizeTKTMedio({ data: lapa });
 	return (
 		<>
 			<LineChart
+				money
 				height={148}
 				title='Ticket Médio por Unidade'
 				series={[
 					{
 						name: 'Lush Ipiranga',
-						data: [
-							3275, 1517, 1768, 1228, 2443, 3025, 3462, 5525, 1768, 602, 1195,
-							1195,
-						],
+						data: ticketAverageByDateIpiranga.values,
 					},
 					{
 						name: 'Lush Lapa',
-						data: [
-							688, 689, 2316, 3275, 1517, 5525, 2443, 3025, 3462, 1768, 602,
-							1195,
-						],
-					},
-					{
-						name: 'Tout Campinas',
-						data: [
-							1907, 5670, 1296, 1228, 540, 3275, 1517, 1768, 602, 1195, 1195,
-						],
-					},
-					{
-						name: 'Andar de Cima',
-						data: [
-							2443, 3025, 3462, 4700, 4668, 8139, 1907, 5670, 1296, 1907, 5670,
-							1296,
-						],
+						data: ticketAverageByDateLapa.values,
 					},
 				]}
-				categories={[
-					'jan/24',
-					'fev/24',
-					'mar/24',
-					'abr/24',
-					'mai/24',
-					'jun/24',
-					'jul/24',
-					'ago/24',
-					'set/24',
-					'out/24',
-					'nov/24',
-					'dez/24',
-				]}
+				categories={ticketAverageByDateIpiranga?.dates}
 			/>
 		</>
 	);

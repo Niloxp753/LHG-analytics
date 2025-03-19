@@ -68,3 +68,8 @@ export function NormalizeTimeNumbers({
 		return secondsToTime(mediaSegundos);
 	}
 }
+
+export function NormalizeBigNumbersGeneral(values: string[]) {
+	const numbers = values.map((value) => parseCurrency(value));
+	return numbers;
+}

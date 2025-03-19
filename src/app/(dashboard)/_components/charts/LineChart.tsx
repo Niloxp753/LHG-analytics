@@ -229,7 +229,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 						labels: {
 							trim: false,
 							style: { fontSize: '12px' },
-							rotate: 0,
+							rotate: isEnabled() ? 0 : -45,
 							hideOverlappingLabels: true,
 						},
 					},

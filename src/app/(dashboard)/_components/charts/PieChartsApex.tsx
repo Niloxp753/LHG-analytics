@@ -8,13 +8,16 @@ import { Skeleton } from '@/components/ui/skeleton';
 interface PieChartsApexProps {
 	title?: string;
 	labels?: string[];
-	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | undefined;
+	series?: ApexNonAxisChartSeries | undefined;
 	colors?: string[];
 	dataLabelColors?: string[];
 	height?: number;
+	money?: boolean;
+	percent?: boolean;
 }
 
 export default function PieChartsApex(props: PieChartsApexProps) {
+	const total = props.series?.reduce((acc, cur) => acc + cur, 0);
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: 'donut-chart',
@@ -78,6 +81,19 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 		tooltip: {
 			enabled: true,
 			fillSeriesColor: false,
+			y: {
+				formatter: (val: number | string) =>
+					`${
+						props.money
+							? val.toLocaleString('pt-BR', {
+									style: 'currency',
+									currency: 'BRL',
+							  })
+							: props.percent
+							? val + '%'
+							: val ?? 10
+					} `,
+			},
 		},
 		plotOptions: {
 			pie: {
@@ -86,7 +102,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 					labels: {
 						value: {
 							show: true,
-							fontSize: '32px',
+							fontSize: '24px',
 							color: '#fafafa',
 							fontWeight: 'bold',
 						},
@@ -96,10 +112,21 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 						show: true,
 						total: {
 							show: true,
-							fontSize: '16px',
+							fontSize: '12px',
 							color: '#fafafa',
 							fontWeight: 'bold',
 							showAlways: true,
+							formatter: () =>
+								`${
+									props.money
+										? total?.toLocaleString('pt-BR', {
+												style: 'currency',
+												currency: 'BRL',
+										  })
+										: props.percent
+										? total + '%'
+										: total
+								} `,
 						},
 					},
 				},

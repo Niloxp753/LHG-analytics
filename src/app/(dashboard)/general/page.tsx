@@ -55,7 +55,7 @@ export default async function General({
 
 	const resp = await getData();
 
-	if (!resp.ok) {
+	if (!resp.ok || !resp.data) {
 		console.log(resp.error);
 		return (
 			<div className='text-muted-foreground'>
@@ -63,7 +63,7 @@ export default async function General({
 			</div>
 		);
 	}
-	
+
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 '>
 			<div className={`relative md:max-w-[82vw] flex  md:ml-auto w-full `}>
@@ -114,23 +114,43 @@ export default async function General({
 
 						<div className='flex gap-5 flex-col md:flex-row w-full h-full '>
 							<div className='md:w-1/3 w-full h-full '>
-								<InvoicingXUnity />
+								<InvoicingXUnity
+									ipiranga={
+										resp.data[0].BigNumbers[0].currentDate.totalAllValue
+									}
+									lapa={resp.data[1].BigNumbers[0].currentDate.totalAllValue}
+								/>
 							</div>
 							<div className='md:w-2/3 h-full '>
-								<LocationsxUnity />
+								<LocationsxUnity
+									ipiranga={resp.data[0].RentalsByDate}
+									lapa={resp.data[1].RentalsByDate}
+								/>
 							</div>
 						</div>
 						<div className='flex gap-5 flex-col md:flex-row'>
 							<div className='md:w-1/2'>
-								<TKTxUnity />
+								<TKTxUnity
+									ipiranga={resp.data[0].TicketAverageByDate}
+									lapa={resp.data[1].TicketAverageByDate}
+								/>
 							</div>
 							<div className='md:w-1/2'>
-								<TRevParXUnity />
+								<TRevParXUnity
+									ipiranga={resp.data[0].TrevparByDate}
+									lapa={resp.data[1].TrevparByDate}
+								/>
 							</div>
 						</div>
 						<div className='flex flex-col gap-5'>
-							<InvoicingXUnityXTime />
-							<OccupationXUnity />
+							<InvoicingXUnityXTime
+								ipiranga={resp.data[0].RevenueByDate}
+								lapa={resp.data[1].RevenueByDate}
+							/>
+							<OccupationXUnity
+								ipiranga={resp.data[0].OccupancyRateByDate}
+								lapa={resp.data[1].OccupancyRateByDate}
+							/>
 						</div>
 					</div>
 				</div>
