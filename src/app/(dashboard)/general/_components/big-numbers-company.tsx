@@ -133,7 +133,7 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				value={totalAllRevpar!}
 			/>
 			<CardDetails
-				description={props.description + totalAllGiroPrevious}
+				description={props.description + totalAllGiroPrevious.toFixed(2)}
 				icon={<DoorClosed />}
 				title={'Giro'}
 				value={totalAllGiro}
