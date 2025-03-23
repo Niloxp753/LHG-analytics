@@ -139,7 +139,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 										  })
 										: props.percent
 										? data + '%'
-										: data
+										: data.toLocaleString('pt-br')
 								} `;
 							},
 						},

@@ -136,7 +136,7 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				description={props.description + totalAllGiroPrevious.toFixed(2)}
 				icon={<DoorClosed />}
 				title={'Giro'}
-				value={totalAllGiro}
+				value={totalAllGiro.toFixed(2)}
 			/>
 			<CardDetails
 				description={props.description + totalAverageOccupationTimePrevious}

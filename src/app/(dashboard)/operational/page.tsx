@@ -113,8 +113,12 @@ export default async function Operational({
 						/>
 						<div className='w-full h-full flex gap-5 flex-col md:flex-row'>
 							<TotalCleaningUnity
-								ipiranga={resp.data[0].CleaningByDate}
-								lapa={resp.data[1].CleaningByDate}
+								ipiranga={
+									resp.data[0].BigNumbers[0].currentDate.totalAllSuitesCleanings
+								}
+								lapa={
+									resp.data[1].BigNumbers[0].currentDate.totalAllSuitesCleanings
+								}
 							/>
 							<CleaningAverageUnity
 								ipiranga={
