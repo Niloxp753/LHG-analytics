@@ -1,9 +1,10 @@
 /** @format */
 
 'use client';
-import Chart from 'react-apexcharts';
+
 import ResponsiveContainerChart from '@/app/(dashboard)/_components/ResponsiveContainerChart';
 import { Skeleton } from '@/components/ui/skeleton';
+import Chart from 'react-apexcharts';
 
 interface PieChartsApexProps {
 	title?: string;
@@ -14,10 +15,10 @@ interface PieChartsApexProps {
 	height?: number;
 	money?: boolean;
 	percent?: boolean;
+	categories?: string[];
 }
 
 export default function PieChartsApex(props: PieChartsApexProps) {
-	const total = props.series?.reduce((acc, cur) => acc + cur, 0);
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: 'donut-chart',
@@ -105,6 +106,17 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 							fontSize: '24px',
 							color: '#fafafa',
 							fontWeight: 'bold',
+							formatter: (val: number | string) =>
+								`${
+									props.money
+										? val.toLocaleString('pt-BR', {
+												style: 'currency',
+												currency: 'BRL',
+										  })
+										: props.percent
+										? val + '%'
+										: val ?? 10
+								} `,
 						},
 						name: {
 							show: false,
@@ -112,21 +124,24 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 						show: true,
 						total: {
 							show: true,
-							fontSize: '12px',
-							color: '#fafafa',
-							fontWeight: 'bold',
 							showAlways: true,
-							formatter: () =>
-								`${
+							formatter: (w: any) => {
+								console.log(w.globals.series);
+								const data: any = w.globals.series.reduce(
+									(acc: any, cur: any) => acc + cur,
+									0,
+								);
+								return `${
 									props.money
-										? total?.toLocaleString('pt-BR', {
+										? data.toLocaleString('pt-BR', {
 												style: 'currency',
 												currency: 'BRL',
 										  })
 										: props.percent
-										? total + '%'
-										: total
-								} `,
+										? data + '%'
+										: data
+								} `;
+							},
 						},
 					},
 				},

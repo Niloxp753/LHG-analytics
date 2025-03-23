@@ -8,14 +8,32 @@ const PieChartsApex = dynamic(
 	{ ssr: false },
 );
 
-export default function PerformanceUnity() {
+interface PerformanceUnityProps {
+	ipiranga: DataSet;
+	lapa: DataSet;
+}
+
+type DataSet = {
+	categories: string[];
+	series: number[];
+};
+
+export default function PerformanceUnity({
+	ipiranga,
+	lapa,
+}: PerformanceUnityProps) {
+	const totalIpiranga = ipiranga.series.reduce((acc, curr) => acc + curr, 0);
+	const totalLapa = lapa.series.reduce((acc, curr) => acc + curr, 0);
+
 	return (
 		<PieChartsApex
 			height={340}
-			series={[40, 56, 85, 60]}
+			series={[totalIpiranga, totalLapa]}
+			categories={['Lush Ipiranga', 'Lush Lapa']}
 			title='Performance geral de supervisores'
 			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
 			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
+			labels={['Lush Ipiranga', 'Lush Lapa']}
 		/>
 	);
 }

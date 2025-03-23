@@ -19,15 +19,15 @@ export default function InvoicingXUnity({
 	lapa,
 }: InvoicingXUnityProps) {
 	const numbers = NormalizeBigNumbersGeneral([ipiranga, lapa]);
+
 	return (
-		<>
-			<PieChartsApex
-				money
-				colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
-				dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
-				series={[numbers[0], numbers[1]]}
-				labels={['Ipiranga', 'Lapa']}
-			/>
-		</>
+		<PieChartsApex
+			money
+			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
+			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
+			series={[numbers[0], numbers[1]]}
+			labels={['Ipiranga', 'Lapa']}
+			
+		/>
 	);
 }
