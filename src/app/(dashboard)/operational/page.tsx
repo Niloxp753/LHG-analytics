@@ -137,9 +137,18 @@ export default async function Operational({
 						</div>
 					</div>
 					<div className='flex flex-col gap-5'>
-						<MorningCleaning />
-						<AfternoonCleaning />
-						<NightCleaning />
+						<MorningCleaning
+							ipiranga={resp.data[0].EmployeeCleaningByShift}
+							lapa={resp.data[1].EmployeeCleaningByShift}
+						/>
+						<AfternoonCleaning
+							ipiranga={resp.data[0].EmployeeCleaningByShift}
+							lapa={resp.data[1].EmployeeCleaningByShift}
+						/>
+						<NightCleaning
+							ipiranga={resp.data[0].EmployeeCleaningByShift}
+							lapa={resp.data[1].EmployeeCleaningByShift}
+						/>
 					</div>
 				</div>
 			</div>

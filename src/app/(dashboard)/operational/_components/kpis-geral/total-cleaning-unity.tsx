@@ -22,7 +22,7 @@ export default function TotalCleaningUnity({
 		<PieChartsApex
 			height={340}
 			series={[ipiranga, lapa]}
-			title='Total de limpezas e vistorias'
+			title='Total de limpezas por unidade'
 			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
 			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
 			labels={['Lush Ipiranga', 'Lush Lapa']}

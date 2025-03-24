@@ -22,7 +22,7 @@ export default function CleaningAverageUnity({
 		<PieChartsApex
 			height={340}
 			series={[ipiranga, lapa]}
-			title='Média de limpezas e vistorias por colaborador'
+			title='Média de limpezas por unidade'
 			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
 			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
 			labels={['Lush Ipiranga', 'Lush Lapa']}

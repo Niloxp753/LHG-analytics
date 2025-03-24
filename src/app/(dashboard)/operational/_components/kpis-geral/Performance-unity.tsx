@@ -30,7 +30,7 @@ export default function PerformanceUnity({
 			height={340}
 			series={[totalIpiranga, totalLapa]}
 			categories={['Lush Ipiranga', 'Lush Lapa']}
-			title='Performance geral de supervisores'
+			title='Total de vistorias por unidade'
 			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
 			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
 			labels={['Lush Ipiranga', 'Lush Lapa']}
