@@ -1,6 +1,7 @@
 /** @format */
 
 import CardDetails from '@/app/(dashboard)/_components/CardDetails';
+import { generateDescription } from '@/utils/generate-description';
 import { Eye, Leaf, LeafyGreen } from 'lucide-react';
 
 interface BigNumbersPageOpProps {
@@ -29,42 +30,46 @@ export default function BigNumbersPageOp({
 		dataIpiranga.currentDate.totalAllInspections +
 		dataLapa.currentDate.totalAllInspections;
 
-	const totalAllSuitesCleaningsPreviousData =
-		dataIpiranga.previousDate.totalAllSuitesCleaningsPreviousData +
-		dataLapa.previousDate.totalAllSuitesCleaningsPreviousData;
+	const totalAllSuitesCleaningsPreviousData = dataIpiranga.previousDate
+		? dataIpiranga.previousDate.totalAllSuitesCleaningsPreviousData +
+		  dataLapa.previousDate.totalAllSuitesCleaningsPreviousData
+		: null;
 
-	const totalAllAverageDailyCleaningPreviousData =
-		dataIpiranga.previousDate.totalAllAverageDailyCleaningPreviousData +
-		dataLapa.previousDate.totalAllAverageDailyCleaningPreviousData;
+	const totalAllAverageDailyCleaningPreviousData = dataIpiranga.previousDate
+		? dataIpiranga.previousDate.totalAllAverageDailyCleaningPreviousData +
+		  dataLapa.previousDate.totalAllAverageDailyCleaningPreviousData
+		: null;
 
-	const totalAllInspectionsPreviousData =
-		dataIpiranga.previousDate.totalAllInspectionsPreviousData +
-		dataLapa.previousDate.totalAllInspectionsPreviousData;
+	const totalAllInspectionsPreviousData = dataIpiranga.previousDate
+		? dataIpiranga.previousDate.totalAllInspectionsPreviousData +
+		  dataLapa.previousDate.totalAllInspectionsPreviousData
+		: null;
 
 	return (
 		<div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
 			<CardDetails
-				description={
-					description +
-					totalAllSuitesCleaningsPreviousData.toLocaleString('pt-br')
-				}
+				description={generateDescription(
+					description,
+					totalAllSuitesCleaningsPreviousData,
+				)}
 				icon={<Leaf />}
 				title={'Total de Suítes Limpas'}
 				value={totalAllSuitesCleanings.toLocaleString('pt-br')}
 			/>
 			<CardDetails
-				description={
-					description +
-					totalAllAverageDailyCleaningPreviousData.toLocaleString('pt-br')
-				}
+				description={generateDescription(
+					description,
+					totalAllAverageDailyCleaningPreviousData,
+				)}
 				icon={<LeafyGreen />}
 				title={'Média de Limpezas Por Dia'}
 				value={totalAllAverageDailyCleaning.toLocaleString('pt-br')}
 			/>
 			<CardDetails
-				description={
-					description + totalAllInspectionsPreviousData.toLocaleString('pt-br')
-				}
+				description={generateDescription(
+					description,
+					totalAllInspectionsPreviousData,
+				)}
 				icon={<Eye />}
 				title={'Total de Inspeções'}
 				value={totalAllInspections.toLocaleString('pt-br')}
