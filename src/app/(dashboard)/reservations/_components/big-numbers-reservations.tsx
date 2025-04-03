@@ -71,14 +71,17 @@ export default function BigNumbersReservation({
 								value={d.currentDate.totalAllTicketAverage}
 							/>{' '}
 							<CardDetails
+								type=''
 								description={
 									d.PreviousDate &&
 									description +
-										d.PreviousDate.totalAllRepresentativenessPreviousData
+										d.PreviousDate.totalAllRepresentativenessPreviousData *
+											100 +
+										'%'
 								}
 								icon={<Blend />}
 								title={'Representatividade'}
-								value={d.currentDate.totalAllRepresentativeness}
+								value={d.currentDate.totalAllRepresentativeness * 100 + '%'}
 							/>
 						</div>
 					);
