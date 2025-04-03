@@ -1,98 +1,64 @@
 /** @format */
 
-import InvoicingXChannel from '@/app/(dashboard)/reservations/components/kpis/InvoicingXChannel';
+import { getReservationsAction } from '@/actions/reservations/get-reservations';
+import Header from '@/app/(dashboard)/_components/Header';
+import InvoicingXChannel from '@/app/(dashboard)/reservations/_components/kpis/InvoicingXChannel';
+import { format } from 'date-fns';
 import { Blend, Coins, HandCoins, Sigma, SquarePercent } from 'lucide-react';
+import { revalidatePath } from 'next/cache';
 import { SiGoogleads, SiMeta } from 'react-icons/si';
 import CardDetails from '../../../_components/CardDetails';
 import { TableReservs } from '../../../_components/kpis/TableReservs';
-import CategoriesXReservs from '../../components/kpis/CategoriesXReservs';
-import EcommerceRevenue from '../../components/kpis/ecommerce-receita';
-import EcommerceRevervs from '../../components/kpis/ecommerce-reservas';
-import InvoicingXReservs from '../../components/kpis/InvoicingXReservs';
-import InvoicingXTypes from '../../components/kpis/InvoicingXTypes';
-import LocationsXReservs from '../../components/kpis/LocationsXReservs';
-import Representation from '../../components/kpis/Representation';
-import Header from '@/app/(dashboard)/_components/Header';
+import CategoriesXReservs from '../../_components/kpis/CategoriesXReservs';
+import EcommerceRevenue from '../../_components/kpis/ecommerce-receita';
+import EcommerceRevervs from '../../_components/kpis/ecommerce-reservas';
+import InvoicingXReservs from '../../_components/kpis/InvoicingXReservs';
+import InvoicingXTypes from '../../_components/kpis/InvoicingXTypes';
+import LocationsXReservs from '../../_components/kpis/LocationsXReservs';
+import Representation from '../../_components/kpis/Representation';
+import BigNumbersReservation from '../../_components/big-numbers-reservations';
 
-export default function Page({
+export default async function Page({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | string[] | undefined };
+	searchParams: { [key: string]: string | undefined };
 }) {
 	const preSet = searchParams.set || '7days';
+	searchParams.menu = 'operational';
+
+	async function getData() {
+		const data = await getReservationsAction(preSet ?? '7days', 'ipiranga');
+		if (data) {
+			revalidatePath('/reservations');
+			return data;
+		} else {
+			return null;
+		}
+	}
+
+	const resp = await getData();
+	console.log(resp.BigNumbersEcommerce);
 
 	return (
-		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden md:px-5 py-10'>
-			<div className={`relative w-full md:max-w-[82vw] md:ml-auto flex `}>
+		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-14 md:px-5 '>
+			<div className={`relative md:max-w-[82vw] flex md:ml-auto  w-full `}>
 				<div
-					className={`bg-zinc-950/50 py-4 w-full md:w-[82vw] backdrop-blur-md fixed z-40 top-0 flex flex-col items-center gap-5 md:justify-end `}>
-					<h2 className='text-zinc-50 font-bold text-xl md:text-3xl text-center py-1.5'>
+					className={`bg-zinc-950/50 py-4 w-full md:w-[82vw] backdrop-blur-md fixed top-0 z-40 flex flex-col gap-2 `}>
+					<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-1.5 text-xl'>
 						Reservas -{' '}
 						<span className='text-violet-400'> {''}Lush Ipiranga</span>
 					</h2>
 					<Header />
 				</div>
-				<div className=' w-full  flex gap-5 flex-col justify-start mt-28  px-3 md:px-0'>
-					<div>
-						{' '}
-						<div
-							className={`justify-between  items-center grid md:grid-cols-5 gap-5 grid-cols-1 `}>
-							<CardDetails
-								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-									preSet == '30days' ? '30 dias atrás ' : ''
-								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-									preSet == '12months' ? '12 meses atrás ' : ''
-								}`}
-								type='money'
-								icon={<HandCoins />}
-								title={'Receita De Reservas'}
-								value={341518}
-							/>
-							<CardDetails
-								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-									preSet == '30days' ? '30 dias atrás ' : ''
-								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-									preSet == '12months' ? '12 meses atrás ' : ''
-								}`}
-								icon={<Sigma />}
-								title={'Número De Reservas'}
-								value={397}
-							/>
-							<CardDetails
-								description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
-									preSet == '30days' ? '30 dias atrá s' : ''
-								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-									preSet == '12months' ? '12 meses atrás ' : ''
-								}`}
-								type='money'
-								icon={<SquarePercent />}
-								title={'Ticket Médio'}
-								value={860}
-							/>
-
-							<CardDetails
-								description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
-									preSet == '30days' ? '30 dias atrás ' : ''
-								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-									preSet == '12months' ? '12 meses atrás ' : ''
-								}`}
-								icon={<Blend />}
-								title={'Representatividade'}
-								value={19}
-							/>
-
-							<CardDetails
-								description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
-									preSet == '30days' ? '30 dias atrás ' : ''
-								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-									preSet == '12months' ? '12 meses atrás ' : ''
-								}`}
-								icon={<Blend />}
-								title={'Meta de Repres.'}
-								value={22}
-							/>
-						</div>
-					</div>
+				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-20 md:mt-32'>
+					<BigNumbersReservation
+						data={resp?.BigNumbers}
+						description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+							preSet == '30days' ? '30 dias atrás ' : ''
+						} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+							preSet == '12months' ? '12 meses atrás ' : ''
+						}`}
+					/>
 					<div className='flex flex-col md:flex-row w-full gap-5'>
 						<InvoicingXTypes />
 						<InvoicingXChannel />

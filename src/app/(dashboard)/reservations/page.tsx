@@ -1,6 +1,6 @@
 /** @format */
 
-import InvoicingXChannel from '@/app/(dashboard)/reservations/components/kpis/InvoicingXChannel';
+import InvoicingXChannel from '@/app/(dashboard)/reservations/_components/kpis/InvoicingXChannel';
 import { Blend, Coins, HandCoins, Sigma, SquarePercent } from 'lucide-react';
 import { SiGoogleads, SiMeta } from 'react-icons/si';
 import CardDetails from '../_components/CardDetails';
@@ -8,13 +8,13 @@ import CardLink from '../_components/CardLink';
 import SparkChart from '../_components/charts/SparkChart';
 import Header from '../_components/Header';
 import { TableReservs } from '../_components/kpis/TableReservs';
-import CategoriesXReservs from './components/kpis/CategoriesXReservs';
-import EcommerceRevenue from './components/kpis/ecommerce-receita';
-import EcommerceRevervs from './components/kpis/ecommerce-reservas';
-import InvoicingXReservs from './components/kpis/InvoicingXReservs';
-import InvoicingXTypes from './components/kpis/InvoicingXTypes';
-import LocationsXReservs from './components/kpis/LocationsXReservs';
-import Representation from './components/kpis/Representation';
+import CategoriesXReservs from './_components/kpis/CategoriesXReservs';
+import EcommerceRevenue from './_components/kpis/ecommerce-receita';
+import EcommerceRevervs from './_components/kpis/ecommerce-reservas';
+import InvoicingXReservs from './_components/kpis/InvoicingXReservs';
+import InvoicingXTypes from './_components/kpis/InvoicingXTypes';
+import LocationsXReservs from './_components/kpis/LocationsXReservs';
+import Representation from './_components/kpis/Representation';
 
 export default function Reservations({
 	searchParams,
@@ -35,10 +35,37 @@ export default function Reservations({
 					</h2>
 					<Header />
 				</div>
+
 				<div className=' w-full  flex gap-5 flex-col justify-start mt-28 px-3 md:px-0'>
+					<div className='grid md:grid-cols-4 mt-10 gap-5'>
+						<CardLink
+							href={`/reservations/lushipiranga?menu=${menu}&set=${preSet}`}
+							title={'Lush Ipiranga'}
+							content={
+								<SparkChart serie={[35, 40, 55, 45, 50, 40]} />
+							}></CardLink>
+						<CardLink
+							href={`/reservations/lushlapa?menu=${menu}&set=${preSet}`}
+							title={'Lush Lapa'}
+							content={
+								<SparkChart serie={[45, 30, 55, 35, 60, 40]} />
+							}></CardLink>
+						<CardLink
+							href={`/reservations/toutcampinas?menu=${menu}&set=${preSet}`}
+							title={'Tout Campinas'}
+							content={
+								<SparkChart serie={[45, 40, 55, 35, 55, 30]} />
+							}></CardLink>{' '}
+						<CardLink
+							href={`/reservations/andardecima?menu=${menu}&set=${preSet}`}
+							title={'Andar de Cima'}
+							content={
+								<SparkChart serie={[55, 30, 55, 45, 50, 60]} />
+							}></CardLink>
+					</div>
 					<div>
 						<div
-							className={`justify-between  items-center grid md:grid-cols-5 gap-5 grid-cols-1 `}>
+							className={`justify-between  items-center grid md:grid-cols-4 gap-5 grid-cols-1 `}>
 							<CardDetails
 								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
 									preSet == '30days' ? '30 dias atrás ' : ''
@@ -81,17 +108,6 @@ export default function Reservations({
 								icon={<Blend />}
 								title={'Representatividade'}
 								value={19}
-							/>
-
-							<CardDetails
-								description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
-									preSet == '30days' ? '30 dias atrás ' : ''
-								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-									preSet == '12months' ? '12 meses atrás ' : ''
-								}`}
-								icon={<Blend />}
-								title={'Meta de Repres.'}
-								value={22}
 							/>
 						</div>
 					</div>
@@ -153,32 +169,6 @@ export default function Reservations({
 								<EcommerceRevenue />
 							</div>
 						</div>
-					</div>
-					<div className='grid md:grid-cols-4 mt-10 gap-5'>
-						<CardLink
-							href={`/reservations/lushipiranga?menu=${menu}&set=${preSet}`}
-							title={'Lush Ipiranga'}
-							content={
-								<SparkChart serie={[35, 40, 55, 45, 50, 40]} />
-							}></CardLink>
-						<CardLink
-							href={`/reservations/lushlapa?menu=${menu}&set=${preSet}`}
-							title={'Lush Lapa'}
-							content={
-								<SparkChart serie={[45, 30, 55, 35, 60, 40]} />
-							}></CardLink>
-						<CardLink
-							href={`/reservations/toutcampinas?menu=${menu}&set=${preSet}`}
-							title={'Tout Campinas'}
-							content={
-								<SparkChart serie={[45, 40, 55, 35, 55, 30]} />
-							}></CardLink>{' '}
-						<CardLink
-							href={`/reservations/andardecima?menu=${menu}&set=${preSet}`}
-							title={'Andar de Cima'}
-							content={
-								<SparkChart serie={[55, 30, 55, 45, 50, 60]} />
-							}></CardLink>
 					</div>
 				</div>
 			</div>
