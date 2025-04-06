@@ -17,6 +17,7 @@ import InvoicingXTypes from '../../_components/kpis/InvoicingXTypes';
 import LocationsXReservs from '../../_components/kpis/LocationsXReservs';
 import Representation from '../../_components/kpis/Representation';
 import BigNumbersReservation from '../../_components/big-numbers-reservations';
+import BigNumbersEcommerce from '../../_components/big-numbers-ecommerce';
 
 export default async function Page({
 	searchParams,
@@ -37,8 +38,8 @@ export default async function Page({
 	}
 
 	const resp = await getData();
-	console.log(resp.BigNumbersEcommerce);
 
+	console.log('resp', resp.PaymentMethods);
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-14 md:px-5 '>
 			<div className={`relative md:max-w-[82vw] flex md:ml-auto  w-full `}>
@@ -60,16 +61,34 @@ export default async function Page({
 						}`}
 					/>
 					<div className='flex flex-col md:flex-row w-full gap-5'>
-						<InvoicingXTypes />
-						<InvoicingXChannel />
+						<InvoicingXTypes
+							series={resp.PaymentMethods.series}
+							categories={resp.PaymentMethods.categories}
+						/>
+						<InvoicingXChannel
+							series={resp.BillingPerChannel.series}
+							categories={resp.BillingPerChannel.categories}
+						/>
 					</div>
 					<div className='gap-5 h-fit w-full flex flex-col justify-between '>
-						<CategoriesXReservs />
-						<InvoicingXReservs />
+						<CategoriesXReservs
+							series={resp.ReservationsByRentalType.series}
+							categories={resp.ReservationsByRentalType.categories}
+						/>
+						<InvoicingXReservs
+							series={resp.BillingOfReservationsByPeriod.series}
+							categories={resp.BillingOfReservationsByPeriod.categories}
+						/>
 					</div>
-					<div className='flex items-center flex-col md:flex-row justify-between gap-5 h-full w-full'>
-						<Representation />
-						<LocationsXReservs />
+					<div className='grid grid-cols-1 w-full gap-5'>
+						<Representation
+							series={resp.RepresentativenessOfReservesByPeriod.series}
+							categories={resp.RepresentativenessOfReservesByPeriod.categories}
+						/>
+						<LocationsXReservs
+							series={resp.NumberOfReservationsPerPeriod.series}
+							categories={resp.NumberOfReservationsPerPeriod.categories}
+						/>
 					</div>
 					<div>
 						<TableReservs />
@@ -78,42 +97,25 @@ export default async function Page({
 						<h2 className='text-2xl md:text-4xl font-bold text-zinc-50 mt-10 mb-5'>
 							Indicadores de E-Commerce
 						</h2>
-						<div className='flex flex-col items-start justify-between gap-5'>
-							<div className='w-full grid grid-cols-1 md:grid-cols-3  h-full justify-between gap-5'>
-								<CardDetails
-									title={'Reservas'}
-									value={'572'}
-									icon={<Sigma />}
-								/>
-								<CardDetails
-									title={'Receita'}
-									value={'R$414.752'}
-									icon={<HandCoins />}
-								/>
-								<CardDetails
-									title={'Ticket Médio'}
-									value={'R$725'}
-									icon={<SquarePercent />}
-								/>
-								<CardDetails
-									title={'Total em mídia'}
-									value={'R$24.640'}
-									icon={<Coins />}
-								/>
-								<CardDetails
-									title={'investimento Meta'}
-									value={'R$14.610'}
-									icon={<SiMeta />}
-								/>
-								<CardDetails
-									title={'investimento Google'}
-									value={'R$10.040'}
-									icon={<SiGoogleads />}
-								/>
-							</div>
+						<div className='flex flex-col w-full items-start justify-between gap-5'>
+							<BigNumbersEcommerce
+								data={resp?.BigNumbersEcommerce}
+								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+									preSet == '30days' ? '30 dias atrás ' : ''
+								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+									preSet == '12months' ? '12 meses atrás ' : ''
+								}`}
+							/>
+
 							<div className='w-full flex flex-col items-center justify-between gap-5'>
-								<EcommerceRevervs />
-								<EcommerceRevenue />
+								<EcommerceRevervs
+									series={resp.ReservationsOfEcommerceByPeriod.series}
+									categories={resp.ReservationsOfEcommerceByPeriod.categories}
+								/>
+								<EcommerceRevenue
+									series={resp.BillingOfEcommerceByPeriod.series}
+									categories={resp.BillingOfEcommerceByPeriod.categories}
+								/>
 							</div>
 						</div>
 					</div>

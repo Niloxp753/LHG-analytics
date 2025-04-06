@@ -1,19 +1,31 @@
 /** @format */
 'use client';
 
+import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
-const PieChartsApex = dynamic(
-	() => import('@/app/(dashboard)/_components/charts/PieChartsApex'),
+const BarCharApex = dynamic(
+	() => import('@/app/(dashboard)/_components/charts/BarCharApex'),
 	{ ssr: false },
 );
 
-export default function InvoicingXTypes() {
-	return (
-		<PieChartsApex
+interface InvoicingXTypesProps {
+	series: number[];
+	categories: string[];
+}
+export default function InvoicingXTypes({
+	categories,
+	series,
+}: InvoicingXTypesProps) {
+	return !series || series.length === 0 ? (
+		<Skeleton className='w-40 h-88' />
+	) : (
+		<BarCharApex
 			title='Formas de Pagamento'
-			series={[183, 221, 5]}
-			labels={['PIX', 'Cartão de Crédito', 'Boleto']}
+			series={[{ data: series, type: 'bar' }]}
+			colors={['#a78bfa', '#4ade80', '#fbbf24']}
+			dataLabelColors={['#5b21b6', '#22c55e', '#ca8a04']}
+			categories={categories}
 		/>
 	);
 }

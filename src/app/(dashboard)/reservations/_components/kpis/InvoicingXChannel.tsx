@@ -1,26 +1,31 @@
 /** @format */
 'use client';
 
+import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
-import ResponsiveContainerChart from '@/app/(dashboard)/_components/ResponsiveContainerChart';
-const PieChartsApex = dynamic(
-	() => import('@/app/(dashboard)/_components/charts/PieChartsApex'),
+const BarCharApex = dynamic(
+	() => import('@/app/(dashboard)/_components/charts/BarCharApex'),
 	{ ssr: false },
 );
 
-export default function InvoicingXChannel() {
-	return (
-		<PieChartsApex
-			series={[59.9, 1.5, 14.3, 5.4, 18.9]}
-			title='Faturamento Por Canal'
-			labels={[
-				'Site Programadas',
-				'Guia Programada',
-				'Guia GO',
-				'Diretas',
-				'Site Imediatas',
-			]}
+interface InvoicingXTypesProps {
+	series: number[];
+	categories: string[];
+}
+export default function InvoicingXChannel({
+	categories,
+	series,
+}: InvoicingXTypesProps) {
+	return !series || series.length == 0 ? (
+		<Skeleton className='w-full h-88' />
+	) : (
+		<BarCharApex
+			title='Formas de Pagamento'
+			series={[{ data: series, type: 'bar' }]}
+			colors={['#a78bfa', '#4ade80', '#fbbf24']}
+			dataLabelColors={['#5b21b6', '#22c55e', '#ca8a04']}
+			categories={categories}
 		/>
 	);
 }

@@ -2,35 +2,33 @@
 
 import dynamic from 'next/dynamic';
 import React from 'react';
-const ColumnChart = dynamic(
-	() => import('@/app/(dashboard)/_components/charts/ColumnChart'),
+const AreaChartsApex = dynamic(
+	() => import('@/app/(dashboard)/_components/charts/AreaChartsApex'),
 	{ ssr: false },
 );
 
-export default function Representation() {
+interface RepresentationProps {
+	series: number[];
+	categories: string[];
+}
+export default function Representation({
+	categories,
+	series,
+}: RepresentationProps) {
 	return (
 		<>
-			<ColumnChart
+			<AreaChartsApex
+				percent
 				series={[
 					{
 						name: 'Rep De Reservas',
-						data: [25, 27, 29, 25, 26, 30, 29, 25, 26, 29, 26, 30],
+						data: series.map((item) => {
+							const value = item * 100;
+							return parseFloat(value.toFixed(2));
+						}),
 					},
 				]}
-				categories={[
-					'jan/2024',
-					'fav/2024',
-					'mar/2024',
-					'abr/2024',
-					'mai/2024',
-					'jun/2034',
-					'jul/2024',
-					'ago/2024',
-					'set/2024',
-					'out/2024',
-					'nov/2024',
-					'dez/2024',
-				]}
+				categories={categories}
 				title={'Representatividade de reservas'}
 			/>
 		</>

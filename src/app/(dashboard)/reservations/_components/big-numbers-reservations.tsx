@@ -2,15 +2,7 @@
 
 import CardDetails from '@/app/(dashboard)/_components/CardDetails';
 import { Skeleton } from '@/components/ui/skeleton';
-import {
-	Blend,
-	Eye,
-	HandCoins,
-	Leaf,
-	LeafyGreen,
-	Sigma,
-	SquarePercent,
-} from 'lucide-react';
+import { Blend, HandCoins, Sigma, SquarePercent } from 'lucide-react';
 
 interface BigNumbersReservationProps {
 	data?: any[];

@@ -7,27 +7,22 @@ const AreaChartsApex = dynamic(
 	{ ssr: false },
 );
 
-export default function InvoicingXReservs() {
+interface InvoicingXReservsProps {
+	series: number[];
+	categories: string[];
+}
+export default function InvoicingXReservs({
+	categories,
+	series,
+}: InvoicingXReservsProps) {
 	return (
 		<>
 			<AreaChartsApex
-				categories={[
-					'jan/24',
-					'fev/24',
-					'mar/24',
-					'abr/24',
-					'mai/24',
-					'jun/24',
-					'jul/24',
-					'ago/24',
-					'set/24',
-					'out/24',
-					'nov/24',
-					'dez/24',
-				]}
+				money
+				categories={categories}
 				series={[
 					{
-						data: [80, 60, 55, 73, 60, 75, 60, 70, 60, 75, 60, 70],
+						data: series,
 						name: 'Faturamento de Reservas',
 					},
 				]}
