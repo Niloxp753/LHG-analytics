@@ -111,7 +111,7 @@ export default function Reservations({
 							/>
 						</div>
 					</div>
-					<div className='flex gap-5'>
+					{/* <div className='flex gap-5'>
 						<InvoicingXTypes />
 						<InvoicingXChannel />
 					</div>
@@ -122,7 +122,7 @@ export default function Reservations({
 					<div className='flex items-center justify-between gap-5 h-full w-full'>
 						<Representation />
 						<LocationsXReservs />
-					</div>
+					</div> */}
 					<div>
 						<TableReservs />
 					</div>
@@ -164,10 +164,10 @@ export default function Reservations({
 									icon={<SiGoogleads />}
 								/>
 							</div>
-							<div className='w-full flex flex-col items-center justify-between gap-5'>
+							{/* <div className='w-full flex flex-col items-center justify-between gap-5'>
 								<EcommerceRevervs />
 								<EcommerceRevenue />
-							</div>
+							</div> */}
 						</div>
 					</div>
 				</div>
