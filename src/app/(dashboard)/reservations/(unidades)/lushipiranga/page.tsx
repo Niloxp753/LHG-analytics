@@ -39,7 +39,6 @@ export default async function Page({
 
 	const resp = await getData();
 
-	console.log('resp', resp.PaymentMethods);
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-14 md:px-5 '>
 			<div className={`relative md:max-w-[82vw] flex md:ml-auto  w-full `}>
@@ -60,6 +59,10 @@ export default async function Page({
 							preSet == '12months' ? '12 meses atrás ' : ''
 						}`}
 					/>
+					<CategoriesXReservs
+						series={resp.ReservationsByRentalType.series}
+						categories={resp.ReservationsByRentalType.categories}
+					/>
 					<div className='flex flex-col md:flex-row w-full gap-5'>
 						<InvoicingXTypes
 							series={resp.PaymentMethods.series}
@@ -70,17 +73,12 @@ export default async function Page({
 							categories={resp.BillingPerChannel.categories}
 						/>
 					</div>
-					<div className='gap-5 h-fit w-full flex flex-col justify-between '>
-						<CategoriesXReservs
-							series={resp.ReservationsByRentalType.series}
-							categories={resp.ReservationsByRentalType.categories}
-						/>
+
+					<div className='grid grid-cols-1 w-full gap-5'>
 						<InvoicingXReservs
 							series={resp.BillingOfReservationsByPeriod.series}
 							categories={resp.BillingOfReservationsByPeriod.categories}
 						/>
-					</div>
-					<div className='grid grid-cols-1 w-full gap-5'>
 						<Representation
 							series={resp.RepresentativenessOfReservesByPeriod.series}
 							categories={resp.RepresentativenessOfReservesByPeriod.categories}
@@ -91,7 +89,7 @@ export default async function Page({
 						/>
 					</div>
 					<div>
-						<TableReservs />
+						<TableReservs data={resp.KpiTableByChannelType[0]} />
 					</div>
 					<div>
 						<h2 className='text-2xl md:text-4xl font-bold text-zinc-50 mt-10 mb-5'>

@@ -21,7 +21,8 @@ export default function InvoicingXChannel({
 		<Skeleton className='w-full h-88' />
 	) : (
 		<BarCharApex
-			title='Formas de Pagamento'
+			money
+			title='Faturamento por canal de vendas'
 			series={[{ data: series, type: 'bar' }]}
 			colors={['#a78bfa', '#4ade80', '#fbbf24']}
 			dataLabelColors={['#5b21b6', '#22c55e', '#ca8a04']}

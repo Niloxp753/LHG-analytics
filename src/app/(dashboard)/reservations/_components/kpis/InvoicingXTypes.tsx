@@ -21,8 +21,9 @@ export default function InvoicingXTypes({
 		<Skeleton className='w-40 h-88' />
 	) : (
 		<BarCharApex
-			title='Formas de Pagamento'
-			series={[{ data: series, type: 'bar' }]}
+			money
+			title='Faturamento por formas de pagamento'
+			series={[{ data: series }]}
 			colors={['#a78bfa', '#4ade80', '#fbbf24']}
 			dataLabelColors={['#5b21b6', '#22c55e', '#ca8a04']}
 			categories={categories}

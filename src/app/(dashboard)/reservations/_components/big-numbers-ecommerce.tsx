@@ -73,7 +73,11 @@ export default function BigNumbersEcommerce({
 								}
 								icon={<Blend />}
 								title={'Representatividade'}
-								value={d.currentDate.totalAllRepresentativeness * 100 + '%'}
+								value={
+									Number(
+										d.currentDate.totalAllRepresentativeness * 100,
+									).toFixed(2) + '%'
+								}
 							/>
 						</div>
 					);

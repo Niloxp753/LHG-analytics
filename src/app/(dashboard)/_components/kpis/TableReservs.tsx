@@ -6,10 +6,11 @@ import {
 	TableCell,
 	TableHead,
 	TableHeader,
-	TableRow
+	TableRow,
 } from '@/components/ui/table';
+import { Currency } from 'lucide-react';
 
-const data = [
+const datat = [
 	{
 		id: 1,
 		category: 'Units',
@@ -64,7 +65,24 @@ const data = [
 	},
 ];
 
-export function TableReservs() {
+interface TableProps {
+	EXPEDIA: number;
+	WEBSITE_SCHEDULED: number;
+	WEBSITE_IMMEDIATE: number;
+	INTERNAL: number;
+	GUIA_GO: number;
+	GUIA_SCHEDULED: number;
+	BOOKING: number;
+	TOTAL: number;
+}
+
+interface TableReservsProps {
+	data: TableProps;
+}
+
+export function TableReservs({ data }: TableReservsProps) {
+	const dataTable: any = data;
+	console.log('dataTable', dataTable);
 	return (
 		<Table
 			title='Giro por Dia da Semana'
@@ -88,28 +106,184 @@ export function TableReservs() {
 					<TableHead className='text-center text-xs'>Direta</TableHead>
 					<TableHead className='text-center text-xs '>Booking</TableHead>
 					<TableHead className='text-center text-xs '>Expedia</TableHead>
-					<TableHead className='text-center text-xs '>Gift Card</TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody className='text-zinc-100'>
-				{data.map((invoice) => (
-					<TableRow
-						key={invoice.id}
-						className='text-center'>
-						<TableCell className='font-bold text-left'>
-							{invoice.category}
-						</TableCell>
-						<TableCell>{invoice.total}</TableCell>
-						<TableCell>{invoice.siteLushImediata}</TableCell>
-						<TableCell>{invoice.siteLushProgramada}</TableCell>
-						<TableCell>{invoice.guiaGo}</TableCell>
-						<TableCell>{invoice.guiaProgramada}</TableCell>
-						<TableCell>{invoice.direta}</TableCell>
-						<TableCell>{invoice.booking}</TableCell>
-						<TableCell>{invoice.expedia}</TableCell>
-						<TableCell>{invoice.giftCard}</TableCell>
-					</TableRow>
-				))}
+				<TableRow className='text-center'>
+					<TableCell className='font-bold text-left'>
+						Unidades Reservadas
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsTotalRentalsByChannelType.TOTALALLBOOKINGS}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsTotalRentalsByChannelType.WEBSITE_IMMEDIATE}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsTotalRentalsByChannelType.WEBSITE_SCHEDULED}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsTotalRentalsByChannelType.GUIA_GO}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsTotalRentalsByChannelType.GUIA_SCHEDULED}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsTotalRentalsByChannelType.INTERNAL}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsTotalRentalsByChannelType.BOOKING}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsTotalRentalsByChannelType.EXPEDIA}
+					</TableCell>
+				</TableRow>
+				<TableRow className='text-center'>
+					<TableCell className='font-bold text-left'>Receita Total</TableCell>
+					<TableCell>
+						{dataTable.bookingsRevenueByChannelType.TOTALALLVALUE.toLocaleString(
+							'pt-BR',
+							{ style: 'currency', currency: 'BRL' },
+						)}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsRevenueByChannelType.WEBSITE_IMMEDIATE.toLocaleString(
+							'pt-BR',
+							{ style: 'currency', currency: 'BRL' },
+						)}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsRevenueByChannelType.WEBSITE_SCHEDULED.toLocaleString(
+							'pt-BR',
+							{ style: 'currency', currency: 'BRL' },
+						)}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsRevenueByChannelType.GUIA_GO.toLocaleString(
+							'pt-BR',
+							{ style: 'currency', currency: 'BRL' },
+						)}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsRevenueByChannelType.GUIA_SCHEDULED.toLocaleString(
+							'pt-BR',
+							{ style: 'currency', currency: 'BRL' },
+						)}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsRevenueByChannelType.INTERNAL.toLocaleString(
+							'pt-BR',
+							{ style: 'currency', currency: 'BRL' },
+						)}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsRevenueByChannelType.BOOKING.toLocaleString(
+							'pt-BR',
+							{ style: 'currency', currency: 'BRL' },
+						)}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsRevenueByChannelType.EXPEDIA.toLocaleString(
+							'pt-BR',
+							{ style: 'currency', currency: 'BRL' },
+						)}
+					</TableCell>
+				</TableRow>
+				<TableRow className='text-center'>
+					<TableCell className='font-bold text-left'>Ticket Médio</TableCell>
+					<TableCell>
+						{dataTable.bookingsTicketAverageByChannelType.TOTALALLTICKETAVERAGE.toLocaleString(
+							'pt-BR',
+							{ style: 'currency', currency: 'BRL' },
+						)}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsTicketAverageByChannelType.WEBSITE_IMMEDIATE.toLocaleString(
+							'pt-BR',
+							{ style: 'currency', currency: 'BRL' },
+						)}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsTicketAverageByChannelType.WEBSITE_SCHEDULED.toLocaleString(
+							'pt-BR',
+							{ style: 'currency', currency: 'BRL' },
+						)}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsTicketAverageByChannelType.GUIA_GO.toLocaleString(
+							'pt-BR',
+							{ style: 'currency', currency: 'BRL' },
+						)}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsTicketAverageByChannelType.GUIA_SCHEDULED.toLocaleString(
+							'pt-BR',
+							{ style: 'currency', currency: 'BRL' },
+						)}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsTicketAverageByChannelType.INTERNAL.toLocaleString(
+							'pt-BR',
+							{ style: 'currency', currency: 'BRL' },
+						)}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsTicketAverageByChannelType.BOOKING.toLocaleString(
+							'pt-BR',
+							{ style: 'currency', currency: 'BRL' },
+						)}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsTicketAverageByChannelType.EXPEDIA.toLocaleString(
+							'pt-BR',
+							{ style: 'currency', currency: 'BRL' },
+						)}
+					</TableCell>
+				</TableRow>
+				<TableRow className='text-center'>
+					<TableCell className='font-bold text-left'>
+						Representatividade
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsRepresentativenessByChannelType
+							.TOTALALLREPRESENTATIVENESS *
+							100 +
+							'%'}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsRepresentativenessByChannelType
+							.WEBSITE_IMMEDIATE *
+							100 +
+							'%'}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsRepresentativenessByChannelType
+							.WEBSITE_SCHEDULED *
+							100 +
+							'%'}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsRepresentativenessByChannelType.GUIA_GO * 100 +
+							'%'}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsRepresentativenessByChannelType.GUIA_SCHEDULED *
+							100 +
+							'%'}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsRepresentativenessByChannelType.INTERNAL * 100 +
+							'%'}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsRepresentativenessByChannelType.BOOKING * 100 +
+							'%'}
+					</TableCell>
+					<TableCell>
+						{dataTable.bookingsRepresentativenessByChannelType.EXPEDIA * 100 +
+							'%'}
+					</TableCell>
+				</TableRow>
 			</TableBody>
 		</Table>
 	);
