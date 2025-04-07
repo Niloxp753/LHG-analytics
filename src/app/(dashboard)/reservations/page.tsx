@@ -1,20 +1,11 @@
 /** @format */
 
-import InvoicingXChannel from '@/app/(dashboard)/reservations/_components/kpis/InvoicingXChannel';
 import { Blend, Coins, HandCoins, Sigma, SquarePercent } from 'lucide-react';
 import { SiGoogleads, SiMeta } from 'react-icons/si';
 import CardDetails from '../_components/CardDetails';
 import CardLink from '../_components/CardLink';
 import SparkChart from '../_components/charts/SparkChart';
 import Header from '../_components/Header';
-import { TableReservs } from '../_components/kpis/TableReservs';
-import CategoriesXReservs from './_components/kpis/CategoriesXReservs';
-import EcommerceRevenue from './_components/kpis/ecommerce-receita';
-import EcommerceRevervs from './_components/kpis/ecommerce-reservas';
-import InvoicingXReservs from './_components/kpis/InvoicingXReservs';
-import InvoicingXTypes from './_components/kpis/InvoicingXTypes';
-import LocationsXReservs from './_components/kpis/LocationsXReservs';
-import Representation from './_components/kpis/Representation';
 
 export default function Reservations({
 	searchParams,
@@ -123,9 +114,7 @@ export default function Reservations({
 						<Representation />
 						<LocationsXReservs />
 					</div> */}
-					<div>
-						<TableReservs />
-					</div>
+				
 
 					<div>
 						<h2 className='text-4xl font-bold text-zinc-50 mt-10 mb-5'>
