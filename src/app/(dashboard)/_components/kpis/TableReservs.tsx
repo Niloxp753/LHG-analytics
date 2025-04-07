@@ -1,5 +1,6 @@
 /** @format */
 
+import { Skeleton } from '@/components/ui/skeleton';
 import {
 	Table,
 	TableBody,
@@ -82,8 +83,10 @@ interface TableReservsProps {
 
 export function TableReservs({ data }: TableReservsProps) {
 	const dataTable: any = data;
-	console.log('dataTable', dataTable);
-	return (
+
+	return !dataTable ? (
+		<Skeleton className='w-full h-40'></Skeleton>
+	) : (
 		<Table
 			title='Giro por Dia da Semana'
 			className='mt-5 bg-zinc-900 rounded-lg'>
