@@ -1,14 +1,14 @@
 /** @format */
 
 import { getReservationsAction } from '@/actions/reservations/get-reservations';
+import { getReservationsCustomAction } from '@/actions/reservations/get-reservations-custom';
 import Header from '@/app/(dashboard)/_components/Header';
 import InvoicingXChannel from '@/app/(dashboard)/reservations/_components/kpis/InvoicingXChannel';
 import { format } from 'date-fns';
-import { Blend, Coins, HandCoins, Sigma, SquarePercent } from 'lucide-react';
 import { revalidatePath } from 'next/cache';
-import { SiGoogleads, SiMeta } from 'react-icons/si';
-import CardDetails from '../../../_components/CardDetails';
 import { TableReservs } from '../../../_components/kpis/TableReservs';
+import BigNumbersEcommerce from '../../_components/big-numbers-ecommerce';
+import BigNumbersReservation from '../../_components/big-numbers-reservations';
 import CategoriesXReservs from '../../_components/kpis/CategoriesXReservs';
 import EcommerceRevenue from '../../_components/kpis/ecommerce-receita';
 import EcommerceRevervs from '../../_components/kpis/ecommerce-reservas';
@@ -16,8 +16,6 @@ import InvoicingXReservs from '../../_components/kpis/InvoicingXReservs';
 import InvoicingXTypes from '../../_components/kpis/InvoicingXTypes';
 import LocationsXReservs from '../../_components/kpis/LocationsXReservs';
 import Representation from '../../_components/kpis/Representation';
-import BigNumbersReservation from '../../_components/big-numbers-reservations';
-import BigNumbersEcommerce from '../../_components/big-numbers-ecommerce';
 
 export default async function Page({
 	searchParams,
@@ -25,15 +23,33 @@ export default async function Page({
 	searchParams: { [key: string]: string | undefined };
 }) {
 	const preSet = searchParams.set || '7days';
-	searchParams.menu = 'operational';
+	const startDate = searchParams.startDate;
+	const endDate = searchParams.endDate;
+
+	const formattedStartDate =
+		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
+	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
 
 	async function getData() {
-		const data = await getReservationsAction(preSet ?? '7days', 'ipiranga');
-		if (data) {
-			revalidatePath('/reservations');
-			return data;
+		if (startDate && endDate) {
+			const customData = await getReservationsCustomAction(
+				formattedStartDate!,
+				formattedEndDate!,
+			);
+			if (customData) {
+				revalidatePath('/reservations');
+				return customData;
+			} else {
+				return null;
+			}
 		} else {
-			return null;
+			const data = await getReservationsAction(preSet ?? '7days');
+			if (data) {
+				revalidatePath('/reservations');
+				return data;
+			} else {
+				return null;
+			}
 		}
 	}
 
