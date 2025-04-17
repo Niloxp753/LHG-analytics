@@ -34,7 +34,7 @@ export default function BigNumbersEcommerce({
 										})
 								}
 								icon={<HandCoins />}
-								title={'Receita De Reservas'}
+								title={'Receita De Reservas - Ecommerce'}
 								value={d.currentDate.totalAllValue}
 							/>
 							<CardDetails
@@ -43,7 +43,7 @@ export default function BigNumbersEcommerce({
 									description + d.PreviousDate.totalAllBookingsPreviousData
 								}
 								icon={<Sigma />}
-								title={'Número De Reservas'}
+								title={'Número De Reservas - Ecommerce'}
 								value={d.currentDate.totalAllBookings}
 							/>
 							<CardDetails
@@ -59,7 +59,7 @@ export default function BigNumbersEcommerce({
 										})
 								}
 								icon={<SquarePercent />}
-								title={'Ticket Médio'}
+								title={'Ticket Médio - Ecommerce'}
 								value={d.currentDate.totalAllTicketAverage}
 							/>{' '}
 							<CardDetails
@@ -72,7 +72,7 @@ export default function BigNumbersEcommerce({
 										'%'
 								}
 								icon={<Blend />}
-								title={'Representatividade'}
+								title={'Representatividade - Ecommerce'}
 								value={
 									Number(
 										d.currentDate.totalAllRepresentativeness * 100,

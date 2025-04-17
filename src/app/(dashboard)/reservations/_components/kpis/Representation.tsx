@@ -21,7 +21,7 @@ export default function Representation({
 				percent
 				series={[
 					{
-						name: 'Rep De Reservas',
+						name: 'Representatividade De Reservas',
 						data: series.map((item) => {
 							const value = item * 100;
 							return parseFloat(value.toFixed(2));
@@ -29,7 +29,6 @@ export default function Representation({
 					},
 				]}
 				categories={categories}
-				title={'Representatividade de reservas'}
 			/>
 		</>
 	);

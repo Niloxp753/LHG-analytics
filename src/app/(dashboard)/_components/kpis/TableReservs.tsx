@@ -248,43 +248,48 @@ export function TableReservs({ data }: TableReservsProps) {
 						Representatividade
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsRepresentativenessByChannelType
-							.TOTALALLREPRESENTATIVENESS *
-							100 +
-							'%'}
+						{(
+							dataTable.bookingsRepresentativenessByChannelType
+								.TOTALALLREPRESENTATIVENESS * 100
+						).toFixed(2) + '%'}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsRepresentativenessByChannelType
-							.WEBSITE_IMMEDIATE *
-							100 +
-							'%'}
+						{(
+							dataTable.bookingsRepresentativenessByChannelType
+								.WEBSITE_IMMEDIATE * 100
+						).toFixed(2) + '%'}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsRepresentativenessByChannelType
-							.WEBSITE_SCHEDULED *
-							100 +
-							'%'}
+						{(
+							dataTable.bookingsRepresentativenessByChannelType
+								.WEBSITE_SCHEDULED * 100
+						).toFixed(2) + '%'}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsRepresentativenessByChannelType.GUIA_GO * 100 +
-							'%'}
+						{(
+							dataTable.bookingsRepresentativenessByChannelType.GUIA_GO * 100
+						).toFixed(2) + '%'}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsRepresentativenessByChannelType.GUIA_SCHEDULED *
-							100 +
-							'%'}
+						{(
+							dataTable.bookingsRepresentativenessByChannelType.GUIA_SCHEDULED *
+							100
+						).toFixed(2) + '%'}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsRepresentativenessByChannelType.INTERNAL * 100 +
-							'%'}
+						{(
+							dataTable.bookingsRepresentativenessByChannelType.INTERNAL * 100
+						).toFixed(2) + '%'}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsRepresentativenessByChannelType.BOOKING * 100 +
-							'%'}
+						{(
+							dataTable.bookingsRepresentativenessByChannelType.BOOKING * 100
+						).toFixed(2) + '%'}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsRepresentativenessByChannelType.EXPEDIA * 100 +
-							'%'}
+						{(
+							dataTable.bookingsRepresentativenessByChannelType.EXPEDIA * 100
+						).toFixed(2) + '%'}
 					</TableCell>
 				</TableRow>
 			</TableBody>

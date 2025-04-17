@@ -13,6 +13,22 @@ interface CategoriesProps {
 	categories: string[];
 }
 export default function Categories({ categories, series }: CategoriesProps) {
+	const newCategories = categories.map((item) => {
+		if (item === 'OVERNIGHT') {
+			return 'Pernoite';
+		} else if (item === 'DAILY') {
+			return 'Diária';
+		} else if (item === 'THREE_HOURS') {
+			return '03 Horas';
+		} else if (item === 'SIX_HOURS') {
+			return '06 Horas';
+		} else if (item === 'TWELVE_HOURS') {
+			return '12 Horas';
+		} else if (item === 'DAY_USE') {
+			return 'Day Use';
+		}
+		return item;
+	});
 	return (
 		<>
 			{!series || series.length === 0 ? (
@@ -20,7 +36,7 @@ export default function Categories({ categories, series }: CategoriesProps) {
 			) : (
 				<ColumnChart
 					title='Reservas Por Tipo de Locação'
-					categories={categories}
+					categories={newCategories}
 					series={[{ data: series }]}
 				/>
 			)}
