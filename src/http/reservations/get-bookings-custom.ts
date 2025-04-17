@@ -15,9 +15,9 @@ export async function getReservationsCustom(
 		switch (company) {
 			case 'lapa':
 				const resp_lapa = await api_lapa.get(
-					`Bookings/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
+					`Bookings/bookings/date-range?startDate=${startDate}&endDate=${endDate}`,
 					{
-						next: { tags: ['reservations'], revalidate: 30 },
+						next: { tags: ['reservations'], revalidate: 60 },
 
 						signal: controller.signal, // Passa o signal ao fetch
 					},
@@ -31,9 +31,9 @@ export async function getReservationsCustom(
 
 			default:
 				const resp = await api.get(
-					`Bookings/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
+					`Bookings/bookings/date-range?startDate=${startDate}&endDate=${endDate}`,
 					{
-						next: { tags: ['reservations'], revalidate: 120 },
+						next: { tags: ['reservations'], revalidate: 60 },
 
 						signal: controller.signal, // Passa o signal ao fetch
 					},
