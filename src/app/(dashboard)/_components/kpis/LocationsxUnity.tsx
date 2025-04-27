@@ -11,6 +11,8 @@ const LineChart = dynamic(
 interface LocationsxUnityProps {
 	ipiranga: RentalsEntry[];
 	lapa: RentalsEntry[];
+	andar_de_cima: RentalsEntry[];
+	tout: RentalsEntry[];
 }
 
 interface RentalsEntry {
@@ -22,10 +24,18 @@ interface RentalsEntry {
 export default function LocationsxUnity({
 	ipiranga,
 	lapa,
+	andar_de_cima,
+	tout,
 }: LocationsxUnityProps) {
 	const rentalsByDateIpiranga = NormalizeRentalsByDate({ data: ipiranga });
 
 	const rentalsByDateLapa = NormalizeRentalsByDate({ data: lapa });
+
+	const rentalsByDateAndarDeCima = NormalizeRentalsByDate({
+		data: andar_de_cima,
+	});
+
+	const rentalsByDateTout = NormalizeRentalsByDate({ data: tout });
 
 	return (
 		<>
@@ -40,6 +50,14 @@ export default function LocationsxUnity({
 					{
 						data: rentalsByDateLapa.values,
 						name: 'Lush Lapa',
+					},
+					{
+						data: rentalsByDateAndarDeCima.values,
+						name: 'Andar de Cima',
+					},
+					{
+						data: rentalsByDateTout.values,
+						name: 'Tout',
 					},
 				]}
 				categories={rentalsByDateIpiranga?.dates}

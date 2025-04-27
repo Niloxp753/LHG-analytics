@@ -1,6 +1,6 @@
 /** @format */
 
-import { api, api_lapa } from '../api-client';
+import { api, api_andar_de_cima, api_lapa, api_tout } from '../api-client';
 class HTTPError extends Error {}
 
 export async function getCompanyCustom(
@@ -29,6 +29,39 @@ export async function getCompanyCustom(
 				}
 
 				return resp_lapa.json();
+			case 'andar_de_cima':
+				const apiURL_andar_de_cima = api_andar_de_cima;
+				const resp_andar_de_cima = await apiURL_andar_de_cima.get(
+					`Company/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
+					{
+						next: { tags: ['company'], revalidate: 30 },
+
+						signal: controller.signal, // Passa o signal ao fetch
+					},
+				);
+
+				if (!resp_andar_de_cima.ok) {
+					throw new HTTPError(`Fetch error: ${resp_andar_de_cima.statusText}`);
+				}
+
+				return resp_andar_de_cima.json();
+
+			case 'tout':
+				const apiURL_tout = api_tout;
+				const resp_tout = await apiURL_tout.get(
+					`Company/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
+					{
+						next: { tags: ['company'], revalidate: 30 },
+
+						signal: controller.signal, // Passa o signal ao fetch
+					},
+				);
+
+				if (!resp_tout.ok) {
+					throw new HTTPError(`Fetch error: ${resp_tout.statusText}`);
+				}
+
+				return resp_tout.json();
 
 			default:
 				const resp_ipiranga = await api.get(

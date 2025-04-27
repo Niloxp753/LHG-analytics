@@ -9,62 +9,6 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { Currency } from 'lucide-react';
-
-const datat = [
-	{
-		id: 1,
-		category: 'Units',
-		total: 397,
-		siteLushImediata: 88,
-		siteLushProgramada: 192,
-		guiaGo: 101,
-		guiaProgramada: 6,
-		direta: 7,
-		booking: 2,
-		expedia: 0,
-		giftCard: 1,
-	},
-	{
-		id: 2,
-		category: 'Receita Total',
-		total: 341518,
-		siteLushImediata: 64381,
-		siteLushProgramada: 202724,
-		guiaGo: 48953,
-		guiaProgramada: 5139,
-		direta: 18323,
-		booking: 1598,
-		expedia: 0,
-		giftCard: 400,
-	},
-	{
-		id: 3,
-		category: 'Ticket Médio',
-		total: 860,
-		siteLushImediata: 732,
-		siteLushProgramada: 1056,
-		guiaGo: 485,
-		guiaProgramada: 857,
-		direta: 2618,
-		booking: 799,
-		expedia: 0,
-		giftCard: 400,
-	},
-	{
-		id: 4,
-		category: 'Representatividade',
-		total: '',
-		siteLushImediata: '19%',
-		siteLushProgramada: '59%',
-		guiaGo: '14%',
-		guiaProgramada: '2%',
-		direta: '5%',
-		booking: '0%',
-		expedia: '0%',
-		giftCard: '0%',
-	},
-];
 
 interface TableProps {
 	EXPEDIA: number;

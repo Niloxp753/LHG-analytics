@@ -18,17 +18,23 @@ import {
 interface BigNumbersProps {
 	ipiranga: any[];
 	lapa: any[];
+	andar_de_cima: any[];
+	tout: any[];
 	description: string;
 }
 
 export default function BigNumbersCompany(props: BigNumbersProps) {
 	const dataIpiranga = props.ipiranga[0];
 	const dataLapa = props.lapa[0];
+	const dataAndarDeCima = props.andar_de_cima[0];
+	const dataTout = props.tout[0];
 
 	const totalAllValue = NormalizeCurrencyNumbers({
 		values: [
 			dataIpiranga.currentDate.totalAllValue,
 			dataLapa.currentDate.totalAllValue,
+			dataAndarDeCima.currentDate.totalAllValue,
+			dataTout.currentDate.totalAllValue,
 		],
 		operation: 'soma',
 	});

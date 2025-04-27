@@ -16,13 +16,19 @@ interface RevenueEntry {
 interface InvoicingXUnityXTimeProps {
 	ipiranga: RevenueEntry[];
 	lapa: RevenueEntry[];
+	andar_de_cima: RevenueEntry[];
+	tout: RevenueEntry[];
 }
 export default function InvoicingXUnityXTime({
 	ipiranga,
 	lapa,
+	andar_de_cima,
+	tout,
 }: InvoicingXUnityXTimeProps) {
 	const revenueByDateIpiranga = NormalizeRevenueByDate({ data: ipiranga });
 	const revenueByDateLapa = NormalizeRevenueByDate({ data: lapa });
+	const revenueByDateAndar = NormalizeRevenueByDate({ data: andar_de_cima });
+	const revenueByDateTout = NormalizeRevenueByDate({ data: tout });
 	return (
 		<>
 			<LineChart
@@ -37,6 +43,14 @@ export default function InvoicingXUnityXTime({
 					{
 						name: 'Lush Lapa',
 						data: revenueByDateLapa.values,
+					},
+					{
+						name: 'Andar de Cima',
+						data: revenueByDateAndar.values,
+					},
+					{
+						name: 'Tout',
+						data: revenueByDateTout.values,
 					},
 				]}
 				categories={revenueByDateIpiranga.dates}

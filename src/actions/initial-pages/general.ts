@@ -34,11 +34,28 @@ export async function getGeneralPageData({
 	if (startDate && endDate) {
 		const customDataIpiranga = await getCompanyCustom(startDate, endDate);
 		const customDataLapa = await getCompanyCustom(startDate, endDate, 'lapa');
-		if (customDataIpiranga && customDataLapa) {
+		const customDataAndarDeCima = await getCompanyCustom(
+			startDate,
+			endDate,
+			'andar_de_cima',
+		);
+		const customDataTout = await getCompanyCustom(startDate, endDate, 'tout');
+
+		if (
+			customDataIpiranga &&
+			customDataLapa &&
+			customDataAndarDeCima &&
+			customDataTout
+		) {
 			revalidatePath('/general');
 			return {
 				ok: true,
-				data: [customDataIpiranga, customDataLapa],
+				data: [
+					customDataIpiranga,
+					customDataLapa,
+					customDataAndarDeCima,
+					customDataTout,
+				],
 				error: null,
 			};
 		} else {
@@ -51,11 +68,13 @@ export async function getGeneralPageData({
 	} else {
 		const dataiIpiranga = await getCompany(newPeriod);
 		const dataiLapa = await getCompany(newPeriod, 'lapa');
-		if (dataiIpiranga && dataiLapa) {
+		const dataiAndar = await getCompany(newPeriod, 'andar_de_cima');
+		const dataiTout = await getCompany(newPeriod, 'tout');
+		if (dataiIpiranga && dataiLapa && dataiAndar && dataiTout) {
 			revalidatePath('/general');
 			return {
 				ok: true,
-				data: [dataiIpiranga, dataiLapa],
+				data: [dataiIpiranga, dataiLapa, dataiAndar, dataiTout],
 				error: null,
 			};
 		} else {

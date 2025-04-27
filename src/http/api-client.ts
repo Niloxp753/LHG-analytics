@@ -19,3 +19,17 @@ export const api_lapa = ky.create({
 	retry: 3,
 	mode: 'cors',
 });
+
+export const api_andar_de_cima = ky.create({
+	prefixUrl: process.env.BACKEND_ENDPOINT_ANDAR_DE_CIMA,
+	timeout: 60000,
+	retry: 3,
+	mode: 'cors',
+});
+
+export const api_tout = ky.create({
+	prefixUrl: process.env.BACKEND_ENDPOINT_TOUT,
+	timeout: 60000,
+	retry: 3,
+	mode: 'cors',
+});

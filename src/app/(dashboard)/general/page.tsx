@@ -1,9 +1,8 @@
 /** @format */
 
-import { getCompanyAction } from '@/actions/getCompany';
-import { Skeleton } from '@/components/ui/skeleton';
+import { getGeneralPageData } from '@/actions/initial-pages/general';
+import { format } from 'date-fns';
 import dynamic from 'next/dynamic';
-import BigNumbers from '../_components/bignumber';
 import CardLink from '../_components/CardLink';
 import Header from '../_components/Header';
 import InvoicingXUnity from '../_components/kpis/InvoicingXUnity';
@@ -12,9 +11,8 @@ import LocationsxUnity from '../_components/kpis/LocationsxUnity';
 import OccupationXUnity from '../_components/kpis/OccupationXUnity';
 import TKTxUnity from '../_components/kpis/TKTxUnity';
 import TRevParXUnity from '../_components/kpis/TRevParXUnity';
-import { getGeneralPageData } from '@/actions/initial-pages/general';
-import { format } from 'date-fns';
 import BigNumbersCompany from './_components/big-numbers-company';
+import { Suspense } from 'react';
 const SparkChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/SparkChart'),
 	{ ssr: false },
@@ -102,56 +100,70 @@ export default async function General({
 							}></CardLink>
 					</div>
 					<div className=' w-full h-full flex gap-5 flex-col md:px-0 '>
-						<BigNumbersCompany
-							ipiranga={resp.data ? resp.data[0]?.BigNumbers : null}
-							lapa={resp.data ? resp.data[1].BigNumbers : null}
-							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-								preSet == '30days' ? '30 dias atrás ' : ''
-							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-								preSet == '12months' ? '12 meses atrás ' : ''
-							}`}
-						/>
+						<Suspense>
+							<BigNumbersCompany
+								andar_de_cima={resp.data ? resp.data[2]?.BigNumbers : null}
+								tout={resp.data ? resp.data[3]?.BigNumbers : null}
+								ipiranga={resp.data ? resp.data[0]?.BigNumbers : null}
+								lapa={resp.data ? resp.data[1].BigNumbers : null}
+								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+									preSet == '30days' ? '30 dias atrás ' : ''
+								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+									preSet == '12months' ? '12 meses atrás ' : ''
+								}`}
+							/>
 
-						<div className='flex gap-5 flex-col md:flex-row w-full h-full '>
-							<div className='md:w-1/3 w-full h-full '>
-								<InvoicingXUnity
-									ipiranga={
-										resp.data[0].BigNumbers[0].currentDate.totalAllValue
-									}
-									lapa={resp.data[1].BigNumbers[0].currentDate.totalAllValue}
-								/>
+							<div className='flex gap-5 flex-col md:flex-row w-full h-full '>
+								<div className='md:w-1/3 w-full h-full '>
+									<InvoicingXUnity
+										tout={resp.data[3].BigNumbers[0].currentDate.totalAllValue}
+										andar_de_cima={
+											resp.data[2].BigNumbers[0].currentDate.totalAllValue
+										}
+										ipiranga={
+											resp.data[0].BigNumbers[0].currentDate.totalAllValue
+										}
+										lapa={resp.data[1].BigNumbers[0].currentDate.totalAllValue}
+									/>
+								</div>
+								<div className='md:w-2/3 h-full '>
+									<LocationsxUnity
+										andar_de_cima={resp.data[2].RentalsByDate}
+										tout={resp.data[3].RentalsByDate}
+										ipiranga={resp.data[0].RentalsByDate}
+										lapa={resp.data[1].RentalsByDate}
+									/>
+								</div>
 							</div>
-							<div className='md:w-2/3 h-full '>
-								<LocationsxUnity
-									ipiranga={resp.data[0].RentalsByDate}
-									lapa={resp.data[1].RentalsByDate}
-								/>
-							</div>
-						</div>
-						<div className='flex gap-5 flex-col md:flex-row'>
-							<div className='md:w-1/2'>
+							<div className='flex gap-5 flex-col'>
 								<TKTxUnity
+									andar_de_cima={resp.data[2].TicketAverageByDate}
+									tout={resp.data[3].TicketAverageByDate}
 									ipiranga={resp.data[0].TicketAverageByDate}
 									lapa={resp.data[1].TicketAverageByDate}
 								/>
-							</div>
-							<div className='md:w-1/2'>
 								<TRevParXUnity
+									andar_de_cima={resp.data[2].TrevparByDate}
+									tout={resp.data[3].TrevparByDate}
 									ipiranga={resp.data[0].TrevparByDate}
 									lapa={resp.data[1].TrevparByDate}
 								/>
 							</div>
-						</div>
-						<div className='flex flex-col gap-5'>
-							<InvoicingXUnityXTime
-								ipiranga={resp.data[0].RevenueByDate}
-								lapa={resp.data[1].RevenueByDate}
-							/>
-							<OccupationXUnity
-								ipiranga={resp.data[0].OccupancyRateByDate}
-								lapa={resp.data[1].OccupancyRateByDate}
-							/>
-						</div>
+							<div className='flex flex-col gap-5'>
+								<InvoicingXUnityXTime
+									andar_de_cima={resp.data[2].RevenueByDate}
+									tout={resp.data[3].RevenueByDate}
+									ipiranga={resp.data[0].RevenueByDate}
+									lapa={resp.data[1].RevenueByDate}
+								/>
+								<OccupationXUnity
+									andar_de_cima={resp.data[2].OccupancyRateByDate}
+									tout={resp.data[3].OccupancyRateByDate}
+									ipiranga={resp.data[0].OccupancyRateByDate}
+									lapa={resp.data[1].OccupancyRateByDate}
+								/>
+							</div>
+						</Suspense>
 					</div>
 				</div>
 			</div>

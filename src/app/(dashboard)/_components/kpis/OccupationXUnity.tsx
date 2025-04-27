@@ -17,15 +17,24 @@ interface OccupancyRateEntry {
 interface OccupationXUnityProps {
 	ipiranga: OccupancyRateEntry[];
 	lapa: OccupancyRateEntry[];
+	andar_de_cima: OccupancyRateEntry[];
+	tout: OccupancyRateEntry[];
 }
 export default function OccupationXUnity({
 	ipiranga,
 	lapa,
+	andar_de_cima,
+	tout,
 }: OccupationXUnityProps) {
 	const occupancyRateByDateIpiranga = NormalizeOccupancyRate({
 		data: ipiranga,
 	});
 	const occupancyRateByDateLapa = NormalizeOccupancyRate({ data: lapa });
+	const occupancyRateByDateAndar = NormalizeOccupancyRate({
+		data: andar_de_cima,
+	});
+	const occupancyRateByDateTout = NormalizeOccupancyRate({ data: tout });
+
 	return (
 		<>
 			<LineChart
@@ -40,8 +49,16 @@ export default function OccupationXUnity({
 						name: 'Lush Lapa',
 						data: occupancyRateByDateLapa.values,
 					},
+					{
+						name: 'Andar de Cima',
+						data: occupancyRateByDateAndar.values,
+					},
+					{
+						name: 'Tout',
+						data: occupancyRateByDateTout.values,
+					},
 				]}
-				categories={occupancyRateByDateIpiranga.dates}
+				categories={occupancyRateByDateLapa.dates}
 			/>
 		</>
 	);

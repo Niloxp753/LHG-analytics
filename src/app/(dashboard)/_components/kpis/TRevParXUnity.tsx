@@ -10,6 +10,8 @@ const LineChart = dynamic(
 interface TRevParXUnityProps {
 	ipiranga: RentalsEntry[];
 	lapa: RentalsEntry[];
+	andar_de_cima: RentalsEntry[];
+	tout: RentalsEntry[];
 }
 
 interface RentalsEntry {
@@ -18,9 +20,16 @@ interface RentalsEntry {
 	};
 }
 
-export default function TRevParXUnity({ ipiranga, lapa }: TRevParXUnityProps) {
+export default function TRevParXUnity({
+	ipiranga,
+	lapa,
+	andar_de_cima,
+	tout,
+}: TRevParXUnityProps) {
 	const TRevParXUnityIpiranga = NormalizeTrevpar({ data: ipiranga });
 	const TRevParXUnityLapa = NormalizeTrevpar({ data: lapa });
+	const TRevParXUnityAndar = NormalizeTrevpar({ data: andar_de_cima });
+	const TRevParXUnityTout = NormalizeTrevpar({ data: tout });
 	return (
 		<>
 			<LineChart
@@ -36,8 +45,16 @@ export default function TRevParXUnity({ ipiranga, lapa }: TRevParXUnityProps) {
 						name: 'Lush Lapa',
 						data: TRevParXUnityLapa.values,
 					},
+					{
+						name: 'Andar de Cima',
+						data: TRevParXUnityAndar.values,
+					},
+					{
+						name: 'Tout',
+						data: TRevParXUnityTout.values,
+					},
 				]}
-				categories={TRevParXUnityIpiranga?.dates}
+				categories={TRevParXUnityLapa?.dates}
 			/>
 		</>
 	);

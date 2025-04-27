@@ -11,6 +11,8 @@ const LineChart = dynamic(
 interface TKTxUnityProps {
 	ipiranga: RentalsEntry[];
 	lapa: RentalsEntry[];
+	andar_de_cima: RentalsEntry[];
+	tout: RentalsEntry[];
 }
 
 interface RentalsEntry {
@@ -19,9 +21,16 @@ interface RentalsEntry {
 	};
 }
 
-export default function TKTxUnity({ ipiranga, lapa }: TKTxUnityProps) {
+export default function TKTxUnity({
+	ipiranga,
+	lapa,
+	andar_de_cima,
+	tout,
+}: TKTxUnityProps) {
 	const ticketAverageByDateIpiranga = NormalizeTKTMedio({ data: ipiranga });
 	const ticketAverageByDateLapa = NormalizeTKTMedio({ data: lapa });
+	const ticketAverageByDateAndar = NormalizeTKTMedio({ data: andar_de_cima });
+	const ticketAverageByDateTout = NormalizeTKTMedio({ data: tout });
 	return (
 		<>
 			<LineChart
@@ -36,6 +45,14 @@ export default function TKTxUnity({ ipiranga, lapa }: TKTxUnityProps) {
 					{
 						name: 'Lush Lapa',
 						data: ticketAverageByDateLapa.values,
+					},
+					{
+						name: 'Andar de Cima',
+						data: ticketAverageByDateAndar.values,
+					},
+					{
+						name: 'Tout',
+						data: ticketAverageByDateTout.values,
 					},
 				]}
 				categories={ticketAverageByDateIpiranga?.dates}
