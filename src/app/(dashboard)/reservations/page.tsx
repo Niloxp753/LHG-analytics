@@ -6,14 +6,52 @@ import CardDetails from '../_components/CardDetails';
 import CardLink from '../_components/CardLink';
 import SparkChart from '../_components/charts/SparkChart';
 import Header from '../_components/Header';
+import { format } from 'date-fns';
+import { getReservationPageData } from '@/actions/reservations/get-reservations-page';
 
-export default function Reservations({
+export default async function Reservations({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | string[] | undefined };
+	searchParams: { [key: string]: string | undefined };
 }) {
 	const menu = searchParams.menu;
 	const preSet = searchParams.set || '7days';
+	const startDate = searchParams.startDate;
+	const endDate = searchParams.endDate;
+
+	const formattedStartDate =
+		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
+	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
+
+	async function getData() {
+		if (startDate && endDate) {
+			const customData = await getReservationPageData({
+				startDate: formattedStartDate,
+				endDate: formattedEndDate,
+			});
+			if (customData) {
+				return customData;
+			}
+			return { ok: false, data: null, error: 'Algo deu errado' };
+		} else {
+			const data = await getReservationPageData({ period: preSet });
+			if (data) {
+				return data;
+			}
+			return { ok: false, data: null, error: 'Algo deu errado' };
+		}
+	}
+
+	const resp = await getData();
+
+	if (!resp.ok || !resp.data) {
+		console.log(resp.error);
+		return (
+			<div className='text-muted-foreground'>
+				Não foi possível encontrar os dados
+			</div>
+		);
+	}
 
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>
@@ -114,7 +152,6 @@ export default function Reservations({
 						<Representation />
 						<LocationsXReservs />
 					</div> */}
-				
 
 					<div>
 						<h2 className='text-4xl font-bold text-zinc-50 mt-10 mb-5'>
