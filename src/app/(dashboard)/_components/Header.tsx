@@ -1,13 +1,18 @@
 /** @format */
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import FormFilter from './FormFilter';
 import LinkPreSet from './LinkPreSet';
 
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
+
 export default function Header() {
 	const searchParams = useSearchParams();
+	const pathname = usePathname();
+	const router = useRouter();
 	const selected = searchParams.get('menu') || 'general';
 	const preSet = searchParams.get('set') || '7days';
 	const startDate = searchParams.get('startDate') || '';
@@ -19,11 +24,21 @@ export default function Header() {
 		{ label: 'ÚLTIMOS 6 MESES', tag: '6months' },
 	];
 
+	const canShow = pathname.endsWith('general');
 	return (
 		<div className=' pt-1 pb-1 w-full px-4'>
 			<div
 				className={`flex gap-5 items-end justify-between md:justify-center w-full flex-col md:flex-row `}>
 				<div className='flex justify-between md:justify-start md:gap-5 w-full text-zinc-100 text-xs md:text-sm'>
+					{!canShow && (
+						<Button
+							variant={'outline'}
+							className='dark border-violet-400'
+							onClick={() => router.back()}>
+							<ArrowLeft size={16} className='mr-2' />
+							Voltar
+						</Button>
+					)}
 					{links.map((l, index) => {
 						return (
 							<LinkPreSet
