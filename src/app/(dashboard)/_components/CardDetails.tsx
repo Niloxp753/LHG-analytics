@@ -44,22 +44,13 @@ export default function CardDetails({
 							style: 'currency',
 							currency: 'BRL',
 						})}
-
-						{/* <MoveDown
-							className='drop-shadow-[0px_4px_8px_rgba(239,68,68)]'
-							color='#ef4444'
-							size={16}
-						/> */}
+					</p>
+				) : type == 'percent' ? (
+					<p className='flex gap-1 items-center'>
+						{(Number(value) * 100).toFixed(2) + '%'}
 					</p>
 				) : (
-					<p className='flex gap-1 items-center'>
-						{value.toLocaleString('pt-BR')}
-						{/* <MoveUp
-							className='drop-shadow-[0px_4px_8px_rgba(34,197,94)]'
-							color='#22c55e'
-							size={16}
-						/> */}
-					</p>
+					<p>{value.toLocaleString('pt-BR')}</p>
 				)}
 			</CardContent>
 		</Card>

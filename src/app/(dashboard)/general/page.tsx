@@ -88,7 +88,7 @@ export default async function General({
 							}></CardLink>
 						<CardLink
 							href={`/general/toutcampinas?menu=${menu}&set=${preSet}`}
-							title={'Tout Campinas'}
+							title={'Tout'}
 							content={
 								<SparkChart serie={[45, 40, 55, 45, 30, 55, 35, 55, 30]} />
 							}></CardLink>{' '}

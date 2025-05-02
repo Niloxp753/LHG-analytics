@@ -8,6 +8,7 @@ import SparkChart from '../_components/charts/SparkChart';
 import Header from '../_components/Header';
 import { format } from 'date-fns';
 import { getReservationPageData } from '@/actions/reservations/get-reservations-page';
+import BigNumbersReservationPage from './_components/big-numbers-reservation-page';
 
 export default async function Reservations({
 	searchParams,
@@ -53,6 +54,7 @@ export default async function Reservations({
 		);
 	}
 
+	console.log(resp.data[0].BigNumbers);
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>
 			<div className={`relative  md:max-w-[82vw] flex  md:ml-auto w-full `}>
@@ -65,7 +67,7 @@ export default async function Reservations({
 					<Header />
 				</div>
 
-				<div className=' w-full  flex gap-5 flex-col justify-start mt-28 px-3 md:px-0'>
+				<div className=' w-full  flex gap-5 flex-col justify-start px-3 md:px-0'>
 					<div className='grid md:grid-cols-4 mt-10 gap-5'>
 						<CardLink
 							href={`/reservations/lushipiranga?menu=${menu}&set=${preSet}`}
@@ -81,7 +83,7 @@ export default async function Reservations({
 							}></CardLink>
 						<CardLink
 							href={`/reservations/toutcampinas?menu=${menu}&set=${preSet}`}
-							title={'Tout Campinas'}
+							title={'Tout'}
 							content={
 								<SparkChart serie={[45, 40, 55, 35, 55, 30]} />
 							}></CardLink>{' '}
@@ -93,52 +95,18 @@ export default async function Reservations({
 							}></CardLink>
 					</div>
 					<div>
-						<div
-							className={`justify-between  items-center grid md:grid-cols-4 gap-5 grid-cols-1 `}>
-							<CardDetails
-								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-									preSet == '30days' ? '30 dias atrás ' : ''
-								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-									preSet == '12months' ? '12 meses atrás ' : ''
-								}`}
-								type='money'
-								icon={<HandCoins />}
-								title={'Receita De Reservas'}
-								value={341518}
-							/>
-							<CardDetails
-								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-									preSet == '30days' ? '30 dias atrás ' : ''
-								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-									preSet == '12months' ? '12 meses atrás ' : ''
-								}`}
-								icon={<Sigma />}
-								title={'Número De Reservas'}
-								value={397}
-							/>
-							<CardDetails
-								description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
-									preSet == '30days' ? '30 dias atrá s' : ''
-								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-									preSet == '12months' ? '12 meses atrás ' : ''
-								}`}
-								type='money'
-								icon={<SquarePercent />}
-								title={'Ticket Médio'}
-								value={860}
-							/>
-
-							<CardDetails
-								description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
-									preSet == '30days' ? '30 dias atrás ' : ''
-								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-									preSet == '12months' ? '12 meses atrás ' : ''
-								}`}
-								icon={<Blend />}
-								title={'Representatividade'}
-								value={19}
-							/>
-						</div>
+						<BigNumbersReservationPage
+							ipiranga={resp.data[0].BigNumbers}
+							lapa={resp.data[1].BigNumbers}
+							andar_de_cima={resp.data[2].BigNumbers}
+							tout={resp.data[3].BigNumbers}
+							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							ecommerce={false}
+						/>
 					</div>
 					{/* <div className='flex gap-5'>
 						<InvoicingXTypes />
@@ -157,44 +125,24 @@ export default async function Reservations({
 						<h2 className='text-4xl font-bold text-zinc-50 mt-10 mb-5'>
 							Indicadores de E-Commerce
 						</h2>
-						<div className='flex flex-col items-start justify-between gap-5'>
-							<div className='w-full grid grid-cols-1 md:grid-cols-3  h-full justify-between gap-5'>
-								<CardDetails
-									title={'Reservas'}
-									value={'572'}
-									icon={<Sigma />}
-								/>
-								<CardDetails
-									title={'Receita'}
-									value={'R$414.752'}
-									icon={<HandCoins />}
-								/>
-								<CardDetails
-									title={'Ticket Médio'}
-									value={'R$725'}
-									icon={<SquarePercent />}
-								/>
-								<CardDetails
-									title={'Total em mídia'}
-									value={'R$24.640'}
-									icon={<Coins />}
-								/>
-								<CardDetails
-									title={'investimento Meta'}
-									value={'R$14.610'}
-									icon={<SiMeta />}
-								/>
-								<CardDetails
-									title={'investimento Google'}
-									value={'R$10.040'}
-									icon={<SiGoogleads />}
-								/>
-							</div>
-							{/* <div className='w-full flex flex-col items-center justify-between gap-5'>
+
+						<BigNumbersReservationPage
+							ipiranga={resp.data[0].BigNumbersEcommerce}
+							lapa={resp.data[1].BigNumbersEcommerce}
+							andar_de_cima={resp.data[2].BigNumbersEcommerce}
+							tout={resp.data[3].BigNumbersEcommerce}
+							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							ecommerce={true}
+						/>
+
+						{/* <div className='w-full flex flex-col items-center justify-between gap-5'>
 								<EcommerceRevervs />
 								<EcommerceRevenue />
 							</div> */}
-						</div>
 					</div>
 				</div>
 			</div>

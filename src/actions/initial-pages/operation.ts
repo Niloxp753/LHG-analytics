@@ -3,20 +3,20 @@
 'use server';
 
 import { getGovernance } from '@/http/operation/get-governance';
-import { revalidatePath } from 'next/cache';
 import { getOperationCustom } from '@/http/operation/get-governance-custom';
+import { revalidatePath } from 'next/cache';
 
-interface getOperationPageDataProps {
+interface getOperationalPageDataProps {
 	period?: string;
 	startDate?: string | null;
 	endDate?: string | null;
 }
 
-export async function getOperationPageData({
+export async function getOperationalPageData({
 	endDate,
 	period,
 	startDate,
-}: getOperationPageDataProps) {
+}: getOperationalPageDataProps) {
 	let newPeriod = '';
 
 	if (period === '30days') {
@@ -34,11 +34,28 @@ export async function getOperationPageData({
 	if (startDate && endDate) {
 		const customDataIpiranga = await getOperationCustom(startDate, endDate);
 		const customDataLapa = await getOperationCustom(startDate, endDate, 'lapa');
-		if (customDataIpiranga && customDataLapa) {
+		const customDataAndarDeCima = await getOperationCustom(
+			startDate,
+			endDate,
+			'andar_de_cima',
+		);
+		const customDataTout = await getOperationCustom(startDate, endDate, 'tout');
+
+		if (
+			customDataIpiranga &&
+			customDataLapa &&
+			customDataAndarDeCima &&
+			customDataTout
+		) {
 			revalidatePath('/operational');
 			return {
 				ok: true,
-				data: [customDataIpiranga, customDataLapa],
+				data: [
+					customDataIpiranga,
+					customDataLapa,
+					customDataAndarDeCima,
+					customDataTout,
+				],
 				error: null,
 			};
 		} else {
@@ -51,11 +68,13 @@ export async function getOperationPageData({
 	} else {
 		const dataiIpiranga = await getGovernance(newPeriod);
 		const dataiLapa = await getGovernance(newPeriod, 'lapa');
-		if (dataiIpiranga && dataiLapa) {
+		const dataiAndar = await getGovernance(newPeriod, 'andar_de_cima');
+		const dataiTout = await getGovernance(newPeriod, 'tout');
+		if (dataiIpiranga && dataiLapa && dataiAndar && dataiTout) {
 			revalidatePath('/operational');
 			return {
 				ok: true,
-				data: [dataiIpiranga, dataiLapa],
+				data: [dataiIpiranga, dataiLapa, dataiAndar, dataiTout],
 				error: null,
 			};
 		} else {

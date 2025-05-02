@@ -7,42 +7,61 @@ import { Eye, Leaf, LeafyGreen } from 'lucide-react';
 interface BigNumbersPageOpProps {
 	ipiranga: any[];
 	lapa: any[];
+	andar_de_cima: any[];
+	tout: any[];
 	description: string;
 }
 
 export default function BigNumbersPageOp({
 	description,
 	ipiranga,
+	andar_de_cima,
+	tout,
 	lapa,
 }: BigNumbersPageOpProps) {
 	const dataIpiranga = ipiranga[0];
 	const dataLapa = lapa[0];
+	const dataAndar = andar_de_cima[0];
+	const dataTout = tout[0];
 
 	const totalAllSuitesCleanings =
 		dataIpiranga.currentDate.totalAllSuitesCleanings +
-		dataLapa.currentDate.totalAllSuitesCleanings;
+		dataLapa.currentDate.totalAllSuitesCleanings +
+		dataAndar.currentDate.totalAllSuitesCleanings +
+		dataTout.currentDate.totalAllSuitesCleanings;
 
 	const totalAllAverageDailyCleaning =
-		dataIpiranga.currentDate.totalAllAverageDailyCleaning +
-		dataLapa.currentDate.totalAllAverageDailyCleaning;
+		(dataIpiranga.currentDate.totalAllAverageDailyCleaning +
+			dataLapa.currentDate.totalAllAverageDailyCleaning +
+			dataAndar.currentDate.totalAllAverageDailyCleaning +
+			dataTout.currentDate.totalAllAverageDailyCleaning) /
+		4;
 
 	const totalAllInspections =
 		dataIpiranga.currentDate.totalAllInspections +
-		dataLapa.currentDate.totalAllInspections;
+		dataLapa.currentDate.totalAllInspections +
+		dataAndar.currentDate.totalAllInspections +
+		dataTout.currentDate.totalAllInspections;
 
 	const totalAllSuitesCleaningsPreviousData = dataIpiranga.previousDate
 		? dataIpiranga.previousDate.totalAllSuitesCleaningsPreviousData +
-		  dataLapa.previousDate.totalAllSuitesCleaningsPreviousData
+		  dataLapa.previousDate.totalAllSuitesCleaningsPreviousData +
+		  dataAndar.previousDate.totalAllSuitesCleaningsPreviousData +
+		  dataTout.previousDate.totalAllSuitesCleaningsPreviousData
 		: null;
 
 	const totalAllAverageDailyCleaningPreviousData = dataIpiranga.previousDate
 		? dataIpiranga.previousDate.totalAllAverageDailyCleaningPreviousData +
-		  dataLapa.previousDate.totalAllAverageDailyCleaningPreviousData
+		  dataLapa.previousDate.totalAllAverageDailyCleaningPreviousData +
+		  dataAndar.previousDate.totalAllAverageDailyCleaningPreviousData +
+		  dataTout.previousDate.totalAllAverageDailyCleaningPreviousData
 		: null;
 
 	const totalAllInspectionsPreviousData = dataIpiranga.previousDate
 		? dataIpiranga.previousDate.totalAllInspectionsPreviousData +
-		  dataLapa.previousDate.totalAllInspectionsPreviousData
+		  dataLapa.previousDate.totalAllInspectionsPreviousData +
+		  dataAndar.previousDate.totalAllInspectionsPreviousData +
+		  dataTout.previousDate.totalAllInspectionsPreviousData
 		: null;
 
 	return (

@@ -103,7 +103,7 @@ export default async function LushLapa({
 								<TableWokersNight dataTable={resp?.EmployeeReport.Noite} />
 								<TableWokersWeekly
 									dataTable={resp?.TeamSizing}
-									idealNumber={9}
+									idealNumber={11}
 								/>
 							</div>
 						</div>

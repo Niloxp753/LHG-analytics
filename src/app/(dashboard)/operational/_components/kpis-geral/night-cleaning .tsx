@@ -12,11 +12,20 @@ const LineChart = dynamic(
 interface NightCleaningProps {
 	ipiranga: EmployeeCleaningByShift;
 	lapa: EmployeeCleaningByShift;
+	andar_de_cima: EmployeeCleaningByShift;
+	tout: EmployeeCleaningByShift;
 }
 
-export default function NightCleaning({ ipiranga, lapa }: NightCleaningProps) {
+export default function NightCleaning({
+	ipiranga,
+	lapa,
+	andar_de_cima,
+	tout,
+}: NightCleaningProps) {
 	const dataIpiranga = transformData(ipiranga);
 	const dataLapa = transformData(lapa);
+	const dataAndar = transformData(andar_de_cima);
+	const dataTout = transformData(tout);
 	return (
 		<LineChart
 			height={48}
@@ -29,6 +38,14 @@ export default function NightCleaning({ ipiranga, lapa }: NightCleaningProps) {
 				{
 					name: 'Lush Lapa',
 					data: dataLapa.series[0].noite,
+				},
+				{
+					name: 'Andar de Cima',
+					data: dataAndar.series[0].noite,
+				},
+				{
+					name: 'Tout',
+					data: dataTout.series[0].noite,
 				},
 			]}
 			categories={dataIpiranga.categories}

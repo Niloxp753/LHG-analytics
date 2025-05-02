@@ -5,9 +5,9 @@ import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import FormFilter from './FormFilter';
 import LinkPreSet from './LinkPreSet';
-
+import { useTransition } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Loader2, Loader2Icon } from 'lucide-react';
 
 export default function Header() {
 	const searchParams = useSearchParams();
@@ -16,7 +16,9 @@ export default function Header() {
 	const selected = searchParams.get('menu') || 'general';
 	const preSet = searchParams.get('set') || '7days';
 	const startDate = searchParams.get('startDate') || '';
+	const menu = searchParams.get('menu');
 	const [tab, setTab] = useState(preSet);
+	const [isPending, startTransition] = useTransition();
 
 	const links = [
 		{ label: 'ÚLTIMOS 7 DIAS', tag: '7days' },
@@ -24,9 +26,14 @@ export default function Header() {
 		{ label: 'ÚLTIMOS 6 MESES', tag: '6months' },
 	];
 
-	const canShow = pathname.endsWith('general');
+	const canShow =
+		pathname.endsWith('general') ||
+		pathname.endsWith('restaurant') ||
+		pathname.endsWith('reservations') ||
+		pathname.endsWith('operational');
+
 	return (
-		<div className=' pt-1 pb-1 w-full px-4'>
+		<div className=' pt-1 pb-1 w-full px-4 md:px-0'>
 			<div
 				className={`flex gap-5 items-end justify-between md:justify-center w-full flex-col md:flex-row `}>
 				<div className='flex justify-between md:justify-start md:gap-5 w-full text-zinc-100 text-xs md:text-sm'>
@@ -34,8 +41,22 @@ export default function Header() {
 						<Button
 							variant={'outline'}
 							className='dark border-violet-400'
-							onClick={() => router.back()}>
-							<ArrowLeft size={16} className='mr-2' />
+							onClick={() =>
+								startTransition(() => {
+									router.push(`/${menu}?menu=${menu}&set=${preSet}`);
+								})
+							}>
+							{isPending ? (
+								<Loader2
+									size={16}
+									className='animate-spin mr-2'
+								/>
+							) : (
+								<ArrowLeft
+									size={16}
+									className='mr-2'
+								/>
+							)}
 							Voltar
 						</Button>
 					)}

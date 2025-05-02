@@ -12,14 +12,21 @@ const LineChart = dynamic(
 interface AfternoonCleaningProps {
 	ipiranga: EmployeeCleaningByShift;
 	lapa: EmployeeCleaningByShift;
+	andar_de_cima: EmployeeCleaningByShift;
+	tout: EmployeeCleaningByShift;
 }
 
 export default function AfternoonCleaning({
 	ipiranga,
 	lapa,
+	andar_de_cima,
+	tout,
 }: AfternoonCleaningProps) {
 	const dataIpiranga = transformData(ipiranga);
 	const dataLapa = transformData(lapa);
+	const dataAndar = transformData(andar_de_cima);
+	const dataTout = transformData(tout);
+
 	return (
 		<LineChart
 			height={48}
@@ -32,6 +39,14 @@ export default function AfternoonCleaning({
 				{
 					name: 'Lush Lapa',
 					data: dataLapa.series[0].tarde,
+				},
+				{
+					name: 'Andar de Cima',
+					data: dataAndar.series[0].tarde,
+				},
+				{
+					name: 'Tout',
+					data: dataTout.series[0].tarde,
 				},
 			]}
 			categories={dataIpiranga.categories}

@@ -1,6 +1,6 @@
 /** @format */
 
-import { getOperationPageData } from '@/actions/initial-pages/operation';
+import { getOperationalPageData } from '@/actions/initial-pages/operation';
 import { format } from 'date-fns';
 import dynamic from 'next/dynamic';
 import CardLink from '../_components/CardLink';
@@ -34,7 +34,7 @@ export default async function Operational({
 
 	async function getData() {
 		if (startDate && endDate) {
-			const customData = await getOperationPageData({
+			const customData = await getOperationalPageData({
 				startDate: formattedStartDate,
 				endDate: formattedEndDate,
 			});
@@ -43,7 +43,7 @@ export default async function Operational({
 			}
 			return { ok: false, data: null, error: 'Algo deu errado' };
 		} else {
-			const data = await getOperationPageData({ period: preSet });
+			const data = await getOperationalPageData({ period: preSet });
 			if (data) {
 				return data;
 			}
@@ -90,7 +90,7 @@ export default async function Operational({
 							}></CardLink>
 						<CardLink
 							href={`/operational/toutcampinas?menu=${menu}&set=${preSet}`}
-							title={'Tout Campinas'}
+							title={'Tout'}
 							content={
 								<SparkChart serie={[45, 40, 55, 45, 30, 55, 35, 55, 30]} />
 							}></CardLink>{' '}
@@ -103,6 +103,8 @@ export default async function Operational({
 					</div>
 					<div className='flex gap-5 flex-col w-full h-full '>
 						<BigNumbersPageOp
+							tout={resp.data[3].BigNumbers}
+							andar_de_cima={resp.data[2].BigNumbers}
 							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
 								preSet == '30days' ? '30 dias atrás ' : ''
 							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
@@ -119,6 +121,12 @@ export default async function Operational({
 								lapa={
 									resp.data[1].BigNumbers[0].currentDate.totalAllSuitesCleanings
 								}
+								tout={
+									resp.data[3].BigNumbers[0].currentDate.totalAllSuitesCleanings
+								}
+								andar_de_cima={
+									resp.data[2].BigNumbers[0].currentDate.totalAllSuitesCleanings
+								}
 							/>
 							<CleaningAverageUnity
 								ipiranga={
@@ -129,10 +137,20 @@ export default async function Operational({
 									resp.data[1].BigNumbers[0].currentDate
 										.totalAllAverageDailyCleaning
 								}
+								tout={
+									resp.data[3].BigNumbers[0].currentDate
+										.totalAllAverageDailyCleaning
+								}
+								andar_de_cima={
+									resp.data[2].BigNumbers[0].currentDate
+										.totalAllAverageDailyCleaning
+								}
 							/>
 							<PerformanceUnity
 								ipiranga={resp.data[0].SupervisorsPerformance}
 								lapa={resp.data[1].SupervisorsPerformance}
+								andar_de_cima={resp.data[2].SupervisorsPerformance}
+								tout={resp.data[3].SupervisorsPerformance}
 							/>
 						</div>
 					</div>
@@ -140,14 +158,20 @@ export default async function Operational({
 						<MorningCleaning
 							ipiranga={resp.data[0].EmployeeCleaningByShift}
 							lapa={resp.data[1].EmployeeCleaningByShift}
+							andar_de_cima={resp.data[2].EmployeeCleaningByShift}
+							tout={resp.data[3].EmployeeCleaningByShift}
 						/>
 						<AfternoonCleaning
 							ipiranga={resp.data[0].EmployeeCleaningByShift}
 							lapa={resp.data[1].EmployeeCleaningByShift}
+							andar_de_cima={resp.data[2].EmployeeCleaningByShift}
+							tout={resp.data[3].EmployeeCleaningByShift}
 						/>
 						<NightCleaning
 							ipiranga={resp.data[0].EmployeeCleaningByShift}
 							lapa={resp.data[1].EmployeeCleaningByShift}
+							andar_de_cima={resp.data[2].EmployeeCleaningByShift}
+							tout={resp.data[3].EmployeeCleaningByShift}
 						/>
 					</div>
 				</div>
