@@ -43,8 +43,8 @@ export default function Restaurant({
 					</h2>
 					<Header />
 				</div>
-				<div className=' w-full  flex gap-5 flex-col justify-start mt-28'>
-					<div className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3'>
+				<div className=' w-full  flex gap-5 flex-col justify-start mt-40'>
+					<div className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4'>
 						<CardDetails
 							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
 								preSet == '30days' ? '30 dias atrás ' : ''
@@ -84,27 +84,6 @@ export default function Restaurant({
 							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
 								preSet == '12months' ? '12 meses atrás ' : ''
 							}`}
-							icon={<TrendingUp />}
-							title={'CMV Total'}
-							value={19}
-						/>
-
-						<CardDetails
-							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
-								preSet == '30days' ? '30 dias atrás ' : ''
-							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-								preSet == '12months' ? '12 meses atrás ' : ''
-							}`}
-							icon={<DiamondPercent />}
-							title={'TKT Médio A&B / Locação'}
-							value={22}
-						/>
-						<CardDetails
-							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
-								preSet == '30days' ? '30 dias atrás ' : ''
-							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-								preSet == '12months' ? '12 meses atrás ' : ''
-							}`}
 							icon={<DiamondPercent />}
 							title={'TKT Médio A&B / Locação'}
 							value={22}
@@ -113,9 +92,9 @@ export default function Restaurant({
 					<div className='flex w-full gap-5 h-full'>
 						<RevenueABXCost />
 					</div>
-					<div className='h-full w-full flex items-center justify-center'>
+					{/* <div className='h-full w-full flex items-center justify-center'>
 						<Cmv />
-					</div>
+					</div> */}
 					<div className='gap-5 h-fit w-full flex justify-between flex-col xl:flex-row'>
 						<RevenuePercent />
 						<TKTXLocation />

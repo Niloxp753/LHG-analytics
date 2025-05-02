@@ -36,8 +36,35 @@ export default function Restaurant({
 					</h2>
 					<Header />
 				</div>
+
 				<div className='w-full flex flex-col mt-28 h-full gap-5 px-3 md:px-0'>
-					<div className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3'>
+					<div className='grid md:grid-cols-4 mt-10 gap-5'>
+						<CardLink
+							href={`/restaurant/lushipiranga?menu=${menu}&set=${preSet}`}
+							title={'Lush Ipiranga'}
+							content={
+								<SparkChart serie={[35, 40, 55, 45, 50, 40]} />
+							}></CardLink>
+						<CardLink
+							href={`/restaurant/lushlapa?menu=${menu}&set=${preSet}`}
+							title={'Lush Lapa'}
+							content={
+								<SparkChart serie={[45, 30, 55, 35, 60, 40]} />
+							}></CardLink>
+						<CardLink
+							href={`/restaurant/toutcampinas?menu=${menu}&set=${preSet}`}
+							title={'Tout'}
+							content={
+								<SparkChart serie={[45, 40, 55, 35, 55, 30]} />
+							}></CardLink>{' '}
+						<CardLink
+							href={`/restaurant/andardecima?menu=${menu}&set=${preSet}`}
+							title={'Andar de Cima'}
+							content={
+								<SparkChart serie={[55, 30, 55, 45, 50, 60]} />
+							}></CardLink>
+					</div>
+					<div className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4'>
 						<CardDetails
 							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
 								preSet == '30days' ? '30 dias atrás ' : ''
@@ -77,27 +104,6 @@ export default function Restaurant({
 							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
 								preSet == '12months' ? '12 meses atrás ' : ''
 							}`}
-							icon={<TrendingUp />}
-							title={'CMV Total'}
-							value={19}
-						/>
-
-						<CardDetails
-							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
-								preSet == '30days' ? '30 dias atrás ' : ''
-							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-								preSet == '12months' ? '12 meses atrás ' : ''
-							}`}
-							icon={<DiamondPercent />}
-							title={'TKT Médio A&B / Locação'}
-							value={22}
-						/>
-						<CardDetails
-							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
-								preSet == '30days' ? '30 dias atrás ' : ''
-							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-								preSet == '12months' ? '12 meses atrás ' : ''
-							}`}
 							icon={<DiamondPercent />}
 							title={'TKT Médio A&B / Locação'}
 							value={22}
@@ -111,33 +117,7 @@ export default function Restaurant({
 					<div className='flex flex-col gap-5'>
 						<UnityxTKTxTime />
 						<UnityxRevenuexTime />
-						<UnityxCMVxTime />
-					</div>
-					<div className='grid md:grid-cols-4 mt-10 gap-5'>
-						<CardLink
-							href={`/restaurant/lushipiranga?menu=${menu}&set=${preSet}`}
-							title={'Lush Ipiranga'}
-							content={
-								<SparkChart serie={[35, 40, 55, 45, 50, 40]} />
-							}></CardLink>
-						<CardLink
-							href={`/restaurant/lushlapa?menu=${menu}&set=${preSet}`}
-							title={'Lush Lapa'}
-							content={
-								<SparkChart serie={[45, 30, 55, 35, 60, 40]} />
-							}></CardLink>
-						<CardLink
-							href={`/restaurant/toutcampinas?menu=${menu}&set=${preSet}`}
-							title={'Tout Campinas'}
-							content={
-								<SparkChart serie={[45, 40, 55, 35, 55, 30]} />
-							}></CardLink>{' '}
-						<CardLink
-							href={`/restaurant/andardecima?menu=${menu}&set=${preSet}`}
-							title={'Andar de Cima'}
-							content={
-								<SparkChart serie={[55, 30, 55, 45, 50, 60]} />
-							}></CardLink>
+						{/* <UnityxCMVxTime /> */}
 					</div>
 				</div>
 			</div>
