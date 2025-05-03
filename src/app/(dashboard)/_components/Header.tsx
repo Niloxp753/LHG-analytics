@@ -76,29 +76,7 @@ export default function Header() {
 				</div>
 				<Separator className='lg:hidden' />
 				<FormFilter />
-				{!canShow && (
-					<Button
-						variant={'outline'}
-						className='dark border-violet-400 text-white mt-20 w-full lg:hidden'
-						onClick={() =>
-							startTransition(() => {
-								router.push(`/${menu}?menu=${menu}&set=${preSet}`);
-							})
-						}>
-						{isPending ? (
-							<Loader2
-								size={16}
-								className='animate-spin mr-2'
-							/>
-						) : (
-							<ArrowLeft
-								size={16}
-								className='mr-2'
-							/>
-						)}
-						Voltar
-					</Button>
-				)}
+				
 			</div>
 		</div>
 	);
