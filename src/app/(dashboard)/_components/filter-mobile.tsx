@@ -45,6 +45,7 @@ export default function FilterMobile() {
 
 	useEffect(() => {
 		handleClose();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isPending]);
 
 	return (
@@ -71,12 +72,10 @@ export default function FilterMobile() {
 				</SheetHeader>
 				<div className='mt-10 flex flex-col gap-10'>
 					<Header />
-				</div>
-				<SheetFooter>
 					{!canShow && (
 						<Button
 							variant={'outline'}
-							className='dark border-violet-400 text-white mt-20 w-full lg:hidden'
+							className='dark border-violet-400 text-white mt-20   lg:hidden'
 							onClick={(e) => handleBack(e)}>
 							{isPending ? (
 								<Loader2
@@ -92,6 +91,8 @@ export default function FilterMobile() {
 							Voltar
 						</Button>
 					)}
+				</div>
+				<SheetFooter>
 					<SheetClose
 						id='myclose'
 						className='hidden'></SheetClose>

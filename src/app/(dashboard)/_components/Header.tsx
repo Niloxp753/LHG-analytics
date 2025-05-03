@@ -34,7 +34,7 @@ export default function Header() {
 		pathname.endsWith('operational');
 
 	return (
-		<div className=' pt-1 pb-1 w-full px-4 md:px-0'>
+		<div className=' pt-1 pb-1 w-full'>
 			<div
 				className={`flex gap-5 items-end justify-between md:justify-center w-full flex-col md:flex-row `}>
 				<div className='flex flex-col lg:flex-row justify-between md:justify-start md:gap-5 w-full text-zinc-100 text-xs md:text-sm'>
@@ -76,7 +76,6 @@ export default function Header() {
 				</div>
 				<Separator className='lg:hidden' />
 				<FormFilter />
-				
 			</div>
 		</div>
 	);
