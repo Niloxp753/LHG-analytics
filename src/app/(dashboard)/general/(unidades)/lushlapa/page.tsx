@@ -67,9 +67,11 @@ export default async function LushLapa({
 							<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-1.5 text-xl'>
 								Visão Geral - <span className='text-violet-400'>Lush Lapa</span>
 							</h2>
-							<Header />
+							<div className='hidden lg:block'>
+								<Header />
+							</div>
 						</div>
-						<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-36'>
+						<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-12 lg:mt-32'>
 							<BigNumbers
 								data={resp?.BigNumbers}
 								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${

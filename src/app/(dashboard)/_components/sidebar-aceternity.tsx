@@ -99,7 +99,7 @@ export const MobileSidebar = ({
 				{...props}>
 				<div className='w-full text-zinc-950 p-5 z-50 '>
 					<IconMenu2
-						className='text-zinc-50 size-8'
+						className='text-zinc-50 size-6 translate-y-1.5'
 						onClick={() => setOpen(!open)}
 					/>
 				</div>

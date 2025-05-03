@@ -34,11 +34,13 @@ export default function Restaurant({
 					<h2 className='text-zinc-50 font-bold text-2xl md:text-3xl text-center pt-1'>
 						Painel de <span className='text-violet-400'> {''}Restaurantes</span>
 					</h2>
-					<Header />
+					<div className='hidden lg:block'>
+						<Header />
+					</div>
 				</div>
 
-				<div className='w-full flex flex-col mt-28 h-full gap-5 px-3 md:px-0'>
-					<div className='grid md:grid-cols-4 mt-10 gap-5'>
+				<div className='w-full flex flex-col mt-12 lg:mt-32 h-full gap-5 px-3 md:px-0'>
+					<div className='grid md:grid-cols-4 gap-5'>
 						<CardLink
 							href={`/restaurant/lushipiranga?menu=${menu}&set=${preSet}`}
 							title={'Lush Ipiranga'}
@@ -105,14 +107,15 @@ export default function Restaurant({
 								preSet == '12months' ? '12 meses atrás ' : ''
 							}`}
 							icon={<DiamondPercent />}
+							type='money'
 							title={'TKT Médio A&B / Locação'}
-							value={22}
+							value={668}
 						/>
 					</div>
 					<div className='flex md:gap-10 gap-5 mb-5 flex-col md:flex-row mx-auto w-full h-full'>
 						<UnityxRevenue />
 						<UnityxCoust />
-						<UnityxCMV />
+						{/* <UnityxCMV /> */}
 					</div>
 					<div className='flex flex-col gap-5'>
 						<UnityxTKTxTime />

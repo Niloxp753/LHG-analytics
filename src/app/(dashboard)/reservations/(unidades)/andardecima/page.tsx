@@ -68,9 +68,11 @@ export default async function Page({
 						Reservas -{' '}
 						<span className='text-violet-400'> {''}Andar de Cima</span>
 					</h2>
-					<Header />
+					<div className='hidden lg:block'>
+						<Header />
+					</div>
 				</div>
-				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-20 md:mt-32'>
+				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-12 md:mt-32'>
 					<BigNumbersReservation
 						data={resp?.BigNumbers}
 						description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${

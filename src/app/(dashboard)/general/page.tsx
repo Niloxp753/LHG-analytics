@@ -67,13 +67,15 @@ export default async function General({
 			<div className={`relative md:max-w-[82vw] flex  md:ml-auto w-full `}>
 				<div
 					className={`bg-zinc-950/50 py-4 w-full md:max-w-[82vw] backdrop-blur-md fixed z-40 top-0 flex flex-col gap-5 `}>
-					<h2 className='text-zinc-50 font-bold text-3xl text-center'>
+					<h2 className='text-zinc-50 font-bold text-2xl text-center'>
 						Visão <span className='text-violet-400'> Geral</span>
 					</h2>
-					<Header />
+					<div className='hidden lg:block'>
+						<Header />
+					</div>
 				</div>
-				<div className='flex flex-col mt-24 gap-5 w-full px-3'>
-					<div className='grid md:grid-cols-4 mt-10 gap-5'>
+				<div className='flex flex-col mt-10 lg:mt-32 gap-5 w-full px-3'>
+					<div className='grid md:grid-cols-4 gap-5'>
 						<CardLink
 							href={`/general/lushipiranga?menu=${menu}&set=${preSet}`}
 							title={'Lush Ipiranga'}

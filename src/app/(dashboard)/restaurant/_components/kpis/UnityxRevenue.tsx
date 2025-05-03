@@ -10,13 +10,13 @@ const PieChartsApex = dynamic(
 
 export default function UnityxRevenue() {
 	return (
-		<>
-			<PieChartsApex
-				height={280}
-				title='Receita de A&B por unidade'
-				colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
-				dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
-			/>
-		</>
+		<PieChartsApex
+			money
+			height={280}
+			title='Receita de A&B por unidade'
+			series={[22500, 7800, 6899, 12045]}
+			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
+			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
+		/>
 	);
 }

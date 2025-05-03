@@ -37,13 +37,15 @@ export default function Restaurant({
 		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-3 md:px-5 py-10'>
 			<div className={`relative w-full  md:max-w-[82vw] md:ml-auto flex z-40 `}>
 				<div
-					className={`bg-zinc-950/50 z-40 py-4 ml-auto w-[82vw] backdrop-blur-md fixed top-0 flex flex-col gap-2 justify-end `}>
-					<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-2 text-xl'>
+					className={`bg-zinc-950/50 z-40 py-4 ml-auto lg:w-[82vw] backdrop-blur-md fixed top-0 flex flex-col gap-2 justify-end w-full`}>
+					<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-2 text-lg'>
 						Restaurante - <span className='text-violet-400'>Lush Ipiranga</span>
 					</h2>
-					<Header />
+					<div className='hidden lg:block'>
+						<Header />
+					</div>
 				</div>
-				<div className=' w-full  flex gap-5 flex-col justify-start mt-40'>
+				<div className=' w-full  flex gap-5 flex-col justify-start mt-12 lg:mt-32'>
 					<div className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4'>
 						<CardDetails
 							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
@@ -84,9 +86,10 @@ export default function Restaurant({
 							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
 								preSet == '12months' ? '12 meses atrás ' : ''
 							}`}
+							type='money'
 							icon={<DiamondPercent />}
 							title={'TKT Médio A&B / Locação'}
-							value={22}
+							value={688}
 						/>
 					</div>
 					<div className='flex w-full gap-5 h-full'>

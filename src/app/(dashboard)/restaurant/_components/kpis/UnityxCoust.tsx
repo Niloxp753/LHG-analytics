@@ -10,12 +10,12 @@ const PieChartsApex = dynamic(
 
 export default function UnityxCoust() {
 	return (
-		<>
-			<PieChartsApex
-				title='Custo de Insumos por unidade'
-				colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
-				dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
-			/>
-		</>
+		<PieChartsApex
+			series={[568, 965, 789, 365]}
+			money
+			title='Custo de Insumos por unidade'
+			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
+			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
+		/>
 	);
 }

@@ -67,7 +67,7 @@ export default async function Page({
 					</h2>
 					<Header />
 				</div>
-				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-20 md:mt-32'>
+				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-12 lg:mt-32'>
 					<BigNumbersReservation
 						data={resp?.BigNumbers}
 						description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${

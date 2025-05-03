@@ -58,17 +58,18 @@ export default function FormFilter() {
 			<form
 				className='flex flex-col md:flex-row items-center gap-5 w-full'
 				onSubmit={form.handleSubmit(onSubmit)}>
-				<div className='flex flex-col md:flex-row items-center justify-between gap-5 w-full'>
+				<div className='flex flex-col md:flex-row items-center lg:justify-end justify-between gap-5 w-full'>
 					<FormField
 						control={form.control}
 						name='startDate'
 						render={({ field }) => (
-							<FormItem className='flex items-baseline justify-between flex-col w-fit'>
+							<FormItem className='flex items-baseline justify-between flex-col md:w-fit w-full'>
 								<FormLabel className='text-zinc-100 font-bold'>
 									Data Inicial
 								</FormLabel>
 								<Popover>
 									<PopoverTrigger
+										onClick={(e) => e.stopPropagation()}
 										disabled={
 											form.formState.isLoading || form.formState.isSubmitting
 										}
@@ -78,7 +79,7 @@ export default function FormFilter() {
 											<Button
 												variant={'outline'}
 												className={cn(
-													'w-[220px] pl-3 text-left font-normal border-none bg-zinc-800 text-zinc-200',
+													'w-full lg:w-[220px] pl-3 text-left font-normal border-none bg-zinc-800 text-zinc-200',
 													!field.value && 'text-muted-foreground',
 												)}>
 												{field.value ? (
@@ -111,7 +112,7 @@ export default function FormFilter() {
 						control={form.control}
 						name='endDate'
 						render={({ field }) => (
-							<FormItem className='flex items-baseline justify-between flex-col w-fit'>
+							<FormItem className='flex items-baseline justify-between flex-col md:w-fit w-full'>
 								<FormLabel className='text-zinc-100 font-bold'>
 									Data Final
 								</FormLabel>
@@ -126,7 +127,7 @@ export default function FormFilter() {
 											<Button
 												variant={'outline'}
 												className={cn(
-													'w-[220px] pl-3 text-left font-normal border-none bg-zinc-800 text-zinc-200',
+													'w-full lg:w-[220px] pl-3 text-left font-normal border-none bg-zinc-800 text-zinc-200',
 													!field.value && 'text-muted-foreground',
 												)}>
 												{field.value ? (
@@ -165,7 +166,7 @@ export default function FormFilter() {
 						!form.formState.isValid ||
 						isPending
 					}
-					className='bg-violet-400 w-full text-zinc-950 font-semibold hover:bg-violet-500 mt-4 flex gap-2'>
+					className='bg-violet-400 w-full lg:w-fit text-zinc-950 font-semibold hover:bg-violet-500 mt-4 flex gap-2'>
 					{form.formState.isLoading ||
 					form.formState.isSubmitting ||
 					isPending ? (
