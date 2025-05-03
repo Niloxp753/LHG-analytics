@@ -201,8 +201,8 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 									</SelectItem>
 									<SelectItem
 										disabled
-										value={'Tout Campinas'}>
-										Tout Campinas
+										value={'Tout'}>
+										Tout
 									</SelectItem>
 								</SelectContent>
 							</Select>

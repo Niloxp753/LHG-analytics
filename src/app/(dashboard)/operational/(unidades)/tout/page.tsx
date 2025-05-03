@@ -62,7 +62,7 @@ export default async function LushLapa({
 							className={`bg-zinc-950/50 py-4 w-full md:w-[82vw] backdrop-blur-md fixed top-0 z-40 flex flex-col gap-2 `}>
 							<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-1.5 text-xl'>
 								Operacional -{' '}
-								<span className='text-violet-400'>Tout Campinas</span>
+								<span className='text-violet-400'>Tout</span>
 							</h2>
 							<Header />
 						</div>

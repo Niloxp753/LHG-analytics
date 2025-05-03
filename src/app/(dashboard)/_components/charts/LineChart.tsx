@@ -82,7 +82,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 						  })
 						: props.percent
 						? val + '%'
-						: val
+						: val.toLocaleString('pt-br')
 				} `,
 			enabled: false,
 			distributed: false,

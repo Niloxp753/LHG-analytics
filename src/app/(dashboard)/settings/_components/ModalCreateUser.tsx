@@ -228,7 +228,7 @@ export function ModalCreateUser() {
 											<SelectItem
 												disabled
 												value={'4'}>
-												Tout Campinas
+												Tout
 											</SelectItem>
 										</SelectContent>
 									</Select>

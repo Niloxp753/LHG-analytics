@@ -39,7 +39,7 @@ export default function PerformanceUnity({
 				'Lush Ipiranga',
 				'Lush Lapa',
 				'Andar de Cima',
-				'Tout Campinas',
+				'Tout',
 			]}
 			title='Total de vistorias por unidade'
 			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}

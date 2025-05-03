@@ -9,6 +9,8 @@ import Header from '../_components/Header';
 import { format } from 'date-fns';
 import { getReservationPageData } from '@/actions/reservations/get-reservations-page';
 import BigNumbersReservationPage from './_components/big-numbers-reservation-page';
+import RevenueByCompany from './_components/page-kpis/revenue-by-company';
+import DataByCompanyReservationsInTime from './_components/page-kpis/revenue-by-company-in-time';
 
 export default async function Reservations({
 	searchParams,
@@ -54,7 +56,6 @@ export default async function Reservations({
 		);
 	}
 
-	console.log(resp.data[0].BigNumbers);
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>
 			<div className={`relative  md:max-w-[82vw] flex  md:ml-auto w-full `}>
@@ -67,7 +68,7 @@ export default async function Reservations({
 					<Header />
 				</div>
 
-				<div className=' w-full  flex gap-5 flex-col justify-start px-3 md:px-0'>
+				<div className=' w-full  flex gap-5 flex-col justify-start px-3 md:px-0 mt-28'>
 					<div className='grid md:grid-cols-4 mt-10 gap-5'>
 						<CardLink
 							href={`/reservations/lushipiranga?menu=${menu}&set=${preSet}`}
@@ -82,7 +83,7 @@ export default async function Reservations({
 								<SparkChart serie={[45, 30, 55, 35, 60, 40]} />
 							}></CardLink>
 						<CardLink
-							href={`/reservations/toutcampinas?menu=${menu}&set=${preSet}`}
+							href={`/reservations/tout?menu=${menu}&set=${preSet}`}
 							title={'Tout'}
 							content={
 								<SparkChart serie={[45, 40, 55, 35, 55, 30]} />
@@ -108,21 +109,56 @@ export default async function Reservations({
 							ecommerce={false}
 						/>
 					</div>
-					{/* <div className='flex gap-5'>
-						<InvoicingXTypes />
-						<InvoicingXChannel />
+					<div className='flex flex-col md:flex-row gap-5'>
+						<RevenueByCompany
+							tout={resp.data[3].BigNumbers[0].currentDate.totalAllValue}
+							andar_de_cima={
+								resp.data[2].BigNumbers[0].currentDate.totalAllValue
+							}
+							ipiranga={resp.data[0].BigNumbers[0].currentDate.totalAllValue}
+							lapa={resp.data[1].BigNumbers[0].currentDate.totalAllValue}
+							title={'Faturamento por unidade'}
+							money
+						/>
+						<RevenueByCompany
+							tout={resp.data[3].BigNumbers[0].currentDate.totalAllBookings}
+							andar_de_cima={
+								resp.data[2].BigNumbers[0].currentDate.totalAllBookings
+							}
+							ipiranga={resp.data[0].BigNumbers[0].currentDate.totalAllBookings}
+							lapa={resp.data[1].BigNumbers[0].currentDate.totalAllBookings}
+							title={'Nº de Reservas por unidade'}
+						/>
 					</div>
-					<div className='gap-5 h-fit w-full flex flex-col justify-between '>
-						<CategoriesXReservs />
-						<InvoicingXReservs />
+					<div className='flex flex-col  gap-5'>
+						<DataByCompanyReservationsInTime
+							ipiranga={resp.data[0].BillingOfReservationsByPeriod}
+							lapa={resp.data[1].BillingOfReservationsByPeriod}
+							andar_de_cima={resp.data[2].BillingOfReservationsByPeriod}
+							tout={resp.data[3].BillingOfReservationsByPeriod}
+							title={'Faturamento por unidade'}
+							money
+						/>{' '}
+						<DataByCompanyReservationsInTime
+							ipiranga={resp.data[0].NumberOfReservationsPerPeriod}
+							lapa={resp.data[1].NumberOfReservationsPerPeriod}
+							andar_de_cima={resp.data[2].NumberOfReservationsPerPeriod}
+							tout={resp.data[3].NumberOfReservationsPerPeriod}
+							title={'Nº de reservas por unidade'}
+							money={false}
+						/>{' '}
+						<DataByCompanyReservationsInTime
+							ipiranga={resp.data[0].RepresentativenessOfReservesByPeriod}
+							lapa={resp.data[1].RepresentativenessOfReservesByPeriod}
+							andar_de_cima={resp.data[2].RepresentativenessOfReservesByPeriod}
+							tout={resp.data[3].RepresentativenessOfReservesByPeriod}
+							title={'Representatividade por unidade'}
+							percent
+						/>
 					</div>
-					<div className='flex items-center justify-between gap-5 h-full w-full'>
-						<Representation />
-						<LocationsXReservs />
-					</div> */}
 
-					<div>
-						<h2 className='text-4xl font-bold text-zinc-50 mt-10 mb-5'>
+					<div className='flex flex-col gap-5'>
+						<h2 className='text-4xl font-bold text-zinc-50 mt-10'>
 							Indicadores de E-Commerce
 						</h2>
 
@@ -139,10 +175,24 @@ export default async function Reservations({
 							ecommerce={true}
 						/>
 
-						{/* <div className='w-full flex flex-col items-center justify-between gap-5'>
-								<EcommerceRevervs />
-								<EcommerceRevenue />
-							</div> */}
+						<div className='w-full flex flex-col items-center justify-between gap-5'>
+							<DataByCompanyReservationsInTime
+								ipiranga={resp.data[0].BillingOfEcommerceByPeriod}
+								lapa={resp.data[1].BillingOfEcommerceByPeriod}
+								andar_de_cima={resp.data[2].BillingOfEcommerceByPeriod}
+								tout={resp.data[3].BillingOfEcommerceByPeriod}
+								title={'Faturamento por unidade - Ecommerce'}
+								money
+							/>
+							<DataByCompanyReservationsInTime
+								ipiranga={resp.data[0].ReservationsOfEcommerceByPeriod}
+								lapa={resp.data[1].ReservationsOfEcommerceByPeriod}
+								andar_de_cima={resp.data[2].ReservationsOfEcommerceByPeriod}
+								tout={resp.data[3].ReservationsOfEcommerceByPeriod}
+								title={'Representatividade por unidade - Ecommerce'}
+								percent
+							/>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -89,7 +89,7 @@ export default async function Operational({
 								<SparkChart serie={[45, 30, 55, 55, 45, 50, 35, 60, 40]} />
 							}></CardLink>
 						<CardLink
-							href={`/operational/toutcampinas?menu=${menu}&set=${preSet}`}
+							href={`/operational/tout?menu=${menu}&set=${preSet}`}
 							title={'Tout'}
 							content={
 								<SparkChart serie={[45, 40, 55, 45, 30, 55, 35, 55, 30]} />
