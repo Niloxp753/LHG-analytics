@@ -32,7 +32,7 @@ export default function FilterMobile() {
 			<SheetContent
 				onClick={(e) => e.stopPropagation()}
 				side={'right'}
-				className='dark w-3/4'>
+				className='dark w-full'>
 				<SheetHeader>
 					<SheetTitle>Filtrar por data</SheetTitle>
 				</SheetHeader>

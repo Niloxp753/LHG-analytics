@@ -67,7 +67,7 @@ export default function FormFilter() {
 								<FormLabel className='text-zinc-100 font-bold'>
 									Data Inicial
 								</FormLabel>
-								<Popover>
+								<Popover modal={false}>
 									<PopoverTrigger
 										onClick={(e) => e.stopPropagation()}
 										disabled={
@@ -77,6 +77,7 @@ export default function FormFilter() {
 										asChild>
 										<FormControl>
 											<Button
+												onClick={(e) => e.stopPropagation()}
 												variant={'outline'}
 												className={cn(
 													'w-full lg:w-[220px] pl-3 text-left font-normal border-none bg-zinc-800 text-zinc-200',
@@ -92,7 +93,7 @@ export default function FormFilter() {
 										</FormControl>
 									</PopoverTrigger>
 									<PopoverContent
-										className='w-auto p-0 dark z-40'
+										className='w-auto p-0 dark z-[9999999999999999999999]'
 										align='start'>
 										<Calendar
 											mode='single'
@@ -140,7 +141,7 @@ export default function FormFilter() {
 										</FormControl>
 									</PopoverTrigger>
 									<PopoverContent
-										className='w-full md:w-auto p-0 dark z-40'
+										className='w-full md:w-auto p-0 dark z-[9999999999999999999999]'
 										align='start'>
 										<Calendar
 											mode='single'
