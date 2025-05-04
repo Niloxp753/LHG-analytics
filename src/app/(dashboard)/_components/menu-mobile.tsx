@@ -6,13 +6,11 @@ import {
 	Sheet,
 	SheetClose,
 	SheetContent,
-	SheetFooter,
 	SheetTrigger,
 } from '@/components/ui/sheet';
 import { User } from '@/http/user/getUsers';
 import {
 	BarChart3,
-	Loader2,
 	Menu,
 	PieChart,
 	ScanEye,
@@ -20,7 +18,6 @@ import {
 	UserRoundCog,
 	UtensilsCrossed,
 } from 'lucide-react';
-import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useTransition } from 'react';
 
