@@ -51,26 +51,24 @@ export default function FilterMobile() {
 	return (
 		<Sheet>
 			<SheetTrigger
-				onClick={(e) => e.stopPropagation()}
 				asChild
 				className={`${
 					pathname.includes('settings') && 'hidden'
-				} fixed z-40 top-4 right-3`}>
+				} fixed top-4 right-3 `}>
 				<Button
-					onClick={(e) => e.stopPropagation()}
 					size={'icon'}
-					className='bg-transparent'>
+					className='bg-transparent z-50'>
 					<Filter size={22} />
 				</Button>
 			</SheetTrigger>
 			<SheetContent
 				onClick={(e) => e.stopPropagation()}
 				side={'right'}
-				className='dark w-full'>
+				className='dark w-full z-[51]'>
 				<SheetHeader>
 					<SheetTitle>Filtrar por data</SheetTitle>
 				</SheetHeader>
-				<div className='mt-10 flex flex-col gap-10'>
+				<div className='mt-10 flex flex-col gap-10 z-[70]'>
 					<Header />
 					{!canShow && (
 						<Button

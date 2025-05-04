@@ -24,7 +24,7 @@ export default async function DashLayout({
 	const user = users?.find((u) => u.email === emailLogged);
 	return (
 		<>
-			<div className='lg:hidden z-50 flex gap-2 relative '>
+			<div className='lg:hidden flex gap-2 relative '>
 				<SidebarDemo user={user} />
 				<FilterMobile />
 			</div>
