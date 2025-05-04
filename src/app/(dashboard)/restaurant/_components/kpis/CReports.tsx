@@ -59,10 +59,10 @@ export function CReports() {
 			<TableHeader className='bg-violet-900 rounded-lg'>
 				<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
 					<TableHead>Relatório de Produtos Adicionais</TableHead>
-					<TableHead className='text-center'>Receita</TableHead>{' '}
+					<TableHead className='text-center'>Receita</TableHead>
 					<TableHead className='text-center'>% Receita</TableHead>
-					<TableHead className='text-center'>QNTD</TableHead>{' '}
-					<TableHead className='text-center'>% QNTD</TableHead>{' '}
+					<TableHead className='text-center'>QNTD</TableHead>
+					<TableHead className='text-center'>% QNTD</TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody className='text-zinc-100'>
@@ -73,9 +73,14 @@ export function CReports() {
 						<TableCell className='font-bold text-left capitalize'>
 							{invoice.items}
 						</TableCell>
-						<TableCell>{invoice.revenue}</TableCell>{' '}
-						<TableCell>{invoice.revenuePercent}</TableCell>{' '}
-						<TableCell>{invoice.quantity}</TableCell>{' '}
+						<TableCell>
+							{invoice.revenue.toLocaleString('pt-br', {
+								style: 'currency',
+								currency: 'brl',
+							})}
+						</TableCell>
+						<TableCell>{invoice.revenuePercent}</TableCell>
+						<TableCell>{invoice.quantity}</TableCell>
 						<TableCell>{invoice.quantityPercent}</TableCell>
 					</TableRow>
 				))}
@@ -85,7 +90,7 @@ export function CReports() {
 					<TableCell>Total</TableCell>
 					<TableCell>R$ 168.670,00</TableCell>
 					<TableCell>40,36%</TableCell>
-					<TableCell className=''>8412</TableCell>{' '}
+					<TableCell className=''>8412</TableCell>
 					<TableCell className=''>100%</TableCell>
 				</TableRow>
 			</TableFooter>

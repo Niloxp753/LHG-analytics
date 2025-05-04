@@ -113,9 +113,14 @@ export function AReports() {
 						<TableCell className='font-bold text-left capitalize'>
 							{invoice.items}
 						</TableCell>
-						<TableCell>{invoice.revenue}</TableCell>{' '}
-						<TableCell>{invoice.revenuePercent}</TableCell>{' '}
-						<TableCell>{invoice.quantity}</TableCell>{' '}
+						<TableCell>
+							{invoice.revenue.toLocaleString('pt-br', {
+								style: 'currency',
+								currency: 'brl',
+							})}
+						</TableCell>
+						<TableCell>{invoice.revenuePercent}</TableCell>
+						<TableCell>{invoice.quantity}</TableCell>
 						<TableCell>{invoice.quantityPercent}</TableCell>
 					</TableRow>
 				))}
@@ -125,7 +130,7 @@ export function AReports() {
 					<TableCell>Total</TableCell>
 					<TableCell>R$ 168.670,00</TableCell>
 					<TableCell>40,36%</TableCell>
-					<TableCell className=''>8412</TableCell>{' '}
+					<TableCell className=''>8412</TableCell>
 					<TableCell className=''>100%</TableCell>
 				</TableRow>
 			</TableFooter>

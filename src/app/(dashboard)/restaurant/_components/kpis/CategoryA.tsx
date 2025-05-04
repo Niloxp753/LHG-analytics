@@ -12,7 +12,7 @@ export default function CategoryA() {
 		<div className='w-full'>
 			<LineChart
 				height={500}
-				title={'Faturamento Por Categoria De Alimentos'}
+				title={'Faturamento de Alimentos'}
 				series={[
 					{
 						name: 'Café da manhã',
@@ -61,6 +61,7 @@ export default function CategoryA() {
 					'nov/24',
 					'dez/24',
 				]}
+				money
 			/>
 		</div>
 	);

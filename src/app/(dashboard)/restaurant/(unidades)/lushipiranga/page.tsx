@@ -98,7 +98,7 @@ export default function Restaurant({
 					{/* <div className='h-full w-full flex items-center justify-center'>
 						<Cmv />
 					</div> */}
-					<div className='gap-5 h-fit w-full flex justify-between flex-col xl:flex-row'>
+					<div className='gap-5 h-fit w-full flex justify-between flex-col '>
 						<RevenuePercent />
 						<TKTXLocation />
 					</div>

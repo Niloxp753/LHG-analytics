@@ -12,7 +12,7 @@ export default function CategoryB() {
 		<div className='w-full'>
 			<LineChart
 				height={500}
-				title={'Faturamento Por Categoria De Bebidas'}
+				title={'Faturamento de Bebidas'}
 				series={[
 					{
 						name: 'Soft Drinks',
@@ -53,6 +53,7 @@ export default function CategoryB() {
 					'nov/24',
 					'dez/24',
 				]}
+				money
 			/>
 		</div>
 	);

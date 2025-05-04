@@ -15,7 +15,7 @@ export default function RevenueABXCost() {
 				series={[
 					{
 						name: 'Receita A&B',
-						data: [44, 55, 57, 56, 61, 58],
+						data: [44558, 55778, 57996, 59656, 61789, 58963],
 					},
 				]}
 				categories={[
@@ -26,6 +26,7 @@ export default function RevenueABXCost() {
 					'mai/24',
 					'jun/24',
 				]}
+				money
 			/>
 		</div>
 	);

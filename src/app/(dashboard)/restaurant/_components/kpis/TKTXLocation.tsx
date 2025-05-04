@@ -2,20 +2,21 @@
 
 import dynamic from 'next/dynamic';
 import React from 'react';
-const ColumnChart = dynamic(
-	() => import('@/app/(dashboard)/_components/charts/ColumnChart'),
+const AreaChartsApex = dynamic(
+	() => import('@/app/(dashboard)/_components/charts/AreaChartsApex'),
 	{ ssr: false },
 );
-
 export default function TKTXLocation() {
 	return (
 		<div className='w-full'>
-			<ColumnChart
-				title={'Ticket Médio A&B Por Locação'}
+			<AreaChartsApex
 				series={[
 					{
-						name: 'Ticket Médio A&B Por Locação',
-						data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 55, 57, 56],
+						name: 'Ticket Médio A&B',
+						data: [
+							4794, 5645, 5657, 5689, 6132, 5835, 6653, 6098, 6678, 5655, 5897,
+							5496,
+						],
 					},
 				]}
 				categories={[
@@ -32,6 +33,7 @@ export default function TKTXLocation() {
 					'nov/24',
 					'dez/24',
 				]}
+				money
 			/>
 		</div>
 	);

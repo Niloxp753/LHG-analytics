@@ -60,7 +60,7 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 			background: {
 				enabled: true,
 				borderRadius: 4,
-				padding: 10,
+				padding: 12,
 				borderWidth: 1,
 			},
 			style: {
@@ -92,6 +92,7 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 
 		xaxis: {
 			type: 'category',
+
 			axisBorder: { show: false },
 			categories: props.categories,
 			axisTicks: { show: false },
@@ -104,11 +105,14 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 		},
 		yaxis: { show: true, labels: { show: true } },
 		stroke: { curve: 'smooth' },
+
 		plotOptions: {
 			bar: {
 				borderRadius: 4,
 				borderRadiusApplication: 'end',
 				horizontal: true,
+				rangeBarGroupRows: true,
+				barHeight: 24,
 			},
 		},
 	};
@@ -121,7 +125,7 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 					series={props.series}
 					type='bar'
 					width={'100%'}
-					height={600}></Chart>
+					height={720}></Chart>
 			) : (
 				<>
 					<Skeleton className='w-full h-[600px]'></Skeleton>

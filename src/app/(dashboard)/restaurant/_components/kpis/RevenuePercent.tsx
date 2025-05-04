@@ -2,19 +2,17 @@
 
 import dynamic from 'next/dynamic';
 import React from 'react';
-const ColumnChart = dynamic(
-	() => import('@/app/(dashboard)/_components/charts/ColumnChart'),
+const AreaChartsApex = dynamic(
+	() => import('@/app/(dashboard)/_components/charts/AreaChartsApex'),
 	{ ssr: false },
 );
-
 export default function RevenuePercent() {
 	return (
 		<div className='w-full'>
-			<ColumnChart
-				title={'Faturamento A&B / Faturamento Total %'}
+			<AreaChartsApex
 				series={[
 					{
-						name: 'Faturamento A&B %',
+						name: 'Faturamento A&B/ Faturamento Total %',
 						data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 55, 57, 56],
 					},
 				]}
@@ -32,6 +30,7 @@ export default function RevenuePercent() {
 					'nov/24',
 					'dez/24',
 				]}
+				percent
 			/>
 		</div>
 	);

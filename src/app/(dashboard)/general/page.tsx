@@ -66,7 +66,7 @@ export default async function General({
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 '>
 			<div className={`relative md:max-w-[82vw] flex  md:ml-auto w-full `}>
 				<div
-					className={`bg-zinc-950/50 py-4 w-full md:max-w-[82vw] backdrop-blur-md fixed z-20 top-0 flex flex-col gap-5 `}>
+					className={`bg-zinc-950/50 p-4 w-full md:max-w-[82vw] backdrop-blur-md fixed z-20 top-0 flex flex-col gap-5 `}>
 					<h2 className='text-zinc-50 font-bold text-2xl text-center'>
 						Visão <span className='text-violet-400'> Geral</span>
 					</h2>
