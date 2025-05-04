@@ -61,12 +61,13 @@ export default async function LushLapa({
 						<div
 							className={`bg-zinc-950/50 py-4 w-full md:w-[82vw] backdrop-blur-md fixed top-0 z-40 flex flex-col gap-2 `}>
 							<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-1.5 text-xl'>
-								Operacional -{' '}
-								<span className='text-violet-400'>Tout</span>
+								Operacional - <span className='text-violet-400'>Tout</span>
 							</h2>
-							<Header />
+							<div className='hidden lg:block'>
+								<Header />
+							</div>
 						</div>
-						<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-20 md:mt-32'>
+						<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-12 md:mt-32'>
 							<BigNumbersOperation
 								data={resp?.BigNumbers}
 								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${

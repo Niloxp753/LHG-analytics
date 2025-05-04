@@ -57,7 +57,7 @@ export default function FilterMobile() {
 				} fixed top-4 right-3 `}>
 				<Button
 					size={'icon'}
-					className='bg-transparent z-50'>
+					className='bg-transparent z-[50]'>
 					<Filter size={22} />
 				</Button>
 			</SheetTrigger>

@@ -22,8 +22,8 @@ export default function BtnSignOut({ isOpened }: { isOpened?: boolean }) {
 	return (
 		<Button
 			disabled={loading}
-			variant={`${loading ? 'default' : 'destructive'}`}
-			className='flex w-full gap-3 text-red-600 p-2.5 disabled:grayscale disabled:border-zinc-100/40 disabled:hover:grayscale border bg-transparent hover:text-zinc-100'
+			variant={'destructive'}
+			className='flex w-full gap-3 text-red-600 hover:bg-transparent hover:text-red-600 p-2.5 disabled:grayscale disabled:border-zinc-100/40 disabled:hover:grayscale bg-transparent md:hover:text-zinc-100 '
 			onClick={(e) => handleClick(e)}>
 			{loading ? (
 				<Loader2 className='size-5 animate-spin' />

@@ -144,7 +144,9 @@ export function DataTableDemo({ data }: { data: User[] }) {
 									key={row.id}
 									data-state={row.getIsSelected() && 'selected'}>
 									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id}>
+										<TableCell
+											className='text-nowrap'
+											key={cell.id}>
 											{flexRender(
 												cell.column.columnDef.cell,
 												cell.getContext(),

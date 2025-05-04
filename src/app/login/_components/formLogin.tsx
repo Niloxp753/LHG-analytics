@@ -120,7 +120,7 @@ export default function FormLogin() {
 				<Button
 					disabled={isPending}
 					type='submit'
-					className='w-full font-medium disabled:grayscale disabled:cursor-none bg-purple-400 text-zinc-900 text-lg hover:bg-purple-500 duration-300 ease-linear transition-all'>
+					className='w-full font-medium disabled:grayscale disabled:cursor-none bg-purple-400 text-zinc-900 text-lg hover:bg-purple-500 duration-300 ease-linear transition-all mt-5'>
 					{isPending ? (
 						<Loader2 className='size-5 animate-spin' />
 					) : (

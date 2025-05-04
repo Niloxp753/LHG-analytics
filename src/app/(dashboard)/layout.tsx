@@ -5,8 +5,8 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import SidebarMenu from './_components/SidebarMenu';
-import { SidebarDemo } from './_components/sidebar-test';
 import FilterMobile from './_components/filter-mobile';
+import MenuMobile from './_components/menu-mobile';
 
 export default async function DashLayout({
 	children,
@@ -25,7 +25,8 @@ export default async function DashLayout({
 	return (
 		<>
 			<div className='lg:hidden flex gap-2 relative '>
-				<SidebarDemo user={user} />
+				<MenuMobile user={user} />
+				{/* <SidebarDemo user={user} /> */}
 				<FilterMobile />
 			</div>
 			<div className='hidden lg:block z-50'>

@@ -62,7 +62,7 @@ export default async function Reservations({
 			<div className={`relative  md:max-w-[82vw] flex  md:ml-auto w-full `}>
 				<div
 					className={`bg-zinc-950/50 py-4 w-full md:w-[82vw]
-					} backdrop-blur-md fixed z-40 top-0 flex flex-col gap-5 md:justify-end `}>
+					} backdrop-blur-md fixed z-10 top-0 flex flex-col gap-5 md:justify-end `}>
 					<h2 className='text-zinc-50 font-bold text-xl md:text-3xl text-center pt-1'>
 						Painel de<span className='text-violet-400'> {''}Reservas</span>
 					</h2>

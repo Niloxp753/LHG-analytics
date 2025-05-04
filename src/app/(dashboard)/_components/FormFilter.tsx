@@ -21,7 +21,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { ArrowRight, CalendarIcon, Loader2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';

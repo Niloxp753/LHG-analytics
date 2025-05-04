@@ -71,7 +71,7 @@ export default async function Login({
 						width={140}
 						height={80}
 						alt='Logo LHG Analytics'></Image>
-					<Card className='mx-auto grid w-[320px] gap-5 border-zinc-600 bg-zinc-800 p-4'>
+					<Card className='mx-auto grid md:w-[320px] gap-5 border-zinc-600 bg-zinc-800 p-4'>
 						<div className='grid gap-3 text-center'>
 							<h1 className='text-3xl font-bold text-zinc-50'>Login</h1>
 							<p className=' text-zinc-200 text-center text-balance'>
