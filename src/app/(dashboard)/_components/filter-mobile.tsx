@@ -90,7 +90,7 @@ export default function FilterMobile() {
 								href={`?menu=${menu}&set=${l.tag}`}></LinkPreSet>
 						);
 					})}
-					<Separator className='my-10' />
+					<Separator className='my-5' />
 					<FormFilter />
 					{!canShow && (
 						<Button
