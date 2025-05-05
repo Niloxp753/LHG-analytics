@@ -161,10 +161,12 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				title={'Faturamento'}
 				value={totalAllValue!}
 				Badge={
-					<GenerateBadge
-						val={Number(totalAllValue)}
-						previousVal={totalAllValuePrevious}
-					/>
+					dataIpiranga.PreviousDate && (
+						<GenerateBadge
+							val={Number(totalAllValue)}
+							previousVal={totalAllValuePrevious}
+						/>
+					)
 				}
 			/>
 			<CardDetails
@@ -178,10 +180,12 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				title={'Locações'}
 				value={totalAllRentalsApartments}
 				Badge={
-					<GenerateBadge
-						val={Number(totalAllRentalsApartments)}
-						previousVal={totalAllRentalsApartmentsPrevious}
-					/>
+					dataIpiranga.PreviousDate && (
+						<GenerateBadge
+							val={Number(totalAllRentalsApartments)}
+							previousVal={totalAllRentalsApartmentsPrevious}
+						/>
+					)
 				}
 			/>
 			<CardDetails
@@ -199,10 +203,12 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				title={'Ticket Médio'}
 				value={totalAllTicketAverage!}
 				Badge={
-					<GenerateBadge
-						val={Number(totalAllTicketAverage)}
-						previousVal={totalAllTicketAveragePrevious}
-					/>
+					dataIpiranga.PreviousDate && (
+						<GenerateBadge
+							val={Number(totalAllTicketAverage)}
+							previousVal={totalAllTicketAveragePrevious}
+						/>
+					)
 				}
 			/>
 			<CardDetails
@@ -220,10 +226,12 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				title={'Revpar'}
 				value={totalAllRevpar!}
 				Badge={
-					<GenerateBadge
-						val={Number(totalAllRevpar)}
-						previousVal={totalAllRevparPrevious}
-					/>
+					dataIpiranga.PreviousDate && (
+						<GenerateBadge
+							val={Number(totalAllRevpar)}
+							previousVal={totalAllRevparPrevious}
+						/>
+					)
 				}
 			/>
 			<CardDetails
@@ -236,10 +244,12 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				title={'Giro'}
 				value={totalAllGiro.toFixed(2)}
 				Badge={
-					<GenerateBadge
-						val={Number(totalAllGiro)}
-						previousVal={totalAllGiroPrevious}
-					/>
+					dataIpiranga.PreviousDate && (
+						<GenerateBadge
+							val={Number(totalAllGiro)}
+							previousVal={totalAllGiroPrevious}
+						/>
+					)
 				}
 			/>
 			<CardDetails
@@ -252,11 +262,13 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				title={'TMO'}
 				value={totalAverageOccupationTime!}
 				Badge={
-					<GenerateBadge
-						tmo
-						val={totalAverageOccupationTime!}
-						previousVal={totalAverageOccupationTimePrevious}
-					/>
+					dataIpiranga.PreviousDate && (
+						<GenerateBadge
+							tmo
+							val={totalAverageOccupationTime!}
+							previousVal={totalAverageOccupationTimePrevious}
+						/>
+					)
 				}
 			/>
 		</div>

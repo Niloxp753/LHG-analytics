@@ -93,10 +93,12 @@ export default function BigNumbersReservationPage(props: BigNumbersProps) {
 				value={totalAllValue!}
 				type='money'
 				Badge={
-					<GenerateBadge
-						val={totalAllValue!}
-						previousVal={totalAllValuePrevious}
-					/>
+					dataIpiranga.PreviousDate && (
+						<GenerateBadge
+							val={totalAllValue!}
+							previousVal={totalAllValuePrevious}
+						/>
+					)
 				}
 			/>
 			<CardDetails
@@ -110,10 +112,12 @@ export default function BigNumbersReservationPage(props: BigNumbersProps) {
 				title={'Número De Reservas' + `${props.ecommerce ? ' Ecommerce' : ''}`}
 				value={totalAllBookings}
 				Badge={
-					<GenerateBadge
-						val={totalAllBookings!}
-						previousVal={totalAllBookingsPrevious}
-					/>
+					dataIpiranga.PreviousDate && (
+						<GenerateBadge
+							val={totalAllBookings!}
+							previousVal={totalAllBookingsPrevious}
+						/>
+					)
 				}
 			/>
 			<CardDetails
@@ -131,10 +135,12 @@ export default function BigNumbersReservationPage(props: BigNumbersProps) {
 				title={'Ticket Médio' + `${props.ecommerce ? ' Ecommerce' : ''}`}
 				value={totalAllTicketAverage!}
 				Badge={
-					<GenerateBadge
-						val={totalAllTicketAverage!}
-						previousVal={totalAllTicketAveragePrevious}
-					/>
+					dataIpiranga.PreviousDate && (
+						<GenerateBadge
+							val={totalAllTicketAverage!}
+							previousVal={totalAllTicketAveragePrevious}
+						/>
+					)
 				}
 			/>
 			<CardDetails
@@ -152,10 +158,12 @@ export default function BigNumbersReservationPage(props: BigNumbersProps) {
 				value={totalAllRepresentativeness}
 				type='percent'
 				Badge={
-					<GenerateBadge
-						val={totalAllRepresentativeness!}
-						previousVal={totalAllRepresentativenessPrevious}
-					/>
+					dataIpiranga.PreviousDate && (
+						<GenerateBadge
+							val={totalAllRepresentativeness!}
+							previousVal={totalAllRepresentativenessPrevious}
+						/>
+					)
 				}
 			/>
 		</div>

@@ -32,12 +32,14 @@ export default function BigNumbersOperation({
 								title={'Total de Suítes Limpas'}
 								value={d.currentDate.totalAllSuitesCleanings}
 								Badge={
-									<GenerateBadge
-										val={d.currentDate.totalAllSuitesCleanings}
-										previousVal={
-											d.previousDate.totalAllSuitesCleaningsPreviousData
-										}
-									/>
+									d.previousDate && (
+										<GenerateBadge
+											val={d.currentDate.totalAllSuitesCleanings}
+											previousVal={
+												d.previousDate.totalAllSuitesCleaningsPreviousData
+											}
+										/>
+									)
 								}
 							/>
 							<CardDetails
@@ -50,12 +52,14 @@ export default function BigNumbersOperation({
 								title={'Média de Limpezas Por Dia'}
 								value={d.currentDate.totalAllAverageDailyCleaning}
 								Badge={
-									<GenerateBadge
-										val={d.currentDate.totalAllAverageDailyCleaning}
-										previousVal={
-											d.previousDate.totalAllAverageDailyCleaningPreviousData
-										}
-									/>
+									d.previousDate && (
+										<GenerateBadge
+											val={d.currentDate.totalAllAverageDailyCleaning}
+											previousVal={
+												d.previousDate.totalAllAverageDailyCleaningPreviousData
+											}
+										/>
+									)
 								}
 							/>
 							<CardDetails
@@ -67,10 +71,14 @@ export default function BigNumbersOperation({
 								title={'Total de Inspeções'}
 								value={d.currentDate.totalAllInspections}
 								Badge={
-									<GenerateBadge
-										val={d.currentDate.totalAllInspections}
-										previousVal={d.previousDate.totalAllInspectionsPreviousData}
-									/>
+									d.previousDate && (
+										<GenerateBadge
+											val={d.currentDate.totalAllInspections}
+											previousVal={
+												d.previousDate.totalAllInspectionsPreviousData
+											}
+										/>
+									)
 								}
 							/>
 						</div>

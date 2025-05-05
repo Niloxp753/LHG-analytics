@@ -76,10 +76,12 @@ export default function BigNumbersPageOp({
 				title={'Total de Suítes Limpas'}
 				value={totalAllSuitesCleanings.toLocaleString('pt-br')}
 				Badge={
-					<GenerateBadge
-						val={totalAllSuitesCleanings}
-						previousVal={totalAllSuitesCleaningsPreviousData}
-					/>
+					dataIpiranga.PreviousDate && (
+						<GenerateBadge
+							val={totalAllSuitesCleanings}
+							previousVal={totalAllSuitesCleaningsPreviousData}
+						/>
+					)
 				}
 			/>
 			<CardDetails
@@ -91,10 +93,12 @@ export default function BigNumbersPageOp({
 				title={'Média de Limpezas Por Dia'}
 				value={totalAllAverageDailyCleaning.toLocaleString('pt-br')}
 				Badge={
-					<GenerateBadge
-						val={totalAllAverageDailyCleaning}
-						previousVal={totalAllAverageDailyCleaningPreviousData}
-					/>
+					dataIpiranga.PreviousDate && (
+						<GenerateBadge
+							val={totalAllAverageDailyCleaning}
+							previousVal={totalAllAverageDailyCleaningPreviousData}
+						/>
+					)
 				}
 			/>
 			<CardDetails
@@ -106,10 +110,12 @@ export default function BigNumbersPageOp({
 				title={'Total de Inspeções'}
 				value={totalAllInspections.toLocaleString('pt-br')}
 				Badge={
-					<GenerateBadge
-						val={totalAllInspections}
-						previousVal={totalAllInspectionsPreviousData}
-					/>
+					dataIpiranga.PreviousDate && (
+						<GenerateBadge
+							val={totalAllInspections}
+							previousVal={totalAllInspectionsPreviousData}
+						/>
+					)
 				}
 			/>
 		</div>

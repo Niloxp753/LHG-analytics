@@ -38,10 +38,12 @@ export default function BigNumbersReservation({
 								title={'Receita De Reservas'}
 								value={d.currentDate.totalAllValue}
 								Badge={
-									<GenerateBadge
-										val={d.currentDate.totalAllValue!}
-										previousVal={d.PreviousDate.totalAllValuePreviousData}
-									/>
+									d.PreviousDate && (
+										<GenerateBadge
+											val={d.currentDate.totalAllValue!}
+											previousVal={d.PreviousDate.totalAllValuePreviousData}
+										/>
+									)
 								}
 							/>
 							<CardDetails
@@ -53,10 +55,12 @@ export default function BigNumbersReservation({
 								title={'Número De Reservas'}
 								value={d.currentDate.totalAllBookings}
 								Badge={
-									<GenerateBadge
-										val={d.currentDate.totalAllBookings!}
-										previousVal={d.PreviousDate.totalAllBookingsPreviousData}
-									/>
+									d.PreviousDate && (
+										<GenerateBadge
+											val={d.currentDate.totalAllBookings!}
+											previousVal={d.PreviousDate.totalAllBookingsPreviousData}
+										/>
+									)
 								}
 							/>
 							<CardDetails
@@ -75,12 +79,14 @@ export default function BigNumbersReservation({
 								title={'Ticket Médio'}
 								value={d.currentDate.totalAllTicketAverage}
 								Badge={
-									<GenerateBadge
-										val={d.currentDate.totalAllTicketAverage!}
-										previousVal={
-											d.PreviousDate.totalAllTicketAveragePreviousData
-										}
-									/>
+									d.PreviousDate && (
+										<GenerateBadge
+											val={d.currentDate.totalAllTicketAverage!}
+											previousVal={
+												d.PreviousDate.totalAllTicketAveragePreviousData
+											}
+										/>
+									)
 								}
 							/>{' '}
 							<CardDetails
@@ -96,12 +102,14 @@ export default function BigNumbersReservation({
 								title={'Representatividade'}
 								value={d.currentDate.totalAllRepresentativeness * 100 + '%'}
 								Badge={
-									<GenerateBadge
-										val={d.currentDate.totalAllRepresentativeness!}
-										previousVal={
-											d.PreviousDate.totalAllRepresentativenessPreviousData
-										}
-									/>
+									d.PreviousDate && (
+										<GenerateBadge
+											val={d.currentDate.totalAllRepresentativeness!}
+											previousVal={
+												d.PreviousDate.totalAllRepresentativenessPreviousData
+											}
+										/>
+									)
 								}
 							/>
 						</div>
