@@ -13,7 +13,10 @@ import {
 import { ArrowLeft, Filter, Loader2 } from 'lucide-react';
 import Header from './Header';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useTransition } from 'react';
+import { useEffect, useState, useTransition } from 'react';
+import LinkPreSet from './LinkPreSet';
+import FormFilter from './FormFilter';
+import { Separator } from '@/components/ui/separator';
 
 export default function FilterMobile() {
 	const pathname = usePathname();
@@ -21,6 +24,13 @@ export default function FilterMobile() {
 	const searchParams = useSearchParams();
 	const preSet = searchParams.get('set') || '7days';
 	const menu = searchParams.get('menu');
+	const startDate = searchParams.get('startDate') || '';
+
+	const links = [
+		{ label: 'ÚLTIMOS 7 DIAS', tag: '7days' },
+		{ label: 'ÚLTIMOS 30 DIAS', tag: '30days' },
+		{ label: 'ÚLTIMOS 6 MESES', tag: '6months' },
+	];
 
 	const canShow =
 		pathname.endsWith('general') ||
@@ -68,8 +78,20 @@ export default function FilterMobile() {
 				<SheetHeader>
 					<SheetTitle>Filtrar por data</SheetTitle>
 				</SheetHeader>
-				<div className='mt-10 flex flex-col gap-10 z-[70]'>
-					<Header />
+				<div className='mt-10 flex flex-col gap-3 z-[70]'>
+					{links.map((l, index) => {
+						return (
+							<LinkPreSet
+								tag={l.tag}
+								key={index}
+								preSet={preSet}
+								startDate={startDate}
+								label={l.label}
+								href={`?menu=${menu}&set=${l.tag}`}></LinkPreSet>
+						);
+					})}
+					<Separator className='my-10' />
+					<FormFilter />
 					{!canShow && (
 						<Button
 							variant={'outline'}
