@@ -78,7 +78,7 @@ export default function FilterMobile() {
 				<SheetHeader>
 					<SheetTitle>Filtrar por data</SheetTitle>
 				</SheetHeader>
-				<div className='mt-10 flex flex-col gap-3 z-[70]'>
+				<div className='mt-10 flex flex-col gap-2.5 z-[70]'>
 					{links.map((l, index) => {
 						return (
 							<LinkPreSet
