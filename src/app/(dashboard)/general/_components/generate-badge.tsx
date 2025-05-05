@@ -2,8 +2,7 @@
 
 import { Badge } from '@/components/ui/badge';
 import { NormalizeTimeToSec } from '@/utils/normalize-bignumbers-general';
-import { Triangle } from 'lucide-react';
-import React from 'react';
+import { TrendingDown, TrendingUp } from 'lucide-react';
 
 export default function GenerateBadge({
 	val,
@@ -28,7 +27,7 @@ export default function GenerateBadge({
 		if (resp > 0) {
 			return (
 				<Badge variant={'success'}>
-					<Triangle
+					<TrendingUp
 						size={14}
 						className='mr-1.5'
 					/>
@@ -38,9 +37,9 @@ export default function GenerateBadge({
 		} else {
 			return (
 				<Badge variant={'destructive'}>
-					<Triangle
+					<TrendingDown
 						size={14}
-						className='rotate-180 mr-1.5'
+						className=' mr-1.5'
 					/>
 					{resp.toFixed(2) + '%'}
 				</Badge>
@@ -58,7 +57,7 @@ export default function GenerateBadge({
 	if (resp > 0) {
 		return (
 			<Badge variant={'success'}>
-				<Triangle
+				<TrendingUp
 					size={14}
 					className='mr-1.5'
 				/>
@@ -68,9 +67,9 @@ export default function GenerateBadge({
 	} else {
 		return (
 			<Badge variant={'destructive'}>
-				<Triangle
+				<TrendingDown
 					size={14}
-					className='rotate-180 mr-1.5'
+					className=' mr-1.5'
 				/>
 				{resp.toFixed(2) + '%'}
 			</Badge>
