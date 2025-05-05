@@ -3,6 +3,7 @@
 import CardDetails from '@/app/(dashboard)/_components/CardDetails';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Blend, HandCoins, Sigma, SquarePercent } from 'lucide-react';
+import GenerateBadge from '../../general/_components/generate-badge';
 
 interface BigNumbersReservationProps {
 	data?: any[];
@@ -36,6 +37,12 @@ export default function BigNumbersReservation({
 								icon={<HandCoins />}
 								title={'Receita De Reservas'}
 								value={d.currentDate.totalAllValue}
+								Badge={
+									<GenerateBadge
+										val={d.currentDate.totalAllValue!}
+										previousVal={d.PreviousDate.totalAllValuePreviousData}
+									/>
+								}
 							/>
 							<CardDetails
 								description={
@@ -45,6 +52,12 @@ export default function BigNumbersReservation({
 								icon={<Sigma />}
 								title={'Número De Reservas'}
 								value={d.currentDate.totalAllBookings}
+								Badge={
+									<GenerateBadge
+										val={d.currentDate.totalAllBookings!}
+										previousVal={d.PreviousDate.totalAllBookingsPreviousData}
+									/>
+								}
 							/>
 							<CardDetails
 								type='money'
@@ -61,6 +74,14 @@ export default function BigNumbersReservation({
 								icon={<SquarePercent />}
 								title={'Ticket Médio'}
 								value={d.currentDate.totalAllTicketAverage}
+								Badge={
+									<GenerateBadge
+										val={d.currentDate.totalAllTicketAverage!}
+										previousVal={
+											d.PreviousDate.totalAllTicketAveragePreviousData
+										}
+									/>
+								}
 							/>{' '}
 							<CardDetails
 								type=''
@@ -74,6 +95,14 @@ export default function BigNumbersReservation({
 								icon={<Blend />}
 								title={'Representatividade'}
 								value={d.currentDate.totalAllRepresentativeness * 100 + '%'}
+								Badge={
+									<GenerateBadge
+										val={d.currentDate.totalAllRepresentativeness!}
+										previousVal={
+											d.PreviousDate.totalAllRepresentativenessPreviousData
+										}
+									/>
+								}
 							/>
 						</div>
 					);

@@ -8,6 +8,7 @@ import {
 	CardTitle,
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ReactNode } from 'react';
 
 interface CardDetailsProps {
 	title: string;
@@ -15,6 +16,7 @@ interface CardDetailsProps {
 	icon: any;
 	type?: string;
 	description?: string;
+	Badge?: ReactNode;
 }
 
 export default function CardDetails({
@@ -22,13 +24,17 @@ export default function CardDetails({
 	value,
 	icon,
 	type,
+	Badge,
 	description,
 }: CardDetailsProps) {
 	return value ? (
-		<Card className='text-zinc-50 w-full h-fit border-none bg-gradient-to-br from-zinc-800 to-zinc-900 '>
+		<Card className='text-zinc-50 w-full border-none bg-gradient-to-br from-zinc-800 to-zinc-900 '>
 			<CardHeader>
 				<CardTitle className='text-lg flex md:items-center justify-between flex-row gap-5'>
-					{title}
+					<div className='flex items-center gap-3'>
+						{title}
+						{Badge}
+					</div>
 					{icon}
 				</CardTitle>
 				{description && (

@@ -14,6 +14,7 @@ import {
 	NormalizeCurrencyNumbers,
 	NormalizeTimeNumbers,
 } from '@/utils/normalize-bignumbers-general';
+import GenerateBadge from './generate-badge';
 
 interface BigNumbersProps {
 	ipiranga: any[];
@@ -146,14 +147,25 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 	return (
 		<div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
 			<CardDetails
+				type='money'
 				description={
 					dataIpiranga.PreviousDate
-						? props.description + totalAllValuePrevious
+						? props.description +
+						  totalAllValuePrevious.toLocaleString('pt-BR', {
+								style: 'currency',
+								currency: 'brl',
+						  })
 						: ''
 				}
 				icon={<HandCoins />}
 				title={'Faturamento'}
 				value={totalAllValue!}
+				Badge={
+					<GenerateBadge
+						val={Number(totalAllValue)}
+						previousVal={totalAllValuePrevious}
+					/>
+				}
 			/>
 			<CardDetails
 				description={
@@ -165,26 +177,54 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				icon={<Sigma />}
 				title={'Locações'}
 				value={totalAllRentalsApartments}
+				Badge={
+					<GenerateBadge
+						val={Number(totalAllRentalsApartments)}
+						previousVal={totalAllRentalsApartmentsPrevious}
+					/>
+				}
 			/>
 			<CardDetails
+				type='money'
 				description={
 					dataIpiranga.PreviousDate
-						? props.description + totalAllTicketAveragePrevious
+						? props.description +
+						  totalAllTicketAveragePrevious.toLocaleString('pt-BR', {
+								style: 'currency',
+								currency: 'brl',
+						  })
 						: ''
 				}
 				icon={<SquarePercent />}
 				title={'Ticket Médio'}
 				value={totalAllTicketAverage!}
+				Badge={
+					<GenerateBadge
+						val={Number(totalAllTicketAverage)}
+						previousVal={totalAllTicketAveragePrevious}
+					/>
+				}
 			/>
 			<CardDetails
+				type='money'
 				description={
 					dataIpiranga.PreviousDate
-						? props.description + totalAllRevparPrevious
+						? props.description +
+						  totalAllRevparPrevious.toLocaleString('pt-BR', {
+								style: 'currency',
+								currency: 'brl',
+						  })
 						: ''
 				}
 				icon={<Activity />}
 				title={'Revpar'}
 				value={totalAllRevpar!}
+				Badge={
+					<GenerateBadge
+						val={Number(totalAllRevpar)}
+						previousVal={totalAllRevparPrevious}
+					/>
+				}
 			/>
 			<CardDetails
 				description={
@@ -195,6 +235,12 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				icon={<DoorClosed />}
 				title={'Giro'}
 				value={totalAllGiro.toFixed(2)}
+				Badge={
+					<GenerateBadge
+						val={Number(totalAllGiro)}
+						previousVal={totalAllGiroPrevious}
+					/>
+				}
 			/>
 			<CardDetails
 				description={
@@ -205,6 +251,13 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				icon={<AlarmClockCheck />}
 				title={'TMO'}
 				value={totalAverageOccupationTime!}
+				Badge={
+					<GenerateBadge
+						tmo
+						val={totalAverageOccupationTime!}
+						previousVal={totalAverageOccupationTimePrevious}
+					/>
+				}
 			/>
 		</div>
 	);

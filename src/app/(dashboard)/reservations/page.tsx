@@ -189,7 +189,7 @@ export default async function Reservations({
 								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
 									preSet == '12months' ? '12 meses atrás ' : ''
 								}`}
-								ecommerce={true}
+								ecommerce={false}
 							/>
 						</Suspense>
 

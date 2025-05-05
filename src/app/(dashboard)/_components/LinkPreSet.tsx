@@ -27,13 +27,13 @@ export default function LinkPreSet({
 				startTransition(() => {});
 			}}
 			{...props}
-			className={`lg:w-fit my-2 lg:my-0 min-w-28 w-full text-xs text-nowrap disabled:opacity-50  cursor-pointer  border flex gap-2 ${
+			className={`lg:w-fit my-2 lg:my-0 min-w-28 w-full text-sm lg:text-xs text-nowrap disabled:opacity-50  cursor-pointer  border flex gap-2 ${
 				preSet == tag && startDate == ''
 					? 'bg-violet-400 text-zinc-900 '
 					: 'text-zinc-50 bg-transparent'
 			} border-violet-400 ${
 				isPending && 'bg-violet-400 grayscale opacity-50'
-			}  py-2 px-1 rounded transition-all duration-300 ease-linear hover:bg-violet-400 hover:text-zinc-900 font-semibold flex items-center justify-center`}>
+			}  py-2.5 px-1 rounded transition-all duration-300 ease-linear hover:bg-violet-400 hover:text-zinc-900 font-semibold flex items-center justify-center`}>
 			{isPending ? <Loader2 className='size-4 animate-spin' /> : label}
 		</Link>
 	);

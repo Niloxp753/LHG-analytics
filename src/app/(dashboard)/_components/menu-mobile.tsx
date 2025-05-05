@@ -127,7 +127,6 @@ export default function MenuMobile({ user }: { user?: User }) {
 
 	const newLinks = isAdmin ? links : links.slice(1);
 
-	console.log(pathname);
 	return (
 		<Sheet>
 			<SheetTrigger

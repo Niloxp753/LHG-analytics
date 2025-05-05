@@ -10,6 +10,8 @@ import {
 } from 'lucide-react';
 import CardDetails from './CardDetails';
 import { Skeleton } from '@/components/ui/skeleton';
+import GenerateBadge from '../general/_components/generate-badge';
+import { parseCurrency } from '@/utils/normalize-bignumbers-general';
 
 interface BigNumbersProps {
 	data?: any[];
@@ -33,6 +35,14 @@ export default function BigNumbers(props: BigNumbersProps) {
 								icon={<HandCoins />}
 								title={'Faturamento'}
 								value={d.currentDate.totalAllValue}
+								Badge={
+									<GenerateBadge
+										val={parseCurrency(d.currentDate.totalAllValue)}
+										previousVal={parseCurrency(
+											d.PreviousDate.totalAllValuePreviousData,
+										)}
+									/>
+								}
 							/>
 							<CardDetails
 								description={
@@ -43,6 +53,14 @@ export default function BigNumbers(props: BigNumbersProps) {
 								icon={<Sigma />}
 								title={'Locações'}
 								value={d.currentDate.totalAllRentalsApartments}
+								Badge={
+									<GenerateBadge
+										val={d.currentDate.totalAllRentalsApartments}
+										previousVal={
+											d.PreviousDate.totalAllRentalsApartmentsPreviousData
+										}
+									/>
+								}
 							/>
 							<CardDetails
 								description={
@@ -53,6 +71,14 @@ export default function BigNumbers(props: BigNumbersProps) {
 								icon={<SquarePercent />}
 								title={'Ticket Médio'}
 								value={d.currentDate.totalAllTicketAverage}
+								Badge={
+									<GenerateBadge
+										val={parseCurrency(d.currentDate.totalAllTicketAverage)}
+										previousVal={parseCurrency(
+											d.PreviousDate.totalAllTicketAveragePreviousData,
+										)}
+									/>
+								}
 							/>
 							<CardDetails
 								description={
@@ -62,6 +88,14 @@ export default function BigNumbers(props: BigNumbersProps) {
 								icon={<Activity />}
 								title={'Revpar'}
 								value={d.currentDate.totalAllRevpar}
+								Badge={
+									<GenerateBadge
+										val={parseCurrency(d.currentDate.totalAllRevpar)}
+										previousVal={parseCurrency(
+											d.PreviousDate.totalAllRevparPreviousData,
+										)}
+									/>
+								}
 							/>
 							<CardDetails
 								description={
@@ -71,6 +105,12 @@ export default function BigNumbers(props: BigNumbersProps) {
 								icon={<DoorClosed />}
 								title={'Giro'}
 								value={d.currentDate.totalAllGiro}
+								Badge={
+									<GenerateBadge
+										val={d.currentDate.totalAllGiro}
+										previousVal={d.PreviousDate.totalAllGiroPreviousData}
+									/>
+								}
 							/>
 							<CardDetails
 								description={
@@ -81,6 +121,15 @@ export default function BigNumbers(props: BigNumbersProps) {
 								icon={<AlarmClockCheck />}
 								title={'TMO'}
 								value={d.currentDate.totalAverageOccupationTime}
+								Badge={
+									<GenerateBadge
+										tmo
+										val={d.currentDate.totalAverageOccupationTime}
+										previousVal={
+											d.PreviousDate.totalAverageOccupationTimePreviousData
+										}
+									/>
+								}
 							/>
 						</div>
 					);

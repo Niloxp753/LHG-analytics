@@ -1,6 +1,7 @@
 /** @format */
 
 import CardDetails from '@/app/(dashboard)/_components/CardDetails';
+import GenerateBadge from '@/app/(dashboard)/general/_components/generate-badge';
 import { generateDescription } from '@/utils/generate-description';
 import { Eye, Leaf, LeafyGreen } from 'lucide-react';
 
@@ -74,6 +75,12 @@ export default function BigNumbersPageOp({
 				icon={<Leaf />}
 				title={'Total de Suítes Limpas'}
 				value={totalAllSuitesCleanings.toLocaleString('pt-br')}
+				Badge={
+					<GenerateBadge
+						val={totalAllSuitesCleanings}
+						previousVal={totalAllSuitesCleaningsPreviousData}
+					/>
+				}
 			/>
 			<CardDetails
 				description={generateDescription(
@@ -83,6 +90,12 @@ export default function BigNumbersPageOp({
 				icon={<LeafyGreen />}
 				title={'Média de Limpezas Por Dia'}
 				value={totalAllAverageDailyCleaning.toLocaleString('pt-br')}
+				Badge={
+					<GenerateBadge
+						val={totalAllAverageDailyCleaning}
+						previousVal={totalAllAverageDailyCleaningPreviousData}
+					/>
+				}
 			/>
 			<CardDetails
 				description={generateDescription(
@@ -92,6 +105,12 @@ export default function BigNumbersPageOp({
 				icon={<Eye />}
 				title={'Total de Inspeções'}
 				value={totalAllInspections.toLocaleString('pt-br')}
+				Badge={
+					<GenerateBadge
+						val={totalAllInspections}
+						previousVal={totalAllInspectionsPreviousData}
+					/>
+				}
 			/>
 		</div>
 	);

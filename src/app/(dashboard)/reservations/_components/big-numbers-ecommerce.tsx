@@ -3,6 +3,7 @@
 import CardDetails from '@/app/(dashboard)/_components/CardDetails';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Blend, HandCoins, Sigma, SquarePercent } from 'lucide-react';
+import GenerateBadge from '../../general/_components/generate-badge';
 
 interface BigNumbersEcommerceProps {
 	data?: any[];
@@ -36,6 +37,12 @@ export default function BigNumbersEcommerce({
 								icon={<HandCoins />}
 								title={'Receita De Reservas - Ecommerce'}
 								value={d.currentDate.totalAllValue}
+								Badge={
+									<GenerateBadge
+										val={d.currentDate.totalAllValue!}
+										previousVal={d.PreviousDate.totalAllValuePreviousData}
+									/>
+								}
 							/>
 							<CardDetails
 								description={
@@ -45,6 +52,12 @@ export default function BigNumbersEcommerce({
 								icon={<Sigma />}
 								title={'Número De Reservas - Ecommerce'}
 								value={d.currentDate.totalAllBookings}
+								Badge={
+									<GenerateBadge
+										val={d.currentDate.totalAllBookings!}
+										previousVal={d.PreviousDate.totalAllBookingsPreviousData}
+									/>
+								}
 							/>
 							<CardDetails
 								type='money'
@@ -61,6 +74,14 @@ export default function BigNumbersEcommerce({
 								icon={<SquarePercent />}
 								title={'Ticket Médio - Ecommerce'}
 								value={d.currentDate.totalAllTicketAverage}
+								Badge={
+									<GenerateBadge
+										val={d.currentDate.totalAllTicketAverage!}
+										previousVal={
+											d.PreviousDate.totalAllTicketAveragePreviousData
+										}
+									/>
+								}
 							/>{' '}
 							<CardDetails
 								type=''
@@ -77,6 +98,14 @@ export default function BigNumbersEcommerce({
 									Number(
 										d.currentDate.totalAllRepresentativeness * 100,
 									).toFixed(2) + '%'
+								}
+								Badge={
+									<GenerateBadge
+										val={d.currentDate.totalAllRepresentativeness!}
+										previousVal={
+											d.PreviousDate.totalAllRepresentativenessPreviousData
+										}
+									/>
 								}
 							/>
 						</div>

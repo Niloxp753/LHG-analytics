@@ -1,6 +1,7 @@
 /** @format */
 
 import CardDetails from '@/app/(dashboard)/_components/CardDetails';
+import GenerateBadge from '@/app/(dashboard)/general/_components/generate-badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Eye, Leaf, LeafyGreen } from 'lucide-react';
 
@@ -30,6 +31,14 @@ export default function BigNumbersOperation({
 								icon={<Leaf />}
 								title={'Total de Suítes Limpas'}
 								value={d.currentDate.totalAllSuitesCleanings}
+								Badge={
+									<GenerateBadge
+										val={d.currentDate.totalAllSuitesCleanings}
+										previousVal={
+											d.previousDate.totalAllSuitesCleaningsPreviousData
+										}
+									/>
+								}
 							/>
 							<CardDetails
 								description={
@@ -40,6 +49,14 @@ export default function BigNumbersOperation({
 								icon={<LeafyGreen />}
 								title={'Média de Limpezas Por Dia'}
 								value={d.currentDate.totalAllAverageDailyCleaning}
+								Badge={
+									<GenerateBadge
+										val={d.currentDate.totalAllAverageDailyCleaning}
+										previousVal={
+											d.previousDate.totalAllAverageDailyCleaningPreviousData
+										}
+									/>
+								}
 							/>
 							<CardDetails
 								description={
@@ -49,6 +66,12 @@ export default function BigNumbersOperation({
 								icon={<Eye />}
 								title={'Total de Inspeções'}
 								value={d.currentDate.totalAllInspections}
+								Badge={
+									<GenerateBadge
+										val={d.currentDate.totalAllInspections}
+										previousVal={d.previousDate.totalAllInspectionsPreviousData}
+									/>
+								}
 							/>
 						</div>
 					);

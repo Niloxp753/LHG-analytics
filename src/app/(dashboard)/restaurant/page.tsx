@@ -17,6 +17,7 @@ import UnityxCoust from './_components/kpis/UnityxCoust';
 import UnityxRevenue from './_components/kpis/UnityxRevenue';
 import UnityxRevenuexTime from './_components/kpis/UnityxRevenuexTime';
 import UnityxTKTxTime from './_components/kpis/UnityxTKTxTime';
+import GenerateBadge from '../general/_components/generate-badge';
 
 export default function Restaurant({
 	searchParams,
@@ -68,18 +69,24 @@ export default function Restaurant({
 					</div>
 					<div className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4'>
 						<CardDetails
-							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-								preSet == '30days' ? '30 dias atrás ' : ''
-							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-								preSet == '12months' ? '12 meses atrás ' : ''
-							}`}
+							description={`${
+								preSet == '7days' ? '7 dias atrás R$ 321.005,00' : ''
+							} ${preSet == '30days' ? '30 dias atrás ' : ''} ${
+								preSet == '6months' ? '6 meses atrás ' : ''
+							}${preSet == '12months' ? '12 meses atrás ' : ''}`}
 							type='money'
 							icon={<HandCoins />}
 							title={'Receita De A&B'}
 							value={341518}
+							Badge={
+								<GenerateBadge
+									val={341518}
+									previousVal={321005}
+								/>
+							}
 						/>
 						<CardDetails
-							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+							description={`${preSet == '7days' ? '7 dias atrás 254' : ''} ${
 								preSet == '30days' ? '30 dias atrás ' : ''
 							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
 								preSet == '12months' ? '12 meses atrás ' : ''
@@ -87,29 +94,47 @@ export default function Restaurant({
 							icon={<Sigma />}
 							title={'Nº De Vendas'}
 							value={397}
+							Badge={
+								<GenerateBadge
+									val={397}
+									previousVal={254}
+								/>
+							}
 						/>
 						<CardDetails
-							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
-								preSet == '30days' ? '30 dias atrá s' : ''
-							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-								preSet == '12months' ? '12 meses atrás ' : ''
-							}`}
+							description={`${
+								preSet == '7days' ? '7 dias atrás R$ 794,00' : ''
+							} ${preSet == '30days' ? '30 dias atrá s' : ''} ${
+								preSet == '6months' ? '6 meses atrás ' : ''
+							}${preSet == '12months' ? '12 meses atrás ' : ''}`}
 							type='money'
 							icon={<SquarePercent />}
 							title={'Ticket Médio A&B'}
 							value={860}
+							Badge={
+								<GenerateBadge
+									val={860}
+									previousVal={794}
+								/>
+							}
 						/>
 
 						<CardDetails
-							description={`${preSet == '7days' ? '7 dias atrás' : ''} ${
-								preSet == '30days' ? '30 dias atrás ' : ''
-							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-								preSet == '12months' ? '12 meses atrás ' : ''
-							}`}
+							description={`${
+								preSet == '7days' ? '7 dias atrás R$ 598,00' : ''
+							} ${preSet == '30days' ? '30 dias atrás ' : ''} ${
+								preSet == '6months' ? '6 meses atrás ' : ''
+							}${preSet == '12months' ? '12 meses atrás ' : ''}`}
 							icon={<DiamondPercent />}
 							type='money'
 							title={'TKT Médio A&B / Locação'}
 							value={668}
+							Badge={
+								<GenerateBadge
+									val={668}
+									previousVal={598}
+								/>
+							}
 						/>
 					</div>
 					<div className='flex md:gap-10 gap-5 mb-5 flex-col md:flex-row mx-auto w-full h-full'>

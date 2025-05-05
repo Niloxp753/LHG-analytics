@@ -1,6 +1,6 @@
 /** @format */
 
-function parseCurrency(value: string): number {
+export function parseCurrency(value: string): number {
 	return parseFloat(
 		value.replace('R$', '').replace(/\./g, '').replace(',', '.').trim(),
 	);
@@ -19,16 +19,13 @@ export function NormalizeCurrencyNumbers({
 
 	if (operation == 'soma') {
 		const soma = valores.reduce((acc, valor) => acc + parseCurrency(valor), 0);
-		return soma.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+		return soma;
 	}
 
 	if (operation == 'media') {
 		const soma = valores.reduce((acc, valor) => acc + parseCurrency(valor), 0);
 		const media = soma / valores.length;
-		return media.toLocaleString('pt-BR', {
-			style: 'currency',
-			currency: 'BRL',
-		});
+		return media;
 	}
 }
 
@@ -36,8 +33,6 @@ export function NormalizeTimeNumbers({
 	values,
 	operation,
 }: NormalizeBugNumbersProps) {
-	const valores = values;
-
 	function timeToSeconds(time: string): number {
 		const [hours, minutes, seconds] = time.split(':').map(Number);
 		return hours * 3600 + minutes * 60 + seconds;
@@ -51,11 +46,6 @@ export function NormalizeTimeNumbers({
 		return [hours, minutes, secs]
 			.map((num) => String(num).padStart(2, '0'))
 			.join(':');
-	}
-
-	if (operation == 'soma') {
-		const soma = valores.reduce((acc, valor) => acc + parseCurrency(valor), 0);
-		return soma.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 	}
 
 	if (operation == 'media') {
@@ -72,4 +62,23 @@ export function NormalizeTimeNumbers({
 export function NormalizeBigNumbersGeneral(values: string[]) {
 	const numbers = values.map((value) => parseCurrency(value));
 	return numbers;
+}
+
+export function NormalizeTimeToSec({
+	valueA,
+	valueB,
+}: {
+	valueA: string;
+	valueB: string;
+}) {
+	function timeToSeconds(time: string): number {
+		const [hours, minutes, seconds] = time.split(':').map(Number);
+		return hours * 3600 + minutes * 60 + seconds;
+	}
+
+	const totalSegundosA = timeToSeconds(valueA);
+
+	const totalSegundosB = timeToSeconds(valueB);
+
+	return { totalSegundosA, totalSegundosB };
 }

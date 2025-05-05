@@ -21,7 +21,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { ArrowRight, CalendarIcon, Loader2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useTransition } from 'react';
+import { useEffect, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -93,6 +93,7 @@ export default function FormFilter() {
 										</FormControl>
 									</PopoverTrigger>
 									<PopoverContent
+										forceMount
 										className='w-auto p-0 dark z-[70]'
 										align='start'>
 										<Calendar

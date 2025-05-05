@@ -3,6 +3,7 @@
 import { Blend, HandCoins, Sigma, SquarePercent } from 'lucide-react';
 
 import CardDetails from '../../_components/CardDetails';
+import GenerateBadge from '../../general/_components/generate-badge';
 
 interface BigNumbersProps {
 	ipiranga: any[];
@@ -76,7 +77,7 @@ export default function BigNumbersReservationPage(props: BigNumbersProps) {
 			4;
 
 	return (
-		<div className='grid grid-cols-1 lg:grid-cols-4 gap-5'>
+		<div className='grid grid-cols-1 h-full w-full md:grid-cols-2 2xl:grid-cols-4 gap-5'>
 			<CardDetails
 				description={
 					dataIpiranga.PreviousDate
@@ -88,11 +89,15 @@ export default function BigNumbersReservationPage(props: BigNumbersProps) {
 						: ''
 				}
 				icon={<HandCoins />}
-				title={
-					'Receita De Reservas' + `${props.ecommerce ? ' Ecommerce' : ''}`
-				}
+				title={'Receita De Reservas' + `${props.ecommerce ? ' Ecommerce' : ''}`}
 				value={totalAllValue!}
 				type='money'
+				Badge={
+					<GenerateBadge
+						val={totalAllValue!}
+						previousVal={totalAllValuePrevious}
+					/>
+				}
 			/>
 			<CardDetails
 				description={
@@ -102,10 +107,14 @@ export default function BigNumbersReservationPage(props: BigNumbersProps) {
 						: ''
 				}
 				icon={<Sigma />}
-				title={
-					'Número De Reservas' + `${props.ecommerce ? ' Ecommerce' : ''}`
-				}
+				title={'Número De Reservas' + `${props.ecommerce ? ' Ecommerce' : ''}`}
 				value={totalAllBookings}
+				Badge={
+					<GenerateBadge
+						val={totalAllBookings!}
+						previousVal={totalAllBookingsPrevious}
+					/>
+				}
 			/>
 			<CardDetails
 				description={
@@ -121,6 +130,12 @@ export default function BigNumbersReservationPage(props: BigNumbersProps) {
 				type='money'
 				title={'Ticket Médio' + `${props.ecommerce ? ' Ecommerce' : ''}`}
 				value={totalAllTicketAverage!}
+				Badge={
+					<GenerateBadge
+						val={totalAllTicketAverage!}
+						previousVal={totalAllTicketAveragePrevious}
+					/>
+				}
 			/>
 			<CardDetails
 				description={
@@ -132,10 +147,16 @@ export default function BigNumbersReservationPage(props: BigNumbersProps) {
 				}
 				icon={<Blend />}
 				title={
-					'Representatividade' + `${props.ecommerce ? ' Ecommerce' : ''}`
+					'Representatividade' + `${props.ecommerce ? ' Ecommerce   ' : ''}`
 				}
 				value={totalAllRepresentativeness}
 				type='percent'
+				Badge={
+					<GenerateBadge
+						val={totalAllRepresentativeness!}
+						previousVal={totalAllRepresentativenessPrevious}
+					/>
+				}
 			/>
 		</div>
 	);
