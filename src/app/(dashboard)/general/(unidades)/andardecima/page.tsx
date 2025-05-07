@@ -100,11 +100,11 @@ export default async function LushIpiranga({
 							<InvoicingXLocation data={resp?.BillingRentalType} />
 						</div>
 					</div>
-					<div className='gap-5 h-fit w-full grid md:grid-cols-2 justify-between '>
-						<div className=' w-full'>
+					<div className='gap-5 w-full grid grid-cols-1 md:grid-cols-2 justify-between '>
+						<div className='w-full'>
 							<Categories data={resp?.RevenueBySuiteCategory} />
 						</div>
-						<div className=' w-full h-full flex gap-5 justify-between flex-col '>
+						<div className='w-full h-full flex gap-5 justify-between flex-col '>
 							<TRevPar data={resp?.TrevparByDate} />
 							<RevPar data={resp?.RevparByDate} />
 						</div>
