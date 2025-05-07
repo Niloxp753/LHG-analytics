@@ -57,6 +57,8 @@ export default function FilterMobile() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isPending]);
 
+	console.log(pathname);
+
 	return (
 		<Sheet>
 			<SheetTrigger
@@ -101,7 +103,7 @@ export default function FilterMobile() {
 									startTransition(() => {
 										e.stopPropagation();
 										e.preventDefault();
-										router.push(`/${menu}?menu=${menu}&set=${item.tag}`);
+										router.push(`${pathname}/?menu=${menu}&set=${item.tag}`);
 									})
 								}>
 								{item.label}
