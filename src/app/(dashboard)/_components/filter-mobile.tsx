@@ -25,7 +25,6 @@ export default function FilterMobile() {
 	const preSet = searchParams.get('set') || '7days';
 	const menu = searchParams.get('menu');
 	const startDate = searchParams.get('startDate') || '';
-
 	const links = [
 		{ label: 'ÚLTIMOS 7 DIAS', tag: '7days' },
 		{ label: 'ÚLTIMOS 30 DIAS', tag: '30days' },
@@ -76,16 +75,37 @@ export default function FilterMobile() {
 				side={'right'}
 				className='dark w-full z-[51]'>
 				<SheetHeader>
-					<SheetTitle>Filtrar por data</SheetTitle>
+					<SheetTitle className='text-xl flex items-center'>
+						{isPending && (
+							<Loader2
+								size={20}
+								className='animate-spin mr-2 text-white'
+							/>
+						)}
+						Filtrar por data
+					</SheetTitle>
 				</SheetHeader>
 				<div className='mt-10 flex flex-col gap-2.5 z-[70]'>
 					{links.map((item, index) => {
 						return (
 							<Button
+								disabled={isPending && item.tag == preSet}
+								variant={'outline'}
+								className={`${
+									preSet == item.tag && startDate == '' && !isPending
+										? 'bg-violet-400 text-zinc-900 '
+										: 'text-zinc-50 bg-transparent'
+								}  border-violet-400 hover:bg-violet-400 hover:text-black`}
 								key={index}
-								onClick={()=>startTransition(()=>{
-									
-								})}></Button>
+								onClick={(e) =>
+									startTransition(() => {
+										e.stopPropagation();
+										e.preventDefault();
+										router.push(`/${menu}?menu=${menu}&set=${item.tag}`);
+									})
+								}>
+								{item.label}
+							</Button>
 						);
 					})}
 
