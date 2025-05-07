@@ -76,7 +76,7 @@ export default function BigNumbersPageOp({
 				title={'Total de Suítes Limpas'}
 				value={totalAllSuitesCleanings.toLocaleString('pt-br')}
 				Badge={
-					dataIpiranga.PreviousDate && (
+					dataIpiranga.previousDate && (
 						<GenerateBadge
 							val={totalAllSuitesCleanings}
 							previousVal={totalAllSuitesCleaningsPreviousData}
@@ -93,7 +93,7 @@ export default function BigNumbersPageOp({
 				title={'Média de Limpezas Por Dia'}
 				value={totalAllAverageDailyCleaning.toLocaleString('pt-br')}
 				Badge={
-					dataIpiranga.PreviousDate && (
+					dataIpiranga.previousDate && (
 						<GenerateBadge
 							val={totalAllAverageDailyCleaning}
 							previousVal={totalAllAverageDailyCleaningPreviousData}
@@ -110,7 +110,7 @@ export default function BigNumbersPageOp({
 				title={'Total de Inspeções'}
 				value={totalAllInspections.toLocaleString('pt-br')}
 				Badge={
-					dataIpiranga.PreviousDate && (
+					dataIpiranga.previousDate && (
 						<GenerateBadge
 							val={totalAllInspections}
 							previousVal={totalAllInspectionsPreviousData}

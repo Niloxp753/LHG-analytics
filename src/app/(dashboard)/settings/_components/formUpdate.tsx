@@ -21,6 +21,7 @@ import {
 import { IUserUp } from '@/http/user/updateUser';
 import { formSchemaUserUpdate } from '@/lib/formSchemaUserUpdate';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -194,16 +195,8 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 								<SelectContent>
 									<SelectItem value={'Lush Ipiranga'}>Lush Ipiranga</SelectItem>
 									<SelectItem value={'Lush Lapa'}>Lush Lapa</SelectItem>
-									<SelectItem
-										disabled
-										value={'Andar de Cima'}>
-										Andar de Cima
-									</SelectItem>
-									<SelectItem
-										disabled
-										value={'Tout'}>
-										Tout
-									</SelectItem>
+									<SelectItem value={'Andar de Cima'}>Andar de Cima</SelectItem>
+									<SelectItem value={'Tout'}>Tout</SelectItem>
 								</SelectContent>
 							</Select>
 						</FormItem>
@@ -231,11 +224,7 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 					disabled={isPending}
 					type='submit'
 					className='w-full font-medium disabled:grayscale disabled:cursor-none bg-purple-400 text-zinc-900 text-lg hover:bg-purple-500 duration-300 ease-linear transition-all'>
-					{isPending ? (
-						<span className='bg-transparent h-6 w-6 border-l border-t border-zinc-50 rounded-full animate-spin' />
-					) : (
-						<p>Atualizar</p>
-					)}
+					{isPending ? <Loader2 className='animate-spin' /> : <p>Atualizar</p>}
 				</Button>
 			</form>
 		</Form>

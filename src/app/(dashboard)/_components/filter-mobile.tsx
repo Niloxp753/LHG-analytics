@@ -79,17 +79,16 @@ export default function FilterMobile() {
 					<SheetTitle>Filtrar por data</SheetTitle>
 				</SheetHeader>
 				<div className='mt-10 flex flex-col gap-2.5 z-[70]'>
-					{links.map((l, index) => {
+					{links.map((item, index) => {
 						return (
-							<LinkPreSet
-								tag={l.tag}
+							<Button
 								key={index}
-								preSet={preSet}
-								startDate={startDate}
-								label={l.label}
-								href={`?menu=${menu}&set=${l.tag}`}></LinkPreSet>
+								onClick={()=>startTransition(()=>{
+									
+								})}></Button>
 						);
 					})}
+
 					<Separator className='my-5' />
 					<FormFilter />
 					{!canShow && (

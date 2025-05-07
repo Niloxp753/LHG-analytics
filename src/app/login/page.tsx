@@ -10,6 +10,7 @@ import Image from 'next/image';
 import FormLogin from './_components/formLogin';
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
+import { authOptions } from '../api/auth/[...nextauth]/options';
 
 export default async function Login({
 	searchParams,
@@ -19,69 +20,73 @@ export default async function Login({
 	const menu = 'general';
 	const preSet = searchParams.set || '7days';
 
-	const session = await getServerSession();
+	const session = await getServerSession(authOptions);
+
+	if (session?.user.cpf == '359.267.460-94') {
+		redirect(`/general/andardecima?menu=${menu}&set=${preSet ?? '7days'}`);
+	}
 
 	if (session?.user) {
 		redirect(`/general?menu=${menu}&set=${preSet ?? '7days'}`);
-	} else {
-		return (
-			<div className='w-full flex h-screen bg-zinc-950 overflow-hidden'>
-				<div className='hidden bg-zinc-800 lg:flex relative lg:w-2/3 h-full flex-col justify-between items-center'>
-					<a
-						href='/'
-						className='mx-auto h-fit  mt-20 z-50'>
-						<Image
-							src={logo}
-							width={280}
-							height={80}
-							alt='Logo LHG Analytics'></Image>
-					</a>
+	}
+
+	return (
+		<div className='w-full flex h-screen bg-zinc-950 overflow-hidden'>
+			<div className='hidden bg-zinc-800 lg:flex relative lg:w-2/3 h-full flex-col justify-between items-center'>
+				<a
+					href='/'
+					className='mx-auto h-fit  mt-20 z-50'>
 					<Image
-						src={capaLogin}
-						alt='Image'
-						width='1400'
-						height='700'
-						className='h-full w-full object-cover grayscale absolute left-0 top-0 opacity-30'
-					/>
-					<div className='flex mx-auto items-baseline justify-center gap-10 w-fit mb-60 z-50'>
-						<Image
-							src={logoLush}
-							alt='Image'
-							width={120}
-							height={60}
-						/>
-						<Image
-							src={logoTout}
-							alt='Image'
-							width={120}
-							height={60}
-						/>
-						<Image
-							src={logoAC}
-							alt='Image'
-							width={220}
-							height={110}
-						/>
-					</div>
-				</div>
-				<div className='flex items-center gap-10 flex-col justify-center w-full lg:w-1/3'>
-					<Image
-						className='lg:hidden'
 						src={logo}
-						width={140}
+						width={280}
 						height={80}
 						alt='Logo LHG Analytics'></Image>
-					<Card className='mx-auto grid md:w-[320px] gap-5 border-zinc-600 bg-zinc-800 p-4'>
-						<div className='grid gap-3 text-center'>
-							<h1 className='text-3xl font-bold text-zinc-50'>Login</h1>
-							<p className=' text-zinc-200 text-center text-balance'>
-								Entre com seus dados abaixo para fazer login
-							</p>
-						</div>
-						<FormLogin />
-					</Card>
+				</a>
+				<Image
+					src={capaLogin}
+					alt='Image'
+					width='1400'
+					height='700'
+					className='h-full w-full object-cover grayscale absolute left-0 top-0 opacity-30'
+				/>
+				<div className='flex mx-auto items-baseline justify-center gap-10 w-fit mb-60 z-50'>
+					<Image
+						src={logoLush}
+						alt='Image'
+						width={120}
+						height={60}
+					/>
+					<Image
+						src={logoTout}
+						alt='Image'
+						width={120}
+						height={60}
+					/>
+					<Image
+						src={logoAC}
+						alt='Image'
+						width={220}
+						height={110}
+					/>
 				</div>
 			</div>
-		);
-	}
+			<div className='flex items-center gap-10 flex-col justify-center w-full lg:w-1/3'>
+				<Image
+					className='lg:hidden'
+					src={logo}
+					width={140}
+					height={80}
+					alt='Logo LHG Analytics'></Image>
+				<Card className='mx-auto grid md:w-[320px] gap-5 border-zinc-600 bg-zinc-800 p-4'>
+					<div className='grid gap-3 text-center'>
+						<h1 className='text-3xl font-bold text-zinc-50'>Login</h1>
+						<p className=' text-zinc-200 text-center text-balance'>
+							Entre com seus dados abaixo para fazer login
+						</p>
+					</div>
+					<FormLogin />
+				</Card>
+			</div>
+		</div>
+	);
 }

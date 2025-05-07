@@ -16,8 +16,11 @@ import TableKpiCategory from '@/app/(dashboard)/_components/kpis/TableKpiCategor
 import { TableKpiGiro } from '@/app/(dashboard)/_components/kpis/TableKpiGiro';
 import { TableKpiOccupation } from '@/app/(dashboard)/_components/kpis/TableKpiOccupation';
 import Ticket from '@/app/(dashboard)/_components/kpis/Ticket';
+import { authOptions } from '@/app/api/auth/[...nextauth]/options';
 import { format } from 'date-fns';
+import { getServerSession } from 'next-auth';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 export const revalidate = 0;
 
@@ -56,16 +59,31 @@ export default async function LushIpiranga({
 
 	const resp = await getData();
 
+	const session = await getServerSession(authOptions);
+
+	if (!session?.user) {
+		redirect('/login');
+	}
+
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>
-			<div className={`relative  md:max-w-[82vw]  flex md:ml-auto  w-full `}>
+			<div
+				className={`relative  ${
+					session.user.cpf == '359.267.460-94'
+						? 'container mx-auto px-0'
+						: 'md:w-[82vw] md:ml-auto'
+				}  flex w-full `}>
 				<div
-					className={`bg-zinc-950/50 py-4 w-full md:w-[82vw] backdrop-blur-md fixed top-0 z-40 flex flex-col gap-2 `}>
+					className={`bg-zinc-950/50 py-4 w-full ${
+						session.user.cpf == '359.267.460-94'
+							? 'container mx-auto px-0'
+							: 'md:w-[82vw]'
+					} backdrop-blur-md fixed top-0 z-40 flex flex-col gap-2 `}>
 					<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-1.5 text-xl'>
 						Visão Geral - <span className='text-violet-400'>Andar de Cima</span>
 					</h2>
 					<div className='hidden lg:block'>
-						<Header />
+						<Header cpf={session.user.cpf} />
 					</div>
 				</div>
 				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-12 lg:mt-32'>
@@ -77,16 +95,16 @@ export default async function LushIpiranga({
 							preSet == '12months' ? '12 meses atrás ' : ''
 						}`}
 					/>
-					<div className='flex w-full gap-5 h-full'>
-						<div className='h-full w-full flex flex-col gap-5 items-center justify-center'>
+					<div className='flex w-full h-full'>
+						<div className='h-full w-full flex flex-col items-center justify-center'>
 							<InvoicingXLocation data={resp?.BillingRentalType} />
 						</div>
 					</div>
-					<div className='gap-5 h-fit w-full flex flex-col md:flex-row justify-between '>
-						<div className='md:w-1/3 w-full'>
+					<div className='gap-5 h-fit w-full grid md:grid-cols-2 justify-between '>
+						<div className=' w-full'>
 							<Categories data={resp?.RevenueBySuiteCategory} />
 						</div>
-						<div className='md:w-2/3 w-full h-fit flex gap-5 justify-between flex-col '>
+						<div className=' w-full h-full flex gap-5 justify-between flex-col '>
 							<TRevPar data={resp?.TrevparByDate} />
 							<RevPar data={resp?.RevparByDate} />
 						</div>
