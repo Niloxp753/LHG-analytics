@@ -80,7 +80,7 @@ export default function OccupationCasaLush(data?: any) {
 
 	const occupancyRateBySuiteCategory: OccupancyData[] = data.data;
 	const transformedData = transformOccupancyData(occupancyRateBySuiteCategory);
-	const [state, setState] = useState('LUSH');
+	const [state, setState] = useState(transformedData[0].category);
 	const currentSerie = transformedData.find((serie) => {
 		return serie.category === state;
 	});
