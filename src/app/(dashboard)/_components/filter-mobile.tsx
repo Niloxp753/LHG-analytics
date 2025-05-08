@@ -1,6 +1,7 @@
 /** @format */
 'use client';
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import {
 	Sheet,
 	SheetClose,
@@ -11,12 +12,11 @@ import {
 	SheetTrigger,
 } from '@/components/ui/sheet';
 import { ArrowLeft, Filter, Loader2 } from 'lucide-react';
-import Header from './Header';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState, useTransition } from 'react';
-import LinkPreSet from './LinkPreSet';
+import { useEffect, useTransition } from 'react';
 import FormFilter from './FormFilter';
-import { Separator } from '@/components/ui/separator';
+import { useSession } from 'next-auth/react';
+import BtnSignOut from '@/components/btnSingOut';
 
 export default function FilterMobile() {
 	const pathname = usePathname();
@@ -30,6 +30,9 @@ export default function FilterMobile() {
 		{ label: 'ÚLTIMOS 30 DIAS', tag: '30days' },
 		{ label: 'ÚLTIMOS 6 MESES', tag: '6months' },
 	];
+
+	const session = useSession({ required: true });
+	console.log(session.data);
 
 	const canShow =
 		pathname.endsWith('general') ||
@@ -133,7 +136,8 @@ export default function FilterMobile() {
 						</Button>
 					)}
 				</div>
-				<SheetFooter>
+				<SheetFooter className='mt-5'>
+					<BtnSignOut isOpened />
 					<SheetClose
 						id='myclose'
 						className='hidden'></SheetClose>
