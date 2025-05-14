@@ -94,13 +94,18 @@ export default function BigNumbersReservation({
 								description={
 									d.PreviousDate &&
 									description +
-										d.PreviousDate.totalAllRepresentativenessPreviousData *
-											100 +
+										(
+											d.PreviousDate.totalAllRepresentativenessPreviousData *
+											100
+										).toFixed(2) +
 										'%'
 								}
 								icon={<Blend />}
 								title={'Representatividade'}
-								value={d.currentDate.totalAllRepresentativeness * 100 + '%'}
+								value={
+									(d.currentDate.totalAllRepresentativeness * 100).toFixed(2) +
+									'%'
+								}
 								Badge={
 									d.PreviousDate && (
 										<GenerateBadge
