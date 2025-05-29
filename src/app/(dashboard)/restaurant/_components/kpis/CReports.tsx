@@ -4,56 +4,12 @@ import {
 	Table,
 	TableBody,
 	TableCell,
-	TableFooter,
 	TableHead,
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
 
-const data = [
-	{
-		id: 1,
-		items: 'PRODUTOS EROTICOS',
-		revenue: 59306,
-		revenuePercent: '35,16%',
-		quantity: 6048,
-		quantityPercent: '73,63%',
-	},
-	{
-		id: 2,
-		items: 'CONVENIENCIA E HIGIENE',
-		revenue: 22125,
-		revenuePercent: '13,12%',
-		quantity: 6048,
-		quantityPercent: '73,63%',
-	},
-	{
-		id: 3,
-		items: 'ITENS EXTRAS',
-		revenue: 11313,
-		revenuePercent: '6,71%',
-		quantity: 6048,
-		quantityPercent: '73,63%',
-	},
-	{
-		id: 4,
-		items: 'RESERVAS',
-		revenue: 13852,
-		revenuePercent: '8,21%',
-		quantity: 6048,
-		quantityPercent: '73,63%',
-	},
-	{
-		id: 5,
-		items: 'SOUVENIR',
-		revenue: 17286,
-		revenuePercent: '10,25%',
-		quantity: 6048,
-		quantityPercent: '73,63%',
-	},
-];
-
-export function CReports() {
+export function CReports({ data }: { data: any[] }) {
 	return (
 		<Table className='mt-5 bg-zinc-900 rounded-lg'>
 			<TableHeader className='bg-violet-900 rounded-lg'>
@@ -66,12 +22,12 @@ export function CReports() {
 				</TableRow>
 			</TableHeader>
 			<TableBody className='text-zinc-100'>
-				{data.map((invoice) => (
+				{data.map((invoice, index) => (
 					<TableRow
-						key={invoice.id}
+						key={index}
 						className='text-center'>
 						<TableCell className='font-bold text-left capitalize'>
-							{invoice.items}
+							{invoice.name}
 						</TableCell>
 						<TableCell>
 							{invoice.revenue.toLocaleString('pt-br', {
@@ -85,15 +41,6 @@ export function CReports() {
 					</TableRow>
 				))}
 			</TableBody>
-			<TableFooter className='w-full text-white bg-zinc-700 text-center font-bold'>
-				<TableRow>
-					<TableCell>Total</TableCell>
-					<TableCell>R$ 168.670,00</TableCell>
-					<TableCell>40,36%</TableCell>
-					<TableCell className=''>8412</TableCell>
-					<TableCell className=''>100%</TableCell>
-				</TableRow>
-			</TableFooter>
 		</Table>
 	);
 }

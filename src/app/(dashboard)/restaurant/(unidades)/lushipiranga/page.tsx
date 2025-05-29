@@ -1,22 +1,14 @@
 /** @format */
 
-import CardDetails from '@/app/(dashboard)/_components/CardDetails';
+import { getRestaurantsAction } from '@/actions/restaurants/get-restaurants';
 import Header from '@/app/(dashboard)/_components/Header';
-import {
-	DiamondPercent,
-	HandCoins,
-	Sigma,
-	SquarePercent,
-	TrendingUp,
-} from 'lucide-react';
+import { format } from 'date-fns';
+import { revalidatePath } from 'next/cache';
+import BigNumbers from '../../_components/kpi-unidade/big-numbers';
 import { AReports } from '../../_components/kpis/AReports';
 import { BReports } from '../../_components/kpis/BReports';
 import CategoryA from '../../_components/kpis/CategoryA';
 import CategoryB from '../../_components/kpis/CategoryB';
-import Cmv from '../../_components/kpis/cmv';
-import CoustDayXWorker from '../../_components/kpis/CoustDayXWorker';
-import CoustXAB from '../../_components/kpis/CoustXAB';
-import CoustXWorker from '../../_components/kpis/CoustXWorker';
 import { CReports } from '../../_components/kpis/CReports';
 import { MinusSell } from '../../_components/kpis/MinusSell';
 import { MostSell } from '../../_components/kpis/MostSell';
@@ -24,11 +16,6 @@ import RevenueABXCost from '../../_components/kpis/revenueABXCost';
 import RevenuePercent from '../../_components/kpis/RevenuePercent';
 import RevenueXGroup from '../../_components/kpis/RevenueXGroup';
 import TKTXLocation from '../../_components/kpis/TKTXLocation';
-import GenerateBadge from '@/app/(dashboard)/general/_components/generate-badge';
-import { getRestaurantsAction } from '@/actions/restaurants/get-restaurants';
-import { revalidatePath } from 'next/cache';
-import { format } from 'date-fns';
-import BigNumbers from '../../_components/kpi-unidade/big-numbers';
 
 export default async function Restaurant({
 	searchParams,
@@ -179,10 +166,10 @@ export default async function Restaurant({
 						<CategoryA data={resp.RevenueFoodByPeriod} />
 						<CategoryB data={resp.RevenueDrinksByPeriod} />
 						<div className='flex items-start gap-5 flex-col'>
-							<BReports />
-							<CReports />
+							<BReports data={resp.ReportByDrinks} />
+							<CReports data={resp.ReportByOthers} />
 						</div>
-						<AReports />
+						<AReports data={resp.ReportByFood} />
 						<div className='flex flex-col gap-5'>
 							{/* <h2 className='text-zinc-50 font-bold text-2xl mt-10'>
 								Gastos E Custos Gerais
