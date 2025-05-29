@@ -6,30 +6,31 @@ const AreaChartsApex = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/AreaChartsApex'),
 	{ ssr: false },
 );
-export default function RevenuePercent() {
+
+interface RevenuePercentProps {
+	categories: string[];
+	series: number[];
+}
+
+interface DataProps {
+	data: RevenuePercentProps;
+}
+
+export default function RevenuePercent({ data }: DataProps) {
+	const series = data.series.map((value) => {
+		const newValue = (value * 100).toFixed(2);
+		return Number(newValue);
+	});
 	return (
 		<div className='w-full'>
 			<AreaChartsApex
 				series={[
 					{
 						name: 'Faturamento A&B/ Faturamento Total %',
-						data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 55, 57, 56],
+						data: series,
 					},
 				]}
-				categories={[
-					'jan/24',
-					'fev/24',
-					'mar/24',
-					'abr/24',
-					'mai/24',
-					'jun/24',
-					'jul/24',
-					'ago/24',
-					'set/24',
-					'out/24',
-					'nov/24',
-					'dez/24',
-				]}
+				categories={data.categories}
 				percent
 			/>
 		</div>

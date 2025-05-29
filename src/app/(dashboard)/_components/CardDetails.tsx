@@ -30,7 +30,7 @@ export default function CardDetails({
 	return value ? (
 		<Card className='text-zinc-50 w-full border-none bg-gradient-to-br from-zinc-800 to-zinc-900 '>
 			<CardHeader>
-				<CardTitle className='text-lg flex md:items-center justify-between flex-row gap-5'>
+				<CardTitle className='text-base flex md:items-center justify-between flex-row gap-5'>
 					<div className='flex items-center gap-3'>
 						{title}
 						{Badge}
@@ -61,6 +61,6 @@ export default function CardDetails({
 			</CardContent>
 		</Card>
 	) : (
-		<Skeleton />
+		<Skeleton className='h-28 w-full' />
 	);
 }

@@ -7,7 +7,15 @@ const AreaChartsApex = dynamic(
 	{ ssr: false },
 );
 
-export default function RevenueABXCost() {
+interface RevenueABXCostProps {
+	categories: string[];
+	series: number[];
+}
+
+interface DataProps {
+	data: RevenueABXCostProps;
+}
+export default function RevenueABXCost({ data }: DataProps) {
 	return (
 		<div className='w-full'>
 			<AreaChartsApex
@@ -15,17 +23,10 @@ export default function RevenueABXCost() {
 				series={[
 					{
 						name: 'Receita A&B',
-						data: [44558, 55778, 57996, 59656, 61789, 58963],
+						data: data.series,
 					},
 				]}
-				categories={[
-					'jan/24',
-					'fev/24',
-					'mar/24',
-					'abr/24',
-					'mai/24',
-					'jun/24',
-				]}
+				categories={data.categories}
 				money
 			/>
 		</div>

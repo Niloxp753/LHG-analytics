@@ -50,9 +50,9 @@ export default function GenerateBadge({
 	const resp =
 		((Number(val) - Number(previousVal)) / Number(previousVal)) * 100;
 
-	if (val == 0 || previousVal == 0) {
-		return null;
-	}
+	// if (val == 0 || previousVal == 0) {
+	// 	return null;
+	// }
 
 	if (resp > 0) {
 		return (
@@ -71,7 +71,7 @@ export default function GenerateBadge({
 					size={14}
 					className=' mr-1.5'
 				/>
-				{resp.toFixed(2) + '%'}
+				{resp.toFixed(0) + '%'}
 			</Badge>
 		);
 	}

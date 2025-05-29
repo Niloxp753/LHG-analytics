@@ -6,34 +6,26 @@ const BarChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/BarCharApex'),
 	{ ssr: false },
 );
+interface RevenueXGroupProps {
+	categories: string[];
+	series: Serie[];
+}
 
-export default function RevenueXGroup() {
+interface DataProps {
+	data: RevenueXGroupProps;
+}
+
+interface Serie {
+	name: string;
+	data: number[];
+}
+export default function RevenueXGroup({ data }: DataProps) {
 	return (
 		<div className='w-full h-fit'>
 			<BarChart
 				title={'Faturamento Por Grupo'}
-				series={[
-					{
-						name: 'Alimentos',
-						data: [7054, 9695, 8457, 5856, 7791, 8469],
-					},
-					{
-						name: 'Bebidas',
-						data: [6615, 4598, 5951, 4988, 5797, 7125],
-					},
-					{
-						name: 'Outros',
-						data: [4876, 6565, 4001, 6548, 5197, 4105],
-					},
-				]}
-				categories={[
-					'jan/24',
-					'fev/24',
-					'mar/24',
-					'abr/24',
-					'mai/24',
-					'jun/24',
-				]}
+				series={data.series}
+				categories={data.categories}
 				dataLabelColors={['#7c3aed', '#2563eb', '#4f46e5']}
 				colors={['#a78bfa', '#60a5fa', '#818cf8']}
 				money

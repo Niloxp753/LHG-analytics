@@ -19,6 +19,7 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 		chart: {
 			id: 'bar-chart',
 			stacked: false,
+
 			type: 'bar',
 			foreColor: '#fafafa',
 			zoom: {
@@ -54,6 +55,7 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 						? val.toLocaleString('pt-BR', {
 								style: 'currency',
 								currency: 'BRL',
+								notation: 'compact',
 						  })
 						: val
 				}`,
@@ -92,8 +94,8 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 
 		xaxis: {
 			type: 'category',
-
 			axisBorder: { show: false },
+			sorted: true,
 			categories: props.categories,
 			axisTicks: { show: false },
 			labels: {
@@ -108,7 +110,7 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 
 		plotOptions: {
 			bar: {
-				borderRadius: 4,
+				borderRadius: 5,
 				borderRadiusApplication: 'end',
 				horizontal: true,
 				rangeBarGroupRows: true,
