@@ -7,54 +7,46 @@ const LineChart = dynamic(
 	{ ssr: false },
 );
 
-export default function UnityxTKTxTime() {
+interface DataProps {
+	series: number[];
+	categories: string[];
+}
+interface UnityxTKTxTimePrps {
+	ipiranga: DataProps;
+	lapa: DataProps;
+	andar_de_cima: DataProps;
+	tout: DataProps;
+}
+
+export default function UnityxTKTxTime({
+	ipiranga,
+	lapa,
+	andar_de_cima,
+	tout,
+}: UnityxTKTxTimePrps) {
 	return (
 		<div className='w-full'>
 			<LineChart
-				title={'Nº de vendas por unidade'}
+				title={'Ticket médio por unidade'}
 				series={[
 					{
 						name: 'Lush Ipiranga',
-						data: [
-							3275, 1517, 1768, 1228, 2443, 3025, 3462, 5525, 1768, 602, 1195,
-							1195,
-						],
+						data: ipiranga.series,
 					},
 					{
 						name: 'Lush Lapa',
-						data: [
-							688, 689, 2316, 3275, 1517, 5525, 2443, 3025, 3462, 1768, 602,
-							1195,
-						],
+						data: lapa.series,
 					},
 					{
 						name: 'Andar de Cima',
-						data: [
-							2443, 3025, 3462, 4700, 4668, 8139, 1907, 5670, 1296, 1907, 5670,
-							1296,
-						],
+						data: andar_de_cima.series,
 					},
 					{
 						name: 'Tout',
-						data: [
-							1907, 5670, 1296, 1228, 540, 3275, 1517, 1768, 602, 1195, 1195,
-						],
+						data: tout.series,
 					},
 				]}
-				categories={[
-					'jan/24',
-					'fev/24',
-					'mar/24',
-					'abr/24',
-					'mai/24',
-					'jun/24',
-					'jul/24',
-					'ago/24',
-					'set/24',
-					'out/24',
-					'nov/24',
-					'dez/24',
-				]}
+				categories={ipiranga.categories}
 				height={440}
 			/>
 		</div>

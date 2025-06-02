@@ -1,31 +1,59 @@
 /** @format */
 
-import {
-	DiamondPercent,
-	HandCoins,
-	Sigma,
-	SquarePercent,
-	TrendingUp,
-} from 'lucide-react';
-import CardDetails from '../_components/CardDetails';
+import { getRestaurantPageData } from '@/actions/restaurants/get-restaurant-page';
+import { format } from 'date-fns';
 import CardLink from '../_components/CardLink';
 import SparkChart from '../_components/charts/SparkChart';
 import Header from '../_components/Header';
-import UnityxCMV from './_components/kpis/UnityxCMV';
-import UnityxCMVxTime from './_components/kpis/UnityxCMVxTime';
-import UnityxCoust from './_components/kpis/UnityxCoust';
+import BigNumbersPage from './_components/kpis/big-numbers-page';
 import UnityxRevenue from './_components/kpis/UnityxRevenue';
 import UnityxRevenuexTime from './_components/kpis/UnityxRevenuexTime';
+import UnityxSales from './_components/kpis/UnityxSales';
 import UnityxTKTxTime from './_components/kpis/UnityxTKTxTime';
-import GenerateBadge from '../general/_components/generate-badge';
 
-export default function Restaurant({
+export default async function Restaurant({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | string[] | undefined };
+	searchParams: { [key: string]: string | undefined };
 }) {
-	const preSet = searchParams.set || '7days';
 	const menu = 'restaurant';
+	const preSet = searchParams.set || '7days';
+	const startDate = searchParams.startDate;
+	const endDate = searchParams.endDate;
+
+	const formattedStartDate =
+		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
+	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
+
+	async function getData() {
+		if (startDate && endDate) {
+			const customData = await getRestaurantPageData({
+				startDate: formattedStartDate,
+				endDate: formattedEndDate,
+			});
+			if (customData) {
+				return customData;
+			}
+			return { ok: false, data: null, error: 'Algo deu errado' };
+		} else {
+			const data = await getRestaurantPageData({ period: preSet });
+			if (data) {
+				return data;
+			}
+			return { ok: false, data: null, error: 'Algo deu errado' };
+		}
+	}
+
+	const resp = await getData();
+
+	if (!resp.ok || !resp.data) {
+		console.log(resp.error);
+		return (
+			<div className='text-muted-foreground'>
+				Não foi possível encontrar os dados
+			</div>
+		);
+	}
 
 	return (
 		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden md:px-5 py-10'>
@@ -67,84 +95,49 @@ export default function Restaurant({
 								<SparkChart serie={[55, 30, 55, 45, 50, 60]} />
 							}></CardLink>
 					</div>
-					<div className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4'>
-						<CardDetails
-							description={`${
-								preSet == '7days' ? '7 dias atrás R$ 321.005,00' : ''
-							} ${preSet == '30days' ? '30 dias atrás ' : ''} ${
-								preSet == '6months' ? '6 meses atrás ' : ''
-							}${preSet == '12months' ? '12 meses atrás ' : ''}`}
-							type='money'
-							icon={<HandCoins />}
-							title={'Receita De A&B'}
-							value={341518}
-							Badge={
-								<GenerateBadge
-									val={341518}
-									previousVal={321005}
-								/>
+					<BigNumbersPage
+						tout={resp.data[3].BigNumbers}
+						andar_de_cima={resp.data[2].BigNumbers}
+						description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+							preSet == '30days' ? '30 dias atrás ' : ''
+						} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+							preSet == '12months' ? '12 meses atrás ' : ''
+						}`}
+						ipiranga={resp.data[0].BigNumbers}
+						lapa={resp.data[1].BigNumbers}
+					/>
+					<div className='flex gap-5  flex-col md:flex-row mx-auto w-full h-full'>
+						<UnityxRevenue
+							tout={resp.data[3].BigNumbers[0].currentDate.totalAllValue}
+							andar_de_cima={
+								resp.data[2].BigNumbers[0].currentDate.totalAllValue
 							}
+							ipiranga={resp.data[0].BigNumbers[0].currentDate.totalAllValue}
+							lapa={resp.data[1].BigNumbers[0].currentDate.totalAllValue}
 						/>
-						<CardDetails
-							description={`${preSet == '7days' ? '7 dias atrás 254' : ''} ${
-								preSet == '30days' ? '30 dias atrás ' : ''
-							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-								preSet == '12months' ? '12 meses atrás ' : ''
-							}`}
-							icon={<Sigma />}
-							title={'Nº De Vendas'}
-							value={397}
-							Badge={
-								<GenerateBadge
-									val={397}
-									previousVal={254}
-								/>
+						<UnityxSales
+							tout={resp.data[3].BigNumbers[0].currentDate.totalAllSales}
+							andar_de_cima={
+								resp.data[2].BigNumbers[0].currentDate.totalAllSales
 							}
+							ipiranga={resp.data[0].BigNumbers[0].currentDate.totalAllSales}
+							lapa={resp.data[1].BigNumbers[0].currentDate.totalAllSales}
 						/>
-						<CardDetails
-							description={`${
-								preSet == '7days' ? '7 dias atrás R$ 794,00' : ''
-							} ${preSet == '30days' ? '30 dias atrá s' : ''} ${
-								preSet == '6months' ? '6 meses atrás ' : ''
-							}${preSet == '12months' ? '12 meses atrás ' : ''}`}
-							type='money'
-							icon={<SquarePercent />}
-							title={'Ticket Médio A&B'}
-							value={860}
-							Badge={
-								<GenerateBadge
-									val={860}
-									previousVal={794}
-								/>
-							}
-						/>
-
-						<CardDetails
-							description={`${
-								preSet == '7days' ? '7 dias atrás R$ 598,00' : ''
-							} ${preSet == '30days' ? '30 dias atrás ' : ''} ${
-								preSet == '6months' ? '6 meses atrás ' : ''
-							}${preSet == '12months' ? '12 meses atrás ' : ''}`}
-							icon={<DiamondPercent />}
-							type='money'
-							title={'TKT Médio A&B / Locação'}
-							value={668}
-							Badge={
-								<GenerateBadge
-									val={668}
-									previousVal={598}
-								/>
-							}
-						/>
-					</div>
-					<div className='flex md:gap-10 gap-5 mb-5 flex-col md:flex-row mx-auto w-full h-full'>
-						<UnityxRevenue />
-						<UnityxCoust />
 						{/* <UnityxCMV /> */}
 					</div>
 					<div className='flex flex-col gap-5'>
-						<UnityxTKTxTime />
-						<UnityxRevenuexTime />
+						<UnityxRevenuexTime
+							ipiranga={resp.data[0].RevenueAbByPeriod}
+							lapa={resp.data[1].RevenueAbByPeriod}
+							andar_de_cima={resp.data[2].RevenueAbByPeriod}
+							tout={resp.data[3].RevenueAbByPeriod}
+						/>
+						<UnityxTKTxTime
+							ipiranga={resp.data[0].TicketAverageByPeriod}
+							lapa={resp.data[1].TicketAverageByPeriod}
+							andar_de_cima={resp.data[2].TicketAverageByPeriod}
+							tout={resp.data[3].TicketAverageByPeriod}
+						/>
 						{/* <UnityxCMVxTime /> */}
 					</div>
 				</div>

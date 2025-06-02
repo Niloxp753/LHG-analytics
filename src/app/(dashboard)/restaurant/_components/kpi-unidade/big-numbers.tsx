@@ -2,16 +2,7 @@
 
 import CardDetails from '@/app/(dashboard)/_components/CardDetails';
 import GenerateBadge from '@/app/(dashboard)/general/_components/generate-badge';
-import { Skeleton } from '@/components/ui/skeleton';
-import {
-	DiamondPercent,
-	Eye,
-	HandCoins,
-	Leaf,
-	LeafyGreen,
-	Sigma,
-	SquarePercent,
-} from 'lucide-react';
+import { DiamondPercent, HandCoins, Sigma, SquarePercent } from 'lucide-react';
 
 interface BigNumbersProps {
 	data?: any[];
