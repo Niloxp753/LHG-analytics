@@ -22,7 +22,7 @@ export async function getRestaurantsAction(period: string, company?: string) {
 
 	try {
 		const resp = await getRestaurants(newPeriod, company);
-		revalidatePath('/reservations');
+		revalidatePath('/restaurant');
 		return resp;
 	} catch (error) {
 		console.log(error);

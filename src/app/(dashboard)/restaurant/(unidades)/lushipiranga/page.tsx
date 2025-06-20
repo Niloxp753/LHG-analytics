@@ -1,5 +1,6 @@
 /** @format */
 
+import { getRestaurantsCustomAction } from '@/actions/restaurants/get-restaurant-custom';
 import { getRestaurantsAction } from '@/actions/restaurants/get-restaurants';
 import Header from '@/app/(dashboard)/_components/Header';
 import { format } from 'date-fns';
@@ -33,7 +34,7 @@ export default async function Restaurant({
 
 	async function getData() {
 		if (startDate && endDate) {
-			const customData = await getRestaurantsAction(
+			const customData = await getRestaurantsCustomAction(
 				formattedStartDate!,
 				formattedEndDate!,
 			);

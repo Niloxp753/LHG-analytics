@@ -17,7 +17,7 @@ export async function getRestaurants(
 				const resp_lapa = await api_lapa.get(
 					`Restaurants/restaurants?period=${period}`,
 					{
-						next: { tags: ['reservations_lapa'], revalidate: 40 },
+						next: { tags: ['restaurant_lapa'], revalidate: 40 },
 						signal: controller.signal,
 					},
 				);
@@ -30,7 +30,7 @@ export async function getRestaurants(
 				const resp_tout = await api_tout.get(
 					`Restaurants/restaurants?period=${period}`,
 					{
-						next: { tags: ['reservations_tout'], revalidate: 40 },
+						next: { tags: ['restaurant_tout'], revalidate: 40 },
 						signal: controller.signal,
 					},
 				);
@@ -43,7 +43,7 @@ export async function getRestaurants(
 				const resp_andar_de_cima = await api_andar_de_cima.get(
 					`Restaurants/restaurants?period=${period}`,
 					{
-						next: { tags: ['reservations_tout'], revalidate: 40 },
+						next: { tags: ['restaurant_andar_de_cima'], revalidate: 40 },
 						signal: controller.signal,
 					},
 				);
@@ -55,7 +55,7 @@ export async function getRestaurants(
 
 			default:
 				const resp = await api.get(`Restaurants/restaurants?period=${period}`, {
-					next: { tags: ['reservations_ipiranga'], revalidate: 40 },
+					next: { tags: ['restaurant_ipiranga'], revalidate: 40 },
 					signal: controller.signal,
 				});
 

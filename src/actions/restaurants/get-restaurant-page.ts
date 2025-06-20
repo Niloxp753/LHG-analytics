@@ -2,7 +2,7 @@
 
 'use server';
 
-import { getReservationsCustom } from '@/http/reservations/get-bookings-custom';
+import { getRestaurantsCustom } from '@/http/restaurant/get-restaurant-custom';
 import { getRestaurants } from '@/http/restaurant/get-restaurants';
 import { revalidatePath } from 'next/cache';
 
@@ -32,18 +32,18 @@ export async function getRestaurantPageData({
 	}
 
 	if (startDate && endDate) {
-		const customDataIpiranga = await getReservationsCustom(startDate, endDate);
-		const customDataLapa = await getReservationsCustom(
+		const customDataIpiranga = await getRestaurantsCustom(startDate, endDate);
+		const customDataLapa = await getRestaurantsCustom(
 			startDate,
 			endDate,
 			'lapa',
 		);
-		const customDataAndarDeCima = await getReservationsCustom(
+		const customDataAndarDeCima = await getRestaurantsCustom(
 			startDate,
 			endDate,
 			'andar_de_cima',
 		);
-		const customDataTout = await getReservationsCustom(
+		const customDataTout = await getRestaurantsCustom(
 			startDate,
 			endDate,
 			'tout',
@@ -55,7 +55,7 @@ export async function getRestaurantPageData({
 			customDataAndarDeCima &&
 			customDataTout
 		) {
-			revalidatePath('/reservation');
+			revalidatePath('/restaurant');
 			return {
 				ok: true,
 				data: [
@@ -79,7 +79,7 @@ export async function getRestaurantPageData({
 		const dataiAndar = await getRestaurants(newPeriod, 'andar_de_cima');
 		const dataiTout = await getRestaurants(newPeriod, 'tout');
 		if (dataiIpiranga && dataiLapa && dataiAndar && dataiTout) {
-			revalidatePath('/reservation');
+			revalidatePath('/restaurant');
 			return {
 				ok: true,
 				data: [dataiIpiranga, dataiLapa, dataiAndar, dataiTout],

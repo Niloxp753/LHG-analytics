@@ -1,22 +1,15 @@
 /** @format */
 
-import CardDetails from '@/app/(dashboard)/_components/CardDetails';
+import { getRestaurantsCustomAction } from '@/actions/restaurants/get-restaurant-custom';
+import { getRestaurantsAction } from '@/actions/restaurants/get-restaurants';
 import Header from '@/app/(dashboard)/_components/Header';
-import {
-	DiamondPercent,
-	HandCoins,
-	Sigma,
-	SquarePercent,
-	TrendingUp,
-} from 'lucide-react';
+import { format } from 'date-fns';
+import { revalidatePath } from 'next/cache';
+import BigNumbers from '../../_components/kpi-unidade/big-numbers';
 import { AReports } from '../../_components/kpis/AReports';
 import { BReports } from '../../_components/kpis/BReports';
 import CategoryA from '../../_components/kpis/CategoryA';
 import CategoryB from '../../_components/kpis/CategoryB';
-import Cmv from '../../_components/kpis/cmv';
-import CoustDayXWorker from '../../_components/kpis/CoustDayXWorker';
-import CoustXAB from '../../_components/kpis/CoustXAB';
-import CoustXWorker from '../../_components/kpis/CoustXWorker';
 import { CReports } from '../../_components/kpis/CReports';
 import { MinusSell } from '../../_components/kpis/MinusSell';
 import { MostSell } from '../../_components/kpis/MostSell';
@@ -24,11 +17,6 @@ import RevenueABXCost from '../../_components/kpis/revenueABXCost';
 import RevenuePercent from '../../_components/kpis/RevenuePercent';
 import RevenueXGroup from '../../_components/kpis/RevenueXGroup';
 import TKTXLocation from '../../_components/kpis/TKTXLocation';
-import GenerateBadge from '@/app/(dashboard)/general/_components/generate-badge';
-import { format } from 'date-fns';
-import { getRestaurantsAction } from '@/actions/restaurants/get-restaurants';
-import { revalidatePath } from 'next/cache';
-import BigNumbers from '../../_components/kpi-unidade/big-numbers';
 
 export default async function Restaurant({
 	searchParams,
@@ -46,7 +34,7 @@ export default async function Restaurant({
 
 	async function getData() {
 		if (startDate && endDate) {
-			const customData = await getRestaurantsAction(
+			const customData = await getRestaurantsCustomAction(
 				formattedStartDate!,
 				formattedEndDate!,
 			);
