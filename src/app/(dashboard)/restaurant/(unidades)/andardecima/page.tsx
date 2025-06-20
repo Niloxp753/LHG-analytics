@@ -37,6 +37,7 @@ export default async function Restaurant({
 			const customData = await getRestaurantsCustomAction(
 				formattedStartDate!,
 				formattedEndDate!,
+				'andar_de_cima',
 			);
 			if (customData) {
 				revalidatePath('/');
@@ -61,8 +62,11 @@ export default async function Restaurant({
 			<div className={`relative w-full  md:max-w-[82vw] md:ml-auto flex z-40 `}>
 				<div
 					className={`bg-zinc-950/50 z-40 py-4 ml-auto w-full  md:w-[82vw] backdrop-blur-md fixed top-0 flex flex-col gap-2 justify-end `}>
-					<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-2 text-lg'>
-						Restaurante - <span className='text-violet-400'>Andar de Cima</span>
+					<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-2 text-base'>
+						Restaurante -{' '}
+						<span className='text-violet-400 text-base md:text-3xl'>
+							Andar de Cima
+						</span>
 					</h2>
 					<div className='hidden lg:block'>
 						<Header />

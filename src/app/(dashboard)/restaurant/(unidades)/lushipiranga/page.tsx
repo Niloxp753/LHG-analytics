@@ -58,8 +58,11 @@ export default async function Restaurant({
 			<div className={`relative w-full  md:max-w-[82vw] md:ml-auto flex z-40 `}>
 				<div
 					className={`bg-zinc-950/50 z-40 py-4 ml-auto lg:w-[82vw] backdrop-blur-md fixed top-0 flex flex-col gap-2 justify-end w-full`}>
-					<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-2 text-lg'>
-						Restaurante - <span className='text-violet-400'>Lush Ipiranga</span>
+					<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-2 text-base'>
+						Restaurante -{' '}
+						<span className='text-violet-400 text-base  md:text-3xl'>
+							Lush Ipiranga
+						</span>
 					</h2>
 					<div className='hidden lg:block'>
 						<Header />

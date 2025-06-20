@@ -1,13 +1,14 @@
 /** @format */
 
 import { getAllUsersAction } from '@/actions/getAllUsers';
+import BackBtn from '@/components/back-btn';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import React from 'react';
+import { authOptions } from '../api/auth/[...nextauth]/options';
 import SidebarMenu from './_components/SidebarMenu';
 import FilterMobile from './_components/filter-mobile';
 import MenuMobile from './_components/menu-mobile';
-import { authOptions } from '../api/auth/[...nextauth]/options';
 
 export default async function DashLayout({
 	children,
@@ -32,6 +33,7 @@ export default async function DashLayout({
 
 				{/* <SidebarDemo user={user} /> */}
 				<FilterMobile />
+				<BackBtn />
 			</div>
 			{session.user.cpf !== '359.267.460-94' && (
 				<div className='hidden lg:block z-50'>
