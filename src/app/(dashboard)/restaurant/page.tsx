@@ -10,6 +10,7 @@ import UnityxRevenue from './_components/kpis/UnityxRevenue';
 import UnityxRevenuexTime from './_components/kpis/UnityxRevenuexTime';
 import UnityxSales from './_components/kpis/UnityxSales';
 import UnityxTKTxTime from './_components/kpis/UnityxTKTxTime';
+import { Suspense } from 'react';
 
 export default async function Restaurant({
 	searchParams,
@@ -95,17 +96,19 @@ export default async function Restaurant({
 								<SparkChart serie={[55, 30, 55, 45, 50, 60]} />
 							}></CardLink>
 					</div>
-					<BigNumbersPage
-						tout={resp.data[3].BigNumbers}
-						andar_de_cima={resp.data[2].BigNumbers}
-						description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-							preSet == '30days' ? '30 dias atrás ' : ''
-						} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-							preSet == '12months' ? '12 meses atrás ' : ''
-						}`}
-						ipiranga={resp.data[0].BigNumbers}
-						lapa={resp.data[1].BigNumbers}
-					/>
+					<Suspense>
+						<BigNumbersPage
+							tout={resp.data[3].BigNumbers}
+							andar_de_cima={resp.data[2].BigNumbers}
+							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
+								preSet == '30days' ? '30 dias atrás ' : ''
+							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
+								preSet == '12months' ? '12 meses atrás ' : ''
+							}`}
+							ipiranga={resp.data[0].BigNumbers}
+							lapa={resp.data[1].BigNumbers}
+						/>
+					</Suspense>
 					<div className='flex gap-5  flex-col md:flex-row mx-auto w-full h-full'>
 						<UnityxRevenue
 							tout={resp.data[3].BigNumbers[0].currentDate.totalAllValue}

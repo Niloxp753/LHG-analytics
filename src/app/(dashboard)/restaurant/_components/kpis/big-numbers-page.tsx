@@ -3,15 +3,7 @@
 import CardDetails from '@/app/(dashboard)/_components/CardDetails';
 import GenerateBadge from '@/app/(dashboard)/general/_components/generate-badge';
 import { generateDescription } from '@/utils/generate-description';
-import {
-	DiamondPercent,
-	Eye,
-	HandCoins,
-	Leaf,
-	LeafyGreen,
-	Sigma,
-	SquarePercent,
-} from 'lucide-react';
+import { DiamondPercent, HandCoins, Sigma, SquarePercent } from 'lucide-react';
 
 interface BigNumbersPageOpProps {
 	ipiranga: any[];
@@ -94,10 +86,11 @@ export default function BigNumbersPage({
 			<CardDetails
 				description={generateDescription(
 					description,
-					totalAllValuePreviousData.toLocaleString('pt-br', {
-						style: 'currency',
-						currency: 'brl',
-					}),
+					totalAllValuePreviousData &&
+						totalAllValuePreviousData.toLocaleString('pt-br', {
+							style: 'currency',
+							currency: 'brl',
+						}),
 				)}
 				type='money'
 				icon={<HandCoins />}
@@ -116,7 +109,8 @@ export default function BigNumbersPage({
 			<CardDetails
 				description={generateDescription(
 					description,
-					totalAllSalesPreviousData.toLocaleString('pt-br'),
+					totalAllSalesPreviousData &&
+						totalAllSalesPreviousData.toLocaleString('pt-br'),
 				)}
 				icon={<Sigma />}
 				title={'Nº De Vendas'}
@@ -132,10 +126,11 @@ export default function BigNumbersPage({
 			<CardDetails
 				description={generateDescription(
 					description,
-					totalAllTicketAveragePreviousData.toLocaleString('pt-br', {
-						style: 'currency',
-						currency: 'brl',
-					}),
+					totalAllTicketAveragePreviousData &&
+						totalAllTicketAveragePreviousData.toLocaleString('pt-br', {
+							style: 'currency',
+							currency: 'brl',
+						}),
 				)}
 				type='money'
 				icon={<SquarePercent />}
@@ -152,21 +147,25 @@ export default function BigNumbersPage({
 			<CardDetails
 				description={generateDescription(
 					description,
-					totalAllTicketAverageByTotalRentalsPreviousData.toLocaleString(
-						'pt-br',
-						{
-							style: 'currency',
-							currency: 'brl',
-						},
-					),
+					totalAllTicketAverageByTotalRentalsPreviousData &&
+						totalAllTicketAverageByTotalRentalsPreviousData.toLocaleString(
+							'pt-br',
+							{
+								style: 'currency',
+								currency: 'brl',
+							},
+						),
 				)}
 				icon={<DiamondPercent />}
 				type='money'
 				title={'TKT Médio A&B / Locação'}
-				value={totalAllTicketAverageByTotalRentals.toLocaleString('pt-br', {
-					style: 'currency',
-					currency: 'brl',
-				})}
+				value={
+					totalAllTicketAverageByTotalRentals &&
+					totalAllTicketAverageByTotalRentals.toLocaleString('pt-br', {
+						style: 'currency',
+						currency: 'brl',
+					})
+				}
 				Badge={
 					<GenerateBadge
 						val={totalAllTicketAverageByTotalRentals}
