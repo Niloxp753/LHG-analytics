@@ -27,6 +27,7 @@ export default function UnityxRevenuexTime({
 	return (
 		<div className='w-full'>
 			<LineChart
+				money
 				title={'Receita de A&B por unidade'}
 				series={[
 					{

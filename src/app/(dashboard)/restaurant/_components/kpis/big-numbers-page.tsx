@@ -95,15 +95,21 @@ export default function BigNumbersPage({
 				type='money'
 				icon={<HandCoins />}
 				title={'Receita De A&B'}
-				value={totalAllValues.toLocaleString('pt-br', {
-					style: 'currency',
-					currency: 'brl',
-				})}
+				value={
+					totalAllValues
+						? totalAllValues.toLocaleString('pt-br', {
+								style: 'currency',
+								currency: 'brl',
+						  })
+						: 0
+				}
 				Badge={
-					<GenerateBadge
-						val={totalAllValues}
-						previousVal={totalAllValuePreviousData}
-					/>
+					totalAllValuePreviousData && (
+						<GenerateBadge
+							val={totalAllValues}
+							previousVal={totalAllValuePreviousData}
+						/>
+					)
 				}
 			/>
 			<CardDetails
@@ -116,10 +122,12 @@ export default function BigNumbersPage({
 				title={'Nº De Vendas'}
 				value={totalAllSales}
 				Badge={
-					<GenerateBadge
-						val={totalAllSales}
-						previousVal={totalAllSalesPreviousData}
-					/>
+					totalAllSalesPreviousData && (
+						<GenerateBadge
+							val={totalAllSales}
+							previousVal={totalAllSalesPreviousData}
+						/>
+					)
 				}
 			/>
 
@@ -137,10 +145,12 @@ export default function BigNumbersPage({
 				title={'Ticket Médio A&B'}
 				value={totalAllTicketAverage}
 				Badge={
-					<GenerateBadge
-						val={totalAllTicketAverage}
-						previousVal={totalAllTicketAveragePreviousData}
-					/>
+					totalAllTicketAveragePreviousData && (
+						<GenerateBadge
+							val={totalAllTicketAverage}
+							previousVal={totalAllTicketAveragePreviousData}
+						/>
+					)
 				}
 			/>
 
@@ -167,63 +177,14 @@ export default function BigNumbersPage({
 					})
 				}
 				Badge={
-					<GenerateBadge
-						val={totalAllTicketAverageByTotalRentals}
-						previousVal={totalAllTicketAverageByTotalRentalsPreviousData}
-					/>
-				}
-			/>
-			{/* <CardDetails
-				description={generateDescription(
-					description,
-					totalAllSuitesCleaningsPreviousData,
-				)}
-				icon={<Leaf />}
-				title={'Total de Suítes Limpas'}
-				value={totalAllSuitesCleanings.toLocaleString('pt-br')}
-				Badge={
-					dataIpiranga.PreviousDate && (
+					totalAllTicketAverageByTotalRentalsPreviousData && (
 						<GenerateBadge
-							val={totalAllSuitesCleanings}
-							previousVal={totalAllSuitesCleaningsPreviousData}
+							val={totalAllTicketAverageByTotalRentals}
+							previousVal={totalAllTicketAverageByTotalRentalsPreviousData}
 						/>
 					)
 				}
 			/>
-			<CardDetails
-				description={generateDescription(
-					description,
-					totalAllAverageDailyCleaningPreviousData,
-				)}
-				icon={<LeafyGreen />}
-				title={'Média de Limpezas Por Dia'}
-				value={totalAllAverageDailyCleaning.toLocaleString('pt-br')}
-				Badge={
-					dataIpiranga.PreviousDate && (
-						<GenerateBadge
-							val={totalAllAverageDailyCleaning}
-							previousVal={totalAllAverageDailyCleaningPreviousData}
-						/>
-					)
-				}
-			/>
-			<CardDetails
-				description={generateDescription(
-					description,
-					totalAllInspectionsPreviousData,
-				)}
-				icon={<Eye />}
-				title={'Total de Inspeções'}
-				value={totalAllInspections.toLocaleString('pt-br')}
-				Badge={
-					dataIpiranga.PreviousDate && (
-						<GenerateBadge
-							val={totalAllInspections}
-							previousVal={totalAllInspectionsPreviousData}
-						/>
-					)
-				}
-			/> */}
 		</div>
 	);
 }

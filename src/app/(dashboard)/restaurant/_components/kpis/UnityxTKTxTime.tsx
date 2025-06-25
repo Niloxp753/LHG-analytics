@@ -27,6 +27,7 @@ export default function UnityxTKTxTime({
 	return (
 		<div className='w-full'>
 			<LineChart
+				money
 				title={'Ticket médio por unidade'}
 				series={[
 					{
