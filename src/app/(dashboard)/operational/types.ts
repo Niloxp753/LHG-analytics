@@ -16,12 +16,11 @@ export type EmployeeCleaningByShift = {
 	series: Shift[];
 };
 
-
 export type TransformedData = {
 	categories: string[];
 	series: {
-		manhã: number[];
+		Manhã: number[];
 		tarde: number[];
 		noite: number[];
-	}[];
+	};
 };

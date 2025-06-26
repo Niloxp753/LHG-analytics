@@ -157,13 +157,15 @@ export default async function Operational({
 						</div>
 					</div>
 					<div className='flex flex-col gap-5'>
-						<MorningCleaning
+						{/* <MorningCleaning
 							ipiranga={resp.data[0].EmployeeCleaningByShift}
-							lapa={resp.data[1].EmployeeCleaningByShift}
-							andar_de_cima={resp.data[2].EmployeeCleaningByShift}
-							tout={resp.data[3].EmployeeCleaningByShift}
-						/>
-						<AfternoonCleaning
+							lapa={resp.data[1].EmployeeCleaningByShift.series['Manhã']}
+							andar_de_cima={
+								resp.data[2].EmployeeCleaningByShift.series['Manhã']
+							}
+							tout={resp.data[3].EmployeeCleaningByShift.series['Manhã']}
+						/> */}
+						{/* <AfternoonCleaning
 							ipiranga={resp.data[0].EmployeeCleaningByShift}
 							lapa={resp.data[1].EmployeeCleaningByShift}
 							andar_de_cima={resp.data[2].EmployeeCleaningByShift}
@@ -174,7 +176,7 @@ export default async function Operational({
 							lapa={resp.data[1].EmployeeCleaningByShift}
 							andar_de_cima={resp.data[2].EmployeeCleaningByShift}
 							tout={resp.data[3].EmployeeCleaningByShift}
-						/>
+						/> */}
 					</div>
 				</div>
 			</div>

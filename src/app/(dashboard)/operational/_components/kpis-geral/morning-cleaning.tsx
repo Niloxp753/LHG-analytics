@@ -21,11 +21,13 @@ export default function MorningCleaning({
 	lapa,
 	andar_de_cima,
 	tout,
-}: MorningCleaningProps) {
-	const dataIpiranga = transformData(ipiranga);
-	const dataLapa = transformData(lapa);
-	const dataAndar = transformData(andar_de_cima);
-	const dataTout = transformData(tout);
+}: any) {
+	// const dataIpiranga = transformData(ipiranga);
+	// const dataLapa = transformData(lapa);
+	// const dataAndar = transformData(andar_de_cima);
+	// const dataTout = transformData(tout);
+
+	console.log(ipiranga.series['Manhã']);
 
 	return (
 		<LineChart
@@ -34,22 +36,22 @@ export default function MorningCleaning({
 			series={[
 				{
 					name: 'Lush Ipiranga',
-					data: dataIpiranga.series[0].manhã,
+					data: ipiranga.series['Manhã'],
 				},
 				{
 					name: 'Lush Lapa',
-					data: dataLapa.series[0].manhã,
+					data: lapa,
 				},
 				{
 					name: 'Andar de Cima',
-					data: dataAndar.series[0].manhã,
+					data: andar_de_cima,
 				},
 				{
 					name: 'Tout',
-					data: dataTout.series[0].manhã,
+					data: tout,
 				},
 			]}
-			categories={dataIpiranga.categories}
+			categories={ipiranga.categories}
 		/>
 	);
 }

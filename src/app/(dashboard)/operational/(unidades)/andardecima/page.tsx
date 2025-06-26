@@ -92,15 +92,15 @@ export default async function LushLapa({
 							<div className='flex gap-5 flex-col items-center'>
 								<MorningCleaningWorkers
 									categories={resp?.EmployeeCleaningByShift.categories}
-									series={resp?.EmployeeCleaningByShift.series[0]}
+									series={resp?.EmployeeCleaningByShift.series['Manhã']}
 								/>
 								<AfternoonCleaningWorkers
 									categories={resp?.EmployeeCleaningByShift.categories}
-									series={resp?.EmployeeCleaningByShift.series[1]}
+									series={resp?.EmployeeCleaningByShift.series.Tarde}
 								/>
 								<NightCleaningWorkers
 									categories={resp?.EmployeeCleaningByShift.categories}
-									series={resp?.EmployeeCleaningByShift.series[2]}
+									series={resp?.EmployeeCleaningByShift.series.Noite}
 								/>
 							</div>
 

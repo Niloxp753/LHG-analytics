@@ -17,14 +17,14 @@ export default function MorningCleaningWorkers({
 	categories,
 	series,
 }: MorningCleaningWorkersProps) {
-	if (!series.Manhã.length || series.Manhã.length == 0 || !series) {
+	if (!series.length || series.length == 0 || !series) {
 		return <Skeleton className='w-full h-[480px]'></Skeleton>;
 	} else {
 		return series && categories ? (
 			<LineChart
 				height={480}
 				title='Total de limpezas - Manhã'
-				series={series.Manhã}
+				series={series}
 				categories={categories}
 			/>
 		) : (
