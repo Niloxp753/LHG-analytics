@@ -31,18 +31,7 @@ export default function FilterMobile() {
 		{ label: 'ÚLTIMOS 6 MESES', tag: '6months' },
 	];
 
-	const session = useSession({ required: true });
-	console.log(session.data);
-
 	const router = useRouter();
-
-	function handleBack(e: React.MouseEvent<HTMLButtonElement>) {
-		e.stopPropagation();
-		e.preventDefault();
-		startTransition(() => {
-			router.push(`/${menu}?menu=${menu}&set=${preSet}`);
-		});
-	}
 
 	function handleClose() {
 		const btn = document.getElementById('myclose');
@@ -54,11 +43,10 @@ export default function FilterMobile() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isPending]);
 
-	console.log(pathname);
-
 	return (
 		<Sheet>
 			<SheetTrigger
+				onClick={(e) => e.stopPropagation()}
 				asChild
 				className={`${
 					pathname.includes('settings') && 'hidden'

@@ -56,7 +56,7 @@ export default function FormFilter() {
 	return (
 		<Form {...form}>
 			<form
-				className='flex flex-col md:flex-row items-center gap-5 w-full'
+				className='flex flex-col md:flex-row items-center gap-5 w-full z-50'
 				onSubmit={form.handleSubmit(onSubmit)}>
 				<div className='flex flex-col md:flex-row items-center lg:justify-end justify-between gap-5 w-full'>
 					<FormField
