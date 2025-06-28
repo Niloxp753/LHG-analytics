@@ -1,20 +1,11 @@
 /** @format */
 
+import { accumulateEmployeeData } from '@/utils/normalize-cleaning-values';
 import dynamic from 'next/dynamic';
-import React from 'react';
-import { EmployeeCleaningByShift } from '../../types';
-import { transformData } from '@/utils/normalize-cleaning-values';
 const LineChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/LineChart'),
 	{ ssr: false },
 );
-
-interface MorningCleaningProps {
-	ipiranga: EmployeeCleaningByShift;
-	lapa: EmployeeCleaningByShift;
-	andar_de_cima: EmployeeCleaningByShift;
-	tout: EmployeeCleaningByShift;
-}
 
 export default function MorningCleaning({
 	ipiranga,
@@ -22,12 +13,10 @@ export default function MorningCleaning({
 	andar_de_cima,
 	tout,
 }: any) {
-	// const dataIpiranga = transformData(ipiranga);
-	// const dataLapa = transformData(lapa);
-	// const dataAndar = transformData(andar_de_cima);
-	// const dataTout = transformData(tout);
-
-	console.log(ipiranga.series['Manhã']);
+	const dataIpiranga = accumulateEmployeeData(ipiranga.series['Manhã']);
+	const dataLapa = accumulateEmployeeData(lapa.series['Manhã']);
+	const dataAndar = accumulateEmployeeData(andar_de_cima.series['Manhã']);
+	const dataTout = accumulateEmployeeData(tout.series['Manhã']);
 
 	return (
 		<LineChart
@@ -36,19 +25,19 @@ export default function MorningCleaning({
 			series={[
 				{
 					name: 'Lush Ipiranga',
-					data: ipiranga.series['Manhã'],
+					data: dataIpiranga,
 				},
 				{
 					name: 'Lush Lapa',
-					data: lapa,
+					data: dataLapa,
 				},
 				{
 					name: 'Andar de Cima',
-					data: andar_de_cima,
+					data: dataAndar,
 				},
 				{
 					name: 'Tout',
-					data: tout,
+					data: dataTout,
 				},
 			]}
 			categories={ipiranga.categories}

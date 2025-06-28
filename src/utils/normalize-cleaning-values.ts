@@ -1,40 +1,22 @@
 /** @format */
 
-import {
-	EmployeeCleaningByShift,
-	ShiftType,
-	TransformedData,
-} from '@/app/(dashboard)/operational/types';
+import { EmployeeData } from '@/app/(dashboard)/operational/types';
 
-export function transformData(input: EmployeeCleaningByShift): TransformedData {
-	const categories = input.categories;
+export function accumulateEmployeeData(employees: EmployeeData[]): number[] {
+	if (!employees || employees.length === 0) {
+		return [];
+	}
 
-	const shiftKeys: ShiftType[] = ['Manhã', 'Tarde', 'Noite'];
-	const totalDays = categories.length;
+	// Pega o tamanho do primeiro array de data para criar o array de resultado
+	const dataLength = employees[0].data.length;
+	const accumulatedData = new Array(dataLength).fill(0);
 
-	const accumulatedSeries = shiftKeys.reduce((acc, shift) => {
-		acc[shift.toLowerCase() as 'manhã' | 'tarde' | 'noite'] = new Array(
-			totalDays,
-		).fill(0);
-		return acc;
-	}, {} as { manhã: number[]; tarde: number[]; noite: number[] });
-
-	input.series.forEach((shiftData) => {
-		Object.entries(shiftData).forEach(([shift, employees]) => {
-			if (shiftKeys.includes(shift as ShiftType)) {
-				employees.forEach((employee) => {
-					employee.data.forEach((value, index) => {
-						accumulatedSeries[
-							shift.toLowerCase() as 'manhã' | 'tarde' | 'noite'
-						][index] += value;
-					});
-				});
-			}
+	// Soma todos os valores de data de todos os funcionários
+	employees.forEach((employee) => {
+		employee.data.forEach((value, index) => {
+			accumulatedData[index] += value;
 		});
 	});
 
-	return {
-		categories,
-		series: [accumulatedSeries],
-	};
+	return accumulatedData;
 }

@@ -34,12 +34,6 @@ export default function FilterMobile() {
 	const session = useSession({ required: true });
 	console.log(session.data);
 
-	const canShow =
-		pathname.endsWith('general') ||
-		pathname.endsWith('restaurant') ||
-		pathname.endsWith('reservations') ||
-		pathname.endsWith('operational');
-
 	const router = useRouter();
 
 	function handleBack(e: React.MouseEvent<HTMLButtonElement>) {
@@ -116,25 +110,6 @@ export default function FilterMobile() {
 
 					<Separator className='my-5' />
 					<FormFilter />
-					{!canShow && (
-						<Button
-							variant={'outline'}
-							className='dark border-violet-400 text-white mt-20   lg:hidden'
-							onClick={(e) => handleBack(e)}>
-							{isPending ? (
-								<Loader2
-									size={16}
-									className='animate-spin mr-2'
-								/>
-							) : (
-								<ArrowLeft
-									size={16}
-									className='mr-2'
-								/>
-							)}
-							Voltar
-						</Button>
-					)}
 				</div>
 				<SheetFooter className='mt-5'>
 					<BtnSignOut isOpened />

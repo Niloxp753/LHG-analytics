@@ -1,31 +1,23 @@
 /** @format */
 
+import { accumulateEmployeeData } from '@/utils/normalize-cleaning-values';
 import dynamic from 'next/dynamic';
-import React from 'react';
-import { EmployeeCleaningByShift } from '../../types';
-import { transformData } from '@/utils/normalize-cleaning-values';
 const LineChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/LineChart'),
 	{ ssr: false },
 );
-
-interface NightCleaningProps {
-	ipiranga: EmployeeCleaningByShift;
-	lapa: EmployeeCleaningByShift;
-	andar_de_cima: EmployeeCleaningByShift;
-	tout: EmployeeCleaningByShift;
-}
 
 export default function NightCleaning({
 	ipiranga,
 	lapa,
 	andar_de_cima,
 	tout,
-}: NightCleaningProps) {
-	const dataIpiranga = transformData(ipiranga);
-	const dataLapa = transformData(lapa);
-	const dataAndar = transformData(andar_de_cima);
-	const dataTout = transformData(tout);
+}: any) {
+	const dataIpiranga = accumulateEmployeeData(ipiranga.series.Noite);
+	const dataLapa = accumulateEmployeeData(lapa.series.Noite);
+	const dataAndar = accumulateEmployeeData(andar_de_cima.series.Noite);
+	const dataTout = accumulateEmployeeData(tout.series.Noite);
+
 	return (
 		<LineChart
 			height={48}
@@ -33,22 +25,22 @@ export default function NightCleaning({
 			series={[
 				{
 					name: 'Lush Ipiranga',
-					data: dataIpiranga.series[0].noite,
+					data: dataIpiranga,
 				},
 				{
 					name: 'Lush Lapa',
-					data: dataLapa.series[0].noite,
+					data: dataLapa,
 				},
 				{
 					name: 'Andar de Cima',
-					data: dataAndar.series[0].noite,
+					data: dataAndar,
 				},
 				{
 					name: 'Tout',
-					data: dataTout.series[0].noite,
+					data: dataTout,
 				},
 			]}
-			categories={dataIpiranga.categories}
+			categories={ipiranga.categories}
 		/>
 	);
 }
