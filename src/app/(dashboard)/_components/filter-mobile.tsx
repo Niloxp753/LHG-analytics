@@ -100,7 +100,7 @@ export default function FilterMobile() {
 					<FormFilter />
 				</div>
 				<SheetFooter className='mt-5'>
-					<BtnSignOut isOpened />
+					
 					<SheetClose
 						id='myclose'
 						className='hidden'></SheetClose>
