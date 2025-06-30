@@ -100,7 +100,6 @@ export default function FilterMobile() {
 					<FormFilter />
 				</div>
 				<SheetFooter className='mt-5'>
-					
 					<SheetClose
 						id='myclose'
 						className='hidden'></SheetClose>
