@@ -28,6 +28,8 @@ interface TableReservsProps {
 export function TableReservs({ data }: TableReservsProps) {
 	const dataTable: any = data;
 
+	console.log(dataTable);
+
 	return !dataTable ? (
 		<Skeleton className='w-full h-40'></Skeleton>
 	) : (
@@ -88,49 +90,49 @@ export function TableReservs({ data }: TableReservsProps) {
 				<TableRow className='text-center'>
 					<TableCell className='font-bold text-left'>Receita Total</TableCell>
 					<TableCell>
-						{dataTable.bookingsRevenueByChannelType.TOTALALLVALUE.toLocaleString(
+						{dataTable.bookingsRevenueByChannelType.TOTALALLVALUE?.toLocaleString(
 							'pt-BR',
 							{ style: 'currency', currency: 'BRL' },
 						)}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsRevenueByChannelType.WEBSITE_IMMEDIATE.toLocaleString(
+						{dataTable.bookingsRevenueByChannelType.WEBSITE_IMMEDIATE?.toLocaleString(
 							'pt-BR',
 							{ style: 'currency', currency: 'BRL' },
 						)}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsRevenueByChannelType.WEBSITE_SCHEDULED.toLocaleString(
+						{dataTable.bookingsRevenueByChannelType.WEBSITE_SCHEDULED?.toLocaleString(
 							'pt-BR',
 							{ style: 'currency', currency: 'BRL' },
 						)}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsRevenueByChannelType.GUIA_GO.toLocaleString(
+						{dataTable.bookingsRevenueByChannelType.GUIA_GO?.toLocaleString(
 							'pt-BR',
 							{ style: 'currency', currency: 'BRL' },
 						)}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsRevenueByChannelType.GUIA_SCHEDULED.toLocaleString(
+						{dataTable.bookingsRevenueByChannelType.GUIA_SCHEDULED?.toLocaleString(
 							'pt-BR',
 							{ style: 'currency', currency: 'BRL' },
 						)}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsRevenueByChannelType.INTERNAL.toLocaleString(
+						{dataTable.bookingsRevenueByChannelType.INTERNAL?.toLocaleString(
 							'pt-BR',
 							{ style: 'currency', currency: 'BRL' },
 						)}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsRevenueByChannelType.BOOKING.toLocaleString(
+						{dataTable.bookingsRevenueByChannelType.BOOKING?.toLocaleString(
 							'pt-BR',
 							{ style: 'currency', currency: 'BRL' },
 						)}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsRevenueByChannelType.EXPEDIA.toLocaleString(
+						{dataTable.bookingsRevenueByChannelType.EXPEDIA?.toLocaleString(
 							'pt-BR',
 							{ style: 'currency', currency: 'BRL' },
 						)}
@@ -139,49 +141,49 @@ export function TableReservs({ data }: TableReservsProps) {
 				<TableRow className='text-center'>
 					<TableCell className='font-bold text-left'>Ticket Médio</TableCell>
 					<TableCell>
-						{dataTable.bookingsTicketAverageByChannelType.TOTALALLTICKETAVERAGE.toLocaleString(
+						{dataTable.bookingsTicketAverageByChannelType.TOTALALLTICKETAVERAGE?.toLocaleString(
 							'pt-BR',
 							{ style: 'currency', currency: 'BRL' },
 						)}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsTicketAverageByChannelType.WEBSITE_IMMEDIATE.toLocaleString(
+						{dataTable.bookingsTicketAverageByChannelType.WEBSITE_IMMEDIATE?.toLocaleString(
 							'pt-BR',
 							{ style: 'currency', currency: 'BRL' },
 						)}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsTicketAverageByChannelType.WEBSITE_SCHEDULED.toLocaleString(
+						{dataTable.bookingsTicketAverageByChannelType.WEBSITE_SCHEDULED?.toLocaleString(
 							'pt-BR',
 							{ style: 'currency', currency: 'BRL' },
 						)}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsTicketAverageByChannelType.GUIA_GO.toLocaleString(
+						{dataTable.bookingsTicketAverageByChannelType.GUIA_GO?.toLocaleString(
 							'pt-BR',
 							{ style: 'currency', currency: 'BRL' },
 						)}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsTicketAverageByChannelType.GUIA_SCHEDULED.toLocaleString(
+						{dataTable.bookingsTicketAverageByChannelType.GUIA_SCHEDULED?.toLocaleString(
 							'pt-BR',
 							{ style: 'currency', currency: 'BRL' },
 						)}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsTicketAverageByChannelType.INTERNAL.toLocaleString(
+						{dataTable.bookingsTicketAverageByChannelType.INTERNAL?.toLocaleString(
 							'pt-BR',
 							{ style: 'currency', currency: 'BRL' },
 						)}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsTicketAverageByChannelType.BOOKING.toLocaleString(
+						{dataTable.bookingsTicketAverageByChannelType.BOOKING?.toLocaleString(
 							'pt-BR',
 							{ style: 'currency', currency: 'BRL' },
 						)}
 					</TableCell>
 					<TableCell>
-						{dataTable.bookingsTicketAverageByChannelType.EXPEDIA.toLocaleString(
+						{dataTable.bookingsTicketAverageByChannelType.EXPEDIA?.toLocaleString(
 							'pt-BR',
 							{ style: 'currency', currency: 'BRL' },
 						)}
