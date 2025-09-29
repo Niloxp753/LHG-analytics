@@ -9,71 +9,32 @@ const AreaChartsApex = dynamic(
 	{ ssr: false },
 );
 
-interface OccupancyRateEntry {
-	[date: string]: {
-		totalOccupancyRate: string;
-	};
-}
-
-interface TransformedOccupancyEntry {
-	date: string;
-	occupancyRate: number;
-}
-
-interface Result {
-	values: number[];
-	dates: string[];
+interface OccupancyRateByDateProps {
+	series: number[];
+	categories: string[];
 }
 
 export default function Occupation(data?: any) {
-	const occupancyRateByDate: OccupancyRateEntry[] = data.data;
+	const occupancyRateByDate: OccupancyRateByDateProps = data.data;
 
-	const transformedData: TransformedOccupancyEntry[] = occupancyRateByDate
-		?.map((item: OccupancyRateEntry): TransformedOccupancyEntry => {
-			const [date, data] = Object.entries(item)[0];
-			// Removendo "%" e convertendo para número
-			const occupancyRate = parseFloat(
-				data.totalOccupancyRate.replace('%', '').replace(',', '.'),
-			);
-			return { date, occupancyRate };
-		})
-		.sort(
-			(a, b) =>
-				new Date(a.date.split('/').reverse().join('-')).getTime() -
-				new Date(b.date.split('/').reverse().join('-')).getTime(),
-		);
-
-	const result: Result = {
-		values: transformedData?.map(
-			(entry: TransformedOccupancyEntry) => entry.occupancyRate,
-		),
-		dates: transformedData?.map(
-			(entry: TransformedOccupancyEntry) => entry.date,
-		),
-	};
-
-	if (!result.values.length || result.values.length == 0 || !result) {
-		return <Skeleton className='h-[300px] w-full' />;
-	} else {
-		return (
-			<>
-				{occupancyRateByDate ? (
-					<AreaChartsApex
-						id='tx-ocuppation-ipiranga'
-						percent
-						series={[
-							{
-								data: result.values,
-								name: 'Taxa de ocupação',
-							},
-						]}
-						categories={result.dates}
-					/>
-				) : (
-					<Skeleton className='w-full h-[300px]' />
-				)}
-				;
-			</>
-		);
-	}
+	return (
+		<>
+			{occupancyRateByDate ? (
+				<AreaChartsApex
+					id='tx-ocuppation-ipiranga'
+					percent
+					series={[
+						{
+							data: occupancyRateByDate.series,
+							name: 'Taxa de ocupação',
+						},
+					]}
+					categories={occupancyRateByDate.categories}
+				/>
+			) : (
+				<Skeleton className='w-full h-[300px]' />
+			)}
+			;
+		</>
+	);
 }

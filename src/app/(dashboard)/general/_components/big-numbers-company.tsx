@@ -9,11 +9,8 @@ import {
 	SquarePercent,
 } from 'lucide-react';
 
+import { NormalizeTimeNumbers } from '@/utils/normalize-bignumbers-general';
 import CardDetails from '../../_components/CardDetails';
-import {
-	NormalizeCurrencyNumbers,
-	NormalizeTimeNumbers,
-} from '@/utils/normalize-bignumbers-general';
 import GenerateBadge from './generate-badge';
 
 interface BigNumbersProps {
@@ -30,15 +27,11 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 	const dataAndarDeCima = props.andar_de_cima[0];
 	const dataTout = props.tout[0];
 
-	const totalAllValue = NormalizeCurrencyNumbers({
-		values: [
-			dataIpiranga.currentDate.totalAllValue,
-			dataLapa.currentDate.totalAllValue,
-			dataAndarDeCima.currentDate.totalAllValue,
-			dataTout.currentDate.totalAllValue,
-		],
-		operation: 'soma',
-	});
+	const totalAllValue =
+		dataIpiranga.currentDate.totalAllValue +
+		dataLapa.currentDate.totalAllValue +
+		dataAndarDeCima.currentDate.totalAllValue +
+		dataTout.currentDate.totalAllValue;
 
 	const totalAllRentalsApartments =
 		dataIpiranga.currentDate.totalAllRentalsApartments +
@@ -46,24 +39,19 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 		dataAndarDeCima.currentDate.totalAllRentalsApartments +
 		dataTout.currentDate.totalAllRentalsApartments;
 
-	const totalAllTicketAverage = NormalizeCurrencyNumbers({
-		values: [
-			dataIpiranga.currentDate.totalAllTicketAverage,
-			dataLapa.currentDate.totalAllTicketAverage,
-			dataAndarDeCima.currentDate.totalAllTicketAverage,
-			dataTout.currentDate.totalAllTicketAverage,
-		],
-		operation: 'media',
-	});
-	const totalAllRevpar = NormalizeCurrencyNumbers({
-		values: [
-			dataIpiranga.currentDate.totalAllRevpar,
-			dataLapa.currentDate.totalAllRevpar,
-			dataAndarDeCima.currentDate.totalAllRevpar,
-			dataTout.currentDate.totalAllRevpar,
-		],
-		operation: 'media',
-	});
+	const totalAllTicketAverage =
+		(dataIpiranga.currentDate.totalAllTicketAverage +
+			dataLapa.currentDate.totalAllTicketAverage +
+			dataAndarDeCima.currentDate.totalAllTicketAverage +
+			dataTout.currentDate.totalAllTicketAverage) /
+		4;
+
+	const totalAllTrevpar =
+		(dataIpiranga.currentDate.totalAllTrevpar +
+			dataLapa.currentDate.totalAllTrevpar +
+			dataAndarDeCima.currentDate.totalAllTrevpar +
+			dataTout.currentDate.totalAllTrevpar) /
+		4;
 
 	const totalAverageOccupationTime = NormalizeTimeNumbers({
 		values: [
@@ -83,73 +71,61 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 		4;
 
 	const totalAllValuePrevious =
-		dataIpiranga.PreviousDate &&
-		NormalizeCurrencyNumbers({
-			values: [
-				dataIpiranga.PreviousDate.totalAllValuePreviousData,
-				dataLapa.PreviousDate.totalAllValuePreviousData,
-				dataAndarDeCima.PreviousDate.totalAllValuePreviousData,
-				dataTout.PreviousDate.totalAllValuePreviousData,
-			],
-			operation: 'soma',
-		});
+		dataIpiranga.previousDate &&
+		dataIpiranga.previousDate.totalAllValuePreviousData +
+			dataLapa.previousDate?.totalAllValuePreviousData +
+			dataAndarDeCima.previousDate?.totalAllValuePreviousData +
+			dataTout.previousDate?.totalAllValuePreviousData;
 
 	const totalAllRentalsApartmentsPrevious =
-		dataIpiranga.PreviousDate &&
-		dataIpiranga.PreviousDate.totalAllRentalsApartmentsPreviousData +
-			dataLapa.PreviousDate.totalAllRentalsApartmentsPreviousData +
-			dataAndarDeCima.PreviousDate.totalAllRentalsApartmentsPreviousData +
-			dataTout.PreviousDate.totalAllRentalsApartmentsPreviousData;
+		dataIpiranga.previousDate &&
+		dataIpiranga.previousDate?.totalAllRentalsApartmentsPreviousData +
+			dataLapa.previousDate?.totalAllRentalsApartmentsPreviousData +
+			dataAndarDeCima.previousDate?.totalAllRentalsApartmentsPreviousData +
+			dataTout.previousDate?.totalAllRentalsApartmentsPreviousData;
 
 	const totalAllTicketAveragePrevious =
-		dataIpiranga.PreviousDate &&
-		NormalizeCurrencyNumbers({
-			values: [
-				dataIpiranga.PreviousDate.totalAllTicketAveragePreviousData,
-				dataLapa.PreviousDate.totalAllTicketAveragePreviousData,
-				dataAndarDeCima.PreviousDate.totalAllTicketAveragePreviousData,
-				dataTout.PreviousDate.totalAllTicketAveragePreviousData,
-			],
-			operation: 'media',
-		});
+		dataIpiranga.previousDate &&
+		(dataIpiranga.previousDate?.totalAllTicketAveragePreviousData +
+			dataLapa.previousDate?.totalAllTicketAveragePreviousData +
+			dataAndarDeCima.previousDate?.totalAllTicketAveragePreviousData +
+			dataTout.previousDate?.totalAllTicketAveragePreviousData) /
+			4;
 
 	const totalAllRevparPrevious =
-		dataIpiranga.PreviousDate &&
-		NormalizeCurrencyNumbers({
-			values: [
-				dataIpiranga.PreviousDate.totalAllRevparPreviousData,
-				dataLapa.PreviousDate.totalAllRevparPreviousData,
-				dataAndarDeCima.PreviousDate.totalAllRevparPreviousData,
-				dataTout.PreviousDate.totalAllRevparPreviousData,
-			],
-			operation: 'media',
-		});
+		dataIpiranga.previousDate &&
+		(dataIpiranga.previousDate?.totalAllRevparPreviousData +
+			dataLapa.previousDate?.totalAllRevparPreviousData +
+			dataAndarDeCima.previousDate?.totalAllRevparPreviousData +
+			dataTout.previousDate?.totalAllRevparPreviousData) /
+			4;
 
 	const totalAverageOccupationTimePrevious =
-		dataIpiranga.PreviousDate &&
+		dataIpiranga.previousDate &&
 		NormalizeTimeNumbers({
 			values: [
-				dataIpiranga.PreviousDate.totalAverageOccupationTimePreviousData,
-				dataLapa.PreviousDate.totalAverageOccupationTimePreviousData,
-				dataAndarDeCima.PreviousDate.totalAverageOccupationTimePreviousData,
-				dataTout.PreviousDate.totalAverageOccupationTimePreviousData,
+				dataIpiranga.previousDate?.totalAverageOccupationTimePreviousData,
+				dataLapa.previousDate?.totalAverageOccupationTimePreviousData,
+				dataAndarDeCima.previousDate?.totalAverageOccupationTimePreviousData,
+				dataTout.previousDate?.totalAverageOccupationTimePreviousData,
 			],
 			operation: 'media',
 		});
 
 	const totalAllGiroPrevious =
-		dataIpiranga.PreviousDate &&
-		(dataIpiranga.PreviousDate.totalAllGiroPreviousData +
-			dataLapa.PreviousDate.totalAllGiroPreviousData +
-			dataAndarDeCima.PreviousDate.totalAllGiroPreviousData +
-			dataTout.PreviousDate.totalAllGiroPreviousData) /
+		dataIpiranga.previousDate &&
+		(dataIpiranga.previousDate?.totalAllGiroPreviousData +
+			dataLapa.previousDate?.totalAllGiroPreviousData +
+			dataAndarDeCima.previousDate?.totalAllGiroPreviousData +
+			dataTout.previousDate?.totalAllGiroPreviousData) /
 			4;
+
 	return (
 		<div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
 			<CardDetails
 				type='money'
 				description={
-					dataIpiranga.PreviousDate
+					dataIpiranga.previousDate
 						? props.description +
 						  totalAllValuePrevious.toLocaleString('pt-BR', {
 								style: 'currency',
@@ -161,7 +137,7 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				title={'Faturamento'}
 				value={totalAllValue!}
 				Badge={
-					dataIpiranga.PreviousDate && (
+					dataIpiranga.previousDate && (
 						<GenerateBadge
 							val={Number(totalAllValue)}
 							previousVal={totalAllValuePrevious}
@@ -171,7 +147,7 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 			/>
 			<CardDetails
 				description={
-					dataIpiranga.PreviousDate
+					dataIpiranga.previousDate
 						? props.description +
 						  Number(totalAllRentalsApartmentsPrevious).toLocaleString('pt-BR')
 						: ''
@@ -180,7 +156,7 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				title={'Locações'}
 				value={totalAllRentalsApartments}
 				Badge={
-					dataIpiranga.PreviousDate && (
+					dataIpiranga.previousDate && (
 						<GenerateBadge
 							val={Number(totalAllRentalsApartments)}
 							previousVal={totalAllRentalsApartmentsPrevious}
@@ -191,7 +167,7 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 			<CardDetails
 				type='money'
 				description={
-					dataIpiranga.PreviousDate
+					dataIpiranga.previousDate
 						? props.description +
 						  totalAllTicketAveragePrevious.toLocaleString('pt-BR', {
 								style: 'currency',
@@ -203,7 +179,7 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				title={'Ticket Médio'}
 				value={totalAllTicketAverage!}
 				Badge={
-					dataIpiranga.PreviousDate && (
+					dataIpiranga.previousDate && (
 						<GenerateBadge
 							val={Number(totalAllTicketAverage)}
 							previousVal={totalAllTicketAveragePrevious}
@@ -214,7 +190,7 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 			<CardDetails
 				type='money'
 				description={
-					dataIpiranga.PreviousDate
+					dataIpiranga.previousDate
 						? props.description +
 						  totalAllRevparPrevious.toLocaleString('pt-BR', {
 								style: 'currency',
@@ -224,11 +200,11 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				}
 				icon={<Activity />}
 				title={'Revpar'}
-				value={totalAllRevpar!}
+				value={totalAllTrevpar!}
 				Badge={
-					dataIpiranga.PreviousDate && (
+					dataIpiranga.previousDate && (
 						<GenerateBadge
-							val={Number(totalAllRevpar)}
+							val={Number(totalAllTrevpar)}
 							previousVal={totalAllRevparPrevious}
 						/>
 					)
@@ -236,7 +212,7 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 			/>
 			<CardDetails
 				description={
-					dataIpiranga.PreviousDate
+					dataIpiranga.previousDate
 						? props.description + totalAllGiroPrevious.toFixed(2)
 						: ''
 				}
@@ -244,7 +220,7 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				title={'Giro'}
 				value={totalAllGiro.toFixed(2)}
 				Badge={
-					dataIpiranga.PreviousDate && (
+					dataIpiranga.previousDate && (
 						<GenerateBadge
 							val={Number(totalAllGiro)}
 							previousVal={totalAllGiroPrevious}
@@ -254,7 +230,7 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 			/>
 			<CardDetails
 				description={
-					dataIpiranga.PreviousDate
+					dataIpiranga.previousDate
 						? props.description + totalAverageOccupationTimePrevious
 						: ''
 				}
@@ -262,7 +238,7 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				title={'TMO'}
 				value={totalAverageOccupationTime!}
 				Badge={
-					dataIpiranga.PreviousDate && (
+					dataIpiranga.previousDate && (
 						<GenerateBadge
 							tmo
 							val={totalAverageOccupationTime!}

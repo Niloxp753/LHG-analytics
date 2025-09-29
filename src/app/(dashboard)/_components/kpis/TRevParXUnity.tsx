@@ -1,6 +1,5 @@
 /** @format */
 
-import { NormalizeTrevpar } from '@/utils/normalize-trevpar-by-date';
 import dynamic from 'next/dynamic';
 const LineChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/LineChart'),
@@ -8,16 +7,15 @@ const LineChart = dynamic(
 );
 
 interface TRevParXUnityProps {
-	ipiranga: RentalsEntry[];
-	lapa: RentalsEntry[];
-	andar_de_cima: RentalsEntry[];
-	tout: RentalsEntry[];
+	ipiranga: RentalsEntry;
+	lapa: RentalsEntry;
+	andar_de_cima: RentalsEntry;
+	tout: RentalsEntry;
 }
 
 interface RentalsEntry {
-	[date: string]: {
-		totalTrevpar: string;
-	};
+	categories: string[];
+	series: number[];
 }
 
 export default function TRevParXUnity({
@@ -26,10 +24,6 @@ export default function TRevParXUnity({
 	andar_de_cima,
 	tout,
 }: TRevParXUnityProps) {
-	const TRevParXUnityIpiranga = NormalizeTrevpar({ data: ipiranga });
-	const TRevParXUnityLapa = NormalizeTrevpar({ data: lapa });
-	const TRevParXUnityAndar = NormalizeTrevpar({ data: andar_de_cima });
-	const TRevParXUnityTout = NormalizeTrevpar({ data: tout });
 	return (
 		<>
 			<LineChart
@@ -39,22 +33,22 @@ export default function TRevParXUnity({
 				series={[
 					{
 						name: 'Lush Ipiranga',
-						data: TRevParXUnityIpiranga.values,
+						data: ipiranga.series,
 					},
 					{
 						name: 'Lush Lapa',
-						data: TRevParXUnityLapa.values,
+						data: lapa.series,
 					},
 					{
 						name: 'Andar de Cima',
-						data: TRevParXUnityAndar.values,
+						data: andar_de_cima.series,
 					},
 					{
 						name: 'Tout',
-						data: TRevParXUnityTout.values,
+						data: tout.series,
 					},
 				]}
-				categories={TRevParXUnityLapa?.dates}
+				categories={ipiranga?.categories}
 			/>
 		</>
 	);

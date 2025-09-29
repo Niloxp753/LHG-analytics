@@ -9,16 +9,15 @@ const LineChart = dynamic(
 );
 
 interface LocationsxUnityProps {
-	ipiranga: RentalsEntry[];
-	lapa: RentalsEntry[];
-	andar_de_cima: RentalsEntry[];
-	tout: RentalsEntry[];
+	ipiranga: RentalsEntry;
+	lapa: RentalsEntry;
+	andar_de_cima: RentalsEntry;
+	tout: RentalsEntry;
 }
 
 interface RentalsEntry {
-	[date: string]: {
-		totalAllRentalsApartments: number;
-	};
+	categories: string[];
+	series: number[];
 }
 
 export default function LocationsxUnity({
@@ -27,16 +26,6 @@ export default function LocationsxUnity({
 	andar_de_cima,
 	tout,
 }: LocationsxUnityProps) {
-	const rentalsByDateIpiranga = NormalizeRentalsByDate({ data: ipiranga });
-
-	const rentalsByDateLapa = NormalizeRentalsByDate({ data: lapa });
-
-	const rentalsByDateAndarDeCima = NormalizeRentalsByDate({
-		data: andar_de_cima,
-	});
-
-	const rentalsByDateTout = NormalizeRentalsByDate({ data: tout });
-
 	return (
 		<>
 			<LineChart
@@ -44,23 +33,23 @@ export default function LocationsxUnity({
 				title='Locações por Unidade'
 				series={[
 					{
-						data: rentalsByDateIpiranga?.values,
+						data: ipiranga?.series,
 						name: 'Lush Ipiranga',
 					},
 					{
-						data: rentalsByDateLapa.values,
+						data: lapa.series,
 						name: 'Lush Lapa',
 					},
 					{
-						data: rentalsByDateAndarDeCima.values,
+						data: andar_de_cima.series,
 						name: 'Andar de Cima',
 					},
 					{
-						data: rentalsByDateTout.values,
+						data: tout.series,
 						name: 'Tout',
 					},
 				]}
-				categories={rentalsByDateIpiranga?.dates}
+				categories={ipiranga?.categories}
 			/>
 		</>
 	);

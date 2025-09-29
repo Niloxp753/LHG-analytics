@@ -18,89 +18,19 @@ const AreaChartsApex = dynamic(
 	{ ssr: false },
 );
 
-interface OccupancyData {
-	category: string; // Nome da categoria, por exemplo, 'LUSH'
-	values: number[]; // Array de valores de taxa de ocupação
-	categories: string[]; // Array de datas correspondentes
+interface OccupancyDataProps {
+	series: number[];
+	categories: string[];
 }
 
 export default function OccupationCasaLush(data?: any) {
-	const transformOccupancyData = (inputData: any): OccupancyData[] => {
-		const result: OccupancyData[] = [];
+	const occupancyData: OccupancyDataProps = data.data;
 
-		inputData?.forEach((dateEntry: any) => {
-			Object.entries(dateEntry).forEach(([date, categories]: [string, any]) => {
-				Object.entries(categories).forEach(
-					([category, info]: [string, any]) => {
-						const existingCategory = result.find(
-							(item) => item.category === category.toUpperCase(),
-						);
+	const [state, setState] = useState(occupancyData.categories[0]);
 
-						// Converte a taxa de ocupação para número
-						const occupancyValue = parseFloat(
-							info.occupancyRate.replace('%', ''),
-						);
-
-						if (existingCategory) {
-							// Se a categoria já existe, adicione o valor e a data
-							existingCategory.values.push(occupancyValue);
-							existingCategory.categories.push(date);
-						} else {
-							// Se a categoria não existe, crie uma nova entrada
-							result.push({
-								category: category.toUpperCase(),
-								values: [occupancyValue],
-								categories: [date],
-							});
-						}
-					},
-				);
-			});
-		});
-		result.forEach((item) => {
-			const combined = item.categories.map((cat, index) => ({
-				category: cat,
-				value: item.values[index],
-			}));
-
-			combined.sort(
-				(a, b) =>
-					new Date(a.category.split('/').reverse().join('-')).getTime() -
-					new Date(b.category.split('/').reverse().join('-')).getTime(),
-			);
-
-			// Atualiza os arrays ordenados
-			item.categories = combined.map((item) => item.category);
-			item.values = combined.map((item) => item.value);
-		});
-		// Visualize o resultado para verificar se todos os dados foram transformados corretamente
-
-		return result;
-	};
-
-	const occupancyRateBySuiteCategory: OccupancyData[] = data.data;
-	const transformedData = transformOccupancyData(occupancyRateBySuiteCategory);
-	const [state, setState] = useState(transformedData[0].category);
-	const currentSerie = transformedData.find((serie) => {
-		return serie.category === state;
-	});
-
-	if (
-		!currentSerie?.values.length ||
-		currentSerie?.values.length == 0 ||
-		!currentSerie
-	) {
-		return (
-			<>
-				<Skeleton className='w-56 h-10' />
-				<Skeleton className='w-full h-[300px]' />
-			</>
-		);
-	}
-	console.log(transformedData[0].category);
 	return (
 		<>
-			{occupancyRateBySuiteCategory ? (
+			{occupancyData ? (
 				<>
 					<Select
 						defaultValue={state}
@@ -110,12 +40,12 @@ export default function OccupationCasaLush(data?: any) {
 						</SelectTrigger>
 						<SelectContent className='dark'>
 							<SelectGroup>
-								{transformedData.map((item, index) => {
+								{occupancyData.categories.map((item, index) => {
 									return (
 										<SelectItem
-											value={item.category}
+											value={item}
 											key={index}>
-											{item.category}
+											{item}
 										</SelectItem>
 									);
 								})}
@@ -123,16 +53,10 @@ export default function OccupationCasaLush(data?: any) {
 						</SelectContent>
 					</Select>
 					<AreaChartsApex
-						title='Taxa de ocupação por categoria de suíte'
 						percent
 						id='occupation-category'
-						series={[
-							{
-								data: currentSerie?.values!,
-								name: currentSerie?.category,
-							},
-						]}
-						categories={currentSerie?.categories}
+						series={occupancyData.series}
+						categories={occupancyData?.categories}
 					/>
 				</>
 			) : (

@@ -29,38 +29,46 @@ export default function BigNumbers(props: BigNumbersProps) {
 							className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
 							<CardDetails
 								description={
-									d.PreviousDate &&
-									props.description + d.PreviousDate.totalAllValuePreviousData
+									d.previousDate &&
+									props.description +
+										d.previousDate.totalAllValuePreviousData.toLocaleString(
+											'pt-BR',
+											{
+												style: 'currency',
+												currency: 'brl',
+											},
+										)
 								}
 								icon={<HandCoins />}
 								title={'Faturamento'}
-								value={d.currentDate.totalAllValue}
+								value={d.currentDate.totalAllValue.toLocaleString('pt-BR', {
+									style: 'currency',
+									currency: 'brl',
+								})}
 								Badge={
-									d.PreviousDate && (
+									d.previousDate && (
 										<GenerateBadge
-											val={parseCurrency(d.currentDate.totalAllValue)}
-											previousVal={parseCurrency(
-												d.PreviousDate.totalAllValuePreviousData,
-											)}
+											val={d.currentDate.totalAllValue}
+											previousVal={d.previousDate.totalAllValuePreviousData}
 										/>
 									)
 								}
 							/>
 							<CardDetails
 								description={
-									d.PreviousDate &&
+									d.previousDate &&
 									props.description +
-										d.PreviousDate.totalAllRentalsApartmentsPreviousData
+										d.previousDate.totalAllRentalsApartmentsPreviousData
 								}
 								icon={<Sigma />}
 								title={'Locações'}
 								value={d.currentDate.totalAllRentalsApartments}
 								Badge={
-									d.PreviousDate && (
+									d.previousDate && (
 										<GenerateBadge
 											val={d.currentDate.totalAllRentalsApartments}
 											previousVal={
-												d.PreviousDate.totalAllRentalsApartmentsPreviousData
+												d.previousDate.totalAllRentalsApartmentsPreviousData
 											}
 										/>
 									)
@@ -68,76 +76,88 @@ export default function BigNumbers(props: BigNumbersProps) {
 							/>
 							<CardDetails
 								description={
-									d.PreviousDate &&
+									d.previousDate &&
 									props.description +
-										d.PreviousDate.totalAllTicketAveragePreviousData
+										d.previousDate.totalAllTicketAveragePreviousData.toLocaleString(
+											'pt-BR',
+											{
+												style: 'currency',
+												currency: 'brl',
+											},
+										)
 								}
 								icon={<SquarePercent />}
 								title={'Ticket Médio'}
-								value={d.currentDate.totalAllTicketAverage}
+								value={d.currentDate.totalAllTicketAverage.toLocaleString(
+									'pt-BR',
+									{
+										style: 'currency',
+										currency: 'brl',
+									},
+								)}
 								Badge={
-									d.PreviousDate && (
+									d.previousDate && (
 										<GenerateBadge
-											val={parseCurrency(d.currentDate.totalAllTicketAverage)}
-											previousVal={parseCurrency(
-												d.PreviousDate.totalAllTicketAveragePreviousData,
-											)}
+											val={d.currentDate.totalAllTicketAverage}
+											previousVal={
+												d.previousDate.totalAllTicketAveragePreviousData
+											}
 										/>
 									)
 								}
 							/>
 							<CardDetails
 								description={
-									d.PreviousDate &&
-									props.description + d.PreviousDate.totalAllRevparPreviousData
+									d.previousDate &&
+									props.description +
+										'R$ ' +
+										d.previousDate.totalAllTrevparPreviousData
 								}
 								icon={<Activity />}
-								title={'Revpar'}
-								value={d.currentDate.totalAllRevpar}
+								title={'Trevpar'}
+								value={'R$ ' + d.currentDate.totalAllTrevpar}
 								Badge={
-									d.PreviousDate && (
+									d.previousDate && (
 										<GenerateBadge
-											val={parseCurrency(d.currentDate.totalAllRevpar)}
-											previousVal={parseCurrency(
-												d.PreviousDate.totalAllRevparPreviousData,
-											)}
+											val={d.currentDate.totalAllTrevpar}
+											previousVal={d.previousDate.totalAllTrevparPreviousData}
 										/>
 									)
 								}
 							/>
 							<CardDetails
 								description={
-									d.PreviousDate &&
-									props.description + d.PreviousDate.totalAllGiroPreviousData
+									d.previousDate &&
+									props.description + d.previousDate.totalAllGiroPreviousData
 								}
 								icon={<DoorClosed />}
 								title={'Giro'}
 								value={d.currentDate.totalAllGiro}
 								Badge={
-									d.PreviousDate && (
+									d.previousDate && (
 										<GenerateBadge
 											val={d.currentDate.totalAllGiro}
-											previousVal={d.PreviousDate.totalAllGiroPreviousData}
+											previousVal={d.previousDate.totalAllGiroPreviousData}
 										/>
 									)
 								}
 							/>
 							<CardDetails
 								description={
-									d.PreviousDate &&
+									d.previousDate &&
 									props.description +
-										d.PreviousDate.totalAverageOccupationTimePreviousData
+										d.previousDate.totalAverageOccupationTimePreviousData
 								}
 								icon={<AlarmClockCheck />}
 								title={'TMO'}
 								value={d.currentDate.totalAverageOccupationTime}
 								Badge={
-									d.PreviousDate && (
+									d.previousDate && (
 										<GenerateBadge
 											tmo
 											val={d.currentDate.totalAverageOccupationTime}
 											previousVal={
-												d.PreviousDate.totalAverageOccupationTimePreviousData
+												d.previousDate.totalAverageOccupationTimePreviousData
 											}
 										/>
 									)

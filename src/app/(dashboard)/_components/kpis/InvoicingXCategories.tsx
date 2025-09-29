@@ -8,85 +8,37 @@ const BarCharApex = dynamic(
 	{ ssr: false },
 );
 
-interface SuiteCategoryRevenueEntry {
-	[category: string]: {
-		totalValue: string;
-	};
-}
-
-// Interface para a estrutura dos dados transformados
-interface Result {
-	values: number[];
+interface RevenueBySuiteCategoryProps {
+	series: number[];
 	categories: string[];
 }
 
 export default function Categories(data?: any) {
-	const revenueBySuiteCategory: SuiteCategoryRevenueEntry[] = data.data;
+	const revenueBySuiteCategory: RevenueBySuiteCategoryProps = data.data;
 
-	const transformedData: Result = revenueBySuiteCategory
-		// Ordenando com base em totalValue, convertendo para número antes
-		?.sort((a, b) => {
-			const valueA = parseFloat(
-				Object.values(a)[0]
-					.totalValue.replace('R$', '')
-					.replace('.', '')
-					.replace(',', '.'),
-			);
-			const valueB = parseFloat(
-				Object.values(b)[0]
-					.totalValue.replace('R$', '')
-					.replace('.', '')
-					.replace(',', '.'),
-			);
-			return valueA - valueB;
-		})
-		.reduce<Result>(
-			(acc, item) => {
-				const [category, data] = Object.entries(item)[0];
-				// Convertendo "R$" e pontos para formato numérico padrão
-				const totalValue = parseFloat(
-					data.totalValue
-						.replace('R$', '')
-						.replace(/\./g, '')
-						.replace(',', '.'),
-				);
-				acc.categories.push(category);
-				acc.values.push(totalValue);
-				return acc;
-			},
-			{ values: [], categories: [] },
-		);
-	if (
-		!transformedData.values.length ||
-		transformedData.values.length == 0 ||
-		!transformedData
-	) {
-		return <Skeleton className='h-[620px] w-full' />;
-	} else {
-		return (
-			<>
-				{revenueBySuiteCategory ? (
-					<BarCharApex
-						money
-						series={[
-							{
-								name: 'Faturamento',
-								data: transformedData?.values,
-								type: 'bar',
-							},
-						]}
-						dataLabelColors={['#5b21b6']}
-						colors={['#a78bfa']}
-						title='Faturamento por Categoria de Suíte'
-						categories={transformedData?.categories}
-					/>
-				) : (
-					<>
-						<Skeleton className='w-full h-[620px]' />
-					</>
-				)}
-				;
-			</>
-		);
-	}
+	return (
+		<>
+			{revenueBySuiteCategory ? (
+				<BarCharApex
+					money
+					series={[
+						{
+							name: 'Faturamento',
+							data: revenueBySuiteCategory?.series,
+							type: 'bar',
+						},
+					]}
+					dataLabelColors={['#5b21b6']}
+					colors={['#a78bfa']}
+					title='Faturamento por Categoria de Suíte'
+					categories={revenueBySuiteCategory?.categories}
+				/>
+			) : (
+				<>
+					<Skeleton className='w-full h-[620px]' />
+				</>
+			)}
+			;
+		</>
+	);
 }

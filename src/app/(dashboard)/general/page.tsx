@@ -113,10 +113,10 @@ export default async function General({
 					<div className=' w-full h-full flex gap-5 flex-col md:px-0 '>
 						<Suspense>
 							<BigNumbersCompany
-								andar_de_cima={resp.data ? resp.data[2]?.BigNumbers : null}
-								tout={resp.data ? resp.data[3]?.BigNumbers : null}
 								ipiranga={resp.data ? resp.data[0]?.BigNumbers : null}
 								lapa={resp.data ? resp.data[1].BigNumbers : null}
+								andar_de_cima={resp.data ? resp.data[2]?.BigNumbers : null}
+								tout={resp.data ? resp.data[3]?.BigNumbers : null}
 								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
 									preSet == '30days' ? '30 dias atrás ' : ''
 								} ${preSet == '6months' ? '6 meses atrás ' : ''}${

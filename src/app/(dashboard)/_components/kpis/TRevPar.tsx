@@ -21,56 +21,31 @@ interface TransformedEntry {
 	totalTrevpar: number;
 }
 
-interface Result {
-	values: number[];
-	dates: string[];
+interface TrevparByDateProps {
+	series: number[];
+	categories: string[];
 }
 
 export default function TRevPar(data?: any) {
-	const trevparByDate: TrevparEntry[] = data.data;
+	const trevparByDate: TrevparByDateProps = data.data;
 
-	const transformedData: TransformedEntry[] = trevparByDate
-		?.map((item: TrevparEntry): TransformedEntry => {
-			const [date, data] = Object.entries(item)[0];
-			// Removendo "R$" e convertendo para número
-			const totalTrevpar = parseFloat(
-				data.totalTrevpar.replace('R$', '').replace('.', '').replace(',', '.'),
-			);
-			return { date, totalTrevpar };
-		})
-		.sort(
-			(a, b) =>
-				new Date(a.date.split('/').reverse().join('-')).getTime() -
-				new Date(b.date.split('/').reverse().join('-')).getTime(),
-		);
-
-	const result: Result = {
-		values: transformedData?.map(
-			(entry: TransformedEntry) => entry.totalTrevpar,
-		),
-		dates: transformedData?.map((entry: TransformedEntry) => entry.date),
-	};
-	if (!result.values.length || result.values.length == 0 || !result) {
-		return <Skeleton className='h-[310px] w-full' />;
-	} else {
-		return (
-			<>
-				{trevparByDate ? (
-					<AreaChartsApex
-						id='trevpar-ipiranga'
-						series={[
-							{
-								data: result.values,
-								name: 'TRevPar',
-							},
-						]}
-						categories={result.dates}
-						money
-					/>
-				) : (
-					<Skeleton className='h-[310px] w-full' />
-				)}
-			</>
-		);
-	}
+	return (
+		<>
+			{trevparByDate ? (
+				<AreaChartsApex
+					id='trevpar-ipiranga'
+					series={[
+						{
+							data: trevparByDate.series,
+							name: 'Trevpar',
+						},
+					]}
+					categories={trevparByDate.categories}
+					money
+				/>
+			) : (
+				<Skeleton className='h-[310px] w-full' />
+			)}
+		</>
+	);
 }

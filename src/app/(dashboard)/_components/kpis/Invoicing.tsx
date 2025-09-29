@@ -9,66 +9,27 @@ const AreaChartsApex = dynamic(
 	{ ssr: false },
 );
 
-interface RevenueEntry {
-	[date: string]: {
-		totalValue: string;
-	};
-}
-
-interface TransformedEntry {
-	date: string;
-	totalValue: number;
+interface RevenueByDateProps {
+	categories: string[];
+	series: number[];
 }
 
 export default function Invoicing(data?: any) {
-	const revenueByDate: RevenueEntry[] = data.data;
+	const revenueByDate: RevenueByDateProps = data.data;
 
-	if (!revenueByDate) {
-		return <Skeleton className='w-full h-[280]' />;
-	}
-	const transformedData: TransformedEntry[] = revenueByDate
-		.map((item: RevenueEntry): TransformedEntry => {
-			const [date, data] = Object.entries(item)[0];
-			// Removendo "R$" e convertendo para número
-			const totalValue = parseFloat(
-				data.totalValue.replace('R$', '').replace(/\./g, '').replace(',', '.'),
-			);
-			return { date, totalValue };
-		})
-		.sort(
-			(a, b) =>
-				new Date(a.date.split('/').reverse().join('-')).getTime() -
-				new Date(b.date.split('/').reverse().join('-')).getTime(),
-		);
-
-	// Estrutura de resultado final
-	interface Result {
-		values: number[];
-		dates: string[];
-	}
-
-	const result: Result = {
-		values: transformedData.map((entry: TransformedEntry) => entry.totalValue),
-		dates: transformedData.map((entry: TransformedEntry) => entry.date),
-	};
-
-	if (!result.values.length || result.values.length == 0 || !result) {
-		return <Skeleton className='h-[300px] w-full' />;
-	} else {
-		return (
-			<>
-				{revenueByDate ? (
-					<AreaChartsApex
-						id='invoicing-ipiranga'
-						money
-						series={[{ data: result.values, name: 'Faturamento Total' }]}
-						categories={result.dates}
-					/>
-				) : (
-					<Skeleton className='w-full h-[300px]' />
-				)}
-				;
-			</>
-		);
-	}
+	return (
+		<>
+			{revenueByDate ? (
+				<AreaChartsApex
+					id='invoicing-ipiranga'
+					money
+					series={[{ data: revenueByDate.series, name: 'Faturamento Total' }]}
+					categories={revenueByDate.categories}
+				/>
+			) : (
+				<Skeleton className='w-full h-[300px]' />
+			)}
+			;
+		</>
+	);
 }

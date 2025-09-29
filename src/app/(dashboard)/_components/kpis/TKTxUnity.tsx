@@ -1,24 +1,21 @@
 /** @format */
 
-import { NormalizeTKTMedio } from '@/utils/normalize-tkm-medio';
 import dynamic from 'next/dynamic';
-import React from 'react';
 const LineChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/LineChart'),
 	{ ssr: false },
 );
 
 interface TKTxUnityProps {
-	ipiranga: RentalsEntry[];
-	lapa: RentalsEntry[];
-	andar_de_cima: RentalsEntry[];
-	tout: RentalsEntry[];
+	ipiranga: RentalsEntry;
+	lapa: RentalsEntry;
+	andar_de_cima: RentalsEntry;
+	tout: RentalsEntry;
 }
 
 interface RentalsEntry {
-	[date: string]: {
-		totalAllTicketAverage: string;
-	};
+	categories: string[];
+	series: number[];
 }
 
 export default function TKTxUnity({
@@ -27,10 +24,6 @@ export default function TKTxUnity({
 	andar_de_cima,
 	tout,
 }: TKTxUnityProps) {
-	const ticketAverageByDateIpiranga = NormalizeTKTMedio({ data: ipiranga });
-	const ticketAverageByDateLapa = NormalizeTKTMedio({ data: lapa });
-	const ticketAverageByDateAndar = NormalizeTKTMedio({ data: andar_de_cima });
-	const ticketAverageByDateTout = NormalizeTKTMedio({ data: tout });
 	return (
 		<>
 			<LineChart
@@ -40,22 +33,22 @@ export default function TKTxUnity({
 				series={[
 					{
 						name: 'Lush Ipiranga',
-						data: ticketAverageByDateIpiranga.values,
+						data: ipiranga.series,
 					},
 					{
 						name: 'Lush Lapa',
-						data: ticketAverageByDateLapa.values,
+						data: lapa.series,
 					},
 					{
 						name: 'Andar de Cima',
-						data: ticketAverageByDateAndar.values,
+						data: andar_de_cima.series,
 					},
 					{
 						name: 'Tout',
-						data: ticketAverageByDateTout.values,
+						data: tout.series,
 					},
 				]}
-				categories={ticketAverageByDateIpiranga?.dates}
+				categories={ipiranga?.categories}
 			/>
 		</>
 	);

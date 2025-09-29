@@ -7,17 +7,17 @@ const LineChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/LineChart'),
 	{ ssr: false },
 );
+
 interface RevenueEntry {
-	[date: string]: {
-		totalValue: string;
-	};
+	categories: string[];
+	series: number[];
 }
 
 interface InvoicingXUnityXTimeProps {
-	ipiranga: RevenueEntry[];
-	lapa: RevenueEntry[];
-	andar_de_cima: RevenueEntry[];
-	tout: RevenueEntry[];
+	ipiranga: RevenueEntry;
+	lapa: RevenueEntry;
+	andar_de_cima: RevenueEntry;
+	tout: RevenueEntry;
 }
 export default function InvoicingXUnityXTime({
 	ipiranga,
@@ -25,36 +25,30 @@ export default function InvoicingXUnityXTime({
 	andar_de_cima,
 	tout,
 }: InvoicingXUnityXTimeProps) {
-	const revenueByDateIpiranga = NormalizeRevenueByDate({ data: ipiranga });
-	const revenueByDateLapa = NormalizeRevenueByDate({ data: lapa });
-	const revenueByDateAndar = NormalizeRevenueByDate({ data: andar_de_cima });
-	const revenueByDateTout = NormalizeRevenueByDate({ data: tout });
 	return (
-		<>
-			<LineChart
-				money
-				height={148}
-				title='Faturamento por Unidade no tempo'
-				series={[
-					{
-						name: 'Lush Ipiranga',
-						data: revenueByDateIpiranga.values,
-					},
-					{
-						name: 'Lush Lapa',
-						data: revenueByDateLapa.values,
-					},
-					{
-						name: 'Andar de Cima',
-						data: revenueByDateAndar.values,
-					},
-					{
-						name: 'Tout',
-						data: revenueByDateTout.values,
-					},
-				]}
-				categories={revenueByDateIpiranga.dates}
-			/>
-		</>
+		<LineChart
+			money
+			height={148}
+			title='Faturamento por Unidade no tempo'
+			series={[
+				{
+					name: 'Lush Ipiranga',
+					data: ipiranga.series,
+				},
+				{
+					name: 'Lush Lapa',
+					data: lapa.series,
+				},
+				{
+					name: 'Andar de Cima',
+					data: andar_de_cima.series,
+				},
+				{
+					name: 'Tout',
+					data: tout.series,
+				},
+			]}
+			categories={ipiranga.categories}
+		/>
 	);
 }
