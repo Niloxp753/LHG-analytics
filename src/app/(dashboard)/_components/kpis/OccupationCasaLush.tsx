@@ -19,33 +19,51 @@ const AreaChartsApex = dynamic(
 );
 
 interface OccupancyDataProps {
-	series: number[];
+	series: SeriesDataProps[];
 	categories: string[];
+}
+
+interface SeriesDataProps {
+	name: string;
+	data: number[];
 }
 
 export default function OccupationCasaLush(data?: any) {
 	const occupancyData: OccupancyDataProps = data.data;
 
-	const [state, setState] = useState(occupancyData.categories[0]);
+	console.log(occupancyData);
+
+	const [state, setState] = useState<SeriesDataProps>({
+		name: occupancyData.series[0].name,
+		data: occupancyData.series[0].data,
+	});
+
+	function handleChange(value: string) {
+		const newData = occupancyData.series.find((item) => item.name === value);
+		if (newData) {
+			setState({ name: newData.name, data: newData.data });
+		}
+	}
 
 	return (
 		<>
 			{occupancyData ? (
 				<>
 					<Select
-						defaultValue={state}
-						onValueChange={(value: string) => setState(value)}>
+						defaultValue={state.name}
+						onValueChange={(value: string) => handleChange(value)}>
 						<SelectTrigger className='w-56 text-zinc-50 dark'>
 							<SelectValue placeholder='Selecione uma unidade' />
 						</SelectTrigger>
 						<SelectContent className='dark'>
 							<SelectGroup>
-								{occupancyData.categories.map((item, index) => {
+								{occupancyData.series.map((item, index) => {
 									return (
 										<SelectItem
-											value={item}
+											defaultValue={state.name}
+											value={item.name}
 											key={index}>
-											{item}
+											{item.name}
 										</SelectItem>
 									);
 								})}
@@ -55,7 +73,7 @@ export default function OccupationCasaLush(data?: any) {
 					<AreaChartsApex
 						percent
 						id='occupation-category'
-						series={occupancyData.series}
+						series={[{ name: state.name, data: state.data }]}
 						categories={occupancyData?.categories}
 					/>
 				</>
