@@ -92,12 +92,12 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 			dataTout.previousDate?.totalAllTicketAveragePreviousData) /
 			4;
 
-	const totalAllRevparPrevious =
+	const totalAllTrevparPrevious =
 		dataIpiranga.previousDate &&
-		(dataIpiranga.previousDate?.totalAllRevparPreviousData +
-			dataLapa.previousDate?.totalAllRevparPreviousData +
-			dataAndarDeCima.previousDate?.totalAllRevparPreviousData +
-			dataTout.previousDate?.totalAllRevparPreviousData) /
+		(dataIpiranga.previousDate?.totalAllTrevparPreviousData +
+			dataLapa.previousDate?.totalAllTrevparPreviousData +
+			dataAndarDeCima.previousDate?.totalAllTrevparPreviousData +
+			dataTout.previousDate?.totalAllTrevparPreviousData) /
 			4;
 
 	const totalAverageOccupationTimePrevious =
@@ -192,20 +192,20 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				description={
 					dataIpiranga.previousDate
 						? props.description +
-						  totalAllRevparPrevious.toLocaleString('pt-BR', {
+						  totalAllTrevparPrevious.toLocaleString('pt-BR', {
 								style: 'currency',
 								currency: 'brl',
 						  })
 						: ''
 				}
 				icon={<Activity />}
-				title={'Revpar'}
+				title={'Trevpar'}
 				value={totalAllTrevpar!}
 				Badge={
 					dataIpiranga.previousDate && (
 						<GenerateBadge
 							val={Number(totalAllTrevpar)}
-							previousVal={totalAllRevparPrevious}
+							previousVal={totalAllTrevparPrevious}
 						/>
 					)
 				}
