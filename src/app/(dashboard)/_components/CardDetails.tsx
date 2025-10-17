@@ -18,7 +18,7 @@ interface CardDetailsProps {
 	description?: string;
 	Badge?: ReactNode;
 	monthlyForecast?: number | string;
-	showForecast: boolean;
+	showForecast?: boolean;
 }
 
 export default function CardDetails({
