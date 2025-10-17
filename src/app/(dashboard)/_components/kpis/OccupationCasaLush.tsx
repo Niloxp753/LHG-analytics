@@ -31,7 +31,7 @@ interface SeriesDataProps {
 export default function OccupationCasaLush(data?: any) {
 	const occupancyData: OccupancyDataProps = data.data;
 
-	console.log(occupancyData);
+
 
 	const [state, setState] = useState<SeriesDataProps>({
 		name: occupancyData.series[0].name,

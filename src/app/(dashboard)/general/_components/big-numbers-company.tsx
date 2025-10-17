@@ -120,6 +120,49 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 			dataTout.previousDate?.totalAllGiroPreviousData) /
 			4;
 
+	const totalAllValueForecast =
+		dataIpiranga.monthlyForecast.totalAllValueForecast +
+		dataLapa.monthlyForecast.totalAllValueForecast +
+		dataAndarDeCima.monthlyForecast.totalAllValueForecast +
+		dataTout.monthlyForecast.totalAllValueForecast;
+
+	const totalAllRentalsApartmentsForecast =
+		dataIpiranga.monthlyForecast.totalAllRentalsApartmentsForecast +
+		dataLapa.monthlyForecast.totalAllRentalsApartmentsForecast +
+		dataAndarDeCima.monthlyForecast.totalAllRentalsApartmentsForecast +
+		dataTout.monthlyForecast.totalAllRentalsApartmentsForecast;
+
+	const totalAllTicketAverageForecast =
+		(dataIpiranga.monthlyForecast.totalAllTicketAverageForecast +
+			dataLapa.monthlyForecast.totalAllTicketAverageForecast +
+			dataAndarDeCima.monthlyForecast.totalAllTicketAverageForecast +
+			dataTout.monthlyForecast.totalAllTicketAverageForecast) /
+		4;
+
+	const totalAllTrevparForecast =
+		(dataIpiranga.monthlyForecast.totalAllTrevparForecast +
+			dataLapa.monthlyForecast.totalAllTrevparForecast +
+			dataAndarDeCima.monthlyForecast.totalAllTrevparForecast +
+			dataTout.monthlyForecast.totalAllTrevparForecast) /
+		4;
+
+	const totalAllGiroForecast =
+		(dataIpiranga.monthlyForecast.totalAllGiroForecast +
+			dataLapa.monthlyForecast.totalAllGiroForecast +
+			dataAndarDeCima.monthlyForecast.totalAllGiroForecast +
+			dataTout.monthlyForecast.totalAllGiroForecast) /
+		4;
+
+	const totalAverageOccupationTimeForecast = NormalizeTimeNumbers({
+		values: [
+			dataIpiranga.monthlyForecast.totalAverageOccupationTimeForecast,
+			dataLapa.monthlyForecast.totalAverageOccupationTimeForecast,
+			dataAndarDeCima.monthlyForecast.totalAverageOccupationTimeForecast,
+			dataTout.monthlyForecast.totalAverageOccupationTimeForecast,
+		],
+		operation: 'media',
+	});
+
 	return (
 		<div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
 			<CardDetails
@@ -135,6 +178,7 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				}
 				icon={<HandCoins />}
 				title={'Faturamento'}
+				monthlyForecast={totalAllValueForecast}
 				value={totalAllValue!}
 				Badge={
 					dataIpiranga.previousDate && (
@@ -152,6 +196,7 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 						  Number(totalAllRentalsApartmentsPrevious).toLocaleString('pt-BR')
 						: ''
 				}
+				monthlyForecast={totalAllRentalsApartmentsForecast}
 				icon={<Sigma />}
 				title={'Locações'}
 				value={totalAllRentalsApartments}
@@ -175,6 +220,7 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 						  })
 						: ''
 				}
+				monthlyForecast={totalAllTicketAverageForecast}
 				icon={<SquarePercent />}
 				title={'Ticket Médio'}
 				value={totalAllTicketAverage!}
@@ -198,6 +244,7 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 						  })
 						: ''
 				}
+				monthlyForecast={totalAllTrevparForecast}
 				icon={<Activity />}
 				title={'Trevpar'}
 				value={totalAllTrevpar!}
@@ -219,6 +266,7 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 				icon={<DoorClosed />}
 				title={'Giro'}
 				value={totalAllGiro.toFixed(2)}
+				monthlyForecast={totalAllGiroForecast.toFixed(2)}
 				Badge={
 					dataIpiranga.previousDate && (
 						<GenerateBadge
@@ -234,6 +282,7 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 						? props.description + totalAverageOccupationTimePrevious
 						: ''
 				}
+				monthlyForecast={totalAverageOccupationTimeForecast}
 				icon={<AlarmClockCheck />}
 				title={'TMO'}
 				value={totalAverageOccupationTime!}

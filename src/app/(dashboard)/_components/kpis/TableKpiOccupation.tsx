@@ -93,13 +93,13 @@ export function TableKpiOccupation(dataOccupation?: any) {
 							<TableCell className='font-bold text-left'>
 								{invoice.category}
 							</TableCell>
-							<TableCell>{invoice.domingo}</TableCell>
-							<TableCell>{invoice.segunda}</TableCell>
-							<TableCell>{invoice.terca}</TableCell>
-							<TableCell>{invoice.quarta}</TableCell>
-							<TableCell>{invoice.quinta}</TableCell>
-							<TableCell>{invoice.sexta}</TableCell>
-							<TableCell>{invoice.sabado}</TableCell>
+							<TableCell>{Number(invoice.domingo)?.toFixed(2) ?? 0}%</TableCell>
+							<TableCell>{Number(invoice.segunda)?.toFixed(2) ?? 0}%</TableCell>
+							<TableCell>{Number(invoice.terca)?.toFixed(2) ?? 0}%</TableCell>
+							<TableCell>{Number(invoice.quarta)?.toFixed(2) ?? 0}%</TableCell>
+							<TableCell>{Number(invoice.quinta)?.toFixed(2) ?? 0}%</TableCell>
+							<TableCell>{Number(invoice.sexta)?.toFixed(2) ?? 0}%</TableCell>
+							<TableCell>{Number(invoice.sabado)?.toFixed(2) ?? 0}%</TableCell>
 						</TableRow>
 					))}
 			</TableBody>
@@ -108,13 +108,27 @@ export function TableKpiOccupation(dataOccupation?: any) {
 					<TableCell className=' w-1/5 text-left'>
 						Total Tx de Ocupação
 					</TableCell>
-					<TableCell>{totalOccupancy.domingo}</TableCell>
-					<TableCell>{totalOccupancy.segunda}</TableCell>
-					<TableCell>{totalOccupancy.terca}</TableCell>
-					<TableCell>{totalOccupancy.quarta}</TableCell>
-					<TableCell>{totalOccupancy.quinta}</TableCell>
-					<TableCell>{totalOccupancy.sexta}</TableCell>
-					<TableCell>{totalOccupancy.sabado}</TableCell>
+					<TableCell>
+						{Number(totalOccupancy.domingo)?.toFixed(2) ?? 0}%
+					</TableCell>
+					<TableCell>
+						{Number(totalOccupancy.segunda)?.toFixed(2) ?? 0}%
+					</TableCell>
+					<TableCell>
+						{Number(totalOccupancy.terca)?.toFixed(2) ?? 0}%
+					</TableCell>
+					<TableCell>
+						{Number(totalOccupancy.quarta)?.toFixed(2) ?? 0}%
+					</TableCell>
+					<TableCell>
+						{Number(totalOccupancy.quinta)?.toFixed(2) ?? 0}%
+					</TableCell>
+					<TableCell>
+						{Number(totalOccupancy.sexta)?.toFixed(2) ?? 0}%
+					</TableCell>
+					<TableCell>
+						{Number(totalOccupancy.sabado)?.toFixed(2) ?? 0}%
+					</TableCell>
 				</TableRow>
 			</TableFooter>
 		</Table>

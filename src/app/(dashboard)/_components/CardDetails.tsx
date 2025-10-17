@@ -17,6 +17,7 @@ interface CardDetailsProps {
 	type?: string;
 	description?: string;
 	Badge?: ReactNode;
+	monthlyForecast?: number | string;
 }
 
 export default function CardDetails({
@@ -25,6 +26,7 @@ export default function CardDetails({
 	icon,
 	type,
 	Badge,
+	monthlyForecast,
 	description,
 }: CardDetailsProps) {
 	return value ? (
@@ -45,18 +47,42 @@ export default function CardDetails({
 			</CardHeader>
 			<CardContent>
 				{type == 'money' ? (
-					<p className='flex gap-1 items-center'>
+					<p className='flex gap-1 items-end justify-between'>
 						{value.toLocaleString('pt-BR', {
 							style: 'currency',
 							currency: 'BRL',
 						})}
+						<span className='flex flex-col items-start gap-1'>
+							<span className='text-xs text-muted-foreground'>Out/25</span>
+							<span className='text-muted-foreground text-xs'>
+								Valor previsto mensal:
+							</span>{' '}
+							<span className='text-sm'>
+								{monthlyForecast &&
+									monthlyForecast.toLocaleString('pt-BR', {
+										style: 'currency',
+										currency: 'BRL',
+									})}
+							</span>
+						</span>
 					</p>
 				) : type == 'percent' ? (
 					<p className='flex gap-1 items-center'>
 						{(Number(value) * 100).toFixed(2) + '%'}
 					</p>
 				) : (
-					<p>{value.toLocaleString('pt-BR')}</p>
+					<p className='flex gap-1 items-end justify-between'>
+						{value.toLocaleString('pt-BR')}
+						<span className='flex flex-col items-start gap-1'>
+							<span className='text-xs text-muted-foreground'>Out/25</span>
+							<span className='text-muted-foreground text-xs'>
+								Valor previsto mensal:
+							</span>{' '}
+							<span className='text-sm'>
+								{monthlyForecast?.toLocaleString('pt-BR')}
+							</span>
+						</span>
+					</p>
 				)}
 			</CardContent>
 		</Card>

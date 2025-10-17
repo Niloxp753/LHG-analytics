@@ -92,26 +92,26 @@ export function TableKpiGiro(dataGiro?: any) {
 							<TableCell className='font-bold text-left'>
 								{invoice.categoria}
 							</TableCell>
-							<TableCell>{invoice.domingo}</TableCell>
-							<TableCell>{invoice.segunda}</TableCell>
-							<TableCell>{invoice.terca}</TableCell>
-							<TableCell>{invoice.quarta}</TableCell>
-							<TableCell>{invoice.quinta}</TableCell>
-							<TableCell>{invoice.sexta}</TableCell>
-							<TableCell>{invoice.sabado}</TableCell>
+							<TableCell>{Number(invoice.domingo)?.toFixed(2)}</TableCell>
+							<TableCell>{Number(invoice.segunda)?.toFixed(2)}</TableCell>
+							<TableCell>{Number(invoice.terca)?.toFixed(2)}</TableCell>
+							<TableCell>{Number(invoice.quarta)?.toFixed(2)}</TableCell>
+							<TableCell>{Number(invoice.quinta)?.toFixed(2)}</TableCell>
+							<TableCell>{Number(invoice.sexta)?.toFixed(2)}</TableCell>
+							<TableCell>{Number(invoice.sabado)?.toFixed(2)}</TableCell>
 						</TableRow>
 					))}
 			</TableBody>
 			<TableFooter className=' text-zinc-100 bg-zinc-700 font-bold hover:bg-zinc-700'>
 				<TableRow className='text-center hover:bg-zinc-700'>
 					<TableCell className=' w-1/5 text-left'>Total Giro</TableCell>
-					<TableCell>{total.domingo}</TableCell>
-					<TableCell>{total.segunda}</TableCell>
-					<TableCell>{total.terca}</TableCell>
-					<TableCell>{total.quarta}</TableCell>
-					<TableCell>{total.quinta}</TableCell>
-					<TableCell>{total.sexta}</TableCell>
-					<TableCell>{total.sabado}</TableCell>
+					<TableCell>{Number(total.domingo)?.toFixed(2)}</TableCell>
+					<TableCell>{Number(total.segunda)?.toFixed(2)}</TableCell>
+					<TableCell>{Number(total.terca)?.toFixed(2)}</TableCell>
+					<TableCell>{Number(total.quarta)?.toFixed(2)}</TableCell>
+					<TableCell>{Number(total.quinta)?.toFixed(2)}</TableCell>
+					<TableCell>{Number(total.sexta)?.toFixed(2)}</TableCell>
+					<TableCell>{Number(total.sabado)?.toFixed(2)}</TableCell>
 				</TableRow>
 			</TableFooter>
 		</Table>

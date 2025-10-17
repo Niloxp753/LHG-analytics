@@ -28,6 +28,7 @@ export default function OccupationXUnity({
 	return (
 		<>
 			<LineChart
+				percent
 				height={148}
 				title='Taxa de ocupação por Unidade'
 				series={[

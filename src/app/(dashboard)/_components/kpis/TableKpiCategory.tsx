@@ -43,7 +43,7 @@ export default function TableKpiCategory({
 			locations: data.totalRentalsApartments.toString(), // Convertido para string
 			revenue: data.totalValue, // Mantém como string
 			ticket: data.totalTicketAverage, // Mantém como string
-			giro: parseFloat(data.giro), // Converte para número
+			giro: data.giro.toFixed(2), // Converte para número
 			revpar: data.revpar, // Mantém como string
 			trevpar: data.trevpar, // Mantém como string
 			tmo: data.averageOccupationTime, // Mantém o formato de tempo
@@ -57,13 +57,25 @@ export default function TableKpiCategory({
 		id: 1,
 		Categoria: 'Total',
 		locations: dataResult?.totalAllRentalsApartments.toString(),
-		revenue: dataResult?.totalAllValue,
-		ticket: dataResult?.totalAllTicketAverage,
-		giro: parseFloat(dataResult?.totalGiro),
-		revpar: dataResult?.totalRevpar,
-		trevpar: dataResult?.totalTrevpar,
+		revenue: dataResult?.totalAllValue.toLocaleString('pt-BR', {
+			style: 'currency',
+			currency: 'brl',
+		}),
+		ticket: dataResult?.totalAllTicketAverage.toLocaleString('pt-BR', {
+			style: 'currency',
+			currency: 'brl',
+		}),
+		giro: dataResult?.totalGiro.toFixed(2),
+		revpar: dataResult?.totalRevpar.toLocaleString('pt-BR', {
+			style: 'currency',
+			currency: 'brl',
+		}),
+		trevpar: dataResult?.totalTrevpar.toLocaleString('pt-BR', {
+			style: 'currency',
+			currency: 'brl',
+		}),
 		tmo: dataResult?.totalAverageOccupationTime,
-		occupation: dataResult?.totalOccupancyRate,
+		occupation: dataResult?.totalOccupancyRate.toFixed(2),
 	};
 
 	return (
@@ -91,13 +103,33 @@ export default function TableKpiCategory({
 								{invoice.Categoria}
 							</TableCell>
 							<TableCell>{invoice.locations}</TableCell>
-							<TableCell>{invoice.revenue}</TableCell>
-							<TableCell>{invoice.ticket}</TableCell>
+							<TableCell>
+								{invoice.revenue.toLocaleString('pt-BR', {
+									style: 'currency',
+									currency: 'brl',
+								})}
+							</TableCell>
+							<TableCell>
+								{invoice.ticket.toLocaleString('pt-BR', {
+									style: 'currency',
+									currency: 'brl',
+								})}
+							</TableCell>
 							<TableCell>{invoice.giro}</TableCell>
-							<TableCell>{invoice.revpar}</TableCell>
-							<TableCell>{invoice.trevpar}</TableCell>
+							<TableCell>
+								{invoice.revpar.toLocaleString('pt-BR', {
+									style: 'currency',
+									currency: 'brl',
+								})}
+							</TableCell>
+							<TableCell>
+								{invoice.trevpar.toLocaleString('pt-BR', {
+									style: 'currency',
+									currency: 'brl',
+								})}
+							</TableCell>
 							<TableCell>{invoice.tmo}</TableCell>
-							<TableCell>{invoice.occupation}</TableCell>
+							<TableCell>{invoice.occupation.toFixed(2)}%</TableCell>
 						</TableRow>
 					))}
 			</TableBody>
@@ -113,7 +145,7 @@ export default function TableKpiCategory({
 					<TableCell>{formattedTotalResult.revpar}</TableCell>
 					<TableCell>{formattedTotalResult.trevpar}</TableCell>
 					<TableCell>{formattedTotalResult.tmo}</TableCell>
-					<TableCell>{formattedTotalResult.occupation}</TableCell>
+					<TableCell>{formattedTotalResult.occupation}%</TableCell>
 				</TableRow>
 			</TableFooter>
 		</Table>

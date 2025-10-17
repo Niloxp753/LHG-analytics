@@ -19,6 +19,7 @@ interface BigNumbersProps {
 }
 
 export default function BigNumbers(props: BigNumbersProps) {
+
 	return (
 		<>
 			{props.data ? (
@@ -39,6 +40,13 @@ export default function BigNumbers(props: BigNumbersProps) {
 											},
 										)
 								}
+								monthlyForecast={d.monthlyForecast.totalAllValueForecast.toLocaleString(
+									'pt-BR',
+									{
+										style: 'currency',
+										currency: 'brl',
+									},
+								)}
 								icon={<HandCoins />}
 								title={'Faturamento'}
 								value={d.currentDate.totalAllValue.toLocaleString('pt-BR', {
@@ -55,6 +63,9 @@ export default function BigNumbers(props: BigNumbersProps) {
 								}
 							/>
 							<CardDetails
+								monthlyForecast={
+									d.monthlyForecast.totalAllRentalsApartmentsForecast
+								}
 								description={
 									d.previousDate &&
 									props.description +
@@ -75,6 +86,13 @@ export default function BigNumbers(props: BigNumbersProps) {
 								}
 							/>
 							<CardDetails
+								monthlyForecast={d.monthlyForecast.totalAllTicketAverageForecast.toLocaleString(
+									'pt-BR',
+									{
+										style: 'currency',
+										currency: 'brl',
+									},
+								)}
 								description={
 									d.previousDate &&
 									props.description +
@@ -107,6 +125,13 @@ export default function BigNumbers(props: BigNumbersProps) {
 								}
 							/>
 							<CardDetails
+								monthlyForecast={d.monthlyForecast.totalAllTrevparForecast.toLocaleString(
+									'pt-BR',
+									{
+										style: 'currency',
+										currency: 'brl',
+									},
+								)}
 								description={
 									d.previousDate &&
 									props.description +
@@ -126,6 +151,7 @@ export default function BigNumbers(props: BigNumbersProps) {
 								}
 							/>
 							<CardDetails
+								monthlyForecast={d.monthlyForecast.totalAllGiroForecast}
 								description={
 									d.previousDate &&
 									props.description + d.previousDate.totalAllGiroPreviousData
@@ -143,6 +169,9 @@ export default function BigNumbers(props: BigNumbersProps) {
 								}
 							/>
 							<CardDetails
+								monthlyForecast={
+									d.monthlyForecast.totalAverageOccupationTimeForecast
+								}
 								description={
 									d.previousDate &&
 									props.description +

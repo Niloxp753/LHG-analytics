@@ -28,8 +28,6 @@ interface TableReservsProps {
 export function TableReservs({ data }: TableReservsProps) {
 	const dataTable: any = data;
 
-	console.log(dataTable);
-
 	return !dataTable ? (
 		<Skeleton className='w-full h-40'></Skeleton>
 	) : (
