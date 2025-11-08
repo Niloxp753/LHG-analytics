@@ -8,6 +8,7 @@ import {
 	CardTitle,
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { format } from 'date-fns';
 import { ReactNode } from 'react';
 
 interface CardDetailsProps {
@@ -31,6 +32,8 @@ export default function CardDetails({
 	description,
 	showForecast,
 }: CardDetailsProps) {
+	const now = new Date();
+	const dateReference = format(now, 'MMM/yy');
 	return value ? (
 		<Card className='text-zinc-50 w-full border-none bg-gradient-to-br from-zinc-800 to-zinc-900 '>
 			<CardHeader>
@@ -56,7 +59,9 @@ export default function CardDetails({
 						})}
 						{showForecast && (
 							<span className='flex flex-col items-start gap-1'>
-								<span className='text-xs text-muted-foreground'>Out/25</span>
+								<span className='text-xs text-muted-foreground'>
+									{dateReference}
+								</span>
 								<span className='text-muted-foreground text-xs'>
 									Valor previsto mensal:
 								</span>{' '}
@@ -79,7 +84,9 @@ export default function CardDetails({
 						{value.toLocaleString('pt-BR')}
 						{showForecast && (
 							<span className='flex flex-col items-start gap-1'>
-								<span className='text-xs text-muted-foreground'>Out/25</span>
+								<span className='text-xs text-muted-foreground'>
+									{dateReference}
+								</span>
 								<span className='text-muted-foreground text-xs'>
 									Valor previsto mensal:
 								</span>{' '}
