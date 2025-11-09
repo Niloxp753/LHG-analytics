@@ -65,8 +65,6 @@ export function TableKpiGiro(dataGiro?: any) {
 		data.push(newEntry);
 	});
 
-	// Exibindo o resultado final
-
 	return (
 		<Table
 			title='Giro por Dia da Semana'
