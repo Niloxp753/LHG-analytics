@@ -8,28 +8,8 @@ import logoAC from '@/assets/images/logo_andar_de_cima.png';
 import { Card } from '@/components/ui/card';
 import Image from 'next/image';
 import FormLogin from './_components/formLogin';
-import { redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../api/auth/[...nextauth]/options';
 
-export default async function Login({
-	searchParams,
-}: {
-	searchParams: { [key: string]: string | undefined };
-}) {
-	const menu = 'general';
-	const preSet = searchParams.set || '7days';
-
-	const session = await getServerSession(authOptions);
-
-	if (session?.user.cpf == '359.267.460-94') {
-		redirect(`/general/andardecima?menu=${menu}&set=${preSet ?? '7days'}`);
-	}
-
-	if (session?.user) {
-		redirect(`/general?menu=${menu}&set=${preSet ?? '7days'}`);
-	}
-
+export default function Login() {
 	return (
 		<div className='w-full flex h-screen bg-zinc-950 overflow-hidden'>
 			<div className='hidden bg-zinc-800 lg:flex relative lg:w-2/3 h-full flex-col justify-between items-center'>

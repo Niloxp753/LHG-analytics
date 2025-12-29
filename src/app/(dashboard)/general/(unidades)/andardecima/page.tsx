@@ -16,11 +16,8 @@ import TableKpiCategory from '@/app/(dashboard)/_components/kpis/TableKpiCategor
 import { TableKpiGiro } from '@/app/(dashboard)/_components/kpis/TableKpiGiro';
 import { TableKpiOccupation } from '@/app/(dashboard)/_components/kpis/TableKpiOccupation';
 import Ticket from '@/app/(dashboard)/_components/kpis/Ticket';
-import { authOptions } from '@/app/api/auth/[...nextauth]/options';
 import { format } from 'date-fns';
-import { getServerSession } from 'next-auth';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 
 export const revalidate = 0;
 
@@ -59,11 +56,7 @@ export default async function LushIpiranga({
 
 	const resp = await getData();
 
-	const session = await getServerSession(authOptions);
-
-	if (!session?.user) {
-		redirect('/login');
-	}
+	const session = { user: { cpf: '' } };
 
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>
@@ -80,7 +73,7 @@ export default async function LushIpiranga({
 							: 'md:w-[82vw]'
 					} backdrop-blur-md fixed top-0 z-40 flex flex-col gap-2 `}>
 					<h2 className='text-zinc-50 font-bold md:text-3xl text-center pb-1.5 pt-2.5 text-base'>
-						Visão Geral -{' '}
+						Visǜo Geral -{' '}
 						<span className='text-violet-400 text-base md:text-3xl'>
 							Andar de Cima
 						</span>
@@ -92,10 +85,10 @@ export default async function LushIpiranga({
 				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-12 lg:mt-32'>
 					<BigNumbers
 						data={resp?.BigNumbers}
-						description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-							preSet == '30days' ? '30 dias atrás ' : ''
-						} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-							preSet == '12months' ? '12 meses atrás ' : ''
+						description={`${preSet == '7days' ? '7 dias atrǭs ' : ''} ${
+							preSet == '30days' ? '30 dias atrǭs ' : ''
+						} ${preSet == '6months' ? '6 meses atrǭs ' : ''}${
+							preSet == '12months' ? '12 meses atrǭs ' : ''
 						}`}
 					/>
 					<div className='flex w-full h-full'>

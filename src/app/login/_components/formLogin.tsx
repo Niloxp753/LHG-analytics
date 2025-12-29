@@ -15,11 +15,28 @@ import { formSchemaLogin } from '@/lib/formSchemaLogin';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { signIn } from 'next-auth/react';
+import { loginWithCookies } from '@/lib/auth-client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
+
+async function signIn(
+	_provider: string,
+	options: { email: string; password: string; redirect?: boolean },
+) {
+	const resp = await loginWithCookies({
+		email: options.email,
+		password: options.password,
+	});
+
+	return {
+		error: resp.ok ? null : 'E-mail ou senha invǭlidos',
+		ok: resp.ok,
+		status: resp.status,
+		data: resp.data,
+	};
+}
 
 export default function FormLogin() {
 	const router = useRouter();

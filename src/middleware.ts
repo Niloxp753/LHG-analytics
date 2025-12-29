@@ -2,44 +2,43 @@
 
 // middleware.ts
 
-import { withAuth } from 'next-auth/middleware';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export default withAuth(
-	function middleware(request) {
-		const cpf = request.nextauth.token?.cpf as string | undefined;
-		const pathname = request.nextUrl.pathname;
+export function middleware(request: NextRequest) {
+	const pathname = request.nextUrl.pathname;
+	const accessToken = request.cookies.get('access_token')?.value;
 
-		const CPF_RESTRITO = '359.267.460-94';
-		const ROTA_PERMITIDA = '/general/andardecima';
-
-		if (cpf === CPF_RESTRITO) {
-			const isRotaPermitida = pathname === ROTA_PERMITIDA;
-
-			if (!isRotaPermitida) {
-				const url = request.nextUrl.clone();
-				url.pathname = ROTA_PERMITIDA;
-				return NextResponse.redirect(url);
-			}
+	if (pathname === '/login') {
+		if (!accessToken) {
+			return NextResponse.next();
 		}
 
-		return NextResponse.next();
-	},
-	{
-		callbacks: {
-			authorized: ({ token }) => !!token,
-		},
-	},
-);
+		const url = request.nextUrl.clone();
+		const preSet = url.searchParams.get('set') ?? '7days';
+		url.pathname = '/general';
+		url.search = '';
+		url.searchParams.set('menu', 'general');
+		url.searchParams.set('set', preSet);
+		return NextResponse.redirect(url);
+	}
+
+	if (!accessToken) {
+		const url = request.nextUrl.clone();
+		url.pathname = '/login';
+		return NextResponse.redirect(url);
+	}
+
+	return NextResponse.next();
+}
 
 export const config = {
 	matcher: [
-		'/',
-		'/general', // captura /general e TODOS os sub‑caminhos
-		'/settings',
-		'/not-found',
-		'/nps',
-		'/operational',
-		'/restaurant',
+		'/general/:path*',
+		'/settings/:path*',
+		'/nps/:path*',
+		'/operational/:path*',
+		'/restaurant/:path*',
+		'/reservations/:path*',
+		'/login',
 	],
 };
