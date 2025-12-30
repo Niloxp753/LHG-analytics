@@ -1,7 +1,6 @@
 /** @format */
 
 import { Toaster } from '@/components/ui/sonner';
-import NextAuthProvider from '@/providers/nextAuthProvider';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -29,13 +28,11 @@ export default async function RootLayout({
 				type='image/x-icon'
 			/>
 			<body className={`${inter.className} bg-zinc-950`}>
-				<NextAuthProvider>
-					<Toaster
-						richColors
-						position='top-right'
-					/>
-					{children}
-				</NextAuthProvider>
+				<Toaster
+					richColors
+					position='top-right'
+				/>
+				{children}
 			</body>
 		</html>
 	);

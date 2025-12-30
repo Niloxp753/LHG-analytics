@@ -8,7 +8,7 @@ import {
 	SheetContent,
 	SheetTrigger,
 } from '@/components/ui/sheet';
-import { User } from '@/http/user/getUsers';
+import { useSessionStore } from '@/stores/session-store';
 import {
 	BarChart3,
 	Menu,
@@ -21,12 +21,13 @@ import {
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useTransition } from 'react';
 
-export default function MenuMobile({ user }: { user?: User }) {
+export default function MenuMobile() {
 	const pathname = usePathname();
 	const [isPending, startTransition] = useTransition();
 	const searchParams = useSearchParams();
 	const preSet = searchParams.get('set') || '7days';
 	const selected = searchParams.get('menu') || 'general';
+	const user = useSessionStore((s) => s.user);
 
 	const router = useRouter();
 

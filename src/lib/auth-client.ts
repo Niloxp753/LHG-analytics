@@ -68,3 +68,42 @@ export async function logoutWithCookies(): Promise<
 		error: resp.ok ? null : payload,
 	};
 }
+
+export async function getMeWithCookies(): Promise<
+	AuthApiResult<JsonValue | string>
+> {
+	const resp = await fetch(`${baseUrl}/api/me`, {
+		method: 'GET',
+		credentials: 'include',
+	});
+
+	const payload = await readBody(resp);
+
+	return {
+		ok: resp.ok,
+		status: resp.status,
+		data: resp.ok ? payload : null,
+		error: resp.ok ? null : payload,
+	};
+}
+
+export async function getUserByEmailWithCookies(
+	email: string,
+): Promise<AuthApiResult<JsonValue | string>> {
+	const resp = await fetch(
+		`${baseUrl}/api/users/email/${encodeURIComponent(email)}`,
+		{
+			method: 'GET',
+			credentials: 'include',
+		},
+	);
+
+	const payload = await readBody(resp);
+
+	return {
+		ok: resp.ok,
+		status: resp.status,
+		data: resp.ok ? payload : null,
+		error: resp.ok ? null : payload,
+	};
+}

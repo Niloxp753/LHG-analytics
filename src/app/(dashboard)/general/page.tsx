@@ -3,6 +3,7 @@
 import { getGeneralPageData } from '@/actions/initial-pages/general';
 import { format } from 'date-fns';
 import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 import CardLink from '../_components/CardLink';
 import Header from '../_components/Header';
 import InvoicingXUnity from '../_components/kpis/InvoicingXUnity';
@@ -12,10 +13,6 @@ import OccupationXUnity from '../_components/kpis/OccupationXUnity';
 import TKTxUnity from '../_components/kpis/TKTxUnity';
 import TRevParXUnity from '../_components/kpis/TRevParXUnity';
 import BigNumbersCompany from './_components/big-numbers-company';
-import { Suspense } from 'react';
-import { getServerSession } from 'next-auth';
-import { redirect } from 'next/navigation';
-import { authOptions } from '@/app/api/auth/[...nextauth]/options';
 const SparkChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/SparkChart'),
 	{ ssr: false },
@@ -30,12 +27,6 @@ export default async function General({
 	const preSet = searchParams.set ?? '7days';
 	const startDate = searchParams.startDate;
 	const endDate = searchParams.endDate;
-
-	const session = await getServerSession(authOptions);
-
-	if (session?.user.cpf == '359.267.460-94') {
-		redirect(`/andardecima?menu=${menu}&set=${preSet ?? '7days'}`);
-	}
 
 	const formattedStartDate =
 		startDate && format(new Date(startDate!), 'dd/MM/yyyy');

@@ -3,7 +3,7 @@
 
 import logo from '@/assets/images/logo-analytics.png';
 import { Button } from '@/components/ui/button';
-import { User } from '@/http/user/getUsers';
+import { useSessionStore } from '@/stores/session-store';
 import {
 	BarChart3,
 	ChevronsLeft,
@@ -20,11 +20,12 @@ import { useState } from 'react';
 import BtnSignOut from '../../../components/btnSingOut';
 import BtnSidebarMenu from './BtnSidebarMenu';
 
-export default function SidebarMenu({ user }: { user?: User }) {
+export default function SidebarMenu() {
 	const searchParams = useSearchParams();
 	const selected = searchParams.get('menu') ?? 'general';
 	const preSet = searchParams.get('set') ?? '7days';
 	const [open, setOpen] = useState(true);
+	const user = useSessionStore((s) => s.user);
 
 	function handleClick() {
 		setOpen(!open);

@@ -4,20 +4,18 @@
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { ArrowLeft, Loader2 } from 'lucide-react';
-import { useSession } from 'next-auth/react';
+import { useSessionStore } from '@/stores/session-store';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import FormFilter from './FormFilter';
 import LinkPreSet from './LinkPreSet';
 import BtnSignOut from '@/components/btnSingOut';
 
-interface HeaderProps {
-	cpf?: string;
-}
-export default function Header({ cpf }: HeaderProps) {
+export default function Header() {
 	const searchParams = useSearchParams();
 	const pathname = usePathname();
 	const router = useRouter();
+	const sessionCpf = useSessionStore((s) => s.user?.cpf);
 	const selected = searchParams.get('menu') || 'general';
 	const preSet = searchParams.get('set') || '7days';
 	const startDate = searchParams.get('startDate') || '';
@@ -43,7 +41,7 @@ export default function Header({ cpf }: HeaderProps) {
 				className={`flex gap-5 items-end justify-between md:justify-center w-full flex-col md:flex-row `}>
 				<div className='flex flex-col lg:flex-row justify-between md:justify-start md:gap-5 w-full text-zinc-100 text-xs md:text-sm'>
 					{!canShow &&
-						(cpf == '359.267.460-94' ? (
+						(sessionCpf == '359.267.460-94' ? (
 							<BtnSignOut
 								fit
 								isOpened

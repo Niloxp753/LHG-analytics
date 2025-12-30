@@ -20,6 +20,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { useSessionStore } from '@/stores/session-store';
 
 async function signIn(
 	_provider: string,
@@ -41,6 +42,7 @@ async function signIn(
 export default function FormLogin() {
 	const router = useRouter();
 	const [isPending, setIsPending] = useState(false);
+	const hydrateSession = useSessionStore((s) => s.hydrate);
 	const form = useForm<z.infer<typeof formSchemaLogin>>({
 		resolver: zodResolver(formSchemaLogin),
 		defaultValues: {
@@ -67,6 +69,7 @@ export default function FormLogin() {
 			console.log(response);
 
 			if (!response?.error) {
+				void hydrateSession();
 				router.refresh();
 				router.push(`/general?menu=${menu}&set=${preSet ?? '7days'}`);
 				form.reset();

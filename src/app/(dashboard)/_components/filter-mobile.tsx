@@ -15,7 +15,6 @@ import { ArrowLeft, Filter, Loader2 } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useTransition } from 'react';
 import FormFilter from './FormFilter';
-import { useSession } from 'next-auth/react';
 import BtnSignOut from '@/components/btnSingOut';
 
 export default function FilterMobile() {

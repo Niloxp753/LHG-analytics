@@ -3,15 +3,11 @@
 'use server';
 
 import { IUserUp, updateUser } from '@/http/user/updateUser';
-import { getServerSession } from 'next-auth';
 import { revalidateTag } from 'next/cache';
-import { redirect } from 'next/navigation';
+import { requireAccessToken } from '@/lib/require-auth';
 
 export async function updateUserAction(props: IUserUp) {
-	const session = await getServerSession();
-	if (!session) {
-		redirect('/login');
-	}
+	await requireAccessToken();
 	if (props.password === '') {
 		await updateUser({
 			email: props.email,
