@@ -18,8 +18,8 @@ interface AreaChartsApexProps {
 }
 
 export default function LineChartsApexUnity(props: AreaChartsApexProps) {
-		const params = useSearchParams();
-		const is30Days = params.get('set') !== '30days';
+	const params = useSearchParams();
+	const is30Days = params.get('set') !== '30days';
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: 'line-bar',

@@ -7,6 +7,7 @@ import logoTout from '@/assets/images/logo_tout.png';
 import logoAC from '@/assets/images/logo_andar_de_cima.png';
 import { Card } from '@/components/ui/card';
 import Image from 'next/image';
+import { Suspense } from 'react';
 import FormLogin from './_components/formLogin';
 
 export default function Login() {
@@ -64,7 +65,9 @@ export default function Login() {
 							Entre com seus dados abaixo para fazer login
 						</p>
 					</div>
-					<FormLogin />
+					<Suspense fallback={null}>
+						<FormLogin />
+					</Suspense>
 				</Card>
 			</div>
 		</div>
