@@ -1,38 +1,18 @@
 /** @format */
 
 import { NextRequest, NextResponse } from 'next/server';
+import {
+	canAccessModule,
+	getDefaultModule,
+	isAdmin,
+	MODULE_TO_PATH,
+	PATH_TO_MODULE,
+	UNIT_SLUG_TO_UNIT,
+	UNIT_TO_SLUG,
+} from '@/lib/access-control';
 
 const authUrl = process.env.NEXT_PUBLIC_AUTH_URL;
 
-const UNIT_SLUG_TO_UNIT = {
-	lushipiranga: 'LUSH_IPIRANGA',
-	lushlapa: 'LUSH_LAPA',
-	tout: 'TOUT',
-	andardecima: 'ANDAR_DE_CIMA',
-} as const;
-
-const UNIT_TO_SLUG = {
-	LUSH_IPIRANGA: 'lushipiranga',
-	LUSH_LAPA: 'lushlapa',
-	TOUT: 'tout',
-	ANDAR_DE_CIMA: 'andardecima',
-} as const;
-
-const PATH_TO_MODULE = {
-	general: 'company',
-	operational: 'governance',
-	reservations: 'bookings',
-	restaurant: 'restaurant',
-} as const;
-
-const MODULE_TO_PATH = {
-	company: 'general',
-	governance: 'operational',
-	bookings: 'reservations',
-	restaurant: 'restaurant',
-} as const;
-
-type ModuleKey = keyof typeof MODULE_TO_PATH;
 type AuthUser = {
 	role: string;
 	unit: string;
@@ -59,43 +39,6 @@ function extractUser(payload: unknown): AuthUser | null {
 	}
 
 	return { role, unit };
-}
-
-function isAdmin(user: AuthUser) {
-	return user.role === 'ADMIN' && user.unit === 'LHG';
-}
-
-function canAccessModule(role: string, moduleKey: ModuleKey) {
-	switch (role) {
-		case 'GERENTE_GERAL':
-			return true;
-		case 'GERENTE_FINANCEIRO':
-			return moduleKey === 'company';
-		case 'GERENTE_OPERACIONAL':
-			return moduleKey === 'governance';
-		case 'GERENTE_RESERVAS':
-			return moduleKey === 'bookings';
-		case 'GERENTE_RESTAURANTE':
-			return moduleKey === 'restaurant';
-		default:
-			return false;
-	}
-}
-
-function getDefaultModule(role: string): ModuleKey | null {
-	switch (role) {
-		case 'GERENTE_GERAL':
-		case 'GERENTE_FINANCEIRO':
-			return 'company';
-		case 'GERENTE_OPERACIONAL':
-			return 'governance';
-		case 'GERENTE_RESERVAS':
-			return 'bookings';
-		case 'GERENTE_RESTAURANTE':
-			return 'restaurant';
-		default:
-			return null;
-	}
 }
 
 function buildCookieHeader(
@@ -260,9 +203,10 @@ export async function middleware(request: NextRequest) {
 	}
 
 	const modulePath = segments[0];
-	const moduleKey = modulePath && modulePath in PATH_TO_MODULE
-		? PATH_TO_MODULE[modulePath as keyof typeof PATH_TO_MODULE]
-		: null;
+	const moduleKey =
+		modulePath && modulePath in PATH_TO_MODULE
+			? PATH_TO_MODULE[modulePath as keyof typeof PATH_TO_MODULE]
+			: null;
 
 	if (!moduleKey) {
 		const response = NextResponse.next();
@@ -297,7 +241,7 @@ export async function middleware(request: NextRequest) {
 		return response;
 	}
 
-	if (!canAccessModule(auth.user.role, moduleKey)) {
+	if (!canAccessModule(auth.user, moduleKey)) {
 		const redirectUrl = buildDefaultRoute(request, auth.user);
 		const response = NextResponse.redirect(redirectUrl);
 		applySetCookies(response, auth.setCookies);

@@ -8,17 +8,31 @@ export type AccessUser =
 	| null
 	| undefined;
 
-const UNIT_SLUG_TO_UNIT = {
+export const UNIT_SLUG_TO_UNIT = {
 	lushipiranga: 'LUSH_IPIRANGA',
 	lushlapa: 'LUSH_LAPA',
 	tout: 'TOUT',
 	andardecima: 'ANDAR_DE_CIMA',
 } as const;
 
-const PATH_TO_MODULE = {
+export const UNIT_TO_SLUG = {
+	LUSH_IPIRANGA: 'lushipiranga',
+	LUSH_LAPA: 'lushlapa',
+	TOUT: 'tout',
+	ANDAR_DE_CIMA: 'andardecima',
+} as const;
+
+export const PATH_TO_MODULE = {
 	general: 'company',
 	operational: 'governance',
 	reservations: 'bookings',
+	restaurant: 'restaurant',
+} as const;
+
+export const MODULE_TO_PATH = {
+	company: 'general',
+	governance: 'operational',
+	bookings: 'reservations',
 	restaurant: 'restaurant',
 } as const;
 
@@ -50,6 +64,22 @@ export function canAccessModule(user: AccessUser, module: ModuleKey): boolean {
 			return module === 'restaurant';
 		default:
 			return false;
+	}
+}
+
+export function getDefaultModule(role: string): ModuleKey | null {
+	switch (role) {
+		case 'GERENTE_GERAL':
+		case 'GERENTE_FINANCEIRO':
+			return 'company';
+		case 'GERENTE_OPERACIONAL':
+			return 'governance';
+		case 'GERENTE_RESERVAS':
+			return 'bookings';
+		case 'GERENTE_RESTAURANTE':
+			return 'restaurant';
+		default:
+			return null;
 	}
 }
 
