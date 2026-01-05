@@ -3,6 +3,7 @@
 
 import logo from '@/assets/images/logo-analytics.png';
 import { Button } from '@/components/ui/button';
+import { canAccessModule, isAdmin } from '@/lib/access-control';
 import { useSessionStore } from '@/stores/session-store';
 import {
 	BarChart3,
@@ -26,6 +27,11 @@ export default function SidebarMenu() {
 	const preSet = searchParams.get('set') ?? '7days';
 	const [open, setOpen] = useState(true);
 	const user = useSessionStore((s) => s.user);
+	const adminAccess = isAdmin(user);
+	const canAccessCompany = canAccessModule(user, 'company');
+	const canAccessRestaurant = canAccessModule(user, 'restaurant');
+	const canAccessBookings = canAccessModule(user, 'bookings');
+	const canAccessGovernance = canAccessModule(user, 'governance');
 
 	function handleClick() {
 		setOpen(!open);
@@ -63,18 +69,18 @@ export default function SidebarMenu() {
 			</Button>
 			<div className='flex flex-col justify-between h-full'>
 				<div className='text-zinc-100 flex flex-col h-full w-fit gap-5 rounded p-2 mt-10 '>
-					{user?.role === 'ADMIN' && (
-						<BtnSidebarMenu
-							icon={<UserRoundCog size={20} />}
-							selected={selected}
-							openned={open}
-							href={`/settings?menu=admin&set=${preSet}`}
-							role={'admin'}>
-							<p>Painel Admin</p>
-						</BtnSidebarMenu>
-					)}
+					<BtnSidebarMenu
+						disabled={!adminAccess}
+						icon={<UserRoundCog size={20} />}
+						selected={selected}
+						openned={open}
+						href={`/settings?menu=admin&set=${preSet}`}
+						role={'admin'}>
+						<p>Painel Admin</p>
+					</BtnSidebarMenu>
 
 					<BtnSidebarMenu
+						disabled={!canAccessCompany}
 						icon={<BarChart3 size={20} />}
 						selected={selected}
 						openned={open}
@@ -83,6 +89,7 @@ export default function SidebarMenu() {
 						<p>Visão Geral</p>
 					</BtnSidebarMenu>
 					<BtnSidebarMenu
+						disabled={!canAccessRestaurant}
 						icon={<UtensilsCrossed size={20} />}
 						selected={selected}
 						openned={open}
@@ -91,6 +98,7 @@ export default function SidebarMenu() {
 						<p>Restaurantes</p>
 					</BtnSidebarMenu>
 					<BtnSidebarMenu
+						disabled={!canAccessBookings}
 						icon={<ScatterChart size={20} />}
 						selected={selected}
 						openned={open}
@@ -99,6 +107,7 @@ export default function SidebarMenu() {
 						<p>Reservas</p>
 					</BtnSidebarMenu>
 					<BtnSidebarMenu
+						disabled={!canAccessGovernance}
 						icon={<PieChart size={20} />}
 						selected={selected}
 						openned={open}
@@ -106,14 +115,15 @@ export default function SidebarMenu() {
 						role={'operational'}>
 						<p>Operacional</p>
 					</BtnSidebarMenu>
-					<BtnSidebarMenu
+					{/* <BtnSidebarMenu
+						disabled
 						icon={<ScanEye size={20} />}
 						selected={selected}
 						openned={open}
 						href={`/nps?menu=nps&set=${preSet}`}
 						role={'nps'}>
 						<p>Avaliações</p>
-					</BtnSidebarMenu>
+					</BtnSidebarMenu> */}
 					<div className='mt-auto'>
 						<BtnSignOut isOpened={open} />
 					</div>

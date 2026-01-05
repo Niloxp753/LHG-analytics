@@ -66,7 +66,6 @@ export default function FormLogin() {
 				password,
 				redirect: false,
 			});
-			console.log(response);
 
 			if (!response?.error) {
 				void hydrateSession();
@@ -87,8 +86,6 @@ export default function FormLogin() {
 			toast.error('Algo deu errado - 500', {
 				description: 'Erro interno do servidor',
 			});
-			console.log(error);
-			alert(error);
 			setIsPending(false);
 		}
 	}
@@ -96,6 +93,7 @@ export default function FormLogin() {
 	return (
 		<Form {...form}>
 			<form
+				method='post'
 				onSubmit={form.handleSubmit(onSubmit)}
 				className='grid gap-4'>
 				<FormField

@@ -25,9 +25,9 @@ export default function HeaderClient() {
 	const [isPending, startTransition] = useTransition();
 
 	const links = [
-		{ label: 'ĮsLTIMOS 7 DIAS', tag: '7days' },
-		{ label: 'ĮsLTIMOS 30 DIAS', tag: '30days' },
-		{ label: 'ĮsLTIMOS 6 MESES', tag: '6months' },
+		{ label: 'ÚLTIMOS 7 DIAS', tag: '7days' },
+		{ label: 'ÚLTIMOS 30 DIAS', tag: '30days' },
+		{ label: 'ÚLTIMOS 6 MESES', tag: '6months' },
 	];
 
 	const canShow =
@@ -89,4 +89,3 @@ export default function HeaderClient() {
 		</div>
 	);
 }
-

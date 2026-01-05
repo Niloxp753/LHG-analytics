@@ -69,12 +69,35 @@ export async function logoutWithCookies(): Promise<
 	};
 }
 
+export async function refreshWithCookies(): Promise<
+	AuthApiResult<JsonValue | string>
+> {
+	const resp = await fetch(`${baseUrl}/api/refresh`, {
+		method: 'POST',
+		credentials: 'include',
+		headers: {
+			accept: 'application/json',
+		},
+		cache: 'no-store',
+	});
+
+	const payload = await readBody(resp);
+
+	return {
+		ok: resp.ok,
+		status: resp.status,
+		data: resp.ok ? payload : null,
+		error: resp.ok ? null : payload,
+	};
+}
+
 export async function getMeWithCookies(): Promise<
 	AuthApiResult<JsonValue | string>
 > {
 	const resp = await fetch(`${baseUrl}/api/me`, {
 		method: 'GET',
 		credentials: 'include',
+		cache: 'no-store',
 	});
 
 	const payload = await readBody(resp);

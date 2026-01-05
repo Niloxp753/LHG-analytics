@@ -126,7 +126,6 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 							show: true,
 							showAlways: true,
 							formatter: (w: any) => {
-								console.log(w.globals.series);
 								const data: any = w.globals.series.reduce(
 									(acc: any, cur: any) => acc + cur,
 									0,

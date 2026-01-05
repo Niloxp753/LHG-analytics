@@ -18,6 +18,7 @@ import {
 	UserRoundCog,
 	UtensilsCrossed,
 } from 'lucide-react';
+import { canAccessModule, isAdmin } from '@/lib/access-control';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useTransition } from 'react';
 
@@ -28,6 +29,11 @@ export default function MenuMobile() {
 	const preSet = searchParams.get('set') || '7days';
 	const selected = searchParams.get('menu') || 'general';
 	const user = useSessionStore((s) => s.user);
+	const adminAccess = isAdmin(user);
+	const canAccessCompany = canAccessModule(user, 'company');
+	const canAccessRestaurant = canAccessModule(user, 'restaurant');
+	const canAccessBookings = canAccessModule(user, 'bookings');
+	const canAccessGovernance = canAccessModule(user, 'governance');
 
 	const router = useRouter();
 
@@ -54,6 +60,7 @@ export default function MenuMobile() {
 			label: 'Painel Admin',
 			href: `/settings?menu=admin&set=${preSet}`,
 			slug: '/settings',
+			disabled: !adminAccess,
 			icon: (
 				<UserRoundCog
 					className={` ${
@@ -66,6 +73,7 @@ export default function MenuMobile() {
 			label: 'Visão Geral',
 			href: `/general?menu=${selected}&set=${preSet}`,
 			slug: '/general',
+			disabled: !canAccessCompany,
 			icon: (
 				<BarChart3
 					className={` ${
@@ -78,6 +86,7 @@ export default function MenuMobile() {
 			label: 'Restaurantes',
 			slug: '/restaurant',
 			href: `/restaurant?menu=${selected}&set=${preSet}`,
+			disabled: !canAccessRestaurant,
 			icon: (
 				<UtensilsCrossed
 					className={` ${
@@ -90,6 +99,7 @@ export default function MenuMobile() {
 			label: 'Reservas',
 			slug: '/reservations',
 			href: `/reservations?menu=${selected}s&set=${preSet}`,
+			disabled: !canAccessBookings,
 			icon: (
 				<ScatterChart
 					className={` ${
@@ -102,6 +112,7 @@ export default function MenuMobile() {
 			label: 'Operacional',
 			slug: '/operational',
 			href: `/operational?menu=${selected}&set=${preSet}`,
+			disabled: !canAccessGovernance,
 			icon: (
 				<PieChart
 					className={` ${
@@ -114,6 +125,7 @@ export default function MenuMobile() {
 			label: 'Avaliações',
 			slug: '/nps',
 			href: `/nps?menu=nps&set=${preSet}`,
+			disabled: true,
 			icon: (
 				<ScanEye
 					className={` ${
@@ -123,10 +135,6 @@ export default function MenuMobile() {
 			),
 		},
 	];
-
-	const isAdmin = user?.role === 'ADMIN';
-
-	const newLinks = isAdmin ? links : links.slice(1);
 
 	return (
 		<Sheet>
@@ -148,22 +156,29 @@ export default function MenuMobile() {
 				<div
 					onClick={(e) => e.stopPropagation()}
 					className='mt-20 flex flex-col gap-5'>
-					{newLinks.map((link, idx) => {
+					{links.map((link, idx) => {
+						const isSelected = pathname.includes(link.slug);
+						const isDisabled = link.disabled;
 						return (
 							<Button
+								disabled={isDisabled}
 								onClick={(e) => handleClick(e, link.href)}
 								key={idx}
-								className={`flex items-center justify-start hover:bg-violet-400 transition-all ease-linear duration-150 p-2.5 rounded-md ${
-									pathname.includes(link.slug)
-										? 'bg-violet-400 text-black'
-										: 'bg-transparent text-white'
+								className={`flex items-center justify-start transition-all ease-linear duration-150 p-2.5 rounded-md ${
+									isDisabled
+										? 'bg-transparent text-zinc-400 opacity-50 cursor-not-allowed'
+										: isSelected
+											? 'bg-violet-400 text-black hover:bg-violet-400'
+											: 'bg-transparent text-white hover:bg-violet-400'
 								} gap-5`}>
 								<span>{link.icon}</span>
 								<p
 									className={`${
-										pathname.includes(link.slug)
+										isSelected && !isDisabled
 											? ' text-black'
-											: 'bg-transparent text-white'
+											: isDisabled
+												? 'text-zinc-400'
+												: 'bg-transparent text-white'
 									}`}>
 									{link.label}
 								</p>
