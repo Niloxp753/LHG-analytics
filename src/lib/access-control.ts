@@ -126,3 +126,39 @@ export function canAccessRoute(user: AccessUser, href: string): boolean {
 
 	return canAccessModule(user, moduleKey);
 }
+
+export function getUserUnitSlug(user: AccessUser): string | null {
+	if (!user?.unit) {
+		return null;
+	}
+
+	return UNIT_TO_SLUG[user.unit as keyof typeof UNIT_TO_SLUG] ?? null;
+}
+
+export function buildModuleHref(
+	user: AccessUser,
+	moduleKey: ModuleKey,
+	preSet: string,
+): string | null {
+	if (!user) {
+		return null;
+	}
+
+	const modulePath = MODULE_TO_PATH[moduleKey];
+	if (!modulePath) {
+		return null;
+	}
+
+	const search = `menu=${modulePath}&set=${preSet}`;
+
+	if (isAdmin(user)) {
+		return `/${modulePath}?${search}`;
+	}
+
+	const unitSlug = getUserUnitSlug(user);
+	if (!unitSlug) {
+		return null;
+	}
+
+	return `/${modulePath}/${unitSlug}?${search}`;
+}

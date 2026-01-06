@@ -3,14 +3,13 @@
 
 import logo from '@/assets/images/logo-analytics.png';
 import { Button } from '@/components/ui/button';
-import { canAccessModule, isAdmin } from '@/lib/access-control';
+import { buildModuleHref, canAccessModule, isAdmin } from '@/lib/access-control';
 import { useSessionStore } from '@/stores/session-store';
 import {
 	BarChart3,
 	ChevronsLeft,
 	ChevronsRight,
 	PieChart,
-	ScanEye,
 	ScatterChart,
 	UserRoundCog,
 	UtensilsCrossed,
@@ -32,6 +31,10 @@ export default function SidebarMenu() {
 	const canAccessRestaurant = canAccessModule(user, 'restaurant');
 	const canAccessBookings = canAccessModule(user, 'bookings');
 	const canAccessGovernance = canAccessModule(user, 'governance');
+	const companyHref = buildModuleHref(user, 'company', preSet);
+	const restaurantHref = buildModuleHref(user, 'restaurant', preSet);
+	const bookingsHref = buildModuleHref(user, 'bookings', preSet);
+	const governanceHref = buildModuleHref(user, 'governance', preSet);
 
 	function handleClick() {
 		setOpen(!open);
@@ -80,38 +83,38 @@ export default function SidebarMenu() {
 					</BtnSidebarMenu>
 
 					<BtnSidebarMenu
-						disabled={!canAccessCompany}
+						disabled={!canAccessCompany || !companyHref}
 						icon={<BarChart3 size={20} />}
 						selected={selected}
 						openned={open}
-						href={`/general?menu=general&set=${preSet}`}
+						href={companyHref ?? '#'}
 						role={'general'}>
 						<p>Visão Geral</p>
 					</BtnSidebarMenu>
 					<BtnSidebarMenu
-						disabled={!canAccessRestaurant}
+						disabled={!canAccessRestaurant || !restaurantHref}
 						icon={<UtensilsCrossed size={20} />}
 						selected={selected}
 						openned={open}
-						href={`/restaurant?menu=restaurant&set=${preSet}`}
+						href={restaurantHref ?? '#'}
 						role={'restaurant'}>
 						<p>Restaurantes</p>
 					</BtnSidebarMenu>
 					<BtnSidebarMenu
-						disabled={!canAccessBookings}
+						disabled={!canAccessBookings || !bookingsHref}
 						icon={<ScatterChart size={20} />}
 						selected={selected}
 						openned={open}
-						href={`/reservations?menu=reservations&set=${preSet}`}
+						href={bookingsHref ?? '#'}
 						role={'reservations'}>
 						<p>Reservas</p>
 					</BtnSidebarMenu>
 					<BtnSidebarMenu
-						disabled={!canAccessGovernance}
+						disabled={!canAccessGovernance || !governanceHref}
 						icon={<PieChart size={20} />}
 						selected={selected}
 						openned={open}
-						href={`/operational?menu=operational&set=${preSet}`}
+						href={governanceHref ?? '#'}
 						role={'operational'}>
 						<p>Operacional</p>
 					</BtnSidebarMenu>

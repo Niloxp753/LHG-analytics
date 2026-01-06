@@ -18,7 +18,7 @@ import {
 	UserRoundCog,
 	UtensilsCrossed,
 } from 'lucide-react';
-import { canAccessModule, isAdmin } from '@/lib/access-control';
+import { buildModuleHref, canAccessModule, isAdmin } from '@/lib/access-control';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useTransition } from 'react';
 
@@ -27,13 +27,16 @@ export default function MenuMobile() {
 	const [isPending, startTransition] = useTransition();
 	const searchParams = useSearchParams();
 	const preSet = searchParams.get('set') || '7days';
-	const selected = searchParams.get('menu') || 'general';
 	const user = useSessionStore((s) => s.user);
 	const adminAccess = isAdmin(user);
 	const canAccessCompany = canAccessModule(user, 'company');
 	const canAccessRestaurant = canAccessModule(user, 'restaurant');
 	const canAccessBookings = canAccessModule(user, 'bookings');
 	const canAccessGovernance = canAccessModule(user, 'governance');
+	const companyHref = buildModuleHref(user, 'company', preSet);
+	const restaurantHref = buildModuleHref(user, 'restaurant', preSet);
+	const bookingsHref = buildModuleHref(user, 'bookings', preSet);
+	const governanceHref = buildModuleHref(user, 'governance', preSet);
 
 	const router = useRouter();
 
@@ -71,9 +74,9 @@ export default function MenuMobile() {
 		},
 		{
 			label: 'Visão Geral',
-			href: `/general?menu=${selected}&set=${preSet}`,
+			href: companyHref ?? '#',
 			slug: '/general',
-			disabled: !canAccessCompany,
+			disabled: !canAccessCompany || !companyHref,
 			icon: (
 				<BarChart3
 					className={` ${
@@ -85,8 +88,8 @@ export default function MenuMobile() {
 		{
 			label: 'Restaurantes',
 			slug: '/restaurant',
-			href: `/restaurant?menu=${selected}&set=${preSet}`,
-			disabled: !canAccessRestaurant,
+			href: restaurantHref ?? '#',
+			disabled: !canAccessRestaurant || !restaurantHref,
 			icon: (
 				<UtensilsCrossed
 					className={` ${
@@ -98,8 +101,8 @@ export default function MenuMobile() {
 		{
 			label: 'Reservas',
 			slug: '/reservations',
-			href: `/reservations?menu=${selected}s&set=${preSet}`,
-			disabled: !canAccessBookings,
+			href: bookingsHref ?? '#',
+			disabled: !canAccessBookings || !bookingsHref,
 			icon: (
 				<ScatterChart
 					className={` ${
@@ -111,8 +114,8 @@ export default function MenuMobile() {
 		{
 			label: 'Operacional',
 			slug: '/operational',
-			href: `/operational?menu=${selected}&set=${preSet}`,
-			disabled: !canAccessGovernance,
+			href: governanceHref ?? '#',
+			disabled: !canAccessGovernance || !governanceHref,
 			icon: (
 				<PieChart
 					className={` ${
