@@ -2,6 +2,7 @@
 
 import { z } from 'zod';
 import { cpf } from 'zod-br-tax-id';
+import { ROLE_VALUES, UNIT_VALUES_WITH_ADMIN } from '@/lib/access-control';
 
 export const formSchemaUserUpdate = z.object({
 	name: z
@@ -19,12 +20,19 @@ export const formSchemaUserUpdate = z.object({
 		.optional(),
 	cpf: cpf({ message: 'CPF inválido' }).optional(),
 	password: z.string().optional(),
-	role: z.enum(['ADMIN', 'MANAGER']).optional(),
+	role: z.enum(ROLE_VALUES).optional(),
 	unidade: z
 		.string({
-			description:
-				'Lush Ipiranga, Lush Lapa, Andar de Cima ou Tout Campinas',
+			description: 'LUSH_IPIRANGA, LUSH_LAPA, ANDAR_DE_CIMA, TOUT ou LHG',
 			message: 'informe a unidade do usuário',
 		})
-		.optional(),
+		.optional()
+		.refine(
+			(value) =>
+				value == null ||
+				(UNIT_VALUES_WITH_ADMIN as readonly string[]).includes(value),
+			{
+				message: 'informe a unidade do usuário',
+			},
+		),
 });

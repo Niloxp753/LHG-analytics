@@ -26,6 +26,27 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import {
+	ADMIN_ROLE,
+	ADMIN_UNIT,
+	ROLE_LABELS,
+	ROLE_VALUES,
+	UNIT_LABELS,
+	UNIT_VALUES,
+	normalizeRole,
+	normalizeUnit,
+	type AccessUnit,
+} from '@/lib/access-control';
+
+const ROLE_OPTIONS = ROLE_VALUES.map((value) => ({
+	value,
+	label: ROLE_LABELS[value],
+}));
+
+const UNIT_OPTIONS = UNIT_VALUES.map((value) => ({
+	value,
+	label: UNIT_LABELS[value],
+}));
 
 interface FormUpdateProps {
 	user: IUserUp;
@@ -33,6 +54,10 @@ interface FormUpdateProps {
 
 export default function FormUpdate({ user }: FormUpdateProps) {
 	const [isPending, setIsPending] = useState(false);
+	const normalizedRole = normalizeRole(user.role) ?? ROLE_VALUES[0];
+	const normalizedUnit = normalizeUnit(user.company);
+	const normalizedUnitValue =
+		normalizedRole === ADMIN_ROLE ? ADMIN_UNIT : normalizedUnit ?? '';
 	const form = useForm<z.infer<typeof formSchemaUserUpdate>>({
 		resolver: zodResolver(formSchemaUserUpdate),
 		defaultValues: {
@@ -40,10 +65,12 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 			password: '',
 			cpf: user.cpf,
 			name: user.name,
-			unidade: user.company,
-			role: user.role ?? 'MANAGER',
+			unidade: normalizedUnitValue,
+			role: normalizedRole,
 		},
 	});
+	const selectedRole = form.watch('role');
+	const isAdminRole = selectedRole === ADMIN_ROLE;
 
 	async function onSubmit(values: z.infer<typeof formSchemaUserUpdate>) {
 		try {
@@ -54,7 +81,7 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 			const cpf = values.cpf;
 			const role = values.role;
 			const id = user.id;
-			const company = values.unidade!;
+			const company = values.unidade as AccessUnit;
 
 			await updateUserAction({
 				email,
@@ -158,7 +185,16 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 								Cargo
 							</FormLabel>
 							<Select
-								onValueChange={field.onChange}
+								onValueChange={(value) => {
+									field.onChange(value);
+									if (value === ADMIN_ROLE) {
+										form.setValue('unidade', ADMIN_UNIT);
+										return;
+									}
+									if (form.getValues('unidade') === ADMIN_UNIT) {
+										form.setValue('unidade', '');
+									}
+								}}
 								defaultValue={field.value}>
 								<FormControl>
 									<SelectTrigger>
@@ -166,8 +202,13 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
-									<SelectItem value={'MANAGER'}>Gerente</SelectItem>
-									<SelectItem value={'ADMIN'}>Administrador</SelectItem>
+									{ROLE_OPTIONS.map((role) => (
+										<SelectItem
+											key={role.value}
+											value={role.value}>
+											{role.label}
+										</SelectItem>
+									))}
 								</SelectContent>
 							</Select>
 						</FormItem>
@@ -186,6 +227,7 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 							</FormLabel>
 							<Select
 								onValueChange={field.onChange}
+								disabled={isAdminRole}
 								defaultValue={field.value}>
 								<FormControl>
 									<SelectTrigger>
@@ -193,10 +235,19 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
-									<SelectItem value={'Lush Ipiranga'}>Lush Ipiranga</SelectItem>
-									<SelectItem value={'Lush Lapa'}>Lush Lapa</SelectItem>
-									<SelectItem value={'Andar de Cima'}>Andar de Cima</SelectItem>
-									<SelectItem value={'Tout'}>Tout</SelectItem>
+									{isAdminRole ? (
+										<SelectItem value={ADMIN_UNIT}>
+											{UNIT_LABELS[ADMIN_UNIT]}
+										</SelectItem>
+									) : (
+										UNIT_OPTIONS.map((unit) => (
+											<SelectItem
+												key={unit.value}
+												value={unit.value}>
+												{unit.label}
+											</SelectItem>
+										))
+									)}
 								</SelectContent>
 							</Select>
 						</FormItem>

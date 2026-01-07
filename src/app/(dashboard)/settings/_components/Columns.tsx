@@ -6,6 +6,24 @@ import { IUser } from '@/http/user/createUser';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 import ColumnActions from './ColumnActions';
+import {
+	ROLE_LABELS,
+	UNIT_LABELS,
+	normalizeRole,
+	normalizeUnit,
+} from '@/lib/access-control';
+
+function getRoleLabel(value: unknown): string {
+	const raw = typeof value === 'string' ? value : '';
+	const normalized = normalizeRole(raw);
+	return normalized ? ROLE_LABELS[normalized] : raw;
+}
+
+function getUnitLabel(value: unknown): string {
+	const raw = typeof value === 'string' ? value : '';
+	const normalized = normalizeUnit(raw);
+	return normalized ? UNIT_LABELS[normalized] : raw;
+}
 
 export const columns: ColumnDef<IUser | undefined | any>[] = [
 	{
@@ -13,7 +31,7 @@ export const columns: ColumnDef<IUser | undefined | any>[] = [
 		accessorKey: 'role',
 		header: 'Cargo',
 		cell: ({ row }) => (
-			<div className='capitalize'>{row.getValue('Cargo')}</div>
+			<div className='capitalize'>{getRoleLabel(row.getValue('Cargo'))}</div>
 		),
 	},
 	{
@@ -44,7 +62,7 @@ export const columns: ColumnDef<IUser | undefined | any>[] = [
 		accessorKey: 'company',
 		header: 'Unidade',
 		cell: ({ row }) => (
-			<div className='capitalize'>{row.getValue('Unidade')}</div>
+			<div className='capitalize'>{getUnitLabel(row.getValue('Unidade'))}</div>
 		),
 	},
 	{

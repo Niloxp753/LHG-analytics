@@ -1,12 +1,120 @@
 /** @format */
 
+export const ADMIN_ROLE = 'ADMIN' as const;
+export const ADMIN_UNIT = 'LHG' as const;
+
+export const ROLE_VALUES = [
+	'GERENTE_GERAL',
+	'GERENTE_FINANCEIRO',
+	'GERENTE_OPERACIONAL',
+	'GERENTE_RESERVAS',
+	'GERENTE_RESTAURANTE',
+	ADMIN_ROLE,
+] as const;
+
+export const UNIT_VALUES = [
+	'LUSH_IPIRANGA',
+	'LUSH_LAPA',
+	'ANDAR_DE_CIMA',
+	'TOUT',
+] as const;
+
+export const UNIT_VALUES_WITH_ADMIN = [...UNIT_VALUES, ADMIN_UNIT] as const;
+
+export type Role = (typeof ROLE_VALUES)[number];
+export type Unit = (typeof UNIT_VALUES)[number];
+export type AccessUnit = (typeof UNIT_VALUES_WITH_ADMIN)[number];
+
 export type AccessUser =
 	| {
-			role?: string | null;
-			unit?: string | null;
+			role?: Role | string | null;
+			unit?: AccessUnit | string | null;
 	  }
 	| null
 	| undefined;
+
+export const ROLE_LABELS: Record<Role, string> = {
+	ADMIN: 'Administrador',
+	GERENTE_GERAL: 'Gerente Geral',
+	GERENTE_FINANCEIRO: 'Gerente Financeiro',
+	GERENTE_OPERACIONAL: 'Gerente Operacional',
+	GERENTE_RESERVAS: 'Gerente de Reservas',
+	GERENTE_RESTAURANTE: 'Gerente de Restaurante',
+};
+
+export const UNIT_LABELS: Record<AccessUnit, string> = {
+	LUSH_IPIRANGA: 'Lush Ipiranga',
+	LUSH_LAPA: 'Lush Lapa',
+	ANDAR_DE_CIMA: 'Andar de Cima',
+	TOUT: 'Tout',
+	LHG: 'LHG',
+};
+
+const LEGACY_ROLE_MAP: Record<string, Role> = {
+	MANAGER: 'GERENTE_GERAL',
+	GERENTE_DE_RESERVAS: 'GERENTE_RESERVAS',
+	GERENTE_DE_RESTAURANTE: 'GERENTE_RESTAURANTE',
+};
+
+const LEGACY_UNIT_MAP: Record<string, AccessUnit> = {
+	'1': 'LUSH_IPIRANGA',
+	'2': 'LUSH_LAPA',
+	'3': 'ANDAR_DE_CIMA',
+	'4': 'TOUT',
+	TOUT_CAMPINAS: 'TOUT',
+};
+
+export function normalizeRole(value?: string | null): Role | null {
+	if (!value) {
+		return null;
+	}
+
+	if (ROLE_VALUES.includes(value as Role)) {
+		return value as Role;
+	}
+
+	const legacy = LEGACY_ROLE_MAP[value];
+	if (legacy) {
+		return legacy;
+	}
+
+	const normalized = value.trim().toUpperCase().replace(/\s+/g, '_');
+	const legacyNormalized = LEGACY_ROLE_MAP[normalized];
+	if (legacyNormalized) {
+		return legacyNormalized;
+	}
+	if (ROLE_VALUES.includes(normalized as Role)) {
+		return normalized as Role;
+	}
+
+	return null;
+}
+
+export function normalizeUnit(value?: string | null): AccessUnit | null {
+	if (!value) {
+		return null;
+	}
+
+	if (UNIT_VALUES_WITH_ADMIN.includes(value as AccessUnit)) {
+		return value as AccessUnit;
+	}
+
+	const legacy = LEGACY_UNIT_MAP[value];
+	if (legacy) {
+		return legacy;
+	}
+
+	const normalized = value.trim().toUpperCase().replace(/\s+/g, '_');
+	const legacyNormalized = LEGACY_UNIT_MAP[normalized];
+	if (legacyNormalized) {
+		return legacyNormalized;
+	}
+	if (UNIT_VALUES_WITH_ADMIN.includes(normalized as AccessUnit)) {
+		return normalized as AccessUnit;
+	}
+
+	return null;
+}
 
 export const UNIT_SLUG_TO_UNIT = {
 	lushipiranga: 'LUSH_IPIRANGA',
@@ -39,7 +147,7 @@ export const MODULE_TO_PATH = {
 export type ModuleKey = (typeof PATH_TO_MODULE)[keyof typeof PATH_TO_MODULE];
 
 export function isAdmin(user: AccessUser): boolean {
-	return user?.role === 'ADMIN' && user?.unit === 'LHG';
+	return user?.role === ADMIN_ROLE && user?.unit === ADMIN_UNIT;
 }
 
 export function canAccessModule(user: AccessUser, module: ModuleKey): boolean {

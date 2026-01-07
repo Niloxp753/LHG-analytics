@@ -1,6 +1,7 @@
 /** @format */
 
 import { api } from '../api-client';
+import { AccessUnit, Role } from '@/lib/access-control';
 
 export interface IUserUp {
 	id?: string;
@@ -8,8 +9,8 @@ export interface IUserUp {
 	name?: string;
 	cpf?: string;
 	password?: string;
-	role?: 'ADMIN' | 'MANAGER';
-	company: string;
+	role?: Role;
+	company: AccessUnit;
 	companyName?: string;
 }
 
