@@ -23,7 +23,7 @@ export async function requireAccessToken() {
 		.join('; ');
 
 	try {
-		const resp = await fetch(new URL('/api/me', authUrl), {
+		const resp = await fetch(`${authUrl}/api/me`, {
 			method: 'GET',
 			headers: {
 				accept: 'application/json',

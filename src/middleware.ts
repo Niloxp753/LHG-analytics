@@ -82,7 +82,7 @@ async function getAuthUser(request: NextRequest): Promise<{
 	}
 
 	try {
-		const meResp = await fetch(new URL('/api/me', authUrl), {
+		const meResp = await fetch(`${authUrl}/api/me`, {
 			method: 'GET',
 			headers: {
 				accept: 'application/json',
@@ -99,7 +99,7 @@ async function getAuthUser(request: NextRequest): Promise<{
 			}
 		}
 
-		const refreshResp = await fetch(new URL('/api/refresh', authUrl), {
+		const refreshResp = await fetch(`${authUrl}/api/refresh`, {
 			method: 'POST',
 			headers: {
 				accept: 'application/json',
