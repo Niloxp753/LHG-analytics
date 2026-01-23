@@ -37,7 +37,7 @@ export default function CardDetails({
 	return value ? (
 		<Card className='text-zinc-50 w-full border-none bg-gradient-to-br from-zinc-800 to-zinc-900 '>
 			<CardHeader>
-				<CardTitle className='text-base flex md:items-center justify-between flex-row gap-5'>
+				<CardTitle className='text-sm font-medium text-zinc-200 flex md:items-center justify-between flex-row gap-5'>
 					<div className='flex items-center gap-3'>
 						{title}
 						{Badge}
@@ -45,53 +45,71 @@ export default function CardDetails({
 					{icon}
 				</CardTitle>
 				{description && (
-					<CardDescription className='text-muted-foreground'>
+					<CardDescription className='text-xs text-muted-foreground leading-tight'>
 						{description}
 					</CardDescription>
 				)}
 			</CardHeader>
 			<CardContent>
 				{type == 'money' ? (
-					<p className='flex gap-1 items-end justify-between'>
+					<p className='flex gap-2 items-end justify-between text-2xl font-semibold tracking-tight'>
 						{value.toLocaleString('pt-BR', {
 							style: 'currency',
 							currency: 'BRL',
 						})}
 						{showForecast && (
-							<span className='flex flex-col items-start gap-1'>
+							<span className='flex flex-col items-start gap-1 text-xs font-normal text-muted-foreground'>
 								<span className='text-xs text-muted-foreground'>
 									{dateReference}
 								</span>
 								<span className='text-muted-foreground text-xs'>
 									Valor previsto mensal:
 								</span>{' '}
-								<span className='text-sm'>
-									{monthlyForecast &&
-										monthlyForecast.toLocaleString('pt-BR', {
-											style: 'currency',
-											currency: 'BRL',
-										})}
+								<span className='text-xs text-muted-foreground'>
+									{monthlyForecast !== undefined && monthlyForecast !== null
+										? monthlyForecast.toLocaleString('pt-BR', {
+												style: 'currency',
+												currency: 'BRL',
+											})
+										: ''}
 								</span>
 							</span>
 						)}
 					</p>
 				) : type == 'percent' ? (
-					<p className='flex gap-1 items-center'>
+					<p className='flex gap-2 items-end justify-between text-2xl font-semibold tracking-tight'>
 						{(Number(value) * 100).toFixed(2) + '%'}
-					</p>
-				) : (
-					<p className='flex gap-1 items-end justify-between'>
-						{value.toLocaleString('pt-BR')}
 						{showForecast && (
-							<span className='flex flex-col items-start gap-1'>
+							<span className='flex flex-col items-start gap-1 text-xs font-normal text-muted-foreground'>
 								<span className='text-xs text-muted-foreground'>
 									{dateReference}
 								</span>
 								<span className='text-muted-foreground text-xs'>
 									Valor previsto mensal:
 								</span>{' '}
-								<span className='text-sm'>
-									{monthlyForecast?.toLocaleString('pt-BR')}
+								<span className='text-xs text-muted-foreground'>
+									{monthlyForecast !== undefined && monthlyForecast !== null
+										? (Number(monthlyForecast) * 100).toFixed(2) + '%'
+										: ''}
+								</span>
+							</span>
+						)}
+					</p>
+				) : (
+					<p className='flex gap-2 items-end justify-between text-2xl font-semibold tracking-tight'>
+						{value.toLocaleString('pt-BR')}
+						{showForecast && (
+							<span className='flex flex-col items-start gap-1 text-xs font-normal text-muted-foreground'>
+								<span className='text-xs text-muted-foreground'>
+									{dateReference}
+								</span>
+								<span className='text-muted-foreground text-xs'>
+									Valor previsto mensal:
+								</span>{' '}
+								<span className='text-xs text-muted-foreground'>
+									{monthlyForecast !== undefined && monthlyForecast !== null
+										? monthlyForecast.toLocaleString('pt-BR')
+										: ''}
 								</span>
 							</span>
 						)}

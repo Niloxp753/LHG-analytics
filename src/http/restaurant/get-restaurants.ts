@@ -1,5 +1,6 @@
 /** @format */
 
+import { buildAuthCookieHeader } from '@/lib/auth-headers';
 import { api, api_andar_de_cima, api_lapa, api_tout } from '../api-client';
 
 class HTTPError extends Error {}
@@ -10,6 +11,8 @@ export async function getRestaurants(
 ): Promise<any> {
 	const controller = new AbortController();
 	const timeout = setTimeout(() => controller.abort(), 60000);
+	const cookieHeader = buildAuthCookieHeader();
+	const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
 
 	try {
 		switch (company) {
@@ -18,6 +21,7 @@ export async function getRestaurants(
 					`Restaurants/restaurants?period=${period}`,
 					{
 						next: { tags: ['restaurant_lapa'], revalidate: 40 },
+						headers: authHeaders,
 						signal: controller.signal,
 					},
 				);
@@ -31,6 +35,7 @@ export async function getRestaurants(
 					`Restaurants/restaurants?period=${period}`,
 					{
 						next: { tags: ['restaurant_tout'], revalidate: 40 },
+						headers: authHeaders,
 						signal: controller.signal,
 					},
 				);
@@ -44,6 +49,7 @@ export async function getRestaurants(
 					`Restaurants/restaurants?period=${period}`,
 					{
 						next: { tags: ['restaurant_andar_de_cima'], revalidate: 40 },
+						headers: authHeaders,
 						signal: controller.signal,
 					},
 				);
@@ -56,6 +62,7 @@ export async function getRestaurants(
 			default:
 				const resp = await api.get(`Restaurants/restaurants?period=${period}`, {
 					next: { tags: ['restaurant_ipiranga'], revalidate: 40 },
+					headers: authHeaders,
 					signal: controller.signal,
 				});
 

@@ -4,12 +4,13 @@ import CardDetails from '@/app/(dashboard)/_components/CardDetails';
 import GenerateBadge from '@/app/(dashboard)/general/_components/generate-badge';
 import { generateDescription } from '@/utils/generate-description';
 import { Eye, Leaf, LeafyGreen } from 'lucide-react';
+import { OperationalBigNumbersEntry } from '@/types/big-numbers-operational';
 
 interface BigNumbersPageOpProps {
-	ipiranga: any[];
-	lapa: any[];
-	andar_de_cima: any[];
-	tout: any[];
+	ipiranga: OperationalBigNumbersEntry[];
+	lapa: OperationalBigNumbersEntry[];
+	andar_de_cima: OperationalBigNumbersEntry[];
+	tout: OperationalBigNumbersEntry[];
 	description: string;
 }
 
@@ -44,39 +45,89 @@ export default function BigNumbersPageOp({
 		dataAndar.currentDate.totalAllInspections +
 		dataTout.currentDate.totalAllInspections;
 
-	const totalAllSuitesCleaningsPreviousData = dataIpiranga.previousDate
-		? dataIpiranga.previousDate.totalAllSuitesCleaningsPreviousData +
-		  dataLapa.previousDate.totalAllSuitesCleaningsPreviousData +
-		  dataAndar.previousDate.totalAllSuitesCleaningsPreviousData +
-		  dataTout.previousDate.totalAllSuitesCleaningsPreviousData
+	const totalAllSuitesCleaningsPreviousData =
+		dataIpiranga.previousDate &&
+		dataLapa.previousDate &&
+		dataAndar.previousDate &&
+		dataTout.previousDate
+			? dataIpiranga.previousDate.totalAllSuitesCleaningsPreviousData +
+			  dataLapa.previousDate.totalAllSuitesCleaningsPreviousData +
+			  dataAndar.previousDate.totalAllSuitesCleaningsPreviousData +
+			  dataTout.previousDate.totalAllSuitesCleaningsPreviousData
+			: null;
+
+	const totalAllAverageDailyCleaningPreviousData =
+		dataIpiranga.previousDate &&
+		dataLapa.previousDate &&
+		dataAndar.previousDate &&
+		dataTout.previousDate
+			? dataIpiranga.previousDate.totalAllAverageDailyCleaningPreviousData +
+			  dataLapa.previousDate.totalAllAverageDailyCleaningPreviousData +
+			  dataAndar.previousDate.totalAllAverageDailyCleaningPreviousData +
+			  dataTout.previousDate.totalAllAverageDailyCleaningPreviousData
+			: null;
+
+	const totalAllInspectionsPreviousData =
+		dataIpiranga.previousDate &&
+		dataLapa.previousDate &&
+		dataAndar.previousDate &&
+		dataTout.previousDate
+			? dataIpiranga.previousDate.totalAllInspectionsPreviousData +
+			  dataLapa.previousDate.totalAllInspectionsPreviousData +
+			  dataAndar.previousDate.totalAllInspectionsPreviousData +
+			  dataTout.previousDate.totalAllInspectionsPreviousData
+			: null;
+
+	const ipirangaForecast = dataIpiranga.monthlyForecast;
+	const lapaForecast = dataLapa.monthlyForecast;
+	const andarForecast = dataAndar.monthlyForecast;
+	const toutForecast = dataTout.monthlyForecast;
+
+	const hasMonthlyForecast =
+		ipirangaForecast && lapaForecast && andarForecast && toutForecast;
+
+	const totalAllSuitesCleaningsForecast = hasMonthlyForecast
+		? ipirangaForecast!.totalAllSuitesCleaningsForecast +
+		  lapaForecast!.totalAllSuitesCleaningsForecast +
+		  andarForecast!.totalAllSuitesCleaningsForecast +
+		  toutForecast!.totalAllSuitesCleaningsForecast
 		: null;
 
-	const totalAllAverageDailyCleaningPreviousData = dataIpiranga.previousDate
-		? dataIpiranga.previousDate.totalAllAverageDailyCleaningPreviousData +
-		  dataLapa.previousDate.totalAllAverageDailyCleaningPreviousData +
-		  dataAndar.previousDate.totalAllAverageDailyCleaningPreviousData +
-		  dataTout.previousDate.totalAllAverageDailyCleaningPreviousData
+	const totalAllAverageDailyCleaningForecast = hasMonthlyForecast
+		? (ipirangaForecast!.totalAllAverageDailyCleaningForecast +
+				lapaForecast!.totalAllAverageDailyCleaningForecast +
+				andarForecast!.totalAllAverageDailyCleaningForecast +
+				toutForecast!.totalAllAverageDailyCleaningForecast) /
+		  4
 		: null;
 
-	const totalAllInspectionsPreviousData = dataIpiranga.previousDate
-		? dataIpiranga.previousDate.totalAllInspectionsPreviousData +
-		  dataLapa.previousDate.totalAllInspectionsPreviousData +
-		  dataAndar.previousDate.totalAllInspectionsPreviousData +
-		  dataTout.previousDate.totalAllInspectionsPreviousData
+	const totalAllInspectionsForecast = hasMonthlyForecast
+		? ipirangaForecast!.totalAllInspectionsForecast +
+		  lapaForecast!.totalAllInspectionsForecast +
+		  andarForecast!.totalAllInspectionsForecast +
+		  toutForecast!.totalAllInspectionsForecast
 		: null;
 
 	return (
 		<div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
 			<CardDetails
-				description={generateDescription(
-					description,
-					totalAllSuitesCleaningsPreviousData,
-				)}
+				showForecast={!!hasMonthlyForecast}
+				description={
+					totalAllSuitesCleaningsPreviousData !== null
+						? generateDescription(
+								description,
+								totalAllSuitesCleaningsPreviousData,
+						  )
+						: ''
+				}
 				icon={<Leaf />}
 				title={'Total de Suítes Limpas'}
+				monthlyForecast={
+					hasMonthlyForecast ? totalAllSuitesCleaningsForecast ?? undefined : undefined
+				}
 				value={totalAllSuitesCleanings.toLocaleString('pt-br')}
 				Badge={
-					dataIpiranga.previousDate && (
+					totalAllSuitesCleaningsPreviousData !== null && (
 						<GenerateBadge
 							val={totalAllSuitesCleanings}
 							previousVal={totalAllSuitesCleaningsPreviousData}
@@ -85,15 +136,23 @@ export default function BigNumbersPageOp({
 				}
 			/>
 			<CardDetails
-				description={generateDescription(
-					description,
-					totalAllAverageDailyCleaningPreviousData,
-				)}
+				showForecast={!!hasMonthlyForecast}
+				description={
+					totalAllAverageDailyCleaningPreviousData !== null
+						? generateDescription(
+								description,
+								totalAllAverageDailyCleaningPreviousData,
+						  )
+						: ''
+				}
 				icon={<LeafyGreen />}
 				title={'Média de Limpezas Por Dia'}
+				monthlyForecast={
+					hasMonthlyForecast ? totalAllAverageDailyCleaningForecast ?? undefined : undefined
+				}
 				value={totalAllAverageDailyCleaning.toLocaleString('pt-br')}
 				Badge={
-					dataIpiranga.previousDate && (
+					totalAllAverageDailyCleaningPreviousData !== null && (
 						<GenerateBadge
 							val={totalAllAverageDailyCleaning}
 							previousVal={totalAllAverageDailyCleaningPreviousData}
@@ -102,15 +161,20 @@ export default function BigNumbersPageOp({
 				}
 			/>
 			<CardDetails
-				description={generateDescription(
-					description,
-					totalAllInspectionsPreviousData,
-				)}
+				showForecast={!!hasMonthlyForecast}
+				description={
+					totalAllInspectionsPreviousData !== null
+						? generateDescription(description, totalAllInspectionsPreviousData)
+						: ''
+				}
 				icon={<Eye />}
 				title={'Total de Inspeções'}
+				monthlyForecast={
+					hasMonthlyForecast ? totalAllInspectionsForecast ?? undefined : undefined
+				}
 				value={totalAllInspections.toLocaleString('pt-br')}
 				Badge={
-					dataIpiranga.previousDate && (
+					totalAllInspectionsPreviousData !== null && (
 						<GenerateBadge
 							val={totalAllInspections}
 							previousVal={totalAllInspectionsPreviousData}

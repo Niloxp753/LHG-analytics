@@ -23,8 +23,12 @@
    Resumo: validacao confirmada. Pendencia relacionada: enviar cookies de auth nas rotas de `Governance/Bookings/Restaurants` (hoje apenas `Company` envia), para manter consistencia entre todos os dashboards.
 
 ## Big Numbers (tripla) e hierarquia tipografica
-8. Padronizar parsing/tipagem do contrato de Big Numbers: `currentDate`, `previousDate`, `monthlyForecast` (incluindo `BigNumbersEcommerce` quando existir).
-9. Atualizar componentes de Big Numbers para dar maior relevancia tipografica ao realizado (`currentDate`) e deixar `previousDate/monthlyForecast` como secundarias, sem alterar a estrutura do layout.
+8. [x] Padronizar parsing/tipagem do contrato de Big Numbers: `currentDate`, `previousDate`, `monthlyForecast` (incluindo `BigNumbersEcommerce` quando existir).
+   Resumo: componentes de Big Numbers tipados com contratos de `src/types/*` (company/operational/restaurant/reservations), normalizado `PreviousDate` -> `previousDate` nas telas de restaurant/reservations (incluindo ecommerce). Arquivos: `src/app/(dashboard)/_components/bignumber.tsx`, `src/app/(dashboard)/general/_components/big-numbers-company.tsx`, `src/app/(dashboard)/operational/_components/kpis-geral/big-numbers.tsx`, `src/app/(dashboard)/operational/_components/kpis-unidade/big-numbers-operation.tsx`, `src/app/(dashboard)/restaurant/_components/**/big-numbers*.tsx`, `src/app/(dashboard)/reservations/_components/**/big-numbers*.tsx`.
+
+9. [x] Atualizar componentes de Big Numbers para dar maior relevancia tipografica ao realizado (`currentDate`) e deixar `previousDate/monthlyForecast` como secundarias, sem alterar a estrutura do layout.
+   Resumo: hierarquia tipografica aplicada no card base (valor principal maior/mais pesado, descricao e previsao menores e com menor contraste), sem mudar estrutura. Arquivo: `src/app/(dashboard)/_components/CardDetails.tsx`.
+
 10. Garantir que todos os 4 dashboards e as 4 unidades exibam Big Numbers com o mesmo padrao (total 16 endpoints).
 
 ## Resiliencia de UI (primeira renderizacao)

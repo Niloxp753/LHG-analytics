@@ -340,6 +340,39 @@ Validar fluxos principais, performance basica e consistencia visual, garantindo 
 **Validacoes**
 - Sem validacao via chrome-devtools (pendente auth local).
 
+### Task 8 - Tipagem do contrato de Big Numbers (23/01/2026)
+
+**O que foi feito**
+- Tipagem aplicada aos componentes de Big Numbers com os contratos de `src/types/*` (company/operational/restaurant/reservations).
+- Normalizado `PreviousDate` -> `previousDate` nas telas de restaurant/reservations (incluindo ecommerce), alinhando ao payload atual do backend.
+- Componentes de pagina com Big Numbers passam a aceitar dados opcionais e evitam renderizacao quando faltarem entradas.
+
+**Arquivos afetados (principais)**
+- `src/app/(dashboard)/_components/bignumber.tsx`
+- `src/app/(dashboard)/general/_components/big-numbers-company.tsx`
+- `src/app/(dashboard)/operational/_components/kpis-geral/big-numbers.tsx`
+- `src/app/(dashboard)/operational/_components/kpis-unidade/big-numbers-operation.tsx`
+- `src/app/(dashboard)/restaurant/_components/kpis/big-numbers-page.tsx`
+- `src/app/(dashboard)/restaurant/_components/kpi-unidade/big-numbers.tsx`
+- `src/app/(dashboard)/reservations/_components/big-numbers-reservation-page.tsx`
+- `src/app/(dashboard)/reservations/_components/big-numbers-reservations.tsx`
+- `src/app/(dashboard)/reservations/_components/big-numbers-ecommerce.tsx`
+
+**Validacoes**
+- Sem validacao via chrome-devtools (pendente auth local).
+
+### Task 9 - Hierarquia tipografica dos Big Numbers (23/01/2026)
+
+**O que foi feito**
+- Ajustada a hierarquia tipografica no card base: valor do realizado com tamanho/peso maior; descricao e previsao mensal com tamanho menor e menor contraste.
+- Estrutura de layout mantida (sem alterar organizacao dos elementos).
+
+**Arquivos afetados (principais)**
+- `src/app/(dashboard)/_components/CardDetails.tsx`
+
+**Validacoes**
+- Sem validacao via chrome-devtools (pendente auth local).
+
 ### Task 3 - Tags de periodo e labels (23/01/2026)
 
 **O que foi feito**

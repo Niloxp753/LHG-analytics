@@ -12,9 +12,10 @@ import CardDetails from './CardDetails';
 import { Skeleton } from '@/components/ui/skeleton';
 import GenerateBadge from '../general/_components/generate-badge';
 import { parseCurrency } from '@/utils/normalize-bignumbers-general';
+import { CompanyBigNumbersEntry } from '@/types/big-numbers-company';
 
 interface BigNumbersProps {
-	data?: any[];
+	data?: CompanyBigNumbersEntry[];
 	description: string;
 }
 

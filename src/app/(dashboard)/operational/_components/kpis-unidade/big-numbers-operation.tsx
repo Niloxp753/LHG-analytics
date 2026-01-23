@@ -4,9 +4,10 @@ import CardDetails from '@/app/(dashboard)/_components/CardDetails';
 import GenerateBadge from '@/app/(dashboard)/general/_components/generate-badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Eye, Leaf, LeafyGreen } from 'lucide-react';
+import { OperationalBigNumbersEntry } from '@/types/big-numbers-operational';
 
 interface BigNumbersOperationProps {
-	data?: any[];
+	data?: OperationalBigNumbersEntry[];
 	description: string;
 }
 
@@ -23,6 +24,7 @@ export default function BigNumbersOperation({
 							key={index}
 							className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
 							<CardDetails
+						showForecast={!!d.monthlyForecast}
 								description={
 									d.previousDate &&
 									description +
@@ -30,6 +32,11 @@ export default function BigNumbersOperation({
 								}
 								icon={<Leaf />}
 								title={'Total de Suítes Limpas'}
+						monthlyForecast={
+							d.monthlyForecast
+								? d.monthlyForecast.totalAllSuitesCleaningsForecast
+								: undefined
+						}
 								value={d.currentDate.totalAllSuitesCleanings}
 								Badge={
 									d.previousDate && (
@@ -43,6 +50,7 @@ export default function BigNumbersOperation({
 								}
 							/>
 							<CardDetails
+						showForecast={!!d.monthlyForecast}
 								description={
 									d.previousDate &&
 									description +
@@ -50,6 +58,11 @@ export default function BigNumbersOperation({
 								}
 								icon={<LeafyGreen />}
 								title={'Média de Limpezas Por Dia'}
+						monthlyForecast={
+							d.monthlyForecast
+								? d.monthlyForecast.totalAllAverageDailyCleaningForecast
+								: undefined
+						}
 								value={d.currentDate.totalAllAverageDailyCleaning}
 								Badge={
 									d.previousDate && (
@@ -63,12 +76,18 @@ export default function BigNumbersOperation({
 								}
 							/>
 							<CardDetails
+						showForecast={!!d.monthlyForecast}
 								description={
 									d.previousDate &&
 									description + d.previousDate.totalAllInspectionsPreviousData
 								}
 								icon={<Eye />}
 								title={'Total de Inspeções'}
+						monthlyForecast={
+							d.monthlyForecast
+								? d.monthlyForecast.totalAllInspectionsForecast
+								: undefined
+						}
 								value={d.currentDate.totalAllInspections}
 								Badge={
 									d.previousDate && (

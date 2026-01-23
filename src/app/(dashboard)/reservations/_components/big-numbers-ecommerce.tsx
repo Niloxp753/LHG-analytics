@@ -1,12 +1,13 @@
-/** @format */
+﻿/** @format */
 
 import CardDetails from '@/app/(dashboard)/_components/CardDetails';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Blend, HandCoins, Sigma, SquarePercent } from 'lucide-react';
 import GenerateBadge from '../../general/_components/generate-badge';
+import { ReservationsBigNumbersEntry } from '@/types/big-numbers-reservations';
 
 interface BigNumbersEcommerceProps {
-	data?: any[];
+	data?: ReservationsBigNumbersEntry[];
 	description: string;
 }
 
@@ -23,12 +24,13 @@ export default function BigNumbersEcommerce({
 							key={index}
 							className='grid grid-cols-1 lg:grid-cols-4 gap-5 w-full '>
 							<CardDetails
+								showForecast={!!d.monthlyForecast}
 								type='money'
 								description={
-									d.PreviousDate &&
+									d.previousDate &&
 									description +
 										Number(
-											d.PreviousDate.totalAllValuePreviousData,
+											d.previousDate.totalAllValuePreviousData,
 										).toLocaleString('pt-BR', {
 											style: 'currency',
 											currency: 'brl',
@@ -36,40 +38,52 @@ export default function BigNumbersEcommerce({
 								}
 								icon={<HandCoins />}
 								title={'Receita De Reservas - Ecommerce'}
+								monthlyForecast={
+									d.monthlyForecast
+										? d.monthlyForecast.totalAllValueForecast
+										: undefined
+								}
 								value={d.currentDate.totalAllValue}
 								Badge={
-									d.PreviousDate && (
+									d.previousDate && (
 										<GenerateBadge
 											val={d.currentDate.totalAllValue!}
-											previousVal={d.PreviousDate.totalAllValuePreviousData}
+											previousVal={d.previousDate.totalAllValuePreviousData}
 										/>
 									)
 								}
 							/>
 							<CardDetails
+								showForecast={!!d.monthlyForecast}
 								description={
-									d.PreviousDate &&
-									description + d.PreviousDate.totalAllBookingsPreviousData
+									d.previousDate &&
+									description + d.previousDate.totalAllBookingsPreviousData
 								}
 								icon={<Sigma />}
-								title={'Número De Reservas - Ecommerce'}
+								title={'Número de Reservas - Ecommerce'}
+								monthlyForecast={
+									d.monthlyForecast
+										? d.monthlyForecast.totalAllBookingsForecast
+										: undefined
+								}
 								value={d.currentDate.totalAllBookings}
 								Badge={
-									d.PreviousDate && (
+									d.previousDate && (
 										<GenerateBadge
 											val={d.currentDate.totalAllBookings!}
-											previousVal={d.PreviousDate.totalAllBookingsPreviousData}
+											previousVal={d.previousDate.totalAllBookingsPreviousData}
 										/>
 									)
 								}
 							/>
 							<CardDetails
+								showForecast={!!d.monthlyForecast}
 								type='money'
 								description={
-									d.PreviousDate &&
+									d.previousDate &&
 									description +
 										Number(
-											d.PreviousDate.totalAllTicketAveragePreviousData,
+											d.previousDate.totalAllTicketAveragePreviousData,
 										).toLocaleString('pt-BR', {
 											style: 'currency',
 											currency: 'brl',
@@ -77,40 +91,51 @@ export default function BigNumbersEcommerce({
 								}
 								icon={<SquarePercent />}
 								title={'Ticket Médio - Ecommerce'}
+								monthlyForecast={
+									d.monthlyForecast
+										? d.monthlyForecast.totalAllTicketAverageForecast
+										: undefined
+								}
 								value={d.currentDate.totalAllTicketAverage}
 								Badge={
-									d.PreviousDate && (
+									d.previousDate && (
 										<GenerateBadge
 											val={d.currentDate.totalAllTicketAverage!}
 											previousVal={
-												d.PreviousDate.totalAllTicketAveragePreviousData
+												d.previousDate.totalAllTicketAveragePreviousData
 											}
 										/>
 									)
 								}
 							/>{' '}
 							<CardDetails
+								showForecast={!!d.monthlyForecast}
 								type=''
 								description={
-									d.PreviousDate &&
+									d.previousDate &&
 									description +
-										d.PreviousDate.totalAllRepresentativenessPreviousData *
+										d.previousDate.totalAllRepresentativenessPreviousData *
 											100 +
 										'%'
 								}
 								icon={<Blend />}
 								title={'Representatividade - Ecommerce'}
+								monthlyForecast={
+									d.monthlyForecast
+										? d.monthlyForecast.totalAllRepresentativenessForecast
+										: undefined
+								}
 								value={
 									Number(
 										d.currentDate.totalAllRepresentativeness * 100,
 									).toFixed(2) + '%'
 								}
 								Badge={
-									d.PreviousDate && (
+									d.previousDate && (
 										<GenerateBadge
 											val={d.currentDate.totalAllRepresentativeness!}
 											previousVal={
-												d.PreviousDate.totalAllRepresentativenessPreviousData
+												d.previousDate.totalAllRepresentativenessPreviousData
 											}
 										/>
 									)

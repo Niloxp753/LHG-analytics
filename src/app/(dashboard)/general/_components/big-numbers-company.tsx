@@ -12,20 +12,25 @@ import {
 import { NormalizeTimeNumbers } from '@/utils/normalize-bignumbers-general';
 import CardDetails from '../../_components/CardDetails';
 import GenerateBadge from './generate-badge';
+import { CompanyBigNumbersEntry } from '@/types/big-numbers-company';
 
 interface BigNumbersProps {
-	ipiranga: any[];
-	lapa: any[];
-	andar_de_cima: any[];
-	tout: any[];
+	ipiranga?: CompanyBigNumbersEntry[] | null;
+	lapa?: CompanyBigNumbersEntry[] | null;
+	andar_de_cima?: CompanyBigNumbersEntry[] | null;
+	tout?: CompanyBigNumbersEntry[] | null;
 	description: string;
 }
 
 export default function BigNumbersCompany(props: BigNumbersProps) {
-	const dataIpiranga = props.ipiranga[0];
-	const dataLapa = props.lapa[0];
-	const dataAndarDeCima = props.andar_de_cima[0];
-	const dataTout = props.tout[0];
+	const dataIpiranga = props.ipiranga?.[0];
+	const dataLapa = props.lapa?.[0];
+	const dataAndarDeCima = props.andar_de_cima?.[0];
+	const dataTout = props.tout?.[0];
+
+	if (!dataIpiranga || !dataLapa || !dataAndarDeCima || !dataTout) {
+		return null;
+	}
 
 	const totalAllValue =
 		dataIpiranga.currentDate.totalAllValue +
