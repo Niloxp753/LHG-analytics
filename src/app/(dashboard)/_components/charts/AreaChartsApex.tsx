@@ -4,6 +4,7 @@
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
 import { Skeleton } from '@/components/ui/skeleton';
+import { DEFAULT_RANGE_TAG, isShortRangeTag } from '@/lib/date-range';
 import { useSearchParams } from 'next/navigation';
 
 interface AreaChartsApexProps {
@@ -19,15 +20,12 @@ interface AreaChartsApexProps {
 
 export default function AreaChartsApex(props: AreaChartsApexProps) {
 	const params = useSearchParams();
-	const is30Days = params.get('set') === '30days';
+	const rangeTag = params.get('set') ?? DEFAULT_RANGE_TAG;
+	const isShortRange = isShortRangeTag(rangeTag);
 	const isCustomData = params.get('startDate') !== null;
 
 	function isEnabled() {
-		if (is30Days || isCustomData) {
-			return false;
-		} else {
-			return true;
-		}
+		return isShortRange && !isCustomData;
 	}
 
 	const options: ApexCharts.ApexOptions = {

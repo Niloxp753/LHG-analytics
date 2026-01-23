@@ -5,6 +5,7 @@
 import BtnSignOut from '@/components/btnSingOut';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { DATE_RANGE_TAGS, DEFAULT_RANGE_TAG } from '@/lib/date-range';
 import { useSessionStore } from '@/stores/session-store';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -18,17 +19,13 @@ export default function HeaderClient() {
 	const router = useRouter();
 	const sessionCpf = useSessionStore((s) => s.user?.cpf);
 	const selected = searchParams.get('menu') || 'general';
-	const preSet = searchParams.get('set') || '7days';
+	const preSet = searchParams.get('set') || DEFAULT_RANGE_TAG;
 	const startDate = searchParams.get('startDate') || '';
 	const menu = searchParams.get('menu');
 	const [tab, setTab] = useState(preSet);
 	const [isPending, startTransition] = useTransition();
 
-	const links = [
-		{ label: 'ÚLTIMOS 7 DIAS', tag: '7days' },
-		{ label: 'ÚLTIMOS 30 DIAS', tag: '30days' },
-		{ label: 'ÚLTIMOS 6 MESES', tag: '6months' },
-	];
+	const links = DATE_RANGE_TAGS;
 
 	const canShow =
 		pathname.endsWith('general') ||
@@ -59,15 +56,14 @@ export default function HeaderClient() {
 								{isPending ? (
 									<Loader2
 										size={16}
-										className='animate-spin mr-2'
+										className='animate-spin '
 									/>
 								) : (
 									<ArrowLeft
 										size={16}
-										className='mr-2'
+										className=''
 									/>
 								)}
-								Voltar
 							</Button>
 						))}
 					{links.map((l, index) => {

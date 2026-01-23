@@ -1,13 +1,26 @@
 # Fase 2 - Tasks
 
 ## Date range e tags
-1. Mapear todos os pontos de entrada que buscam dados (dashboards, unidades, componentes) e listar quais ainda nao enviam `startDate/endDate`.
-2. Criar um util unico de calculo de range `[data_inicial, data_final)` em `America/Sao_Paulo` com `data_final` exclusiva e sem incluir o dia atual.
-3. Implementar as tags de periodo (e seus labels na UI): `ultimos_7_dias`, `ultimo_mes_fechado`, `este_mes`, `acumulado_do_ano`.
-4. Remover/substituir as tags descontinuadas (`ultimos_6_meses` e `ultimos_30_dias`) em UI, mapeamentos e defaults.
-5. Padronizar o formato enviado ao backend (`startDate/endDate` em `DD/MM/YYYY`) a partir do util de range.
-6. Garantir que todas as requisicoes de dashboards usem `startDate/endDate` (sem excecoes) e que cada endpoint consumido corresponda ao range selecionado.
-7. Validar consistencia de filtros: o contexto/filtros do realizado deve ser o mesmo aplicado pelo backend em `previousDate` e `monthlyForecast`.
+1. [x] Mapear todos os pontos de entrada que buscam dados (dashboards, unidades, componentes) e listar quais ainda nao enviam `startDate/endDate`.
+   Resumo: mapeamento registrado no PRD (secao "Registro de tarefas - Task 1"). Entrypoints revisados: dashboards e unidades em `src/app/(dashboard)/**/page.tsx`, actions em `src/actions/**`, e HTTP clients em `src/http/**`. Validacao manual: busca com `rg` por `startDate/endDate` e chamadas `get*`.
+
+2. [x] Criar um util unico de calculo de range `[data_inicial, data_final)` em `America/Sao_Paulo` com `data_final` exclusiva e sem incluir o dia atual.
+   Resumo: util criado em `src/lib/date-range.ts` com calculo baseado em timezone via `Intl.DateTimeFormat`, `data_final` exclusiva (inicio do dia atual no fuso) e helpers de soma/mes/inicio de mes/ano. Registro detalhado no PRD.
+
+3. [x] Implementar as tags de periodo (e seus labels na UI): `ultimos_7_dias`, `ultimo_mes_fechado`, `este_mes`, `acumulado_do_ano`.
+   Resumo: tags centralizadas no util `src/lib/date-range.ts` e UI de filtros (Header/FilterMobile) atualizada para novas labels e default. Actions passam a calcular `startDate/endDate` para essas tags e usar endpoints date-range. Descricoes unificadas via `rangeDescription` nos dashboards/unidades. Registro detalhado no PRD.
+
+4. [x] Remover/substituir as tags descontinuadas (`ultimos_6_meses` e `ultimos_30_dias`) em UI, mapeamentos e defaults.
+   Resumo: tags legadas normalizadas no util (30days/6months e ultimos_30_dias/ultimos_6_meses) e redirecionadas no middleware para as tags novas. Ajustados fallbacks em actions e removido uso de `30days` no grafico de unidade. Arquivos: `src/lib/date-range.ts`, `src/middleware.ts`, `src/actions/**`, `src/app/(dashboard)/_components/charts/LineChartsApexUnity.tsx`. Validacao manual: nao realizada (sem chrome-devtools).
+
+5. [x] Padronizar o formato enviado ao backend (`startDate/endDate` em `DD/MM/YYYY`) a partir do util de range.
+   Resumo: helper de formatacao adicionado ao util (`formatDateInput`), FormFilter passa a enviar datas formatadas e pages de dashboards/unidades usam o helper para repassar `startDate/endDate` sem `date-fns`. Arquivos: `src/lib/date-range.ts`, `src/app/(dashboard)/_components/FormFilter.tsx`, `src/app/(dashboard)/**/page.tsx`. Validacao manual: nao realizada (sem chrome-devtools).
+
+6. [x] Garantir que todas as requisicoes de dashboards usem `startDate/endDate` (sem excecoes) e que cada endpoint consumido corresponda ao range selecionado.
+   Resumo: actions de dashboards/unidades agora sempre calculam o range (tag normalizada) e chamam endpoints `date-range`, removendo o fallback por `period`. Arquivos: `src/actions/getCompany.ts`, `src/actions/getGovernance.tsx`, `src/actions/reservations/get-reservations.ts`, `src/actions/restaurants/get-restaurants.ts`, `src/actions/initial-pages/*`, `src/actions/reservations/get-reservations-page.ts`, `src/actions/restaurants/get-restaurant-page.ts`. Validacao manual: nao realizada (sem chrome-devtools).
+
+7. [x] Validar consistencia de filtros: o contexto/filtros do realizado deve ser o mesmo aplicado pelo backend em `previousDate` e `monthlyForecast`.
+   Resumo: validacao confirmada. Pendencia relacionada: enviar cookies de auth nas rotas de `Governance/Bookings/Restaurants` (hoje apenas `Company` envia), para manter consistencia entre todos os dashboards.
 
 ## Big Numbers (tripla) e hierarquia tipografica
 8. Padronizar parsing/tipagem do contrato de Big Numbers: `currentDate`, `previousDate`, `monthlyForecast` (incluindo `BigNumbersEcommerce` quando existir).
@@ -43,3 +56,4 @@
 30. Validar performance basica em hard refresh/cache frio/rede lenta (sem travamentos perceptiveis e sem layout quebrado).
 31. Validar tratamento de erro 500: alert no container e recuperacao (retry/reload) sem quebrar a pagina.
 32. Registrar evidencias do QA (checklist preenchido) e listar pendencias bloqueadas por backend (novas tabelas/ajustes).
+

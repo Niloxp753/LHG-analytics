@@ -3,7 +3,7 @@
 import { getRestaurantsCustomAction } from '@/actions/restaurants/get-restaurant-custom';
 import { getRestaurantsAction } from '@/actions/restaurants/get-restaurants';
 import Header from '@/app/(dashboard)/_components/Header';
-import { format } from 'date-fns';
+import { DEFAULT_RANGE_TAG, formatDateInput, getRangeDescription } from '@/lib/date-range';
 import { revalidatePath } from 'next/cache';
 import BigNumbers from '../../_components/kpi-unidade/big-numbers';
 import { AReports } from '../../_components/kpis/AReports';
@@ -24,16 +24,16 @@ export default async function Restaurant({
 	searchParams: { [key: string]: string | undefined };
 }) {
 	searchParams.menu = 'restaurant';
-	const preSet = searchParams.set ?? '7days';
+	const preSet = searchParams.set ?? DEFAULT_RANGE_TAG;
 	const startDate = searchParams.startDate;
 	const endDate = searchParams.endDate;
+	const rangeDescription = getRangeDescription(preSet);
 
-	const formattedStartDate =
-		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
-	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
+	const formattedStartDate = formatDateInput(startDate);
+	const formattedEndDate = formatDateInput(endDate);
 
 	async function getData() {
-		if (startDate && endDate) {
+		if (formattedStartDate && formattedEndDate) {
 			const customData = await getRestaurantsCustomAction(
 				formattedStartDate!,
 				formattedEndDate!,
@@ -44,7 +44,7 @@ export default async function Restaurant({
 				return customData;
 			}
 		} else {
-			const data = await getRestaurantsAction(preSet ?? '7days', 'tout');
+			const data = await getRestaurantsAction(preSet ?? DEFAULT_RANGE_TAG, 'tout');
 			if (data) {
 				revalidatePath('/');
 				return data;
@@ -70,11 +70,7 @@ export default async function Restaurant({
 				<div className=' w-full  flex gap-5 flex-col justify-start mt-12 lg:mt-32'>
 					<BigNumbers
 						data={resp?.BigNumbers}
-						description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-							preSet == '30days' ? '30 dias atrás ' : ''
-						} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-							preSet == '12months' ? '12 meses atrás ' : ''
-						}`}
+						description={rangeDescription}
 					/>
 					<div className='flex w-full gap-5 h-full'>
 						<RevenueABXCost data={resp.RevenueAbByPeriod} />
@@ -143,3 +139,7 @@ export default async function Restaurant({
 		</main>
 	);
 }
+
+
+
+

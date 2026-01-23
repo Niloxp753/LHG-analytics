@@ -2,9 +2,13 @@
 
 'use server';
 
-import { getCompany } from '@/http/company/getCompany';
 import { revalidatePath } from 'next/cache';
 import { getCompanyCustom } from '@/http/company/getCompanyCustom';
+import {
+	DEFAULT_RANGE_TAG,
+	getRangeByTag,
+	normalizeRangeTag,
+} from '@/lib/date-range';
 
 interface getGeneralPageDataProps {
 	period?: string;
@@ -17,19 +21,8 @@ export async function getGeneralPageData({
 	period,
 	startDate,
 }: getGeneralPageDataProps) {
-	let newPeriod = '';
-
-	if (period === '30days') {
-		newPeriod = 'LAST_30_D';
-	}
-
-	if (period === '7days') {
-		newPeriod = 'LAST_7_D';
-	}
-
-	if (period === '6months') {
-		newPeriod = 'LAST_6_M';
-	}
+	const normalized = normalizeRangeTag(period, DEFAULT_RANGE_TAG);
+	const range = getRangeByTag(normalized);
 
 	if (startDate && endDate) {
 		const customDataIpiranga = await getCompanyCustom(startDate, endDate);
@@ -65,24 +58,55 @@ export async function getGeneralPageData({
 				error: 'Erro ao encontrar dados',
 			};
 		}
-	} else {
-		const dataiIpiranga = await getCompany(newPeriod);
-		const dataiLapa = await getCompany(newPeriod, 'lapa');
-		const dataiAndar = await getCompany(newPeriod, 'andar_de_cima');
-		const dataiTout = await getCompany(newPeriod, 'tout');
-		if (dataiIpiranga && dataiLapa && dataiAndar && dataiTout) {
+	} else if (range) {
+		const customDataIpiranga = await getCompanyCustom(
+			range.startDate,
+			range.endDate,
+		);
+		const customDataLapa = await getCompanyCustom(
+			range.startDate,
+			range.endDate,
+			'lapa',
+		);
+		const customDataAndarDeCima = await getCompanyCustom(
+			range.startDate,
+			range.endDate,
+			'andar_de_cima',
+		);
+		const customDataTout = await getCompanyCustom(
+			range.startDate,
+			range.endDate,
+			'tout',
+		);
+
+		if (
+			customDataIpiranga &&
+			customDataLapa &&
+			customDataAndarDeCima &&
+			customDataTout
+		) {
 			revalidatePath('/general');
 			return {
 				ok: true,
-				data: [dataiIpiranga, dataiLapa, dataiAndar, dataiTout],
+				data: [
+					customDataIpiranga,
+					customDataLapa,
+					customDataAndarDeCima,
+					customDataTout,
+				],
 				error: null,
 			};
-		} else {
-			return {
-				ok: false,
-				data: null,
-				error: 'Erro ao encontrar dados',
-			};
 		}
+		return {
+			ok: false,
+			data: null,
+			error: 'Erro ao encontrar dados',
+		};
 	}
+	return {
+		ok: false,
+		data: null,
+		error: 'Erro ao encontrar dados',
+	};
 }
+

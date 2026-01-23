@@ -21,6 +21,7 @@ import { toast } from 'sonner';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
+import { DEFAULT_RANGE_TAG } from '@/lib/date-range';
 
 async function signIn(
 	_provider: string,
@@ -54,7 +55,7 @@ export default function FormLogin() {
 	const params = useSearchParams();
 
 	const menu = 'general';
-	const preSet = params.get('set') || '7days';
+	const preSet = params.get('set') || DEFAULT_RANGE_TAG;
 
 	async function onSubmit(values: z.infer<typeof formSchemaLogin>) {
 		try {
@@ -70,7 +71,7 @@ export default function FormLogin() {
 			if (!response?.error) {
 				void hydrateSession();
 				router.refresh();
-				router.push(`/general?menu=${menu}&set=${preSet ?? '7days'}`);
+				router.push(`/general?menu=${menu}&set=${preSet ?? DEFAULT_RANGE_TAG}`);
 				form.reset();
 				toast.success('Usuário Logado - 200', {
 					description: 'Credenciais válidas',
@@ -149,3 +150,4 @@ export default function FormLogin() {
 		</Form>
 	);
 }
+

@@ -13,7 +13,7 @@ import TableWokersAfternoon from '../../_components/kpis-unidade/table-workers-a
 import TableWokersNight from '../../_components/kpis-unidade/table-workers-nigh';
 import { getGovernanceAction } from '@/actions/getGovernance';
 import { revalidatePath } from 'next/cache';
-import { format } from 'date-fns';
+import { DEFAULT_RANGE_TAG, formatDateInput, getRangeDescription } from '@/lib/date-range';
 import BigNumbersOperation from '../../_components/kpis-unidade/big-numbers-operation';
 import { getOperationCustomAction } from '@/actions/getoperationsCustom';
 
@@ -23,16 +23,16 @@ export default async function LushLapa({
 	searchParams: { [key: string]: string | undefined };
 }) {
 	searchParams.menu = 'operational';
-	const preSet = searchParams.set ?? '7days';
+	const preSet = searchParams.set ?? DEFAULT_RANGE_TAG;
 	const startDate = searchParams.startDate;
 	const endDate = searchParams.endDate;
+	const rangeDescription = getRangeDescription(preSet);
 
-	const formattedStartDate =
-		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
-	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
+	const formattedStartDate = formatDateInput(startDate);
+	const formattedEndDate = formatDateInput(endDate);
 
 	async function getData() {
-		if (startDate && endDate) {
+		if (formattedStartDate && formattedEndDate) {
 			const customData = await getOperationCustomAction(
 				formattedStartDate!,
 				formattedEndDate!,
@@ -43,7 +43,7 @@ export default async function LushLapa({
 				return customData;
 			}
 		} else {
-			const data = await getGovernanceAction(preSet ?? '7days', 'lapa');
+			const data = await getGovernanceAction(preSet ?? DEFAULT_RANGE_TAG, 'lapa');
 			if (data) {
 				revalidatePath('/');
 				return data;
@@ -73,11 +73,7 @@ export default async function LushLapa({
 						<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-12 md:mt-32'>
 							<BigNumbersOperation
 								data={resp?.BigNumbers}
-								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-									preSet == '30days' ? '30 dias atrás ' : ''
-								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-									preSet == '12months' ? '12 meses atrás ' : ''
-								}`}
+								description={rangeDescription}
 							/>
 							<div className='flex items-center gap-5 justify-between flex-col md:flex-row'>
 								<Performance data={resp?.SupervisorsPerformance} />
@@ -121,3 +117,7 @@ export default async function LushLapa({
 		</>
 	);
 }
+
+
+
+

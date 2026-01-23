@@ -4,6 +4,7 @@
 import logo from '@/assets/images/logo-analytics.png';
 import { Button } from '@/components/ui/button';
 import { buildModuleHref, canAccessModule, isAdmin } from '@/lib/access-control';
+import { DEFAULT_RANGE_TAG } from '@/lib/date-range';
 import { useSessionStore } from '@/stores/session-store';
 import {
 	BarChart3,
@@ -23,7 +24,7 @@ import BtnSidebarMenu from './BtnSidebarMenu';
 export default function SidebarMenu() {
 	const searchParams = useSearchParams();
 	const selected = searchParams.get('menu') ?? 'general';
-	const preSet = searchParams.get('set') ?? '7days';
+	const preSet = searchParams.get('set') ?? DEFAULT_RANGE_TAG;
 	const [open, setOpen] = useState(true);
 	const user = useSessionStore((s) => s.user);
 	const adminAccess = isAdmin(user);

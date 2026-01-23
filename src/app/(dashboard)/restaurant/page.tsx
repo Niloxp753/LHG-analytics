@@ -1,7 +1,7 @@
 /** @format */
 
 import { getRestaurantPageData } from '@/actions/restaurants/get-restaurant-page';
-import { format } from 'date-fns';
+import { DEFAULT_RANGE_TAG, formatDateInput, getRangeDescription } from '@/lib/date-range';
 import CardLink from '../_components/CardLink';
 import SparkChart from '../_components/charts/SparkChart';
 import Header from '../_components/Header';
@@ -18,16 +18,16 @@ export default async function Restaurant({
 	searchParams: { [key: string]: string | undefined };
 }) {
 	const menu = 'restaurant';
-	const preSet = searchParams.set || '7days';
+	const preSet = searchParams.set || DEFAULT_RANGE_TAG;
 	const startDate = searchParams.startDate;
 	const endDate = searchParams.endDate;
+	const rangeDescription = getRangeDescription(preSet);
 
-	const formattedStartDate =
-		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
-	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
+	const formattedStartDate = formatDateInput(startDate);
+	const formattedEndDate = formatDateInput(endDate);
 
 	async function getData() {
-		if (startDate && endDate) {
+		if (formattedStartDate && formattedEndDate) {
 			const customData = await getRestaurantPageData({
 				startDate: formattedStartDate,
 				endDate: formattedEndDate,
@@ -100,11 +100,7 @@ export default async function Restaurant({
 						<BigNumbersPage
 							tout={resp.data[3].BigNumbers}
 							andar_de_cima={resp.data[2].BigNumbers}
-							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-								preSet == '30days' ? '30 dias atrás ' : ''
-							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-								preSet == '12months' ? '12 meses atrás ' : ''
-							}`}
+							description={rangeDescription}
 							ipiranga={resp.data[0].BigNumbers}
 							lapa={resp.data[1].BigNumbers}
 						/>
@@ -148,3 +144,4 @@ export default async function Restaurant({
 		</main>
 	);
 }
+

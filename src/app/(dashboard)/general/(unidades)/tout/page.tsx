@@ -16,7 +16,7 @@ import TableKpiCategory from '@/app/(dashboard)/_components/kpis/TableKpiCategor
 import { TableKpiGiro } from '@/app/(dashboard)/_components/kpis/TableKpiGiro';
 import { TableKpiOccupation } from '@/app/(dashboard)/_components/kpis/TableKpiOccupation';
 import Ticket from '@/app/(dashboard)/_components/kpis/Ticket';
-import { format } from 'date-fns';
+import { DEFAULT_RANGE_TAG, formatDateInput, getRangeDescription } from '@/lib/date-range';
 import { revalidatePath } from 'next/cache';
 
 export const revalidate = 0;
@@ -26,16 +26,16 @@ export default async function LushIpiranga({
 }: {
 	searchParams: { [key: string]: string | undefined };
 }) {
-	const preSet = searchParams.set ?? '7days';
+	const preSet = searchParams.set ?? DEFAULT_RANGE_TAG;
 	const startDate = searchParams.startDate;
 	const endDate = searchParams.endDate;
+	const rangeDescription = getRangeDescription(preSet);
 
-	const formattedStartDate =
-		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
-	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
+	const formattedStartDate = formatDateInput(startDate);
+	const formattedEndDate = formatDateInput(endDate);
 
 	async function getData() {
-		if (startDate && endDate) {
+		if (formattedStartDate && formattedEndDate) {
 			const customData = await getCompanyCustomAction(
 				formattedStartDate!,
 				formattedEndDate!,
@@ -46,7 +46,7 @@ export default async function LushIpiranga({
 				return customData;
 			}
 		} else {
-			const data = await getCompanyAction(preSet ?? '7days', 'tout');
+			const data = await getCompanyAction(preSet ?? DEFAULT_RANGE_TAG, 'tout');
 			if (data) {
 				revalidatePath('/general');
 				return data;
@@ -72,11 +72,7 @@ export default async function LushIpiranga({
 				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-12 lg:mt-32'>
 					<BigNumbers
 						data={resp?.BigNumbers}
-						description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-							preSet == '30days' ? '30 dias atrás ' : ''
-						} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-							preSet == '12months' ? '12 meses atrás ' : ''
-						}`}
+						description={rangeDescription}
 					/>
 					<div className='flex w-full gap-5 h-full'>
 						<div className='h-full w-full flex flex-col gap-5 items-center justify-center'>
@@ -118,3 +114,7 @@ export default async function LushIpiranga({
 		</main>
 	);
 }
+
+
+
+

@@ -15,11 +15,12 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover';
+import { DEFAULT_RANGE_TAG, formatDateInput } from '@/lib/date-range';
 import { formSchemaFilter } from '@/lib/formSchemaFilter';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
-import { ArrowRight, CalendarIcon, Loader2 } from 'lucide-react';
+import { ArrowRight, CalendarIcon, Loader2, RefreshCcw } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
@@ -32,7 +33,7 @@ export default function FormFilter() {
 	});
 
 	const params = useSearchParams();
-	const set = params.get('set') || '7days';
+	const set = params.get('set') || DEFAULT_RANGE_TAG;
 	const menu = params.get('menu');
 
 	const router = useRouter();
@@ -40,10 +41,16 @@ export default function FormFilter() {
 
 	function onSubmit(data: z.infer<typeof formSchemaFilter>) {
 		const { startDate, endDate } = data;
+		const formattedStartDate = formatDateInput(startDate);
+		const formattedEndDate = formatDateInput(endDate);
+		if (!formattedStartDate || !formattedEndDate) {
+			toast.error('Datas invalidas');
+			return;
+		}
 		startTransition(() => {
 			try {
 				router.push(
-					`?menu=${menu}&set=${set}&startDate=${startDate}&endDate=${endDate}`,
+					`?menu=${menu}&set=${set}&startDate=${formattedStartDate}&endDate=${formattedEndDate}`,
 				);
 				router.refresh();
 			} catch (error) {
@@ -173,13 +180,13 @@ export default function FormFilter() {
 					form.formState.isSubmitting ||
 					isPending ? (
 						<>
-							<p> Atualizar Dashboard</p>
+							<p> Atualizar</p>
 							<Loader2 className='animate-spin size-5' />
 						</>
 					) : (
 						<>
-							<p> Atualizar Dashboard</p>
-							<ArrowRight className='size-5' />
+							<p> Atualizar</p>
+							<RefreshCcw className='size-5' />
 						</>
 					)}
 				</Button>

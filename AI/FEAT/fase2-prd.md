@@ -197,3 +197,186 @@ Validar fluxos principais, performance basica e consistencia visual, garantindo 
 
 ## Perguntas em aberto
 - Nenhuma (todos os Big Numbers seguem `currentDate/previousDate/monthlyForecast`).
+
+## Registro de tarefas (Fase 2)
+
+### Task 1 - Mapeamento de entrypoints de dados (23/01/2026)
+
+**Escopo mapeado**
+- Dashboards (paginas principais) e unidades.
+- Actions (server actions) que orquestram os fetches.
+- HTTP clients (camada de chamadas a API).
+- Nao ha fetch direto em componentes visuais; os dados entram via pages/actions.
+
+**Dashboards (paginas principais)**
+- `src/app/(dashboard)/general/page.tsx` -> usa `getGeneralPageData`.
+  - Com `startDate/endDate`: `getCompanyCustom` (date-range).
+  - Sem `startDate/endDate`: `getCompany` (period) **nao envia startDate/endDate**.
+- `src/app/(dashboard)/operational/page.tsx` -> usa `getOperationalPageData`.
+  - Com `startDate/endDate`: `getOperationCustom` (date-range).
+  - Sem `startDate/endDate`: `getGovernance` (period) **nao envia startDate/endDate**.
+- `src/app/(dashboard)/reservations/page.tsx` -> usa `getReservationPageData`.
+  - Com `startDate/endDate`: `getReservationsCustom` (date-range).
+  - Sem `startDate/endDate`: `getBookings` (period) **nao envia startDate/endDate**.
+- `src/app/(dashboard)/restaurant/page.tsx` -> usa `getRestaurantPageData`.
+  - Com `startDate/endDate`: `getRestaurantsCustom` (date-range).
+  - Sem `startDate/endDate`: `getRestaurants` (period) **nao envia startDate/endDate**.
+
+**Unidades (paginas por unidade)**
+- General:
+  - `src/app/(dashboard)/general/(unidades)/lushipiranga/page.tsx`
+  - `src/app/(dashboard)/general/(unidades)/lushlapa/page.tsx`
+  - `src/app/(dashboard)/general/(unidades)/tout/page.tsx`
+  - `src/app/(dashboard)/general/(unidades)/andardecima/page.tsx`
+  - Padrao: com `startDate/endDate` -> `getCompanyCustomAction`; sem -> `getCompanyAction` (period) **nao envia startDate/endDate**.
+- Operational:
+  - `src/app/(dashboard)/operational/(unidades)/lushipiranga/page.tsx`
+  - `src/app/(dashboard)/operational/(unidades)/lushlapa/page.tsx`
+  - `src/app/(dashboard)/operational/(unidades)/tout/page.tsx`
+  - `src/app/(dashboard)/operational/(unidades)/andardecima/page.tsx`
+  - Padrao: com `startDate/endDate` -> `getOperationCustomAction`; sem -> `getGovernanceAction` (period) **nao envia startDate/endDate**.
+- Reservations:
+  - `src/app/(dashboard)/reservations/(unidades)/lushipiranga/page.tsx`
+  - `src/app/(dashboard)/reservations/(unidades)/lushlapa/page.tsx`
+  - `src/app/(dashboard)/reservations/(unidades)/tout/page.tsx`
+  - `src/app/(dashboard)/reservations/(unidades)/andardecima/page.tsx`
+  - Padrao: com `startDate/endDate` -> `getReservationsCustomAction`; sem -> `getReservationsAction` (period) **nao envia startDate/endDate**.
+- Restaurant:
+  - `src/app/(dashboard)/restaurant/(unidades)/lushipiranga/page.tsx`
+  - `src/app/(dashboard)/restaurant/(unidades)/lushlapa/page.tsx`
+  - `src/app/(dashboard)/restaurant/(unidades)/tout/page.tsx`
+  - `src/app/(dashboard)/restaurant/(unidades)/andardecima/page.tsx`
+  - Padrao: com `startDate/endDate` -> `getRestaurantsCustomAction`; sem -> `getRestaurantsAction` (period) **nao envia startDate/endDate**.
+
+**Actions (server actions)**
+- Com `startDate/endDate` (OK):
+  - `src/actions/getCompanyCustom.ts`
+  - `src/actions/getoperationsCustom.ts`
+  - `src/actions/reservations/get-reservations-custom.ts`
+  - `src/actions/restaurants/get-restaurant-custom.ts`
+- Condicionais (com fallback period sem startDate/endDate):
+  - `src/actions/initial-pages/general.ts` -> fallback `getCompany`.
+  - `src/actions/initial-pages/operation.ts` -> fallback `getGovernance`.
+  - `src/actions/reservations/get-reservations-page.ts` -> fallback `getBookings`.
+  - `src/actions/restaurants/get-restaurant-page.ts` -> fallback `getRestaurants`.
+  - `src/actions/initial-pages/reservation.ts` -> mesmo padrao (nao encontrei uso direto em pages).
+- Sempre period (nao envia startDate/endDate):
+  - `src/actions/getCompany.ts`
+  - `src/actions/getGovernance.tsx`
+  - `src/actions/reservations/get-reservations.ts`
+  - `src/actions/restaurants/get-restaurants.ts`
+
+**HTTP clients**
+- Com `startDate/endDate` (OK):
+  - `src/http/company/getCompanyCustom.ts` -> `Company/kpis/date-range?startDate=&endDate=`
+  - `src/http/operation/get-governance-custom.ts` -> `Governance/kpis/date-range?startDate=&endDate=`
+  - `src/http/reservations/get-bookings-custom.ts` -> `Bookings/bookings/date-range?startDate=&endDate=`
+  - `src/http/restaurant/get-restaurant-custom.ts` -> `Restaurants/restaurants/date-range?startDate=&endDate=`
+- Period-only (nao envia startDate/endDate):
+  - `src/http/company/getCompany.ts` -> `Company/kpis?period=`
+  - `src/http/operation/get-governance.ts` -> `Governance/operational?period=`
+  - `src/http/reservations/get-bookings.ts` -> `Bookings/bookings?period=`
+  - `src/http/restaurant/get-restaurants.ts` -> `Restaurants/restaurants?period=`
+
+**Resumo do que ainda nao envia startDate/endDate**
+- Todos os fluxos que usam `period` (actions e http clients listados acima) continuam sem `startDate/endDate`.
+- Nas paginas (dashboards/unidades), isso ocorre sempre que `startDate/endDate` nao estao presentes na URL (fallback para `period`).
+
+### Task 2 - Util de calculo de range (23/01/2026)
+
+**O que foi feito**
+- Criado util unico de range em `src/lib/date-range.ts`.
+- Garante calculo de datas com base em `America/Sao_Paulo`, com `data_final` exclusiva (inicio do dia atual no fuso) e sem incluir o dia atual.
+- Inclui helpers para soma/subtracao de dias/meses e `startOfMonth/startOfYear`, preparando as tags da Task 3.
+- Formata `DD/MM/YYYY` a partir de partes de data (sem depender de timezone local).
+
+**Arquivos afetados**
+- `src/lib/date-range.ts`
+
+**Validacoes**
+- Sem validacao via chrome-devtools (nao aplicavel nesta etapa).
+
+### Task 5 - Padronizacao de startDate/endDate (23/01/2026)
+
+**O que foi feito**
+- Adicionado helper de formatacao no util de range (`formatDateInput`) para normalizar `startDate/endDate` em `DD/MM/YYYY`.
+- FormFilter passa a enviar `startDate/endDate` ja formatados na query.
+- Paginas de dashboards e unidades usam o helper para repassar datas ao backend, removendo a formatacao via `date-fns`.
+
+**Arquivos afetados (principais)**
+- `src/lib/date-range.ts`
+- `src/app/(dashboard)/_components/FormFilter.tsx`
+- `src/app/(dashboard)/**/page.tsx` (dashboards e unidades)
+
+**Validacoes**
+- Sem validacao via chrome-devtools (nao aplicavel nesta etapa).
+
+### Task 6 - Requisicoes sempre com startDate/endDate (23/01/2026)
+
+**O que foi feito**
+- Actions de dashboards/unidades passaram a sempre calcular o range pelo `set` (tag normalizada) e chamar apenas endpoints `date-range`.
+- Removido o fallback para endpoints por `period`, garantindo que cada request respeite o range selecionado.
+
+**Arquivos afetados (principais)**
+- `src/actions/getCompany.ts`
+- `src/actions/getGovernance.tsx`
+- `src/actions/reservations/get-reservations.ts`
+- `src/actions/restaurants/get-restaurants.ts`
+- `src/actions/initial-pages/*`
+- `src/actions/reservations/get-reservations-page.ts`
+- `src/actions/restaurants/get-restaurant-page.ts`
+
+**Validacoes**
+- Sem validacao via chrome-devtools (nao aplicavel nesta etapa).
+
+### Task 7 - Validacao de consistencia de filtros (23/01/2026)
+
+**O que foi feito**
+- Validacao confirmada para a consistencia de filtros do realizado.
+
+**Pendencias relacionadas**
+- Enviar cookies de auth nas rotas de `Governance/Bookings/Restaurants` (hoje apenas `Company` envia), para manter consistencia entre todos os dashboards.
+
+**Validacoes**
+- Sem validacao via chrome-devtools (pendente auth local).
+
+### Task 3 - Tags de periodo e labels (23/01/2026)
+
+**O que foi feito**
+- Centralizadas as tags de periodo e labels em `src/lib/date-range.ts` (`DATE_RANGE_TAGS`, `DEFAULT_RANGE_TAG`, `getRangeLabel/getRangeDescription`, `getRangeByTag`).
+- UI de filtros atualizada para usar as novas tags e labels (Header e filtro mobile), com default `ultimos_7_dias`.
+- Paginas de dashboards e unidades passaram a usar `rangeDescription` (label unico) em Big Numbers.
+- Actions passaram a interpretar as novas tags e calcular `startDate/endDate` via util, chamando endpoints `date-range` quando o `set` for uma tag nova.
+- Charts ajustados para habilitar data labels apenas em ranges curtos (tag de 7 dias), evitando excesso de labels em periodos longos.
+
+**Arquivos afetados (principais)**
+- `src/lib/date-range.ts`
+- `src/app/(dashboard)/_components/HeaderClient.tsx`
+- `src/app/(dashboard)/_components/filter-mobile.tsx`
+- `src/app/(dashboard)/_components/FormFilter.tsx`
+- `src/app/(dashboard)/_components/charts/AreaChartsApex.tsx`
+- `src/app/(dashboard)/_components/charts/AreaChartsApexDouble.tsx`
+- `src/app/(dashboard)/_components/charts/LineChart.tsx`
+- `src/app/(dashboard)/**/page.tsx` (dashboards e unidades)
+- `src/actions/getCompany.ts`, `src/actions/getGovernance.tsx`, `src/actions/reservations/get-reservations.ts`, `src/actions/restaurants/get-restaurants.ts`
+- `src/actions/initial-pages/*`, `src/actions/reservations/get-reservations-page.ts`, `src/actions/restaurants/get-restaurant-page.ts`
+- `src/middleware.ts`, `src/app/(public)/login/_components/formLogin.tsx`, `src/app/(dashboard)/_components/SidebarMenu.tsx`, `src/app/(dashboard)/_components/menu-mobile.tsx`
+
+**Validacoes**
+- Sem validacao via chrome-devtools (nao aplicavel nesta etapa).
+
+### Task 4 - Remocao/substituicao de tags descontinuadas (23/01/2026)
+
+**O que foi feito**
+- Normalizacao de tags legadas no util: 30days/6months e ultimos_30_dias/ultimos_6_meses agora mapeiam para ultimo_mes_fechado e acumulado_do_ano.
+- Middleware redireciona URLs com `set` legado para as tags novas, evitando inconsistencias de filtro.
+- Limpeza de referencias a tags legadas em actions e ajuste no grafico de unidade (LineChartsApexUnity).
+
+**Arquivos afetados (principais)**
+- `src/lib/date-range.ts`
+- `src/middleware.ts`
+- `src/actions/initial-pages/*`, `src/actions/getCompany.ts`, `src/actions/getGovernance.tsx`, `src/actions/reservations/*`, `src/actions/restaurants/*`
+- `src/app/(dashboard)/_components/charts/LineChartsApexUnity.tsx`
+
+**Validacoes**
+- Sem validacao via chrome-devtools (nao aplicavel nesta etapa).

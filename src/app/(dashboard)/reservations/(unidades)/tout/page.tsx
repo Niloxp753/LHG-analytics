@@ -4,7 +4,7 @@ import { getReservationsAction } from '@/actions/reservations/get-reservations';
 import { getReservationsCustomAction } from '@/actions/reservations/get-reservations-custom';
 import Header from '@/app/(dashboard)/_components/Header';
 import InvoicingXChannel from '@/app/(dashboard)/reservations/_components/kpis/InvoicingXChannel';
-import { format } from 'date-fns';
+import { DEFAULT_RANGE_TAG, formatDateInput, getRangeDescription } from '@/lib/date-range';
 import { revalidatePath } from 'next/cache';
 import { TableReservs } from '../../../_components/kpis/TableReservs';
 import BigNumbersEcommerce from '../../_components/big-numbers-ecommerce';
@@ -22,16 +22,16 @@ export default async function Page({
 }: {
 	searchParams: { [key: string]: string | undefined };
 }) {
-	const preSet = searchParams.set || '7days';
+	const preSet = searchParams.set || DEFAULT_RANGE_TAG;
 	const startDate = searchParams.startDate;
 	const endDate = searchParams.endDate;
+	const rangeDescription = getRangeDescription(preSet);
 
-	const formattedStartDate =
-		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
-	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
+	const formattedStartDate = formatDateInput(startDate);
+	const formattedEndDate = formatDateInput(endDate);
 
 	async function getData() {
-		if (startDate && endDate) {
+		if (formattedStartDate && formattedEndDate) {
 			const customData = await getReservationsCustomAction(
 				formattedStartDate!,
 				formattedEndDate!,
@@ -44,7 +44,7 @@ export default async function Page({
 				return null;
 			}
 		} else {
-			const data = await getReservationsAction(preSet ?? '7days', 'tout');
+			const data = await getReservationsAction(preSet ?? DEFAULT_RANGE_TAG, 'tout');
 			if (data) {
 				revalidatePath('/reservations');
 				return data;
@@ -74,11 +74,7 @@ export default async function Page({
 				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-12 lg:mt-32'>
 					<BigNumbersReservation
 						data={resp?.BigNumbers}
-						description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-							preSet == '30days' ? '30 dias atrás ' : ''
-						} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-							preSet == '12months' ? '12 meses atrás ' : ''
-						}`}
+						description={rangeDescription}
 					/>
 					<CategoriesXReservs
 						series={resp.ReservationsByRentalType.series}
@@ -119,11 +115,7 @@ export default async function Page({
 						<div className='flex flex-col w-full items-start justify-between gap-5'>
 							<BigNumbersEcommerce
 								data={resp?.BigNumbersEcommerce}
-								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-									preSet == '30days' ? '30 dias atrás ' : ''
-								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-									preSet == '12months' ? '12 meses atrás ' : ''
-								}`}
+								description={rangeDescription}
 							/>
 
 							<div className='w-full flex flex-col items-center justify-between gap-5'>
@@ -143,3 +135,7 @@ export default async function Page({
 		</main>
 	);
 }
+
+
+
+

@@ -2,26 +2,23 @@
 
 'use server';
 
-import { getCompany } from '@/http/company/getCompany';
+import { getCompanyCustom } from '@/http/company/getCompanyCustom';
+import {
+	DEFAULT_RANGE_TAG,
+	getRangeByTag,
+	normalizeRangeTag,
+} from '@/lib/date-range';
 import { revalidatePath } from 'next/cache';
 
 export async function getCompanyAction(period: string, company?: string) {
-	let newPeriod = '';
-
-	if (period === '30days') {
-		newPeriod = 'LAST_30_D';
-	}
-
-	if (period === '7days') {
-		newPeriod = 'LAST_7_D';
-	}
-
-	if (period === '6months') {
-		newPeriod = 'LAST_6_M';
+	const normalized = normalizeRangeTag(period, DEFAULT_RANGE_TAG);
+	const range = getRangeByTag(normalized);
+	if (!range) {
+		return null;
 	}
 
 	try {
-		const resp = await getCompany(newPeriod, company);
+		const resp = await getCompanyCustom(range.startDate, range.endDate, company);
 		revalidatePath('/general');
 		return resp;
 	} catch (error) {
@@ -29,3 +26,4 @@ export async function getCompanyAction(period: string, company?: string) {
 		return error;
 	}
 }
+

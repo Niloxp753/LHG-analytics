@@ -1,5 +1,6 @@
 /** @format */
 
+import { buildAuthCookieHeader } from '@/lib/auth-headers';
 import { api, api_andar_de_cima, api_lapa, api_tout } from '../api-client';
 class HTTPError extends Error {}
 
@@ -10,6 +11,8 @@ export async function getCompanyCustom(
 ): Promise<any> {
 	const controller = new AbortController();
 	const timeout = setTimeout(() => controller.abort(), 60000);
+	const cookieHeader = buildAuthCookieHeader();
+	const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
 
 	try {
 		switch (company) {
@@ -19,7 +22,7 @@ export async function getCompanyCustom(
 					`Company/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
 					{
 						next: { tags: ['company'], revalidate: 30 },
-
+						headers: authHeaders,
 						signal: controller.signal, // Passa o signal ao fetch
 					},
 				);
@@ -35,7 +38,7 @@ export async function getCompanyCustom(
 					`Company/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
 					{
 						next: { tags: ['company'], revalidate: 30 },
-
+						headers: authHeaders,
 						signal: controller.signal, // Passa o signal ao fetch
 					},
 				);
@@ -52,7 +55,7 @@ export async function getCompanyCustom(
 					`Company/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
 					{
 						next: { tags: ['company'], revalidate: 30 },
-
+						headers: authHeaders,
 						signal: controller.signal, // Passa o signal ao fetch
 					},
 				);
@@ -68,6 +71,7 @@ export async function getCompanyCustom(
 					`Company/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
 					{
 						next: { tags: ['company'], revalidate: 30 },
+						headers: authHeaders,
 						signal: controller.signal, // Passa o signal ao fetch
 					},
 				);

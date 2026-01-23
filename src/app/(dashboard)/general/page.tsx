@@ -1,7 +1,7 @@
 /** @format */
 
 import { getGeneralPageData } from '@/actions/initial-pages/general';
-import { format } from 'date-fns';
+import { DEFAULT_RANGE_TAG, formatDateInput, getRangeDescription } from '@/lib/date-range';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 import CardLink from '../_components/CardLink';
@@ -24,16 +24,16 @@ export default async function General({
 	searchParams: { [key: string]: string | undefined };
 }) {
 	const menu = 'general';
-	const preSet = searchParams.set ?? '7days';
+	const preSet = searchParams.set ?? DEFAULT_RANGE_TAG;
 	const startDate = searchParams.startDate;
 	const endDate = searchParams.endDate;
+	const rangeDescription = getRangeDescription(preSet);
 
-	const formattedStartDate =
-		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
-	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
+	const formattedStartDate = formatDateInput(startDate);
+	const formattedEndDate = formatDateInput(endDate);
 
 	async function getData() {
-		if (startDate && endDate) {
+		if (formattedStartDate && formattedEndDate) {
 			const customData = await getGeneralPageData({
 				startDate: formattedStartDate,
 				endDate: formattedEndDate,
@@ -108,11 +108,7 @@ export default async function General({
 								lapa={resp.data ? resp.data[1].BigNumbers : null}
 								andar_de_cima={resp.data ? resp.data[2]?.BigNumbers : null}
 								tout={resp.data ? resp.data[3]?.BigNumbers : null}
-								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-									preSet == '30days' ? '30 dias atrás ' : ''
-								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-									preSet == '12months' ? '12 meses atrás ' : ''
-								}`}
+								description={rangeDescription}
 							/>
 
 							<div className='flex gap-5 flex-col md:flex-row w-full h-full '>
@@ -172,3 +168,8 @@ export default async function General({
 		</main>
 	);
 }
+
+
+
+
+

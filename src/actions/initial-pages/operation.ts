@@ -2,9 +2,13 @@
 
 'use server';
 
-import { getGovernance } from '@/http/operation/get-governance';
 import { getOperationCustom } from '@/http/operation/get-governance-custom';
 import { revalidatePath } from 'next/cache';
+import {
+	DEFAULT_RANGE_TAG,
+	getRangeByTag,
+	normalizeRangeTag,
+} from '@/lib/date-range';
 
 interface getOperationalPageDataProps {
 	period?: string;
@@ -17,19 +21,8 @@ export async function getOperationalPageData({
 	period,
 	startDate,
 }: getOperationalPageDataProps) {
-	let newPeriod = '';
-
-	if (period === '30days') {
-		newPeriod = 'LAST_30_D';
-	}
-
-	if (period === '7days') {
-		newPeriod = 'LAST_7_D';
-	}
-
-	if (period === '6months') {
-		newPeriod = 'LAST_6_M';
-	}
+	const normalized = normalizeRangeTag(period, DEFAULT_RANGE_TAG);
+	const range = getRangeByTag(normalized);
 
 	if (startDate && endDate) {
 		const customDataIpiranga = await getOperationCustom(startDate, endDate);
@@ -65,24 +58,55 @@ export async function getOperationalPageData({
 				error: 'Erro ao encontrar dados',
 			};
 		}
-	} else {
-		const dataiIpiranga = await getGovernance(newPeriod);
-		const dataiLapa = await getGovernance(newPeriod, 'lapa');
-		const dataiAndar = await getGovernance(newPeriod, 'andar_de_cima');
-		const dataiTout = await getGovernance(newPeriod, 'tout');
-		if (dataiIpiranga && dataiLapa && dataiAndar && dataiTout) {
+	} else if (range) {
+		const customDataIpiranga = await getOperationCustom(
+			range.startDate,
+			range.endDate,
+		);
+		const customDataLapa = await getOperationCustom(
+			range.startDate,
+			range.endDate,
+			'lapa',
+		);
+		const customDataAndarDeCima = await getOperationCustom(
+			range.startDate,
+			range.endDate,
+			'andar_de_cima',
+		);
+		const customDataTout = await getOperationCustom(
+			range.startDate,
+			range.endDate,
+			'tout',
+		);
+
+		if (
+			customDataIpiranga &&
+			customDataLapa &&
+			customDataAndarDeCima &&
+			customDataTout
+		) {
 			revalidatePath('/operational');
 			return {
 				ok: true,
-				data: [dataiIpiranga, dataiLapa, dataiAndar, dataiTout],
+				data: [
+					customDataIpiranga,
+					customDataLapa,
+					customDataAndarDeCima,
+					customDataTout,
+				],
 				error: null,
 			};
-		} else {
-			return {
-				ok: false,
-				data: null,
-				error: 'Erro ao encontrar dados',
-			};
 		}
+		return {
+			ok: false,
+			data: null,
+			error: 'Erro ao encontrar dados',
+		};
 	}
+	return {
+		ok: false,
+		data: null,
+		error: 'Erro ao encontrar dados',
+	};
 }
+

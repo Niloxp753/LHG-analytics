@@ -3,6 +3,7 @@
 'use client';
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
+import { DEFAULT_RANGE_TAG, isShortRangeTag } from '@/lib/date-range';
 import { useSearchParams } from 'next/navigation';
 
 interface AreaChartsApexProps {
@@ -13,8 +14,9 @@ interface AreaChartsApexProps {
 }
 
 export default function AreaChartsApex(props: AreaChartsApexProps) {
-		const params = useSearchParams();
-		const is30Days = params.get('set') !== '30days';
+	const params = useSearchParams();
+	const rangeTag = params.get('set') ?? DEFAULT_RANGE_TAG;
+	const isShortRange = isShortRangeTag(rangeTag);
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: 'test-bar',
@@ -48,7 +50,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			},
 		},
 		dataLabels: {
-			enabled: is30Days,
+			enabled: isShortRange,
 			distributed: false,
 			background: {
 				enabled: true,
