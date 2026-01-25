@@ -11,6 +11,22 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import {
+	Pagination,
+	PaginationContent,
+	PaginationEllipsis,
+	PaginationItem,
+	PaginationLink,
+	PaginationNext,
+	PaginationPrevious,
+} from '@/components/ui/pagination';
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select';
+import {
 	Table,
 	TableBody,
 	TableCell,
@@ -18,7 +34,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { User } from '@/http/user/getUsers';
+
 import {
 	ColumnFiltersState,
 	SortingState,
@@ -34,6 +50,9 @@ import { ChevronDown, Search } from 'lucide-react';
 import * as React from 'react';
 import { columns } from './Columns';
 import { ModalCreateUser } from './ModalCreateUser';
+import { User } from '@/types/user';
+
+const PAGE_SIZE_OPTIONS = [5, 10, 25, 50, 100];
 
 export function DataTableDemo({ data }: { data: User[] }) {
 	// const data = await getAllUsersAction();
@@ -57,6 +76,11 @@ export function DataTableDemo({ data }: { data: User[] }) {
 		getFilteredRowModel: getFilteredRowModel(),
 		onColumnVisibilityChange: setColumnVisibility,
 		onRowSelectionChange: setRowSelection,
+		initialState: {
+			pagination: {
+				pageSize: 25,
+			},
+		},
 		state: {
 			sorting,
 			columnFilters,
@@ -64,6 +88,42 @@ export function DataTableDemo({ data }: { data: User[] }) {
 			rowSelection,
 		},
 	});
+	const pageIndex = table.getState().pagination.pageIndex;
+	const pageCount = table.getPageCount();
+	const pageSize = table.getState().pagination.pageSize;
+	const canPrevious = table.getCanPreviousPage();
+	const canNext = table.getCanNextPage();
+	const currentPage = pageIndex + 1;
+	const pageItems: Array<number | 'ellipsis'> = React.useMemo(() => {
+		if (pageCount <= 5) {
+			return Array.from({ length: pageCount }, (_, index) => index + 1);
+		}
+
+		if (currentPage <= 3) {
+			return [1, 2, 3, 4, 'ellipsis', pageCount];
+		}
+
+		if (currentPage >= pageCount - 2) {
+			return [
+				1,
+				'ellipsis',
+				pageCount - 3,
+				pageCount - 2,
+				pageCount - 1,
+				pageCount,
+			];
+		}
+
+		return [
+			1,
+			'ellipsis',
+			currentPage - 1,
+			currentPage,
+			currentPage + 1,
+			'ellipsis',
+			pageCount,
+		];
+	}, [currentPage, pageCount]);
 
 	return (
 		<div className='w-full mx-auto md:pr-10 px-3'>
@@ -130,7 +190,7 @@ export function DataTableDemo({ data }: { data: User[] }) {
 												: flexRender(
 														header.column.columnDef.header,
 														header.getContext(),
-												  )}
+													)}
 										</TableHead>
 									);
 								})}
@@ -167,29 +227,81 @@ export function DataTableDemo({ data }: { data: User[] }) {
 					</TableBody>
 				</Table>
 			</div>
-			<div className='flex items-center justify-end space-x-2 py-4'>
-				<div className='flex-1 text-sm text-muted-foreground'>
-					{table.getFilteredSelectedRowModel().rows.length} de{' '}
-					{table.getFilteredRowModel().rows.length} linha(s) selecionada.
+			<div className='flex items-center justify-between gap-4 py-4'>
+				<div className='flex items-center gap-3 text-sm text-zinc-200'>
+					<span className='text-nowrap'>Linhas por pagina</span>
+					<Select
+						value={String(pageSize)}
+						onValueChange={(value) => {
+							table.setPageSize(Number(value));
+						}}>
+						<SelectTrigger className='h-9 w-[90px] bg-zinc-900'>
+							<SelectValue />
+						</SelectTrigger>
+						<SelectContent>
+							{PAGE_SIZE_OPTIONS.map((size) => (
+								<SelectItem
+									key={size}
+									value={String(size)}>
+									{size}
+								</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
 				</div>
-				<div className='space-x-2'>
-					<Button
-						variant='default'
-						className='disabled:grayscale'
-						size='sm'
-						onClick={() => table.previousPage()}
-						disabled={!table.getCanPreviousPage()}>
-						Anterior
-					</Button>
-					<Button
-						variant='default'
-						size='sm'
-						className='disabled:grayscale'
-						onClick={() => table.nextPage()}
-						disabled={!table.getCanNextPage()}>
-						Próximo
-					</Button>
-				</div>
+				<Pagination className='justify-end dark text-white'>
+					<PaginationContent>
+						<PaginationItem>
+							<PaginationPrevious
+								href='#'
+								aria-disabled={!canPrevious}
+								tabIndex={canPrevious ? 0 : -1}
+								className={
+									canPrevious ? undefined : 'pointer-events-none opacity-50'
+								}
+								onClick={(event) => {
+									event.preventDefault();
+									if (canPrevious) {
+										table.previousPage();
+									}
+								}}
+							/>
+						</PaginationItem>
+						{pageItems.map((item, index) => (
+							<PaginationItem key={`${item}-${index}`}>
+								{item === 'ellipsis' ? (
+									<PaginationEllipsis />
+								) : (
+									<PaginationLink
+										href='#'
+										isActive={item === currentPage}
+										onClick={(event) => {
+											event.preventDefault();
+											table.setPageIndex(item - 1);
+										}}>
+										{item}
+									</PaginationLink>
+								)}
+							</PaginationItem>
+						))}
+						<PaginationItem>
+							<PaginationNext
+								href='#'
+								aria-disabled={!canNext}
+								tabIndex={canNext ? 0 : -1}
+								className={
+									canNext ? undefined : 'pointer-events-none opacity-50'
+								}
+								onClick={(event) => {
+									event.preventDefault();
+									if (canNext) {
+										table.nextPage();
+									}
+								}}
+							/>
+						</PaginationItem>
+					</PaginationContent>
+				</Pagination>
 			</div>
 		</div>
 	);

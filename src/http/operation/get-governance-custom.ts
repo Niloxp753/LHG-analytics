@@ -1,5 +1,6 @@
 /** @format */
 
+import { buildAuthCookieHeader } from '@/lib/auth-headers';
 import { api, api_andar_de_cima, api_lapa, api_tout } from '../api-client';
 class HTTPError extends Error {}
 
@@ -10,18 +11,18 @@ export async function getOperationCustom(
 ): Promise<any> {
 	const controller = new AbortController();
 	const timeout = setTimeout(() => controller.abort(), 60000);
+	const cookieHeader = buildAuthCookieHeader();
+	const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
 
 	try {
 		switch (company) {
 			case 'tout':
-				const resp_tout = await api_tout.get(
-					`Governance/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
-					{
-						next: { tags: ['operational'], revalidate: 30 },
-
-						signal: controller.signal, // Passa o signal ao fetch
-					},
-				);
+				const resp_tout = await api_tout.get('Governance/kpis/date-range', {
+					searchParams: { startDate, endDate },
+					next: { tags: ['operational'], revalidate: 0 },
+					headers: authHeaders,
+					signal: controller.signal, // Passa o signal ao fetch
+				});
 
 				if (!resp_tout.ok) {
 					throw new HTTPError(`Fetch error: ${resp_tout.statusText}`);
@@ -31,10 +32,11 @@ export async function getOperationCustom(
 
 			case 'andar_de_cima':
 				const resp_andar_de_cima = await api_andar_de_cima.get(
-					`Governance/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
+					'Governance/kpis/date-range',
 					{
+						searchParams: { startDate, endDate },
 						next: { tags: ['operational'], revalidate: 30 },
-
+						headers: authHeaders,
 						signal: controller.signal, // Passa o signal ao fetch
 					},
 				);
@@ -46,14 +48,12 @@ export async function getOperationCustom(
 				return resp_andar_de_cima.json();
 
 			case 'lapa':
-				const resp_lapa = await api_lapa.get(
-					`Governance/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
-					{
-						next: { tags: ['operational'], revalidate: 30 },
-
-						signal: controller.signal, // Passa o signal ao fetch
-					},
-				);
+				const resp_lapa = await api_lapa.get('Governance/kpis/date-range', {
+					searchParams: { startDate, endDate },
+					next: { tags: ['operational'], revalidate: 30 },
+					headers: authHeaders,
+					signal: controller.signal, // Passa o signal ao fetch
+				});
 
 				if (!resp_lapa.ok) {
 					throw new HTTPError(`Fetch error: ${resp_lapa.statusText}`);
@@ -62,14 +62,12 @@ export async function getOperationCustom(
 				return resp_lapa.json();
 
 			default:
-				const resp = await api.get(
-					`Governance/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
-					{
-						next: { tags: ['operational'], revalidate: 120 },
-
-						signal: controller.signal, // Passa o signal ao fetch
-					},
-				);
+				const resp = await api.get('Governance/kpis/date-range', {
+					searchParams: { startDate, endDate },
+					next: { tags: ['operational'], revalidate: 30 },
+					headers: authHeaders,
+					signal: controller.signal, // Passa o signal ao fetch
+				});
 
 				if (!resp.ok) {
 					throw new HTTPError(`Fetch error: ${resp.statusText}`);

@@ -109,4 +109,3 @@ export async function getOperationalPageData({
 		error: 'Erro ao encontrar dados',
 	};
 }
-

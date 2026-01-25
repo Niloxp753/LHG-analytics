@@ -1,28 +1,18 @@
 /** @format */
 
-interface User {
-	id: string;
-	email?: string;
-	name?: string;
-	cpf?: string;
-	password?: string;
-	role?: string;
-	companyId?: number;
-	companyName?: string;
-}
-
-const endpoint = process.env.NEXT_PUBLIC_BACKEND_ENDPOINT;
+import { buildAuthCookieHeader } from '@/lib/auth-headers';
+import { auth_api } from '../api-client';
+import type { User } from '@/types/user';
 
 export async function getAllUserByEmail(email: string): Promise<User> {
-	const resp = await fetch(`${endpoint}/email/${email}`, {
-		method: 'GET',
-		next: {
-			tags: ['users'],
-			revalidate: 30,
-		},
+	const cookieHeader = buildAuthCookieHeader();
+	const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
+	const resp = await auth_api.get(`users/email/${encodeURIComponent(email)}`, {
+		headers: authHeaders,
+		next: { tags: ['users'], revalidate: 30 },
 	});
 
-	const user = resp.json();
+	const user = (await resp.json()) as User;
 
 	return user;
 }

@@ -18,9 +18,10 @@ export async function getReservationsCustom(
 		switch (company) {
 			case 'lapa':
 				const resp_lapa = await api_lapa.get(
-					`Bookings/bookings/date-range?startDate=${startDate}&endDate=${endDate}`,
+					'Bookings/bookings/date-range',
 					{
-						next: { tags: ['reservations'], revalidate: 60 },
+						searchParams: { startDate, endDate },
+						next: { tags: ['reservations'], revalidate: 30 },
 						headers: authHeaders,
 						signal: controller.signal, // Passa o signal ao fetch
 					},
@@ -34,9 +35,10 @@ export async function getReservationsCustom(
 
 			case 'tout':
 				const resp_tout = await api_tout.get(
-					`Bookings/bookings/date-range?startDate=${startDate}&endDate=${endDate}`,
+					'Bookings/bookings/date-range',
 					{
-						next: { tags: ['reservations'], revalidate: 60 },
+						searchParams: { startDate, endDate },
+						next: { tags: ['reservations'], revalidate: 30 },
 						headers: authHeaders,
 						signal: controller.signal, // Passa o signal ao fetch
 					},
@@ -50,9 +52,10 @@ export async function getReservationsCustom(
 
 			case 'andar_de_cima':
 				const resp_andar_de_cima = await api_andar_de_cima.get(
-					`Bookings/bookings/date-range?startDate=${startDate}&endDate=${endDate}`,
+					'Bookings/bookings/date-range',
 					{
-						next: { tags: ['reservations'], revalidate: 60 },
+						searchParams: { startDate, endDate },
+						next: { tags: ['reservations'], revalidate: 30 },
 						headers: authHeaders,
 						signal: controller.signal, // Passa o signal ao fetch
 					},
@@ -65,14 +68,12 @@ export async function getReservationsCustom(
 				return resp_andar_de_cima.json();
 
 			default:
-				const resp = await api.get(
-					`Bookings/bookings/date-range?startDate=${startDate}&endDate=${endDate}`,
-					{
-						next: { tags: ['reservations'], revalidate: 60 },
-						headers: authHeaders,
-						signal: controller.signal, // Passa o signal ao fetch
-					},
-				);
+				const resp = await api.get('Bookings/bookings/date-range', {
+					searchParams: { startDate, endDate },
+					next: { tags: ['reservations'], revalidate: 30 },
+					headers: authHeaders,
+					signal: controller.signal, // Passa o signal ao fetch
+				});
 
 				if (!resp.ok) {
 					throw new HTTPError(`Fetch error: ${resp.statusText}`);

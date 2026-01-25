@@ -2,11 +2,12 @@
 
 'use server';
 
-import { createUser, IUser } from '@/http/user/createUser';
+import { createUser } from '@/http/user/createUser';
+import type { CreateUserInput } from '@/types/user';
 import { revalidateTag } from 'next/cache';
 import { requireAccessToken } from '@/lib/require-auth';
 
-export async function createUserAction(props: IUser) {
+export async function createUserAction(props: CreateUserInput) {
 	await requireAccessToken();
 	try {
 		const resp = await createUser(props);

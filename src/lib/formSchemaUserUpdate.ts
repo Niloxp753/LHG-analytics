@@ -19,7 +19,6 @@ export const formSchemaUserUpdate = z.object({
 		})
 		.optional(),
 	cpf: cpf({ message: 'CPF inválido' }).optional(),
-	password: z.string().optional(),
 	role: z.enum(ROLE_VALUES).optional(),
 	unidade: z
 		.string({

@@ -19,9 +19,10 @@ export async function getRestaurantsCustom(
 		switch (company) {
 			case 'lapa':
 				const resp_lapa = await api_lapa.get(
-					`Restaurants/restaurants/date-range?startDate=${startDate}&endDate=${endDate}`,
+					'Restaurants/restaurants/date-range',
 					{
-						next: { tags: ['restaurant_lapa'], revalidate: 40 },
+						searchParams: { startDate, endDate },
+						next: { tags: ['restaurant_lapa'], revalidate: 30 },
 						headers: authHeaders,
 						signal: controller.signal,
 					},
@@ -33,9 +34,10 @@ export async function getRestaurantsCustom(
 				return resp_lapa.json();
 			case 'tout':
 				const resp_tout = await api_tout.get(
-					`Restaurants/restaurants/date-range?startDate=${startDate}&endDate=${endDate}`,
+					'Restaurants/restaurants/date-range',
 					{
-						next: { tags: ['restaurant_tout'], revalidate: 40 },
+						searchParams: { startDate, endDate },
+						next: { tags: ['restaurant_tout'], revalidate: 30 },
 						headers: authHeaders,
 						signal: controller.signal,
 					},
@@ -47,9 +49,10 @@ export async function getRestaurantsCustom(
 				return resp_tout.json();
 			case 'andar_de_cima':
 				const resp_andar_de_cima = await api_andar_de_cima.get(
-					`Restaurants/restaurants/date-range?startDate=${startDate}&endDate=${endDate}`,
+					'Restaurants/restaurants/date-range',
 					{
-						next: { tags: ['restaurant_andar_de_cima'], revalidate: 40 },
+						searchParams: { startDate, endDate },
+						next: { tags: ['restaurant_andar_de_cima'], revalidate: 30 },
 						headers: authHeaders,
 						signal: controller.signal,
 					},
@@ -61,14 +64,12 @@ export async function getRestaurantsCustom(
 				return resp_andar_de_cima.json();
 
 			default:
-				const resp = await api.get(
-					`Restaurants/restaurants/date-range?startDate=${startDate}&endDate=${endDate}`,
-					{
-						next: { tags: ['restaurant_ipiranga'], revalidate: 40 },
-						headers: authHeaders,
-						signal: controller.signal,
-					},
-				);
+				const resp = await api.get('Restaurants/restaurants/date-range', {
+					searchParams: { startDate, endDate },
+					next: { tags: ['restaurant_ipiranga'], revalidate: 30 },
+					headers: authHeaders,
+					signal: controller.signal,
+				});
 
 				if (!resp.ok) {
 					throw new HTTPError(`Fetch error: ${resp.statusText}`);

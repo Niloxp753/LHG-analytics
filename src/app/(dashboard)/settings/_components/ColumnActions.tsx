@@ -29,18 +29,17 @@ import {
 	DialogOverlay,
 	DialogTitle,
 } from '@/components/ui/dialog';
-import { IUser } from '@/http/user/createUser';
-import { IUserUp } from '@/http/user/updateUser';
+import type { UpdateUserInput, User } from '@/types/user';
 import { toast } from 'sonner';
 import FormUpdate from './formUpdate';
 
-export default function ColumnActions({ user }: { user: IUserUp | IUser }) {
+export default function ColumnActions({ user }: { user: UpdateUserInput | User }) {
 	const [openDrop, setOpenDrop] = useState(false);
 	const [openDialogEdit, setOpenDialogEdit] = useState(false);
 	const [openDialogDel, setOpenDialogDel] = useState(false);
 	const [pending, setPending] = useState(false);
 
-	async function handleDelete(user: IUser | IUserUp) {
+	async function handleDelete(user: User | UpdateUserInput) {
 		setPending(true);
 		try {
 			await deleteUserAction(user.id!);

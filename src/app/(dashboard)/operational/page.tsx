@@ -1,7 +1,11 @@
 /** @format */
 
 import { getOperationalPageData } from '@/actions/initial-pages/operation';
-import { DEFAULT_RANGE_TAG, formatDateInput, getRangeDescription } from '@/lib/date-range';
+import {
+	DEFAULT_RANGE_TAG,
+	formatDateInput,
+	getRangeDescription,
+} from '@/lib/date-range';
 import dynamic from 'next/dynamic';
 import CardLink from '../_components/CardLink';
 import Header from '../_components/Header';
@@ -177,6 +181,3 @@ export default async function Operational({
 		</main>
 	);
 }
-
-
-

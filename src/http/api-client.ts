@@ -33,3 +33,12 @@ export const api_tout = ky.create({
 	retry: 3,
 	mode: 'cors',
 });
+
+export const auth_api = ky.create({
+	prefixUrl:
+		process.env.BACKEND_AUTH_ENDPOINT ??
+		'https://analytics-dev.lhgmoteis.com.br/auth/api',
+	timeout: 60000,
+	retry: 3,
+	mode: 'cors',
+});

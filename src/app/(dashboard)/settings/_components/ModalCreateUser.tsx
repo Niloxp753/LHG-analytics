@@ -38,22 +38,12 @@ import {
 import {
 	ADMIN_ROLE,
 	ADMIN_UNIT,
-	ROLE_LABELS,
+	ROLE_OPTIONS,
 	ROLE_VALUES,
 	UNIT_LABELS,
-	UNIT_VALUES,
+	UNIT_OPTIONS,
 	type AccessUnit,
 } from '@/lib/access-control';
-
-const ROLE_OPTIONS = ROLE_VALUES.map((value) => ({
-	value,
-	label: ROLE_LABELS[value],
-}));
-
-const UNIT_OPTIONS = UNIT_VALUES.map((value) => ({
-	value,
-	label: UNIT_LABELS[value],
-}));
 
 export function ModalCreateUser() {
 	const [isPending, setIsPending] = useState(false);
@@ -80,8 +70,8 @@ export function ModalCreateUser() {
 			const name = values.name;
 			const cpf = values.cpf;
 			const role = values.role;
-			const company = values.unidade as AccessUnit;
-			await createUserAction({ email, password, name, cpf, role, company });
+			const unit = values.unidade as AccessUnit;
+			await createUserAction({ email, password, name, cpf, role, unit });
 			form.reset();
 			toast.success('Usuário Cadastrado - 204', {
 				description: `${name} - Novo usuário salvo no banco de dados`,

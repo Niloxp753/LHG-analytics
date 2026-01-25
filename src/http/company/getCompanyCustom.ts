@@ -18,14 +18,12 @@ export async function getCompanyCustom(
 		switch (company) {
 			case 'lapa':
 				const apiURL = api_lapa;
-				const resp_lapa = await apiURL.get(
-					`Company/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
-					{
-						next: { tags: ['company'], revalidate: 30 },
-						headers: authHeaders,
-						signal: controller.signal, // Passa o signal ao fetch
-					},
-				);
+				const resp_lapa = await apiURL.get('Company/kpis/date-range', {
+					searchParams: { startDate, endDate },
+					next: { tags: ['company'], revalidate: 30 },
+					headers: authHeaders,
+					signal: controller.signal, // Passa o signal ao fetch
+				});
 
 				if (!resp_lapa.ok) {
 					throw new HTTPError(`Fetch error: ${resp_lapa.statusText}`);
@@ -35,8 +33,9 @@ export async function getCompanyCustom(
 			case 'andar_de_cima':
 				const apiURL_andar_de_cima = api_andar_de_cima;
 				const resp_andar_de_cima = await apiURL_andar_de_cima.get(
-					`Company/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
+					'Company/kpis/date-range',
 					{
+						searchParams: { startDate, endDate },
 						next: { tags: ['company'], revalidate: 30 },
 						headers: authHeaders,
 						signal: controller.signal, // Passa o signal ao fetch
@@ -51,14 +50,12 @@ export async function getCompanyCustom(
 
 			case 'tout':
 				const apiURL_tout = api_tout;
-				const resp_tout = await apiURL_tout.get(
-					`Company/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
-					{
-						next: { tags: ['company'], revalidate: 30 },
-						headers: authHeaders,
-						signal: controller.signal, // Passa o signal ao fetch
-					},
-				);
+				const resp_tout = await apiURL_tout.get('Company/kpis/date-range', {
+					searchParams: { startDate, endDate },
+					next: { tags: ['company'], revalidate: 30 },
+					headers: authHeaders,
+					signal: controller.signal, // Passa o signal ao fetch
+				});
 
 				if (!resp_tout.ok) {
 					throw new HTTPError(`Fetch error: ${resp_tout.statusText}`);
@@ -67,14 +64,12 @@ export async function getCompanyCustom(
 				return resp_tout.json();
 
 			default:
-				const resp_ipiranga = await api.get(
-					`Company/kpis/date-range?startDate=${startDate}&endDate=${endDate}`,
-					{
-						next: { tags: ['company'], revalidate: 30 },
-						headers: authHeaders,
-						signal: controller.signal, // Passa o signal ao fetch
-					},
-				);
+				const resp_ipiranga = await api.get('Company/kpis/date-range', {
+					searchParams: { startDate, endDate },
+					next: { tags: ['company'], revalidate: 30 },
+					headers: authHeaders,
+					signal: controller.signal, // Passa o signal ao fetch
+				});
 
 				if (!resp_ipiranga.ok) {
 					throw new HTTPError(`Fetch error: ${resp_ipiranga.statusText}`);
