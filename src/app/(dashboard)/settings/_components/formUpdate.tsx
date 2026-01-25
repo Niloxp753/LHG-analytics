@@ -18,7 +18,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import type { UpdateUserInput } from '@/types/user';
+import type { UpdateUserInput, User } from '@/types/user';
 import { formSchemaUserUpdate } from '@/lib/formSchemaUserUpdate';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
@@ -39,7 +39,7 @@ import {
 } from '@/lib/access-control';
 
 interface FormUpdateProps {
-	user: UpdateUserInput;
+	user: UpdateUserInput | User;
 }
 
 export default function FormUpdate({ user }: FormUpdateProps) {

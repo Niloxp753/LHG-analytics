@@ -42,7 +42,15 @@ export default function ColumnActions({ user }: { user: UpdateUserInput | User }
 	async function handleDelete(user: User | UpdateUserInput) {
 		setPending(true);
 		try {
-			await deleteUserAction(user.id!);
+			if (user.id === undefined || user.id === null) {
+				toast.error('Usuario sem id', {
+					description: 'Nao foi possivel excluir este usuario.',
+				});
+				setPending(false);
+				return;
+			}
+
+			await deleteUserAction(String(user.id));
 			toast.success('Usuário Deletado - 200', {
 				description: `Usuário ${user.name} foi deletado`,
 			});
