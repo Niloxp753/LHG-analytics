@@ -28,14 +28,14 @@ export default function BigNumbersPage({
 		<div className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4'>
 			<CardDetails
 				showForecast={!!forecast}
-				description={generateDescription(
-					description,
-					previous &&
-						previous.totalAllValuePreviousData.toLocaleString('pt-br', {
-							style: 'currency',
-							currency: 'brl',
-						}),
-				)}
+				description={
+					previous
+						? generateDescription(description, previous.totalAllValuePreviousData, {
+								style: 'currency',
+								currency: 'BRL',
+						  })
+						: ''
+				}
 				type='money'
 				icon={<HandCoins />}
 				title={'Receita de A&B'}
@@ -52,10 +52,11 @@ export default function BigNumbersPage({
 			/>
 			<CardDetails
 				showForecast={!!forecast}
-				description={generateDescription(
-					description,
-					previous && previous.totalAllSalesPreviousData.toLocaleString('pt-br'),
-				)}
+				description={
+					previous
+						? generateDescription(description, previous.totalAllSalesPreviousData)
+						: ''
+				}
 				icon={<Sigma />}
 				title={'Nº de vendas'}
 				monthlyForecast={forecast?.totalAllSalesForecast}
@@ -72,14 +73,18 @@ export default function BigNumbersPage({
 
 			<CardDetails
 				showForecast={!!forecast}
-				description={generateDescription(
-					description,
-					previous &&
-						previous.totalAllTicketAveragePreviousData.toLocaleString('pt-br', {
-							style: 'currency',
-							currency: 'brl',
-						}),
-				)}
+				description={
+					previous
+						? generateDescription(
+								description,
+								previous.totalAllTicketAveragePreviousData,
+								{
+									style: 'currency',
+									currency: 'BRL',
+								},
+						  )
+						: ''
+				}
 				type='money'
 				icon={<SquarePercent />}
 				title={'Ticket médio A&B'}
@@ -97,17 +102,18 @@ export default function BigNumbersPage({
 
 			<CardDetails
 				showForecast={!!forecast}
-				description={generateDescription(
-					description,
-					previous &&
-						previous.totalAllTicketAverageByTotalRentalsPreviousData.toLocaleString(
-							'pt-br',
-							{
-								style: 'currency',
-								currency: 'brl',
-							},
-						),
-				)}
+				description={
+					previous
+						? generateDescription(
+								description,
+								previous.totalAllTicketAverageByTotalRentalsPreviousData,
+								{
+									style: 'currency',
+									currency: 'BRL',
+								},
+						  )
+						: ''
+				}
 				icon={<DiamondPercent />}
 				type='money'
 				title={'TKT médio A&B / locação'}
