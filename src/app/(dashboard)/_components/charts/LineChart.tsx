@@ -1,7 +1,9 @@
 /** @format */
 
 'use client';
-import Chart from 'react-apexcharts';
+import dynamic from 'next/dynamic';
+
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
 import { Skeleton } from '@/components/ui/skeleton';
 import { DEFAULT_RANGE_TAG, isShortRangeTag } from '@/lib/date-range';

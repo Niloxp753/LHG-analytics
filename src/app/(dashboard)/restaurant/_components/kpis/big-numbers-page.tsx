@@ -7,211 +7,100 @@ import { DiamondPercent, HandCoins, Sigma, SquarePercent } from 'lucide-react';
 import { RestaurantBigNumbersEntry } from '@/types/big-numbers-restaurant';
 
 interface BigNumbersPageOpProps {
-	ipiranga: RestaurantBigNumbersEntry[];
-	lapa: RestaurantBigNumbersEntry[];
-	andar_de_cima: RestaurantBigNumbersEntry[];
-	tout: RestaurantBigNumbersEntry[];
+	data?: RestaurantBigNumbersEntry[] | null;
 	description: string;
 }
 
 export default function BigNumbersPage({
 	description,
-	ipiranga,
-	andar_de_cima,
-	tout,
-	lapa,
+	data,
 }: BigNumbersPageOpProps) {
-	const dataIpiranga = ipiranga[0];
-	const dataLapa = lapa[0];
-	const dataAndar = andar_de_cima[0];
-	const dataTout = tout[0];
+	const entry = data?.[0];
 
-	const totalAllValues =
-		dataIpiranga.currentDate.totalAllValue +
-		dataLapa.currentDate.totalAllValue +
-		dataAndar.currentDate.totalAllValue +
-		dataTout.currentDate.totalAllValue;
+	if (!entry) {
+		return null;
+	}
 
-	const totalAllSales =
-		dataIpiranga.currentDate.totalAllSales +
-		dataLapa.currentDate.totalAllSales +
-		dataAndar.currentDate.totalAllSales +
-		dataTout.currentDate.totalAllSales;
-
-	const totalAllTicketAverage =
-		(dataIpiranga.currentDate.totalAllTicketAverage +
-			dataLapa.currentDate.totalAllTicketAverage +
-			dataAndar.currentDate.totalAllTicketAverage +
-			dataTout.currentDate.totalAllTicketAverage) /
-		4;
-
-	const totalAllTicketAverageByTotalRentals =
-		(dataIpiranga.currentDate.totalAllTicketAverageByTotalRentals +
-			dataLapa.currentDate.totalAllTicketAverageByTotalRentals +
-			dataAndar.currentDate.totalAllTicketAverageByTotalRentals +
-			dataTout.currentDate.totalAllTicketAverageByTotalRentals) /
-		4;
-
-	const totalAllValuePreviousData = dataIpiranga.previousDate
-		? dataIpiranga.previousDate.totalAllValuePreviousData +
-		  dataLapa.previousDate.totalAllValuePreviousData +
-		  dataAndar.previousDate.totalAllValuePreviousData +
-		  dataTout.previousDate.totalAllValuePreviousData
-		: null;
-
-	const totalAllSalesPreviousData = dataIpiranga.previousDate
-		? dataIpiranga.previousDate.totalAllSalesPreviousData +
-		  dataLapa.previousDate.totalAllSalesPreviousData +
-		  dataAndar.previousDate.totalAllSalesPreviousData +
-		  dataTout.previousDate.totalAllSalesPreviousData
-		: null;
-
-	const totalAllTicketAveragePreviousData = dataIpiranga.previousDate
-		? dataIpiranga.previousDate.totalAllTicketAveragePreviousData +
-		  dataLapa.previousDate.totalAllTicketAveragePreviousData +
-		  dataAndar.previousDate.totalAllTicketAveragePreviousData +
-		  dataTout.previousDate.totalAllTicketAveragePreviousData
-		: null;
-
-	const totalAllTicketAverageByTotalRentalsPreviousData =
-		dataIpiranga.previousDate
-			? dataIpiranga.previousDate
-					.totalAllTicketAverageByTotalRentalsPreviousData +
-			  dataLapa.previousDate.totalAllTicketAverageByTotalRentalsPreviousData +
-			  dataAndar.previousDate.totalAllTicketAverageByTotalRentalsPreviousData +
-			  dataTout.previousDate.totalAllTicketAverageByTotalRentalsPreviousData
-			: null;
-
-	const hasMonthlyForecast =
-		dataIpiranga.monthlyForecast &&
-		dataLapa.monthlyForecast &&
-		dataAndar.monthlyForecast &&
-		dataTout.monthlyForecast;
-
-	const totalAllValueForecast = hasMonthlyForecast
-		? dataIpiranga.monthlyForecast.totalAllValueForecast +
-		  dataLapa.monthlyForecast.totalAllValueForecast +
-		  dataAndar.monthlyForecast.totalAllValueForecast +
-		  dataTout.monthlyForecast.totalAllValueForecast
-		: null;
-
-	const totalAllSalesForecast = hasMonthlyForecast
-		? dataIpiranga.monthlyForecast.totalAllSalesForecast +
-		  dataLapa.monthlyForecast.totalAllSalesForecast +
-		  dataAndar.monthlyForecast.totalAllSalesForecast +
-		  dataTout.monthlyForecast.totalAllSalesForecast
-		: null;
-
-	const totalAllTicketAverageForecast = hasMonthlyForecast
-		? (dataIpiranga.monthlyForecast.totalAllTicketAverageForecast +
-				dataLapa.monthlyForecast.totalAllTicketAverageForecast +
-				dataAndar.monthlyForecast.totalAllTicketAverageForecast +
-				dataTout.monthlyForecast.totalAllTicketAverageForecast) /
-		  4
-		: null;
-
-	const totalAllTicketAverageByTotalRentalsForecast = hasMonthlyForecast
-		? (dataIpiranga.monthlyForecast
-				.totalAllTicketAverageByTotalRentalsForecast +
-				dataLapa.monthlyForecast.totalAllTicketAverageByTotalRentalsForecast +
-				dataAndar.monthlyForecast.totalAllTicketAverageByTotalRentalsForecast +
-				dataTout.monthlyForecast.totalAllTicketAverageByTotalRentalsForecast) /
-		  4
-		: null;
+	const previous = entry.previousDate;
+	const forecast = entry.monthlyForecast;
 
 	return (
 		<div className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4'>
 			<CardDetails
-				showForecast={!!hasMonthlyForecast}
+				showForecast={!!forecast}
 				description={generateDescription(
 					description,
-					totalAllValuePreviousData &&
-						totalAllValuePreviousData.toLocaleString('pt-br', {
+					previous &&
+						previous.totalAllValuePreviousData.toLocaleString('pt-br', {
 							style: 'currency',
 							currency: 'brl',
 						}),
 				)}
 				type='money'
 				icon={<HandCoins />}
-				title={'Receita De A&B'}
-				monthlyForecast={
-					hasMonthlyForecast ? totalAllValueForecast ?? undefined : undefined
-				}
-				value={
-					totalAllValues
-						? totalAllValues.toLocaleString('pt-br', {
-								style: 'currency',
-								currency: 'brl',
-						  })
-						: 0
-				}
+				title={'Receita de A&B'}
+				monthlyForecast={forecast?.totalAllValueForecast}
+				value={entry.currentDate.totalAllValue}
 				Badge={
-					totalAllValuePreviousData && (
+					previous && (
 						<GenerateBadge
-							val={totalAllValues}
-							previousVal={totalAllValuePreviousData}
+							val={entry.currentDate.totalAllValue}
+							previousVal={previous.totalAllValuePreviousData}
 						/>
 					)
 				}
 			/>
 			<CardDetails
-				showForecast={!!hasMonthlyForecast}
+				showForecast={!!forecast}
 				description={generateDescription(
 					description,
-					totalAllSalesPreviousData &&
-						totalAllSalesPreviousData.toLocaleString('pt-br'),
+					previous && previous.totalAllSalesPreviousData.toLocaleString('pt-br'),
 				)}
 				icon={<Sigma />}
-				title={'Nº De Vendas'}
-				monthlyForecast={
-					hasMonthlyForecast ? totalAllSalesForecast ?? undefined : undefined
-				}
-				value={totalAllSales}
+				title={'Nº de vendas'}
+				monthlyForecast={forecast?.totalAllSalesForecast}
+				value={entry.currentDate.totalAllSales}
 				Badge={
-					totalAllSalesPreviousData && (
+					previous && (
 						<GenerateBadge
-							val={totalAllSales}
-							previousVal={totalAllSalesPreviousData}
+							val={entry.currentDate.totalAllSales}
+							previousVal={previous.totalAllSalesPreviousData}
 						/>
 					)
 				}
 			/>
 
 			<CardDetails
-				showForecast={!!hasMonthlyForecast}
+				showForecast={!!forecast}
 				description={generateDescription(
 					description,
-					totalAllTicketAveragePreviousData &&
-						totalAllTicketAveragePreviousData.toLocaleString('pt-br', {
+					previous &&
+						previous.totalAllTicketAveragePreviousData.toLocaleString('pt-br', {
 							style: 'currency',
 							currency: 'brl',
 						}),
 				)}
 				type='money'
 				icon={<SquarePercent />}
-				title={'Ticket Médio A&B'}
-				monthlyForecast={
-					hasMonthlyForecast
-						? totalAllTicketAverageForecast ?? undefined
-						: undefined
-				}
-				value={totalAllTicketAverage}
+				title={'Ticket médio A&B'}
+				monthlyForecast={forecast?.totalAllTicketAverageForecast}
+				value={entry.currentDate.totalAllTicketAverage}
 				Badge={
-					totalAllTicketAveragePreviousData && (
+					previous && (
 						<GenerateBadge
-							val={totalAllTicketAverage}
-							previousVal={totalAllTicketAveragePreviousData}
+							val={entry.currentDate.totalAllTicketAverage}
+							previousVal={previous.totalAllTicketAveragePreviousData}
 						/>
 					)
 				}
 			/>
 
 			<CardDetails
-				showForecast={!!hasMonthlyForecast}
+				showForecast={!!forecast}
 				description={generateDescription(
 					description,
-					totalAllTicketAverageByTotalRentalsPreviousData &&
-						totalAllTicketAverageByTotalRentalsPreviousData.toLocaleString(
+					previous &&
+						previous.totalAllTicketAverageByTotalRentalsPreviousData.toLocaleString(
 							'pt-br',
 							{
 								style: 'currency',
@@ -221,24 +110,16 @@ export default function BigNumbersPage({
 				)}
 				icon={<DiamondPercent />}
 				type='money'
-				title={'TKT Médio A&B / Locação'}
-				monthlyForecast={
-					hasMonthlyForecast
-						? totalAllTicketAverageByTotalRentalsForecast ?? undefined
-						: undefined
-				}
-				value={
-					totalAllTicketAverageByTotalRentals &&
-					totalAllTicketAverageByTotalRentals.toLocaleString('pt-br', {
-						style: 'currency',
-						currency: 'brl',
-					})
-				}
+				title={'TKT médio A&B / locação'}
+				monthlyForecast={forecast?.totalAllTicketAverageByTotalRentalsForecast}
+				value={entry.currentDate.totalAllTicketAverageByTotalRentals}
 				Badge={
-					totalAllTicketAverageByTotalRentalsPreviousData && (
+					previous && (
 						<GenerateBadge
-							val={totalAllTicketAverageByTotalRentals}
-							previousVal={totalAllTicketAverageByTotalRentalsPreviousData}
+							val={entry.currentDate.totalAllTicketAverageByTotalRentals}
+							previousVal={
+								previous.totalAllTicketAverageByTotalRentalsPreviousData
+							}
 						/>
 					)
 				}

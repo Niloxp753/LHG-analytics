@@ -2,7 +2,7 @@
 
 'use server';
 
-import { getReservationsCustom } from '@/http/reservations/get-bookings-custom';
+import { getBookingsUnified } from '@/http/reservations/getBookingsUnified';
 import { revalidatePath } from 'next/cache';
 import {
 	DEFAULT_RANGE_TAG,
@@ -25,83 +25,29 @@ export async function getReservationPageData({
 	const range = getRangeByTag(normalized);
 
 	if (startDate && endDate) {
-		const customDataIpiranga = await getReservationsCustom(startDate, endDate);
-		const customDataLapa = await getReservationsCustom(
-			startDate,
-			endDate,
-			'lapa',
-		);
-		const customDataAndarDeCima = await getReservationsCustom(
-			startDate,
-			endDate,
-			'andar_de_cima',
-		);
-		const customDataTout = await getReservationsCustom(
-			startDate,
-			endDate,
-			'tout',
-		);
+		const data = await getBookingsUnified(startDate, endDate);
 
-		if (
-			customDataIpiranga &&
-			customDataLapa &&
-			customDataAndarDeCima &&
-			customDataTout
-		) {
-			revalidatePath('/reservation');
+		if (data) {
+			revalidatePath('/reservations');
 			return {
 				ok: true,
-				data: [
-					customDataIpiranga,
-					customDataLapa,
-					customDataAndarDeCima,
-					customDataTout,
-				],
+				data,
 				error: null,
 			};
-		} else {
-			return {
-				ok: false,
-				data: null,
-				error: 'Erro ao encontrar dados',
-			};
 		}
+		return {
+			ok: false,
+			data: null,
+			error: 'Erro ao encontrar dados',
+		};
 	} else if (range) {
-		const customDataIpiranga = await getReservationsCustom(
-			range.startDate,
-			range.endDate,
-		);
-		const customDataLapa = await getReservationsCustom(
-			range.startDate,
-			range.endDate,
-			'lapa',
-		);
-		const customDataAndarDeCima = await getReservationsCustom(
-			range.startDate,
-			range.endDate,
-			'andar_de_cima',
-		);
-		const customDataTout = await getReservationsCustom(
-			range.startDate,
-			range.endDate,
-			'tout',
-		);
+		const data = await getBookingsUnified(range.startDate, range.endDate);
 
-		if (
-			customDataIpiranga &&
-			customDataLapa &&
-			customDataAndarDeCima &&
-			customDataTout
-		) {
-			revalidatePath('/reservation');
+		if (data) {
+			revalidatePath('/reservations');
 			return {
 				ok: true,
-				data: [
-					customDataIpiranga,
-					customDataLapa,
-					customDataAndarDeCima,
-					customDataTout,
-				],
+				data,
 				error: null,
 			};
 		}

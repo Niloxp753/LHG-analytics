@@ -1,7 +1,11 @@
 /** @format */
 
 import { getGeneralPageData } from '@/actions/initial-pages/general';
-import { DEFAULT_RANGE_TAG, formatDateInput, getRangeDescription } from '@/lib/date-range';
+import {
+	DEFAULT_RANGE_TAG,
+	formatDateInput,
+	getRangeDescription,
+} from '@/lib/date-range';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 import CardLink from '../_components/CardLink';
@@ -62,6 +66,14 @@ export default async function General({
 		);
 	}
 
+	const unifiedData = Array.isArray(resp.data) ? null : (resp.data as any);
+	const bigNumbers = unifiedData?.BigNumbers ?? null;
+	const revenueByCompany = unifiedData.RevenueByCompany ?? null;
+	const rentalsByDate = unifiedData.RentalsByDate ?? null;
+	const ticketAverageByDate = unifiedData.TicketAverageByDate ?? null;
+	const trevparByDate = unifiedData.TrevparByDate ?? null;
+	const RevenueByDate = unifiedData.RevenueByDate ?? null;
+
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 '>
 			<div className={`relative md:max-w-[82vw] flex  md:ml-auto w-full `}>
@@ -104,62 +116,33 @@ export default async function General({
 					<div className=' w-full h-full flex gap-5 flex-col md:px-0 '>
 						<Suspense>
 							<BigNumbersCompany
-								ipiranga={resp.data ? resp.data[0]?.BigNumbers : null}
-								lapa={resp.data ? resp.data[1].BigNumbers : null}
-								andar_de_cima={resp.data ? resp.data[2]?.BigNumbers : null}
-								tout={resp.data ? resp.data[3]?.BigNumbers : null}
+								data={bigNumbers}
 								description={rangeDescription}
 							/>
 
 							<div className='flex gap-5 flex-col md:flex-row w-full h-full '>
 								<div className='md:w-1/3 w-full h-full '>
 									<InvoicingXUnity
-										tout={resp.data[3].BigNumbers[0].currentDate.totalAllValue}
-										andar_de_cima={
-											resp.data[2].BigNumbers[0].currentDate.totalAllValue
-										}
-										ipiranga={
-											resp.data[0].BigNumbers[0].currentDate.totalAllValue
-										}
-										lapa={resp.data[1].BigNumbers[0].currentDate.totalAllValue}
+										categories={revenueByCompany.categories}
+										series={revenueByCompany.series}
 									/>
 								</div>
 								<div className='md:w-2/3 h-full '>
-									<LocationsxUnity
-										andar_de_cima={resp.data[2].RentalsByDate}
-										tout={resp.data[3].RentalsByDate}
-										ipiranga={resp.data[0].RentalsByDate}
-										lapa={resp.data[1].RentalsByDate}
-									/>
+									<LocationsxUnity data={rentalsByDate} />
 								</div>
 							</div>
 							<div className='flex gap-5 flex-col'>
-								<TKTxUnity
-									andar_de_cima={resp.data[2].TicketAverageByDate}
-									tout={resp.data[3].TicketAverageByDate}
-									ipiranga={resp.data[0].TicketAverageByDate}
-									lapa={resp.data[1].TicketAverageByDate}
-								/>
-								<TRevParXUnity
-									andar_de_cima={resp.data[2].TrevparByDate}
-									tout={resp.data[3].TrevparByDate}
-									ipiranga={resp.data[0].TrevparByDate}
-									lapa={resp.data[1].TrevparByDate}
-								/>
+								<TKTxUnity data={ticketAverageByDate} />
+								<TRevParXUnity data={trevparByDate} />
 							</div>
 							<div className='flex flex-col gap-5'>
-								<InvoicingXUnityXTime
-									andar_de_cima={resp.data[2].RevenueByDate}
-									tout={resp.data[3].RevenueByDate}
-									ipiranga={resp.data[0].RevenueByDate}
-									lapa={resp.data[1].RevenueByDate}
-								/>
-								<OccupationXUnity
-									andar_de_cima={resp.data[2].OccupancyRateByDate}
-									tout={resp.data[3].OccupancyRateByDate}
-									ipiranga={resp.data[0].OccupancyRateByDate}
-									lapa={resp.data[1].OccupancyRateByDate}
-								/>
+								<InvoicingXUnityXTime data={RevenueByDate} />
+								{/* <OccupationXUnity
+											andar_de_cima={units.andar_de_cima!.OccupancyRateByDate!}
+											tout={units.tout!.OccupancyRateByDate!}
+											ipiranga={units.ipiranga!.OccupancyRateByDate!}
+											lapa={units.lapa!.OccupancyRateByDate!}
+										/> */}
 							</div>
 						</Suspense>
 					</div>
@@ -168,8 +151,3 @@ export default async function General({
 		</main>
 	);
 }
-
-
-
-
-

@@ -9,317 +9,166 @@ import {
 	SquarePercent,
 } from 'lucide-react';
 
-import { NormalizeTimeNumbers } from '@/utils/normalize-bignumbers-general';
 import CardDetails from '../../_components/CardDetails';
 import GenerateBadge from './generate-badge';
 import { CompanyBigNumbersEntry } from '@/types/big-numbers-company';
 
 interface BigNumbersProps {
-	ipiranga?: CompanyBigNumbersEntry[] | null;
-	lapa?: CompanyBigNumbersEntry[] | null;
-	andar_de_cima?: CompanyBigNumbersEntry[] | null;
-	tout?: CompanyBigNumbersEntry[] | null;
+	data?: CompanyBigNumbersEntry[] | null;
 	description: string;
 }
 
 export default function BigNumbersCompany(props: BigNumbersProps) {
-	const dataIpiranga = props.ipiranga?.[0];
-	const dataLapa = props.lapa?.[0];
-	const dataAndarDeCima = props.andar_de_cima?.[0];
-	const dataTout = props.tout?.[0];
+	const data = props.data?.[0];
 
-	if (!dataIpiranga || !dataLapa || !dataAndarDeCima || !dataTout) {
+	if (!data) {
 		return null;
 	}
 
-	const totalAllValue =
-		dataIpiranga.currentDate.totalAllValue +
-		dataLapa.currentDate.totalAllValue +
-		dataAndarDeCima.currentDate.totalAllValue +
-		dataTout.currentDate.totalAllValue;
-
-	const totalAllRentalsApartments =
-		dataIpiranga.currentDate.totalAllRentalsApartments +
-		dataLapa.currentDate.totalAllRentalsApartments +
-		dataAndarDeCima.currentDate.totalAllRentalsApartments +
-		dataTout.currentDate.totalAllRentalsApartments;
-
-	const totalAllTicketAverage =
-		(dataIpiranga.currentDate.totalAllTicketAverage +
-			dataLapa.currentDate.totalAllTicketAverage +
-			dataAndarDeCima.currentDate.totalAllTicketAverage +
-			dataTout.currentDate.totalAllTicketAverage) /
-		4;
-
-	const totalAllTrevpar =
-		(dataIpiranga.currentDate.totalAllTrevpar +
-			dataLapa.currentDate.totalAllTrevpar +
-			dataAndarDeCima.currentDate.totalAllTrevpar +
-			dataTout.currentDate.totalAllTrevpar) /
-		4;
-
-	const totalAverageOccupationTime = NormalizeTimeNumbers({
-		values: [
-			dataIpiranga.currentDate.totalAverageOccupationTime,
-			dataLapa.currentDate.totalAverageOccupationTime,
-			dataAndarDeCima.currentDate.totalAverageOccupationTime,
-			dataTout.currentDate.totalAverageOccupationTime,
-		],
-		operation: 'media',
-	});
-
-	const totalAllGiro =
-		(dataIpiranga.currentDate.totalAllGiro +
-			dataLapa.currentDate.totalAllGiro +
-			dataAndarDeCima.currentDate.totalAllGiro +
-			dataTout.currentDate.totalAllGiro) /
-		4;
-
-	const totalAllValuePrevious =
-		dataIpiranga.previousDate &&
-		dataIpiranga.previousDate.totalAllValuePreviousData +
-			dataLapa.previousDate?.totalAllValuePreviousData +
-			dataAndarDeCima.previousDate?.totalAllValuePreviousData +
-			dataTout.previousDate?.totalAllValuePreviousData;
-
-	const totalAllRentalsApartmentsPrevious =
-		dataIpiranga.previousDate &&
-		dataIpiranga.previousDate?.totalAllRentalsApartmentsPreviousData +
-			dataLapa.previousDate?.totalAllRentalsApartmentsPreviousData +
-			dataAndarDeCima.previousDate?.totalAllRentalsApartmentsPreviousData +
-			dataTout.previousDate?.totalAllRentalsApartmentsPreviousData;
-
-	const totalAllTicketAveragePrevious =
-		dataIpiranga.previousDate &&
-		(dataIpiranga.previousDate?.totalAllTicketAveragePreviousData +
-			dataLapa.previousDate?.totalAllTicketAveragePreviousData +
-			dataAndarDeCima.previousDate?.totalAllTicketAveragePreviousData +
-			dataTout.previousDate?.totalAllTicketAveragePreviousData) /
-			4;
-
-	const totalAllTrevparPrevious =
-		dataIpiranga.previousDate &&
-		(dataIpiranga.previousDate?.totalAllTrevparPreviousData +
-			dataLapa.previousDate?.totalAllTrevparPreviousData +
-			dataAndarDeCima.previousDate?.totalAllTrevparPreviousData +
-			dataTout.previousDate?.totalAllTrevparPreviousData) /
-			4;
-
-	const totalAverageOccupationTimePrevious =
-		dataIpiranga.previousDate &&
-		NormalizeTimeNumbers({
-			values: [
-				dataIpiranga.previousDate?.totalAverageOccupationTimePreviousData,
-				dataLapa.previousDate?.totalAverageOccupationTimePreviousData,
-				dataAndarDeCima.previousDate?.totalAverageOccupationTimePreviousData,
-				dataTout.previousDate?.totalAverageOccupationTimePreviousData,
-			],
-			operation: 'media',
-		});
-
-	const totalAllGiroPrevious =
-		dataIpiranga.previousDate &&
-		(dataIpiranga.previousDate?.totalAllGiroPreviousData +
-			dataLapa.previousDate?.totalAllGiroPreviousData +
-			dataAndarDeCima.previousDate?.totalAllGiroPreviousData +
-			dataTout.previousDate?.totalAllGiroPreviousData) /
-			4;
-
-	const totalAllValueForecast =
-		dataIpiranga.monthlyForecast &&
-		dataIpiranga.monthlyForecast?.totalAllValueForecast +
-			dataLapa.monthlyForecast?.totalAllValueForecast +
-			dataAndarDeCima.monthlyForecast?.totalAllValueForecast +
-			dataTout.monthlyForecast?.totalAllValueForecast;
-
-	const totalAllRentalsApartmentsForecast =
-		dataIpiranga.monthlyForecast &&
-		dataIpiranga.monthlyForecast?.totalAllRentalsApartmentsForecast +
-			dataLapa.monthlyForecast?.totalAllRentalsApartmentsForecast +
-			dataAndarDeCima.monthlyForecast?.totalAllRentalsApartmentsForecast +
-			dataTout.monthlyForecast?.totalAllRentalsApartmentsForecast;
-
-	const totalAllTicketAverageForecast =
-		dataIpiranga.monthlyForecast &&
-		(dataIpiranga.monthlyForecast?.totalAllTicketAverageForecast +
-			dataLapa.monthlyForecast?.totalAllTicketAverageForecast +
-			dataAndarDeCima.monthlyForecast?.totalAllTicketAverageForecast +
-			dataTout.monthlyForecast?.totalAllTicketAverageForecast) /
-			4;
-
-	const totalAllTrevparForecast =
-		dataIpiranga.monthlyForecast &&
-		(dataIpiranga.monthlyForecast?.totalAllTrevparForecast +
-			dataLapa.monthlyForecast?.totalAllTrevparForecast +
-			dataAndarDeCima.monthlyForecast?.totalAllTrevparForecast +
-			dataTout.monthlyForecast?.totalAllTrevparForecast) /
-			4;
-
-	const totalAllGiroForecast =
-		dataIpiranga.monthlyForecast &&
-		(dataIpiranga.monthlyForecast?.totalAllGiroForecast +
-			dataLapa.monthlyForecast?.totalAllGiroForecast +
-			dataAndarDeCima.monthlyForecast?.totalAllGiroForecast +
-			dataTout.monthlyForecast?.totalAllGiroForecast) /
-			4;
-
-	const totalAverageOccupationTimeForecast =
-		dataIpiranga.monthlyForecast &&
-		NormalizeTimeNumbers({
-			values: [
-				dataIpiranga.monthlyForecast?.totalAverageOccupationTimeForecast,
-				dataLapa.monthlyForecast?.totalAverageOccupationTimeForecast,
-				dataAndarDeCima.monthlyForecast?.totalAverageOccupationTimeForecast,
-				dataTout.monthlyForecast?.totalAverageOccupationTimeForecast,
-			],
-			operation: 'media',
-		});
+	const previous = data.previousDate;
+	const forecast = data.monthlyForecast;
 
 	return (
 		<div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
 			<CardDetails
-				showForecast={!!dataIpiranga.monthlyForecast}
+				showForecast={!!forecast}
 				type='money'
 				description={
-					dataIpiranga.previousDate
+					previous
 						? props.description +
-						  totalAllValuePrevious.toLocaleString('pt-BR', {
+							previous.totalAllValuePreviousData.toLocaleString('pt-BR', {
 								style: 'currency',
 								currency: 'brl',
-						  })
+							})
 						: ''
 				}
 				icon={<HandCoins />}
 				title={'Faturamento'}
-				monthlyForecast={dataIpiranga.monthlyForecast && totalAllValueForecast}
-				value={totalAllValue!}
+				monthlyForecast={forecast?.totalAllValueForecast}
+				value={data.currentDate.totalAllValue}
 				Badge={
-					dataIpiranga.previousDate && (
+					previous && (
 						<GenerateBadge
-							val={Number(totalAllValue)}
-							previousVal={totalAllValuePrevious}
+							val={Number(data.currentDate.totalAllValue)}
+							previousVal={previous.totalAllValuePreviousData}
 						/>
 					)
 				}
 			/>
 			<CardDetails
-				showForecast={!!dataIpiranga.monthlyForecast}
+				showForecast={!!forecast}
 				description={
-					dataIpiranga.previousDate
+					previous
 						? props.description +
-						  Number(totalAllRentalsApartmentsPrevious).toLocaleString('pt-BR')
+							Number(
+								previous.totalAllRentalsApartmentsPreviousData,
+							).toLocaleString('pt-BR')
 						: ''
 				}
-				monthlyForecast={
-					dataIpiranga.monthlyForecast && totalAllRentalsApartmentsForecast
-				}
+				monthlyForecast={forecast?.totalAllRentalsApartmentsForecast}
 				icon={<Sigma />}
 				title={'Locações'}
-				value={totalAllRentalsApartments}
+				value={data.currentDate.totalAllRentalsApartments}
 				Badge={
-					dataIpiranga.previousDate && (
+					previous && (
 						<GenerateBadge
-							val={Number(totalAllRentalsApartments)}
-							previousVal={totalAllRentalsApartmentsPrevious}
+							val={Number(data.currentDate.totalAllRentalsApartments)}
+							previousVal={previous.totalAllRentalsApartmentsPreviousData}
 						/>
 					)
 				}
 			/>
 			<CardDetails
-				showForecast={!!dataIpiranga.monthlyForecast}
+				showForecast={!!forecast}
 				type='money'
 				description={
-					dataIpiranga.previousDate
+					previous
 						? props.description +
-						  totalAllTicketAveragePrevious.toLocaleString('pt-BR', {
-								style: 'currency',
-								currency: 'brl',
-						  })
+							previous.totalAllTicketAveragePreviousData.toLocaleString(
+								'pt-BR',
+								{
+									style: 'currency',
+									currency: 'brl',
+								},
+							)
 						: ''
 				}
-				monthlyForecast={
-					dataIpiranga.monthlyForecast && totalAllTicketAverageForecast
-				}
+				monthlyForecast={forecast?.totalAllTicketAverageForecast}
 				icon={<SquarePercent />}
 				title={'Ticket Médio'}
-				value={totalAllTicketAverage!}
+				value={data.currentDate.totalAllTicketAverage}
 				Badge={
-					dataIpiranga.previousDate && (
+					previous && (
 						<GenerateBadge
-							val={Number(totalAllTicketAverage)}
-							previousVal={totalAllTicketAveragePrevious}
+							val={Number(data.currentDate.totalAllTicketAverage)}
+							previousVal={previous.totalAllTicketAveragePreviousData}
 						/>
 					)
 				}
 			/>
 			<CardDetails
-				showForecast={!!dataIpiranga.monthlyForecast}
+				showForecast={!!forecast}
 				type='money'
 				description={
-					dataIpiranga.previousDate
+					previous
 						? props.description +
-						  totalAllTrevparPrevious.toLocaleString('pt-BR', {
+							previous.totalAllTrevparPreviousData.toLocaleString('pt-BR', {
 								style: 'currency',
 								currency: 'brl',
-						  })
+							})
 						: ''
 				}
-				monthlyForecast={
-					dataIpiranga.monthlyForecast && totalAllTrevparForecast
-				}
+				monthlyForecast={forecast?.totalAllTrevparForecast}
 				icon={<Activity />}
 				title={'Trevpar'}
-				value={totalAllTrevpar!}
+				value={data.currentDate.totalAllTrevpar}
 				Badge={
-					dataIpiranga.previousDate && (
+					previous && (
 						<GenerateBadge
-							val={Number(totalAllTrevpar)}
-							previousVal={totalAllTrevparPrevious}
+							val={Number(data.currentDate.totalAllTrevpar)}
+							previousVal={previous.totalAllTrevparPreviousData}
 						/>
 					)
 				}
 			/>
 			<CardDetails
-				showForecast={!!dataIpiranga.monthlyForecast}
+				showForecast={!!forecast}
 				description={
-					dataIpiranga.previousDate
-						? props.description + totalAllGiroPrevious.toFixed(2)
+					previous
+						? props.description + previous.totalAllGiroPreviousData.toFixed(2)
 						: ''
 				}
 				icon={<DoorClosed />}
 				title={'Giro'}
-				value={totalAllGiro.toFixed(2)}
-				monthlyForecast={
-					dataIpiranga.monthlyForecast && totalAllGiroForecast.toFixed(2)
-				}
+				value={data.currentDate.totalAllGiro.toFixed(2)}
+				monthlyForecast={forecast?.totalAllGiroForecast.toFixed(2)}
 				Badge={
-					dataIpiranga.previousDate && (
+					previous && (
 						<GenerateBadge
-							val={Number(totalAllGiro)}
-							previousVal={totalAllGiroPrevious}
+							val={Number(data.currentDate.totalAllGiro)}
+							previousVal={previous.totalAllGiroPreviousData}
 						/>
 					)
 				}
 			/>
 			<CardDetails
-				showForecast={!!dataIpiranga.monthlyForecast}
+				showForecast={!!forecast}
 				description={
-					dataIpiranga.previousDate
-						? props.description + totalAverageOccupationTimePrevious
+					previous
+						? props.description +
+							previous.totalAverageOccupationTimePreviousData
 						: ''
 				}
-				monthlyForecast={
-					dataIpiranga.monthlyForecast && totalAverageOccupationTimeForecast
-				}
+				monthlyForecast={forecast?.totalAverageOccupationTimeForecast}
 				icon={<AlarmClockCheck />}
 				title={'TMO'}
-				value={totalAverageOccupationTime!}
+				value={data.currentDate.totalAverageOccupationTime}
 				Badge={
-					dataIpiranga.previousDate && (
+					previous && (
 						<GenerateBadge
 							tmo
-							val={totalAverageOccupationTime!}
-							previousVal={totalAverageOccupationTimePrevious}
+							val={data.currentDate.totalAverageOccupationTime}
+							previousVal={previous.totalAverageOccupationTimePreviousData}
 						/>
 					)
 				}

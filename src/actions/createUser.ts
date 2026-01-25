@@ -4,7 +4,7 @@
 
 import { createUser } from '@/http/user/createUser';
 import type { CreateUserInput } from '@/types/user';
-import { revalidateTag } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { requireAccessToken } from '@/lib/require-auth';
 
 export async function createUserAction(props: CreateUserInput) {
@@ -12,6 +12,7 @@ export async function createUserAction(props: CreateUserInput) {
 	try {
 		const resp = await createUser(props);
 		revalidateTag('users');
+		revalidatePath('/settings');
 		return resp;
 	} catch (error) {
 		console.log(error);

@@ -7,204 +7,118 @@ import GenerateBadge from '../../general/_components/generate-badge';
 import { ReservationsBigNumbersEntry } from '@/types/big-numbers-reservations';
 
 interface BigNumbersProps {
-	ipiranga?: ReservationsBigNumbersEntry[] | null;
-	lapa?: ReservationsBigNumbersEntry[] | null;
-	andar_de_cima?: ReservationsBigNumbersEntry[] | null;
-	tout?: ReservationsBigNumbersEntry[] | null;
+	data: ReservationsBigNumbersEntry[] | null;
 	description: string;
 	ecommerce: boolean;
 }
 
 export default function BigNumbersReservationPage(props: BigNumbersProps) {
-	const dataIpiranga = props.ipiranga?.[0];
-	const dataLapa = props.lapa?.[0];
-	const dataAndarDeCima = props.andar_de_cima?.[0];
-	const dataTout = props.tout?.[0];
+	const unified = props.data?.[0];
 
-	if (!dataIpiranga || !dataLapa || !dataAndarDeCima || !dataTout) {
-		return null;
-	}
+	const showForecast = !!unified?.monthlyForecast;
+	const hasPrevious = !!unified?.previousDate;
 
-	const totalAllValue =
-		dataIpiranga.currentDate.totalAllValue +
-		dataLapa.currentDate.totalAllValue +
-		dataAndarDeCima.currentDate.totalAllValue +
-		dataTout.currentDate.totalAllValue;
-
-	const totalAllBookings =
-		dataIpiranga.currentDate.totalAllBookings +
-		dataLapa.currentDate.totalAllBookings +
-		dataAndarDeCima.currentDate.totalAllBookings +
-		dataTout.currentDate.totalAllBookings;
-
-	const totalAllTicketAverage =
-		(dataIpiranga.currentDate.totalAllTicketAverage +
-			dataLapa.currentDate.totalAllTicketAverage +
-			dataAndarDeCima.currentDate.totalAllTicketAverage +
-			dataTout.currentDate.totalAllTicketAverage) /
-		4;
-
-	const totalAllRepresentativeness =
-		(dataIpiranga.currentDate.totalAllRepresentativeness +
-			dataLapa.currentDate.totalAllRepresentativeness +
-			dataAndarDeCima.currentDate.totalAllRepresentativeness +
-			dataTout.currentDate.totalAllRepresentativeness) /
-		4;
-
-	const totalAllValuePrevious =
-		dataIpiranga.previousDate &&
-		dataIpiranga.previousDate.totalAllValuePreviousData +
-			dataLapa.previousDate.totalAllValuePreviousData +
-			dataAndarDeCima.previousDate.totalAllValuePreviousData +
-			dataTout.previousDate.totalAllValuePreviousData;
-
-	const totalAllBookingsPrevious =
-		dataIpiranga.previousDate &&
-		dataIpiranga.previousDate.totalAllBookingsPreviousData +
-			dataLapa.previousDate.totalAllBookingsPreviousData +
-			dataAndarDeCima.previousDate.totalAllBookingsPreviousData +
-			dataTout.previousDate.totalAllBookingsPreviousData;
-
-	const totalAllTicketAveragePrevious =
-		dataIpiranga.previousDate &&
-		(dataIpiranga.previousDate.totalAllTicketAveragePreviousData +
-			dataLapa.previousDate.totalAllTicketAveragePreviousData +
-			dataAndarDeCima.previousDate.totalAllTicketAveragePreviousData +
-			dataTout.previousDate.totalAllTicketAveragePreviousData) /
-			4;
-
-	const totalAllRepresentativenessPrevious =
-		dataIpiranga.previousDate &&
-		(dataIpiranga.previousDate.totalAllRepresentativenessPreviousData +
-			dataLapa.previousDate.totalAllRepresentativenessPreviousData +
-			dataAndarDeCima.previousDate.totalAllRepresentativenessPreviousData +
-			dataTout.previousDate.totalAllRepresentativenessPreviousData) /
-			4;
-
-	const hasMonthlyForecast =
-		dataIpiranga.monthlyForecast &&
-		dataLapa.monthlyForecast &&
-		dataAndarDeCima.monthlyForecast &&
-		dataTout.monthlyForecast;
-
-	const totalAllValueForecast = hasMonthlyForecast
-		? dataIpiranga.monthlyForecast.totalAllValueForecast +
-		  dataLapa.monthlyForecast.totalAllValueForecast +
-		  dataAndarDeCima.monthlyForecast.totalAllValueForecast +
-		  dataTout.monthlyForecast.totalAllValueForecast
-		: null;
-
-	const totalAllBookingsForecast = hasMonthlyForecast
-		? dataIpiranga.monthlyForecast.totalAllBookingsForecast +
-		  dataLapa.monthlyForecast.totalAllBookingsForecast +
-		  dataAndarDeCima.monthlyForecast.totalAllBookingsForecast +
-		  dataTout.monthlyForecast.totalAllBookingsForecast
-		: null;
-
-	const totalAllTicketAverageForecast = hasMonthlyForecast
-		? (dataIpiranga.monthlyForecast.totalAllTicketAverageForecast +
-				dataLapa.monthlyForecast.totalAllTicketAverageForecast +
-				dataAndarDeCima.monthlyForecast.totalAllTicketAverageForecast +
-				dataTout.monthlyForecast.totalAllTicketAverageForecast) /
-		  4
-		: null;
-
-	const totalAllRepresentativenessForecast = hasMonthlyForecast
-		? (dataIpiranga.monthlyForecast.totalAllRepresentativenessForecast +
-				dataLapa.monthlyForecast.totalAllRepresentativenessForecast +
-				dataAndarDeCima.monthlyForecast.totalAllRepresentativenessForecast +
-				dataTout.monthlyForecast.totalAllRepresentativenessForecast) /
-		  4
-		: null;
+	const currentDate = unified?.currentDate;
+	const previousDate = unified?.previousDate;
+	const monthlyForecast = unified?.monthlyForecast;
 
 	return (
 		<div className='grid grid-cols-1 h-full w-full md:grid-cols-2 2xl:grid-cols-4 gap-5'>
 			<CardDetails
-				showForecast={!!hasMonthlyForecast}
+				showForecast={showForecast}
 				description={
-					dataIpiranga.previousDate
+					hasPrevious
 						? props.description +
-						  totalAllValuePrevious.toLocaleString('pt-BR', {
+							previousDate?.totalAllValuePreviousData?.toLocaleString('pt-BR', {
 								style: 'currency',
 								currency: 'brl',
-						  })
+							})
 						: ''
 				}
 				icon={<HandCoins />}
 				title={'Receita De Reservas' + `${props.ecommerce ? ' Ecommerce' : ''}`}
 				monthlyForecast={
-					hasMonthlyForecast ? totalAllValueForecast ?? undefined : undefined
+					showForecast ? monthlyForecast?.totalAllValueForecast : undefined
 				}
-				value={totalAllValue!}
+				value={currentDate?.totalAllValue ?? ''}
 				type='money'
 				Badge={
-					dataIpiranga.previousDate && (
+					hasPrevious && (
 						<GenerateBadge
-							val={totalAllValue!}
-							previousVal={totalAllValuePrevious}
+							val={currentDate?.totalAllValue!}
+							previousVal={previousDate?.totalAllValuePreviousData!}
 						/>
 					)
 				}
 			/>
 			<CardDetails
-				showForecast={!!hasMonthlyForecast}
+				showForecast={!!showForecast}
 				description={
-					dataIpiranga.previousDate
+					hasPrevious
 						? props.description +
-						  totalAllBookingsPrevious.toLocaleString('pt-BR')
+							previousDate?.totalAllBookingsPreviousData!.toLocaleString(
+								'pt-BR',
+							)
 						: ''
 				}
 				icon={<Sigma />}
 				title={'Número de Reservas' + `${props.ecommerce ? ' Ecommerce' : ''}`}
 				monthlyForecast={
-					hasMonthlyForecast ? totalAllBookingsForecast ?? undefined : undefined
+					showForecast
+						? (monthlyForecast?.totalAllBookingsForecast ?? undefined)
+						: undefined
 				}
-				value={totalAllBookings}
+				value={currentDate?.totalAllBookings!}
 				Badge={
-					dataIpiranga.previousDate && (
+					hasPrevious && (
 						<GenerateBadge
-							val={totalAllBookings!}
-							previousVal={totalAllBookingsPrevious}
+							val={currentDate?.totalAllBookings!}
+							previousVal={previousDate?.totalAllBookingsPreviousData!}
 						/>
 					)
 				}
 			/>
 			<CardDetails
-				showForecast={!!hasMonthlyForecast}
+				showForecast={showForecast}
 				description={
-					dataIpiranga.previousDate
+					hasPrevious
 						? props.description +
-						  totalAllTicketAveragePrevious.toLocaleString('pt-BR', {
-								style: 'currency',
-								currency: 'brl',
-						  })
+							previousDate?.totalAllTicketAveragePreviousData!.toLocaleString(
+								'pt-BR',
+								{
+									style: 'currency',
+									currency: 'brl',
+								},
+							)
 						: ''
 				}
 				icon={<SquarePercent />}
 				type='money'
 				title={'Ticket Médio' + `${props.ecommerce ? ' Ecommerce' : ''}`}
 				monthlyForecast={
-					hasMonthlyForecast
-						? totalAllTicketAverageForecast ?? undefined
+					showForecast
+						? (monthlyForecast?.totalAllTicketAverageForecast ?? undefined)
 						: undefined
 				}
-				value={totalAllTicketAverage!}
+				value={currentDate?.totalAllTicketAverage!}
 				Badge={
-					dataIpiranga.previousDate && (
+					hasPrevious && (
 						<GenerateBadge
-							val={totalAllTicketAverage!}
-							previousVal={totalAllTicketAveragePrevious}
+							val={currentDate?.totalAllTicketAverage!!}
+							previousVal={previousDate?.totalAllTicketAveragePreviousData!}
 						/>
 					)
 				}
 			/>
 			<CardDetails
-				showForecast={!!hasMonthlyForecast}
+				showForecast={showForecast}
 				description={
-					dataIpiranga.previousDate
+					hasPrevious
 						? props.description +
-						  (totalAllRepresentativenessPrevious * 100).toFixed(2) +
-						  '%'
+							(
+								previousDate?.totalAllRepresentativenessPreviousData! * 100
+							).toFixed(2) +
+							'%'
 						: ''
 				}
 				icon={<Blend />}
@@ -212,17 +126,19 @@ export default function BigNumbersReservationPage(props: BigNumbersProps) {
 					'Representatividade' + `${props.ecommerce ? ' Ecommerce   ' : ''}`
 				}
 				monthlyForecast={
-					hasMonthlyForecast
-						? totalAllRepresentativenessForecast ?? undefined
+					showForecast
+						? (monthlyForecast?.totalAllRepresentativenessForecast ?? undefined)
 						: undefined
 				}
-				value={totalAllRepresentativeness}
+				value={currentDate?.totalAllRepresentativeness!}
 				type='percent'
 				Badge={
-					dataIpiranga.previousDate && (
+					hasPrevious && (
 						<GenerateBadge
-							val={totalAllRepresentativeness!}
-							previousVal={totalAllRepresentativenessPrevious}
+							val={currentDate?.totalAllRepresentativeness!}
+							previousVal={
+								previousDate?.totalAllRepresentativenessPreviousData!
+							}
 						/>
 					)
 				}

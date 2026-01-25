@@ -8,24 +8,18 @@ const LineChartsApex = dynamic(
 );
 
 interface InvoicingXReservsProps {
-	series: number[];
 	categories: string[];
+	series: Array<{ name: string; data: number[] }>;
 }
 
 interface IData {
-	ipiranga: InvoicingXReservsProps;
-	lapa: InvoicingXReservsProps;
-	andar_de_cima: InvoicingXReservsProps;
-	tout: InvoicingXReservsProps;
+	data: InvoicingXReservsProps;
 	title: string;
 	money?: boolean;
 	percent?: boolean;
 }
 export default function DataByCompanyReservationsInTime({
-	ipiranga,
-	lapa,
-	andar_de_cima,
-	tout,
+	data,
 	title,
 	money = false,
 	percent = false,
@@ -34,36 +28,10 @@ export default function DataByCompanyReservationsInTime({
 		<LineChartsApex
 			money={money}
 			percent={percent}
-			categories={ipiranga.categories}
-			series={[
-				{
-					data: percent ? isPercent(ipiranga) : ipiranga.series,
-					name: 'Lush Ipiranga',
-				},
-				{
-					data: percent ? isPercent(lapa) : lapa.series,
-					name: 'Lush Lapa',
-				},
-				{
-					data: percent ? isPercent(andar_de_cima) : andar_de_cima.series,
-					name: 'Andar de Cima',
-				},
-				{
-					data: percent ? isPercent(tout) : tout.series,
-					name: 'Tout',
-				},
-			]}
+			categories={data.categories}
+			series={data.series}
 			title={title}
 			height={undefined}
 		/>
 	);
-}
-
-function isPercent(data: InvoicingXReservsProps) {
-	const dataT = data.series.map((item) => {
-		const value = item * 100;
-		return parseFloat(value.toFixed(2));
-	});
-
-	return dataT;
 }

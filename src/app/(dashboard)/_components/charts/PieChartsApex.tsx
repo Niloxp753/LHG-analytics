@@ -2,9 +2,11 @@
 
 'use client';
 
+import dynamic from 'next/dynamic';
 import ResponsiveContainerChart from '@/app/(dashboard)/_components/ResponsiveContainerChart';
 import { Skeleton } from '@/components/ui/skeleton';
-import Chart from 'react-apexcharts';
+
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface PieChartsApexProps {
 	title?: string;
@@ -89,10 +91,10 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 							? val.toLocaleString('pt-BR', {
 									style: 'currency',
 									currency: 'BRL',
-							  })
+								})
 							: props.percent
-							? val + '%'
-							: val ?? 10
+								? val + '%'
+								: (val ?? 10)
 					} `,
 			},
 		},
@@ -103,7 +105,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 					labels: {
 						value: {
 							show: true,
-							fontSize: '24px',
+							fontSize: '20px',
 							color: '#fafafa',
 							fontWeight: 'bold',
 							formatter: (val: number | string) =>
@@ -112,10 +114,10 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 										? val.toLocaleString('pt-BR', {
 												style: 'currency',
 												currency: 'BRL',
-										  })
+											})
 										: props.percent
-										? val + '%'
-										: val ?? 10
+											? val + '%'
+											: (val ?? 10)
 								} `,
 						},
 						name: {
@@ -135,10 +137,10 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 										? data.toLocaleString('pt-BR', {
 												style: 'currency',
 												currency: 'BRL',
-										  })
+											})
 										: props.percent
-										? data + '%'
-										: data.toLocaleString('pt-br')
+											? data + '%'
+											: data.toLocaleString('pt-br')
 								} `;
 							},
 						},
@@ -155,7 +157,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 					options={options}
 					width={'100%'}
 					height={400}
-					series={props.series ?? [40, 20, 45, 25]}
+					series={props.series}
 					type='donut'></Chart>
 			) : (
 				<>

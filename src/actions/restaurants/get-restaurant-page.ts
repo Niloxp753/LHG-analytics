@@ -2,7 +2,7 @@
 
 'use server';
 
-import { getRestaurantsCustom } from '@/http/restaurant/get-restaurant-custom';
+import { getRestaurantUnified } from '@/http/restaurant/getRestaurantUnified';
 import { revalidatePath } from 'next/cache';
 import {
 	DEFAULT_RANGE_TAG,
@@ -10,7 +10,7 @@ import {
 	normalizeRangeTag,
 } from '@/lib/date-range';
 
-interface getReservationPageDataProps {
+interface getRestaurantPageDataProps {
 	period?: string;
 	startDate?: string | null;
 	endDate?: string | null;
@@ -20,88 +20,34 @@ export async function getRestaurantPageData({
 	endDate,
 	period,
 	startDate,
-}: getReservationPageDataProps) {
+}: getRestaurantPageDataProps) {
 	const normalized = normalizeRangeTag(period, DEFAULT_RANGE_TAG);
 	const range = getRangeByTag(normalized);
 
 	if (startDate && endDate) {
-		const customDataIpiranga = await getRestaurantsCustom(startDate, endDate);
-		const customDataLapa = await getRestaurantsCustom(
-			startDate,
-			endDate,
-			'lapa',
-		);
-		const customDataAndarDeCima = await getRestaurantsCustom(
-			startDate,
-			endDate,
-			'andar_de_cima',
-		);
-		const customDataTout = await getRestaurantsCustom(
-			startDate,
-			endDate,
-			'tout',
-		);
+		const data = await getRestaurantUnified(startDate, endDate);
 
-		if (
-			customDataIpiranga &&
-			customDataLapa &&
-			customDataAndarDeCima &&
-			customDataTout
-		) {
+		if (data) {
 			revalidatePath('/restaurant');
 			return {
 				ok: true,
-				data: [
-					customDataIpiranga,
-					customDataLapa,
-					customDataAndarDeCima,
-					customDataTout,
-				],
+				data,
 				error: null,
 			};
-		} else {
-			return {
-				ok: false,
-				data: null,
-				error: 'Erro ao encontrar dados',
-			};
 		}
+		return {
+			ok: false,
+			data: null,
+			error: 'Erro ao encontrar dados',
+		};
 	} else if (range) {
-		const customDataIpiranga = await getRestaurantsCustom(
-			range.startDate,
-			range.endDate,
-		);
-		const customDataLapa = await getRestaurantsCustom(
-			range.startDate,
-			range.endDate,
-			'lapa',
-		);
-		const customDataAndarDeCima = await getRestaurantsCustom(
-			range.startDate,
-			range.endDate,
-			'andar_de_cima',
-		);
-		const customDataTout = await getRestaurantsCustom(
-			range.startDate,
-			range.endDate,
-			'tout',
-		);
+		const data = await getRestaurantUnified(range.startDate, range.endDate);
 
-		if (
-			customDataIpiranga &&
-			customDataLapa &&
-			customDataAndarDeCima &&
-			customDataTout
-		) {
+		if (data) {
 			revalidatePath('/restaurant');
 			return {
 				ok: true,
-				data: [
-					customDataIpiranga,
-					customDataLapa,
-					customDataAndarDeCima,
-					customDataTout,
-				],
+				data,
 				error: null,
 			};
 		}
@@ -117,4 +63,3 @@ export async function getRestaurantPageData({
 		error: 'Erro ao encontrar dados',
 	};
 }
-

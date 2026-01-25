@@ -3,7 +3,7 @@
 'use server';
 
 import { deleteUser } from '@/http/user/deleteuser';
-import { revalidateTag } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { requireAccessToken } from '@/lib/require-auth';
 
 export async function deleteUserAction(id: string) {
@@ -11,7 +11,9 @@ export async function deleteUserAction(id: string) {
 
 	try {
 		await deleteUser(id);
+		revalidateTag('users');
 		revalidateTag(`users/${id}`);
+		revalidatePath('/settings');
 	} catch (error) {
 		console.log(error);
 	}

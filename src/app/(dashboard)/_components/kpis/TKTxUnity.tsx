@@ -6,49 +6,23 @@ const LineChart = dynamic(
 	{ ssr: false },
 );
 
-interface TKTxUnityProps {
-	ipiranga: RentalsEntry;
-	lapa: RentalsEntry;
-	andar_de_cima: RentalsEntry;
-	tout: RentalsEntry;
-}
-
-interface RentalsEntry {
+interface EntryData {
 	categories: string[];
-	series: number[];
+	series: Array<{ name: string; data: number[] }>;
+}
+interface TKTxUnityProps {
+	data: EntryData;
 }
 
-export default function TKTxUnity({
-	ipiranga,
-	lapa,
-	andar_de_cima,
-	tout,
-}: TKTxUnityProps) {
+export default function TKTxUnity({ data }: TKTxUnityProps) {
 	return (
 		<>
 			<LineChart
 				money
 				height={148}
 				title='Ticket Médio por Unidade'
-				series={[
-					{
-						name: 'Lush Ipiranga',
-						data: ipiranga.series,
-					},
-					{
-						name: 'Lush Lapa',
-						data: lapa.series,
-					},
-					{
-						name: 'Andar de Cima',
-						data: andar_de_cima.series,
-					},
-					{
-						name: 'Tout',
-						data: tout.series,
-					},
-				]}
-				categories={ipiranga?.categories}
+				series={data.series}
+				categories={data?.categories}
 			/>
 		</>
 	);

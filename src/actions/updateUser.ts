@@ -4,7 +4,7 @@
 
 import { updateUser } from '@/http/user/updateUser';
 import type { UpdateUserInput } from '@/types/user';
-import { revalidateTag } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { requireAccessToken } from '@/lib/require-auth';
 import { ADMIN_ROLE, ADMIN_UNIT } from '@/lib/access-control';
 
@@ -19,6 +19,8 @@ export async function updateUserAction(props: UpdateUserInput) {
 
 		await updateUser({ ...props, unit });
 		revalidateTag('users');
+		revalidateTag(`users/${props.id}`);
+		revalidatePath('/settings');
 	} catch (error) {
 		console.log(error);
 	}
