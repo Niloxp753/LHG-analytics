@@ -72,7 +72,8 @@ export default async function General({
 	const rentalsByDate = unifiedData.RentalsByDate ?? null;
 	const ticketAverageByDate = unifiedData.TicketAverageByDate ?? null;
 	const trevparByDate = unifiedData.TrevparByDate ?? null;
-	const RevenueByDate = unifiedData.RevenueByDate ?? null;
+	const revenueByDate = unifiedData.RevenueByDate ?? null;
+	const occupancyRateByDate = unifiedData.OccupancyRateByDate ?? null;
 
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 '>
@@ -136,13 +137,8 @@ export default async function General({
 								<TRevParXUnity data={trevparByDate} />
 							</div>
 							<div className='flex flex-col gap-5'>
-								<InvoicingXUnityXTime data={RevenueByDate} />
-								{/* <OccupationXUnity
-											andar_de_cima={units.andar_de_cima!.OccupancyRateByDate!}
-											tout={units.tout!.OccupancyRateByDate!}
-											ipiranga={units.ipiranga!.OccupancyRateByDate!}
-											lapa={units.lapa!.OccupancyRateByDate!}
-										/> */}
+								<InvoicingXUnityXTime data={revenueByDate} />
+								<OccupationXUnity data={occupancyRateByDate} />
 							</div>
 						</Suspense>
 					</div>

@@ -9,27 +9,25 @@ const PieChartsApex = dynamic(
 	{ ssr: false },
 );
 
+interface EntryData {
+	categories: string[];
+	series: Array<{ name: string; data: number[] }>;
+}
 interface CleaningAverageUnityProps {
-	ipiranga: number;
-	lapa: number;
-	tout: number;
-	andar_de_cima: number;
+	data: EntryData;
 }
 
 export default function CleaningAverageUnity({
-	ipiranga,
-	lapa,
-	andar_de_cima,
-	tout,
+	data,
 }: CleaningAverageUnityProps) {
 	return (
 		<PieChartsApex
 			height={340}
-			series={[ipiranga, lapa, andar_de_cima, tout]}
+			series={data.series[0].data}
 			title='Média de limpezas por unidade'
 			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
 			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
-			labels={['Lush Ipiranga', 'Lush Lapa', 'Andar de Cima', 'Tout']}
+			labels={data.categories}
 		/>
 	);
 }

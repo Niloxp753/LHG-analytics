@@ -47,7 +47,7 @@ export default function HeaderClient() {
 						) : (
 							<Button
 								variant={'outline'}
-								className='dark border-violet-400 text-white hidden lg:flex'
+								className='dark border-violet-400 text-white hidden lg:flex w-10'
 								onClick={() =>
 									startTransition(() => {
 										router.push(`/${menu}?menu=${menu}&set=${preSet}`);

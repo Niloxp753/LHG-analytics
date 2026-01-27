@@ -7,40 +7,21 @@ const LineChart = dynamic(
 	{ ssr: false },
 );
 
-export default function MorningCleaning({
-	ipiranga,
-	lapa,
-	andar_de_cima,
-	tout,
-}: any) {
-	const dataIpiranga = accumulateEmployeeData(ipiranga.series['Manhã']);
-	const dataLapa = accumulateEmployeeData(lapa.series['Manhã']);
-	const dataAndar = accumulateEmployeeData(andar_de_cima.series['Manhã']);
-	const dataTout = accumulateEmployeeData(tout.series['Manhã']);
+interface EntryData {
+	categories: string[];
+	series: Array<{ name: string; data: number[] }>;
+}
+interface MorningCleaningProps {
+	data: EntryData;
+}
 
+export default function MorningCleaning({ data }: MorningCleaningProps) {
 	return (
 		<LineChart
 			height={48}
 			title='Total de limpezas - Manhã'
-			series={[
-				{
-					name: 'Lush Ipiranga',
-					data: dataIpiranga,
-				},
-				{
-					name: 'Lush Lapa',
-					data: dataLapa,
-				},
-				{
-					name: 'Andar de Cima',
-					data: dataAndar,
-				},
-				{
-					name: 'Tout',
-					data: dataTout,
-				},
-			]}
-			categories={ipiranga.categories}
+			series={data.series}
+			categories={data.categories}
 		/>
 	);
 }

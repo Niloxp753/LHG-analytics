@@ -37,7 +37,7 @@ export default function BigNumbersEcommerce({
 										})
 								}
 								icon={<HandCoins />}
-								title={'Receita De Reservas - Ecommerce'}
+								title={'Receita De Reservas'}
 								monthlyForecast={
 									d.monthlyForecast
 										? d.monthlyForecast.totalAllValueForecast
@@ -60,7 +60,7 @@ export default function BigNumbersEcommerce({
 									description + d.previousDate.totalAllBookingsPreviousData
 								}
 								icon={<Sigma />}
-								title={'Número de Reservas - Ecommerce'}
+								title={'Número de Reservas'}
 								monthlyForecast={
 									d.monthlyForecast
 										? d.monthlyForecast.totalAllBookingsForecast
@@ -90,7 +90,7 @@ export default function BigNumbersEcommerce({
 										})
 								}
 								icon={<SquarePercent />}
-								title={'Ticket Médio - Ecommerce'}
+								title={'Ticket Médio'}
 								monthlyForecast={
 									d.monthlyForecast
 										? d.monthlyForecast.totalAllTicketAverageForecast
@@ -119,7 +119,7 @@ export default function BigNumbersEcommerce({
 										'%'
 								}
 								icon={<Blend />}
-								title={'Representatividade - Ecommerce'}
+								title={'Representatividade'}
 								monthlyForecast={
 									d.monthlyForecast
 										? d.monthlyForecast.totalAllRepresentativenessForecast

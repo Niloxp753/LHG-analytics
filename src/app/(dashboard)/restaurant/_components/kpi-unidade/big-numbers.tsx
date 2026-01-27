@@ -6,145 +6,126 @@ import { DiamondPercent, HandCoins, Sigma, SquarePercent } from 'lucide-react';
 import { RestaurantBigNumbersEntry } from '@/types/big-numbers-restaurant';
 
 interface BigNumbersProps {
-	data?: RestaurantBigNumbersEntry[];
+	data?: RestaurantBigNumbersEntry | null;
 	description: string;
 }
 
 export default function BigNumbers({ description, data }: BigNumbersProps) {
+	const entry = data;
+
+	if (!entry) {
+		return null;
+	}
+
+	const previous = entry.previousDate;
+	const forecast = entry.monthlyForecast;
+
 	return (
-		<>
-			{data?.map((d, index) => {
-				return (
-					<div
-						key={index}
-						className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-5'>
-						<CardDetails
-							showForecast={!!d.monthlyForecast}
-							type='money'
-							description={
-								d.previousDate &&
-								description +
-									d.previousDate.totalAllValuePreviousData.toLocaleString(
-										'pt-BR',
-										{
-											style: 'currency',
-											currency: 'brl',
-										},
-									)
-							}
-							icon={<HandCoins />}
-							title={'Receita de A&B'}
-							monthlyForecast={
-								d.monthlyForecast
-									? d.monthlyForecast.totalAllValueForecast
-									: undefined
-							}
-							value={d.currentDate.totalAllValue}
-							Badge={
-								d.previousDate && (
-									<GenerateBadge
-										val={d.currentDate.totalAllValue}
-										previousVal={d.previousDate.totalAllValuePreviousData}
-									/>
-								)
+		<div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-5'>
+			<CardDetails
+				showForecast={!!forecast}
+				type='money'
+				description={
+					previous
+						? description +
+						  previous.totalAllValuePreviousData.toLocaleString('pt-BR', {
+								style: 'currency',
+								currency: 'brl',
+						  })
+						: ''
+				}
+				icon={<HandCoins />}
+				title={'Receita de A&B'}
+				monthlyForecast={forecast?.totalAllValueForecast}
+				value={entry.currentDate.totalAllValue}
+				Badge={
+					previous && (
+						<GenerateBadge
+							val={entry.currentDate.totalAllValue}
+							previousVal={previous.totalAllValuePreviousData}
+						/>
+					)
+				}
+			/>
+			<CardDetails
+				showForecast={!!forecast}
+				description={
+					previous
+						? description +
+						  previous.totalAllSalesPreviousData.toLocaleString('pt-BR')
+						: ''
+				}
+				icon={<Sigma />}
+				title={'Nº de Vendas'}
+				monthlyForecast={forecast?.totalAllSalesForecast}
+				value={entry.currentDate.totalAllSales}
+				Badge={
+					previous && (
+						<GenerateBadge
+							val={entry.currentDate.totalAllSales}
+							previousVal={previous.totalAllSalesPreviousData}
+						/>
+					)
+				}
+			/>
+			<CardDetails
+				showForecast={!!forecast}
+				type='money'
+				description={
+					previous
+						? description +
+						  previous.totalAllTicketAveragePreviousData.toLocaleString(
+								'pt-BR',
+								{
+									style: 'currency',
+									currency: 'brl',
+								},
+						  )
+						: ''
+				}
+				icon={<SquarePercent />}
+				title={'Ticket Médio A&B'}
+				monthlyForecast={forecast?.totalAllTicketAverageForecast}
+				value={entry.currentDate.totalAllTicketAverage}
+				Badge={
+					previous && (
+						<GenerateBadge
+							val={entry.currentDate.totalAllTicketAverage}
+							previousVal={previous.totalAllTicketAveragePreviousData}
+						/>
+					)
+				}
+			/>
+			<CardDetails
+				showForecast={!!forecast}
+				type='money'
+				description={
+					previous
+						? description +
+						  previous.totalAllTicketAverageByTotalRentalsPreviousData.toLocaleString(
+								'pt-BR',
+								{
+									style: 'currency',
+									currency: 'brl',
+								},
+						  )
+						: ''
+				}
+				icon={<DiamondPercent />}
+				title={'TKT Médio A&B / Locação'}
+				monthlyForecast={forecast?.totalAllTicketAverageByTotalRentalsForecast}
+				value={entry.currentDate.totalAllTicketAverageByTotalRentals}
+				Badge={
+					previous && (
+						<GenerateBadge
+							val={entry.currentDate.totalAllTicketAverageByTotalRentals}
+							previousVal={
+								previous.totalAllTicketAverageByTotalRentalsPreviousData
 							}
 						/>
-						<CardDetails
-							showForecast={!!d.monthlyForecast}
-							description={
-								d.previousDate &&
-								description +
-									d.previousDate.totalAllSalesPreviousData.toLocaleString(
-										'pt-BR',
-									)
-							}
-							icon={<Sigma />}
-							title={'Nº de Vendas'}
-							monthlyForecast={
-								d.monthlyForecast
-									? d.monthlyForecast.totalAllSalesForecast
-									: undefined
-							}
-							value={d.currentDate.totalAllSales}
-							Badge={
-								d.previousDate && (
-									<GenerateBadge
-										val={d.currentDate.totalAllSales}
-										previousVal={d.previousDate.totalAllSalesPreviousData}
-									/>
-								)
-							}
-						/>
-						<CardDetails
-							showForecast={!!d.monthlyForecast}
-							type='money'
-							description={
-								d.previousDate &&
-								description +
-									d.previousDate.totalAllTicketAveragePreviousData.toLocaleString(
-										'pt-BR',
-										{
-											style: 'currency',
-											currency: 'brl',
-										},
-									)
-							}
-							icon={<SquarePercent />}
-							title={'Ticket Médio A&B'}
-							monthlyForecast={
-								d.monthlyForecast
-									? d.monthlyForecast.totalAllTicketAverageForecast
-									: undefined
-							}
-							value={d.currentDate.totalAllTicketAverage}
-							Badge={
-								d.previousDate && (
-									<GenerateBadge
-										val={d.currentDate.totalAllTicketAverage}
-										previousVal={
-											d.previousDate.totalAllTicketAveragePreviousData
-										}
-									/>
-								)
-							}
-						/>
-						<CardDetails
-							showForecast={!!d.monthlyForecast}
-							type='money'
-							description={
-								d.previousDate &&
-								description +
-									d.previousDate.totalAllTicketAverageByTotalRentalsPreviousData.toLocaleString(
-										'pt-BR',
-										{
-											style: 'currency',
-											currency: 'brl',
-										},
-									)
-							}
-							icon={<DiamondPercent />}
-							title={'TKT Médio A&B / Locação'}
-							monthlyForecast={
-								d.monthlyForecast
-									? d.monthlyForecast.totalAllTicketAverageByTotalRentalsForecast
-									: undefined
-							}
-							value={d.currentDate.totalAllTicketAverageByTotalRentals}
-							Badge={
-								d.previousDate && (
-									<GenerateBadge
-										val={d.currentDate.totalAllTicketAverageByTotalRentals}
-										previousVal={
-											d.previousDate
-												.totalAllTicketAverageByTotalRentalsPreviousData
-										}
-									/>
-								)
-							}
-						/>
-					</div>
-				);
-			})}
-		</>
+					)
+				}
+			/>
+		</div>
 	);
 }

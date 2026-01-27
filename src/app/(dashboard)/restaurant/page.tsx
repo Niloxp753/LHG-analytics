@@ -94,6 +94,8 @@ export default async function Restaurant({
 	const revenueByCompanyAB = unifiedData?.RevenueAbByPeriod ?? null;
 	const ticketAverageByPeriod = unifiedData.TicketAverageByPeriod ?? null;
 	const revenueAbByPeriodPercent = unifiedData.RevenueAbByPeriodPercent ?? null;
+	const revenueByCompany = unifiedData.RevenueByCompany??null
+		const salesByCompany = unifiedData.SalesByCompany ?? null;
 
 	return (
 		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden md:px-5 py-10'>
@@ -142,38 +144,8 @@ export default async function Restaurant({
 						/>
 
 						<div className='flex gap-5  flex-col md:flex-row mx-auto w-full h-full'>
-							{/* <UnityxRevenue
-								tout={
-									units.tout?.BigNumbers?.[0]?.currentDate?.totalAllValue ?? 0
-								}
-								andar_de_cima={
-									units.andar_de_cima?.BigNumbers?.[0]?.currentDate
-										?.totalAllValue ?? 0
-								}
-								ipiranga={
-									units.ipiranga?.BigNumbers?.[0]?.currentDate?.totalAllValue ??
-									0
-								}
-								lapa={
-									units.lapa?.BigNumbers?.[0]?.currentDate?.totalAllValue ?? 0
-								}
-							/> */}
-							{/* <UnityxSales
-								tout={
-									units.tout?.BigNumbers?.[0]?.currentDate?.totalAllSales ?? 0
-								}
-								andar_de_cima={
-									units.andar_de_cima?.BigNumbers?.[0]?.currentDate
-										?.totalAllSales ?? 0
-								}
-								ipiranga={
-									units.ipiranga?.BigNumbers?.[0]?.currentDate?.totalAllSales ??
-									0
-								}
-								lapa={
-									units.lapa?.BigNumbers?.[0]?.currentDate?.totalAllSales ?? 0
-								}
-							/> */}
+							<UnityxRevenue data={revenueByCompany} />
+							<UnityxSales data={salesByCompany} />
 						</div>
 
 						<div className='flex flex-col gap-5'>

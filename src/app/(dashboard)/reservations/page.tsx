@@ -12,6 +12,9 @@ import SparkChart from '../_components/charts/SparkChart';
 import Header from '../_components/Header';
 import BigNumbersReservationPage from './_components/big-numbers-reservation-page';
 import DataByCompanyReservationsInTime from './_components/page-kpis/revenue-by-company-in-time';
+import RevenueByCompany from './_components/page-kpis/revenue-by-company';
+import BookingsByCompany from './_components/page-kpis/bookings-by-company';
+import BigNumbersEcommerce from './_components/big-numbers-ecommerce';
 
 export default async function Reservations({
 	searchParams,
@@ -69,8 +72,10 @@ export default async function Reservations({
 		unifiedData.BillingOfEcommerceByPeriod ?? null;
 	const reservationsOfEcommerceByPeriod =
 		unifiedData.ReservationsOfEcommerceByPeriod ?? null;
+	const revenueByCompany = unifiedData.RevenueByCompany ?? null;
+	const bookingsByCompany = unifiedData.BookingsByCompany ?? null;
 
-	const BigNumbersEcommerce = unifiedData.BigNumbersEcommerce ?? null;
+	const bigNumbersEcommerce = unifiedData.BigNumbersEcommerce ?? null;
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>
 			<div className={`relative  md:max-w-[82vw] flex  md:ml-auto w-full `}>
@@ -124,52 +129,22 @@ export default async function Reservations({
 
 					<div className='flex flex-col md:flex-row gap-5'>
 						<Suspense>
-							{/* <RevenueByCompany
-										tout={
-											units.tout?.BigNumbers?.[0]?.currentDate?.totalAllValue ??
-											0
-										}
-										andar_de_cima={
-											units.andar_de_cima?.BigNumbers?.[0]?.currentDate
-												?.totalAllValue ?? 0
-										}
-										ipiranga={
-											units.ipiranga?.BigNumbers?.[0]?.currentDate
-												?.totalAllValue ?? 0
-										}
-										lapa={
-											units.lapa?.BigNumbers?.[0]?.currentDate?.totalAllValue ??
-											0
-										}
-										title={'Faturamento por unidade'}
-										money
-									/> */}
-							{/* <RevenueByCompany
-										tout={
-											units.tout?.BigNumbers?.[0]?.currentDate
-												?.totalAllBookings ?? 0
-										}
-										andar_de_cima={
-											units.andar_de_cima?.BigNumbers?.[0]?.currentDate
-												?.totalAllBookings ?? 0
-										}
-										ipiranga={
-											units.ipiranga?.BigNumbers?.[0]?.currentDate
-												?.totalAllBookings ?? 0
-										}
-										lapa={
-											units.lapa?.BigNumbers?.[0]?.currentDate
-												?.totalAllBookings ?? 0
-										}
-										title={'N?mero de Reservas por unidade'}
-									/> */}
+							<RevenueByCompany
+								data={revenueByCompany}
+								title={'Faturamento por unidade'}
+								money
+							/>
+							<BookingsByCompany
+								data={bookingsByCompany}
+								title={'Número de Reservas por unidade'}
+							/>
 						</Suspense>
 					</div>
 					<div className='flex flex-col  gap-5'>
 						<Suspense>
 							<DataByCompanyReservationsInTime
 								data={billingOfReservationsByPeriod}
-								title={'Faturamento por unidade'}
+								title={'Faturamento por unidade no tempo'}
 								money
 							/>
 						</Suspense>
@@ -194,10 +169,9 @@ export default async function Reservations({
 							Indicadores de E-Commerce
 						</h2>
 						<Suspense>
-							<BigNumbersReservationPage
-								data={BigNumbersEcommerce}
+							<BigNumbersEcommerce
+								data={bigNumbersEcommerce}
 								description={rangeDescription}
-								ecommerce={false}
 							/>
 						</Suspense>
 

@@ -66,6 +66,12 @@ export default async function Operational({
 		);
 	}
 
+	const unifiedData = resp.data;
+	const bigNumbers = unifiedData.BigNumbers;
+	const cleaningsByCompany = unifiedData.CleaningsByCompany ?? null;
+	const averageCleaningByCompany = unifiedData.AverageCleaningByCompany ?? null;
+	const inspectionsByCompany = unifiedData.InspectionsByCompany ?? null;
+	const shiftCleaning = unifiedData.ShiftCleaning ?? null;
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 '>
 			<div className={`relative md:max-w-[82vw] flex  md:ml-auto w-full `}>
@@ -109,61 +115,18 @@ export default async function Operational({
 					</div>
 					<div className='flex gap-5 flex-col w-full h-full '>
 						<BigNumbersPageOp
-							tout={resp.data[3].BigNumbers}
-							andar_de_cima={resp.data[2].BigNumbers}
+							data={bigNumbers}
 							description={rangeDescription}
-							ipiranga={resp.data[0].BigNumbers}
-							lapa={resp.data[1].BigNumbers}
 						/>
 						<div className='w-full h-full flex gap-5 flex-col md:flex-row'>
-							<TotalCleaningUnity
-								ipiranga={
-									resp.data[0].BigNumbers[0].currentDate.totalAllSuitesCleanings
-								}
-								lapa={
-									resp.data[1].BigNumbers[0].currentDate.totalAllSuitesCleanings
-								}
-								tout={
-									resp.data[3].BigNumbers[0].currentDate.totalAllSuitesCleanings
-								}
-								andar_de_cima={
-									resp.data[2].BigNumbers[0].currentDate.totalAllSuitesCleanings
-								}
-							/>
-							<CleaningAverageUnity
-								ipiranga={
-									resp.data[0].BigNumbers[0].currentDate
-										.totalAllAverageDailyCleaning
-								}
-								lapa={
-									resp.data[1].BigNumbers[0].currentDate
-										.totalAllAverageDailyCleaning
-								}
-								tout={
-									resp.data[3].BigNumbers[0].currentDate
-										.totalAllAverageDailyCleaning
-								}
-								andar_de_cima={
-									resp.data[2].BigNumbers[0].currentDate
-										.totalAllAverageDailyCleaning
-								}
-							/>
-							<PerformanceUnity
-								ipiranga={resp.data[0].SupervisorsPerformance}
-								lapa={resp.data[1].SupervisorsPerformance}
-								andar_de_cima={resp.data[2].SupervisorsPerformance}
-								tout={resp.data[3].SupervisorsPerformance}
-							/>
+							<TotalCleaningUnity data={cleaningsByCompany} />
+							<CleaningAverageUnity data={averageCleaningByCompany} />
+							<PerformanceUnity data={inspectionsByCompany} />
 						</div>
 					</div>
 					<div className='flex flex-col gap-5'>
-						<MorningCleaning
-							ipiranga={resp.data[0].EmployeeCleaningByShift}
-							lapa={resp.data[1].EmployeeCleaningByShift}
-							andar_de_cima={resp.data[2].EmployeeCleaningByShift}
-							tout={resp.data[3].EmployeeCleaningByShift}
-						/>
-						<AfternoonCleaning
+						<MorningCleaning data={shiftCleaning} />
+						{/* <AfternoonCleaning
 							ipiranga={resp.data[0].EmployeeCleaningByShift}
 							lapa={resp.data[1].EmployeeCleaningByShift}
 							andar_de_cima={resp.data[2].EmployeeCleaningByShift}
@@ -174,7 +137,7 @@ export default async function Operational({
 							lapa={resp.data[1].EmployeeCleaningByShift}
 							andar_de_cima={resp.data[2].EmployeeCleaningByShift}
 							tout={resp.data[3].EmployeeCleaningByShift}
-						/>
+						/> */}
 					</div>
 				</div>
 			</div>

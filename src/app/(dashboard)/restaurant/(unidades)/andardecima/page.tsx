@@ -3,7 +3,11 @@
 import { getRestaurantsCustomAction } from '@/actions/restaurants/get-restaurant-custom';
 import { getRestaurantsAction } from '@/actions/restaurants/get-restaurants';
 import Header from '@/app/(dashboard)/_components/Header';
-import { DEFAULT_RANGE_TAG, formatDateInput, getRangeDescription } from '@/lib/date-range';
+import {
+	DEFAULT_RANGE_TAG,
+	formatDateInput,
+	getRangeDescription,
+} from '@/lib/date-range';
 import { revalidatePath } from 'next/cache';
 import BigNumbers from '../../_components/kpi-unidade/big-numbers';
 import { AReports } from '../../_components/kpis/AReports';
@@ -74,25 +78,23 @@ export default async function Restaurant({
 				</div>
 				<div className=' w-full  flex gap-5 flex-col justify-start mt-12 lg:mt-32'>
 					<BigNumbers
-						data={resp?.BigNumbers}
+						data={resp?.BigNumbers[0]}
 						description={rangeDescription}
 					/>
 					<div className='flex w-full gap-5 h-full'>
 						<RevenueABXCost data={resp.RevenueAbByPeriod} />
 					</div>
-					{/* <div className='h-full w-full flex items-center justify-center'>
-						<Cmv />
-					</div> */}
-					<div className='gap-5 h-fit w-full flex justify-between flex-col xl:flex-row'>
+
+					<div className='gap-5 h-fit w-full flex justify-between flex-col'>
 						<RevenuePercent data={resp.RevenueAbByPeriodPercent} />
 						<TKTXLocation data={resp.TicketAverageByPeriod} />
 					</div>
 					<div className='flex flex-col md:flex-row items-center justify-between gap-5 h-full w-full'>
 						<div className='md:w-1/2 h-full'>
-							<MostSell data={resp.BestSellingItems} />
+							<MostSell data={resp.BestSellingFood} />
 						</div>
 						<div className='md:w-1/2 h-full'>
-							<MinusSell data={resp.LeastSellingItems} />
+							<MinusSell data={resp.LeastSellingFood} />
 						</div>
 					</div>
 					<div className='flex flex-col gap-5 mb-5'>
@@ -104,47 +106,9 @@ export default async function Restaurant({
 							<CReports data={resp.ReportByOthers} />
 						</div>
 						<AReports data={resp.ReportByFood} />
-						<div className='flex flex-col gap-5'>
-							{/* <h2 className='text-zinc-50 font-bold text-2xl mt-10'>
-								Gastos E Custos Gerais
-							</h2> */}
-							{/* <CoustDayXWorker />
-							<CoustXWorker /> */}
-							<div className='flex-col xl:flex-row flex gap-5'>
-								{/* <div className='w-full'>
-									<CoustXAB />
-								</div> */}
-								{/* <div className='xl:w-1/3 w-full flex flex-col justify-between gap-5'>
-									<CardDetails
-										title={'Compras Enxoval A&B - 2023'}
-										value={'R$44.554'}
-										icon={undefined}
-									/>
-									<CardDetails
-										title={'Compras Enxoval A&B - 2024'}
-										value={'R$15.948'}
-										icon={undefined}
-									/>
-									<CardDetails
-										title={'Compras Utensílios - 2023'}
-										value={'R$20.083'}
-										icon={undefined}
-									/>
-									<CardDetails
-										title={'Compras Utensílios - 2024'}
-										value={'R$1.943'}
-										icon={undefined}
-									/>
-								</div> */}
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
 		</main>
 	);
 }
-
-
-
-

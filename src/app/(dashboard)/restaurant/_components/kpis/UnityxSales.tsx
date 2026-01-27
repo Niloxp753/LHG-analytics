@@ -8,26 +8,22 @@ const PieChartsApex = dynamic(
 	{ ssr: false },
 );
 
-interface UnityxSalesProps {
-	ipiranga: number;
-	lapa: number;
-	andar_de_cima: number;
-	tout: number;
+interface EntryData {
+	categories: string[];
+	series: Array<{ name: string; data: number[] }>;
 }
-
-export default function UnityxSales({
-	ipiranga,
-	lapa,
-	andar_de_cima,
-	tout,
-}: UnityxSalesProps) {
+interface UnityxSalesProps {
+	data: EntryData;
+}
+export default function UnityxSales({ data }: UnityxSalesProps) {
 	return (
 		<PieChartsApex
 			height={280}
 			title='Nº de vendas por unidade'
-			series={[ipiranga, lapa, andar_de_cima, tout]}
+			series={data.series}
 			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
 			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
+			labels={data.categories}
 		/>
 	);
 }

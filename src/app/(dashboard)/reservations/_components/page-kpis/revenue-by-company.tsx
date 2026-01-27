@@ -9,20 +9,19 @@ const PieChartsApex = dynamic(
 	{ ssr: false },
 );
 
+interface EntryData {
+	categories: string[];
+	series: Array<{ name: string; data: number[] }>;
+}
+
 interface RevenueByCompanyProps {
-	ipiranga: number;
-	lapa: number;
-	andar_de_cima: number;
-	tout: number;
+	data: EntryData;
 	title: string;
 	money?: boolean;
 }
 
 export default function RevenueByCompany({
-	ipiranga,
-	lapa,
-	andar_de_cima,
-	tout,
+	data,
 	title,
 	money = false,
 }: RevenueByCompanyProps) {
@@ -32,8 +31,8 @@ export default function RevenueByCompany({
 			money={money}
 			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
 			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
-			series={[ipiranga, lapa, andar_de_cima, tout]}
-			labels={['Ipiranga', 'Lapa', 'Andar de Cima', 'Tout']}
+			series={data.series}
+			labels={data.categories}
 		/>
 	);
 }

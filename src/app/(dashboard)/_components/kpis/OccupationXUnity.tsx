@@ -8,48 +8,22 @@ const LineChart = dynamic(
 	{ ssr: false },
 );
 
-interface OccupancyRateEntry {
+interface EntryData {
 	categories: string[];
-	series: number[];
+	series: Array<{ name: string; data: number[] }>;
 }
-
 interface OccupationXUnityProps {
-	ipiranga: OccupancyRateEntry;
-	lapa: OccupancyRateEntry;
-	andar_de_cima: OccupancyRateEntry;
-	tout: OccupancyRateEntry;
+	data: EntryData;
 }
-export default function OccupationXUnity({
-	ipiranga,
-	lapa,
-	andar_de_cima,
-	tout,
-}: OccupationXUnityProps) {
+export default function OccupationXUnity({ data }: OccupationXUnityProps) {
 	return (
 		<>
 			<LineChart
 				percent
 				height={148}
 				title='Taxa de ocupação por Unidade'
-				series={[
-					{
-						name: 'Lush Ipiranga',
-						data: ipiranga.series,
-					},
-					{
-						name: 'Lush Lapa',
-						data: lapa.series,
-					},
-					{
-						name: 'Andar de Cima',
-						data: andar_de_cima.series,
-					},
-					{
-						name: 'Tout',
-						data: tout.series,
-					},
-				]}
-				categories={ipiranga.categories}
+				series={data.series}
+				categories={data.categories}
 			/>
 		</>
 	);
