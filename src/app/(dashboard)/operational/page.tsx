@@ -16,6 +16,7 @@ import MorningCleaning from './_components/kpis-geral/morning-cleaning';
 import NightCleaning from './_components/kpis-geral/night-cleaning ';
 import PerformanceUnity from './_components/kpis-geral/Performance-unity';
 import TotalCleaningUnity from './_components/kpis-geral/total-cleaning-unity';
+import { ShiftCleaning } from './types';
 
 const SparkChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/SparkChart'),
@@ -71,7 +72,8 @@ export default async function Operational({
 	const cleaningsByCompany = unifiedData.CleaningsByCompany ?? null;
 	const averageCleaningByCompany = unifiedData.AverageCleaningByCompany ?? null;
 	const inspectionsByCompany = unifiedData.InspectionsByCompany ?? null;
-	const shiftCleaning = unifiedData.ShiftCleaning ?? null;
+	const shiftCleaning: ShiftCleaning = unifiedData.ShiftCleaning ?? null;
+
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 '>
 			<div className={`relative md:max-w-[82vw] flex  md:ml-auto w-full `}>
@@ -125,19 +127,18 @@ export default async function Operational({
 						</div>
 					</div>
 					<div className='flex flex-col gap-5'>
-						<MorningCleaning data={shiftCleaning} />
-						{/* <AfternoonCleaning
-							ipiranga={resp.data[0].EmployeeCleaningByShift}
-							lapa={resp.data[1].EmployeeCleaningByShift}
-							andar_de_cima={resp.data[2].EmployeeCleaningByShift}
-							tout={resp.data[3].EmployeeCleaningByShift}
+						<MorningCleaning
+							categories={shiftCleaning.categories}
+							series={shiftCleaning.series}
+						/>
+						<AfternoonCleaning
+							categories={shiftCleaning.categories}
+							series={shiftCleaning.series}
 						/>
 						<NightCleaning
-							ipiranga={resp.data[0].EmployeeCleaningByShift}
-							lapa={resp.data[1].EmployeeCleaningByShift}
-							andar_de_cima={resp.data[2].EmployeeCleaningByShift}
-							tout={resp.data[3].EmployeeCleaningByShift}
-						/> */}
+							categories={shiftCleaning.categories}
+							series={shiftCleaning.series}
+						/>
 					</div>
 				</div>
 			</div>
