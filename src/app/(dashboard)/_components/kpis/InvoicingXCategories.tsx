@@ -1,6 +1,5 @@
 /** @format */
 'use client';
-import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const BarCharApex = dynamic(
@@ -14,31 +13,34 @@ interface RevenueBySuiteCategoryProps {
 }
 
 export default function Categories(data?: any) {
-	const revenueBySuiteCategory: RevenueBySuiteCategoryProps = data.data;
+	const revenueBySuiteCategory: RevenueBySuiteCategoryProps | null | undefined =
+		data?.data;
+	const error =
+		revenueBySuiteCategory === null
+			? 'Não foi possível carregar os dados.'
+			: undefined;
 
 	return (
 		<>
-			{revenueBySuiteCategory ? (
-				<BarCharApex
-					money
-					series={[
-						{
-							name: 'Faturamento',
-							data: revenueBySuiteCategory?.series,
-							type: 'bar',
-						},
-					]}
-					dataLabelColors={['#5b21b6']}
-					colors={['#a78bfa']}
-					title='Faturamento por Categoria de Suíte'
-					categories={revenueBySuiteCategory?.categories}
-				/>
-			) : (
-				<>
-					<Skeleton className='w-full h-[620px]' />
-				</>
-			)}
-			;
+			<BarCharApex
+				money
+				error={error}
+				series={
+					revenueBySuiteCategory
+						? [
+								{
+									name: 'Faturamento',
+									data: revenueBySuiteCategory?.series,
+									type: 'bar',
+								},
+						  ]
+						: undefined
+				}
+				dataLabelColors={['#5b21b6']}
+				colors={['#a78bfa']}
+				title='Faturamento por Categoria de Suíte'
+				categories={revenueBySuiteCategory?.categories}
+			/>
 		</>
 	);
 }

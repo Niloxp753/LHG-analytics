@@ -11,17 +11,26 @@ interface EntryData {
 	series: Array<{ name: string; data: number[] }>;
 }
 interface TKTxUnityProps {
-	data: EntryData;
+	data?: EntryData | null;
 }
 
 export default function TKTxUnity({ data }: TKTxUnityProps) {
+	const isLoading = typeof data === 'undefined';
+	const error =
+		data === null ? 'Não foi possível carregar os dados.' : undefined;
+
+	if (!isLoading && !error && (!data?.series?.length || !data?.categories?.length)) {
+		return null;
+	}
+
 	return (
 		<>
 			<LineChart
 				money
+				error={error}
 				height={148}
 				title='Ticket Médio por Unidade'
-				series={data.series}
+				series={data?.series}
 				categories={data?.categories}
 			/>
 		</>

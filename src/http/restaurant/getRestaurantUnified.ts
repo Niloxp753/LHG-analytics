@@ -3,12 +3,10 @@
 import { buildAuthCookieHeader } from '@/lib/auth-headers';
 import { auth_api } from '../api-client';
 
-class HTTPError extends Error {}
-
 export async function getRestaurantUnified(
 	startDate: string,
 	endDate: string,
-): Promise<any> {
+): Promise<any | null> {
 	const controller = new AbortController();
 	const timeout = setTimeout(() => controller.abort(), 60000);
 	const cookieHeader = buildAuthCookieHeader();
@@ -23,18 +21,22 @@ export async function getRestaurantUnified(
 		});
 
 		if (!resp.ok) {
-			throw new HTTPError(`Fetch error: ${resp.statusText}`);
+			console.error(
+				'getRestaurantUnified: erro ao buscar dados',
+				resp.status,
+				resp.statusText,
+			);
+			return null;
 		}
 
 		return resp.json();
 	} catch (error) {
-		if (error instanceof Error) {
-			if (error.name === 'AbortError') {
-				throw new HTTPError('Request timed out');
-			}
-			throw new HTTPError(error.message);
+		if (error instanceof Error && error.name === 'AbortError') {
+			console.error('getRestaurantUnified: request timeout');
+			return null;
 		}
-		throw new HTTPError('Unknown error occurred');
+		console.error('getRestaurantUnified: erro inesperado', error);
+		return null;
 	} finally {
 		clearTimeout(timeout);
 	}

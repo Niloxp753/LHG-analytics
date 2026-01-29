@@ -26,7 +26,7 @@ export async function getRestaurantsAction(period: string, company?: string) {
 		revalidatePath('/restaurant');
 		return resp;
 	} catch (error) {
-		console.log(error);
+		console.error('getRestaurantsAction: erro ao buscar dados', error);
 		return null;
 	}
 }

@@ -1,7 +1,6 @@
 /** @format */
 'use client';
 
-import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const BarCharApex = dynamic(
@@ -10,14 +9,24 @@ const BarCharApex = dynamic(
 );
 
 interface InvoicingXTypesProps {
-	series: number[];
-	categories: string[];
+	series?: number[] | null;
+	categories?: string[];
+	error?: string | boolean;
 }
 export default function InvoicingXChannel({
 	categories,
 	series,
+	error,
 }: InvoicingXTypesProps) {
-	const newCategories = categories.map((item) => {
+	const isLoading = typeof series === 'undefined';
+	const resolvedError =
+		error ?? (series === null ? 'Não foi possível carregar os dados.' : undefined);
+
+	if (!isLoading && !resolvedError && (!series?.length || !categories?.length)) {
+		return null;
+	}
+
+	const newCategories = categories?.map((item) => {
 		if (item === 'WEBSITE_IMMEDIATE') {
 			return 'Site Imediatas';
 		} else if (item === 'WEBSITE_SCHEDULED') {
@@ -36,13 +45,12 @@ export default function InvoicingXChannel({
 		return item;
 	});
 
-	return !series || series.length == 0 ? (
-		<Skeleton className='w-full h-88' />
-	) : (
+	return (
 		<BarCharApex
 			money
+			error={resolvedError}
 			title='Faturamento por canal de vendas'
-			series={[{ data: series, type: 'bar' }]}
+			series={series ? [{ data: series, type: 'bar' }] : undefined}
 			colors={['#a78bfa', '#4ade80', '#fbbf24']}
 			dataLabelColors={['#5b21b6', '#22c55e', '#ca8a04']}
 			categories={newCategories}

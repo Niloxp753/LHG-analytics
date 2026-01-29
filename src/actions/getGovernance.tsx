@@ -22,7 +22,7 @@ export async function getGovernanceAction(period: string, company?: string) {
 		revalidatePath('/operational');
 		return resp;
 	} catch (error) {
-		console.log(error);
+		console.error('getGovernanceAction: erro ao buscar dados', error);
 		return null;
 	}
 }

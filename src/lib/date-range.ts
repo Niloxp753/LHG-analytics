@@ -4,29 +4,13 @@ export const DEFAULT_TIME_ZONE = 'America/Sao_Paulo';
 export const DEFAULT_RANGE_TAG = 'ultimos_7_dias' as const;
 
 export const DATE_RANGE_TAGS = [
-	{ tag: 'ultimos_7_dias', label: 'Ultimos 7 dias' },
-	{ tag: 'ultimo_mes_fechado', label: 'Ultimo mês' },
+	{ tag: 'ultimos_7_dias', label: 'Últimos 7 dias' },
+	{ tag: 'ultimo_mes_fechado', label: 'Último mês' },
 	{ tag: 'este_mes', label: 'Este mês' },
 	{ tag: 'acumulado_do_ano', label: 'Acumulado do ano' },
 ] as const;
 
-export type LegacyRangeTag = '7days' | '30days' | '6months' | '12months';
-
-const LEGACY_RANGE_TAG_LABELS: Record<LegacyRangeTag, string> = {
-	'7days': '7 dias atras',
-	'30days': '30 dias atras',
-	'6months': '6 meses atras',
-	'12months': '12 meses atras',
-};
-
-const LEGACY_TO_NEW_TAG: Partial<Record<LegacyRangeTag, DateRangeTag>> = {
-	'7days': 'ultimos_7_dias',
-	'30days': 'ultimo_mes_fechado',
-	'6months': 'acumulado_do_ano',
-};
-
 export type DateRangeTag = (typeof DATE_RANGE_TAGS)[number]['tag'];
-export type AnyRangeTag = DateRangeTag | LegacyRangeTag;
 
 export type DateParts = {
 	year: number;
@@ -70,7 +54,7 @@ export function mapLegacyRangeTag(
 	if (tag === 'ultimos_6_meses') {
 		return 'acumulado_do_ano';
 	}
-	return LEGACY_TO_NEW_TAG[tag as LegacyRangeTag] ?? null;
+	return null;
 }
 
 export function normalizeRangeTag(
@@ -100,7 +84,7 @@ export function getRangeLabel(tag: string | null | undefined): string {
 	if (match) {
 		return match.label;
 	}
-	return LEGACY_RANGE_TAG_LABELS[tag as LegacyRangeTag] ?? '';
+	return '';
 }
 
 export function getRangeDescription(tag: string | null | undefined): string {
@@ -137,7 +121,9 @@ export function getZonedDateParts(
 	}, {});
 
 	if (!lookup.year || !lookup.month || !lookup.day) {
-		throw new Error(`Nao foi possivel calcular data para timezone ${timeZone}`);
+		throw new Error(
+			`Não foi possível calcular data para timezone ${timeZone}`,
+		);
 	}
 
 	return {

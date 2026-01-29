@@ -17,7 +17,7 @@ export async function getRestaurantsCustomAction(
 			return resp;
 		}
 	} catch (error) {
-		console.log(error);
+		console.error('getRestaurantsCustomAction: erro ao buscar dados', error);
 		return null;
 	}
 }

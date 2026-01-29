@@ -17,7 +17,7 @@ export async function getCompanyCustomAction(
 			return resp;
 		}
 	} catch (error) {
-		console.log(error);
-		return error;
+		console.error('getCompanyCustomAction: erro ao buscar dados', error);
+		return null;
 	}
 }

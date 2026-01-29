@@ -14,13 +14,26 @@ interface RevenueByCompany {
 
 interface UnityxRevenuexTimePrps {
 	data?: RevenueByCompany | null;
+	error?: string | boolean;
 }
 
-export default function UnityxRevenuexTimeABPercent({ data }: UnityxRevenuexTimePrps) {
+export default function UnityxRevenuexTimeABPercent({
+	data,
+	error,
+}: UnityxRevenuexTimePrps) {
+	const isLoading = typeof data === 'undefined';
+	const resolvedError =
+		error ?? (data === null ? 'Não foi possível carregar os dados.' : undefined);
+
+	if (!isLoading && !resolvedError && (!data?.series?.length || !data?.categories?.length)) {
+		return null;
+	}
+
 	return (
 		<div className='w-full'>
 			<LineChart
 				percent
+				error={resolvedError}
 				title={'% de A&B por unidade'}
 				series={data?.series}
 				categories={data?.categories}

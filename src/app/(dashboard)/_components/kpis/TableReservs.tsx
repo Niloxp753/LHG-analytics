@@ -1,6 +1,5 @@
 /** @format */
 
-import { Skeleton } from '@/components/ui/skeleton';
 import {
 	Table,
 	TableBody,
@@ -9,6 +8,8 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface TableProps {
 	EXPEDIA: number;
@@ -22,15 +23,34 @@ interface TableProps {
 }
 
 interface TableReservsProps {
-	data: TableProps;
+	data?: TableProps | null;
 }
 
 export function TableReservs({ data }: TableReservsProps) {
+	if (typeof data === 'undefined') {
+		return (
+			<div className='mt-5 bg-zinc-900 rounded-lg p-4'>
+				<Skeleton className='h-[240px] w-full' />
+			</div>
+		);
+	}
+
+	if (data === null) {
+		return (
+			<div className='mt-5 bg-zinc-900 rounded-lg p-4'>
+				<Alert variant='destructive' className='w-full'>
+					<AlertTitle>Erro ao carregar</AlertTitle>
+					<AlertDescription>
+						Não foi possível carregar os dados.
+					</AlertDescription>
+				</Alert>
+			</div>
+		);
+	}
+
 	const dataTable: any = data;
 
-	return !dataTable ? (
-		<Skeleton className='w-full h-40'></Skeleton>
-	) : (
+	return (
 		<Table
 			title='Giro por Dia da Semana'
 			className='mt-5 bg-zinc-900 rounded-lg'>

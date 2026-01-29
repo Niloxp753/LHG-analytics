@@ -80,22 +80,30 @@ export default async function Restaurant({
 
 	const resp = await getData();
 
-	if (!resp.ok || !resp.data) {
-		console.log(resp.error);
-		return (
-			<div className='text-muted-foreground'>
-				Não foi possível encontrar os dados
-			</div>
-		);
-	}
+	const hasError = !resp.ok || !resp.data;
+	const errorMessage =
+		hasError && resp.error
+			? resp.error
+			: hasError
+				? 'Não foi possível carregar os dados.'
+				: undefined;
 
-	const unifiedData = Array.isArray(resp.data) ? null : (resp.data as any);
-	const bigNumbers = unifiedData?.BigNumbers ?? null;
-	const revenueByCompanyAB = unifiedData?.RevenueAbByPeriod ?? null;
-	const ticketAverageByPeriod = unifiedData.TicketAverageByPeriod ?? null;
-	const revenueAbByPeriodPercent = unifiedData.RevenueAbByPeriodPercent ?? null;
-	const revenueByCompany = unifiedData.RevenueByCompany??null
-		const salesByCompany = unifiedData.SalesByCompany ?? null;
+	const unifiedData =
+		!hasError && !Array.isArray(resp.data) ? (resp.data as any) : null;
+	const bigNumbers = hasError ? null : unifiedData?.BigNumbers ?? null;
+	const revenueByCompanyAB = hasError
+		? null
+		: unifiedData?.RevenueAbByPeriod ?? null;
+	const ticketAverageByPeriod = hasError
+		? null
+		: unifiedData?.TicketAverageByPeriod ?? null;
+	const revenueAbByPeriodPercent = hasError
+		? null
+		: unifiedData?.RevenueAbByPeriodPercent ?? null;
+	const revenueByCompany = hasError
+		? null
+		: unifiedData?.RevenueByCompany ?? null;
+	const salesByCompany = hasError ? null : unifiedData?.SalesByCompany ?? null;
 
 	return (
 		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden md:px-5 py-10'>
@@ -144,14 +152,20 @@ export default async function Restaurant({
 						/>
 
 						<div className='flex gap-5  flex-col md:flex-row mx-auto w-full h-full'>
-							<UnityxRevenue data={revenueByCompany} />
-							<UnityxSales data={salesByCompany} />
+							<UnityxRevenue data={revenueByCompany} error={errorMessage} />
+							<UnityxSales data={salesByCompany} error={errorMessage} />
 						</div>
 
 						<div className='flex flex-col gap-5'>
-							<UnityxRevenuexTimeAB data={revenueByCompanyAB} />
-							<UnityxRevenuexTimeABPercent data={revenueAbByPeriodPercent} />
-							<UnityxTKTxTime data={ticketAverageByPeriod} />
+							<UnityxRevenuexTimeAB
+								data={revenueByCompanyAB}
+								error={errorMessage}
+							/>
+							<UnityxRevenuexTimeABPercent
+								data={revenueAbByPeriodPercent}
+								error={errorMessage}
+							/>
+							<UnityxTKTxTime data={ticketAverageByPeriod} error={errorMessage} />
 						</div>
 					</Suspense>
 				</div>

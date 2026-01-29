@@ -11,14 +11,23 @@ interface EntryData {
 	series: Array<{ name: string; data: number[] }>;
 }
 interface TRevParXUnityProps {
-	data: EntryData;
+	data?: EntryData | null;
 }
 
 export default function TRevParXUnity({ data }: TRevParXUnityProps) {
+	const isLoading = typeof data === 'undefined';
+	const error =
+		data === null ? 'Não foi possível carregar os dados.' : undefined;
+
+	if (!isLoading && !error && (!data?.series?.length || !data?.categories?.length)) {
+		return null;
+	}
+
 	return (
 		<>
 			<LineChart
 				money
+				error={error}
 				title='Trevpar por unidade'
 				height={148}
 				series={data?.series}

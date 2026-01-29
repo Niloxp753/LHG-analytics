@@ -43,8 +43,8 @@ export default function ColumnActions({ user }: { user: UpdateUserInput | User }
 		setPending(true);
 		try {
 			if (user.id === undefined || user.id === null) {
-				toast.error('Usuario sem id', {
-					description: 'Nao foi possivel excluir este usuario.',
+				toast.error('Usuário sem id', {
+					description: 'Não foi possível excluir este usuário.',
 				});
 				setPending(false);
 				return;

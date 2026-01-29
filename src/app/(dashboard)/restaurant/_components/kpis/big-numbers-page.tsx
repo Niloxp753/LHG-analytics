@@ -2,6 +2,8 @@
 
 import CardDetails from '@/app/(dashboard)/_components/CardDetails';
 import GenerateBadge from '@/app/(dashboard)/general/_components/generate-badge';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Skeleton } from '@/components/ui/skeleton';
 import { generateDescription } from '@/utils/generate-description';
 import { DiamondPercent, HandCoins, Sigma, SquarePercent } from 'lucide-react';
 import { RestaurantBigNumbersEntry } from '@/types/big-numbers-restaurant';
@@ -15,7 +17,28 @@ export default function BigNumbersPage({
 	description,
 	data,
 }: BigNumbersPageOpProps) {
+	const isLoading = typeof data === 'undefined';
+	const error = data === null ? 'Não foi possível carregar os dados.' : undefined;
 	const entry = data?.[0];
+
+	if (isLoading) {
+		return (
+			<div className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4'>
+				{Array.from({ length: 4 }).map((_, index) => (
+					<Skeleton key={index} className='h-[140px] w-full' />
+				))}
+			</div>
+		);
+	}
+
+	if (error) {
+		return (
+			<Alert variant='destructive' className='w-full'>
+				<AlertTitle>Erro ao carregar</AlertTitle>
+				<AlertDescription>{error}</AlertDescription>
+			</Alert>
+		);
+	}
 
 	if (!entry) {
 		return null;

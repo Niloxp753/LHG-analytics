@@ -4,16 +4,44 @@ import { Blend, HandCoins, Sigma, SquarePercent } from 'lucide-react';
 
 import CardDetails from '../../_components/CardDetails';
 import GenerateBadge from '../../general/_components/generate-badge';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Skeleton } from '@/components/ui/skeleton';
 import { ReservationsBigNumbersEntry } from '@/types/big-numbers-reservations';
 
 interface BigNumbersProps {
-	data: ReservationsBigNumbersEntry[] | null;
+	data?: ReservationsBigNumbersEntry[] | null;
 	description: string;
 	ecommerce: boolean;
 }
 
 export default function BigNumbersReservationPage(props: BigNumbersProps) {
+	const isLoading = typeof props.data === 'undefined';
+	const error =
+		props.data === null ? 'Não foi possível carregar os dados.' : undefined;
 	const unified = props.data?.[0];
+
+	if (isLoading) {
+		return (
+			<div className='grid grid-cols-1 h-full w-full md:grid-cols-2 2xl:grid-cols-4 gap-5'>
+				{Array.from({ length: 4 }).map((_, index) => (
+					<Skeleton key={index} className='h-[140px] w-full' />
+				))}
+			</div>
+		);
+	}
+
+	if (error) {
+		return (
+			<Alert variant='destructive' className='w-full'>
+				<AlertTitle>Erro ao carregar</AlertTitle>
+				<AlertDescription>{error}</AlertDescription>
+			</Alert>
+		);
+	}
+
+	if (!unified) {
+		return null;
+	}
 
 	const showForecast = !!unified?.monthlyForecast;
 	const hasPrevious = !!unified?.previousDate;

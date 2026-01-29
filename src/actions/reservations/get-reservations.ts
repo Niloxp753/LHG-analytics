@@ -26,7 +26,7 @@ export async function getReservationsAction(period: string, company?: string) {
 		revalidatePath('/reservations');
 		return resp;
 	} catch (error) {
-		console.log(error);
+		console.error('getReservationsAction: erro ao buscar dados', error);
 		return null;
 	}
 }

@@ -1,5 +1,8 @@
 /** @format */
 
+import { CompanyBigNumbersEntry } from '@/types/big-numbers-company';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
 	Activity,
 	AlarmClockCheck,
@@ -8,222 +11,191 @@ import {
 	Sigma,
 	SquarePercent,
 } from 'lucide-react';
-import CardDetails from './CardDetails';
-import { Skeleton } from '@/components/ui/skeleton';
 import GenerateBadge from '../general/_components/generate-badge';
-import { parseCurrency } from '@/utils/normalize-bignumbers-general';
-import { CompanyBigNumbersEntry } from '@/types/big-numbers-company';
+import CardDetails from './CardDetails';
 
 interface BigNumbersProps {
-	data?: CompanyBigNumbersEntry[];
+	data?: CompanyBigNumbersEntry[] | null;
 	description: string;
 }
 
 export default function BigNumbers(props: BigNumbersProps) {
+	const isLoading = typeof props.data === 'undefined';
+	const error =
+		props.data === null ? 'Não foi possível carregar os dados.' : undefined;
+	const entry = props.data?.[0];
+
+	if (isLoading) {
+		return (
+			<div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
+				{Array.from({ length: 6 }).map((_, index) => (
+					<Skeleton key={index} className='h-[140px] w-full' />
+				))}
+			</div>
+		);
+	}
+
+	if (error) {
+		return (
+			<Alert variant='destructive' className='w-full'>
+				<AlertTitle>Erro ao carregar</AlertTitle>
+				<AlertDescription>{error}</AlertDescription>
+			</Alert>
+		);
+	}
+
+	if (!entry) {
+		return null;
+	}
+
+	const previous = entry.previousDate;
+	const forecast = entry.monthlyForecast;
+
 	return (
-		<>
-			{props.data ? (
-				props?.data?.map((d, index) => {
-					return (
-						<div
-							key={index}
-							className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
-							<CardDetails
-								showForecast={!!d.monthlyForecast}
-								description={
-									d.previousDate &&
-									props.description +
-										d.previousDate.totalAllValuePreviousData.toLocaleString(
-											'pt-BR',
-											{
-												style: 'currency',
-												currency: 'brl',
-											},
-										)
-								}
-								monthlyForecast={
-									d.monthlyForecast &&
-									d.monthlyForecast.totalAllValueForecast.toLocaleString(
-										'pt-BR',
-										{
-											style: 'currency',
-											currency: 'brl',
-										},
-									)
-								}
-								icon={<HandCoins />}
-								title={'Faturamento'}
-								value={d.currentDate.totalAllValue.toLocaleString('pt-BR', {
+		<div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
+			<CardDetails
+				showForecast={!!forecast}
+				type='money'
+				description={
+					previous
+						? props.description +
+							previous.totalAllValuePreviousData.toLocaleString('pt-BR', {
+								style: 'currency',
+								currency: 'brl',
+							})
+						: ''
+				}
+				monthlyForecast={forecast?.totalAllValueForecast}
+				icon={<HandCoins />}
+				title={'Faturamento'}
+				value={entry.currentDate.totalAllValue}
+				Badge={
+					previous && (
+						<GenerateBadge
+							val={Number(entry.currentDate.totalAllValue)}
+							previousVal={previous.totalAllValuePreviousData}
+						/>
+					)
+				}
+			/>
+			<CardDetails
+				showForecast={!!forecast}
+				description={
+					previous
+						? props.description +
+							Number(
+								previous.totalAllRentalsApartmentsPreviousData,
+							).toLocaleString('pt-BR')
+						: ''
+				}
+				monthlyForecast={forecast?.totalAllRentalsApartmentsForecast}
+				icon={<Sigma />}
+				title={'Locações'}
+				value={entry.currentDate.totalAllRentalsApartments}
+				Badge={
+					previous && (
+						<GenerateBadge
+							val={Number(entry.currentDate.totalAllRentalsApartments)}
+							previousVal={previous.totalAllRentalsApartmentsPreviousData}
+						/>
+					)
+				}
+			/>
+			<CardDetails
+				showForecast={!!forecast}
+				type='money'
+				description={
+					previous
+						? props.description +
+							previous.totalAllTicketAveragePreviousData.toLocaleString(
+								'pt-BR',
+								{
 									style: 'currency',
 									currency: 'brl',
-								})}
-								Badge={
-									d.previousDate && (
-										<GenerateBadge
-											val={d.currentDate.totalAllValue}
-											previousVal={d.previousDate.totalAllValuePreviousData}
-										/>
-									)
-								}
-							/>
-							<CardDetails
-								showForecast={!!d.monthlyForecast}
-								monthlyForecast={
-									d.monthlyForecast &&
-									d.monthlyForecast.totalAllRentalsApartmentsForecast
-								}
-								description={
-									d.previousDate &&
-									props.description +
-										d.previousDate.totalAllRentalsApartmentsPreviousData
-								}
-								icon={<Sigma />}
-								title={'Locações'}
-								value={d.currentDate.totalAllRentalsApartments}
-								Badge={
-									d.previousDate && (
-										<GenerateBadge
-											val={d.currentDate.totalAllRentalsApartments}
-											previousVal={
-												d.previousDate.totalAllRentalsApartmentsPreviousData
-											}
-										/>
-									)
-								}
-							/>
-							<CardDetails
-								showForecast={!!d.monthlyForecast}
-								monthlyForecast={
-									d.monthlyForecast &&
-									d.monthlyForecast.totalAllTicketAverageForecast.toLocaleString(
-										'pt-BR',
-										{
-											style: 'currency',
-											currency: 'brl',
-										},
-									)
-								}
-								description={
-									d.previousDate &&
-									props.description +
-										d.previousDate.totalAllTicketAveragePreviousData.toLocaleString(
-											'pt-BR',
-											{
-												style: 'currency',
-												currency: 'brl',
-											},
-										)
-								}
-								icon={<SquarePercent />}
-								title={'Ticket Médio'}
-								value={d.currentDate.totalAllTicketAverage.toLocaleString(
-									'pt-BR',
-									{
-										style: 'currency',
-										currency: 'brl',
-									},
-								)}
-								Badge={
-									d.previousDate && (
-										<GenerateBadge
-											val={d.currentDate.totalAllTicketAverage}
-											previousVal={
-												d.previousDate.totalAllTicketAveragePreviousData
-											}
-										/>
-									)
-								}
-							/>
-							<CardDetails
-								showForecast={!!d.monthlyForecast}
-								monthlyForecast={
-									d.monthlyForecast &&
-									d.monthlyForecast.totalAllTrevparForecast.toLocaleString(
-										'pt-BR',
-										{
-											style: 'currency',
-											currency: 'brl',
-										},
-									)
-								}
-								description={
-									d.previousDate &&
-									props.description +
-										'R$ ' +
-										d.previousDate.totalAllTrevparPreviousData
-								}
-								icon={<Activity />}
-								title={'Trevpar'}
-								value={'R$ ' + d.currentDate.totalAllTrevpar}
-								Badge={
-									d.previousDate && (
-										<GenerateBadge
-											val={d.currentDate.totalAllTrevpar}
-											previousVal={d.previousDate.totalAllTrevparPreviousData}
-										/>
-									)
-								}
-							/>
-							<CardDetails
-								showForecast={!!d.monthlyForecast}
-								monthlyForecast={
-									d.monthlyForecast && d.monthlyForecast.totalAllGiroForecast
-								}
-								description={
-									d.previousDate &&
-									props.description + d.previousDate.totalAllGiroPreviousData
-								}
-								icon={<DoorClosed />}
-								title={'Giro'}
-								value={d.currentDate.totalAllGiro}
-								Badge={
-									d.previousDate && (
-										<GenerateBadge
-											val={d.currentDate.totalAllGiro}
-											previousVal={d.previousDate.totalAllGiroPreviousData}
-										/>
-									)
-								}
-							/>
-							<CardDetails
-								showForecast={!!d.monthlyForecast}
-								monthlyForecast={
-									d.monthlyForecast &&
-									d.monthlyForecast.totalAverageOccupationTimeForecast
-								}
-								description={
-									d.previousDate &&
-									props.description +
-										d.previousDate.totalAverageOccupationTimePreviousData
-								}
-								icon={<AlarmClockCheck />}
-								title={'TMO'}
-								value={d.currentDate.totalAverageOccupationTime}
-								Badge={
-									d.previousDate && (
-										<GenerateBadge
-											tmo
-											val={d.currentDate.totalAverageOccupationTime}
-											previousVal={
-												d.previousDate.totalAverageOccupationTimePreviousData
-											}
-										/>
-									)
-								}
-							/>
-						</div>
-					);
-				})
-			) : (
-				<div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
-					<Skeleton className='w-full h-24' />
-					<Skeleton className='w-full h-24' />
-					<Skeleton className='w-full h-24' />
-					<Skeleton className='w-full h-24' />
-					<Skeleton className='w-full h-24' />
-					<Skeleton className='w-full h-24' />
-				</div>
-			)}
-		</>
+								},
+							)
+						: ''
+				}
+				monthlyForecast={forecast?.totalAllTicketAverageForecast}
+				icon={<SquarePercent />}
+				title={'Ticket Médio'}
+				value={entry.currentDate.totalAllTicketAverage}
+				Badge={
+					previous && (
+						<GenerateBadge
+							val={Number(entry.currentDate.totalAllTicketAverage)}
+							previousVal={previous.totalAllTicketAveragePreviousData}
+						/>
+					)
+				}
+			/>
+			<CardDetails
+				showForecast={!!forecast}
+				type='money'
+				description={
+					previous
+						? props.description +
+							previous.totalAllTrevparPreviousData.toLocaleString('pt-BR', {
+								style: 'currency',
+								currency: 'brl',
+							})
+						: ''
+				}
+				monthlyForecast={forecast?.totalAllTrevparForecast}
+				icon={<Activity />}
+				title={'Trevpar'}
+				value={entry.currentDate.totalAllTrevpar}
+				Badge={
+					previous && (
+						<GenerateBadge
+							val={Number(entry.currentDate.totalAllTrevpar)}
+							previousVal={previous.totalAllTrevparPreviousData}
+						/>
+					)
+				}
+			/>
+			<CardDetails
+				showForecast={!!forecast}
+				description={
+					previous
+						? props.description + previous.totalAllGiroPreviousData.toFixed(2)
+						: ''
+				}
+				monthlyForecast={forecast?.totalAllGiroForecast?.toFixed(2)}
+				icon={<DoorClosed />}
+				title={'Giro'}
+				value={entry.currentDate.totalAllGiro.toFixed(2)}
+				Badge={
+					previous && (
+						<GenerateBadge
+							val={Number(entry.currentDate.totalAllGiro)}
+							previousVal={previous.totalAllGiroPreviousData}
+						/>
+					)
+				}
+			/>
+			<CardDetails
+				showForecast={!!forecast}
+				description={
+					previous
+						? props.description +
+							previous.totalAverageOccupationTimePreviousData
+						: ''
+				}
+				monthlyForecast={forecast?.totalAverageOccupationTimeForecast}
+				icon={<AlarmClockCheck />}
+				title={'TMO'}
+				value={entry.currentDate.totalAverageOccupationTime}
+				Badge={
+					previous && (
+						<GenerateBadge
+							tmo
+							val={entry.currentDate.totalAverageOccupationTime}
+							previousVal={previous.totalAverageOccupationTimePreviousData}
+						/>
+					)
+				}
+			/>
+		</div>
 	);
 }

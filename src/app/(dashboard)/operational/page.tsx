@@ -58,21 +58,28 @@ export default async function Operational({
 
 	const resp = await getData();
 
-	if (!resp.ok || !resp.data) {
-		console.log(resp.error);
-		return (
-			<div className='text-muted-foreground'>
-				Não foi possível encontrar os dados
-			</div>
-		);
-	}
+	const hasError = !resp.ok || !resp.data;
+	const errorMessage =
+		hasError && resp.error
+			? resp.error
+			: hasError
+				? 'Não foi possível carregar os dados.'
+				: undefined;
 
-	const unifiedData = resp.data;
-	const bigNumbers = unifiedData.BigNumbers;
-	const cleaningsByCompany = unifiedData.CleaningsByCompany ?? null;
-	const averageCleaningByCompany = unifiedData.AverageCleaningByCompany ?? null;
-	const inspectionsByCompany = unifiedData.InspectionsByCompany ?? null;
-	const shiftCleaning: ShiftCleaning = unifiedData.ShiftCleaning ?? null;
+	const unifiedData = hasError ? null : resp.data;
+	const bigNumbers = hasError ? null : unifiedData?.BigNumbers ?? null;
+	const cleaningsByCompany = hasError
+		? null
+		: unifiedData?.CleaningsByCompany ?? null;
+	const averageCleaningByCompany = hasError
+		? null
+		: unifiedData?.AverageCleaningByCompany ?? null;
+	const inspectionsByCompany = hasError
+		? null
+		: unifiedData?.InspectionsByCompany ?? null;
+	const shiftCleaning: ShiftCleaning | null = hasError
+		? null
+		: unifiedData?.ShiftCleaning ?? null;
 
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 '>
@@ -121,23 +128,32 @@ export default async function Operational({
 							description={rangeDescription}
 						/>
 						<div className='w-full h-full flex gap-5 flex-col md:flex-row'>
-							<TotalCleaningUnity data={cleaningsByCompany} />
-							<CleaningAverageUnity data={averageCleaningByCompany} />
-							<PerformanceUnity data={inspectionsByCompany} />
+							<TotalCleaningUnity
+								data={cleaningsByCompany}
+								error={errorMessage}
+							/>
+							<CleaningAverageUnity
+								data={averageCleaningByCompany}
+								error={errorMessage}
+							/>
+							<PerformanceUnity data={inspectionsByCompany} error={errorMessage} />
 						</div>
 					</div>
 					<div className='flex flex-col gap-5'>
 						<MorningCleaning
-							categories={shiftCleaning.categories}
-							series={shiftCleaning.series}
+							error={errorMessage}
+							categories={shiftCleaning?.categories}
+							series={shiftCleaning?.series}
 						/>
 						<AfternoonCleaning
-							categories={shiftCleaning.categories}
-							series={shiftCleaning.series}
+							error={errorMessage}
+							categories={shiftCleaning?.categories}
+							series={shiftCleaning?.series}
 						/>
 						<NightCleaning
-							categories={shiftCleaning.categories}
-							series={shiftCleaning.series}
+							error={errorMessage}
+							categories={shiftCleaning?.categories}
+							series={shiftCleaning?.series}
 						/>
 					</div>
 				</div>

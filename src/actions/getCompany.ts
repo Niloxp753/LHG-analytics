@@ -22,8 +22,8 @@ export async function getCompanyAction(period: string, company?: string) {
 		revalidatePath('/general');
 		return resp;
 	} catch (error) {
-		console.log(error);
-		return error;
+		console.error('getCompanyAction: erro ao buscar dados', error);
+		return null;
 	}
 }
 

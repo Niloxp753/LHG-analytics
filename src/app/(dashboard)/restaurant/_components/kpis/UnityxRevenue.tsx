@@ -13,18 +13,28 @@ interface EntryData {
 	series: Array<{ name: string; data: number[] }>;
 }
 interface UnityxRevenueProps {
-	data: EntryData;
+	data?: EntryData | null;
+	error?: string | boolean;
 }
-export default function UnityxRevenue({ data }: UnityxRevenueProps) {
+export default function UnityxRevenue({ data, error }: UnityxRevenueProps) {
+	const isLoading = typeof data === 'undefined';
+	const resolvedError =
+		error ?? (data === null ? 'Não foi possível carregar os dados.' : undefined);
+
+	if (!isLoading && !resolvedError && (!data?.series?.length || !data?.categories?.length)) {
+		return null;
+	}
+
 	return (
 		<PieChartsApex
 			money
 			height={280}
 			title='Receita de A&B por unidade'
-			series={data.series}
+			error={resolvedError}
+			series={data?.series}
 			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
 			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
-			labels={data.categories}
+			labels={data?.categories}
 		/>
 	);
 }

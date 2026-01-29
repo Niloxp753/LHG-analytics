@@ -1,6 +1,5 @@
 /** @format */
 
-import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const LineChart = dynamic(
@@ -9,28 +8,31 @@ const LineChart = dynamic(
 );
 
 interface NightCleaningWorkersProps {
-	categories: string[];
-	series: any;
+	categories?: string[];
+	series?: any[] | null;
+	error?: string | boolean;
 }
 
 export default function NightCleaningWorkers({
 	categories,
 	series,
+	error,
 }: NightCleaningWorkersProps) {
-	if (!series.length || series.length == 0 || !series) {
-		return <Skeleton className='w-full h-[480px]'></Skeleton>;
-	} else {
-		return series && categories ? (
-			<LineChart
-				height={48}
-				title='Total de limpezas - Noite'
-				series={series}
-				categories={categories}
-			/>
-		) : (
-			<>
-				<Skeleton className='w-full h-[480px]'></Skeleton>
-			</>
-		);
+	const isLoading = typeof series === 'undefined';
+	const resolvedError =
+		error ?? (series === null ? 'Não foi possível carregar os dados.' : undefined);
+
+	if (!isLoading && !resolvedError && (!series?.length || !categories?.length)) {
+		return null;
 	}
+
+	return (
+		<LineChart
+			height={48}
+			title='Total de limpezas - Noite'
+			error={resolvedError}
+			series={series ?? undefined}
+			categories={categories}
+		/>
+	);
 }

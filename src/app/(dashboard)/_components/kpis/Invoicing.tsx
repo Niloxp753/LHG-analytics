@@ -1,7 +1,5 @@
 /** @format */
 'use client';
-
-import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const AreaChartsApex = dynamic(
@@ -15,21 +13,23 @@ interface RevenueByDateProps {
 }
 
 export default function Invoicing(data?: any) {
-	const revenueByDate: RevenueByDateProps = data.data;
+	const revenueByDate: RevenueByDateProps | null | undefined = data?.data;
+	const error =
+		revenueByDate === null ? 'Não foi possível carregar os dados.' : undefined;
 
 	return (
 		<>
-			{revenueByDate ? (
-				<AreaChartsApex
-					id='invoicing-ipiranga'
-					money
-					series={[{ data: revenueByDate.series, name: 'Faturamento Total' }]}
-					categories={revenueByDate.categories}
-				/>
-			) : (
-				<Skeleton className='w-full h-[300px]' />
-			)}
-			;
+			<AreaChartsApex
+				id='invoicing-ipiranga'
+				money
+				error={error}
+				series={
+					revenueByDate
+						? [{ data: revenueByDate.series, name: 'Faturamento Total' }]
+						: undefined
+				}
+				categories={revenueByDate?.categories}
+			/>
 		</>
 	);
 }

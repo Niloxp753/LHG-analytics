@@ -8,6 +8,8 @@ import {
 	Sigma,
 	SquarePercent,
 } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Skeleton } from '@/components/ui/skeleton';
 
 import CardDetails from '../../_components/CardDetails';
 import GenerateBadge from './generate-badge';
@@ -19,7 +21,29 @@ interface BigNumbersProps {
 }
 
 export default function BigNumbersCompany(props: BigNumbersProps) {
+	const isLoading = typeof props.data === 'undefined';
+	const error =
+		props.data === null ? 'Não foi possível carregar os dados.' : undefined;
 	const data = props.data?.[0];
+
+	if (isLoading) {
+		return (
+			<div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
+				{Array.from({ length: 6 }).map((_, index) => (
+					<Skeleton key={index} className='h-[140px] w-full' />
+				))}
+			</div>
+		);
+	}
+
+	if (error) {
+		return (
+			<Alert variant='destructive' className='w-full'>
+				<AlertTitle>Erro ao carregar</AlertTitle>
+				<AlertDescription>{error}</AlertDescription>
+			</Alert>
+		);
+	}
 
 	if (!data) {
 		return null;

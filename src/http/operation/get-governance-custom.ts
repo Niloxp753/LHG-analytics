@@ -2,13 +2,12 @@
 
 import { buildAuthCookieHeader } from '@/lib/auth-headers';
 import { api, api_andar_de_cima, api_lapa, api_tout } from '../api-client';
-class HTTPError extends Error {}
 
 export async function getOperationCustom(
 	startDate: string,
 	endDate: string,
 	company?: string,
-): Promise<any> {
+): Promise<any | null> {
 	const controller = new AbortController();
 	const timeout = setTimeout(() => controller.abort(), 60000);
 	const cookieHeader = buildAuthCookieHeader();
@@ -25,7 +24,12 @@ export async function getOperationCustom(
 				});
 
 				if (!resp_tout.ok) {
-					throw new HTTPError(`Fetch error: ${resp_tout.statusText}`);
+					console.error(
+						'getOperationCustom: erro ao buscar dados (tout)',
+						resp_tout.status,
+						resp_tout.statusText,
+					);
+					return null;
 				}
 
 				return resp_tout.json();
@@ -42,7 +46,12 @@ export async function getOperationCustom(
 				);
 
 				if (!resp_andar_de_cima.ok) {
-					throw new HTTPError(`Fetch error: ${resp_andar_de_cima.statusText}`);
+					console.error(
+						'getOperationCustom: erro ao buscar dados (andar_de_cima)',
+						resp_andar_de_cima.status,
+						resp_andar_de_cima.statusText,
+					);
+					return null;
 				}
 
 				return resp_andar_de_cima.json();
@@ -56,7 +65,12 @@ export async function getOperationCustom(
 				});
 
 				if (!resp_lapa.ok) {
-					throw new HTTPError(`Fetch error: ${resp_lapa.statusText}`);
+					console.error(
+						'getOperationCustom: erro ao buscar dados (lapa)',
+						resp_lapa.status,
+						resp_lapa.statusText,
+					);
+					return null;
 				}
 
 				return resp_lapa.json();
@@ -70,19 +84,23 @@ export async function getOperationCustom(
 				});
 
 				if (!resp.ok) {
-					throw new HTTPError(`Fetch error: ${resp.statusText}`);
+					console.error(
+						'getOperationCustom: erro ao buscar dados (ipiranga)',
+						resp.status,
+						resp.statusText,
+					);
+					return null;
 				}
 
 				return resp.json();
 		}
 	} catch (error) {
-		if (error instanceof Error) {
-			if (error.name === 'AbortError') {
-				throw new HTTPError('Request timed out');
-			}
-			throw new HTTPError(error.message); // Trata outros erros
+		if (error instanceof Error && error.name === 'AbortError') {
+			console.error('getOperationCustom: request timeout');
+			return null;
 		}
-		throw new HTTPError('Unknown error occurred'); // Caso o erro não seja uma instância de Error
+		console.error('getOperationCustom: erro inesperado', error);
+		return null;
 	} finally {
 		clearTimeout(timeout); // Limpa o timeout
 	}

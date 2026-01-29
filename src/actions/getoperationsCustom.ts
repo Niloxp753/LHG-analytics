@@ -17,7 +17,7 @@ export async function getOperationCustomAction(
 			return resp;
 		}
 	} catch (error) {
-		console.log(error);
-		return error;
+		console.error('getOperationCustomAction: erro ao buscar dados', error);
+		return null;
 	}
 }

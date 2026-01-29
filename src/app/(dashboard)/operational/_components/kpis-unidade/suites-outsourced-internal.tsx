@@ -1,7 +1,6 @@
 /** @format */
 'use client';
 
-import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const PieChartsApex = dynamic(
@@ -17,29 +16,16 @@ export default function SuitesOutsourcedInternal(
 	data: SuitesOutsourcedInternalProps,
 ) {
 	const ShiftCleaning = data?.data;
+	const error =
+		ShiftCleaning === null ? 'Não foi possível carregar os dados.' : undefined;
 
-	if (
-		!ShiftCleaning.series.length ||
-		ShiftCleaning.series.length == 0 ||
-		!ShiftCleaning
-	) {
-		return (
-			<>
-				<Skeleton className='w-full h-[340px]'></Skeleton>
-			</>
-		);
-	} else {
-		return ShiftCleaning ? (
-			<PieChartsApex
-				labels={ShiftCleaning.categories}
-				series={ShiftCleaning.series}
-				height={340}
-				title='Limpezas por turno'
-			/>
-		) : (
-			<>
-				<Skeleton className='w-full h-[340px]'></Skeleton>
-			</>
-		);
-	}
+	return (
+		<PieChartsApex
+			error={error}
+			labels={ShiftCleaning?.categories}
+			series={ShiftCleaning?.series ?? undefined}
+			height={340}
+			title='Limpezas por turno'
+		/>
+	);
 }

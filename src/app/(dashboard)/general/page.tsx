@@ -57,23 +57,27 @@ export default async function General({
 
 	const resp = await getData();
 
-	if (!resp.ok || !resp.data) {
-		console.log(resp.error);
-		return (
-			<div className='text-muted-foreground'>
-				Não foi possível encontrar os dados
-			</div>
-		);
-	}
+	const hasError = !resp.ok || !resp.data;
+	const errorMessage =
+		hasError && resp.error
+			? resp.error
+			: hasError
+				? 'Não foi possível carregar os dados.'
+				: undefined;
 
-	const unifiedData = Array.isArray(resp.data) ? null : (resp.data as any);
-	const bigNumbers = unifiedData?.BigNumbers ?? null;
-	const revenueByCompany = unifiedData.RevenueByCompany ?? null;
-	const rentalsByDate = unifiedData.RentalsByDate ?? null;
-	const ticketAverageByDate = unifiedData.TicketAverageByDate ?? null;
-	const trevparByDate = unifiedData.TrevparByDate ?? null;
-	const revenueByDate = unifiedData.RevenueByDate ?? null;
-	const occupancyRateByDate = unifiedData.OccupancyRateByDate ?? null;
+	const unifiedData =
+		!hasError && !Array.isArray(resp.data) ? (resp.data as any) : null;
+	const bigNumbers = hasError ? null : unifiedData?.BigNumbers ?? null;
+	const revenueByCompany = hasError ? null : unifiedData?.RevenueByCompany ?? null;
+	const rentalsByDate = hasError ? null : unifiedData?.RentalsByDate ?? null;
+	const ticketAverageByDate = hasError
+		? null
+		: unifiedData?.TicketAverageByDate ?? null;
+	const trevparByDate = hasError ? null : unifiedData?.TrevparByDate ?? null;
+	const revenueByDate = hasError ? null : unifiedData?.RevenueByDate ?? null;
+	const occupancyRateByDate = hasError
+		? null
+		: unifiedData?.OccupancyRateByDate ?? null;
 
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 '>
@@ -124,8 +128,9 @@ export default async function General({
 							<div className='flex gap-5 flex-col md:flex-row w-full h-full '>
 								<div className='md:w-1/3 w-full h-full '>
 									<InvoicingXUnity
-										categories={revenueByCompany.categories}
-										series={revenueByCompany.series}
+										error={errorMessage}
+										categories={revenueByCompany?.categories}
+										series={revenueByCompany?.series}
 									/>
 								</div>
 								<div className='md:w-2/3 h-full '>

@@ -51,31 +51,40 @@ export default async function Reservations({
 
 	const resp = await getData();
 
-	if (!resp.ok || !resp.data) {
-		console.log(resp.error);
-		return (
-			<div className='text-muted-foreground'>
-				Não foi possível encontrar os dados
-			</div>
-		);
-	}
+	const hasError = !resp.ok || !resp.data;
+	const errorMessage =
+		hasError && resp.error
+			? resp.error
+			: hasError
+				? 'Não foi possível carregar os dados.'
+				: undefined;
 
-	const unifiedData = Array.isArray(resp.data) ? null : (resp.data as any);
-	const bigNumbers = unifiedData?.BigNumbers ?? null;
-	const billingOfReservationsByPeriod =
-		unifiedData.BillingOfReservationsByPeriod ?? null;
-	const numberOfReservationsPerPeriod =
-		unifiedData.NumberOfReservationsPerPeriod ?? null;
-	const representativenessOfReservesByPeriod =
-		unifiedData.RepresentativenessOfReservesByPeriod ?? null;
-	const BillingOfEcommerceByPeriod =
-		unifiedData.BillingOfEcommerceByPeriod ?? null;
-	const reservationsOfEcommerceByPeriod =
-		unifiedData.ReservationsOfEcommerceByPeriod ?? null;
-	const revenueByCompany = unifiedData.RevenueByCompany ?? null;
-	const bookingsByCompany = unifiedData.BookingsByCompany ?? null;
+	const unifiedData =
+		!hasError && !Array.isArray(resp.data) ? (resp.data as any) : null;
+	const bigNumbers = hasError ? null : unifiedData?.BigNumbers ?? null;
+	const billingOfReservationsByPeriod = hasError
+		? null
+		: unifiedData?.BillingOfReservationsByPeriod ?? null;
+	const numberOfReservationsPerPeriod = hasError
+		? null
+		: unifiedData?.NumberOfReservationsPerPeriod ?? null;
+	const representativenessOfReservesByPeriod = hasError
+		? null
+		: unifiedData?.RepresentativenessOfReservesByPeriod ?? null;
+	const BillingOfEcommerceByPeriod = hasError
+		? null
+		: unifiedData?.BillingOfEcommerceByPeriod ?? null;
+	const reservationsOfEcommerceByPeriod = hasError
+		? null
+		: unifiedData?.ReservationsOfEcommerceByPeriod ?? null;
+	const revenueByCompany = hasError ? null : unifiedData?.RevenueByCompany ?? null;
+	const bookingsByCompany = hasError
+		? null
+		: unifiedData?.BookingsByCompany ?? null;
 
-	const bigNumbersEcommerce = unifiedData.BigNumbersEcommerce ?? null;
+	const bigNumbersEcommerce = hasError
+		? null
+		: unifiedData?.BigNumbersEcommerce ?? null;
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>
 			<div className={`relative  md:max-w-[82vw] flex  md:ml-auto w-full `}>
@@ -133,10 +142,12 @@ export default async function Reservations({
 								data={revenueByCompany}
 								title={'Faturamento por unidade'}
 								money
+								error={errorMessage}
 							/>
 							<BookingsByCompany
 								data={bookingsByCompany}
 								title={'Número de Reservas por unidade'}
+								error={errorMessage}
 							/>
 						</Suspense>
 					</div>
@@ -146,6 +157,7 @@ export default async function Reservations({
 								data={billingOfReservationsByPeriod}
 								title={'Faturamento por unidade no tempo'}
 								money
+								error={errorMessage}
 							/>
 						</Suspense>
 						<Suspense>
@@ -153,6 +165,7 @@ export default async function Reservations({
 								data={numberOfReservationsPerPeriod}
 								title={'Número de reservas por unidade'}
 								money={false}
+								error={errorMessage}
 							/>
 						</Suspense>
 						<Suspense>
@@ -160,6 +173,7 @@ export default async function Reservations({
 								data={representativenessOfReservesByPeriod}
 								title={'Representatividade por unidade'}
 								percent
+								error={errorMessage}
 							/>
 						</Suspense>
 					</div>
@@ -181,6 +195,7 @@ export default async function Reservations({
 									data={BillingOfEcommerceByPeriod}
 									title={'Faturamento por unidade - Ecommerce'}
 									money
+									error={errorMessage}
 								/>
 							</Suspense>
 							<Suspense>
@@ -188,6 +203,7 @@ export default async function Reservations({
 									data={reservationsOfEcommerceByPeriod}
 									title={'Representatividade por unidade - Ecommerce'}
 									percent
+									error={errorMessage}
 								/>
 							</Suspense>
 						</div>
