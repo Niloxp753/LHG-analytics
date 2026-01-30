@@ -6,6 +6,7 @@ import { auth_api } from '../api-client';
 export async function getRestaurantUnified(
 	startDate: string,
 	endDate: string,
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
 	const controller = new AbortController();
 	const timeout = setTimeout(() => controller.abort(), 60000);

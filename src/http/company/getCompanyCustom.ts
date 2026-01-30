@@ -7,6 +7,7 @@ export async function getCompanyCustom(
 	startDate: string,
 	endDate: string,
 	company?: string,
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
 	const controller = new AbortController();
 	const timeout = setTimeout(() => controller.abort(), 60000);
