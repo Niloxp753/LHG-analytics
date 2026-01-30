@@ -12,7 +12,6 @@ import SuitesOutsourcedInternal from '../../_components/kpis-unidade/suites-outs
 import TableWokersAfternoon from '../../_components/kpis-unidade/table-workers-afternoon';
 import TableWokersNight from '../../_components/kpis-unidade/table-workers-nigh';
 import { getGovernanceAction } from '@/actions/getGovernance';
-import { revalidatePath } from 'next/cache';
 import {
 	DEFAULT_RANGE_TAG,
 	formatDateInput,
@@ -43,7 +42,6 @@ export default async function LushLapa({
 				'tout',
 			);
 			if (customData) {
-				revalidatePath('/');
 				return customData;
 			}
 		} else {
@@ -52,7 +50,6 @@ export default async function LushLapa({
 				'tout',
 			);
 			if (data) {
-				revalidatePath('/');
 				return data;
 			}
 		}

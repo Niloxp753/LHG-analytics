@@ -3,7 +3,6 @@
 'use server';
 
 import { getCompanyCustom } from '@/http/company/getCompanyCustom';
-import { revalidatePath } from 'next/cache';
 
 export async function getCompanyCustomAction(
 	startDate: string | null,
@@ -13,7 +12,6 @@ export async function getCompanyCustomAction(
 	try {
 		if (startDate && endDate) {
 			const resp = await getCompanyCustom(startDate, endDate, company);
-			revalidatePath('/');
 			return resp;
 		}
 	} catch (error) {

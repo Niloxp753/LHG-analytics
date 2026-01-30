@@ -8,7 +8,6 @@ import {
 	getRangeByTag,
 	normalizeRangeTag,
 } from '@/lib/date-range';
-import { revalidatePath } from 'next/cache';
 
 export async function getReservationsAction(period: string, company?: string) {
 	const normalized = normalizeRangeTag(period, DEFAULT_RANGE_TAG);
@@ -23,7 +22,6 @@ export async function getReservationsAction(period: string, company?: string) {
 			range.endDate,
 			company,
 		);
-		revalidatePath('/reservations');
 		return resp;
 	} catch (error) {
 		console.error('getReservationsAction: erro ao buscar dados', error);

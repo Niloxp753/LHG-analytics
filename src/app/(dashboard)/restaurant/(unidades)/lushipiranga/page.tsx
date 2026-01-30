@@ -8,7 +8,6 @@ import {
 	formatDateInput,
 	getRangeDescription,
 } from '@/lib/date-range';
-import { revalidatePath } from 'next/cache';
 import BigNumbers from '../../_components/kpi-unidade/big-numbers';
 import { AReports } from '../../_components/kpis/AReports';
 import { BReports } from '../../_components/kpis/BReports';
@@ -44,13 +43,11 @@ export default async function Restaurant({
 				formattedEndDate!,
 			);
 			if (customData) {
-				revalidatePath('/');
 				return customData;
 			}
 		} else {
 			const data = await getRestaurantsAction(preSet ?? DEFAULT_RANGE_TAG);
 			if (data) {
-				revalidatePath('/');
 				return data;
 			}
 		}

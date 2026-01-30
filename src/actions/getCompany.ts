@@ -8,7 +8,6 @@ import {
 	getRangeByTag,
 	normalizeRangeTag,
 } from '@/lib/date-range';
-import { revalidatePath } from 'next/cache';
 
 export async function getCompanyAction(period: string, company?: string) {
 	const normalized = normalizeRangeTag(period, DEFAULT_RANGE_TAG);
@@ -19,7 +18,6 @@ export async function getCompanyAction(period: string, company?: string) {
 
 	try {
 		const resp = await getCompanyCustom(range.startDate, range.endDate, company);
-		revalidatePath('/general');
 		return resp;
 	} catch (error) {
 		console.error('getCompanyAction: erro ao buscar dados', error);

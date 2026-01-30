@@ -19,7 +19,6 @@ import { TableKpiOccupation } from '@/app/(dashboard)/_components/kpis/TableKpiO
 import { TableKpiRevpar } from '@/app/(dashboard)/_components/kpis/TableKpiRevpar';
 import Ticket from '@/app/(dashboard)/_components/kpis/Ticket';
 import { DEFAULT_RANGE_TAG, formatDateInput, getRangeDescription } from '@/lib/date-range';
-import { revalidatePath } from 'next/cache';
 
 export const revalidate = 0;
 
@@ -43,13 +42,11 @@ export default async function LushIpiranga({
 				formattedEndDate!,
 			);
 			if (customData) {
-				revalidatePath('/general');
 				return customData;
 			}
 		} else {
 			const data = await getCompanyAction(preSet ?? DEFAULT_RANGE_TAG);
 			if (data) {
-				revalidatePath('/general');
 				return data;
 			}
 		}

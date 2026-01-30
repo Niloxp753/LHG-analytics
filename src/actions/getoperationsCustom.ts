@@ -3,7 +3,6 @@
 'use server';
 
 import { getOperationCustom } from '@/http/operation/get-governance-custom';
-import { revalidatePath } from 'next/cache';
 
 export async function getOperationCustomAction(
 	startDate: string | null,
@@ -13,7 +12,6 @@ export async function getOperationCustomAction(
 	try {
 		if (startDate && endDate) {
 			const resp = await getOperationCustom(startDate, endDate, company);
-			revalidatePath('/operational');
 			return resp;
 		}
 	} catch (error) {

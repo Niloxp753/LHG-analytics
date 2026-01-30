@@ -17,7 +17,6 @@ import { TableKpiGiro } from '@/app/(dashboard)/_components/kpis/TableKpiGiro';
 import { TableKpiOccupation } from '@/app/(dashboard)/_components/kpis/TableKpiOccupation';
 import Ticket from '@/app/(dashboard)/_components/kpis/Ticket';
 import { DEFAULT_RANGE_TAG, formatDateInput, getRangeDescription } from '@/lib/date-range';
-import { revalidatePath } from 'next/cache';
 
 export const revalidate = 0;
 
@@ -42,13 +41,11 @@ export default async function LushLapa({
 				'lapa',
 			);
 			if (customData) {
-				revalidatePath('/general');
 				return customData;
 			}
 		} else {
 			const data = await getCompanyAction(preSet ?? DEFAULT_RANGE_TAG, 'lapa');
 			if (data) {
-				revalidatePath('/general');
 				return data;
 			}
 		}

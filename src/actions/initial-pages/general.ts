@@ -2,7 +2,6 @@
 
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { getCompanyUnified } from '@/http/company/getCompanyUnified';
 import {
 	DEFAULT_RANGE_TAG,
@@ -28,7 +27,6 @@ export async function getGeneralPageData({
 		const data = await getCompanyUnified(startDate, endDate);
 
 		if (data) {
-			revalidatePath('/general');
 			return {
 				ok: true,
 				data,
@@ -44,7 +42,6 @@ export async function getGeneralPageData({
 		const data = await getCompanyUnified(range.startDate, range.endDate);
 
 		if (data) {
-			revalidatePath('/general');
 			return {
 				ok: true,
 				data,

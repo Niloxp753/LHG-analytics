@@ -3,7 +3,6 @@
 'use server';
 
 import { getGovernanceUnified } from '@/http/operation/get-governance-unified';
-import { revalidatePath } from 'next/cache';
 import {
 	DEFAULT_RANGE_TAG,
 	getRangeByTag,
@@ -28,7 +27,6 @@ export async function getOperationalPageData({
 		const unifiedData = await getGovernanceUnified(startDate, endDate);
 
 		if (unifiedData) {
-			revalidatePath('/operational');
 			return {
 				ok: true,
 				data: unifiedData,
@@ -48,7 +46,6 @@ export async function getOperationalPageData({
 		);
 
 		if (unifiedData) {
-			revalidatePath('/operational');
 			return {
 				ok: true,
 				data: unifiedData,

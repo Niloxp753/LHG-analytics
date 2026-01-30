@@ -5,7 +5,6 @@ import { getReservationsCustomAction } from '@/actions/reservations/get-reservat
 import Header from '@/app/(dashboard)/_components/Header';
 import InvoicingXChannel from '@/app/(dashboard)/reservations/_components/kpis/InvoicingXChannel';
 import { DEFAULT_RANGE_TAG, formatDateInput, getRangeDescription } from '@/lib/date-range';
-import { revalidatePath } from 'next/cache';
 import { TableReservs } from '../../../_components/kpis/TableReservs';
 import BigNumbersEcommerce from '../../_components/big-numbers-ecommerce';
 import BigNumbersReservation from '../../_components/big-numbers-reservations';
@@ -38,7 +37,6 @@ export default async function Page({
 				'lapa',
 			);
 			if (customData) {
-				revalidatePath('/reservations');
 				return customData;
 			} else {
 				return null;
@@ -46,7 +44,6 @@ export default async function Page({
 		} else {
 			const data = await getReservationsAction(preSet ?? DEFAULT_RANGE_TAG, 'lapa');
 			if (data) {
-				revalidatePath('/reservations');
 				return data;
 			} else {
 				return null;

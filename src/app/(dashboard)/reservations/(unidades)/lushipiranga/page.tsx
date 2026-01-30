@@ -9,7 +9,6 @@ import {
 	formatDateInput,
 	getRangeDescription,
 } from '@/lib/date-range';
-import { revalidatePath } from 'next/cache';
 import { TableReservs } from '../../../_components/kpis/TableReservs';
 import BigNumbersEcommerce from '../../_components/big-numbers-ecommerce';
 import BigNumbersReservation from '../../_components/big-numbers-reservations';
@@ -41,7 +40,6 @@ export default async function Page({
 				formattedEndDate!,
 			);
 			if (customData) {
-				revalidatePath('/reservations');
 				return customData;
 			} else {
 				return null;
@@ -49,7 +47,6 @@ export default async function Page({
 		} else {
 			const data = await getReservationsAction(preSet ?? DEFAULT_RANGE_TAG);
 			if (data) {
-				revalidatePath('/reservations');
 				return data;
 			} else {
 				return null;

@@ -3,7 +3,6 @@
 'use server';
 
 import { getRestaurantUnified } from '@/http/restaurant/getRestaurantUnified';
-import { revalidatePath } from 'next/cache';
 import {
 	DEFAULT_RANGE_TAG,
 	getRangeByTag,
@@ -28,7 +27,6 @@ export async function getRestaurantPageData({
 		const data = await getRestaurantUnified(startDate, endDate);
 
 		if (data) {
-			revalidatePath('/restaurant');
 			return {
 				ok: true,
 				data,
@@ -44,7 +42,6 @@ export async function getRestaurantPageData({
 		const data = await getRestaurantUnified(range.startDate, range.endDate);
 
 		if (data) {
-			revalidatePath('/restaurant');
 			return {
 				ok: true,
 				data,

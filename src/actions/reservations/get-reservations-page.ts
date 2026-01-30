@@ -3,7 +3,6 @@
 'use server';
 
 import { getBookingsUnified } from '@/http/reservations/getBookingsUnified';
-import { revalidatePath } from 'next/cache';
 import {
 	DEFAULT_RANGE_TAG,
 	getRangeByTag,
@@ -28,7 +27,6 @@ export async function getReservationPageData({
 		const data = await getBookingsUnified(startDate, endDate);
 
 		if (data) {
-			revalidatePath('/reservations');
 			return {
 				ok: true,
 				data,
@@ -44,7 +42,6 @@ export async function getReservationPageData({
 		const data = await getBookingsUnified(range.startDate, range.endDate);
 
 		if (data) {
-			revalidatePath('/reservations');
 			return {
 				ok: true,
 				data,

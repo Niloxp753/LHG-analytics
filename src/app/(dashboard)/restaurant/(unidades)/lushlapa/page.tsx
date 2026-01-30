@@ -8,7 +8,6 @@ import {
 	formatDateInput,
 	getRangeDescription,
 } from '@/lib/date-range';
-import { revalidatePath } from 'next/cache';
 import BigNumbers from '../../_components/kpi-unidade/big-numbers';
 import { AReports } from '../../_components/kpis/AReports';
 import { BReports } from '../../_components/kpis/BReports';
@@ -45,7 +44,6 @@ export default async function Restaurant({
 				'lapa',
 			);
 			if (customData) {
-				revalidatePath('/');
 				return customData;
 			}
 		} else {
@@ -54,7 +52,6 @@ export default async function Restaurant({
 				'lapa',
 			);
 			if (data) {
-				revalidatePath('/');
 				return data;
 			}
 		}
