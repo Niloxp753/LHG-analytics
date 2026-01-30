@@ -1,6 +1,7 @@
 /** @format */
 
-import { Skeleton } from '@/components/ui/skeleton';
+'use client';
+
 import dynamic from 'next/dynamic';
 const AreaChartsApex = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/AreaChartsApex'),
@@ -12,27 +13,32 @@ interface RentalsByDateProps {
 	categories: string[];
 }
 
-export default function Locations(data?: any) {
-	const rentalsByDate: RentalsByDateProps = data.data;
+interface LocationsProps {
+	data?: RentalsByDateProps | null;
+}
 
+export default function Locations({ data }: LocationsProps) {
+	const rentalsByDate = data;
+	const error =
+		rentalsByDate === null ? 'Não foi possível carregar os dados.' : undefined;
 
 	return (
 		<>
-			{rentalsByDate ? (
-				<AreaChartsApex
-					id='locations'
-					series={[
-						{
-							data: rentalsByDate?.series,
-							name: 'Quantidade de Locações',
-						},
-					]}
-					categories={rentalsByDate?.categories}
-				/>
-			) : (
-				<Skeleton className='w-full h-[300px]' />
-			)}
-			;
+			<AreaChartsApex
+				id='locations'
+				error={error}
+				series={
+					rentalsByDate
+						? [
+								{
+									data: rentalsByDate?.series,
+									name: 'Quantidade de Locações',
+								},
+						  ]
+						: undefined
+				}
+				categories={rentalsByDate?.categories}
+			/>
 		</>
 	);
 }

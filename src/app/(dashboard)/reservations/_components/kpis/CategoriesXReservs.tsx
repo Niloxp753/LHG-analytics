@@ -1,6 +1,7 @@
 /** @format */
 
-import { Skeleton } from '@/components/ui/skeleton';
+'use client';
+
 import dynamic from 'next/dynamic';
 import React from 'react';
 const ColumnChart = dynamic(
@@ -9,11 +10,24 @@ const ColumnChart = dynamic(
 );
 
 interface CategoriesProps {
-	series: number[];
-	categories: string[];
+	series?: number[] | null;
+	categories?: string[];
+	error?: string | boolean;
 }
-export default function Categories({ categories, series }: CategoriesProps) {
-	const newCategories = categories.map((item) => {
+export default function Categories({
+	categories,
+	series,
+	error,
+}: CategoriesProps) {
+	const isLoading = typeof series === 'undefined';
+	const resolvedError =
+		error ?? (series === null ? 'Não foi possível carregar os dados.' : undefined);
+
+	if (!isLoading && !resolvedError && (!series?.length || !categories?.length)) {
+		return null;
+	}
+
+	const newCategories = categories?.map((item) => {
 		if (item === 'OVERNIGHT') {
 			return 'Pernoite';
 		} else if (item === 'DAILY') {
@@ -30,16 +44,11 @@ export default function Categories({ categories, series }: CategoriesProps) {
 		return item;
 	});
 	return (
-		<>
-			{!series || series.length === 0 ? (
-				<Skeleton className='h-88 w-88' />
-			) : (
-				<ColumnChart
-					title='Reservas Por Tipo de Locação'
-					categories={newCategories}
-					series={[{ data: series }]}
-				/>
-			)}
-		</>
+		<ColumnChart
+			title='Reservas Por Tipo de Locação'
+			error={resolvedError}
+			categories={newCategories}
+			series={series ? [{ data: series }] : undefined}
+		/>
 	);
 }

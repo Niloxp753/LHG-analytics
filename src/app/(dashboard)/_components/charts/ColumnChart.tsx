@@ -3,16 +3,38 @@
 'use client';
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
+import DataState from '../DataState';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface ColumnChartProps {
 	title: string;
 	categories?: string[];
-	data?: any[];
-	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | undefined;
+	data?: unknown[];
+	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | null;
+	error?: string | boolean;
 }
 
 export default function ColumnChart(props: ColumnChartProps) {
+	const hasSeriesData = Array.isArray(props.series)
+		? props.series.length > 0 &&
+		  props.series.some((entry) => {
+				if (typeof entry === 'number') {
+					return true;
+				}
+				const data = (entry as { data?: unknown[] })?.data;
+				return Array.isArray(data) ? data.length > 0 : false;
+		  })
+		: false;
+	const hasCategories = props.categories ? props.categories.length > 0 : true;
+
+	if (props.series && (!hasSeriesData || !hasCategories)) {
+		return null;
+	}
+	const isLoading = typeof props.series === 'undefined';
+	const error =
+		props.error ??
+		(props.series === null ? 'Não foi possível carregar os dados.' : undefined);
+
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: 'bar-chart',
@@ -87,18 +109,17 @@ export default function ColumnChart(props: ColumnChartProps) {
 
 	return (
 		<ResponsiveContainerChart>
-			{props.series ? (
+			<DataState
+				isLoading={isLoading}
+				error={error}
+				skeleton={<Skeleton className='w-full h-[280px]' />}>
 				<Chart
 					options={options}
-					series={props.series}
+					series={props.series as ApexAxisChartSeries}
 					type='bar'
 					width={'100%'}
 					height={280}></Chart>
-			) : (
-				<>
-					<Skeleton className='w-full h-[280px]'></Skeleton>
-				</>
-			)}
+			</DataState>
 		</ResponsiveContainerChart>
 	);
 }

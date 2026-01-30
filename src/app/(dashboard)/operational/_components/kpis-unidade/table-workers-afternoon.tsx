@@ -4,34 +4,30 @@ import {
 	Table,
 	TableBody,
 	TableCell,
-	TableFooter,
 	TableHead,
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
 import React from 'react';
 
+interface WorkerCleaningEntry {
+	employeeName: string;
+	totalSuitesCleanings: number;
+	totalDaysWorked: number;
+	averageDailyCleaning: number;
+}
+
 interface TableWokersAfternoonProps {
-	dataTable: any;
+	dataTable?: WorkerCleaningEntry[] | null;
 }
 
 export default function TableWokersAfternoon({
 	dataTable,
 }: TableWokersAfternoonProps) {
-	const total = {
-		name: 'Valor Total',
-		totalSuite: 1188,
-		daysOfWork: 175,
-		daysOfSlack: 30,
-		daysOfCompensatorySlack: 3,
-		daysOfFouls: 9,
-		daysOfVacation: 3,
-	};
-
 	return (
 		<div>
 			<h2 className='font-bold text-zinc-50 text-xl md:text-3xl mt-10'>
-				Relatório de colaboradores - Tarde
+				Relatório de Colaboradores - Tarde
 			</h2>
 			<Table
 				title='Colaboradores da Tarde'
@@ -40,13 +36,13 @@ export default function TableWokersAfternoon({
 					<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
 						<TableHead>Colaborador</TableHead>
 						<TableHead className='text-center text-xs text-nowrap'>
-							Total de limpezas
+							Total de Limpezas
 						</TableHead>
 						<TableHead className='text-center text-xs text-nowrap'>
-							Dias trabalhados
+							Dias Trabalhados
 						</TableHead>
 						<TableHead className='text-center text-xs text-nowrap'>
-							Média de limpezas por dia
+							Média de Limpezas por Dia
 						</TableHead>
 					</TableRow>
 				</TableHeader>
@@ -58,7 +54,7 @@ export default function TableWokersAfternoon({
 							</TableCell>
 						</TableRow>
 					) : (
-						dataTable.map((data: any, index: number) => (
+						dataTable.map((data, index) => (
 							<TableRow
 								key={index}
 								className='text-center'>

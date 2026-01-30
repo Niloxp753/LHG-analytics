@@ -17,7 +17,7 @@ export async function getReservationsCustomAction(
 			return resp;
 		}
 	} catch (error) {
-		console.log(error);
-		return error;
+		console.error('getReservationsCustomAction: erro ao buscar dados', error);
+		return null;
 	}
 }

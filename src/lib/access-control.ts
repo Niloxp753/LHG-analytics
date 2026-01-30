@@ -50,6 +50,30 @@ export const UNIT_LABELS: Record<AccessUnit, string> = {
 	LHG: 'LHG',
 };
 
+export const ROLE_OPTIONS = ROLE_VALUES.map((value) => ({
+	value,
+	label: ROLE_LABELS[value],
+}));
+
+export const UNIT_OPTIONS = UNIT_VALUES_WITH_ADMIN.map((value) => ({
+	value,
+	label: UNIT_LABELS[value],
+}));
+
+const ROLE_LABEL_TO_VALUE = Object.fromEntries(
+	Object.entries(ROLE_LABELS).map(([value, label]) => [
+		label.trim().toLowerCase(),
+		value,
+	]),
+) as Record<string, Role>;
+
+const UNIT_LABEL_TO_VALUE = Object.fromEntries(
+	Object.entries(UNIT_LABELS).map(([value, label]) => [
+		label.trim().toLowerCase(),
+		value,
+	]),
+) as Record<string, AccessUnit>;
+
 const LEGACY_ROLE_MAP: Record<string, Role> = {
 	MANAGER: 'GERENTE_GERAL',
 	GERENTE_DE_RESERVAS: 'GERENTE_RESERVAS',
@@ -71,6 +95,11 @@ export function normalizeRole(value?: string | null): Role | null {
 
 	if (ROLE_VALUES.includes(value as Role)) {
 		return value as Role;
+	}
+
+	const labelMatch = ROLE_LABEL_TO_VALUE[value.trim().toLowerCase()];
+	if (labelMatch) {
+		return labelMatch;
 	}
 
 	const legacy = LEGACY_ROLE_MAP[value];
@@ -99,6 +128,11 @@ export function normalizeUnit(value?: string | null): AccessUnit | null {
 		return value as AccessUnit;
 	}
 
+	const labelMatch = UNIT_LABEL_TO_VALUE[value.trim().toLowerCase()];
+	if (labelMatch) {
+		return labelMatch;
+	}
+
 	const legacy = LEGACY_UNIT_MAP[value];
 	if (legacy) {
 		return legacy;
@@ -114,6 +148,16 @@ export function normalizeUnit(value?: string | null): AccessUnit | null {
 	}
 
 	return null;
+}
+
+export function getRoleLabel(value?: string | null): string {
+	const normalized = normalizeRole(value);
+	return normalized ? ROLE_LABELS[normalized] : value ?? '';
+}
+
+export function getUnitLabel(value?: string | null): string {
+	const normalized = normalizeUnit(value);
+	return normalized ? UNIT_LABELS[normalized] : value ?? '';
 }
 
 export const UNIT_SLUG_TO_UNIT = {

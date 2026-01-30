@@ -1,55 +1,38 @@
 /** @format */
 
-import { NormalizeOccupancyRate } from '@/utils/normalize-occupancy-rate';
+'use client';
+
 import dynamic from 'next/dynamic';
-import React from 'react';
 const LineChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/LineChart'),
 	{ ssr: false },
 );
 
-interface OccupancyRateEntry {
+interface EntryData {
 	categories: string[];
-	series: number[];
+	series: Array<{ name: string; data: number[] }>;
 }
-
 interface OccupationXUnityProps {
-	ipiranga: OccupancyRateEntry;
-	lapa: OccupancyRateEntry;
-	andar_de_cima: OccupancyRateEntry;
-	tout: OccupancyRateEntry;
+	data?: EntryData | null;
 }
-export default function OccupationXUnity({
-	ipiranga,
-	lapa,
-	andar_de_cima,
-	tout,
-}: OccupationXUnityProps) {
+export default function OccupationXUnity({ data }: OccupationXUnityProps) {
+	const isLoading = typeof data === 'undefined';
+	const error =
+		data === null ? 'Não foi possível carregar os dados.' : undefined;
+
+	if (!isLoading && !error && (!data?.series?.length || !data?.categories?.length)) {
+		return null;
+	}
+
 	return (
 		<>
 			<LineChart
 				percent
 				height={148}
+				error={error}
 				title='Taxa de ocupação por Unidade'
-				series={[
-					{
-						name: 'Lush Ipiranga',
-						data: ipiranga.series,
-					},
-					{
-						name: 'Lush Lapa',
-						data: lapa.series,
-					},
-					{
-						name: 'Andar de Cima',
-						data: andar_de_cima.series,
-					},
-					{
-						name: 'Tout',
-						data: tout.series,
-					},
-				]}
-				categories={ipiranga.categories}
+				series={data?.series}
+				categories={data?.categories}
 			/>
 		</>
 	);

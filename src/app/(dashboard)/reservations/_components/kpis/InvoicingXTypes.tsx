@@ -1,7 +1,6 @@
 /** @format */
 'use client';
 
-import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const BarCharApex = dynamic(
@@ -10,20 +9,29 @@ const BarCharApex = dynamic(
 );
 
 interface InvoicingXTypesProps {
-	series: number[];
-	categories: string[];
+	series?: number[] | null;
+	categories?: string[];
+	error?: string | boolean;
 }
 export default function InvoicingXTypes({
 	categories,
 	series,
+	error,
 }: InvoicingXTypesProps) {
-	return !series || series.length === 0 ? (
-		<Skeleton className='w-40 h-88' />
-	) : (
+	const isLoading = typeof series === 'undefined';
+	const resolvedError =
+		error ?? (series === null ? 'Não foi possível carregar os dados.' : undefined);
+
+	if (!isLoading && !resolvedError && (!series?.length || !categories?.length)) {
+		return null;
+	}
+
+	return (
 		<BarCharApex
 			money
+			error={resolvedError}
 			title='Faturamento por formas de pagamento'
-			series={[{ data: series }]}
+			series={series ? [{ data: series }] : undefined}
 			colors={['#a78bfa', '#4ade80', '#fbbf24']}
 			dataLabelColors={['#5b21b6', '#22c55e', '#ca8a04']}
 			categories={categories}

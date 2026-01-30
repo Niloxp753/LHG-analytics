@@ -19,6 +19,7 @@ import {
 	UtensilsCrossed,
 } from 'lucide-react';
 import { buildModuleHref, canAccessModule, isAdmin } from '@/lib/access-control';
+import { DEFAULT_RANGE_TAG } from '@/lib/date-range';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useTransition } from 'react';
 
@@ -26,7 +27,7 @@ export default function MenuMobile() {
 	const pathname = usePathname();
 	const [isPending, startTransition] = useTransition();
 	const searchParams = useSearchParams();
-	const preSet = searchParams.get('set') || '7days';
+	const preSet = searchParams.get('set') || DEFAULT_RANGE_TAG;
 	const user = useSessionStore((s) => s.user);
 	const adminAccess = isAdmin(user);
 	const canAccessCompany = canAccessModule(user, 'company');
@@ -50,7 +51,9 @@ export default function MenuMobile() {
 
 	function handleClose() {
 		const btn = document.getElementById('myclose');
-		!isPending && btn?.click();
+		if (!isPending) {
+			btn?.click();
+		}
 	}
 
 	useEffect(() => {

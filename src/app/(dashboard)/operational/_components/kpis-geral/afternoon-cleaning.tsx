@@ -1,54 +1,41 @@
 /** @format */
 
-import { accumulateEmployeeData } from '@/utils/normalize-cleaning-values';
+'use client';
+
 import dynamic from 'next/dynamic';
-import { EmployeeCleaningByShift } from '../../types';
+import { ShiftCleaning } from '../../types';
 const LineChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/LineChart'),
 	{ ssr: false },
 );
 
 interface AfternoonCleaningProps {
-	ipiranga: EmployeeCleaningByShift;
-	lapa: EmployeeCleaningByShift;
-	andar_de_cima: EmployeeCleaningByShift;
-	tout: EmployeeCleaningByShift;
+	data?: ShiftCleaning | null;
+	error?: string | boolean;
 }
 
 export default function AfternoonCleaning({
-	ipiranga,
-	lapa,
-	andar_de_cima,
-	tout,
-}: any) {
-	const dataIpiranga = accumulateEmployeeData(ipiranga.series.Tarde);
-	const dataLapa = accumulateEmployeeData(lapa.series.Tarde);
-	const dataAndar = accumulateEmployeeData(andar_de_cima.series.Tarde);
-	const dataTout = accumulateEmployeeData(tout.series.Tarde);
+	data,
+	error,
+}: AfternoonCleaningProps) {
+	const isLoading = typeof data === 'undefined';
+	const resolvedError =
+		error ?? (data === null ? 'Não foi possível carregar os dados.' : undefined);
+
+	const chartSeries = data?.Tarde;
+	const categories = data?.categories;
+
+	if (!isLoading && !resolvedError && (!chartSeries?.length || !categories?.length)) {
+		return null;
+	}
 
 	return (
 		<LineChart
 			height={48}
-			title='Total de limpezas - Tarde'
-			series={[
-				{
-					name: 'Lush Ipiranga',
-					data: dataIpiranga,
-				},
-				{
-					name: 'Lush Lapa',
-					data: dataLapa,
-				},
-				{
-					name: 'Andar de Cima',
-					data: dataAndar,
-				},
-				{
-					name: 'Tout',
-					data: dataTout,
-				},
-			]}
-			categories={ipiranga.categories}
+			title='Total de Limpezas - Tarde'
+			error={resolvedError}
+			series={chartSeries}
+			categories={categories}
 		/>
 	);
 }

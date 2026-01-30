@@ -1,10 +1,14 @@
 /** @format */
 
 import { getOperationalPageData } from '@/actions/initial-pages/operation';
-import { format } from 'date-fns';
-import dynamic from 'next/dynamic';
+import {
+	DEFAULT_RANGE_TAG,
+	formatDateInput,
+	getRangeDescription,
+} from '@/lib/date-range';
 import CardLink from '../_components/CardLink';
 import Header from '../_components/Header';
+import SparkChart from '../_components/charts/SparkChart';
 import AfternoonCleaning from './_components/kpis-geral/afternoon-cleaning';
 import BigNumbersPageOp from './_components/kpis-geral/big-numbers';
 import CleaningAverageUnity from './_components/kpis-geral/cleaning-average-unity';
@@ -12,28 +16,24 @@ import MorningCleaning from './_components/kpis-geral/morning-cleaning';
 import NightCleaning from './_components/kpis-geral/night-cleaning ';
 import PerformanceUnity from './_components/kpis-geral/Performance-unity';
 import TotalCleaningUnity from './_components/kpis-geral/total-cleaning-unity';
-
-const SparkChart = dynamic(
-	() => import('@/app/(dashboard)/_components/charts/SparkChart'),
-	{ ssr: false },
-);
+import { ShiftCleaning } from './types';
 
 export default async function Operational({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | undefined };
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
 	const menu = 'operational';
-	const preSet = searchParams.set || '7days';
-	const startDate = searchParams.startDate;
-	const endDate = searchParams.endDate;
+	const preSet = (await searchParams).set || DEFAULT_RANGE_TAG;
+	const startDate = (await searchParams).startDate;
+	const endDate = (await searchParams).endDate;
+	const rangeDescription = getRangeDescription(preSet as string);
 
-	const formattedStartDate =
-		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
-	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
+	const formattedStartDate = formatDateInput(startDate as string);
+	const formattedEndDate = formatDateInput(endDate as string);
 
 	async function getData() {
-		if (startDate && endDate) {
+		if (formattedStartDate && formattedEndDate) {
 			const customData = await getOperationalPageData({
 				startDate: formattedStartDate,
 				endDate: formattedEndDate,
@@ -43,7 +43,7 @@ export default async function Operational({
 			}
 			return { ok: false, data: null, error: 'Algo deu errado' };
 		} else {
-			const data = await getOperationalPageData({ period: preSet });
+			const data = await getOperationalPageData({ period: preSet as string });
 			if (data) {
 				return data;
 			}
@@ -53,14 +53,27 @@ export default async function Operational({
 
 	const resp = await getData();
 
-	if (!resp.ok || !resp.data) {
-		console.log(resp.error);
-		return (
-			<div className='text-muted-foreground'>
-				Não foi possível encontrar os dados
-			</div>
-		);
-	}
+	const hasError = !resp.ok || !resp.data;
+	const errorMessage =
+		hasError && resp.error
+			? resp.error
+			: hasError
+				? 'Não foi possível carregar os dados.'
+				: undefined;
+
+	const unifiedData = hasError ? null : resp.data;
+	const bigNumbers = hasError ? null : unifiedData?.BigNumbers;
+
+	const cleaningsByCompany = hasError ? null : unifiedData?.CleaningsByCompany;
+	const averageCleaningByCompany = hasError
+		? null
+		: unifiedData?.AverageCleaningByCompany;
+	const inspectionsByCompany = hasError
+		? null
+		: unifiedData?.InspectionsByCompany;
+	const shiftCleaning: ShiftCleaning | null = hasError
+		? null
+		: unifiedData?.ShiftCleaning;
 
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 '>
@@ -105,75 +118,36 @@ export default async function Operational({
 					</div>
 					<div className='flex gap-5 flex-col w-full h-full '>
 						<BigNumbersPageOp
-							tout={resp.data[3].BigNumbers}
-							andar_de_cima={resp.data[2].BigNumbers}
-							description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-								preSet == '30days' ? '30 dias atrás ' : ''
-							} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-								preSet == '12months' ? '12 meses atrás ' : ''
-							}`}
-							ipiranga={resp.data[0].BigNumbers}
-							lapa={resp.data[1].BigNumbers}
+							data={bigNumbers}
+							description={rangeDescription}
 						/>
 						<div className='w-full h-full flex gap-5 flex-col md:flex-row'>
 							<TotalCleaningUnity
-								ipiranga={
-									resp.data[0].BigNumbers[0].currentDate.totalAllSuitesCleanings
-								}
-								lapa={
-									resp.data[1].BigNumbers[0].currentDate.totalAllSuitesCleanings
-								}
-								tout={
-									resp.data[3].BigNumbers[0].currentDate.totalAllSuitesCleanings
-								}
-								andar_de_cima={
-									resp.data[2].BigNumbers[0].currentDate.totalAllSuitesCleanings
-								}
+								data={cleaningsByCompany}
+								error={errorMessage}
 							/>
 							<CleaningAverageUnity
-								ipiranga={
-									resp.data[0].BigNumbers[0].currentDate
-										.totalAllAverageDailyCleaning
-								}
-								lapa={
-									resp.data[1].BigNumbers[0].currentDate
-										.totalAllAverageDailyCleaning
-								}
-								tout={
-									resp.data[3].BigNumbers[0].currentDate
-										.totalAllAverageDailyCleaning
-								}
-								andar_de_cima={
-									resp.data[2].BigNumbers[0].currentDate
-										.totalAllAverageDailyCleaning
-								}
+								data={averageCleaningByCompany}
+								error={errorMessage}
 							/>
 							<PerformanceUnity
-								ipiranga={resp.data[0].SupervisorsPerformance}
-								lapa={resp.data[1].SupervisorsPerformance}
-								andar_de_cima={resp.data[2].SupervisorsPerformance}
-								tout={resp.data[3].SupervisorsPerformance}
+								data={inspectionsByCompany}
+								error={errorMessage}
 							/>
 						</div>
 					</div>
 					<div className='flex flex-col gap-5'>
 						<MorningCleaning
-							ipiranga={resp.data[0].EmployeeCleaningByShift}
-							lapa={resp.data[1].EmployeeCleaningByShift}
-							andar_de_cima={resp.data[2].EmployeeCleaningByShift}
-							tout={resp.data[3].EmployeeCleaningByShift}
+							error={errorMessage}
+							data={shiftCleaning}
 						/>
 						<AfternoonCleaning
-							ipiranga={resp.data[0].EmployeeCleaningByShift}
-							lapa={resp.data[1].EmployeeCleaningByShift}
-							andar_de_cima={resp.data[2].EmployeeCleaningByShift}
-							tout={resp.data[3].EmployeeCleaningByShift}
+							error={errorMessage}
+							data={shiftCleaning}
 						/>
 						<NightCleaning
-							ipiranga={resp.data[0].EmployeeCleaningByShift}
-							lapa={resp.data[1].EmployeeCleaningByShift}
-							andar_de_cima={resp.data[2].EmployeeCleaningByShift}
-							tout={resp.data[3].EmployeeCleaningByShift}
+							error={errorMessage}
+							data={shiftCleaning}
 						/>
 					</div>
 				</div>

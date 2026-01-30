@@ -1,6 +1,5 @@
 /** @format */
 
-import { NextRequest, NextResponse } from 'next/server';
 import {
 	canAccessModule,
 	getDefaultModule,
@@ -10,6 +9,8 @@ import {
 	UNIT_SLUG_TO_UNIT,
 	UNIT_TO_SLUG,
 } from '@/lib/access-control';
+import { normalizeRangeTag } from '@/lib/date-range';
+import { NextRequest, NextResponse } from 'next/server';
 
 const authUrl = process.env.NEXT_PUBLIC_AUTH_URL;
 
@@ -123,13 +124,13 @@ async function getAuthUser(request: NextRequest): Promise<{
 
 function buildDefaultRoute(request: NextRequest, user: AuthUser): URL {
 	const url = request.nextUrl.clone();
-	const preSet = url.searchParams.get('set') ?? '7days';
+	const mappedSet = normalizeRangeTag(url.searchParams.get('set'));
 
 	if (isAdmin(user)) {
 		url.pathname = '/general';
 		url.search = '';
 		url.searchParams.set('menu', 'general');
-		url.searchParams.set('set', preSet);
+		url.searchParams.set('set', mappedSet);
 		return url;
 	}
 
@@ -149,11 +150,21 @@ function buildDefaultRoute(request: NextRequest, user: AuthUser): URL {
 	url.pathname = `/${modulePath}/${unitSlug}`;
 	url.search = '';
 	url.searchParams.set('menu', modulePath);
-	url.searchParams.set('set', preSet);
+	url.searchParams.set('set', mappedSet);
 	return url;
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
+	const normalizeUrl = request.nextUrl.clone();
+	const rawSet = normalizeUrl.searchParams.get('set');
+	if (rawSet) {
+		const normalizedSet = normalizeRangeTag(rawSet);
+		if (normalizedSet !== rawSet) {
+			normalizeUrl.searchParams.set('set', normalizedSet);
+			return NextResponse.redirect(normalizeUrl);
+		}
+	}
+
 	const pathname = request.nextUrl.pathname;
 	const segments = pathname.split('/').filter(Boolean);
 

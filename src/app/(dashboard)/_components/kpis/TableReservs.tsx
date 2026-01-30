@@ -1,6 +1,5 @@
 /** @format */
 
-import { Skeleton } from '@/components/ui/skeleton';
 import {
 	Table,
 	TableBody,
@@ -9,28 +8,89 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Skeleton } from '@/components/ui/skeleton';
 
-interface TableProps {
-	EXPEDIA: number;
-	WEBSITE_SCHEDULED: number;
+interface BookingsTotalByChannel {
+	TOTALALLBOOKINGS: number;
 	WEBSITE_IMMEDIATE: number;
-	INTERNAL: number;
+	WEBSITE_SCHEDULED: number;
 	GUIA_GO: number;
 	GUIA_SCHEDULED: number;
+	INTERNAL: number;
 	BOOKING: number;
-	TOTAL: number;
+	EXPEDIA: number;
+}
+
+interface BookingsValueByChannel {
+	TOTALALLVALUE: number;
+	WEBSITE_IMMEDIATE: number;
+	WEBSITE_SCHEDULED: number;
+	GUIA_GO: number;
+	GUIA_SCHEDULED: number;
+	INTERNAL: number;
+	BOOKING: number;
+	EXPEDIA: number;
+}
+
+interface BookingsTicketAverageByChannel {
+	TOTALALLTICKETAVERAGE: number;
+	WEBSITE_IMMEDIATE: number;
+	WEBSITE_SCHEDULED: number;
+	GUIA_GO: number;
+	GUIA_SCHEDULED: number;
+	INTERNAL: number;
+	BOOKING: number;
+	EXPEDIA: number;
+}
+
+interface BookingsRepresentativenessByChannel {
+	TOTALALLREPRESENTATIVENESS: number;
+	WEBSITE_IMMEDIATE: number;
+	WEBSITE_SCHEDULED: number;
+	GUIA_GO: number;
+	GUIA_SCHEDULED: number;
+	INTERNAL: number;
+	BOOKING: number;
+	EXPEDIA: number;
+}
+
+interface TableProps {
+	bookingsTotalRentalsByChannelType: BookingsTotalByChannel;
+	bookingsRevenueByChannelType: BookingsValueByChannel;
+	bookingsTicketAverageByChannelType: BookingsTicketAverageByChannel;
+	bookingsRepresentativenessByChannelType: BookingsRepresentativenessByChannel;
 }
 
 interface TableReservsProps {
-	data: TableProps;
+	data?: TableProps | null;
 }
 
 export function TableReservs({ data }: TableReservsProps) {
-	const dataTable: any = data;
+	if (typeof data === 'undefined') {
+		return (
+			<div className='mt-5 bg-zinc-900 rounded-lg p-4'>
+				<Skeleton className='h-[240px] w-full' />
+			</div>
+		);
+	}
 
-	return !dataTable ? (
-		<Skeleton className='w-full h-40'></Skeleton>
-	) : (
+	if (data === null) {
+		return (
+			<div className='mt-5 bg-zinc-900 rounded-lg p-4'>
+				<Alert variant='destructive' className='w-full'>
+					<AlertTitle>Erro ao carregar</AlertTitle>
+					<AlertDescription>
+						Não foi possível carregar os dados.
+					</AlertDescription>
+				</Alert>
+			</div>
+		);
+	}
+
+	const dataTable = data;
+
+	return (
 		<Table
 			title='Giro por Dia da Semana'
 			className='mt-5 bg-zinc-900 rounded-lg'>

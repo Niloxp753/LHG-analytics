@@ -1,7 +1,6 @@
 /** @format */
 'use client';
 
-import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const AreaChartsApex = dynamic(
@@ -14,21 +13,28 @@ interface RevparByDateProps {
 	categories: string[];
 }
 
-export default function RevPar(data?: any) {
-	const revparByDate: RevparByDateProps = data.data;
+interface RevParProps {
+	data?: RevparByDateProps | null;
+}
+
+export default function RevPar({ data }: RevParProps) {
+	const revparByDate = data;
+	const error =
+		revparByDate === null ? 'Não foi possível carregar os dados.' : undefined;
 
 	return (
 		<>
-			{revparByDate ? (
-				<AreaChartsApex
-					money
-					id='revpar-ipiranga'
-					series={[{ data: revparByDate.series, name: 'Revpar' }]}
-					categories={revparByDate?.categories}
-				/>
-			) : (
-				<Skeleton className='h-[310px] w-full' />
-			)}
+			<AreaChartsApex
+				money
+				id='revpar-ipiranga'
+				error={error}
+				series={
+					revparByDate
+						? [{ data: revparByDate.series, name: 'Revpar' }]
+						: undefined
+				}
+				categories={revparByDate?.categories}
+			/>
 		</>
 	);
 }

@@ -11,30 +11,28 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from '@/components/ui/sheet';
-import { ArrowLeft, Filter, Loader2 } from 'lucide-react';
+import { Filter, Loader2 } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useTransition } from 'react';
 import FormFilter from './FormFilter';
-import BtnSignOut from '@/components/btnSingOut';
+import { DATE_RANGE_TAGS, DEFAULT_RANGE_TAG } from '@/lib/date-range';
 
 export default function FilterMobile() {
 	const pathname = usePathname();
 	const [isPending, startTransition] = useTransition();
 	const searchParams = useSearchParams();
-	const preSet = searchParams.get('set') || '7days';
+	const preSet = searchParams.get('set') || DEFAULT_RANGE_TAG;
 	const menu = searchParams.get('menu');
 	const startDate = searchParams.get('startDate') || '';
-	const links = [
-		{ label: 'ÚLTIMOS 7 DIAS', tag: '7days' },
-		{ label: 'ÚLTIMOS 30 DIAS', tag: '30days' },
-		{ label: 'ÚLTIMOS 6 MESES', tag: '6months' },
-	];
+	const links = DATE_RANGE_TAGS;
 
 	const router = useRouter();
 
 	function handleClose() {
 		const btn = document.getElementById('myclose');
-		!isPending && btn?.click();
+		if (!isPending) {
+			btn?.click();
+		}
 	}
 
 	useEffect(() => {
@@ -107,3 +105,5 @@ export default function FilterMobile() {
 		</Sheet>
 	);
 }
+
+

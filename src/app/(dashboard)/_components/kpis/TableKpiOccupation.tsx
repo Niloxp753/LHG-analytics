@@ -28,9 +28,12 @@ interface OccupancyOutput {
 	[key: string]: string | undefined;
 }
 
-export function TableKpiOccupation(dataOccupation?: any) {
-	const dataTableOccupancyRateByWeek: OccupancyTableEntry[] =
-		dataOccupation.data;
+interface TableKpiOccupationProps {
+	data?: OccupancyTableEntry[];
+}
+
+export function TableKpiOccupation({ data }: TableKpiOccupationProps) {
+	const dataTableOccupancyRateByWeek: OccupancyTableEntry[] | undefined = data;
 
 	const week: { [key: string]: string } = {
 		sábado: 'sabado',

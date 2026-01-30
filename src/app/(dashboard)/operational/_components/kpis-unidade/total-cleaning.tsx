@@ -2,7 +2,6 @@
 
 'use client';
 
-import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const AreaChartsApex = dynamic(
@@ -10,39 +9,35 @@ const AreaChartsApex = dynamic(
 	{ ssr: false },
 );
 
-interface TotalCleaningProps {
-	data: any;
+interface CleaningByDateProps {
+	series: number[];
+	categories: string[];
 }
 
-export default function TotalCleaning(data: TotalCleaningProps) {
-	const cleaningByDate = data?.data;
+interface TotalCleaningProps {
+	data?: CleaningByDateProps | null;
+}
 
-	if (
-		!cleaningByDate.series.length ||
-		cleaningByDate.series.length == 0 ||
-		!cleaningByDate
-	) {
-		return (
-			<>
-				<Skeleton className='w-full h-[340px]'></Skeleton>
-			</>
-		);
-	} else {
-		return cleaningByDate ? (
-			<AreaChartsApex
-				id='total-cleaning-ipiranga'
-				series={[
-					{
-						data: cleaningByDate?.series,
-						name: 'Total de limpezas',
-					},
-				]}
-				categories={cleaningByDate?.categories}
-			/>
-		) : (
-			<>
-				<Skeleton className='w-full h-[340px]'></Skeleton>
-			</>
-		);
-	}
+export default function TotalCleaning({ data }: TotalCleaningProps) {
+	const cleaningByDate = data;
+	const error =
+		cleaningByDate === null ? 'Não foi possível carregar os dados.' : undefined;
+
+	return (
+		<AreaChartsApex
+			id='total-cleaning-ipiranga'
+			error={error}
+			series={
+				cleaningByDate
+					? [
+							{
+								data: cleaningByDate?.series,
+								name: 'Total de Limpezas',
+							},
+					  ]
+					: undefined
+			}
+			categories={cleaningByDate?.categories}
+		/>
+	);
 }

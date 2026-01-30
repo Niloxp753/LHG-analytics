@@ -3,11 +3,13 @@
 'use client';
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
+import DataState from '../DataState';
 import { Skeleton } from '@/components/ui/skeleton';
+import { DEFAULT_RANGE_TAG, isShortRangeTag } from '@/lib/date-range';
 import { useSearchParams } from 'next/navigation';
 
 interface AreaChartsApexProps {
-	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | undefined;
+	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | null;
 	categories?: string[];
 	money?: boolean;
 	percent?: boolean;
@@ -15,20 +17,38 @@ interface AreaChartsApexProps {
 	title?: string;
 	legend?: string;
 	width?: string;
+	error?: string | boolean;
 }
 
 export default function AreaChartsApex(props: AreaChartsApexProps) {
 	const params = useSearchParams();
-	const is30Days = params.get('set') === '30days';
+	const rangeTag = params.get('set') ?? DEFAULT_RANGE_TAG;
+	const isShortRange = isShortRangeTag(rangeTag);
 	const isCustomData = params.get('startDate') !== null;
 
 	function isEnabled() {
-		if (is30Days || isCustomData) {
-			return false;
-		} else {
-			return true;
-		}
+		return isShortRange && !isCustomData;
 	}
+
+	const hasSeriesData = Array.isArray(props.series)
+		? props.series.length > 0 &&
+		  props.series.some((entry) => {
+				if (typeof entry === 'number') {
+					return true;
+				}
+				const data = (entry as { data?: unknown[] })?.data;
+				return Array.isArray(data) ? data.length > 0 : false;
+		  })
+		: false;
+	const hasCategories = props.categories ? props.categories.length > 0 : true;
+
+	if (props.series && (!hasSeriesData || !hasCategories)) {
+		return null;
+	}
+	const isLoading = typeof props.series === 'undefined';
+	const error =
+		props.error ??
+		(props.series === null ? 'Não foi possível carregar os dados.' : undefined);
 
 	const options: ApexCharts.ApexOptions = {
 		chart: {
@@ -229,17 +249,16 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 
 	return (
 		<ResponsiveContainerChart>
-			{props.series ? (
+			<DataState
+				isLoading={isLoading}
+				error={error}
+				skeleton={<Skeleton className='w-full h-[280px]' />}>
 				<Chart
 					options={options}
-					series={props.series}
+					series={props.series as ApexAxisChartSeries}
 					type='area'
 					height={280}></Chart>
-			) : (
-				<>
-					<Skeleton className='w-full h-[280px]'></Skeleton>
-				</>
-			)}
+			</DataState>
 		</ResponsiveContainerChart>
 	);
 }

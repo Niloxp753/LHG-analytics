@@ -8,27 +8,33 @@ const PieChartsApex = dynamic(
 	{ ssr: false },
 );
 
-interface UnityxRevenueProps {
-	ipiranga: number;
-	lapa: number;
-	andar_de_cima: number;
-	tout: number;
+interface EntryData {
+	categories: string[];
+	series: Array<{ name: string; data: number[] }>;
 }
+interface UnityxRevenueProps {
+	data?: EntryData | null;
+	error?: string | boolean;
+}
+export default function UnityxRevenue({ data, error }: UnityxRevenueProps) {
+	const isLoading = typeof data === 'undefined';
+	const resolvedError =
+		error ?? (data === null ? 'Não foi possível carregar os dados.' : undefined);
 
-export default function UnityxRevenue({
-	ipiranga,
-	lapa,
-	andar_de_cima,
-	tout,
-}: UnityxRevenueProps) {
+	if (!isLoading && !resolvedError && (!data?.series?.length || !data?.categories?.length)) {
+		return null;
+	}
+
 	return (
 		<PieChartsApex
 			money
 			height={280}
 			title='Receita de A&B por unidade'
-			series={[ipiranga, lapa, andar_de_cima, tout]}
+			error={resolvedError}
+			series={data?.series}
 			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
 			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
+			labels={data?.categories}
 		/>
 	);
 }

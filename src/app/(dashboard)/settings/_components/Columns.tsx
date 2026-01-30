@@ -2,36 +2,24 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { IUser } from '@/http/user/createUser';
+import type { User } from '@/types/user';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 import ColumnActions from './ColumnActions';
 import {
-	ROLE_LABELS,
-	UNIT_LABELS,
-	normalizeRole,
-	normalizeUnit,
+	getRoleLabel,
+	getUnitLabel,
 } from '@/lib/access-control';
 
-function getRoleLabel(value: unknown): string {
-	const raw = typeof value === 'string' ? value : '';
-	const normalized = normalizeRole(raw);
-	return normalized ? ROLE_LABELS[normalized] : raw;
-}
-
-function getUnitLabel(value: unknown): string {
-	const raw = typeof value === 'string' ? value : '';
-	const normalized = normalizeUnit(raw);
-	return normalized ? UNIT_LABELS[normalized] : raw;
-}
-
-export const columns: ColumnDef<IUser | undefined | any>[] = [
+export const columns: ColumnDef<User>[] = [
 	{
 		id: 'Cargo',
 		accessorKey: 'role',
 		header: 'Cargo',
 		cell: ({ row }) => (
-			<div className='capitalize'>{getRoleLabel(row.getValue('Cargo'))}</div>
+			<div className='capitalize'>
+				{getRoleLabel(String(row.getValue('Cargo') ?? ''))}
+			</div>
 		),
 	},
 	{
@@ -59,10 +47,12 @@ export const columns: ColumnDef<IUser | undefined | any>[] = [
 	},
 	{
 		id: 'Unidade',
-		accessorKey: 'company',
+		accessorKey: 'unit',
 		header: 'Unidade',
 		cell: ({ row }) => (
-			<div className='capitalize'>{getUnitLabel(row.getValue('Unidade'))}</div>
+			<div className='capitalize'>
+				{getUnitLabel(String(row.getValue('Unidade') ?? ''))}
+			</div>
 		),
 	},
 	{

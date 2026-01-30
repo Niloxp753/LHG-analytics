@@ -18,7 +18,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { IUserUp } from '@/http/user/updateUser';
+import type { UpdateUserInput, User } from '@/types/user';
 import { formSchemaUserUpdate } from '@/lib/formSchemaUserUpdate';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
@@ -29,46 +29,36 @@ import { z } from 'zod';
 import {
 	ADMIN_ROLE,
 	ADMIN_UNIT,
-	ROLE_LABELS,
+	ROLE_OPTIONS,
 	ROLE_VALUES,
 	UNIT_LABELS,
-	UNIT_VALUES,
+	UNIT_OPTIONS,
 	normalizeRole,
 	normalizeUnit,
 	type AccessUnit,
 } from '@/lib/access-control';
 
-const ROLE_OPTIONS = ROLE_VALUES.map((value) => ({
-	value,
-	label: ROLE_LABELS[value],
-}));
-
-const UNIT_OPTIONS = UNIT_VALUES.map((value) => ({
-	value,
-	label: UNIT_LABELS[value],
-}));
-
 interface FormUpdateProps {
-	user: IUserUp;
+	user: UpdateUserInput | User;
 }
 
 export default function FormUpdate({ user }: FormUpdateProps) {
 	const [isPending, setIsPending] = useState(false);
 	const normalizedRole = normalizeRole(user.role) ?? ROLE_VALUES[0];
-	const normalizedUnit = normalizeUnit(user.company);
+	const normalizedUnit = normalizeUnit(user.unit);
 	const normalizedUnitValue =
-		normalizedRole === ADMIN_ROLE ? ADMIN_UNIT : normalizedUnit ?? '';
+		normalizedRole === ADMIN_ROLE ? ADMIN_UNIT : (normalizedUnit ?? '');
 	const form = useForm<z.infer<typeof formSchemaUserUpdate>>({
 		resolver: zodResolver(formSchemaUserUpdate),
 		defaultValues: {
 			email: user.email,
-			password: '',
 			cpf: user.cpf,
 			name: user.name,
 			unidade: normalizedUnitValue,
 			role: normalizedRole,
 		},
 	});
+	// eslint-disable-next-line react-hooks/incompatible-library
 	const selectedRole = form.watch('role');
 	const isAdminRole = selectedRole === ADMIN_ROLE;
 
@@ -76,20 +66,18 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 		try {
 			setIsPending(true);
 			const email = values.email;
-			const password = values.password !== '' ? values.password : '';
 			const name = values.name;
 			const cpf = values.cpf;
 			const role = values.role;
 			const id = user.id;
-			const company = values.unidade as AccessUnit;
+			const unit = values.unidade as AccessUnit;
 
 			await updateUserAction({
 				email,
-				password,
 				name,
 				cpf,
 				role,
-				company,
+				unit,
 				id,
 			});
 			form.reset();
@@ -97,6 +85,7 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 				description: `${name} - Usuário atualizado no banco de dados`,
 			});
 		} catch (error) {
+			console.error(error);
 			toast.error('Algo deu errado - 500', {
 				description: 'Tente novamente',
 			});
@@ -250,23 +239,6 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 									)}
 								</SelectContent>
 							</Select>
-						</FormItem>
-					)}
-				/>
-
-				<FormField
-					control={form.control}
-					name='password'
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel className='text-zinc-100'>Senha</FormLabel>
-							<FormControl>
-								<Input
-									className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
-									{...field}
-									placeholder='********'
-								/>
-							</FormControl>
 						</FormItem>
 					)}
 				/>

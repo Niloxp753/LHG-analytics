@@ -1,7 +1,6 @@
 /** @format */
 'use client';
 
-import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const AreaChartsApex = dynamic(
@@ -14,27 +13,35 @@ interface OccupancyRateByDateProps {
 	categories: string[];
 }
 
-export default function Occupation(data?: any) {
-	const occupancyRateByDate: OccupancyRateByDateProps = data.data;
+interface OccupationProps {
+	data?: OccupancyRateByDateProps | null;
+}
+
+export default function Occupation({ data }: OccupationProps) {
+	const occupancyRateByDate = data;
+	const error =
+		occupancyRateByDate === null
+			? 'Não foi possível carregar os dados.'
+			: undefined;
 
 	return (
 		<>
-			{occupancyRateByDate ? (
-				<AreaChartsApex
-					id='tx-ocuppation-ipiranga'
-					percent
-					series={[
-						{
-							data: occupancyRateByDate.series,
-							name: 'Taxa de ocupação',
-						},
-					]}
-					categories={occupancyRateByDate.categories}
-				/>
-			) : (
-				<Skeleton className='w-full h-[300px]' />
-			)}
-			;
+			<AreaChartsApex
+				id='tx-ocuppation-ipiranga'
+				percent
+				error={error}
+				series={
+					occupancyRateByDate
+						? [
+								{
+									data: occupancyRateByDate.series,
+									name: 'Taxa de ocupação',
+								},
+						  ]
+						: undefined
+				}
+				categories={occupancyRateByDate?.categories}
+			/>
 		</>
 	);
 }

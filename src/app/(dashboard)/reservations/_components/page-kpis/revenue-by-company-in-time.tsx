@@ -1,5 +1,7 @@
 /** @format */
 
+'use client';
+
 import dynamic from 'next/dynamic';
 import React from 'react';
 const LineChartsApex = dynamic(
@@ -8,62 +10,41 @@ const LineChartsApex = dynamic(
 );
 
 interface InvoicingXReservsProps {
-	series: number[];
 	categories: string[];
+	series: Array<{ name: string; data: number[] }>;
 }
 
 interface IData {
-	ipiranga: InvoicingXReservsProps;
-	lapa: InvoicingXReservsProps;
-	andar_de_cima: InvoicingXReservsProps;
-	tout: InvoicingXReservsProps;
+	data?: InvoicingXReservsProps | null;
 	title: string;
 	money?: boolean;
 	percent?: boolean;
+	error?: string | boolean;
 }
 export default function DataByCompanyReservationsInTime({
-	ipiranga,
-	lapa,
-	andar_de_cima,
-	tout,
+	data,
 	title,
 	money = false,
 	percent = false,
+	error,
 }: IData) {
+	const isLoading = typeof data === 'undefined';
+	const resolvedError =
+		error ?? (data === null ? 'Não foi possível carregar os dados.' : undefined);
+
+	if (!isLoading && !resolvedError && (!data?.series?.length || !data?.categories?.length)) {
+		return null;
+	}
+
 	return (
 		<LineChartsApex
 			money={money}
 			percent={percent}
-			categories={ipiranga.categories}
-			series={[
-				{
-					data: percent ? isPercent(ipiranga) : ipiranga.series,
-					name: 'Lush Ipiranga',
-				},
-				{
-					data: percent ? isPercent(lapa) : lapa.series,
-					name: 'Lush Lapa',
-				},
-				{
-					data: percent ? isPercent(andar_de_cima) : andar_de_cima.series,
-					name: 'Andar de Cima',
-				},
-				{
-					data: percent ? isPercent(tout) : tout.series,
-					name: 'Tout',
-				},
-			]}
+			error={resolvedError}
+			categories={data?.categories}
+			series={data?.series}
 			title={title}
 			height={undefined}
 		/>
 	);
-}
-
-function isPercent(data: InvoicingXReservsProps) {
-	const dataT = data.series.map((item) => {
-		const value = item * 100;
-		return parseFloat(value.toFixed(2));
-	});
-
-	return dataT;
 }

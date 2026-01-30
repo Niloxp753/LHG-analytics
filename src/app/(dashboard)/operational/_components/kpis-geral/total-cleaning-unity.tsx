@@ -9,27 +9,34 @@ const PieChartsApex = dynamic(
 	{ ssr: false },
 );
 
+interface EntryData {
+	categories: string[];
+	series: Array<{ name: string; data: number[] }>;
+}
 interface TotalCleaningUnityProps {
-	ipiranga: number;
-	lapa: number;
-	tout: number;
-	andar_de_cima: number;
+	data?: EntryData | null;
+	error?: string | boolean;
 }
 
-export default function TotalCleaningUnity({
-	ipiranga,
-	lapa,
-	tout,
-	andar_de_cima,
-}: TotalCleaningUnityProps) {
+export default function TotalCleaningUnity({ data, error }: TotalCleaningUnityProps) {
+	const isLoading = typeof data === 'undefined';
+	const resolvedError =
+		error ?? (data === null ? 'Não foi possível carregar os dados.' : undefined);
+	const series = data?.series?.[0]?.data;
+
+	if (!isLoading && !resolvedError && (!series?.length || !data?.categories?.length)) {
+		return null;
+	}
+
 	return (
 		<PieChartsApex
 			height={340}
-			series={[ipiranga, lapa, andar_de_cima, tout]}
-			title='Total de limpezas por unidade'
+			error={resolvedError}
+			series={series ?? undefined}
+			title='Total de Limpezas por Unidade'
 			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
 			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
-			labels={['Lush Ipiranga', 'Lush Lapa', 'Andar de Cima', 'Tout']}
+			labels={data?.categories}
 		/>
 	);
 }

@@ -2,118 +2,138 @@
 
 import CardDetails from '@/app/(dashboard)/_components/CardDetails';
 import GenerateBadge from '@/app/(dashboard)/general/_components/generate-badge';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Skeleton } from '@/components/ui/skeleton';
+import { OperationalBigNumbersEntry } from '@/types/big-numbers-operational';
 import { generateDescription } from '@/utils/generate-description';
 import { Eye, Leaf, LeafyGreen } from 'lucide-react';
 
 interface BigNumbersPageOpProps {
-	ipiranga: any[];
-	lapa: any[];
-	andar_de_cima: any[];
-	tout: any[];
+	data?: OperationalBigNumbersEntry[] | null;
 	description: string;
 }
 
 export default function BigNumbersPageOp({
 	description,
-	ipiranga,
-	andar_de_cima,
-	tout,
-	lapa,
+	data,
 }: BigNumbersPageOpProps) {
-	const dataIpiranga = ipiranga[0];
-	const dataLapa = lapa[0];
-	const dataAndar = andar_de_cima[0];
-	const dataTout = tout[0];
+	const isLoading = typeof data === 'undefined';
+	const error = data === null ? 'Não foi possível carregar os dados.' : undefined;
+	const entry = data?.[0];
 
-	const totalAllSuitesCleanings =
-		dataIpiranga.currentDate.totalAllSuitesCleanings +
-		dataLapa.currentDate.totalAllSuitesCleanings +
-		dataAndar.currentDate.totalAllSuitesCleanings +
-		dataTout.currentDate.totalAllSuitesCleanings;
+	if (isLoading) {
+		return (
+			<div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
+				{Array.from({ length: 3 }).map((_, index) => (
+					<Skeleton key={index} className='h-[140px] w-full' />
+				))}
+			</div>
+		);
+	}
 
-	const totalAllAverageDailyCleaning =
-		(dataIpiranga.currentDate.totalAllAverageDailyCleaning +
-			dataLapa.currentDate.totalAllAverageDailyCleaning +
-			dataAndar.currentDate.totalAllAverageDailyCleaning +
-			dataTout.currentDate.totalAllAverageDailyCleaning) /
-		4;
+	if (error) {
+		return (
+			<Alert variant='destructive' className='w-full'>
+				<AlertTitle>Erro ao carregar</AlertTitle>
+				<AlertDescription>{error}</AlertDescription>
+			</Alert>
+		);
+	}
 
-	const totalAllInspections =
-		dataIpiranga.currentDate.totalAllInspections +
-		dataLapa.currentDate.totalAllInspections +
-		dataAndar.currentDate.totalAllInspections +
-		dataTout.currentDate.totalAllInspections;
+	if (!entry) {
+		return null;
+	}
 
-	const totalAllSuitesCleaningsPreviousData = dataIpiranga.previousDate
-		? dataIpiranga.previousDate.totalAllSuitesCleaningsPreviousData +
-		  dataLapa.previousDate.totalAllSuitesCleaningsPreviousData +
-		  dataAndar.previousDate.totalAllSuitesCleaningsPreviousData +
-		  dataTout.previousDate.totalAllSuitesCleaningsPreviousData
-		: null;
-
-	const totalAllAverageDailyCleaningPreviousData = dataIpiranga.previousDate
-		? dataIpiranga.previousDate.totalAllAverageDailyCleaningPreviousData +
-		  dataLapa.previousDate.totalAllAverageDailyCleaningPreviousData +
-		  dataAndar.previousDate.totalAllAverageDailyCleaningPreviousData +
-		  dataTout.previousDate.totalAllAverageDailyCleaningPreviousData
-		: null;
-
-	const totalAllInspectionsPreviousData = dataIpiranga.previousDate
-		? dataIpiranga.previousDate.totalAllInspectionsPreviousData +
-		  dataLapa.previousDate.totalAllInspectionsPreviousData +
-		  dataAndar.previousDate.totalAllInspectionsPreviousData +
-		  dataTout.previousDate.totalAllInspectionsPreviousData
-		: null;
+	const currentDate = entry.currentDate;
+	const previousDate = entry.previousDate;
+	const monthlyForecast = entry.monthlyForecast;
+	const suitesPrevious = previousDate?.totalAllSuitesCleaningsPreviousData;
+	const averageCleaningPrevious =
+		previousDate?.totalAllAverageDailyCleaningPreviousData;
+	const inspectionsPrevious = previousDate?.totalAllInspectionsPreviousData;
 
 	return (
 		<div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
 			<CardDetails
-				description={generateDescription(
-					description,
-					totalAllSuitesCleaningsPreviousData,
-				)}
+				showForecast={!!monthlyForecast}
+				description={
+					typeof suitesPrevious === 'number'
+						? generateDescription(
+								description,
+								suitesPrevious,
+							)
+						: ''
+				}
 				icon={<Leaf />}
 				title={'Total de Suítes Limpas'}
-				value={totalAllSuitesCleanings.toLocaleString('pt-br')}
+				monthlyForecast={
+					monthlyForecast
+						? (monthlyForecast?.totalAllSuitesCleaningsForecast ?? undefined)
+						: undefined
+				}
+				value={currentDate.totalAllSuitesCleanings.toLocaleString('pt-br')}
 				Badge={
-					dataIpiranga.previousDate && (
+					typeof suitesPrevious === 'number' && (
 						<GenerateBadge
-							val={totalAllSuitesCleanings}
-							previousVal={totalAllSuitesCleaningsPreviousData}
+							val={currentDate.totalAllSuitesCleanings}
+							previousVal={suitesPrevious}
 						/>
 					)
 				}
 			/>
 			<CardDetails
-				description={generateDescription(
-					description,
-					totalAllAverageDailyCleaningPreviousData,
-				)}
+				showForecast={!!monthlyForecast}
+				description={
+					typeof averageCleaningPrevious === 'number'
+						? generateDescription(
+								description,
+								averageCleaningPrevious,
+							)
+						: ''
+				}
 				icon={<LeafyGreen />}
-				title={'Média de Limpezas Por Dia'}
-				value={totalAllAverageDailyCleaning.toLocaleString('pt-br')}
+				title={'Média de Limpezas por Dia'}
+				monthlyForecast={
+					monthlyForecast
+						? (monthlyForecast?.totalAllAverageDailyCleaningForecast ??
+							undefined)
+						: undefined
+				}
+				value={currentDate.totalAllAverageDailyCleaning.toLocaleString(
+					'pt-br',
+				)}
 				Badge={
-					dataIpiranga.previousDate && (
+					typeof averageCleaningPrevious === 'number' && (
 						<GenerateBadge
-							val={totalAllAverageDailyCleaning}
-							previousVal={totalAllAverageDailyCleaningPreviousData}
+							val={currentDate.totalAllAverageDailyCleaning}
+							previousVal={averageCleaningPrevious}
 						/>
 					)
 				}
 			/>
 			<CardDetails
-				description={generateDescription(
-					description,
-					totalAllInspectionsPreviousData,
-				)}
+				showForecast={!!monthlyForecast}
+				description={
+					typeof inspectionsPrevious === 'number'
+						? generateDescription(
+								description,
+								inspectionsPrevious,
+							)
+						: ''
+				}
 				icon={<Eye />}
 				title={'Total de Inspeções'}
-				value={totalAllInspections.toLocaleString('pt-br')}
+				monthlyForecast={
+					monthlyForecast
+						? (monthlyForecast?.totalAllInspectionsForecast ?? undefined)
+						: undefined
+				}
+				value={currentDate.totalAllInspections.toLocaleString('pt-br')}
 				Badge={
-					dataIpiranga.previousDate && (
+					typeof inspectionsPrevious === 'number' && (
 						<GenerateBadge
-							val={totalAllInspections}
-							previousVal={totalAllInspectionsPreviousData}
+							val={currentDate.totalAllInspections}
+							previousVal={inspectionsPrevious}
 						/>
 					)
 				}

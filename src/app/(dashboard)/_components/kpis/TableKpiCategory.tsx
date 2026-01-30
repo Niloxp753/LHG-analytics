@@ -10,22 +10,46 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 
-interface SuiteCategory {
+interface SuiteCategoryMetrics {
+	totalRentalsApartments: number;
+	totalValue: number;
+	totalTicketAverage: number;
+	giro: number;
+	revpar: number;
+	trevpar: number;
+	averageOccupationTime: string;
+	occupancyRate: number;
+}
+
+type SuiteCategoryEntry = Record<string, SuiteCategoryMetrics>;
+
+interface SuiteCategoryTotals {
+	totalAllRentalsApartments: number;
+	totalAllValue: number;
+	totalAllTicketAverage: number;
+	totalGiro: number;
+	totalRevpar: number;
+	totalTrevpar: number;
+	totalAverageOccupationTime: string;
+	totalOccupancyRate: number;
+}
+
+interface SuiteCategoryRow {
 	id: number;
 	Categoria: string;
-	locations: string;
-	revenue: string;
-	ticket: string;
+	locations: number;
+	revenue: number;
+	ticket: number;
 	giro: number;
-	revpar: string;
-	trevpar: string;
+	revpar: number;
+	trevpar: number;
 	tmo: string;
-	occupation: string;
+	occupation: number;
 }
 
 interface TableKpiCategoryProps {
-	dataTable?: SuiteCategory[];
-	datatableResult?: any;
+	dataTable?: SuiteCategoryEntry[];
+	datatableResult?: SuiteCategoryTotals;
 }
 
 export default function TableKpiCategory({
@@ -34,49 +58,67 @@ export default function TableKpiCategory({
 }: TableKpiCategoryProps) {
 	const dataTableSuiteCategory = dataTable;
 
-	const formattedData = dataTableSuiteCategory?.map((item, index) => {
-		const [categoria, data] = Object.entries(item)[0]; // Extrai a categoria e os dados
+	const formattedData: SuiteCategoryRow[] =
+		dataTableSuiteCategory?.map((item, index) => {
+			const [categoria, data] = Object.entries(item)[0] ?? [];
+			if (!categoria || !data) {
+				return {
+					id: index + 1,
+					Categoria: '',
+					locations: 0,
+					revenue: 0,
+					ticket: 0,
+					giro: 0,
+					revpar: 0,
+					trevpar: 0,
+					tmo: '',
+					occupation: 0,
+				};
+			}
 
-		return {
-			id: index + 1, // ID incremental
-			Categoria: categoria,
-			locations: data.totalRentalsApartments.toString(), // Convertido para string
-			revenue: data.totalValue, // Mantém como string
-			ticket: data.totalTicketAverage, // Mantém como string
-			giro: data.giro.toFixed(2), // Converte para número
-			revpar: data.revpar, // Mantém como string
-			trevpar: data.trevpar, // Mantém como string
-			tmo: data.averageOccupationTime, // Mantém o formato de tempo
-			occupation: data.occupancyRate, // Taxa de ocupação como string percentual
-		};
-	});
+			const metrics = data as SuiteCategoryMetrics;
+
+			return {
+				id: index + 1,
+				Categoria: categoria,
+				locations: metrics.totalRentalsApartments,
+				revenue: metrics.totalValue,
+				ticket: metrics.totalTicketAverage,
+				giro: Number(metrics.giro.toFixed(2)),
+				revpar: metrics.revpar,
+				trevpar: metrics.trevpar,
+				tmo: metrics.averageOccupationTime,
+				occupation: metrics.occupancyRate,
+			};
+		}) ?? [];
 
 	const dataResult = datatableResult;
 
-	const formattedTotalResult: SuiteCategory = {
-		id: 1,
-		Categoria: 'Total',
-		locations: dataResult?.totalAllRentalsApartments.toString(),
-		revenue: dataResult?.totalAllValue.toLocaleString('pt-BR', {
-			style: 'currency',
-			currency: 'brl',
-		}),
-		ticket: dataResult?.totalAllTicketAverage.toLocaleString('pt-BR', {
-			style: 'currency',
-			currency: 'brl',
-		}),
-		giro: dataResult?.totalGiro.toFixed(2),
-		revpar: dataResult?.totalRevpar.toLocaleString('pt-BR', {
-			style: 'currency',
-			currency: 'brl',
-		}),
-		trevpar: dataResult?.totalTrevpar.toLocaleString('pt-BR', {
-			style: 'currency',
-			currency: 'brl',
-		}),
-		tmo: dataResult?.totalAverageOccupationTime,
-		occupation: dataResult?.totalOccupancyRate.toFixed(2),
-	};
+	const formattedTotalResult: SuiteCategoryRow = dataResult
+		? {
+			id: 1,
+			Categoria: 'Total',
+			locations: dataResult.totalAllRentalsApartments,
+			revenue: dataResult.totalAllValue,
+			ticket: dataResult.totalAllTicketAverage,
+			giro: Number(dataResult.totalGiro.toFixed(2)),
+			revpar: dataResult.totalRevpar,
+			trevpar: dataResult.totalTrevpar,
+			tmo: dataResult.totalAverageOccupationTime,
+			occupation: dataResult.totalOccupancyRate,
+		}
+		: {
+			id: 1,
+			Categoria: 'Total',
+			locations: 0,
+			revenue: 0,
+			ticket: 0,
+			giro: 0,
+			revpar: 0,
+			trevpar: 0,
+			tmo: '',
+			occupation: 0,
+		};
 
 	return (
 		<Table className='mt-5 bg-zinc-900 rounded-lg'>
@@ -95,7 +137,7 @@ export default function TableKpiCategory({
 			</TableHeader>
 			<TableBody className='text-zinc-100'>
 				{dataTableSuiteCategory &&
-					formattedData?.map((invoice) => (
+					formattedData.map((invoice) => (
 						<TableRow
 							key={invoice.id}
 							className='text-center'>
@@ -136,16 +178,36 @@ export default function TableKpiCategory({
 			<TableFooter className=' text-zinc-100 bg-zinc-700 font-bold hover:bg-zinc-700'>
 				<TableRow className='text-center hover:bg-zinc-700'>
 					<TableCell className=' w-1/5 text-left'>
-						{formattedTotalResult && formattedTotalResult.Categoria}
+						{formattedTotalResult.Categoria}
 					</TableCell>
 					<TableCell>{formattedTotalResult.locations}</TableCell>
-					<TableCell>{formattedTotalResult.revenue}</TableCell>
-					<TableCell>{formattedTotalResult.ticket}</TableCell>
+					<TableCell>
+						{formattedTotalResult.revenue.toLocaleString('pt-BR', {
+							style: 'currency',
+							currency: 'brl',
+						})}
+					</TableCell>
+					<TableCell>
+						{formattedTotalResult.ticket.toLocaleString('pt-BR', {
+							style: 'currency',
+							currency: 'brl',
+						})}
+					</TableCell>
 					<TableCell>{formattedTotalResult.giro}</TableCell>
-					<TableCell>{formattedTotalResult.revpar}</TableCell>
-					<TableCell>{formattedTotalResult.trevpar}</TableCell>
+					<TableCell>
+						{formattedTotalResult.revpar.toLocaleString('pt-BR', {
+							style: 'currency',
+							currency: 'brl',
+						})}
+					</TableCell>
+					<TableCell>
+						{formattedTotalResult.trevpar.toLocaleString('pt-BR', {
+							style: 'currency',
+							currency: 'brl',
+						})}
+					</TableCell>
 					<TableCell>{formattedTotalResult.tmo}</TableCell>
-					<TableCell>{formattedTotalResult.occupation}%</TableCell>
+					<TableCell>{formattedTotalResult.occupation.toFixed(2)}%</TableCell>
 				</TableRow>
 			</TableFooter>
 		</Table>

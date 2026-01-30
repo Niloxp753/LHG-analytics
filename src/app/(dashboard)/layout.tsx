@@ -7,6 +7,8 @@ import SidebarMenu from './_components/SidebarMenu';
 import FilterMobile from './_components/filter-mobile';
 import MenuMobile from './_components/menu-mobile';
 
+export const dynamic = 'force-dynamic';
+
 export default async function DashLayout({
 	children,
 }: Readonly<{

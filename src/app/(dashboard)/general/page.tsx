@@ -1,11 +1,15 @@
 /** @format */
 
 import { getGeneralPageData } from '@/actions/initial-pages/general';
-import { format } from 'date-fns';
-import dynamic from 'next/dynamic';
+import {
+	DEFAULT_RANGE_TAG,
+	formatDateInput,
+	getRangeDescription,
+} from '@/lib/date-range';
 import { Suspense } from 'react';
 import CardLink from '../_components/CardLink';
 import Header from '../_components/Header';
+import SparkChart from '../_components/charts/SparkChart';
 import InvoicingXUnity from '../_components/kpis/InvoicingXUnity';
 import InvoicingXUnityXTime from '../_components/kpis/InvoicingXUnityXTime';
 import LocationsxUnity from '../_components/kpis/LocationsxUnity';
@@ -13,10 +17,27 @@ import OccupationXUnity from '../_components/kpis/OccupationXUnity';
 import TKTxUnity from '../_components/kpis/TKTxUnity';
 import TRevParXUnity from '../_components/kpis/TRevParXUnity';
 import BigNumbersCompany from './_components/big-numbers-company';
-const SparkChart = dynamic(
-	() => import('@/app/(dashboard)/_components/charts/SparkChart'),
-	{ ssr: false },
-);
+import type { CompanyBigNumbersEntry } from '@/types/big-numbers-company';
+
+type NamedSeriesData = {
+	categories: string[];
+	series: Array<{ name: string; data: number[] }>;
+};
+
+type SimpleSeriesData = {
+	categories: string[];
+	series: number[];
+};
+
+type GeneralUnifiedData = {
+	BigNumbers: CompanyBigNumbersEntry[];
+	RevenueByCompany: SimpleSeriesData;
+	RentalsByDate: NamedSeriesData;
+	TicketAverageByDate: NamedSeriesData;
+	TrevparByDate: NamedSeriesData;
+	RevenueByDate: NamedSeriesData;
+	OccupancyRateByDate: NamedSeriesData;
+};
 
 export default async function General({
 	searchParams,
@@ -24,16 +45,16 @@ export default async function General({
 	searchParams: { [key: string]: string | undefined };
 }) {
 	const menu = 'general';
-	const preSet = searchParams.set ?? '7days';
+	const preSet = searchParams.set ?? DEFAULT_RANGE_TAG;
 	const startDate = searchParams.startDate;
 	const endDate = searchParams.endDate;
+	const rangeDescription = getRangeDescription(preSet);
 
-	const formattedStartDate =
-		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
-	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
+	const formattedStartDate = formatDateInput(startDate);
+	const formattedEndDate = formatDateInput(endDate);
 
 	async function getData() {
-		if (startDate && endDate) {
+		if (formattedStartDate && formattedEndDate) {
 			const customData = await getGeneralPageData({
 				startDate: formattedStartDate,
 				endDate: formattedEndDate,
@@ -53,14 +74,29 @@ export default async function General({
 
 	const resp = await getData();
 
-	if (!resp.ok || !resp.data) {
-		console.log(resp.error);
-		return (
-			<div className='text-muted-foreground'>
-				Não foi possível encontrar os dados
-			</div>
-		);
-	}
+	const hasError = !resp.ok || !resp.data;
+	const errorMessage =
+		hasError && resp.error
+			? resp.error
+			: hasError
+				? 'Não foi possível carregar os dados.'
+				: undefined;
+
+	const unifiedData =
+		!hasError && !Array.isArray(resp.data)
+			? (resp.data as GeneralUnifiedData)
+			: null;
+	const bigNumbers = hasError ? null : unifiedData?.BigNumbers ?? null;
+	const revenueByCompany = hasError ? null : unifiedData?.RevenueByCompany ?? null;
+	const rentalsByDate = hasError ? null : unifiedData?.RentalsByDate ?? null;
+	const ticketAverageByDate = hasError
+		? null
+		: unifiedData?.TicketAverageByDate ?? null;
+	const trevparByDate = hasError ? null : unifiedData?.TrevparByDate ?? null;
+	const revenueByDate = hasError ? null : unifiedData?.RevenueByDate ?? null;
+	const occupancyRateByDate = hasError
+		? null
+		: unifiedData?.OccupancyRateByDate ?? null;
 
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 '>
@@ -104,66 +140,29 @@ export default async function General({
 					<div className=' w-full h-full flex gap-5 flex-col md:px-0 '>
 						<Suspense>
 							<BigNumbersCompany
-								ipiranga={resp.data ? resp.data[0]?.BigNumbers : null}
-								lapa={resp.data ? resp.data[1].BigNumbers : null}
-								andar_de_cima={resp.data ? resp.data[2]?.BigNumbers : null}
-								tout={resp.data ? resp.data[3]?.BigNumbers : null}
-								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-									preSet == '30days' ? '30 dias atrás ' : ''
-								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-									preSet == '12months' ? '12 meses atrás ' : ''
-								}`}
+								data={bigNumbers}
+								description={rangeDescription}
 							/>
 
 							<div className='flex gap-5 flex-col md:flex-row w-full h-full '>
 								<div className='md:w-1/3 w-full h-full '>
 									<InvoicingXUnity
-										tout={resp.data[3].BigNumbers[0].currentDate.totalAllValue}
-										andar_de_cima={
-											resp.data[2].BigNumbers[0].currentDate.totalAllValue
-										}
-										ipiranga={
-											resp.data[0].BigNumbers[0].currentDate.totalAllValue
-										}
-										lapa={resp.data[1].BigNumbers[0].currentDate.totalAllValue}
+										error={errorMessage}
+										categories={revenueByCompany?.categories}
+										series={revenueByCompany?.series}
 									/>
 								</div>
 								<div className='md:w-2/3 h-full '>
-									<LocationsxUnity
-										andar_de_cima={resp.data[2].RentalsByDate}
-										tout={resp.data[3].RentalsByDate}
-										ipiranga={resp.data[0].RentalsByDate}
-										lapa={resp.data[1].RentalsByDate}
-									/>
+									<LocationsxUnity data={rentalsByDate} />
 								</div>
 							</div>
 							<div className='flex gap-5 flex-col'>
-								<TKTxUnity
-									andar_de_cima={resp.data[2].TicketAverageByDate}
-									tout={resp.data[3].TicketAverageByDate}
-									ipiranga={resp.data[0].TicketAverageByDate}
-									lapa={resp.data[1].TicketAverageByDate}
-								/>
-								<TRevParXUnity
-									andar_de_cima={resp.data[2].TrevparByDate}
-									tout={resp.data[3].TrevparByDate}
-									ipiranga={resp.data[0].TrevparByDate}
-									lapa={resp.data[1].TrevparByDate}
-								/>
+								<TKTxUnity data={ticketAverageByDate} />
+								<TRevParXUnity data={trevparByDate} />
 							</div>
 							<div className='flex flex-col gap-5'>
-								<InvoicingXUnityXTime
-									andar_de_cima={resp.data[2].RevenueByDate}
-									tout={resp.data[3].RevenueByDate}
-									ipiranga={resp.data[0].RevenueByDate}
-									lapa={resp.data[1].RevenueByDate}
-								/>
-								<OccupationXUnity
-									andar_de_cima={resp.data[2].OccupancyRateByDate}
-									tout={resp.data[3].OccupancyRateByDate}
-									ipiranga={resp.data[0].OccupancyRateByDate}
-									lapa={resp.data[1].OccupancyRateByDate}
-								/>
+								<InvoicingXUnityXTime data={revenueByDate} />
+								<OccupationXUnity data={occupancyRateByDate} />
 							</div>
 						</Suspense>
 					</div>

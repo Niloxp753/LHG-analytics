@@ -23,11 +23,12 @@ export default function LinkPreSet({
 
 	return (
 		<Link
-			onClick={() => {
+			onClick={(event) => {
+				onClick?.(event);
 				startTransition(() => {});
 			}}
 			{...props}
-			className={`lg:w-fit my-2 lg:my-0 min-w-28 w-full text-sm lg:text-xs text-nowrap disabled:opacity-50  cursor-pointer  border flex gap-2 ${
+			className={`lg:w-fit uppercase my-2 lg:my-0 min-w-28 w-full text-sm lg:text-xs text-nowrap disabled:opacity-50  cursor-pointer  border flex gap-2 ${
 				preSet == tag && startDate == ''
 					? 'bg-violet-400 text-zinc-900 '
 					: 'text-zinc-50 bg-transparent'
