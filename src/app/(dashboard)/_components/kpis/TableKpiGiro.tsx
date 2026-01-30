@@ -28,8 +28,12 @@ interface DataOutput {
 	[key: string]: string | number | undefined; // Permite qualquer chave de string com valor `number` ou `undefined`
 }
 
-export function TableKpiGiro(dataGiro?: any) {
-	const dataTableGiroByWeek: DataTableEntry[] = dataGiro.data;
+interface TableKpiGiroProps {
+	data?: DataTableEntry[];
+}
+
+export function TableKpiGiro({ data }: TableKpiGiroProps) {
+	const dataTableGiroByWeek: DataTableEntry[] | undefined = data;
 
 	const week: { [key: string]: string } = {
 		sábado: 'sabado',
@@ -41,7 +45,7 @@ export function TableKpiGiro(dataGiro?: any) {
 		domingo: 'domingo',
 	};
 
-	const data: DataOutput[] = [];
+	const rows: DataOutput[] = [];
 	const total: { [key: string]: number } = {};
 
 	dataTableGiroByWeek?.forEach((item, index) => {
@@ -62,7 +66,7 @@ export function TableKpiGiro(dataGiro?: any) {
 			}
 		}
 
-		data.push(newEntry);
+		rows.push(newEntry);
 	});
 
 	return (
@@ -83,7 +87,7 @@ export function TableKpiGiro(dataGiro?: any) {
 			</TableHeader>
 			<TableBody className='text-zinc-100'>
 				{dataTableGiroByWeek &&
-					data.map((invoice, index) => (
+					rows.map((invoice, index) => (
 						<TableRow
 							key={index}
 							className='text-center'>

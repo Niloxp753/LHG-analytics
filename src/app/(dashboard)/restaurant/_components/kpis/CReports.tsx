@@ -9,7 +9,15 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 
-export function CReports({ data }: { data: any[] }) {
+interface ReportEntry {
+	name: string;
+	revenue: number;
+	revenuePercent: number | string;
+	quantity: number | string;
+	quantityPercent: number | string;
+}
+
+export function CReports({ data }: { data: ReportEntry[] }) {
 	return (
 		<Table className='mt-5 bg-zinc-900 rounded-lg'>
 			<TableHeader className='bg-violet-900 rounded-lg'>

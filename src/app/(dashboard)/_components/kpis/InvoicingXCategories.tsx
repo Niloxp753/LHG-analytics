@@ -12,9 +12,12 @@ interface RevenueBySuiteCategoryProps {
 	categories: string[];
 }
 
-export default function Categories(data?: any) {
-	const revenueBySuiteCategory: RevenueBySuiteCategoryProps | null | undefined =
-		data?.data;
+interface CategoriesProps {
+	data?: RevenueBySuiteCategoryProps | null;
+}
+
+export default function Categories({ data }: CategoriesProps) {
+	const revenueBySuiteCategory = data;
 	const error =
 		revenueBySuiteCategory === null
 			? 'Não foi possível carregar os dados.'

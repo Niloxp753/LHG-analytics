@@ -9,12 +9,17 @@ const AreaChartsApex = dynamic(
 	{ ssr: false },
 );
 
-interface TotalCleaningProps {
-	data: any;
+interface CleaningByDateProps {
+	series: number[];
+	categories: string[];
 }
 
-export default function TotalCleaning(data: TotalCleaningProps) {
-	const cleaningByDate = data?.data;
+interface TotalCleaningProps {
+	data?: CleaningByDateProps | null;
+}
+
+export default function TotalCleaning({ data }: TotalCleaningProps) {
+	const cleaningByDate = data;
 	const error =
 		cleaningByDate === null ? 'Não foi possível carregar os dados.' : undefined;
 

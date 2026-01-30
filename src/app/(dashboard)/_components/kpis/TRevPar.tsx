@@ -9,24 +9,17 @@ const AreaChartsApex = dynamic(
 	{ ssr: false },
 );
 
-interface TrevparEntry {
-	[date: string]: {
-		totalTrevpar: string;
-	};
-}
-
-interface TransformedEntry {
-	date: string;
-	totalTrevpar: number;
-}
-
 interface TrevparByDateProps {
 	series: number[];
 	categories: string[];
 }
 
-export default function TRevPar(data?: any) {
-	const trevparByDate: TrevparByDateProps | null | undefined = data?.data;
+interface TRevParProps {
+	data?: TrevparByDateProps | null;
+}
+
+export default function TRevPar({ data }: TRevParProps) {
+	const trevparByDate = data;
 	const error =
 		trevparByDate === null ? 'Não foi possível carregar os dados.' : undefined;
 

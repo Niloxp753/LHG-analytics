@@ -11,7 +11,7 @@ import {
 	getUnitLabel,
 } from '@/lib/access-control';
 
-export const columns: ColumnDef<User | undefined | any>[] = [
+export const columns: ColumnDef<User>[] = [
 	{
 		id: 'Cargo',
 		accessorKey: 'role',

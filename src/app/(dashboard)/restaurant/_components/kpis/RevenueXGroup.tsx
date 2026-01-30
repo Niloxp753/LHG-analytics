@@ -1,4 +1,5 @@
 /** @format */
+'use client';
 
 import dynamic from 'next/dynamic';
 import React from 'react';
@@ -20,7 +21,6 @@ interface Serie {
 	data: number[];
 }
 export default function RevenueXGroup({ data }: DataProps) {
-
 	return (
 		<div className='w-full h-fit'>
 			<BarChart

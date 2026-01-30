@@ -13,7 +13,7 @@ export async function createUser({
 	unit,
 }: CreateUserInput) {
 	try {
-		const cookieHeader = buildAuthCookieHeader();
+		const cookieHeader = await buildAuthCookieHeader();
 		const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
 		await auth_api.post('users', {
 			headers: authHeaders,

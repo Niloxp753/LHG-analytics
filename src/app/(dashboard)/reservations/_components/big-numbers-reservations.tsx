@@ -43,21 +43,25 @@ export default function BigNumbersReservation({
 		return null;
 	}
 
-	const showForecast = !!unified?.monthlyForecast;
-	const hasPrevious = !!unified?.previousDate;
-
-	const currentDate = unified?.currentDate;
-	const previousDate = unified?.previousDate;
-	const monthlyForecast = unified?.monthlyForecast;
+	const currentDate = unified.currentDate;
+	const previousDate = unified.previousDate;
+	const monthlyForecast = unified.monthlyForecast;
+	const showForecast = !!monthlyForecast;
+	const hasPrevious = !!previousDate;
+	const previousValue = previousDate?.totalAllValuePreviousData;
+	const previousBookings = previousDate?.totalAllBookingsPreviousData;
+	const previousTicketAverage = previousDate?.totalAllTicketAveragePreviousData;
+	const previousRepresentativeness =
+		previousDate?.totalAllRepresentativenessPreviousData;
 
 	return (
 		<div className='grid grid-cols-1 lg:grid-cols-4 gap-5'>
 			<CardDetails
 				showForecast={showForecast}
 				description={
-					hasPrevious
+					hasPrevious && typeof previousValue === 'number'
 						? description +
-							previousDate?.totalAllValuePreviousData?.toLocaleString('pt-BR', {
+							previousValue.toLocaleString('pt-BR', {
 								style: 'currency',
 								currency: 'brl',
 							})
@@ -68,13 +72,13 @@ export default function BigNumbersReservation({
 				monthlyForecast={
 					showForecast ? monthlyForecast?.totalAllValueForecast : undefined
 				}
-				value={currentDate?.totalAllValue ?? ''}
+				value={currentDate.totalAllValue}
 				type='money'
 				Badge={
-					hasPrevious && (
+					hasPrevious && typeof previousValue === 'number' && (
 						<GenerateBadge
-							val={currentDate?.totalAllValue!}
-							previousVal={previousDate?.totalAllValuePreviousData!}
+							val={currentDate.totalAllValue}
+							previousVal={previousValue}
 						/>
 					)
 				}
@@ -82,11 +86,9 @@ export default function BigNumbersReservation({
 			<CardDetails
 				showForecast={showForecast}
 				description={
-					hasPrevious
+					hasPrevious && typeof previousBookings === 'number'
 						? description +
-							previousDate?.totalAllBookingsPreviousData!.toLocaleString(
-								'pt-BR',
-							)
+							previousBookings.toLocaleString('pt-BR')
 						: ''
 				}
 				icon={<Sigma />}
@@ -96,12 +98,12 @@ export default function BigNumbersReservation({
 						? (monthlyForecast?.totalAllBookingsForecast ?? undefined)
 						: undefined
 				}
-				value={currentDate?.totalAllBookings!}
+				value={currentDate.totalAllBookings}
 				Badge={
-					hasPrevious && (
+					hasPrevious && typeof previousBookings === 'number' && (
 						<GenerateBadge
-							val={currentDate?.totalAllBookings!}
-							previousVal={previousDate?.totalAllBookingsPreviousData!}
+							val={currentDate.totalAllBookings}
+							previousVal={previousBookings}
 						/>
 					)
 				}
@@ -109,9 +111,9 @@ export default function BigNumbersReservation({
 			<CardDetails
 				showForecast={showForecast}
 				description={
-					hasPrevious
+					hasPrevious && typeof previousTicketAverage === 'number'
 						? description +
-							previousDate?.totalAllTicketAveragePreviousData!.toLocaleString(
+							previousTicketAverage.toLocaleString(
 								'pt-BR',
 								{
 									style: 'currency',
@@ -128,12 +130,12 @@ export default function BigNumbersReservation({
 						? (monthlyForecast?.totalAllTicketAverageForecast ?? undefined)
 						: undefined
 				}
-				value={currentDate?.totalAllTicketAverage!}
+				value={currentDate.totalAllTicketAverage}
 				Badge={
-					hasPrevious && (
+					hasPrevious && typeof previousTicketAverage === 'number' && (
 						<GenerateBadge
-							val={currentDate?.totalAllTicketAverage!}
-							previousVal={previousDate?.totalAllTicketAveragePreviousData!}
+							val={currentDate.totalAllTicketAverage}
+							previousVal={previousTicketAverage}
 						/>
 					)
 				}
@@ -141,11 +143,9 @@ export default function BigNumbersReservation({
 			<CardDetails
 				showForecast={showForecast}
 				description={
-					hasPrevious
+					hasPrevious && typeof previousRepresentativeness === 'number'
 						? description +
-							(
-								previousDate?.totalAllRepresentativenessPreviousData! * 100
-							).toFixed(2) +
+							(previousRepresentativeness * 100).toFixed(2) +
 							'%'
 						: ''
 				}
@@ -156,15 +156,13 @@ export default function BigNumbersReservation({
 						? (monthlyForecast?.totalAllRepresentativenessForecast ?? undefined)
 						: undefined
 				}
-				value={currentDate?.totalAllRepresentativeness!}
+				value={currentDate.totalAllRepresentativeness}
 				type='percent'
 				Badge={
-					hasPrevious && (
+					hasPrevious && typeof previousRepresentativeness === 'number' && (
 						<GenerateBadge
-							val={currentDate?.totalAllRepresentativeness!}
-							previousVal={
-								previousDate?.totalAllRepresentativenessPreviousData!
-							}
+							val={currentDate.totalAllRepresentativeness}
+							previousVal={previousRepresentativeness}
 						/>
 					)
 				}

@@ -13,8 +13,12 @@ interface RevparByDateProps {
 	categories: string[];
 }
 
-export default function RevPar(data?: any) {
-	const revparByDate: RevparByDateProps | null | undefined = data?.data;
+interface RevParProps {
+	data?: RevparByDateProps | null;
+}
+
+export default function RevPar({ data }: RevParProps) {
+	const revparByDate = data;
 	const error =
 		revparByDate === null ? 'Não foi possível carregar os dados.' : undefined;
 

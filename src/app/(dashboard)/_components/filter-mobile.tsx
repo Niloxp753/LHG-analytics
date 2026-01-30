@@ -11,11 +11,10 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from '@/components/ui/sheet';
-import { ArrowLeft, Filter, Loader2 } from 'lucide-react';
+import { Filter, Loader2 } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useTransition } from 'react';
 import FormFilter from './FormFilter';
-import BtnSignOut from '@/components/btnSingOut';
 import { DATE_RANGE_TAGS, DEFAULT_RANGE_TAG } from '@/lib/date-range';
 
 export default function FilterMobile() {
@@ -31,7 +30,9 @@ export default function FilterMobile() {
 
 	function handleClose() {
 		const btn = document.getElementById('myclose');
-		!isPending && btn?.click();
+		if (!isPending) {
+			btn?.click();
+		}
 	}
 
 	useEffect(() => {

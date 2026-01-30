@@ -15,6 +15,24 @@ import DataByCompanyReservationsInTime from './_components/page-kpis/revenue-by-
 import RevenueByCompany from './_components/page-kpis/revenue-by-company';
 import BookingsByCompany from './_components/page-kpis/bookings-by-company';
 import BigNumbersEcommerce from './_components/big-numbers-ecommerce';
+import type { ReservationsBigNumbersEntry } from '@/types/big-numbers-reservations';
+
+type NamedSeriesData = {
+	categories: string[];
+	series: Array<{ name: string; data: number[] }>;
+};
+
+type ReservationsUnifiedData = {
+	BigNumbers: ReservationsBigNumbersEntry[];
+	BigNumbersEcommerce: ReservationsBigNumbersEntry[];
+	BillingOfReservationsByPeriod: NamedSeriesData;
+	NumberOfReservationsPerPeriod: NamedSeriesData;
+	RepresentativenessOfReservesByPeriod: NamedSeriesData;
+	BillingOfEcommerceByPeriod: NamedSeriesData;
+	ReservationsOfEcommerceByPeriod: NamedSeriesData;
+	RevenueByCompany: NamedSeriesData;
+	BookingsByCompany: NamedSeriesData;
+};
 
 export default async function Reservations({
 	searchParams,
@@ -60,7 +78,9 @@ export default async function Reservations({
 				: undefined;
 
 	const unifiedData =
-		!hasError && !Array.isArray(resp.data) ? (resp.data as any) : null;
+		!hasError && !Array.isArray(resp.data)
+			? (resp.data as ReservationsUnifiedData)
+			: null;
 	const bigNumbers = hasError ? null : unifiedData?.BigNumbers ?? null;
 	const billingOfReservationsByPeriod = hasError
 		? null

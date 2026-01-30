@@ -9,6 +9,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
+type PieTotalFormatterContext = {
+	globals: {
+		series: number[];
+	};
+};
+
 interface PieChartsApexProps {
 	title?: string;
 	labels?: string[];
@@ -142,9 +148,9 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 						total: {
 							show: true,
 							showAlways: true,
-							formatter: (w: any) => {
-								const data: any = w.globals.series.reduce(
-									(acc: any, cur: any) => acc + cur,
+							formatter: (w: PieTotalFormatterContext) => {
+								const data = w.globals.series.reduce(
+									(acc, cur) => acc + cur,
 									0,
 								);
 								return `${

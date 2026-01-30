@@ -6,10 +6,10 @@ import {
 	formatDateInput,
 	getRangeDescription,
 } from '@/lib/date-range';
-import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 import CardLink from '../_components/CardLink';
 import Header from '../_components/Header';
+import SparkChart from '../_components/charts/SparkChart';
 import InvoicingXUnity from '../_components/kpis/InvoicingXUnity';
 import InvoicingXUnityXTime from '../_components/kpis/InvoicingXUnityXTime';
 import LocationsxUnity from '../_components/kpis/LocationsxUnity';
@@ -17,10 +17,27 @@ import OccupationXUnity from '../_components/kpis/OccupationXUnity';
 import TKTxUnity from '../_components/kpis/TKTxUnity';
 import TRevParXUnity from '../_components/kpis/TRevParXUnity';
 import BigNumbersCompany from './_components/big-numbers-company';
-const SparkChart = dynamic(
-	() => import('@/app/(dashboard)/_components/charts/SparkChart'),
-	{ ssr: false },
-);
+import type { CompanyBigNumbersEntry } from '@/types/big-numbers-company';
+
+type NamedSeriesData = {
+	categories: string[];
+	series: Array<{ name: string; data: number[] }>;
+};
+
+type SimpleSeriesData = {
+	categories: string[];
+	series: number[];
+};
+
+type GeneralUnifiedData = {
+	BigNumbers: CompanyBigNumbersEntry[];
+	RevenueByCompany: SimpleSeriesData;
+	RentalsByDate: NamedSeriesData;
+	TicketAverageByDate: NamedSeriesData;
+	TrevparByDate: NamedSeriesData;
+	RevenueByDate: NamedSeriesData;
+	OccupancyRateByDate: NamedSeriesData;
+};
 
 export default async function General({
 	searchParams,
@@ -66,7 +83,9 @@ export default async function General({
 				: undefined;
 
 	const unifiedData =
-		!hasError && !Array.isArray(resp.data) ? (resp.data as any) : null;
+		!hasError && !Array.isArray(resp.data)
+			? (resp.data as GeneralUnifiedData)
+			: null;
 	const bigNumbers = hasError ? null : unifiedData?.BigNumbers ?? null;
 	const revenueByCompany = hasError ? null : unifiedData?.RevenueByCompany ?? null;
 	const rentalsByDate = hasError ? null : unifiedData?.RentalsByDate ?? null;

@@ -47,16 +47,20 @@ export default function BigNumbersOperation({
 	const currentDate = entry.currentDate;
 	const previousDate = entry.previousDate;
 	const monthlyForecast = entry.monthlyForecast;
+	const suitesPrevious = previousDate?.totalAllSuitesCleaningsPreviousData;
+	const averageCleaningPrevious =
+		previousDate?.totalAllAverageDailyCleaningPreviousData;
+	const inspectionsPrevious = previousDate?.totalAllInspectionsPreviousData;
 
 	return (
 		<div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
 			<CardDetails
 				showForecast={!!monthlyForecast}
 				description={
-					previousDate?.totalAllSuitesCleaningsPreviousData !== null
+					typeof suitesPrevious === 'number'
 						? generateDescription(
 								description,
-								previousDate?.totalAllSuitesCleaningsPreviousData,
+								suitesPrevious,
 						  )
 						: ''
 				}
@@ -67,12 +71,12 @@ export default function BigNumbersOperation({
 						? (monthlyForecast?.totalAllSuitesCleaningsForecast ?? undefined)
 						: undefined
 				}
-				value={currentDate?.totalAllSuitesCleanings.toLocaleString('pt-br')}
+				value={currentDate.totalAllSuitesCleanings.toLocaleString('pt-br')}
 				Badge={
-					previousDate?.totalAllSuitesCleaningsPreviousData !== null && (
+					typeof suitesPrevious === 'number' && (
 						<GenerateBadge
-							val={currentDate?.totalAllSuitesCleanings}
-							previousVal={previousDate?.totalAllSuitesCleaningsPreviousData!}
+							val={currentDate.totalAllSuitesCleanings}
+							previousVal={suitesPrevious}
 						/>
 					)
 				}
@@ -80,10 +84,10 @@ export default function BigNumbersOperation({
 			<CardDetails
 				showForecast={!!monthlyForecast}
 				description={
-					previousDate?.totalAllAverageDailyCleaningPreviousData !== null
+					typeof averageCleaningPrevious === 'number'
 						? generateDescription(
 								description,
-								previousDate?.totalAllAverageDailyCleaningPreviousData,
+								averageCleaningPrevious,
 						  )
 						: ''
 				}
@@ -95,16 +99,14 @@ export default function BigNumbersOperation({
 							undefined)
 						: undefined
 				}
-				value={currentDate?.totalAllAverageDailyCleaning.toLocaleString(
+				value={currentDate.totalAllAverageDailyCleaning.toLocaleString(
 					'pt-br',
 				)}
 				Badge={
-					previousDate?.totalAllAverageDailyCleaningPreviousData !== null && (
+					typeof averageCleaningPrevious === 'number' && (
 						<GenerateBadge
-							val={currentDate?.totalAllAverageDailyCleaning}
-							previousVal={
-								previousDate?.totalAllAverageDailyCleaningPreviousData!
-							}
+							val={currentDate.totalAllAverageDailyCleaning}
+							previousVal={averageCleaningPrevious}
 						/>
 					)
 				}
@@ -112,10 +114,10 @@ export default function BigNumbersOperation({
 			<CardDetails
 				showForecast={!!monthlyForecast}
 				description={
-					previousDate?.totalAllInspectionsPreviousData !== null
+					typeof inspectionsPrevious === 'number'
 						? generateDescription(
 								description,
-								previousDate?.totalAllInspectionsPreviousData,
+								inspectionsPrevious,
 						  )
 						: ''
 				}
@@ -126,12 +128,12 @@ export default function BigNumbersOperation({
 						? (monthlyForecast?.totalAllInspectionsForecast ?? undefined)
 						: undefined
 				}
-				value={currentDate?.totalAllInspections.toLocaleString('pt-br')}
+				value={currentDate.totalAllInspections.toLocaleString('pt-br')}
 				Badge={
-					previousDate?.totalAllInspectionsPreviousData !== null && (
+					typeof inspectionsPrevious === 'number' && (
 						<GenerateBadge
-							val={currentDate?.totalAllInspections}
-							previousVal={previousDate?.totalAllInspectionsPreviousData!}
+							val={currentDate.totalAllInspections}
+							previousVal={inspectionsPrevious}
 						/>
 					)
 				}

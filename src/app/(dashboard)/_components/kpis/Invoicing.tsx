@@ -12,8 +12,12 @@ interface RevenueByDateProps {
 	series: number[];
 }
 
-export default function Invoicing(data?: any) {
-	const revenueByDate: RevenueByDateProps | null | undefined = data?.data;
+interface InvoicingProps {
+	data?: RevenueByDateProps | null;
+}
+
+export default function Invoicing({ data }: InvoicingProps) {
+	const revenueByDate = data;
 	const error =
 		revenueByDate === null ? 'Não foi possível carregar os dados.' : undefined;
 

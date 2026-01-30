@@ -8,7 +8,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { TrendingDown, TrendingUp } from 'lucide-react';
+import { TrendingDown } from 'lucide-react';
 
 type SellingItems = {
 	name: string;

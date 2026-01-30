@@ -13,7 +13,7 @@ import { useSearchParams } from 'next/navigation';
 interface AreaChartsApexProps {
 	title: string;
 	categories?: string[];
-	data?: any[];
+	data?: unknown[];
 	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | null;
 	height: string | number | undefined;
 	money?: boolean;

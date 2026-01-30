@@ -4,28 +4,24 @@ import {
 	Table,
 	TableBody,
 	TableCell,
-	TableFooter,
 	TableHead,
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
 import React from 'react';
 
+interface WorkerCleaningEntry {
+	employeeName: string;
+	totalSuitesCleanings: number;
+	totalDaysWorked: number;
+	averageDailyCleaning: number;
+}
+
 interface TableWokersNightProps {
-	dataTable: any;
+	dataTable?: WorkerCleaningEntry[] | null;
 }
 
 export default function TableWokersNight({ dataTable }: TableWokersNightProps) {
-	const total = {
-		name: 'Valor Total',
-		totalSuite: 1188,
-		daysOfWork: 175,
-		daysOfSlack: 30,
-		daysOfCompensatorySlack: 3,
-		daysOfFouls: 9,
-		daysOfVacation: 3,
-	};
-
 	return (
 		<div>
 			<h2 className='font-bold text-zinc-50 text-xl md:text-3xl mt-10'>
@@ -56,7 +52,7 @@ export default function TableWokersNight({ dataTable }: TableWokersNightProps) {
 							</TableCell>
 						</TableRow>
 					) : (
-						dataTable.map((data: any, index: number) => (
+						dataTable.map((data, index) => (
 							<TableRow
 								key={index}
 								className='text-center'>

@@ -14,7 +14,7 @@ import { ReactNode } from 'react';
 interface CardDetailsProps {
 	title: string;
 	value: number | string;
-	icon: any;
+	icon: ReactNode;
 	type?: string;
 	description?: string;
 	Badge?: ReactNode;

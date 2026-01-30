@@ -1,5 +1,7 @@
 /** @format */
 
+'use client';
+
 import dynamic from 'next/dynamic';
 const LineChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/LineChart'),

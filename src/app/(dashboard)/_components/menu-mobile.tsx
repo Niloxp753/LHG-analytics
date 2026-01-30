@@ -51,7 +51,9 @@ export default function MenuMobile() {
 
 	function handleClose() {
 		const btn = document.getElementById('myclose');
-		!isPending && btn?.click();
+		if (!isPending) {
+			btn?.click();
+		}
 	}
 
 	useEffect(() => {

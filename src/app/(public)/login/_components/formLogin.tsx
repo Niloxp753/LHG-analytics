@@ -84,6 +84,7 @@ export default function FormLogin() {
 				setIsPending(false);
 			}
 		} catch (error) {
+			console.error(error);
 			toast.error('Algo deu errado - 500', {
 				description: 'Erro interno do servidor',
 			});

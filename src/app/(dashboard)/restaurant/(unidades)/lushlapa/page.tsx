@@ -29,7 +29,6 @@ export default async function Restaurant({
 }: {
 	searchParams: { [key: string]: string | undefined };
 }) {
-	searchParams.menu = 'restaurant';
 	const preSet = searchParams.set ?? DEFAULT_RANGE_TAG;
 	const startDate = searchParams.startDate;
 	const endDate = searchParams.endDate;
@@ -62,6 +61,30 @@ export default async function Restaurant({
 	}
 
 	const resp = await getData();
+
+	if (!resp) {
+		return (
+			<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-3 md:px-5 py-10'>
+				<div className={`relative w-full  md:max-w-[82vw] md:ml-auto flex z-40 `}>
+					<div
+						className={`bg-zinc-950/50 z-40 py-4 ml-auto w-full  md:w-[82vw] backdrop-blur-md fixed top-0 flex flex-col gap-2 justify-end `}>
+						<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-2 text-base'>
+							Restaurante -{' '}
+							<span className='text-violet-400 text-base md:text-3xl'>
+								Lush Lapa
+							</span>
+						</h2>
+						<div className='hidden lg:block'>
+							<Header />
+						</div>
+					</div>
+					<div className=' w-full  flex gap-5 flex-col justify-start mt-12 lg:mt-32'>
+						<p className='text-zinc-100'>Nao foi possivel carregar os dados.</p>
+					</div>
+				</div>
+			</main>
+		);
+	}
 
 	return (
 		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-3 md:px-5 py-10'>

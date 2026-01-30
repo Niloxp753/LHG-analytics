@@ -12,9 +12,12 @@ interface TicketAverageByDateProps {
 	categories: string[];
 }
 
-export default function Ticket(data?: any) {
-	const ticketAverageByDate: TicketAverageByDateProps | null | undefined =
-		data?.data;
+interface TicketProps {
+	data?: TicketAverageByDateProps | null;
+}
+
+export default function Ticket({ data }: TicketProps) {
+	const ticketAverageByDate = data;
 	const error =
 		ticketAverageByDate === null
 			? 'Não foi possível carregar os dados.'

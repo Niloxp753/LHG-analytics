@@ -7,10 +7,10 @@ export async function getReservationsCustom(
 	startDate: string,
 	endDate: string,
 	company?: string,
-): Promise<any | null> {
+): Promise<any> {
 	const controller = new AbortController();
 	const timeout = setTimeout(() => controller.abort(), 60000);
-	const cookieHeader = buildAuthCookieHeader();
+	const cookieHeader = await buildAuthCookieHeader();
 	const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
 
 	try {

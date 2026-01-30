@@ -6,9 +6,9 @@ import {
 	formatDateInput,
 	getRangeDescription,
 } from '@/lib/date-range';
-import dynamic from 'next/dynamic';
 import CardLink from '../_components/CardLink';
 import Header from '../_components/Header';
+import SparkChart from '../_components/charts/SparkChart';
 import AfternoonCleaning from './_components/kpis-geral/afternoon-cleaning';
 import BigNumbersPageOp from './_components/kpis-geral/big-numbers';
 import CleaningAverageUnity from './_components/kpis-geral/cleaning-average-unity';
@@ -17,11 +17,6 @@ import NightCleaning from './_components/kpis-geral/night-cleaning ';
 import PerformanceUnity from './_components/kpis-geral/Performance-unity';
 import TotalCleaningUnity from './_components/kpis-geral/total-cleaning-unity';
 import { ShiftCleaning } from './types';
-
-const SparkChart = dynamic(
-	() => import('@/app/(dashboard)/_components/charts/SparkChart'),
-	{ ssr: false },
-);
 
 export default async function Operational({
 	searchParams,

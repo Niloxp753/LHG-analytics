@@ -18,8 +18,12 @@ interface BillingRentalTypeProps {
 	series: Rental[];
 }
 
-export default function InvoicingXLocation(data?: any) {
-	const billingRentalType: BillingRentalTypeProps | null | undefined = data?.data;
+interface InvoicingXLocationProps {
+	data?: BillingRentalTypeProps | null;
+}
+
+export default function InvoicingXLocation({ data }: InvoicingXLocationProps) {
+	const billingRentalType = data;
 	const error =
 		billingRentalType === null
 			? 'Não foi possível carregar os dados.'

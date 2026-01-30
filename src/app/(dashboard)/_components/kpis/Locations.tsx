@@ -1,5 +1,7 @@
 /** @format */
 
+'use client';
+
 import dynamic from 'next/dynamic';
 const AreaChartsApex = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/AreaChartsApex'),
@@ -11,8 +13,12 @@ interface RentalsByDateProps {
 	categories: string[];
 }
 
-export default function Locations(data?: any) {
-	const rentalsByDate: RentalsByDateProps | null | undefined = data?.data;
+interface LocationsProps {
+	data?: RentalsByDateProps | null;
+}
+
+export default function Locations({ data }: LocationsProps) {
+	const rentalsByDate = data;
 	const error =
 		rentalsByDate === null ? 'Não foi possível carregar os dados.' : undefined;
 

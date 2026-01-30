@@ -13,9 +13,12 @@ interface OccupancyRateByDateProps {
 	categories: string[];
 }
 
-export default function Occupation(data?: any) {
-	const occupancyRateByDate: OccupancyRateByDateProps | null | undefined =
-		data?.data;
+interface OccupationProps {
+	data?: OccupancyRateByDateProps | null;
+}
+
+export default function Occupation({ data }: OccupationProps) {
+	const occupancyRateByDate = data;
 	const error =
 		occupancyRateByDate === null
 			? 'Não foi possível carregar os dados.'

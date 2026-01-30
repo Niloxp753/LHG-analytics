@@ -29,8 +29,12 @@ interface SeriesDataProps {
 	data: number[];
 }
 
-export default function OccupationCasaLush(data?: any) {
-	const occupancyData: OccupancyDataProps | null | undefined = data?.data;
+interface OccupationCasaLushProps {
+	data?: OccupancyDataProps | null;
+}
+
+export default function OccupationCasaLush({ data }: OccupationCasaLushProps) {
+	const occupancyData = data;
 	const isLoading = typeof occupancyData === 'undefined';
 	const error =
 		occupancyData === null ? 'Não foi possível carregar os dados.' : undefined;
@@ -52,9 +56,9 @@ export default function OccupationCasaLush(data?: any) {
 	}
 
 	const hasSeries =
-		Array.isArray(occupancyData.series) && occupancyData.series.length > 0;
+		Array.isArray(occupancyData?.series) && occupancyData.series.length > 0;
 	const hasCategories =
-		Array.isArray(occupancyData.categories) &&
+		Array.isArray(occupancyData?.categories) &&
 		occupancyData.categories.length > 0;
 
 	if (!hasSeries || !hasCategories) {

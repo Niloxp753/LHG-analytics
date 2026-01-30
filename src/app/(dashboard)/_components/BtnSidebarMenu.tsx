@@ -5,7 +5,7 @@ import React from 'react';
 
 interface BtnSidebarMenuProps {
 	children: React.ReactNode;
-	icon: any;
+	icon: React.ReactNode;
 	selected: string;
 	openned: boolean;
 	href: string;

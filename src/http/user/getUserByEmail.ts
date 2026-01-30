@@ -5,7 +5,7 @@ import { auth_api } from '../api-client';
 import type { User } from '@/types/user';
 
 export async function getAllUserByEmail(email: string): Promise<User> {
-	const cookieHeader = buildAuthCookieHeader();
+	const cookieHeader = await buildAuthCookieHeader();
 	const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
 	const resp = await auth_api.get(`users/email/${encodeURIComponent(email)}`, {
 		headers: authHeaders,

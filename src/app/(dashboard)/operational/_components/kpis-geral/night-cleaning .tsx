@@ -1,5 +1,7 @@
 /** @format */
 
+'use client';
+
 import dynamic from 'next/dynamic';
 import { ShiftCleaning } from '../../types';
 const LineChart = dynamic(

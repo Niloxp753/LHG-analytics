@@ -58,6 +58,7 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 			role: normalizedRole,
 		},
 	});
+	// eslint-disable-next-line react-hooks/incompatible-library
 	const selectedRole = form.watch('role');
 	const isAdminRole = selectedRole === ADMIN_ROLE;
 
@@ -84,6 +85,7 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 				description: `${name} - Usuário atualizado no banco de dados`,
 			});
 		} catch (error) {
+			console.error(error);
 			toast.error('Algo deu errado - 500', {
 				description: 'Tente novamente',
 			});

@@ -154,7 +154,7 @@ function buildDefaultRoute(request: NextRequest, user: AuthUser): URL {
 	return url;
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
 	const normalizeUrl = request.nextUrl.clone();
 	const rawSet = normalizeUrl.searchParams.get('set');
 	if (rawSet) {

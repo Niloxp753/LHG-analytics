@@ -6,43 +6,30 @@ import {
 	formatDateInput,
 	getRangeDescription,
 } from '@/lib/date-range';
+import { Suspense } from 'react';
 import CardLink from '../_components/CardLink';
 import Header from '../_components/Header';
 import BigNumbersPage from './_components/kpis/big-numbers-page';
 import UnityxRevenue from './_components/kpis/UnityxRevenue';
-import UnityxSales from './_components/kpis/UnityxSales';
-import UnityxTKTxTime from './_components/kpis/UnityxTKTxTime';
-import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
 import UnityxRevenuexTimeAB from './_components/kpis/UnityxRevenuexTimeAB';
 import UnityxRevenuexTimeABPercent from './_components/kpis/UnityxRevenuexTimeABPercent';
+import UnityxSales from './_components/kpis/UnityxSales';
+import UnityxTKTxTime from './_components/kpis/UnityxTKTxTime';
+import SparkChart from '../_components/charts/SparkChart';
+import type { RestaurantBigNumbersEntry } from '@/types/big-numbers-restaurant';
 
-const SparkChart = dynamic(
-	() => import('@/app/(dashboard)/_components/charts/SparkChart'),
-	{ ssr: false },
-);
-
-type UnitSeries = { categories: string[]; series: number[] };
-
-type UnitPayload = {
-	Company?: string;
-	company?: string;
-	name?: string;
-	BigNumbers?: Array<{
-		currentDate?: {
-			totalAllValue?: number;
-			totalAllSales?: number;
-		};
-	}>;
-	RevenueAbByPeriod?: UnitSeries;
-	TicketAverageByPeriod?: UnitSeries;
+type NamedSeriesData = {
+	categories: string[];
+	series: Array<{ name: string; data: number[] }>;
 };
 
-type UnitMap = {
-	ipiranga?: UnitPayload;
-	lapa?: UnitPayload;
-	andar_de_cima?: UnitPayload;
-	tout?: UnitPayload;
+type RestaurantUnifiedData = {
+	BigNumbers: RestaurantBigNumbersEntry[];
+	RevenueAbByPeriod: NamedSeriesData;
+	TicketAverageByPeriod: NamedSeriesData;
+	RevenueAbByPeriodPercent: NamedSeriesData;
+	RevenueByCompany: NamedSeriesData;
+	SalesByCompany: NamedSeriesData;
 };
 
 export default async function Restaurant({
@@ -89,21 +76,25 @@ export default async function Restaurant({
 				: undefined;
 
 	const unifiedData =
-		!hasError && !Array.isArray(resp.data) ? (resp.data as any) : null;
-	const bigNumbers = hasError ? null : unifiedData?.BigNumbers ?? null;
+		!hasError && !Array.isArray(resp.data)
+			? (resp.data as RestaurantUnifiedData)
+			: null;
+	const bigNumbers = hasError ? null : (unifiedData?.BigNumbers ?? null);
 	const revenueByCompanyAB = hasError
 		? null
-		: unifiedData?.RevenueAbByPeriod ?? null;
+		: (unifiedData?.RevenueAbByPeriod ?? null);
 	const ticketAverageByPeriod = hasError
 		? null
-		: unifiedData?.TicketAverageByPeriod ?? null;
+		: (unifiedData?.TicketAverageByPeriod ?? null);
 	const revenueAbByPeriodPercent = hasError
 		? null
-		: unifiedData?.RevenueAbByPeriodPercent ?? null;
+		: (unifiedData?.RevenueAbByPeriodPercent ?? null);
 	const revenueByCompany = hasError
 		? null
-		: unifiedData?.RevenueByCompany ?? null;
-	const salesByCompany = hasError ? null : unifiedData?.SalesByCompany ?? null;
+		: (unifiedData?.RevenueByCompany ?? null);
+	const salesByCompany = hasError
+		? null
+		: (unifiedData?.SalesByCompany ?? null);
 
 	return (
 		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden md:px-5 py-10'>
@@ -152,8 +143,14 @@ export default async function Restaurant({
 						/>
 
 						<div className='flex gap-5  flex-col md:flex-row mx-auto w-full h-full'>
-							<UnityxRevenue data={revenueByCompany} error={errorMessage} />
-							<UnityxSales data={salesByCompany} error={errorMessage} />
+							<UnityxRevenue
+								data={revenueByCompany}
+								error={errorMessage}
+							/>
+							<UnityxSales
+								data={salesByCompany}
+								error={errorMessage}
+							/>
 						</div>
 
 						<div className='flex flex-col gap-5'>
@@ -165,7 +162,10 @@ export default async function Restaurant({
 								data={revenueAbByPeriodPercent}
 								error={errorMessage}
 							/>
-							<UnityxTKTxTime data={ticketAverageByPeriod} error={errorMessage} />
+							<UnityxTKTxTime
+								data={ticketAverageByPeriod}
+								error={errorMessage}
+							/>
 						</div>
 					</Suspense>
 				</div>

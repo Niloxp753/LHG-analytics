@@ -1,4 +1,5 @@
 /** @format */
+'use client';
 
 import dynamic from 'next/dynamic';
 import React from 'react';
@@ -19,9 +20,14 @@ interface UnityxTKTxTimePrps {
 export default function UnityxTKTxTime({ data, error }: UnityxTKTxTimePrps) {
 	const isLoading = typeof data === 'undefined';
 	const resolvedError =
-		error ?? (data === null ? 'Não foi possível carregar os dados.' : undefined);
+		error ??
+		(data === null ? 'Não foi possível carregar os dados.' : undefined);
 
-	if (!isLoading && !resolvedError && (!data?.series?.length || !data?.categories?.length)) {
+	if (
+		!isLoading &&
+		!resolvedError &&
+		(!data?.series?.length || !data?.categories?.length)
+	) {
 		return null;
 	}
 

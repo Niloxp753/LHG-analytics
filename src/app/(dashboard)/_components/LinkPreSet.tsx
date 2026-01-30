@@ -23,7 +23,8 @@ export default function LinkPreSet({
 
 	return (
 		<Link
-			onClick={() => {
+			onClick={(event) => {
+				onClick?.(event);
 				startTransition(() => {});
 			}}
 			{...props}

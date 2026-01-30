@@ -9,7 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 interface ColumnChartProps {
 	title: string;
 	categories?: string[];
-	data?: any[];
+	data?: unknown[];
 	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | null;
 	error?: string | boolean;
 }

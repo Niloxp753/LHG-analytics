@@ -12,6 +12,7 @@ export default function ResponsiveContainerChart({
 }) {
 	return (
 		<div
+			style={height ? { height } : undefined}
 			className={`rounded py-4 px-2 w-full h-full bg-gradient-to-br from-zinc-800 to-zinc-900 border-none`}>
 			{children}
 		</div>

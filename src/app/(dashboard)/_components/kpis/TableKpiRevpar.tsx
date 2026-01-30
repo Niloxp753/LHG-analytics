@@ -28,8 +28,12 @@ interface RevparOutput {
 	[key: string]: string | number | undefined;
 }
 
-export function TableKpiRevpar(dataRevpar?: any) {
-	const dataTableRevparByWeek: RevparTableEntry[] = dataRevpar.data;
+interface TableKpiRevparProps {
+	data?: RevparTableEntry[];
+}
+
+export function TableKpiRevpar({ data }: TableKpiRevparProps) {
+	const dataTableRevparByWeek: RevparTableEntry[] | undefined = data;
 
 	const week: { [key: string]: string } = {
 		sábado: 'sabado',

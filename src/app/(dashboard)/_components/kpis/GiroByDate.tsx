@@ -14,8 +14,12 @@ interface GiroByDateProps {
 	series: number[];
 }
 
-export default function GiroByDate(data?: any) {
-	const giroByDate: GiroByDateProps | null | undefined = data?.data;
+interface GiroByDateComponentProps {
+	data?: GiroByDateProps | null;
+}
+
+export default function GiroByDate({ data }: GiroByDateComponentProps) {
+	const giroByDate = data;
 	const error =
 		giroByDate === null ? 'Não foi possível carregar os dados.' : undefined;
 

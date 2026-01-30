@@ -8,7 +8,7 @@ import { redirect } from 'next/navigation';
 const authUrl = process.env.NEXT_PUBLIC_AUTH_URL;
 
 export async function requireAccessToken() {
-	const cookieStore = cookies();
+	const cookieStore = await cookies();
 	const token = cookieStore.get('access_token')?.value;
 	if (!token) {
 		redirect('/login');

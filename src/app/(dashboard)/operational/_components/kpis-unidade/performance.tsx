@@ -8,12 +8,17 @@ const PieChartsApex = dynamic(
 	{ ssr: false },
 );
 
-interface PerformanceProps {
-	data: any;
+interface PerformanceDataProps {
+	categories: string[];
+	series: number[];
 }
 
-export default function Performance(data: PerformanceProps) {
-	const supPerformance = data?.data;
+interface PerformanceProps {
+	data?: PerformanceDataProps | null;
+}
+
+export default function Performance({ data }: PerformanceProps) {
+	const supPerformance = data;
 	const error =
 		supPerformance === null ? 'Não foi possível carregar os dados.' : undefined;
 

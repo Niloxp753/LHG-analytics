@@ -13,7 +13,7 @@ export async function updateUser({
 	unit,
 }: UpdateUserInput) {
 	try {
-		const cookieHeader = buildAuthCookieHeader();
+		const cookieHeader = await buildAuthCookieHeader();
 		const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
 		await auth_api.patch(`users/${id}`, {
 			headers: authHeaders,

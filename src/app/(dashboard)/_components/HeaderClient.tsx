@@ -9,7 +9,7 @@ import { DATE_RANGE_TAGS, DEFAULT_RANGE_TAG } from '@/lib/date-range';
 import { useSessionStore } from '@/stores/session-store';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 import FormFilter from './FormFilter';
 import LinkPreSet from './LinkPreSet';
 
@@ -22,7 +22,6 @@ export default function HeaderClient() {
 	const preSet = searchParams.get('set') || DEFAULT_RANGE_TAG;
 	const startDate = searchParams.get('startDate') || '';
 	const menu = searchParams.get('menu');
-	const [tab, setTab] = useState(preSet);
 	const [isPending, startTransition] = useTransition();
 
 	const links = DATE_RANGE_TAGS;
@@ -69,7 +68,6 @@ export default function HeaderClient() {
 					{links.map((l, index) => {
 						return (
 							<LinkPreSet
-								onClick={() => setTab(l.tag)}
 								tag={l.tag}
 								key={index}
 								preSet={preSet}

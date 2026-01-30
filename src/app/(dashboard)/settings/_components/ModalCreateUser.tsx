@@ -59,6 +59,7 @@ export function ModalCreateUser() {
 			role: ROLE_VALUES[0],
 		},
 	});
+	// eslint-disable-next-line react-hooks/incompatible-library
 	const selectedRole = form.watch('role');
 	const isAdminRole = selectedRole === ADMIN_ROLE;
 
@@ -78,6 +79,7 @@ export function ModalCreateUser() {
 			});
 			setModal(false);
 		} catch (error) {
+			console.error(error);
 			toast.error('Algo deu errado - 500', {
 				description: 'Tente novamente',
 			});

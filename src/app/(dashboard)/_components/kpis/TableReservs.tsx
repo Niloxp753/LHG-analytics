@@ -11,15 +11,55 @@ import {
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
 
-interface TableProps {
-	EXPEDIA: number;
-	WEBSITE_SCHEDULED: number;
+interface BookingsTotalByChannel {
+	TOTALALLBOOKINGS: number;
 	WEBSITE_IMMEDIATE: number;
-	INTERNAL: number;
+	WEBSITE_SCHEDULED: number;
 	GUIA_GO: number;
 	GUIA_SCHEDULED: number;
+	INTERNAL: number;
 	BOOKING: number;
-	TOTAL: number;
+	EXPEDIA: number;
+}
+
+interface BookingsValueByChannel {
+	TOTALALLVALUE: number;
+	WEBSITE_IMMEDIATE: number;
+	WEBSITE_SCHEDULED: number;
+	GUIA_GO: number;
+	GUIA_SCHEDULED: number;
+	INTERNAL: number;
+	BOOKING: number;
+	EXPEDIA: number;
+}
+
+interface BookingsTicketAverageByChannel {
+	TOTALALLTICKETAVERAGE: number;
+	WEBSITE_IMMEDIATE: number;
+	WEBSITE_SCHEDULED: number;
+	GUIA_GO: number;
+	GUIA_SCHEDULED: number;
+	INTERNAL: number;
+	BOOKING: number;
+	EXPEDIA: number;
+}
+
+interface BookingsRepresentativenessByChannel {
+	TOTALALLREPRESENTATIVENESS: number;
+	WEBSITE_IMMEDIATE: number;
+	WEBSITE_SCHEDULED: number;
+	GUIA_GO: number;
+	GUIA_SCHEDULED: number;
+	INTERNAL: number;
+	BOOKING: number;
+	EXPEDIA: number;
+}
+
+interface TableProps {
+	bookingsTotalRentalsByChannelType: BookingsTotalByChannel;
+	bookingsRevenueByChannelType: BookingsValueByChannel;
+	bookingsTicketAverageByChannelType: BookingsTicketAverageByChannel;
+	bookingsRepresentativenessByChannelType: BookingsRepresentativenessByChannel;
 }
 
 interface TableReservsProps {
@@ -48,7 +88,7 @@ export function TableReservs({ data }: TableReservsProps) {
 		);
 	}
 
-	const dataTable: any = data;
+	const dataTable = data;
 
 	return (
 		<Table

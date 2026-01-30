@@ -35,14 +35,12 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function sanitizeUser(raw: Record<string, unknown>): SessionUser {
-	const {
-		id: _id,
-		password: _password,
-		createdAt: _createdAt,
-		updatedAt: _updatedAt,
-		...rest
-	} = raw;
-	return rest as SessionUser;
+	const sanitized = { ...raw };
+	delete sanitized.id;
+	delete sanitized.password;
+	delete sanitized.createdAt;
+	delete sanitized.updatedAt;
+	return sanitized as SessionUser;
 }
 
 function sanitizeAndEnsureEmail(
