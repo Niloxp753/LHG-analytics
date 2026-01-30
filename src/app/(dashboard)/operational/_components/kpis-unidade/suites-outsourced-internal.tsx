@@ -2,30 +2,34 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import React from 'react';
+import { ShiftCleaning, UnitName } from '../../types';
+
 const PieChartsApex = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/PieChartsApex'),
 	{ ssr: false },
 );
 
+type serie = {
+	name: string;
+	data: number[];
+};
 interface SuitesOutsourcedInternalProps {
-	data: any;
+	series: serie[] | null;
+	categories: string[];
 }
 
-export default function SuitesOutsourcedInternal(
-	data: SuitesOutsourcedInternalProps,
-) {
-	const ShiftCleaning = data?.data;
-	const error =
-		ShiftCleaning === null ? 'Não foi possível carregar os dados.' : undefined;
+type entryData = {
+	data: SuitesOutsourcedInternalProps;
+};
 
+export default function SuitesOutsourcedInternal({ data }: entryData) {
+	console.log(data);
 	return (
 		<PieChartsApex
-			error={error}
-			labels={ShiftCleaning?.categories}
-			series={ShiftCleaning?.series ?? undefined}
+			labels={data?.categories}
+			series={data.series}
 			height={340}
-			title='Limpezas por turno'
+			title='Limpezas por Turno'
 		/>
 	);
 }

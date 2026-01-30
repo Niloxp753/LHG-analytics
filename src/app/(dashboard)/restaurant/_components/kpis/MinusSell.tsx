@@ -8,6 +8,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
+import { TrendingDown, TrendingUp } from 'lucide-react';
 
 type SellingItems = {
 	name: string;
@@ -25,7 +26,11 @@ export function MinusSell({ data }: DataProps) {
 		<Table className='mt-5 bg-zinc-900 rounded-lg'>
 			<TableHeader className='bg-violet-900 rounded-lg'>
 				<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
-					<TableHead>Itens Mais Vendidos</TableHead>
+					<TableHead>
+						<p className='flex w-full items-center text-nowrap gap-2'>
+							Alimentos Menos Vendidos <TrendingDown size={16} />
+						</p>
+					</TableHead>
 					<TableHead className='text-center'>Faturamento</TableHead>
 					<TableHead className='text-center'>Vendas</TableHead>
 					<TableHead className='text-center'>Representatividade</TableHead>

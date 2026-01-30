@@ -16,15 +16,12 @@ export async function getReservationsCustom(
 	try {
 		switch (company) {
 			case 'lapa':
-				const resp_lapa = await api_lapa.get(
-					'Bookings/bookings/date-range',
-					{
-						searchParams: { startDate, endDate },
-						next: { tags: ['reservations'], revalidate: 30 },
-						headers: authHeaders,
-						signal: controller.signal, // Passa o signal ao fetch
-					},
-				);
+				const resp_lapa = await api_lapa.get('Bookings/bookings/date-range', {
+					searchParams: { startDate, endDate },
+					next: { tags: ['reservations'], revalidate: 30 },
+					headers: authHeaders,
+					signal: controller.signal, // Passa o signal ao fetch
+				});
 
 				if (!resp_lapa.ok) {
 					console.error(
@@ -38,15 +35,12 @@ export async function getReservationsCustom(
 				return resp_lapa.json();
 
 			case 'tout':
-				const resp_tout = await api_tout.get(
-					'Bookings/bookings/date-range',
-					{
-						searchParams: { startDate, endDate },
-						next: { tags: ['reservations'], revalidate: 30 },
-						headers: authHeaders,
-						signal: controller.signal, // Passa o signal ao fetch
-					},
-				);
+				const resp_tout = await api_tout.get('Bookings/bookings/date-range', {
+					searchParams: { startDate, endDate },
+					next: { tags: ['reservations'], revalidate: 30 },
+					headers: authHeaders,
+					signal: controller.signal, // Passa o signal ao fetch
+				});
 
 				if (!resp_tout.ok) {
 					console.error(

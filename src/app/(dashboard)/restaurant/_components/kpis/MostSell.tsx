@@ -8,6 +8,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
+import { TrendingUp } from 'lucide-react';
 
 type SellingItems = {
 	name: string;
@@ -25,7 +26,10 @@ export function MostSell({ data }: DataProps) {
 		<Table className='mt-5 bg-zinc-900 rounded-lg'>
 			<TableHeader className='bg-violet-900 rounded-lg'>
 				<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
-					<TableHead>Itens Mais Vendidos</TableHead>
+					<TableHead className='flex items-center gap-2'>
+						Alimentos Mais Vendidos
+						<TrendingUp size={16} />
+					</TableHead>
 					<TableHead className='text-center'>Faturamento</TableHead>
 					<TableHead className='text-center'>Vendas</TableHead>
 					<TableHead className='text-center'>Representatividade</TableHead>

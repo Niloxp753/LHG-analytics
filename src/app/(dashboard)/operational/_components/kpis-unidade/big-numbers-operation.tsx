@@ -88,7 +88,7 @@ export default function BigNumbersOperation({
 						: ''
 				}
 				icon={<LeafyGreen />}
-				title={'Média de Limpezas Por Dia'}
+				title={'Média de Limpezas por Dia'}
 				monthlyForecast={
 					monthlyForecast
 						? (monthlyForecast?.totalAllAverageDailyCleaningForecast ??

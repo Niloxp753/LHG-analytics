@@ -3,6 +3,7 @@
 'use server';
 
 import { getReservationsCustom } from '@/http/reservations/get-bookings-custom';
+import { getBookingsUnified } from '@/http/reservations/getBookingsUnified';
 import {
 	DEFAULT_RANGE_TAG,
 	getRangeByTag,
@@ -30,4 +31,3 @@ export async function getReservationsAction(period: string, company?: string) {
 		return null;
 	}
 }
-

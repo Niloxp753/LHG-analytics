@@ -26,16 +26,16 @@ const SparkChart = dynamic(
 export default async function Operational({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | undefined };
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
 	const menu = 'operational';
-	const preSet = searchParams.set || DEFAULT_RANGE_TAG;
-	const startDate = searchParams.startDate;
-	const endDate = searchParams.endDate;
-	const rangeDescription = getRangeDescription(preSet);
+	const preSet = (await searchParams).set || DEFAULT_RANGE_TAG;
+	const startDate = (await searchParams).startDate;
+	const endDate = (await searchParams).endDate;
+	const rangeDescription = getRangeDescription(preSet as string);
 
-	const formattedStartDate = formatDateInput(startDate);
-	const formattedEndDate = formatDateInput(endDate);
+	const formattedStartDate = formatDateInput(startDate as string);
+	const formattedEndDate = formatDateInput(endDate as string);
 
 	async function getData() {
 		if (formattedStartDate && formattedEndDate) {
@@ -48,7 +48,7 @@ export default async function Operational({
 			}
 			return { ok: false, data: null, error: 'Algo deu errado' };
 		} else {
-			const data = await getOperationalPageData({ period: preSet });
+			const data = await getOperationalPageData({ period: preSet as string });
 			if (data) {
 				return data;
 			}
@@ -67,19 +67,18 @@ export default async function Operational({
 				: undefined;
 
 	const unifiedData = hasError ? null : resp.data;
-	const bigNumbers = hasError ? null : unifiedData?.BigNumbers ?? null;
-	const cleaningsByCompany = hasError
-		? null
-		: unifiedData?.CleaningsByCompany ?? null;
+	const bigNumbers = hasError ? null : unifiedData?.BigNumbers;
+
+	const cleaningsByCompany = hasError ? null : unifiedData?.CleaningsByCompany;
 	const averageCleaningByCompany = hasError
 		? null
-		: unifiedData?.AverageCleaningByCompany ?? null;
+		: unifiedData?.AverageCleaningByCompany;
 	const inspectionsByCompany = hasError
 		? null
-		: unifiedData?.InspectionsByCompany ?? null;
+		: unifiedData?.InspectionsByCompany;
 	const shiftCleaning: ShiftCleaning | null = hasError
 		? null
-		: unifiedData?.ShiftCleaning ?? null;
+		: unifiedData?.ShiftCleaning;
 
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 '>
@@ -136,24 +135,24 @@ export default async function Operational({
 								data={averageCleaningByCompany}
 								error={errorMessage}
 							/>
-							<PerformanceUnity data={inspectionsByCompany} error={errorMessage} />
+							<PerformanceUnity
+								data={inspectionsByCompany}
+								error={errorMessage}
+							/>
 						</div>
 					</div>
 					<div className='flex flex-col gap-5'>
 						<MorningCleaning
 							error={errorMessage}
-							categories={shiftCleaning?.categories}
-							series={shiftCleaning?.series}
+							data={shiftCleaning}
 						/>
 						<AfternoonCleaning
 							error={errorMessage}
-							categories={shiftCleaning?.categories}
-							series={shiftCleaning?.series}
+							data={shiftCleaning}
 						/>
 						<NightCleaning
 							error={errorMessage}
-							categories={shiftCleaning?.categories}
-							series={shiftCleaning?.series}
+							data={shiftCleaning}
 						/>
 					</div>
 				</div>

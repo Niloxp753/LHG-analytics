@@ -13,23 +13,27 @@ import TableWokersAfternoon from '../../_components/kpis-unidade/table-workers-a
 import TableWokersNight from '../../_components/kpis-unidade/table-workers-nigh';
 import { getGovernanceAction } from '@/actions/getGovernance';
 import { revalidatePath } from 'next/cache';
-import { DEFAULT_RANGE_TAG, formatDateInput, getRangeDescription } from '@/lib/date-range';
+import {
+	DEFAULT_RANGE_TAG,
+	formatDateInput,
+	getRangeDescription,
+} from '@/lib/date-range';
 import BigNumbersOperation from '../../_components/kpis-unidade/big-numbers-operation';
 import { getOperationCustomAction } from '@/actions/getoperationsCustom';
 
 export default async function LushIpiranga({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | undefined };
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-	searchParams.menu = 'operational';
-	const preSet = searchParams.set ?? DEFAULT_RANGE_TAG;
-	const startDate = searchParams.startDate;
-	const endDate = searchParams.endDate;
-	const rangeDescription = getRangeDescription(preSet);
+	(await searchParams).menu = 'operational';
+	const preSet = (await searchParams).set || DEFAULT_RANGE_TAG;
+	const startDate = (await searchParams).startDate;
+	const endDate = (await searchParams).endDate;
+	const rangeDescription = getRangeDescription(preSet as string);
 
-	const formattedStartDate = formatDateInput(startDate);
-	const formattedEndDate = formatDateInput(endDate);
+	const formattedStartDate = formatDateInput(startDate as string);
+	const formattedEndDate = formatDateInput(endDate as string);
 
 	async function getData() {
 		if (formattedStartDate && formattedEndDate) {
@@ -42,7 +46,9 @@ export default async function LushIpiranga({
 				return customData;
 			}
 		} else {
-			const data = await getGovernanceAction(preSet ?? DEFAULT_RANGE_TAG);
+			const data = await getGovernanceAction(
+				(preSet as string) || DEFAULT_RANGE_TAG,
+			);
 			if (data) {
 				revalidatePath('/');
 				return data;
@@ -108,7 +114,3 @@ export default async function LushIpiranga({
 		</main>
 	);
 }
-
-
-
-

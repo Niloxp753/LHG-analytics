@@ -31,22 +31,22 @@ export default function TableWokersMorning({
 	return (
 		<div>
 			<h2 className='font-bold text-zinc-50 text-xl md:text-3xl mt-10'>
-				Relatório de colaboradores - Manhã
+				Relatório de Colaboradores - Manhã
 			</h2>
 			<Table
-				title='Colaboradores da manhã'
+				title='Colaboradores da Manhã'
 				className='mt-5 bg-zinc-900 rounded-lg'>
 				<TableHeader className='bg-violet-900 rounded-lg text-sm'>
 					<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
 						<TableHead>Colaborador</TableHead>
 						<TableHead className='text-center text-xs text-nowrap'>
-							Total de suítes
+							Total de Suítes
 						</TableHead>
 						<TableHead className='text-center text-xs text-nowrap'>
-							Dias trabalhados
+							Dias Trabalhados
 						</TableHead>
 						<TableHead className='text-center text-xs text-nowrap'>
-							Média de limpezas por dia
+							Média de Limpezas por Dia
 						</TableHead>
 					</TableRow>
 				</TableHeader>

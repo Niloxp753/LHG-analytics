@@ -14,6 +14,15 @@ interface BarChartsApexProps {
 	dataLabelColors: string[];
 	money?: boolean;
 	error?: string | boolean;
+	stacked?: boolean;
+	showDataLabels?: boolean;
+	showTotalLabels?: boolean;
+	showLegend?: boolean;
+	showXAxisLabels?: boolean;
+	showXAxisGrid?: boolean;
+	barHeight?: number | string;
+	height?: number;
+	hideDataLabelsOnMobile?: boolean;
 }
 
 export default function BarChartsApex(props: BarChartsApexProps) {
@@ -38,10 +47,39 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 		props.error ??
 		(props.series === null ? 'Não foi possível carregar os dados.' : undefined);
 
+	const stacked = props.stacked ?? false;
+	const showDataLabels = props.showDataLabels ?? true;
+	const showTotalLabels = props.showTotalLabels ?? false;
+	const showLegend = props.showLegend ?? false;
+	const showXAxisLabels = props.showXAxisLabels ?? false;
+	const showXAxisGrid = props.showXAxisGrid ?? false;
+	const barHeight = props.barHeight ?? 24;
+	const dataLabelsEnabled = showDataLabels || showTotalLabels;
+	const hideDataLabelsOnMobile = props.hideDataLabelsOnMobile ?? false;
+	const seriesLength = Array.isArray(props.series) ? props.series.length : 0;
+	const lastSeriesIndex = seriesLength > 0 ? seriesLength - 1 : 0;
+
+	const formatCompactValue = (value: number) => {
+		const numericValue = Number(value);
+		if (Number.isNaN(numericValue)) {
+			return '';
+		}
+		if (props.money) {
+			return numericValue.toLocaleString('pt-BR', {
+				style: 'currency',
+				currency: 'BRL',
+				notation: 'compact',
+			});
+		}
+		return `${numericValue}`;
+	};
+
+	const gridColor = showXAxisGrid ? 'rgba(167, 139, 250, 0.2)' : '#a78bfa';
+
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: 'bar-chart',
-			stacked: false,
+			stacked,
 
 			type: 'bar',
 			foreColor: '#fafafa',
@@ -59,10 +97,14 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 'bold' },
 			margin: 8,
 		},
-
 		grid: {
-			borderColor: '#a78bfa',
+			borderColor: gridColor,
 			show: true,
+			xaxis: {
+				lines: {
+					show: showXAxisGrid,
+				},
+			},
 			yaxis: {
 				lines: {
 					show: false,
@@ -71,27 +113,32 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 		},
 
 		dataLabels: {
-			enabled: true,
-			formatter: (val: number) =>
-				`${
-					props.money
-						? val.toLocaleString('pt-BR', {
-								style: 'currency',
-								currency: 'BRL',
-								notation: 'compact',
-						  })
-						: val
-				}`,
+			enabled: dataLabelsEnabled,
+			...(showTotalLabels ? { enabledOnSeries: [lastSeriesIndex] } : {}),
+			formatter: (val: number, opts) => {
+				if (showTotalLabels && stacked) {
+					const totals = opts?.w?.globals?.stackedSeriesTotals;
+					const total = totals?.[opts.dataPointIndex];
+					return formatCompactValue(Number(total ?? val));
+				}
+
+				if (!showDataLabels) {
+					return '';
+				}
+
+				return formatCompactValue(val);
+			},
 			background: {
 				enabled: true,
 				borderRadius: 4,
-				padding: 12,
+				padding: showTotalLabels ? 8 : 12,
 				borderWidth: 1,
 			},
 			style: {
 				colors: props.dataLabelColors,
 				fontSize: '11px',
 			},
+			offsetX: showTotalLabels ? 8 : 0,
 		},
 		tooltip: {
 			y: {
@@ -122,7 +169,18 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 			categories: props.categories,
 			axisTicks: { show: false },
 			labels: {
-				show: false,
+				show: showXAxisLabels,
+				...(showXAxisLabels
+					? {
+							formatter: (value: string) => {
+								const numericValue = Number(value);
+								if (Number.isNaN(numericValue)) {
+									return value;
+								}
+								return formatCompactValue(numericValue);
+							},
+					  }
+					: {}),
 				style: {
 					fontSize: '10px',
 				},
@@ -137,10 +195,34 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 				borderRadiusApplication: 'end',
 				horizontal: true,
 				rangeBarGroupRows: true,
-				barHeight: 24,
+				barHeight,
 			},
 		},
 	};
+
+	if (showLegend) {
+		options.legend = {
+			show: true,
+			position: 'top',
+			horizontalAlign: 'left',
+			fontSize: '11px',
+			fontWeight: 600,
+			itemMargin: { horizontal: 8, vertical: 0 },
+		};
+	}
+
+	if (hideDataLabelsOnMobile) {
+		options.responsive = [
+			{
+				breakpoint: 768,
+				options: {
+					dataLabels: {
+						enabled: false,
+					},
+				},
+			},
+		];
+	}
 
 	return (
 		<ResponsiveContainerChart>
@@ -153,7 +235,7 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 					series={props.series as ApexAxisChartSeries}
 					type='bar'
 					width={'100%'}
-					height={720}></Chart>
+					height={props.height ?? 720}></Chart>
 			</DataState>
 		</ResponsiveContainerChart>
 	);

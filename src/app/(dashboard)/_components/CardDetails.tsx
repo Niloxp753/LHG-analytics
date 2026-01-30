@@ -78,7 +78,7 @@ export default function CardDetails({
 					</p>
 				) : type == 'percent' ? (
 					<p className='flex gap-2 items-end justify-between text-2xl font-semibold tracking-tight'>
-						{(Number(value) * 100).toFixed(2) + '%'}
+						{Number(value).toFixed(2) + '%'}
 						{showForecast && (
 							<span className='flex flex-col items-start gap-1 text-xs font-normal text-muted-foreground'>
 								<span className='text-xs text-muted-foreground'>

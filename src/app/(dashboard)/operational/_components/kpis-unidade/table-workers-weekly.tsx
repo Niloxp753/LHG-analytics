@@ -24,7 +24,7 @@ export default function TableWokersWeekly({
 		<div>
 			<div className='flex flex-col gap-5 text-balance md:flex-row items-baseline justify-between text-zinc-50'>
 				<h2 className='font-bold text-xl  md:text-3xl mt-10'>
-					Dimensionamento de equipe - Semanal
+					Dimensionamento de Equipe - Semanal
 				</h2>
 				<p className='border border-violet-400 rounded-lg p-4'>
 					Número ideal de suítes limpas:{' '}
@@ -32,7 +32,7 @@ export default function TableWokersWeekly({
 				</p>
 			</div>
 			<Table
-				title='Dimensionamento de equipe - Semanal'
+				title='Dimensionamento de Equipe - Semanal'
 				className='mt-5 bg-zinc-900 rounded-lg'>
 				<TableHeader className='bg-violet-900 rounded-lg text-sm'>
 					<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>

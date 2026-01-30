@@ -23,7 +23,7 @@ export default function Performance(data: PerformanceProps) {
 			labels={supPerformance?.categories}
 			series={supPerformance?.series ?? undefined}
 			height={340}
-			title='Performance de supervisores'
+			title='Performance de Supervisores'
 		/>
 	);
 }

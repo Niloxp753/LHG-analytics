@@ -27,7 +27,7 @@ export default function TotalCleaning(data: TotalCleaningProps) {
 					? [
 							{
 								data: cleaningByDate?.series,
-								name: 'Total de limpezas',
+								name: 'Total de Limpezas',
 							},
 					  ]
 					: undefined

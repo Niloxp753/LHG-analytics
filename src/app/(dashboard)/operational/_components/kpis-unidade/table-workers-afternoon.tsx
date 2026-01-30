@@ -31,7 +31,7 @@ export default function TableWokersAfternoon({
 	return (
 		<div>
 			<h2 className='font-bold text-zinc-50 text-xl md:text-3xl mt-10'>
-				Relatório de colaboradores - Tarde
+				Relatório de Colaboradores - Tarde
 			</h2>
 			<Table
 				title='Colaboradores da Tarde'
@@ -40,13 +40,13 @@ export default function TableWokersAfternoon({
 					<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
 						<TableHead>Colaborador</TableHead>
 						<TableHead className='text-center text-xs text-nowrap'>
-							Total de limpezas
+							Total de Limpezas
 						</TableHead>
 						<TableHead className='text-center text-xs text-nowrap'>
-							Dias trabalhados
+							Dias Trabalhados
 						</TableHead>
 						<TableHead className='text-center text-xs text-nowrap'>
-							Média de limpezas por dia
+							Média de Limpezas por Dia
 						</TableHead>
 					</TableRow>
 				</TableHeader>

@@ -29,7 +29,7 @@ export default function NightCleaningWorkers({
 	return (
 		<LineChart
 			height={48}
-			title='Total de limpezas - Noite'
+			title='Total de Limpezas - Noite'
 			error={resolvedError}
 			series={series ?? undefined}
 			categories={categories}

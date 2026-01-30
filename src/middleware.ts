@@ -1,6 +1,5 @@
 /** @format */
 
-import { NextRequest, NextResponse } from 'next/server';
 import {
 	canAccessModule,
 	getDefaultModule,
@@ -10,7 +9,8 @@ import {
 	UNIT_SLUG_TO_UNIT,
 	UNIT_TO_SLUG,
 } from '@/lib/access-control';
-import { DEFAULT_RANGE_TAG, normalizeRangeTag } from '@/lib/date-range';
+import { normalizeRangeTag } from '@/lib/date-range';
+import { NextRequest, NextResponse } from 'next/server';
 
 const authUrl = process.env.NEXT_PUBLIC_AUTH_URL;
 
@@ -270,5 +270,3 @@ export const config = {
 		'/((?!api|_next|favicon.ico|.*\\.(?:png|jpg|jpeg|gif|webp|svg|ico|css|js|map|txt|xml|woff|woff2|ttf|otf)$).*)',
 	],
 };
-
-

@@ -4,6 +4,7 @@ import { getCompanyAction } from '@/actions/getCompany';
 import { getCompanyCustomAction } from '@/actions/getCompanyCustom';
 import Header from '@/app/(dashboard)/_components/Header';
 import BigNumbers from '@/app/(dashboard)/_components/bignumber';
+import GiroByDate from '@/app/(dashboard)/_components/kpis/GiroByDate';
 import Invoicing from '@/app/(dashboard)/_components/kpis/Invoicing';
 import Categories from '@/app/(dashboard)/_components/kpis/InvoicingXCategories';
 import InvoicingXLocation from '@/app/(dashboard)/_components/kpis/InvoicingXLocation';
@@ -15,6 +16,7 @@ import TRevPar from '@/app/(dashboard)/_components/kpis/TRevPar';
 import TableKpiCategory from '@/app/(dashboard)/_components/kpis/TableKpiCategory';
 import { TableKpiGiro } from '@/app/(dashboard)/_components/kpis/TableKpiGiro';
 import { TableKpiOccupation } from '@/app/(dashboard)/_components/kpis/TableKpiOccupation';
+import { TableKpiRevpar } from '@/app/(dashboard)/_components/kpis/TableKpiRevpar';
 import Ticket from '@/app/(dashboard)/_components/kpis/Ticket';
 import { DEFAULT_RANGE_TAG, formatDateInput, getRangeDescription } from '@/lib/date-range';
 import { revalidatePath } from 'next/cache';
@@ -91,6 +93,7 @@ export default async function LushIpiranga({
 					</div>
 					<div className='flex gap-5 flex-col items-center'>
 						<Invoicing data={resp?.RevenueByDate} />
+						<GiroByDate data={resp?.GiroByDate} />
 						<Locations data={resp?.RentalsByDate} />
 						<Ticket data={resp?.TicketAverageByDate} />
 					</div>
@@ -108,6 +111,7 @@ export default async function LushIpiranga({
 					</div>
 					<div className='flex gap-5 flex-col w-full'>
 						<TableKpiGiro data={resp?.DataTableGiroByWeek} />
+						<TableKpiRevpar data={resp?.DataTableRevparByWeek} />
 						<TableKpiOccupation data={resp?.DataTableOccupancyRateByWeek} />
 					</div>
 				</div>

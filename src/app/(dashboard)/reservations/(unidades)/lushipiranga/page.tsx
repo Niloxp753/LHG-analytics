@@ -4,7 +4,11 @@ import { getReservationsAction } from '@/actions/reservations/get-reservations';
 import { getReservationsCustomAction } from '@/actions/reservations/get-reservations-custom';
 import Header from '@/app/(dashboard)/_components/Header';
 import InvoicingXChannel from '@/app/(dashboard)/reservations/_components/kpis/InvoicingXChannel';
-import { DEFAULT_RANGE_TAG, formatDateInput, getRangeDescription } from '@/lib/date-range';
+import {
+	DEFAULT_RANGE_TAG,
+	formatDateInput,
+	getRangeDescription,
+} from '@/lib/date-range';
 import { revalidatePath } from 'next/cache';
 import { TableReservs } from '../../../_components/kpis/TableReservs';
 import BigNumbersEcommerce from '../../_components/big-numbers-ecommerce';
@@ -134,7 +138,3 @@ export default async function Page({
 		</main>
 	);
 }
-
-
-
-

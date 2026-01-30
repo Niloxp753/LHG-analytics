@@ -33,7 +33,7 @@ export default function PerformanceUnity({ data, error }: PerformanceUnityProps)
 			error={resolvedError}
 			series={series ?? undefined}
 			categories={['Lush Ipiranga', 'Lush Lapa', 'Andar de Cima', 'Tout']}
-			title='Total de vistorias por unidade'
+			title='Total de Vistorias por Unidade'
 			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
 			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
 			labels={data?.categories}

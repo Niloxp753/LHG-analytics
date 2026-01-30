@@ -15,6 +15,8 @@ import { BReports } from '../../_components/kpis/BReports';
 import CategoryA from '../../_components/kpis/CategoryA';
 import CategoryB from '../../_components/kpis/CategoryB';
 import { CReports } from '../../_components/kpis/CReports';
+import { BestSellingDrinks } from '../../_components/kpis/BestSellingDrinks';
+import { LeastSellingDrinks } from '../../_components/kpis/LeastSellingDrinks';
 import { MinusSell } from '../../_components/kpis/MinusSell';
 import { MostSell } from '../../_components/kpis/MostSell';
 import RevenueABXCost from '../../_components/kpis/revenueABXCost';
@@ -98,6 +100,14 @@ export default async function Restaurant({
 						</div>
 					</div>
 					<div className='flex flex-col gap-5 mb-5'>
+						<div className='flex flex-col md:flex-row items-start justify-between gap-5 w-full'>
+							<div className='md:w-1/2 w-full'>
+								<BestSellingDrinks data={resp.BestSellingDrinks} />
+							</div>
+							<div className='md:w-1/2 w-full'>
+								<LeastSellingDrinks data={resp.LeastSellingDrinks} />
+							</div>
+						</div>
 						<RevenueXGroup data={resp.RevenueByGroupPeriod} />
 						<CategoryA data={resp.RevenueFoodByPeriod} />
 						<CategoryB data={resp.RevenueDrinksByPeriod} />

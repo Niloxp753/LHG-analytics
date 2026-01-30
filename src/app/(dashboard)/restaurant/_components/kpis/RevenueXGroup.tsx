@@ -20,6 +20,7 @@ interface Serie {
 	data: number[];
 }
 export default function RevenueXGroup({ data }: DataProps) {
+
 	return (
 		<div className='w-full h-fit'>
 			<BarChart
@@ -29,6 +30,14 @@ export default function RevenueXGroup({ data }: DataProps) {
 				dataLabelColors={['#7c3aed', '#2563eb', '#4f46e5']}
 				colors={['#a78bfa', '#60a5fa', '#818cf8']}
 				money
+				stacked
+				showLegend
+				showDataLabels
+				showTotalLabels={false}
+				showXAxisLabels
+				showXAxisGrid
+				barHeight={18}
+				hideDataLabelsOnMobile
 			/>
 		</div>
 	);
