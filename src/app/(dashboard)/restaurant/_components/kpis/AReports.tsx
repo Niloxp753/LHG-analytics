@@ -34,7 +34,9 @@ export function AReports({ data }: { data: ReportEntry[] }) {
 					<TableRow
 						key={index}
 						className='text-center'>
-						<TableCell className='font-bold text-left capitalize'>
+						<TableCell
+							title={invoice.name}
+							className='text-xs max-w-48 truncate text-left capitalize'>
 							{invoice.name}
 						</TableCell>
 						<TableCell>

@@ -110,10 +110,10 @@ export default async function Restaurant({
 						<TKTXLocation data={resp.TicketAverageByPeriod} />
 					</div>
 					<div className='flex flex-col md:flex-row items-center justify-between gap-5 h-full w-full'>
-						<div className='md:w-1/2 h-full'>
+						<div className='w-full md:w-1/2 h-full'>
 							<MostSell data={resp.BestSellingFood} />
 						</div>
-						<div className='md:w-1/2 h-full'>
+						<div className='w-full md:w-1/2 h-full'>
 							<MinusSell data={resp.LeastSellingFood} />
 						</div>
 					</div>
