@@ -23,15 +23,15 @@ import Representation from '../../_components/kpis/Representation';
 export default async function Page({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | undefined };
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-	const preSet = searchParams.set || DEFAULT_RANGE_TAG;
-	const startDate = searchParams.startDate;
-	const endDate = searchParams.endDate;
-	const rangeDescription = getRangeDescription(preSet);
+	const preSet = (await searchParams).set || DEFAULT_RANGE_TAG;
+	const startDate = (await searchParams).startDate;
+	const endDate = (await searchParams).endDate;
+	const rangeDescription = getRangeDescription(preSet as string);
 
-	const formattedStartDate = formatDateInput(startDate);
-	const formattedEndDate = formatDateInput(endDate);
+	const formattedStartDate = formatDateInput(startDate as string);
+	const formattedEndDate = formatDateInput(endDate as string);
 
 	async function getData() {
 		if (formattedStartDate && formattedEndDate) {
@@ -45,7 +45,9 @@ export default async function Page({
 				return null;
 			}
 		} else {
-			const data = await getReservationsAction(preSet ?? DEFAULT_RANGE_TAG);
+			const data = await getReservationsAction(
+				(preSet as string) ?? DEFAULT_RANGE_TAG,
+			);
 			if (data) {
 				return data;
 			} else {

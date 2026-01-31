@@ -121,9 +121,7 @@ export function getZonedDateParts(
 	}, {});
 
 	if (!lookup.year || !lookup.month || !lookup.day) {
-		throw new Error(
-			`Não foi possível calcular data para timezone ${timeZone}`,
-		);
+		throw new Error(`Não foi possível calcular data para timezone ${timeZone}`);
 	}
 
 	return {
@@ -248,7 +246,7 @@ export function getRangeByTag(
 	}
 	switch (normalized) {
 		case 'ultimos_7_dias': {
-			return getRangeFromYesterday({ daysBack: 7, timeZone, baseDate });
+			return getRangeFromYesterday({ daysBack: 6, timeZone, baseDate });
 		}
 		case 'ultimo_mes_fechado': {
 			const today = getZonedDateParts(timeZone, baseDate);

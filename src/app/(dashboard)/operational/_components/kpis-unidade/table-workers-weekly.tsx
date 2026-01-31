@@ -125,19 +125,19 @@ export default function TableWokersWeekly({
 						</TableCell>
 						<TableCell className='text-center'>
 							{morning?.segunda?.averageDailyWeekCleaning ?? '0'}
-						</TableCell>{' '}
+						</TableCell>
 						<TableCell className='text-center'>
 							{morning?.terca?.averageDailyWeekCleaning ?? '0'}
-						</TableCell>{' '}
+						</TableCell>
 						<TableCell className='text-center'>
 							{morning?.quarta?.averageDailyWeekCleaning ?? '0'}
-						</TableCell>{' '}
+						</TableCell>
 						<TableCell className='text-center'>
 							{morning?.quinta?.averageDailyWeekCleaning ?? '0'}
-						</TableCell>{' '}
+						</TableCell>
 						<TableCell className='text-center'>
 							{morning?.sexta?.averageDailyWeekCleaning ?? '0'}
-						</TableCell>{' '}
+						</TableCell>
 						<TableCell className='text-center'>
 							{morning?.sabado?.averageDailyWeekCleaning ?? '0'}
 						</TableCell>
@@ -213,7 +213,7 @@ export default function TableWokersWeekly({
 						</TableCell>
 						<TableCell className='text-center'>
 							{night?.sabado?.averageDailyWeekCleaning ?? '0'}
-						</TableCell>{' '}
+						</TableCell>
 						<TableCell className='font-bold text-center'>
 							{night.totalAverageShiftCleaning}
 						</TableCell>

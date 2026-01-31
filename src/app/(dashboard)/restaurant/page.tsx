@@ -35,16 +35,16 @@ type RestaurantUnifiedData = {
 export default async function Restaurant({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | undefined };
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
 	const menu = 'restaurant';
-	const preSet = searchParams.set ?? DEFAULT_RANGE_TAG;
-	const startDate = searchParams.startDate;
-	const endDate = searchParams.endDate;
-	const rangeDescription = getRangeDescription(preSet);
+	const preSet = (await searchParams).set ?? DEFAULT_RANGE_TAG;
+	const startDate = (await searchParams).startDate;
+	const endDate = (await searchParams).endDate;
+	const rangeDescription = getRangeDescription(preSet as string);
 
-	const formattedStartDate = formatDateInput(startDate);
-	const formattedEndDate = formatDateInput(endDate);
+	const formattedStartDate = formatDateInput(startDate as string);
+	const formattedEndDate = formatDateInput(endDate as string);
 
 	async function getData() {
 		if (formattedStartDate && formattedEndDate) {
@@ -57,7 +57,7 @@ export default async function Restaurant({
 			}
 			return { ok: false, data: null, error: 'Algo deu errado' };
 		} else {
-			const data = await getRestaurantPageData({ period: preSet });
+			const data = await getRestaurantPageData({ period: preSet as string });
 			if (data) {
 				return data;
 			}

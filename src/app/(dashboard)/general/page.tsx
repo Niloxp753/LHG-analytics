@@ -42,16 +42,16 @@ type GeneralUnifiedData = {
 export default async function General({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | undefined };
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
 	const menu = 'general';
-	const preSet = searchParams.set ?? DEFAULT_RANGE_TAG;
-	const startDate = searchParams.startDate;
-	const endDate = searchParams.endDate;
-	const rangeDescription = getRangeDescription(preSet);
+	const preSet = (await searchParams).set ?? DEFAULT_RANGE_TAG;
+	const startDate = (await searchParams).startDate;
+	const endDate = (await searchParams).endDate;
+	const rangeDescription = getRangeDescription(preSet as string);
 
-	const formattedStartDate = formatDateInput(startDate);
-	const formattedEndDate = formatDateInput(endDate);
+	const formattedStartDate = formatDateInput(startDate as string);
+	const formattedEndDate = formatDateInput(endDate as string);
 
 	async function getData() {
 		if (formattedStartDate && formattedEndDate) {
@@ -64,7 +64,7 @@ export default async function General({
 			}
 			return { ok: false, data: null, error: 'Algo deu errado' };
 		} else {
-			const data = await getGeneralPageData({ period: preSet });
+			const data = await getGeneralPageData({ period: preSet as string });
 			if (data) {
 				return data;
 			}
@@ -86,17 +86,19 @@ export default async function General({
 		!hasError && !Array.isArray(resp.data)
 			? (resp.data as GeneralUnifiedData)
 			: null;
-	const bigNumbers = hasError ? null : unifiedData?.BigNumbers ?? null;
-	const revenueByCompany = hasError ? null : unifiedData?.RevenueByCompany ?? null;
-	const rentalsByDate = hasError ? null : unifiedData?.RentalsByDate ?? null;
+	const bigNumbers = hasError ? null : (unifiedData?.BigNumbers ?? null);
+	const revenueByCompany = hasError
+		? null
+		: (unifiedData?.RevenueByCompany ?? null);
+	const rentalsByDate = hasError ? null : (unifiedData?.RentalsByDate ?? null);
 	const ticketAverageByDate = hasError
 		? null
-		: unifiedData?.TicketAverageByDate ?? null;
-	const trevparByDate = hasError ? null : unifiedData?.TrevparByDate ?? null;
-	const revenueByDate = hasError ? null : unifiedData?.RevenueByDate ?? null;
+		: (unifiedData?.TicketAverageByDate ?? null);
+	const trevparByDate = hasError ? null : (unifiedData?.TrevparByDate ?? null);
+	const revenueByDate = hasError ? null : (unifiedData?.RevenueByDate ?? null);
 	const occupancyRateByDate = hasError
 		? null
-		: unifiedData?.OccupancyRateByDate ?? null;
+		: (unifiedData?.OccupancyRateByDate ?? null);
 
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 '>

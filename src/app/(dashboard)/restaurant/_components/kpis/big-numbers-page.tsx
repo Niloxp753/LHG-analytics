@@ -24,24 +24,28 @@ export default function BigNumbersPage({
 	data,
 }: BigNumbersPageOpProps) {
 	const isLoading = typeof data === 'undefined';
-	const error = data === null ? 'Não foi possível carregar os dados.' : undefined;
+	const error =
+		data === null ? 'Não foi possível carregar os dados.' : undefined;
 	const entry = data?.[0];
-	const gridClassName = 'grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-12';
+	const gridClassName =
+		'grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-6 min-[1650px]:grid-cols-12';
 	const gridSpans = [
-		'lg:col-span-4',
-		'lg:col-span-4',
-		'lg:col-span-4',
-		'lg:col-span-3',
-		'lg:col-span-3',
-		'lg:col-span-3',
-		'lg:col-span-3',
+		'sm:col-span-2 min-[1650px]:col-span-4',
+		'lg:col-span-2 min-[1650px]:col-span-4',
+		'lg:col-span-2 min-[1650px]:col-span-4',
+		'lg:col-span-3 min-[1650px]:col-span-3',
+		'lg:col-span-3 min-[1650px]:col-span-3',
+		'lg:col-span-3 min-[1650px]:col-span-3',
+		'lg:col-span-3 min-[1650px]:col-span-3',
 	];
 
 	if (isLoading) {
 		return (
 			<div className={gridClassName}>
 				{gridSpans.map((span, index) => (
-					<div key={index} className={span}>
+					<div
+						key={index}
+						className={span}>
 						<Skeleton className='h-[140px] w-full' />
 					</div>
 				))}
@@ -51,7 +55,9 @@ export default function BigNumbersPage({
 
 	if (error) {
 		return (
-			<Alert variant='destructive' className='w-full'>
+			<Alert
+				variant='destructive'
+				className='w-full'>
 				<AlertTitle>Erro ao carregar</AlertTitle>
 				<AlertDescription>{error}</AlertDescription>
 			</Alert>
@@ -80,7 +86,7 @@ export default function BigNumbersPage({
 										style: 'currency',
 										currency: 'BRL',
 									},
-							  )
+								)
 							: ''
 					}
 					type='money'
@@ -110,7 +116,7 @@ export default function BigNumbersPage({
 										style: 'currency',
 										currency: 'BRL',
 									},
-							  )
+								)
 							: ''
 					}
 					type='money'
@@ -136,7 +142,7 @@ export default function BigNumbersPage({
 							? generateDescription(
 									description,
 									previous.totalAllSalesPreviousData,
-							  )
+								)
 							: ''
 					}
 					icon={<Sigma />}
@@ -165,7 +171,7 @@ export default function BigNumbersPage({
 										style: 'currency',
 										currency: 'BRL',
 									},
-							  )
+								)
 							: ''
 					}
 					type='money'
@@ -195,13 +201,15 @@ export default function BigNumbersPage({
 										style: 'currency',
 										currency: 'BRL',
 									},
-							  )
+								)
 							: ''
 					}
 					icon={<DiamondPercent />}
 					type='money'
 					title={'TKT médio A&B / locação'}
-					monthlyForecast={forecast?.totalAllTicketAverageByTotalRentalsForecast}
+					monthlyForecast={
+						forecast?.totalAllTicketAverageByTotalRentalsForecast
+					}
 					value={entry.currentDate.totalAllTicketAverageByTotalRentals}
 					Badge={
 						previous && (
@@ -222,12 +230,12 @@ export default function BigNumbersPage({
 						previous
 							? `${description}${previous.abRepresentativityPreviousData.toFixed(
 									2,
-							  )}%`
+								)}%`
 							: ''
 					}
 					type='percent'
 					icon={<Blend />}
-					title={'Representatividade A&B'}
+					title={'Rep. A&B'}
 					monthlyForecast={
 						forecast ? forecast.abRepresentativityForecast / 100 : undefined
 					}
@@ -249,12 +257,12 @@ export default function BigNumbersPage({
 						previous
 							? `${description}${previous.salesRepresentativityPreviousData.toFixed(
 									2,
-							  )}%`
+								)}%`
 							: ''
 					}
 					type='percent'
 					icon={<Blend />}
-					title={'Representatividade Vendas'}
+					title={'Rep. Vendas'}
 					monthlyForecast={
 						forecast ? forecast.salesRepresentativityForecast / 100 : undefined
 					}

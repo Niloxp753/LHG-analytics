@@ -23,10 +23,10 @@ export function BReports({ data }: { data: ReportEntry[] }) {
 			<TableHeader className='bg-violet-900 rounded-lg'>
 				<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
 					<TableHead>Relatório de Bebidas</TableHead>
-					<TableHead className='text-center'>Receita</TableHead>{' '}
+					<TableHead className='text-center'>Receita</TableHead>
 					<TableHead className='text-center'>% Receita</TableHead>
-					<TableHead className='text-center'>QNTD</TableHead>{' '}
-					<TableHead className='text-center'>% QNTD</TableHead>{' '}
+					<TableHead className='text-center'>QNTD</TableHead>
+					<TableHead className='text-center'>% QNTD</TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody className='text-zinc-100'>

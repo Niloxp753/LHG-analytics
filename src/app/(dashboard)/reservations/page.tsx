@@ -37,16 +37,16 @@ type ReservationsUnifiedData = {
 export default async function Reservations({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | undefined };
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-	const menu = searchParams.menu;
-	const preSet = searchParams.set || DEFAULT_RANGE_TAG;
-	const startDate = searchParams.startDate;
-	const endDate = searchParams.endDate;
-	const rangeDescription = getRangeDescription(preSet);
+	const menu = (await searchParams).menu;
+	const preSet = (await searchParams).set || DEFAULT_RANGE_TAG;
+	const startDate = (await searchParams).startDate;
+	const endDate = (await searchParams).endDate;
+	const rangeDescription = getRangeDescription(preSet as string);
 
-	const formattedStartDate = formatDateInput(startDate);
-	const formattedEndDate = formatDateInput(endDate);
+	const formattedStartDate = formatDateInput(startDate as string);
+	const formattedEndDate = formatDateInput(endDate as string);
 
 	async function getData() {
 		if (formattedStartDate && formattedEndDate) {
@@ -59,7 +59,7 @@ export default async function Reservations({
 			}
 			return { ok: false, data: null, error: 'Algo deu errado' };
 		} else {
-			const data = await getReservationPageData({ period: preSet });
+			const data = await getReservationPageData({ period: preSet as string });
 			if (data) {
 				return data;
 			}
@@ -81,30 +81,32 @@ export default async function Reservations({
 		!hasError && !Array.isArray(resp.data)
 			? (resp.data as ReservationsUnifiedData)
 			: null;
-	const bigNumbers = hasError ? null : unifiedData?.BigNumbers ?? null;
+	const bigNumbers = hasError ? null : (unifiedData?.BigNumbers ?? null);
 	const billingOfReservationsByPeriod = hasError
 		? null
-		: unifiedData?.BillingOfReservationsByPeriod ?? null;
+		: (unifiedData?.BillingOfReservationsByPeriod ?? null);
 	const numberOfReservationsPerPeriod = hasError
 		? null
-		: unifiedData?.NumberOfReservationsPerPeriod ?? null;
+		: (unifiedData?.NumberOfReservationsPerPeriod ?? null);
 	const representativenessOfReservesByPeriod = hasError
 		? null
-		: unifiedData?.RepresentativenessOfReservesByPeriod ?? null;
+		: (unifiedData?.RepresentativenessOfReservesByPeriod ?? null);
 	const BillingOfEcommerceByPeriod = hasError
 		? null
-		: unifiedData?.BillingOfEcommerceByPeriod ?? null;
+		: (unifiedData?.BillingOfEcommerceByPeriod ?? null);
 	const reservationsOfEcommerceByPeriod = hasError
 		? null
-		: unifiedData?.ReservationsOfEcommerceByPeriod ?? null;
-	const revenueByCompany = hasError ? null : unifiedData?.RevenueByCompany ?? null;
+		: (unifiedData?.ReservationsOfEcommerceByPeriod ?? null);
+	const revenueByCompany = hasError
+		? null
+		: (unifiedData?.RevenueByCompany ?? null);
 	const bookingsByCompany = hasError
 		? null
-		: unifiedData?.BookingsByCompany ?? null;
+		: (unifiedData?.BookingsByCompany ?? null);
 
 	const bigNumbersEcommerce = hasError
 		? null
-		: unifiedData?.BigNumbersEcommerce ?? null;
+		: (unifiedData?.BigNumbersEcommerce ?? null);
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>
 			<div className={`relative  md:max-w-[82vw] flex  md:ml-auto w-full `}>
@@ -191,7 +193,7 @@ export default async function Reservations({
 						<Suspense>
 							<DataByCompanyReservationsInTime
 								data={representativenessOfReservesByPeriod}
-								title={'Representatividade por unidade'}
+								title={'Rep. por unidade'}
 								percent
 								error={errorMessage}
 							/>
@@ -221,7 +223,7 @@ export default async function Reservations({
 							<Suspense>
 								<DataByCompanyReservationsInTime
 									data={reservationsOfEcommerceByPeriod}
-									title={'Representatividade por unidade - Ecommerce'}
+									title={'Rep. por unidade - Ecommerce'}
 									percent
 									error={errorMessage}
 								/>

@@ -26,15 +26,15 @@ import TKTXLocation from '../../_components/kpis/TKTXLocation';
 export default async function Restaurant({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | undefined };
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-	const preSet = searchParams.set ?? DEFAULT_RANGE_TAG;
-	const startDate = searchParams.startDate;
-	const endDate = searchParams.endDate;
-	const rangeDescription = getRangeDescription(preSet);
+	const preSet = (await searchParams).set ?? DEFAULT_RANGE_TAG;
+	const startDate = (await searchParams).startDate;
+	const endDate = (await searchParams).endDate;
+	const rangeDescription = getRangeDescription(preSet as string);
 
-	const formattedStartDate = formatDateInput(startDate);
-	const formattedEndDate = formatDateInput(endDate);
+	const formattedStartDate = formatDateInput(startDate as string);
+	const formattedEndDate = formatDateInput(endDate as string);
 
 	async function getData() {
 		if (formattedStartDate && formattedEndDate) {
@@ -46,7 +46,9 @@ export default async function Restaurant({
 				return customData;
 			}
 		} else {
-			const data = await getRestaurantsAction(preSet ?? DEFAULT_RANGE_TAG);
+			const data = await getRestaurantsAction(
+				(preSet as string) ?? DEFAULT_RANGE_TAG,
+			);
 			if (data) {
 				return data;
 			}
@@ -58,7 +60,8 @@ export default async function Restaurant({
 	if (!resp) {
 		return (
 			<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-3 md:px-5 py-10'>
-				<div className={`relative w-full  md:max-w-[82vw] md:ml-auto flex z-40 `}>
+				<div
+					className={`relative w-full  md:max-w-[82vw] md:ml-auto flex z-40 `}>
 					<div
 						className={`bg-zinc-950/50 z-40 py-4 ml-auto lg:w-[82vw] backdrop-blur-md fixed top-0 flex flex-col gap-2 justify-end w-full`}>
 						<h2 className='text-zinc-50 font-bold md:text-3xl text-center py-2 text-base'>

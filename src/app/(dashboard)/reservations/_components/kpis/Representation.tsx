@@ -41,7 +41,7 @@ export default function Representation({
 					mappedSeries
 						? [
 								{
-									name: 'Representatividade De Reservas',
+									name: 'Rep. De Reservas',
 									data: mappedSeries,
 								},
 						  ]

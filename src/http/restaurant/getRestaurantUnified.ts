@@ -19,6 +19,7 @@ export async function getRestaurantUnified(
 			next: { tags: ['restaurant'], revalidate: 30 },
 			headers: authHeaders,
 			signal: controller.signal,
+			throwHttpErrors: false,
 		});
 
 		if (!resp.ok) {

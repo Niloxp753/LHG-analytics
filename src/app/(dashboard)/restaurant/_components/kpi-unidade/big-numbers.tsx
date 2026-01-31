@@ -20,25 +20,29 @@ interface BigNumbersProps {
 
 export default function BigNumbers({ description, data }: BigNumbersProps) {
 	const isLoading = typeof data === 'undefined';
-	const error = data === null ? 'Não foi possível carregar os dados.' : undefined;
+	const error =
+		data === null ? 'Não foi possível carregar os dados.' : undefined;
 	const entry = data;
-	const gridClassName = 'grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-12';
+	const gridClassName =
+		'grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-6 min-[1650px]:grid-cols-12';
 	const gridSpans = [
-		'lg:col-span-4',
-		'lg:col-span-4',
-		'lg:col-span-4',
-		'lg:col-span-3',
-		'lg:col-span-3',
-		'lg:col-span-3',
-		'lg:col-span-3',
+		'sm:col-span-2 min-[1650px]:col-span-4',
+		'lg:col-span-2 min-[1650px]:col-span-4',
+		'lg:col-span-2 min-[1650px]:col-span-4',
+		'lg:col-span-3 min-[1650px]:col-span-3',
+		'lg:col-span-3 min-[1650px]:col-span-3',
+		'lg:col-span-3 min-[1650px]:col-span-3',
+		'lg:col-span-3 min-[1650px]:col-span-3',
 	];
 
 	if (isLoading) {
 		return (
 			<div className={gridClassName}>
 				{gridSpans.map((span, index) => (
-					<div key={index} className={span}>
-						<Skeleton className='h-[140px] w-full' />
+					<div
+						key={index}
+						className={span}>
+						<Skeleton className='h-[140px] w-full ' />
 					</div>
 				))}
 			</div>
@@ -47,7 +51,9 @@ export default function BigNumbers({ description, data }: BigNumbersProps) {
 
 	if (error) {
 		return (
-			<Alert variant='destructive' className='w-full'>
+			<Alert
+				variant='destructive'
+				className='w-full'>
 				<AlertTitle>Erro ao carregar</AlertTitle>
 				<AlertDescription>{error}</AlertDescription>
 			</Alert>
@@ -71,10 +77,10 @@ export default function BigNumbers({ description, data }: BigNumbersProps) {
 					description={
 						previous
 							? description +
-							  previous.totalAllValuePreviousData.toLocaleString('pt-BR', {
+								previous.totalAllValuePreviousData.toLocaleString('pt-BR', {
 									style: 'currency',
 									currency: 'brl',
-							  })
+								})
 							: ''
 					}
 					icon={<HandCoins />}
@@ -98,13 +104,13 @@ export default function BigNumbers({ description, data }: BigNumbersProps) {
 					description={
 						previous
 							? description +
-							  previous.totalAllSalesRevenuePreviousData.toLocaleString(
+								previous.totalAllSalesRevenuePreviousData.toLocaleString(
 									'pt-BR',
 									{
 										style: 'currency',
 										currency: 'brl',
 									},
-							  )
+								)
 							: ''
 					}
 					icon={<HandCoins />}
@@ -127,7 +133,7 @@ export default function BigNumbers({ description, data }: BigNumbersProps) {
 					description={
 						previous
 							? description +
-							  previous.totalAllSalesPreviousData.toLocaleString('pt-BR')
+								previous.totalAllSalesPreviousData.toLocaleString('pt-BR')
 							: ''
 					}
 					icon={<Sigma />}
@@ -151,13 +157,13 @@ export default function BigNumbers({ description, data }: BigNumbersProps) {
 					description={
 						previous
 							? description +
-							  previous.totalAllTicketAveragePreviousData.toLocaleString(
+								previous.totalAllTicketAveragePreviousData.toLocaleString(
 									'pt-BR',
 									{
 										style: 'currency',
 										currency: 'brl',
 									},
-							  )
+								)
 							: ''
 					}
 					icon={<SquarePercent />}
@@ -181,18 +187,20 @@ export default function BigNumbers({ description, data }: BigNumbersProps) {
 					description={
 						previous
 							? description +
-							  previous.totalAllTicketAverageByTotalRentalsPreviousData.toLocaleString(
+								previous.totalAllTicketAverageByTotalRentalsPreviousData.toLocaleString(
 									'pt-BR',
 									{
 										style: 'currency',
 										currency: 'brl',
 									},
-							  )
+								)
 							: ''
 					}
 					icon={<DiamondPercent />}
 					title={'TKT médio A&B / locação'}
-					monthlyForecast={forecast?.totalAllTicketAverageByTotalRentalsForecast}
+					monthlyForecast={
+						forecast?.totalAllTicketAverageByTotalRentalsForecast
+					}
 					value={entry.currentDate.totalAllTicketAverageByTotalRentals}
 					Badge={
 						previous && (
@@ -214,11 +222,11 @@ export default function BigNumbers({ description, data }: BigNumbersProps) {
 						previous
 							? `${description}${previous.abRepresentativityPreviousData.toFixed(
 									2,
-							  )}%`
+								)}%`
 							: ''
 					}
 					icon={<Blend />}
-					title={'Representatividade A&B'}
+					title={'Rep. A&B'}
 					monthlyForecast={
 						forecast ? forecast.abRepresentativityForecast / 100 : undefined
 					}
@@ -241,11 +249,11 @@ export default function BigNumbers({ description, data }: BigNumbersProps) {
 						previous
 							? `${description}${previous.salesRepresentativityPreviousData.toFixed(
 									2,
-							  )}%`
+								)}%`
 							: ''
 					}
 					icon={<Blend />}
-					title={'Representatividade Vendas'}
+					title={'Rep. Vendas'}
 					monthlyForecast={
 						forecast ? forecast.salesRepresentativityForecast / 100 : undefined
 					}

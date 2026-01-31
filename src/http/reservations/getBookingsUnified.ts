@@ -19,6 +19,7 @@ export async function getBookingsUnified(
 			next: { tags: ['reservations'], revalidate: 30 },
 			headers: authHeaders,
 			signal: controller.signal,
+			throwHttpErrors: false,
 		});
 
 		if (!resp.ok) {
