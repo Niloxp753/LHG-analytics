@@ -2,9 +2,12 @@
 
 'use server';
 
-import { getBookings } from '@/http/reservations/get-bookings';
-import { getReservationsCustom } from '@/http/reservations/get-bookings-custom';
-import { revalidatePath } from 'next/cache';
+import { getBookingsUnified } from '@/http/reservations/getBookingsUnified';
+import {
+	DEFAULT_RANGE_TAG,
+	getRangeByTag,
+	normalizeRangeTag,
+} from '@/lib/date-range';
 
 interface getReservationPageDataProps {
 	period?: string;
@@ -17,80 +20,44 @@ export async function getReservationPageData({
 	period,
 	startDate,
 }: getReservationPageDataProps) {
-	let newPeriod = '';
-
-	if (period === '30days') {
-		newPeriod = 'LAST_30_D';
-	}
-
-	if (period === '7days') {
-		newPeriod = 'LAST_7_D';
-	}
-
-	if (period === '6months') {
-		newPeriod = 'LAST_6_M';
-	}
+	const normalized = normalizeRangeTag(period, DEFAULT_RANGE_TAG);
+	const range = getRangeByTag(normalized);
 
 	if (startDate && endDate) {
-		const customDataIpiranga = await getReservationsCustom(startDate, endDate);
-		const customDataLapa = await getReservationsCustom(
-			startDate,
-			endDate,
-			'lapa',
-		);
-		const customDataAndarDeCima = await getReservationsCustom(
-			startDate,
-			endDate,
-			'andar_de_cima',
-		);
-		const customDataTout = await getReservationsCustom(
-			startDate,
-			endDate,
-			'tout',
-		);
+		const data = await getBookingsUnified(startDate, endDate);
 
-		if (
-			customDataIpiranga &&
-			customDataLapa &&
-			customDataAndarDeCima &&
-			customDataTout
-		) {
-			revalidatePath('/reservation');
+		if (data) {
 			return {
 				ok: true,
-				data: [
-					customDataIpiranga,
-					customDataLapa,
-					customDataAndarDeCima,
-					customDataTout,
-				],
+				data,
 				error: null,
 			};
-		} else {
-			return {
-				ok: false,
-				data: null,
-				error: 'Erro ao encontrar dados',
-			};
 		}
-	} else {
-		const dataiIpiranga = await getBookings(newPeriod);
-		const dataiLapa = await getBookings(newPeriod, 'lapa');
-		const dataiAndar = await getBookings(newPeriod, 'andar_de_cima');
-		const dataiTout = await getBookings(newPeriod, 'tout');
-		if (dataiIpiranga && dataiLapa && dataiAndar && dataiTout) {
-			revalidatePath('/reservation');
+		return {
+			ok: false,
+			data: null,
+			error: 'Erro ao encontrar dados',
+		};
+	} else if (range) {
+		const data = await getBookingsUnified(range.startDate, range.endDate);
+
+		if (data) {
 			return {
 				ok: true,
-				data: [dataiIpiranga, dataiLapa, dataiAndar, dataiTout],
+				data,
 				error: null,
 			};
-		} else {
-			return {
-				ok: false,
-				data: null,
-				error: 'Erro ao encontrar dados',
-			};
 		}
+		return {
+			ok: false,
+			data: null,
+			error: 'Erro ao encontrar dados',
+		};
 	}
+	return {
+		ok: false,
+		data: null,
+		error: 'Erro ao encontrar dados',
+	};
 }
+

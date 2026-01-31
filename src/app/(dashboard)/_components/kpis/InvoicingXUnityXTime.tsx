@@ -1,54 +1,39 @@
 /** @format */
 
-import { NormalizeRevenueByDate } from '@/utils/normalize-revenue-by-date';
+'use client';
+
 import dynamic from 'next/dynamic';
-import React from 'react';
 const LineChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/LineChart'),
 	{ ssr: false },
 );
 
-interface RevenueEntry {
+interface EntryData {
 	categories: string[];
-	series: number[];
+	series: Array<{ name: string; data: number[] }>;
 }
-
 interface InvoicingXUnityXTimeProps {
-	ipiranga: RevenueEntry;
-	lapa: RevenueEntry;
-	andar_de_cima: RevenueEntry;
-	tout: RevenueEntry;
+	data?: EntryData | null;
 }
 export default function InvoicingXUnityXTime({
-	ipiranga,
-	lapa,
-	andar_de_cima,
-	tout,
+	data,
 }: InvoicingXUnityXTimeProps) {
+	const isLoading = typeof data === 'undefined';
+	const error =
+		data === null ? 'Não foi possível carregar os dados.' : undefined;
+
+	if (!isLoading && !error && (!data?.series?.length || !data?.categories?.length)) {
+		return null;
+	}
+
 	return (
 		<LineChart
 			money
+			error={error}
 			height={148}
 			title='Faturamento por Unidade no tempo'
-			series={[
-				{
-					name: 'Lush Ipiranga',
-					data: ipiranga.series,
-				},
-				{
-					name: 'Lush Lapa',
-					data: lapa.series,
-				},
-				{
-					name: 'Andar de Cima',
-					data: andar_de_cima.series,
-				},
-				{
-					name: 'Tout',
-					data: tout.series,
-				},
-			]}
-			categories={ipiranga.categories}
+			series={data?.series}
+			categories={data?.categories}
 		/>
 	);
 }

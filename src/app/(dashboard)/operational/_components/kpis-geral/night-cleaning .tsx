@@ -1,46 +1,38 @@
 /** @format */
 
-import { accumulateEmployeeData } from '@/utils/normalize-cleaning-values';
+'use client';
+
 import dynamic from 'next/dynamic';
+import { ShiftCleaning } from '../../types';
 const LineChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/LineChart'),
 	{ ssr: false },
 );
 
-export default function NightCleaning({
-	ipiranga,
-	lapa,
-	andar_de_cima,
-	tout,
-}: any) {
-	const dataIpiranga = accumulateEmployeeData(ipiranga.series.Noite);
-	const dataLapa = accumulateEmployeeData(lapa.series.Noite);
-	const dataAndar = accumulateEmployeeData(andar_de_cima.series.Noite);
-	const dataTout = accumulateEmployeeData(tout.series.Noite);
+interface NightCleaningProps {
+	data?: ShiftCleaning | null;
+	error?: string | boolean;
+}
+
+export default function NightCleaning({ data, error }: NightCleaningProps) {
+	const isLoading = typeof data === 'undefined';
+	const resolvedError =
+		error ?? (data === null ? 'Não foi possível carregar os dados.' : undefined);
+
+	const chartSeries = data?.Noite;
+	const categories = data?.categories;
+
+	if (!isLoading && !resolvedError && (!chartSeries?.length || !categories?.length)) {
+		return null;
+	}
 
 	return (
 		<LineChart
 			height={48}
-			title='Total de limpezas - Noite'
-			series={[
-				{
-					name: 'Lush Ipiranga',
-					data: dataIpiranga,
-				},
-				{
-					name: 'Lush Lapa',
-					data: dataLapa,
-				},
-				{
-					name: 'Andar de Cima',
-					data: dataAndar,
-				},
-				{
-					name: 'Tout',
-					data: dataTout,
-				},
-			]}
-			categories={ipiranga.categories}
+			title='Total de Limpezas - Noite'
+			error={resolvedError}
+			series={chartSeries}
+			categories={categories}
 		/>
 	);
 }

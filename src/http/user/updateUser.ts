@@ -1,37 +1,29 @@
 /** @format */
 
-import { api } from '../api-client';
-
-export interface IUserUp {
-	id?: string;
-	email?: string;
-	name?: string;
-	cpf?: string;
-	password?: string;
-	role?: 'ADMIN' | 'MANAGER';
-	company: string;
-	companyName?: string;
-}
+import { buildAuthCookieHeader } from '@/lib/auth-headers';
+import { auth_api } from '../api-client';
+import type { UpdateUserInput } from '@/types/user';
 
 export async function updateUser({
 	email,
 	id,
 	name,
 	cpf,
-	password,
 	role,
-	company,
-}: IUserUp) {
+	unit,
+}: UpdateUserInput) {
 	try {
-		await api.put(`users/${id}`, {
-			next: { tags: [`users/${id}`] },
+		const cookieHeader = await buildAuthCookieHeader();
+		const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
+		await auth_api.patch(`users/${id}`, {
+			headers: authHeaders,
+			next: { tags: ['users', `users/${id}`] },
 			json: {
 				email,
 				name,
 				cpf,
-				password,
 				role,
-				company,
+				unit,
 			},
 		});
 	} catch (error) {

@@ -2,9 +2,18 @@
 
 'use client';
 import React, { useState } from 'react';
-import { signOut } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { Loader2, LogOut } from 'lucide-react';
+import { logoutWithCookies } from '@/lib/auth-client';
+import { useSessionStore } from '@/stores/session-store';
+
+async function signOut({ callbackUrl }: { callbackUrl?: string } = {}) {
+	await logoutWithCookies();
+	useSessionStore.getState().clear();
+	if (callbackUrl) {
+		window.location.href = callbackUrl;
+	}
+}
 
 export default function BtnSignOut({
 	isOpened,

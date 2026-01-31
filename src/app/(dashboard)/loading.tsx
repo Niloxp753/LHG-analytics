@@ -1,6 +1,5 @@
 /** @format */
 
-import React from 'react';
 import logo from '@/assets/images/logo-analytics.png';
 import Image from 'next/image';
 

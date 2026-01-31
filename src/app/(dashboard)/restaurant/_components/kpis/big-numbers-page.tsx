@@ -2,189 +2,281 @@
 
 import CardDetails from '@/app/(dashboard)/_components/CardDetails';
 import GenerateBadge from '@/app/(dashboard)/general/_components/generate-badge';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Skeleton } from '@/components/ui/skeleton';
 import { generateDescription } from '@/utils/generate-description';
-import { DiamondPercent, HandCoins, Sigma, SquarePercent } from 'lucide-react';
+import {
+	Blend,
+	DiamondPercent,
+	HandCoins,
+	Sigma,
+	SquarePercent,
+} from 'lucide-react';
+import { RestaurantBigNumbersEntry } from '@/types/big-numbers-restaurant';
 
 interface BigNumbersPageOpProps {
-	ipiranga: any[];
-	lapa: any[];
-	andar_de_cima: any[];
-	tout: any[];
+	data?: RestaurantBigNumbersEntry[] | null;
 	description: string;
 }
 
 export default function BigNumbersPage({
 	description,
-	ipiranga,
-	andar_de_cima,
-	tout,
-	lapa,
+	data,
 }: BigNumbersPageOpProps) {
-	const dataIpiranga = ipiranga[0];
-	const dataLapa = lapa[0];
-	const dataAndar = andar_de_cima[0];
-	const dataTout = tout[0];
+	const isLoading = typeof data === 'undefined';
+	const error =
+		data === null ? 'Não foi possível carregar os dados.' : undefined;
+	const entry = data?.[0];
+	const gridClassName =
+		'grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-6 min-[1650px]:grid-cols-12';
+	const gridSpans = [
+		'sm:col-span-2 min-[1650px]:col-span-4',
+		'lg:col-span-2 min-[1650px]:col-span-4',
+		'lg:col-span-2 min-[1650px]:col-span-4',
+		'lg:col-span-3 min-[1650px]:col-span-3',
+		'lg:col-span-3 min-[1650px]:col-span-3',
+		'lg:col-span-3 min-[1650px]:col-span-3',
+		'lg:col-span-3 min-[1650px]:col-span-3',
+	];
 
-	const totalAllValues =
-		dataIpiranga.currentDate.totalAllValue +
-		dataLapa.currentDate.totalAllValue +
-		dataAndar.currentDate.totalAllValue +
-		dataTout.currentDate.totalAllValue;
+	if (isLoading) {
+		return (
+			<div className={gridClassName}>
+				{gridSpans.map((span, index) => (
+					<div
+						key={index}
+						className={span}>
+						<Skeleton className='h-[140px] w-full' />
+					</div>
+				))}
+			</div>
+		);
+	}
 
-	const totalAllSales =
-		dataIpiranga.currentDate.totalAllSales +
-		dataLapa.currentDate.totalAllSales +
-		dataAndar.currentDate.totalAllSales +
-		dataTout.currentDate.totalAllSales;
+	if (error) {
+		return (
+			<Alert
+				variant='destructive'
+				className='w-full'>
+				<AlertTitle>Erro ao carregar</AlertTitle>
+				<AlertDescription>{error}</AlertDescription>
+			</Alert>
+		);
+	}
 
-	const totalAllTicketAverage =
-		(dataIpiranga.currentDate.totalAllTicketAverage +
-			dataLapa.currentDate.totalAllTicketAverage +
-			dataAndar.currentDate.totalAllTicketAverage +
-			dataTout.currentDate.totalAllTicketAverage) /
-		4;
+	if (!entry) {
+		return null;
+	}
 
-	const totalAllTicketAverageByTotalRentals =
-		(dataIpiranga.currentDate.totalAllTicketAverageByTotalRentals +
-			dataLapa.currentDate.totalAllTicketAverageByTotalRentals +
-			dataAndar.currentDate.totalAllTicketAverageByTotalRentals +
-			dataTout.currentDate.totalAllTicketAverageByTotalRentals) /
-		4;
-
-	const totalAllValuePreviousData = dataIpiranga.PreviousDate
-		? dataIpiranga.PreviousDate.totalAllValuePreviousData +
-		  dataLapa.PreviousDate.totalAllValuePreviousData +
-		  dataAndar.PreviousDate.totalAllValuePreviousData +
-		  dataTout.PreviousDate.totalAllValuePreviousData
-		: null;
-
-	const totalAllSalesPreviousData = dataIpiranga.PreviousDate
-		? dataIpiranga.PreviousDate.totalAllSalesPreviousData +
-		  dataLapa.PreviousDate.totalAllSalesPreviousData +
-		  dataAndar.PreviousDate.totalAllSalesPreviousData +
-		  dataTout.PreviousDate.totalAllSalesPreviousData
-		: null;
-
-	const totalAllTicketAveragePreviousData = dataIpiranga.PreviousDate
-		? dataIpiranga.PreviousDate.totalAllTicketAveragePreviousData +
-		  dataLapa.PreviousDate.totalAllTicketAveragePreviousData +
-		  dataAndar.PreviousDate.totalAllTicketAveragePreviousData +
-		  dataTout.PreviousDate.totalAllTicketAveragePreviousData
-		: null;
-
-	const totalAllTicketAverageByTotalRentalsPreviousData =
-		dataIpiranga.PreviousDate
-			? dataIpiranga.PreviousDate
-					.totalAllTicketAverageByTotalRentalsPreviousData +
-			  dataLapa.PreviousDate.totalAllTicketAverageByTotalRentalsPreviousData +
-			  dataAndar.PreviousDate.totalAllTicketAverageByTotalRentalsPreviousData +
-			  dataTout.PreviousDate.totalAllTicketAverageByTotalRentalsPreviousData
-			: null;
+	const previous = entry.previousDate;
+	const forecast = entry.monthlyForecast;
+	const showForecast = !!forecast;
 
 	return (
-		<div className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4'>
-			<CardDetails
-				description={generateDescription(
-					description,
-					totalAllValuePreviousData &&
-						totalAllValuePreviousData.toLocaleString('pt-br', {
-							style: 'currency',
-							currency: 'brl',
-						}),
-				)}
-				type='money'
-				icon={<HandCoins />}
-				title={'Receita De A&B'}
-				value={
-					totalAllValues
-						? totalAllValues.toLocaleString('pt-br', {
-								style: 'currency',
-								currency: 'brl',
-						  })
-						: 0
-				}
-				Badge={
-					totalAllValuePreviousData && (
-						<GenerateBadge
-							val={totalAllValues}
-							previousVal={totalAllValuePreviousData}
-						/>
-					)
-				}
-			/>
-			<CardDetails
-				description={generateDescription(
-					description,
-					totalAllSalesPreviousData &&
-						totalAllSalesPreviousData.toLocaleString('pt-br'),
-				)}
-				icon={<Sigma />}
-				title={'Nº De Vendas'}
-				value={totalAllSales}
-				Badge={
-					totalAllSalesPreviousData && (
-						<GenerateBadge
-							val={totalAllSales}
-							previousVal={totalAllSalesPreviousData}
-						/>
-					)
-				}
-			/>
-
-			<CardDetails
-				description={generateDescription(
-					description,
-					totalAllTicketAveragePreviousData &&
-						totalAllTicketAveragePreviousData.toLocaleString('pt-br', {
-							style: 'currency',
-							currency: 'brl',
-						}),
-				)}
-				type='money'
-				icon={<SquarePercent />}
-				title={'Ticket Médio A&B'}
-				value={totalAllTicketAverage}
-				Badge={
-					totalAllTicketAveragePreviousData && (
-						<GenerateBadge
-							val={totalAllTicketAverage}
-							previousVal={totalAllTicketAveragePreviousData}
-						/>
-					)
-				}
-			/>
-
-			<CardDetails
-				description={generateDescription(
-					description,
-					totalAllTicketAverageByTotalRentalsPreviousData &&
-						totalAllTicketAverageByTotalRentalsPreviousData.toLocaleString(
-							'pt-br',
-							{
-								style: 'currency',
-								currency: 'brl',
-							},
-						),
-				)}
-				icon={<DiamondPercent />}
-				type='money'
-				title={'TKT Médio A&B / Locação'}
-				value={
-					totalAllTicketAverageByTotalRentals &&
-					totalAllTicketAverageByTotalRentals.toLocaleString('pt-br', {
-						style: 'currency',
-						currency: 'brl',
-					})
-				}
-				Badge={
-					totalAllTicketAverageByTotalRentalsPreviousData && (
-						<GenerateBadge
-							val={totalAllTicketAverageByTotalRentals}
-							previousVal={totalAllTicketAverageByTotalRentalsPreviousData}
-						/>
-					)
-				}
-			/>
+		<div className={gridClassName}>
+			<div className={gridSpans[0]}>
+				<CardDetails
+					showForecast={showForecast}
+					description={
+						previous
+							? generateDescription(
+									description,
+									previous.totalAllValuePreviousData,
+									{
+										style: 'currency',
+										currency: 'BRL',
+									},
+								)
+							: ''
+					}
+					type='money'
+					icon={<HandCoins />}
+					title={'Receita de A&B'}
+					monthlyForecast={forecast?.totalAllValueForecast}
+					value={entry.currentDate.totalAllValue}
+					Badge={
+						previous && (
+							<GenerateBadge
+								val={entry.currentDate.totalAllValue}
+								previousVal={previous.totalAllValuePreviousData}
+							/>
+						)
+					}
+				/>
+			</div>
+			<div className={gridSpans[1]}>
+				<CardDetails
+					showForecast={showForecast}
+					description={
+						previous
+							? generateDescription(
+									description,
+									previous.totalAllSalesRevenuePreviousData,
+									{
+										style: 'currency',
+										currency: 'BRL',
+									},
+								)
+							: ''
+					}
+					type='money'
+					icon={<HandCoins />}
+					title={'Receita de Vendas'}
+					monthlyForecast={forecast?.totalAllSalesRevenueForecast}
+					value={entry.currentDate.totalAllSalesRevenue}
+					Badge={
+						previous && (
+							<GenerateBadge
+								val={entry.currentDate.totalAllSalesRevenue}
+								previousVal={previous.totalAllSalesRevenuePreviousData}
+							/>
+						)
+					}
+				/>
+			</div>
+			<div className={gridSpans[2]}>
+				<CardDetails
+					showForecast={showForecast}
+					description={
+						previous
+							? generateDescription(
+									description,
+									previous.totalAllSalesPreviousData,
+								)
+							: ''
+					}
+					icon={<Sigma />}
+					title={'Nº de vendas'}
+					monthlyForecast={forecast?.totalAllSalesForecast}
+					value={entry.currentDate.totalAllSales}
+					Badge={
+						previous && (
+							<GenerateBadge
+								val={entry.currentDate.totalAllSales}
+								previousVal={previous.totalAllSalesPreviousData}
+							/>
+						)
+					}
+				/>
+			</div>
+			<div className={gridSpans[3]}>
+				<CardDetails
+					showForecast={showForecast}
+					description={
+						previous
+							? generateDescription(
+									description,
+									previous.totalAllTicketAveragePreviousData,
+									{
+										style: 'currency',
+										currency: 'BRL',
+									},
+								)
+							: ''
+					}
+					type='money'
+					icon={<SquarePercent />}
+					title={'Ticket médio A&B'}
+					monthlyForecast={forecast?.totalAllTicketAverageForecast}
+					value={entry.currentDate.totalAllTicketAverage}
+					Badge={
+						previous && (
+							<GenerateBadge
+								val={entry.currentDate.totalAllTicketAverage}
+								previousVal={previous.totalAllTicketAveragePreviousData}
+							/>
+						)
+					}
+				/>
+			</div>
+			<div className={gridSpans[4]}>
+				<CardDetails
+					showForecast={showForecast}
+					description={
+						previous
+							? generateDescription(
+									description,
+									previous.totalAllTicketAverageByTotalRentalsPreviousData,
+									{
+										style: 'currency',
+										currency: 'BRL',
+									},
+								)
+							: ''
+					}
+					icon={<DiamondPercent />}
+					type='money'
+					title={'TKT médio A&B / locação'}
+					monthlyForecast={
+						forecast?.totalAllTicketAverageByTotalRentalsForecast
+					}
+					value={entry.currentDate.totalAllTicketAverageByTotalRentals}
+					Badge={
+						previous && (
+							<GenerateBadge
+								val={entry.currentDate.totalAllTicketAverageByTotalRentals}
+								previousVal={
+									previous.totalAllTicketAverageByTotalRentalsPreviousData
+								}
+							/>
+						)
+					}
+				/>
+			</div>
+			<div className={gridSpans[5]}>
+				<CardDetails
+					showForecast={showForecast}
+					description={
+						previous
+							? `${description}${previous.abRepresentativityPreviousData.toFixed(
+									2,
+								)}%`
+							: ''
+					}
+					type='percent'
+					icon={<Blend />}
+					title={'Rep. A&B'}
+					monthlyForecast={
+						forecast ? forecast.abRepresentativityForecast / 100 : undefined
+					}
+					value={entry.currentDate.abRepresentativity}
+					Badge={
+						previous && (
+							<GenerateBadge
+								val={entry.currentDate.abRepresentativity}
+								previousVal={previous.abRepresentativityPreviousData}
+							/>
+						)
+					}
+				/>
+			</div>
+			<div className={gridSpans[6]}>
+				<CardDetails
+					showForecast={showForecast}
+					description={
+						previous
+							? `${description}${previous.salesRepresentativityPreviousData.toFixed(
+									2,
+								)}%`
+							: ''
+					}
+					type='percent'
+					icon={<Blend />}
+					title={'Rep. Vendas'}
+					monthlyForecast={
+						forecast ? forecast.salesRepresentativityForecast / 100 : undefined
+					}
+					value={entry.currentDate.salesRepresentativity}
+					Badge={
+						previous && (
+							<GenerateBadge
+								val={entry.currentDate.salesRepresentativity}
+								previousVal={previous.salesRepresentativityPreviousData}
+							/>
+						)
+					}
+				/>
+			</div>
 		</div>
 	);
 }

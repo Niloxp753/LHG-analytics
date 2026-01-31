@@ -1,33 +1,55 @@
 /** @format */
 
 'use client';
-import Chart from 'react-apexcharts';
+import dynamic from 'next/dynamic';
+
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
+import DataState from '../DataState';
 import { Skeleton } from '@/components/ui/skeleton';
+import { DEFAULT_RANGE_TAG, isShortRangeTag } from '@/lib/date-range';
 import { useSearchParams } from 'next/navigation';
 
 interface AreaChartsApexProps {
 	title: string;
 	categories?: string[];
-	data?: any[];
-	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | undefined;
+	data?: unknown[];
+	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | null;
 	height: string | number | undefined;
 	money?: boolean;
 	percent?: boolean;
+	error?: string | boolean;
 }
 
 export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 	const params = useSearchParams();
-	const is30Days = params.get('set') === '30days';
+	const rangeTag = params.get('set') ?? DEFAULT_RANGE_TAG;
+	const isShortRange = isShortRangeTag(rangeTag);
 	const isCustomData = params.get('startDate') !== null;
 
 	function isEnabled() {
-		if (is30Days || isCustomData) {
-			return false;
-		} else {
-			return true;
-		}
+		return isShortRange && !isCustomData;
 	}
+
+	const hasSeriesData = Array.isArray(props.series)
+		? props.series.length > 0 &&
+		  props.series.some((entry) => {
+				if (typeof entry === 'number') {
+					return true;
+				}
+				const data = (entry as { data?: unknown[] })?.data;
+				return Array.isArray(data) ? data.length > 0 : false;
+		  })
+		: false;
+	const hasCategories = props.categories ? props.categories.length > 0 : true;
+
+	if (props.series && (!hasSeriesData || !hasCategories)) {
+		return null;
+	}
+	const isLoading = typeof props.series === 'undefined';
+	const error =
+		props.error ??
+		(props.series === null ? 'Não foi possível carregar os dados.' : undefined);
 
 	const options: ApexCharts.ApexOptions = {
 		chart: {
@@ -249,18 +271,17 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 
 	return (
 		<ResponsiveContainerChart>
-			{props.series ? (
+			<DataState
+				isLoading={isLoading}
+				error={error}
+				skeleton={<Skeleton className='w-full h-[340px]' />}>
 				<Chart
 					options={options}
-					series={props.series}
+					series={props.series as ApexAxisChartSeries}
 					type='line'
 					width={'100%'}
 					height={props.height}></Chart>
-			) : (
-				<>
-					<Skeleton className='w-full h-[340px]'></Skeleton>
-				</>
-			)}
+			</DataState>
 		</ResponsiveContainerChart>
 	);
 }

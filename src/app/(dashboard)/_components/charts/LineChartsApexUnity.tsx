@@ -3,7 +3,6 @@
 'use client';
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
-import { useSearchParams } from 'next/navigation';
 
 interface AreaChartsApexProps {
 	serie01?: number[];
@@ -18,8 +17,6 @@ interface AreaChartsApexProps {
 }
 
 export default function LineChartsApexUnity(props: AreaChartsApexProps) {
-		const params = useSearchParams();
-		const is30Days = params.get('set') !== '30days';
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: 'line-bar',

@@ -4,6 +4,7 @@ import { getCompanyAction } from '@/actions/getCompany';
 import { getCompanyCustomAction } from '@/actions/getCompanyCustom';
 import Header from '@/app/(dashboard)/_components/Header';
 import BigNumbers from '@/app/(dashboard)/_components/bignumber';
+import GiroByDate from '@/app/(dashboard)/_components/kpis/GiroByDate';
 import Invoicing from '@/app/(dashboard)/_components/kpis/Invoicing';
 import Categories from '@/app/(dashboard)/_components/kpis/InvoicingXCategories';
 import InvoicingXLocation from '@/app/(dashboard)/_components/kpis/InvoicingXLocation';
@@ -15,39 +16,43 @@ import TRevPar from '@/app/(dashboard)/_components/kpis/TRevPar';
 import TableKpiCategory from '@/app/(dashboard)/_components/kpis/TableKpiCategory';
 import { TableKpiGiro } from '@/app/(dashboard)/_components/kpis/TableKpiGiro';
 import { TableKpiOccupation } from '@/app/(dashboard)/_components/kpis/TableKpiOccupation';
+import { TableKpiRevpar } from '@/app/(dashboard)/_components/kpis/TableKpiRevpar';
 import Ticket from '@/app/(dashboard)/_components/kpis/Ticket';
-import { format } from 'date-fns';
-import { revalidatePath } from 'next/cache';
+import {
+	DEFAULT_RANGE_TAG,
+	formatDateInput,
+	getRangeDescription,
+} from '@/lib/date-range';
 
 export const revalidate = 0;
 
 export default async function LushIpiranga({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | undefined };
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-	const preSet = searchParams.set ?? '7days';
-	const startDate = searchParams.startDate;
-	const endDate = searchParams.endDate;
+	const preSet = (await searchParams).set ?? DEFAULT_RANGE_TAG;
+	const startDate = (await searchParams).startDate;
+	const endDate = (await searchParams).endDate;
+	const rangeDescription = getRangeDescription(preSet as string);
 
-	const formattedStartDate =
-		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
-	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
+	const formattedStartDate = formatDateInput(startDate as string);
+	const formattedEndDate = formatDateInput(endDate as string);
 
 	async function getData() {
-		if (startDate && endDate) {
+		if (formattedStartDate && formattedEndDate) {
 			const customData = await getCompanyCustomAction(
 				formattedStartDate!,
 				formattedEndDate!,
 			);
 			if (customData) {
-				revalidatePath('/general');
 				return customData;
 			}
 		} else {
-			const data = await getCompanyAction(preSet ?? '7days');
+			const data = await getCompanyAction(
+				(preSet as string) ?? DEFAULT_RANGE_TAG,
+			);
 			if (data) {
-				revalidatePath('/general');
 				return data;
 			}
 		}
@@ -73,11 +78,7 @@ export default async function LushIpiranga({
 				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-12 lg:mt-32'>
 					<BigNumbers
 						data={resp?.BigNumbers}
-						description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-							preSet == '30days' ? '30 dias atrás ' : ''
-						} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-							preSet == '12months' ? '12 meses atrás ' : ''
-						}`}
+						description={rangeDescription}
 					/>
 					<div className='flex w-full gap-5 h-full'>
 						<div className='h-full w-full flex flex-col gap-5 items-center justify-center'>
@@ -95,6 +96,7 @@ export default async function LushIpiranga({
 					</div>
 					<div className='flex gap-5 flex-col items-center'>
 						<Invoicing data={resp?.RevenueByDate} />
+						<GiroByDate data={resp?.GiroByDate} />
 						<Locations data={resp?.RentalsByDate} />
 						<Ticket data={resp?.TicketAverageByDate} />
 					</div>
@@ -112,6 +114,7 @@ export default async function LushIpiranga({
 					</div>
 					<div className='flex gap-5 flex-col w-full'>
 						<TableKpiGiro data={resp?.DataTableGiroByWeek} />
+						<TableKpiRevpar data={resp?.DataTableRevparByWeek} />
 						<TableKpiOccupation data={resp?.DataTableOccupancyRateByWeek} />
 					</div>
 				</div>

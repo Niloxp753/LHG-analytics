@@ -29,7 +29,7 @@ type MultiSelectorProps = {
 
 interface MultiSelectContextProps {
 	value: string[];
-	onValueChange: (value: any) => void;
+	onValueChange: (value: string) => void;
 	open: boolean;
 	setOpen: (value: boolean) => void;
 	inputValue: string;
@@ -69,7 +69,7 @@ const MultiSelector = ({
 				onValueChange([...value, val]);
 			}
 		},
-		[value],
+		[onValueChange, value],
 	);
 
 	// TODO : change from else if use to switch case statement
@@ -122,7 +122,7 @@ const MultiSelector = ({
 				}
 			}
 		},
-		[value, inputValue, activeIndex, loop],
+		[value, dir, activeIndex, loop, inputValue.length, onValueChange],
 	);
 
 	return (

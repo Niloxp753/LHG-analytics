@@ -9,16 +9,24 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 
-export function AReports({ data }: { data: any[] }) {
+interface ReportEntry {
+	name: string;
+	revenue: number;
+	revenuePercent: number | string;
+	quantity: number | string;
+	quantityPercent: number | string;
+}
+
+export function AReports({ data }: { data: ReportEntry[] }) {
 	return (
 		<Table className='mt-5 bg-zinc-900 rounded-lg'>
 			<TableHeader className='bg-violet-900 rounded-lg'>
 				<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
 					<TableHead>Relatório de Alimentos</TableHead>
-					<TableHead className='text-center'>Receita</TableHead>{' '}
+					<TableHead className='text-center'>Receita</TableHead>
 					<TableHead className='text-center'>% Receita</TableHead>
-					<TableHead className='text-center'>QNTD</TableHead>{' '}
-					<TableHead className='text-center'>% QNTD</TableHead>{' '}
+					<TableHead className='text-center'>QNTD</TableHead>
+					<TableHead className='text-center'>% QNTD</TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody className='text-zinc-100'>
@@ -26,7 +34,9 @@ export function AReports({ data }: { data: any[] }) {
 					<TableRow
 						key={index}
 						className='text-center'>
-						<TableCell className='font-bold text-left capitalize'>
+						<TableCell
+							title={invoice.name}
+							className='text-xs max-w-48 truncate text-left capitalize'>
 							{invoice.name}
 						</TableCell>
 						<TableCell>

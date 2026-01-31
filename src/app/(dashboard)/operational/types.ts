@@ -1,26 +1,19 @@
 /** @format */
 
-export type EmployeeData = {
-	name: string;
+export type ShiftType = 'Manhã' | 'Tarde' | 'Noite';
+
+export type UnitName = 'Lush Ipiranga' | 'Lush Lapa' | 'Tout' | 'Andar de Cima';
+
+export type ShiftSeriesItem = {
+	name: UnitName;
 	data: number[];
 };
 
-export type ShiftType = 'Manhã' | 'Tarde' | 'Noite';
+export type ShiftSeries = ShiftSeriesItem[];
 
-export type Shift = {
-	[key in ShiftType]?: EmployeeData[];
-};
-
-export type EmployeeCleaningByShift = {
+export type ShiftCleaning = {
 	categories: string[];
-	series: Shift[];
-};
-
-export type TransformedData = {
-	categories: string[];
-	series: {
-		Manhã: number[];
-		tarde: number[];
-		noite: number[];
-	};
+	Manhã: ShiftSeries;
+	Tarde: ShiftSeries;
+	Noite: ShiftSeries;
 };

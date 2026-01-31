@@ -1,34 +1,55 @@
 /** @format */
 
-import { Blend, Coins, HandCoins, Sigma, SquarePercent } from 'lucide-react';
-import { SiGoogleads, SiMeta } from 'react-icons/si';
-import CardDetails from '../_components/CardDetails';
+import { getReservationPageData } from '@/actions/reservations/get-reservations-page';
+import {
+	DEFAULT_RANGE_TAG,
+	formatDateInput,
+	getRangeDescription,
+} from '@/lib/date-range';
+import { Suspense } from 'react';
 import CardLink from '../_components/CardLink';
 import SparkChart from '../_components/charts/SparkChart';
 import Header from '../_components/Header';
-import { format } from 'date-fns';
-import { getReservationPageData } from '@/actions/reservations/get-reservations-page';
 import BigNumbersReservationPage from './_components/big-numbers-reservation-page';
-import RevenueByCompany from './_components/page-kpis/revenue-by-company';
 import DataByCompanyReservationsInTime from './_components/page-kpis/revenue-by-company-in-time';
-import { Suspense } from 'react';
+import RevenueByCompany from './_components/page-kpis/revenue-by-company';
+import BookingsByCompany from './_components/page-kpis/bookings-by-company';
+import BigNumbersEcommerce from './_components/big-numbers-ecommerce';
+import type { ReservationsBigNumbersEntry } from '@/types/big-numbers-reservations';
+
+type NamedSeriesData = {
+	categories: string[];
+	series: Array<{ name: string; data: number[] }>;
+};
+
+type ReservationsUnifiedData = {
+	BigNumbers: ReservationsBigNumbersEntry[];
+	BigNumbersEcommerce: ReservationsBigNumbersEntry[];
+	BillingOfReservationsByPeriod: NamedSeriesData;
+	NumberOfReservationsPerPeriod: NamedSeriesData;
+	RepresentativenessOfReservesByPeriod: NamedSeriesData;
+	BillingOfEcommerceByPeriod: NamedSeriesData;
+	ReservationsOfEcommerceByPeriod: NamedSeriesData;
+	RevenueByCompany: NamedSeriesData;
+	BookingsByCompany: NamedSeriesData;
+};
 
 export default async function Reservations({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | undefined };
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-	const menu = searchParams.menu;
-	const preSet = searchParams.set || '7days';
-	const startDate = searchParams.startDate;
-	const endDate = searchParams.endDate;
+	const menu = (await searchParams).menu;
+	const preSet = (await searchParams).set || DEFAULT_RANGE_TAG;
+	const startDate = (await searchParams).startDate;
+	const endDate = (await searchParams).endDate;
+	const rangeDescription = getRangeDescription(preSet as string);
 
-	const formattedStartDate =
-		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
-	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
+	const formattedStartDate = formatDateInput(startDate as string);
+	const formattedEndDate = formatDateInput(endDate as string);
 
 	async function getData() {
-		if (startDate && endDate) {
+		if (formattedStartDate && formattedEndDate) {
 			const customData = await getReservationPageData({
 				startDate: formattedStartDate,
 				endDate: formattedEndDate,
@@ -38,7 +59,7 @@ export default async function Reservations({
 			}
 			return { ok: false, data: null, error: 'Algo deu errado' };
 		} else {
-			const data = await getReservationPageData({ period: preSet });
+			const data = await getReservationPageData({ period: preSet as string });
 			if (data) {
 				return data;
 			}
@@ -48,15 +69,44 @@ export default async function Reservations({
 
 	const resp = await getData();
 
-	if (!resp.ok || !resp.data) {
-		console.log(resp.error);
-		return (
-			<div className='text-muted-foreground'>
-				Não foi possível encontrar os dados
-			</div>
-		);
-	}
+	const hasError = !resp.ok || !resp.data;
+	const errorMessage =
+		hasError && resp.error
+			? resp.error
+			: hasError
+				? 'Não foi possível carregar os dados.'
+				: undefined;
 
+	const unifiedData =
+		!hasError && !Array.isArray(resp.data)
+			? (resp.data as ReservationsUnifiedData)
+			: null;
+	const bigNumbers = hasError ? null : (unifiedData?.BigNumbers ?? null);
+	const billingOfReservationsByPeriod = hasError
+		? null
+		: (unifiedData?.BillingOfReservationsByPeriod ?? null);
+	const numberOfReservationsPerPeriod = hasError
+		? null
+		: (unifiedData?.NumberOfReservationsPerPeriod ?? null);
+	const representativenessOfReservesByPeriod = hasError
+		? null
+		: (unifiedData?.RepresentativenessOfReservesByPeriod ?? null);
+	const BillingOfEcommerceByPeriod = hasError
+		? null
+		: (unifiedData?.BillingOfEcommerceByPeriod ?? null);
+	const reservationsOfEcommerceByPeriod = hasError
+		? null
+		: (unifiedData?.ReservationsOfEcommerceByPeriod ?? null);
+	const revenueByCompany = hasError
+		? null
+		: (unifiedData?.RevenueByCompany ?? null);
+	const bookingsByCompany = hasError
+		? null
+		: (unifiedData?.BookingsByCompany ?? null);
+
+	const bigNumbersEcommerce = hasError
+		? null
+		: (unifiedData?.BigNumbersEcommerce ?? null);
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>
 			<div className={`relative  md:max-w-[82vw] flex  md:ml-auto w-full `}>
@@ -101,75 +151,51 @@ export default async function Reservations({
 					<div>
 						<Suspense>
 							<BigNumbersReservationPage
-								ipiranga={resp.data[0].BigNumbers}
-								lapa={resp.data[1].BigNumbers}
-								andar_de_cima={resp.data[2].BigNumbers}
-								tout={resp.data[3].BigNumbers}
-								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-									preSet == '30days' ? '30 dias atrás ' : ''
-								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-									preSet == '12months' ? '12 meses atrás ' : ''
-								}`}
+								data={bigNumbers}
+								description={rangeDescription}
 								ecommerce={false}
 							/>
 						</Suspense>
 					</div>
+
 					<div className='flex flex-col md:flex-row gap-5'>
 						<Suspense>
 							<RevenueByCompany
-								tout={resp.data[3].BigNumbers[0].currentDate.totalAllValue}
-								andar_de_cima={
-									resp.data[2].BigNumbers[0].currentDate.totalAllValue
-								}
-								ipiranga={resp.data[0].BigNumbers[0].currentDate.totalAllValue}
-								lapa={resp.data[1].BigNumbers[0].currentDate.totalAllValue}
+								data={revenueByCompany}
 								title={'Faturamento por unidade'}
 								money
+								error={errorMessage}
 							/>
-							<RevenueByCompany
-								tout={resp.data[3].BigNumbers[0].currentDate.totalAllBookings}
-								andar_de_cima={
-									resp.data[2].BigNumbers[0].currentDate.totalAllBookings
-								}
-								ipiranga={
-									resp.data[0].BigNumbers[0].currentDate.totalAllBookings
-								}
-								lapa={resp.data[1].BigNumbers[0].currentDate.totalAllBookings}
-								title={'Nº de Reservas por unidade'}
+							<BookingsByCompany
+								data={bookingsByCompany}
+								title={'Número de Reservas por unidade'}
+								error={errorMessage}
 							/>
 						</Suspense>
 					</div>
 					<div className='flex flex-col  gap-5'>
 						<Suspense>
 							<DataByCompanyReservationsInTime
-								ipiranga={resp.data[0].BillingOfReservationsByPeriod}
-								lapa={resp.data[1].BillingOfReservationsByPeriod}
-								andar_de_cima={resp.data[2].BillingOfReservationsByPeriod}
-								tout={resp.data[3].BillingOfReservationsByPeriod}
-								title={'Faturamento por unidade'}
+								data={billingOfReservationsByPeriod}
+								title={'Faturamento por unidade no tempo'}
 								money
+								error={errorMessage}
 							/>
 						</Suspense>
 						<Suspense>
 							<DataByCompanyReservationsInTime
-								ipiranga={resp.data[0].NumberOfReservationsPerPeriod}
-								lapa={resp.data[1].NumberOfReservationsPerPeriod}
-								andar_de_cima={resp.data[2].NumberOfReservationsPerPeriod}
-								tout={resp.data[3].NumberOfReservationsPerPeriod}
-								title={'Nº de reservas por unidade'}
+								data={numberOfReservationsPerPeriod}
+								title={'Número de reservas por unidade'}
 								money={false}
+								error={errorMessage}
 							/>
 						</Suspense>
 						<Suspense>
 							<DataByCompanyReservationsInTime
-								ipiranga={resp.data[0].RepresentativenessOfReservesByPeriod}
-								lapa={resp.data[1].RepresentativenessOfReservesByPeriod}
-								andar_de_cima={
-									resp.data[2].RepresentativenessOfReservesByPeriod
-								}
-								tout={resp.data[3].RepresentativenessOfReservesByPeriod}
-								title={'Representatividade por unidade'}
+								data={representativenessOfReservesByPeriod}
+								title={'Rep. por unidade'}
 								percent
+								error={errorMessage}
 							/>
 						</Suspense>
 					</div>
@@ -179,39 +205,27 @@ export default async function Reservations({
 							Indicadores de E-Commerce
 						</h2>
 						<Suspense>
-							<BigNumbersReservationPage
-								ipiranga={resp.data[0].BigNumbersEcommerce}
-								lapa={resp.data[1].BigNumbersEcommerce}
-								andar_de_cima={resp.data[2].BigNumbersEcommerce}
-								tout={resp.data[3].BigNumbersEcommerce}
-								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-									preSet == '30days' ? '30 dias atrás ' : ''
-								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-									preSet == '12months' ? '12 meses atrás ' : ''
-								}`}
-								ecommerce={false}
+							<BigNumbersEcommerce
+								data={bigNumbersEcommerce}
+								description={rangeDescription}
 							/>
 						</Suspense>
 
 						<div className='w-full flex flex-col items-center justify-between gap-5'>
 							<Suspense>
 								<DataByCompanyReservationsInTime
-									ipiranga={resp.data[0].BillingOfEcommerceByPeriod}
-									lapa={resp.data[1].BillingOfEcommerceByPeriod}
-									andar_de_cima={resp.data[2].BillingOfEcommerceByPeriod}
-									tout={resp.data[3].BillingOfEcommerceByPeriod}
+									data={BillingOfEcommerceByPeriod}
 									title={'Faturamento por unidade - Ecommerce'}
 									money
+									error={errorMessage}
 								/>
 							</Suspense>
 							<Suspense>
 								<DataByCompanyReservationsInTime
-									ipiranga={resp.data[0].ReservationsOfEcommerceByPeriod}
-									lapa={resp.data[1].ReservationsOfEcommerceByPeriod}
-									andar_de_cima={resp.data[2].ReservationsOfEcommerceByPeriod}
-									tout={resp.data[3].ReservationsOfEcommerceByPeriod}
-									title={'Representatividade por unidade - Ecommerce'}
+									data={reservationsOfEcommerceByPeriod}
+									title={'Rep. por unidade - Ecommerce'}
 									percent
+									error={errorMessage}
 								/>
 							</Suspense>
 						</div>

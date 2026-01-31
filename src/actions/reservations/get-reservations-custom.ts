@@ -3,7 +3,6 @@
 'use server';
 
 import { getReservationsCustom } from '@/http/reservations/get-bookings-custom';
-import { revalidatePath } from 'next/cache';
 
 export async function getReservationsCustomAction(
 	startDate: string | null,
@@ -13,11 +12,10 @@ export async function getReservationsCustomAction(
 	try {
 		if (startDate && endDate) {
 			const resp = await getReservationsCustom(startDate, endDate, company);
-			revalidatePath('/reservations');
 			return resp;
 		}
 	} catch (error) {
-		console.log(error);
-		return error;
+		console.error('getReservationsCustomAction: erro ao buscar dados', error);
+		return null;
 	}
 }

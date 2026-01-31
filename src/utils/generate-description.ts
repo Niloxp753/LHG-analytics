@@ -1,9 +1,14 @@
 /** @format */
 
-export function generateDescription(description: string, total: number) {
+export function generateDescription(
+	description: string,
+	total?: number | null,
+	formatOptions?: Intl.NumberFormatOptions,
+	locale: string = 'pt-BR',
+) {
 	if (!total) {
 		return '';
-	} else {
-		return description + total.toLocaleString('pt-BR');
 	}
+
+	return description + total.toLocaleString(locale, formatOptions);
 }

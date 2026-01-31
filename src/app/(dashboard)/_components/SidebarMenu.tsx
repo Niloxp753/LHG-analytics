@@ -3,13 +3,14 @@
 
 import logo from '@/assets/images/logo-analytics.png';
 import { Button } from '@/components/ui/button';
-import { User } from '@/http/user/getUsers';
+import { buildModuleHref, canAccessModule, isAdmin } from '@/lib/access-control';
+import { DEFAULT_RANGE_TAG } from '@/lib/date-range';
+import { useSessionStore } from '@/stores/session-store';
 import {
 	BarChart3,
 	ChevronsLeft,
 	ChevronsRight,
 	PieChart,
-	ScanEye,
 	ScatterChart,
 	UserRoundCog,
 	UtensilsCrossed,
@@ -20,11 +21,21 @@ import { useState } from 'react';
 import BtnSignOut from '../../../components/btnSingOut';
 import BtnSidebarMenu from './BtnSidebarMenu';
 
-export default function SidebarMenu({ user }: { user?: User }) {
+export default function SidebarMenu() {
 	const searchParams = useSearchParams();
 	const selected = searchParams.get('menu') ?? 'general';
-	const preSet = searchParams.get('set') ?? '7days';
+	const preSet = searchParams.get('set') ?? DEFAULT_RANGE_TAG;
 	const [open, setOpen] = useState(true);
+	const user = useSessionStore((s) => s.user);
+	const adminAccess = isAdmin(user);
+	const canAccessCompany = canAccessModule(user, 'company');
+	const canAccessRestaurant = canAccessModule(user, 'restaurant');
+	const canAccessBookings = canAccessModule(user, 'bookings');
+	const canAccessGovernance = canAccessModule(user, 'governance');
+	const companyHref = buildModuleHref(user, 'company', preSet);
+	const restaurantHref = buildModuleHref(user, 'restaurant', preSet);
+	const bookingsHref = buildModuleHref(user, 'bookings', preSet);
+	const governanceHref = buildModuleHref(user, 'governance', preSet);
 
 	function handleClick() {
 		setOpen(!open);
@@ -62,57 +73,61 @@ export default function SidebarMenu({ user }: { user?: User }) {
 			</Button>
 			<div className='flex flex-col justify-between h-full'>
 				<div className='text-zinc-100 flex flex-col h-full w-fit gap-5 rounded p-2 mt-10 '>
-					{user?.role === 'ADMIN' && (
-						<BtnSidebarMenu
-							icon={<UserRoundCog size={20} />}
-							selected={selected}
-							openned={open}
-							href={`/settings?menu=admin&set=${preSet}`}
-							role={'admin'}>
-							<p>Painel Admin</p>
-						</BtnSidebarMenu>
-					)}
+					<BtnSidebarMenu
+						disabled={!adminAccess}
+						icon={<UserRoundCog size={20} />}
+						selected={selected}
+						openned={open}
+						href={`/settings?menu=admin&set=${preSet}`}
+						role={'admin'}>
+						<p>Painel Admin</p>
+					</BtnSidebarMenu>
 
 					<BtnSidebarMenu
+						disabled={!canAccessCompany || !companyHref}
 						icon={<BarChart3 size={20} />}
 						selected={selected}
 						openned={open}
-						href={`/general?menu=general&set=${preSet}`}
+						href={companyHref ?? '#'}
 						role={'general'}>
 						<p>Visão Geral</p>
 					</BtnSidebarMenu>
 					<BtnSidebarMenu
+						disabled={!canAccessRestaurant || !restaurantHref}
 						icon={<UtensilsCrossed size={20} />}
 						selected={selected}
 						openned={open}
-						href={`/restaurant?menu=restaurant&set=${preSet}`}
+						href={restaurantHref ?? '#'}
 						role={'restaurant'}>
 						<p>Restaurantes</p>
 					</BtnSidebarMenu>
 					<BtnSidebarMenu
+						disabled={!canAccessBookings || !bookingsHref}
 						icon={<ScatterChart size={20} />}
 						selected={selected}
 						openned={open}
-						href={`/reservations?menu=reservations&set=${preSet}`}
+						href={bookingsHref ?? '#'}
 						role={'reservations'}>
 						<p>Reservas</p>
 					</BtnSidebarMenu>
 					<BtnSidebarMenu
+						disabled={!canAccessGovernance || !governanceHref}
 						icon={<PieChart size={20} />}
 						selected={selected}
 						openned={open}
-						href={`/operational?menu=operational&set=${preSet}`}
+						href={governanceHref ?? '#'}
 						role={'operational'}>
 						<p>Operacional</p>
 					</BtnSidebarMenu>
-					<BtnSidebarMenu
+					{/* <BtnSidebarMenu
+						disabled
 						icon={<ScanEye size={20} />}
 						selected={selected}
 						openned={open}
 						href={`/nps?menu=nps&set=${preSet}`}
 						role={'nps'}>
 						<p>Avaliações</p>
-					</BtnSidebarMenu>
+					</BtnSidebarMenu> */}
 					<div className='mt-auto'>
 						<BtnSignOut isOpened={open} />
 					</div>

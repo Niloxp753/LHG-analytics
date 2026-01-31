@@ -2,7 +2,6 @@
 
 'use client';
 
-import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
 import React from 'react';
 const AreaChartsApex = dynamic(
@@ -10,42 +9,38 @@ const AreaChartsApex = dynamic(
 	{ ssr: false },
 );
 
-interface TrevparEntry {
-	[date: string]: {
-		totalTrevpar: string;
-	};
-}
-
-interface TransformedEntry {
-	date: string;
-	totalTrevpar: number;
-}
-
 interface TrevparByDateProps {
 	series: number[];
 	categories: string[];
 }
 
-export default function TRevPar(data?: any) {
-	const trevparByDate: TrevparByDateProps = data.data;
+interface TRevParProps {
+	data?: TrevparByDateProps | null;
+}
+
+export default function TRevPar({ data }: TRevParProps) {
+	const trevparByDate = data;
+	const error =
+		trevparByDate === null ? 'Não foi possível carregar os dados.' : undefined;
 
 	return (
 		<>
-			{trevparByDate ? (
-				<AreaChartsApex
-					id='trevpar-ipiranga'
-					series={[
-						{
-							data: trevparByDate.series,
-							name: 'Trevpar',
-						},
-					]}
-					categories={trevparByDate.categories}
-					money
-				/>
-			) : (
-				<Skeleton className='h-[310px] w-full' />
-			)}
+			<AreaChartsApex
+				id='trevpar-ipiranga'
+				error={error}
+				series={
+					trevparByDate
+						? [
+								{
+									data: trevparByDate.series,
+									name: 'Trevpar',
+								},
+						  ]
+						: undefined
+				}
+				categories={trevparByDate?.categories}
+				money
+			/>
 		</>
 	);
 }

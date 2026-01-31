@@ -1,54 +1,39 @@
 /** @format */
 
+'use client';
+
 import dynamic from 'next/dynamic';
 const LineChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/LineChart'),
 	{ ssr: false },
 );
 
-interface TKTxUnityProps {
-	ipiranga: RentalsEntry;
-	lapa: RentalsEntry;
-	andar_de_cima: RentalsEntry;
-	tout: RentalsEntry;
-}
-
-interface RentalsEntry {
+interface EntryData {
 	categories: string[];
-	series: number[];
+	series: Array<{ name: string; data: number[] }>;
+}
+interface TKTxUnityProps {
+	data?: EntryData | null;
 }
 
-export default function TKTxUnity({
-	ipiranga,
-	lapa,
-	andar_de_cima,
-	tout,
-}: TKTxUnityProps) {
+export default function TKTxUnity({ data }: TKTxUnityProps) {
+	const isLoading = typeof data === 'undefined';
+	const error =
+		data === null ? 'Não foi possível carregar os dados.' : undefined;
+
+	if (!isLoading && !error && (!data?.series?.length || !data?.categories?.length)) {
+		return null;
+	}
+
 	return (
 		<>
 			<LineChart
 				money
+				error={error}
 				height={148}
 				title='Ticket Médio por Unidade'
-				series={[
-					{
-						name: 'Lush Ipiranga',
-						data: ipiranga.series,
-					},
-					{
-						name: 'Lush Lapa',
-						data: lapa.series,
-					},
-					{
-						name: 'Andar de Cima',
-						data: andar_de_cima.series,
-					},
-					{
-						name: 'Tout',
-						data: tout.series,
-					},
-				]}
-				categories={ipiranga?.categories}
+				series={data?.series}
+				categories={data?.categories}
 			/>
 		</>
 	);

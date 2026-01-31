@@ -35,6 +35,15 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import {
+	ADMIN_ROLE,
+	ADMIN_UNIT,
+	ROLE_OPTIONS,
+	ROLE_VALUES,
+	UNIT_LABELS,
+	UNIT_OPTIONS,
+	type AccessUnit,
+} from '@/lib/access-control';
 
 export function ModalCreateUser() {
 	const [isPending, setIsPending] = useState(false);
@@ -47,9 +56,12 @@ export function ModalCreateUser() {
 			cpf: '',
 			name: '',
 			unidade: '',
-			role: 'MANAGER',
+			role: ROLE_VALUES[0],
 		},
 	});
+	// eslint-disable-next-line react-hooks/incompatible-library
+	const selectedRole = form.watch('role');
+	const isAdminRole = selectedRole === ADMIN_ROLE;
 
 	async function onSubmit(values: z.infer<typeof formSchemaUser>) {
 		try {
@@ -59,14 +71,15 @@ export function ModalCreateUser() {
 			const name = values.name;
 			const cpf = values.cpf;
 			const role = values.role;
-			const company = values.unidade;
-			await createUserAction({ email, password, name, cpf, role, company });
+			const unit = values.unidade as AccessUnit;
+			await createUserAction({ email, password, name, cpf, role, unit });
 			form.reset();
 			toast.success('Usuário Cadastrado - 204', {
 				description: `${name} - Novo usuário salvo no banco de dados`,
 			});
 			setModal(false);
 		} catch (error) {
+			console.error(error);
 			toast.error('Algo deu errado - 500', {
 				description: 'Tente novamente',
 			});
@@ -182,7 +195,16 @@ export function ModalCreateUser() {
 										Cargo
 									</FormLabel>
 									<Select
-										onValueChange={field.onChange}
+										onValueChange={(value) => {
+											field.onChange(value);
+											if (value === ADMIN_ROLE) {
+												form.setValue('unidade', ADMIN_UNIT);
+												return;
+											}
+											if (form.getValues('unidade') === ADMIN_UNIT) {
+												form.setValue('unidade', '');
+											}
+										}}
 										defaultValue={field.value}>
 										<FormControl>
 											<SelectTrigger>
@@ -190,8 +212,13 @@ export function ModalCreateUser() {
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
-											<SelectItem value={'MANAGER'}>Gerente</SelectItem>
-											<SelectItem value={'ADMIN'}>Administrador</SelectItem>
+											{ROLE_OPTIONS.map((role) => (
+												<SelectItem
+													key={role.value}
+													value={role.value}>
+													{role.label}
+												</SelectItem>
+											))}
 										</SelectContent>
 									</Select>
 									<FormMessage />
@@ -211,6 +238,7 @@ export function ModalCreateUser() {
 									</FormLabel>
 									<Select
 										onValueChange={field.onChange}
+										disabled={isAdminRole}
 										defaultValue={field.value}>
 										<FormControl>
 											<SelectTrigger>
@@ -218,18 +246,19 @@ export function ModalCreateUser() {
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
-											<SelectItem value={'1'}>Lush Ipiranga</SelectItem>
-											<SelectItem value={'2'}>Lush Lapa</SelectItem>
-											<SelectItem
-												disabled
-												value={'3'}>
-												Andar de Cima
-											</SelectItem>
-											<SelectItem
-												disabled
-												value={'4'}>
-												Tout
-											</SelectItem>
+											{isAdminRole ? (
+												<SelectItem value={ADMIN_UNIT}>
+													{UNIT_LABELS[ADMIN_UNIT]}
+												</SelectItem>
+											) : (
+												UNIT_OPTIONS.map((unit) => (
+													<SelectItem
+														key={unit.value}
+														value={unit.value}>
+														{unit.label}
+													</SelectItem>
+												))
+											)}
 										</SelectContent>
 									</Select>
 									<FormMessage />

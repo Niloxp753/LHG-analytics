@@ -1,4 +1,5 @@
 /** @format */
+'use client';
 
 import dynamic from 'next/dynamic';
 import React from 'react';
@@ -7,47 +8,37 @@ const LineChart = dynamic(
 	{ ssr: false },
 );
 
-interface DataProps {
-	series: number[];
+interface RevenueByCompany {
 	categories: string[];
-}
-interface UnityxTKTxTimePrps {
-	ipiranga: DataProps;
-	lapa: DataProps;
-	andar_de_cima: DataProps;
-	tout: DataProps;
+	series: Array<{ name: string; data: number[] }>;
 }
 
-export default function UnityxTKTxTime({
-	ipiranga,
-	lapa,
-	andar_de_cima,
-	tout,
-}: UnityxTKTxTimePrps) {
+interface UnityxTKTxTimePrps {
+	data?: RevenueByCompany | null;
+	error?: string | boolean;
+}
+export default function UnityxTKTxTime({ data, error }: UnityxTKTxTimePrps) {
+	const isLoading = typeof data === 'undefined';
+	const resolvedError =
+		error ??
+		(data === null ? 'Não foi possível carregar os dados.' : undefined);
+
+	if (
+		!isLoading &&
+		!resolvedError &&
+		(!data?.series?.length || !data?.categories?.length)
+	) {
+		return null;
+	}
+
 	return (
 		<div className='w-full'>
 			<LineChart
 				money
+				error={resolvedError}
 				title={'Ticket médio por unidade'}
-				series={[
-					{
-						name: 'Lush Ipiranga',
-						data: ipiranga.series,
-					},
-					{
-						name: 'Lush Lapa',
-						data: lapa.series,
-					},
-					{
-						name: 'Andar de Cima',
-						data: andar_de_cima.series,
-					},
-					{
-						name: 'Tout',
-						data: tout.series,
-					},
-				]}
-				categories={ipiranga.categories}
+				series={data?.series}
+				categories={data?.categories}
 				height={440}
 			/>
 		</div>

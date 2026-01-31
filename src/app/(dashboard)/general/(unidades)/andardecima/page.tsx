@@ -16,42 +16,43 @@ import TableKpiCategory from '@/app/(dashboard)/_components/kpis/TableKpiCategor
 import { TableKpiGiro } from '@/app/(dashboard)/_components/kpis/TableKpiGiro';
 import { TableKpiOccupation } from '@/app/(dashboard)/_components/kpis/TableKpiOccupation';
 import Ticket from '@/app/(dashboard)/_components/kpis/Ticket';
-import { authOptions } from '@/app/api/auth/[...nextauth]/options';
-import { format } from 'date-fns';
-import { getServerSession } from 'next-auth';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
+import {
+	DEFAULT_RANGE_TAG,
+	formatDateInput,
+	getRangeDescription,
+} from '@/lib/date-range';
 
 export const revalidate = 0;
 
 export default async function LushIpiranga({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | undefined };
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-	const preSet = searchParams.set ?? '7days';
-	const startDate = searchParams.startDate;
-	const endDate = searchParams.endDate;
+	const preSet = (await searchParams).set ?? DEFAULT_RANGE_TAG;
+	const startDate = (await searchParams).startDate;
+	const endDate = (await searchParams).endDate;
+	const rangeDescription = getRangeDescription(preSet as string);
 
-	const formattedStartDate =
-		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
-	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
+	const formattedStartDate = formatDateInput(startDate as string);
+	const formattedEndDate = formatDateInput(endDate as string);
 
 	async function getData() {
-		if (startDate && endDate) {
+		if (formattedStartDate && formattedEndDate) {
 			const customData = await getCompanyCustomAction(
 				formattedStartDate!,
 				formattedEndDate!,
 				'andar_de_cima',
 			);
 			if (customData) {
-				revalidatePath('/general');
 				return customData;
 			}
 		} else {
-			const data = await getCompanyAction(preSet ?? '7days', 'andar_de_cima');
+			const data = await getCompanyAction(
+				(preSet as string) ?? DEFAULT_RANGE_TAG,
+				'andar_de_cima',
+			);
 			if (data) {
-				revalidatePath('/general');
 				return data;
 			}
 		}
@@ -59,44 +60,25 @@ export default async function LushIpiranga({
 
 	const resp = await getData();
 
-	const session = await getServerSession(authOptions);
-
-	if (!session?.user) {
-		redirect('/login');
-	}
-
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5'>
-			<div
-				className={`relative  ${
-					session.user.cpf == '359.267.460-94'
-						? 'container mx-auto px-0'
-						: 'md:w-[82vw] md:ml-auto'
-				}  flex w-full `}>
+			<div className={`relative  ${'md:w-[82vw] md:ml-auto'}  flex w-full `}>
 				<div
-					className={`bg-zinc-950/50 py-4 w-full ${
-						session.user.cpf == '359.267.460-94'
-							? 'container mx-auto px-0'
-							: 'md:w-[82vw]'
-					} backdrop-blur-md fixed top-0 z-40 flex flex-col gap-2 `}>
+					className={`bg-zinc-950/50 py-4 w-full ${'md:w-[82vw]'} backdrop-blur-md fixed top-0 z-40 flex flex-col gap-2 `}>
 					<h2 className='text-zinc-50 font-bold md:text-3xl text-center pb-1.5 pt-2.5 text-base'>
-						Visão Geral -{' '}
+						Visǜo Geral -{' '}
 						<span className='text-violet-400 text-base md:text-3xl'>
 							Andar de Cima
 						</span>
 					</h2>
 					<div className='hidden lg:block'>
-						<Header cpf={session.user.cpf} />
+						<Header />
 					</div>
 				</div>
 				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-12 lg:mt-32'>
 					<BigNumbers
 						data={resp?.BigNumbers}
-						description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-							preSet == '30days' ? '30 dias atrás ' : ''
-						} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-							preSet == '12months' ? '12 meses atrás ' : ''
-						}`}
+						description={rangeDescription}
 					/>
 					<div className='flex w-full h-full'>
 						<div className='h-full w-full flex flex-col items-center justify-center'>

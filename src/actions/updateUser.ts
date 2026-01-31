@@ -2,32 +2,24 @@
 
 'use server';
 
-import { IUserUp, updateUser } from '@/http/user/updateUser';
-import { getServerSession } from 'next-auth';
-import { revalidateTag } from 'next/cache';
-import { redirect } from 'next/navigation';
+import { updateUser } from '@/http/user/updateUser';
+import { ADMIN_ROLE, ADMIN_UNIT } from '@/lib/access-control';
+import { requireAccessToken } from '@/lib/require-auth';
+import type { UpdateUserInput } from '@/types/user';
+import { revalidatePath } from 'next/cache';
 
-export async function updateUserAction(props: IUserUp) {
-	const session = await getServerSession();
-	if (!session) {
-		redirect('/login');
-	}
-	if (props.password === '') {
-		await updateUser({
-			email: props.email,
-			id: props.id,
-			name: props.name,
-			company: props.company,
-			role: props.role,
-			cpf: props.cpf,
-		});
-		revalidateTag('users');
-	} else {
-		try {
-			await updateUser(props);
-			revalidateTag('users');
-		} catch (error) {
-			console.log(error);
+export async function updateUserAction(props: UpdateUserInput) {
+	await requireAccessToken();
+	try {
+		if (!props.id) {
+			throw new Error('User id is required for update');
 		}
+
+		const unit = props.role === ADMIN_ROLE ? ADMIN_UNIT : props.unit;
+
+		await updateUser({ ...props, unit });
+		revalidatePath('/settings');
+	} catch (error) {
+		console.log(error);
 	}
 }

@@ -8,7 +8,7 @@ import {
 	SheetContent,
 	SheetTrigger,
 } from '@/components/ui/sheet';
-import { User } from '@/http/user/getUsers';
+import { useSessionStore } from '@/stores/session-store';
 import {
 	BarChart3,
 	Menu,
@@ -18,15 +18,26 @@ import {
 	UserRoundCog,
 	UtensilsCrossed,
 } from 'lucide-react';
+import { buildModuleHref, canAccessModule, isAdmin } from '@/lib/access-control';
+import { DEFAULT_RANGE_TAG } from '@/lib/date-range';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useTransition } from 'react';
 
-export default function MenuMobile({ user }: { user?: User }) {
+export default function MenuMobile() {
 	const pathname = usePathname();
 	const [isPending, startTransition] = useTransition();
 	const searchParams = useSearchParams();
-	const preSet = searchParams.get('set') || '7days';
-	const selected = searchParams.get('menu') || 'general';
+	const preSet = searchParams.get('set') || DEFAULT_RANGE_TAG;
+	const user = useSessionStore((s) => s.user);
+	const adminAccess = isAdmin(user);
+	const canAccessCompany = canAccessModule(user, 'company');
+	const canAccessRestaurant = canAccessModule(user, 'restaurant');
+	const canAccessBookings = canAccessModule(user, 'bookings');
+	const canAccessGovernance = canAccessModule(user, 'governance');
+	const companyHref = buildModuleHref(user, 'company', preSet);
+	const restaurantHref = buildModuleHref(user, 'restaurant', preSet);
+	const bookingsHref = buildModuleHref(user, 'bookings', preSet);
+	const governanceHref = buildModuleHref(user, 'governance', preSet);
 
 	const router = useRouter();
 
@@ -40,7 +51,9 @@ export default function MenuMobile({ user }: { user?: User }) {
 
 	function handleClose() {
 		const btn = document.getElementById('myclose');
-		!isPending && btn?.click();
+		if (!isPending) {
+			btn?.click();
+		}
 	}
 
 	useEffect(() => {
@@ -53,6 +66,7 @@ export default function MenuMobile({ user }: { user?: User }) {
 			label: 'Painel Admin',
 			href: `/settings?menu=admin&set=${preSet}`,
 			slug: '/settings',
+			disabled: !adminAccess,
 			icon: (
 				<UserRoundCog
 					className={` ${
@@ -63,8 +77,9 @@ export default function MenuMobile({ user }: { user?: User }) {
 		},
 		{
 			label: 'Visão Geral',
-			href: `/general?menu=${selected}&set=${preSet}`,
+			href: companyHref ?? '#',
 			slug: '/general',
+			disabled: !canAccessCompany || !companyHref,
 			icon: (
 				<BarChart3
 					className={` ${
@@ -76,7 +91,8 @@ export default function MenuMobile({ user }: { user?: User }) {
 		{
 			label: 'Restaurantes',
 			slug: '/restaurant',
-			href: `/restaurant?menu=${selected}&set=${preSet}`,
+			href: restaurantHref ?? '#',
+			disabled: !canAccessRestaurant || !restaurantHref,
 			icon: (
 				<UtensilsCrossed
 					className={` ${
@@ -88,7 +104,8 @@ export default function MenuMobile({ user }: { user?: User }) {
 		{
 			label: 'Reservas',
 			slug: '/reservations',
-			href: `/reservations?menu=${selected}s&set=${preSet}`,
+			href: bookingsHref ?? '#',
+			disabled: !canAccessBookings || !bookingsHref,
 			icon: (
 				<ScatterChart
 					className={` ${
@@ -100,7 +117,8 @@ export default function MenuMobile({ user }: { user?: User }) {
 		{
 			label: 'Operacional',
 			slug: '/operational',
-			href: `/operational?menu=${selected}&set=${preSet}`,
+			href: governanceHref ?? '#',
+			disabled: !canAccessGovernance || !governanceHref,
 			icon: (
 				<PieChart
 					className={` ${
@@ -113,6 +131,7 @@ export default function MenuMobile({ user }: { user?: User }) {
 			label: 'Avaliações',
 			slug: '/nps',
 			href: `/nps?menu=nps&set=${preSet}`,
+			disabled: true,
 			icon: (
 				<ScanEye
 					className={` ${
@@ -122,10 +141,6 @@ export default function MenuMobile({ user }: { user?: User }) {
 			),
 		},
 	];
-
-	const isAdmin = user?.role === 'ADMIN';
-
-	const newLinks = isAdmin ? links : links.slice(1);
 
 	return (
 		<Sheet>
@@ -147,22 +162,29 @@ export default function MenuMobile({ user }: { user?: User }) {
 				<div
 					onClick={(e) => e.stopPropagation()}
 					className='mt-20 flex flex-col gap-5'>
-					{newLinks.map((link, idx) => {
+					{links.map((link, idx) => {
+						const isSelected = pathname.includes(link.slug);
+						const isDisabled = link.disabled;
 						return (
 							<Button
+								disabled={isDisabled}
 								onClick={(e) => handleClick(e, link.href)}
 								key={idx}
-								className={`flex items-center justify-start hover:bg-violet-400 transition-all ease-linear duration-150 p-2.5 rounded-md ${
-									pathname.includes(link.slug)
-										? 'bg-violet-400 text-black'
-										: 'bg-transparent text-white'
+								className={`flex items-center justify-start transition-all ease-linear duration-150 p-2.5 rounded-md ${
+									isDisabled
+										? 'bg-transparent text-zinc-400 opacity-50 cursor-not-allowed'
+										: isSelected
+											? 'bg-violet-400 text-black hover:bg-violet-400'
+											: 'bg-transparent text-white hover:bg-violet-400'
 								} gap-5`}>
 								<span>{link.icon}</span>
 								<p
 									className={`${
-										pathname.includes(link.slug)
+										isSelected && !isDisabled
 											? ' text-black'
-											: 'bg-transparent text-white'
+											: isDisabled
+												? 'text-zinc-400'
+												: 'bg-transparent text-white'
 									}`}>
 									{link.label}
 								</p>

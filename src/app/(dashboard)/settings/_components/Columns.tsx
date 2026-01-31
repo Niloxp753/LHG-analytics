@@ -2,18 +2,24 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { IUser } from '@/http/user/createUser';
+import type { User } from '@/types/user';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 import ColumnActions from './ColumnActions';
+import {
+	getRoleLabel,
+	getUnitLabel,
+} from '@/lib/access-control';
 
-export const columns: ColumnDef<IUser | undefined | any>[] = [
+export const columns: ColumnDef<User>[] = [
 	{
 		id: 'Cargo',
 		accessorKey: 'role',
 		header: 'Cargo',
 		cell: ({ row }) => (
-			<div className='capitalize'>{row.getValue('Cargo')}</div>
+			<div className='capitalize'>
+				{getRoleLabel(String(row.getValue('Cargo') ?? ''))}
+			</div>
 		),
 	},
 	{
@@ -41,10 +47,12 @@ export const columns: ColumnDef<IUser | undefined | any>[] = [
 	},
 	{
 		id: 'Unidade',
-		accessorKey: 'company',
+		accessorKey: 'unit',
 		header: 'Unidade',
 		cell: ({ row }) => (
-			<div className='capitalize'>{row.getValue('Unidade')}</div>
+			<div className='capitalize'>
+				{getUnitLabel(String(row.getValue('Unidade') ?? ''))}
+			</div>
 		),
 	},
 	{

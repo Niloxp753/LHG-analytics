@@ -1,9 +1,7 @@
 /** @format */
 'use client';
 
-import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
-import React from 'react';
 const LineChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/LineChart'),
 	{ ssr: false },
@@ -19,23 +17,27 @@ interface BillingRentalTypeProps {
 	series: Rental[];
 }
 
-export default function InvoicingXLocation(data?: any) {
-	const billingRentalType: BillingRentalTypeProps = data.data;
+interface InvoicingXLocationProps {
+	data?: BillingRentalTypeProps | null;
+}
+
+export default function InvoicingXLocation({ data }: InvoicingXLocationProps) {
+	const billingRentalType = data;
+	const error =
+		billingRentalType === null
+			? 'Não foi possível carregar os dados.'
+			: undefined;
 
 	return (
 		<>
-			{billingRentalType ? (
-				<LineChart
-					money
-					title={'Faturamento por tipo de locação'}
-					height={400}
-					series={billingRentalType.series}
-					categories={billingRentalType.categories}
-				/>
-			) : (
-				<Skeleton className='h-[400px] w-full' />
-			)}
-			;
+			<LineChart
+				money
+				error={error}
+				title={'Faturamento por tipo de locação'}
+				height={400}
+				series={billingRentalType?.series}
+				categories={billingRentalType?.categories}
+			/>
 		</>
 	);
 }

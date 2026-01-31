@@ -8,43 +8,35 @@ const PieChartsApex = dynamic(
 	{ ssr: false },
 );
 
+interface EntryData {
+	categories: string[];
+	series: Array<{ name: string; data: number[] }>;
+}
 interface PerformanceUnityProps {
-	ipiranga: DataSet;
-	lapa: DataSet;
-	andar_de_cima: DataSet;
-	tout: DataSet;
+	data?: EntryData | null;
+	error?: string | boolean;
 }
 
-type DataSet = {
-	categories: string[];
-	series: number[];
-};
+export default function PerformanceUnity({ data, error }: PerformanceUnityProps) {
+	const isLoading = typeof data === 'undefined';
+	const resolvedError =
+		error ?? (data === null ? 'Não foi possível carregar os dados.' : undefined);
+	const series = data?.series?.[0]?.data;
 
-export default function PerformanceUnity({
-	ipiranga,
-	lapa,
-	andar_de_cima,
-	tout,
-}: PerformanceUnityProps) {
-	const totalIpiranga = ipiranga.series.reduce((acc, curr) => acc + curr, 0);
-	const totalLapa = lapa.series.reduce((acc, curr) => acc + curr, 0);
-	const totalTout = tout.series.reduce((acc, curr) => acc + curr, 0);
-	const totalAndar = andar_de_cima.series.reduce((acc, curr) => acc + curr, 0);
+	if (!isLoading && !resolvedError && (!series?.length || !data?.categories?.length)) {
+		return null;
+	}
 
 	return (
 		<PieChartsApex
 			height={340}
-			series={[totalIpiranga, totalLapa, totalAndar, totalTout]}
-			categories={[
-				'Lush Ipiranga',
-				'Lush Lapa',
-				'Andar de Cima',
-				'Tout',
-			]}
-			title='Total de vistorias por unidade'
+			error={resolvedError}
+			series={series ?? undefined}
+			categories={['Lush Ipiranga', 'Lush Lapa', 'Andar de Cima', 'Tout']}
+			title='Total de Vistorias por Unidade'
 			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
 			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
-			labels={['Lush Ipiranga', 'Lush Lapa', 'Andar de Cima', 'Tout']}
+			labels={data?.categories}
 		/>
 	);
 }

@@ -2,23 +2,46 @@
 
 'use client';
 
+import dynamic from 'next/dynamic';
 import ResponsiveContainerChart from '@/app/(dashboard)/_components/ResponsiveContainerChart';
+import DataState from '@/app/(dashboard)/_components/DataState';
 import { Skeleton } from '@/components/ui/skeleton';
-import Chart from 'react-apexcharts';
+
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
+type PieTotalFormatterContext = {
+	globals: {
+		series: number[];
+	};
+};
 
 interface PieChartsApexProps {
 	title?: string;
 	labels?: string[];
-	series?: ApexNonAxisChartSeries | undefined;
+	series?: ApexNonAxisChartSeries | null;
 	colors?: string[];
 	dataLabelColors?: string[];
 	height?: number;
 	money?: boolean;
 	percent?: boolean;
 	categories?: string[];
+	error?: string | boolean;
 }
 
 export default function PieChartsApex(props: PieChartsApexProps) {
+	const hasSeriesData = Array.isArray(props.series)
+		? props.series.length > 0
+		: false;
+	const hasLabels = props.labels ? props.labels.length > 0 : true;
+
+	if (props.series && (!hasSeriesData || !hasLabels)) {
+		return null;
+	}
+	const isLoading = typeof props.series === 'undefined';
+	const error =
+		props.error ??
+		(props.series === null ? 'Não foi possível carregar os dados.' : undefined);
+
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: 'donut-chart',
@@ -89,10 +112,10 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 							? val.toLocaleString('pt-BR', {
 									style: 'currency',
 									currency: 'BRL',
-							  })
+								})
 							: props.percent
-							? val + '%'
-							: val ?? 10
+								? val + '%'
+								: (val ?? 10)
 					} `,
 			},
 		},
@@ -103,7 +126,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 					labels: {
 						value: {
 							show: true,
-							fontSize: '24px',
+							fontSize: '20px',
 							color: '#fafafa',
 							fontWeight: 'bold',
 							formatter: (val: number | string) =>
@@ -112,10 +135,10 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 										? val.toLocaleString('pt-BR', {
 												style: 'currency',
 												currency: 'BRL',
-										  })
+											})
 										: props.percent
-										? val + '%'
-										: val ?? 10
+											? val + '%'
+											: (val ?? 10)
 								} `,
 						},
 						name: {
@@ -125,10 +148,9 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 						total: {
 							show: true,
 							showAlways: true,
-							formatter: (w: any) => {
-								console.log(w.globals.series);
-								const data: any = w.globals.series.reduce(
-									(acc: any, cur: any) => acc + cur,
+							formatter: (w: PieTotalFormatterContext) => {
+								const data = w.globals.series.reduce(
+									(acc, cur) => acc + cur,
 									0,
 								);
 								return `${
@@ -136,10 +158,10 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 										? data.toLocaleString('pt-BR', {
 												style: 'currency',
 												currency: 'BRL',
-										  })
+											})
 										: props.percent
-										? data + '%'
-										: data.toLocaleString('pt-br')
+											? data + '%'
+											: data.toLocaleString('pt-br')
 								} `;
 							},
 						},
@@ -151,18 +173,17 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 
 	return (
 		<ResponsiveContainerChart>
-			{props.series ? (
+			<DataState
+				isLoading={isLoading}
+				error={error}
+				skeleton={<Skeleton className='w-full h-[324px]' />}>
 				<Chart
 					options={options}
 					width={'100%'}
 					height={400}
-					series={props.series ?? [40, 20, 45, 25]}
+					series={props.series as ApexNonAxisChartSeries}
 					type='donut'></Chart>
-			) : (
-				<>
-					<Skeleton className='w-full h-[324px]'></Skeleton>
-				</>
-			)}
+			</DataState>
 		</ResponsiveContainerChart>
 	);
 }

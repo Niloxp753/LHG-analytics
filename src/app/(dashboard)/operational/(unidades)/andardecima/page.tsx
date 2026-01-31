@@ -12,43 +12,44 @@ import SuitesOutsourcedInternal from '../../_components/kpis-unidade/suites-outs
 import TableWokersAfternoon from '../../_components/kpis-unidade/table-workers-afternoon';
 import TableWokersNight from '../../_components/kpis-unidade/table-workers-nigh';
 import { getGovernanceAction } from '@/actions/getGovernance';
-import { revalidatePath } from 'next/cache';
-import { format } from 'date-fns';
+import {
+	DEFAULT_RANGE_TAG,
+	formatDateInput,
+	getRangeDescription,
+} from '@/lib/date-range';
 import BigNumbersOperation from '../../_components/kpis-unidade/big-numbers-operation';
 import { getOperationCustomAction } from '@/actions/getoperationsCustom';
 
 export default async function LushLapa({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | undefined };
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-	searchParams.menu = 'operational';
-	const preSet = searchParams.set ?? '7days';
-	const startDate = searchParams.startDate;
-	const endDate = searchParams.endDate;
+	(await searchParams).menu = 'operational';
+	const preSet = (await searchParams).set ?? DEFAULT_RANGE_TAG;
+	const startDate = (await searchParams).startDate;
+	const endDate = (await searchParams).endDate;
+	const rangeDescription = getRangeDescription(preSet as string);
 
-	const formattedStartDate =
-		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
-	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
+	const formattedStartDate = formatDateInput(startDate as string);
+	const formattedEndDate = formatDateInput(endDate as string);
 
 	async function getData() {
-		if (startDate && endDate) {
+		if (formattedStartDate && formattedEndDate) {
 			const customData = await getOperationCustomAction(
 				formattedStartDate!,
 				formattedEndDate!,
 				'andar_de_cima',
 			);
 			if (customData) {
-				revalidatePath('/');
 				return customData;
 			}
 		} else {
 			const data = await getGovernanceAction(
-				preSet ?? '7days',
+				(preSet as string) ?? DEFAULT_RANGE_TAG,
 				'andar_de_cima',
 			);
 			if (data) {
-				revalidatePath('/');
 				return data;
 			}
 		}
@@ -76,11 +77,7 @@ export default async function LushLapa({
 						<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-12 md:mt-32'>
 							<BigNumbersOperation
 								data={resp?.BigNumbers}
-								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-									preSet == '30days' ? '30 dias atrás ' : ''
-								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-									preSet == '12months' ? '12 meses atrás ' : ''
-								}`}
+								description={rangeDescription}
 							/>
 							<div className='flex items-center gap-5 justify-between flex-col md:flex-row'>
 								<Performance data={resp?.SupervisorsPerformance} />

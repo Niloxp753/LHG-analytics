@@ -1,55 +1,39 @@
 /** @format */
 
-import { NormalizeRentalsByDate } from '@/utils/normalize-rentals-by-date';
+'use client';
+
 import dynamic from 'next/dynamic';
-import React from 'react';
 const LineChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/LineChart'),
 	{ ssr: false },
 );
 
-interface LocationsxUnityProps {
-	ipiranga: RentalsEntry;
-	lapa: RentalsEntry;
-	andar_de_cima: RentalsEntry;
-	tout: RentalsEntry;
-}
-
-interface RentalsEntry {
+interface EntryData {
 	categories: string[];
-	series: number[];
+	series: Array<{ name: string; data: number[] }>;
+}
+interface LocationsxUnityProps {
+	data?: EntryData | null;
 }
 
-export default function LocationsxUnity({
-	ipiranga,
-	lapa,
-	andar_de_cima,
-	tout,
-}: LocationsxUnityProps) {
+export default function LocationsxUnity({ data }: LocationsxUnityProps) {
+	const title = 'Locações por unidade';
+	const isLoading = typeof data === 'undefined';
+	const error =
+		data === null ? 'Não foi possível carregar os dados.' : undefined;
+
+	if (!isLoading && !error && (!data?.series?.length || !data?.categories?.length)) {
+		return null;
+	}
+
 	return (
 		<>
 			<LineChart
 				height={52}
-				title='Locações por Unidade'
-				series={[
-					{
-						data: ipiranga?.series,
-						name: 'Lush Ipiranga',
-					},
-					{
-						data: lapa.series,
-						name: 'Lush Lapa',
-					},
-					{
-						data: andar_de_cima.series,
-						name: 'Andar de Cima',
-					},
-					{
-						data: tout.series,
-						name: 'Tout',
-					},
-				]}
-				categories={ipiranga?.categories}
+				error={error}
+				title={title}
+				series={data?.series}
+				categories={data?.categories}
 			/>
 		</>
 	);

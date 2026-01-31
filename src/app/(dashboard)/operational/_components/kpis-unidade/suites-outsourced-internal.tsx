@@ -1,45 +1,34 @@
 /** @format */
 'use client';
 
-import { Skeleton } from '@/components/ui/skeleton';
 import dynamic from 'next/dynamic';
-import React from 'react';
+
 const PieChartsApex = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/PieChartsApex'),
 	{ ssr: false },
 );
 
+type serie = {
+	name: string;
+	data: number[];
+};
 interface SuitesOutsourcedInternalProps {
-	data: any;
+	series: serie[] | null;
+	categories: string[];
 }
 
-export default function SuitesOutsourcedInternal(
-	data: SuitesOutsourcedInternalProps,
-) {
-	const ShiftCleaning = data?.data;
+type entryData = {
+	data: SuitesOutsourcedInternalProps;
+};
 
-	if (
-		!ShiftCleaning.series.length ||
-		ShiftCleaning.series.length == 0 ||
-		!ShiftCleaning
-	) {
-		return (
-			<>
-				<Skeleton className='w-full h-[340px]'></Skeleton>
-			</>
-		);
-	} else {
-		return ShiftCleaning ? (
-			<PieChartsApex
-				labels={ShiftCleaning.categories}
-				series={ShiftCleaning.series}
-				height={340}
-				title='Limpezas por turno'
-			/>
-		) : (
-			<>
-				<Skeleton className='w-full h-[340px]'></Skeleton>
-			</>
-		);
-	}
+export default function SuitesOutsourcedInternal({ data }: entryData) {
+	console.log(data);
+	return (
+		<PieChartsApex
+			labels={data?.categories}
+			series={data.series}
+			height={340}
+			title='Limpezas por Turno'
+		/>
+	);
 }

@@ -4,8 +4,11 @@ import { getReservationsAction } from '@/actions/reservations/get-reservations';
 import { getReservationsCustomAction } from '@/actions/reservations/get-reservations-custom';
 import Header from '@/app/(dashboard)/_components/Header';
 import InvoicingXChannel from '@/app/(dashboard)/reservations/_components/kpis/InvoicingXChannel';
-import { format } from 'date-fns';
-import { revalidatePath } from 'next/cache';
+import {
+	DEFAULT_RANGE_TAG,
+	formatDateInput,
+	getRangeDescription,
+} from '@/lib/date-range';
 import { TableReservs } from '../../../_components/kpis/TableReservs';
 import BigNumbersEcommerce from '../../_components/big-numbers-ecommerce';
 import BigNumbersReservation from '../../_components/big-numbers-reservations';
@@ -20,32 +23,32 @@ import Representation from '../../_components/kpis/Representation';
 export default async function Page({
 	searchParams,
 }: {
-	searchParams: { [key: string]: string | undefined };
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-	const preSet = searchParams.set || '7days';
-	const startDate = searchParams.startDate;
-	const endDate = searchParams.endDate;
+	const preSet = (await searchParams).set || DEFAULT_RANGE_TAG;
+	const startDate = (await searchParams).startDate;
+	const endDate = (await searchParams).endDate;
+	const rangeDescription = getRangeDescription(preSet as string);
 
-	const formattedStartDate =
-		startDate && format(new Date(startDate!), 'dd/MM/yyyy');
-	const formattedEndDate = endDate && format(new Date(endDate!), 'dd/MM/yyyy');
+	const formattedStartDate = formatDateInput(startDate as string);
+	const formattedEndDate = formatDateInput(endDate as string);
 
 	async function getData() {
-		if (startDate && endDate) {
+		if (formattedStartDate && formattedEndDate) {
 			const customData = await getReservationsCustomAction(
 				formattedStartDate!,
 				formattedEndDate!,
 			);
 			if (customData) {
-				revalidatePath('/reservations');
 				return customData;
 			} else {
 				return null;
 			}
 		} else {
-			const data = await getReservationsAction(preSet ?? '7days');
+			const data = await getReservationsAction(
+				(preSet as string) ?? DEFAULT_RANGE_TAG,
+			);
 			if (data) {
-				revalidatePath('/reservations');
 				return data;
 			} else {
 				return null;
@@ -54,6 +57,30 @@ export default async function Page({
 	}
 
 	const resp = await getData();
+
+	if (!resp) {
+		return (
+			<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-14 md:px-5 '>
+				<div className={`relative md:max-w-[82vw] flex md:ml-auto  w-full `}>
+					<div
+						className={`bg-zinc-950/50 py-4 w-full md:w-[82vw] backdrop-blur-md fixed top-0 z-40 flex flex-col gap-2 `}>
+						<h2 className='text-zinc-50 font-bold md:text-3xl text-center pb-1.5 pt-2.5 text-base'>
+							Reservas -{' '}
+							<span className='text-violet-400 text-base md:text-3xl'>
+								{''}Lush Ipiranga
+							</span>
+						</h2>
+						<div className='hidden lg:block'>
+							<Header />
+						</div>
+					</div>
+					<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-12 md:mt-32'>
+						<p className='text-zinc-100'>Nao foi possivel carregar os dados.</p>
+					</div>
+				</div>
+			</main>
+		);
+	}
 
 	return (
 		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-14 md:px-5 '>
@@ -73,11 +100,7 @@ export default async function Page({
 				<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-12 md:mt-32'>
 					<BigNumbersReservation
 						data={resp?.BigNumbers}
-						description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-							preSet == '30days' ? '30 dias atrás ' : ''
-						} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-							preSet == '12months' ? '12 meses atrás ' : ''
-						}`}
+						description={rangeDescription}
 					/>
 					<CategoriesXReservs
 						series={resp.ReservationsByRentalType.series}
@@ -118,11 +141,7 @@ export default async function Page({
 						<div className='flex flex-col w-full items-start justify-between gap-5'>
 							<BigNumbersEcommerce
 								data={resp?.BigNumbersEcommerce}
-								description={`${preSet == '7days' ? '7 dias atrás ' : ''} ${
-									preSet == '30days' ? '30 dias atrás ' : ''
-								} ${preSet == '6months' ? '6 meses atrás ' : ''}${
-									preSet == '12months' ? '12 meses atrás ' : ''
-								}`}
+								description={rangeDescription}
 							/>
 
 							<div className='w-full flex flex-col items-center justify-between gap-5'>
