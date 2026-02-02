@@ -23,8 +23,12 @@ interface DataProps {
 
 export function MostSell({ data }: DataProps) {
 	return (
-		<Table className='mt-5 bg-zinc-900 rounded-lg'>
-			<TableHeader className='bg-violet-900 rounded-lg'>
+		<div className='mt-5'>
+			<h2 className='text-zinc-50 text-lg font-semibold'>
+				Alimentos Mais Vendidos
+			</h2>
+			<Table className='mt-3 bg-zinc-900 rounded-lg'>
+				<TableHeader className='bg-violet-900 rounded-lg'>
 				<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
 					<TableHead className='flex items-center gap-2'>
 						Alimentos Mais Vendidos
@@ -57,5 +61,6 @@ export function MostSell({ data }: DataProps) {
 				))}
 			</TableBody>
 		</Table>
+		</div>
 	);
 }

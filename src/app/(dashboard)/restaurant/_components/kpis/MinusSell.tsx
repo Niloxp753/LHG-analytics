@@ -23,8 +23,12 @@ interface DataProps {
 
 export function MinusSell({ data }: DataProps) {
 	return (
-		<Table className='mt-5 bg-zinc-900 rounded-lg'>
-			<TableHeader className='bg-violet-900 rounded-lg'>
+		<div className='mt-5'>
+			<h2 className='text-zinc-50 text-lg font-semibold'>
+				Alimentos Menos Vendidos
+			</h2>
+			<Table className='mt-3 bg-zinc-900 rounded-lg'>
+				<TableHeader className='bg-violet-900 rounded-lg'>
 				<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
 					<TableHead>
 						<p className='flex w-full items-center text-nowrap gap-2'>
@@ -58,5 +62,6 @@ export function MinusSell({ data }: DataProps) {
 				))}
 			</TableBody>
 		</Table>
+		</div>
 	);
 }

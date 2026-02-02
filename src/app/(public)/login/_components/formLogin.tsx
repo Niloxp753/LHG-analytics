@@ -16,7 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { loginWithCookies } from '@/lib/auth-client';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
@@ -41,7 +41,6 @@ async function signIn(
 }
 
 export default function FormLogin() {
-	const router = useRouter();
 	const [isPending, setIsPending] = useState(false);
 	const hydrateSession = useSessionStore((s) => s.hydrate);
 	const form = useForm<z.infer<typeof formSchemaLogin>>({
@@ -70,8 +69,8 @@ export default function FormLogin() {
 
 			if (!response?.error) {
 				void hydrateSession();
-				router.refresh();
-				router.push(`/general?menu=${menu}&set=${preSet ?? DEFAULT_RANGE_TAG}`);
+				const nextSet = preSet ?? DEFAULT_RANGE_TAG;
+				window.location.assign(`/?menu=${menu}&set=${nextSet}`);
 				form.reset();
 				toast.success('Usuário Logado - 200', {
 					description: 'Credenciais válidas',
@@ -151,4 +150,3 @@ export default function FormLogin() {
 		</Form>
 	);
 }
-

@@ -21,14 +21,19 @@ export default function Representation({
 }: RepresentationProps) {
 	const isLoading = typeof series === 'undefined';
 	const resolvedError =
-		error ?? (series === null ? 'Não foi possível carregar os dados.' : undefined);
+		error ??
+		(series === null ? 'Não foi possível carregar os dados.' : undefined);
 
-	if (!isLoading && !resolvedError && (!series?.length || !categories?.length)) {
+	if (
+		!isLoading &&
+		!resolvedError &&
+		(!series?.length || !categories?.length)
+	) {
 		return null;
 	}
 
 	const mappedSeries = series?.map((item) => {
-		const value = item * 100;
+		const value = item;
 		return parseFloat(value.toFixed(2));
 	});
 
@@ -44,7 +49,7 @@ export default function Representation({
 									name: 'Rep. De Reservas',
 									data: mappedSeries,
 								},
-						  ]
+							]
 						: undefined
 				}
 				categories={categories}

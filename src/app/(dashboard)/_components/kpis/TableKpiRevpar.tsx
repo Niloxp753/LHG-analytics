@@ -69,10 +69,14 @@ export function TableKpiRevpar({ data }: TableKpiRevparProps) {
 	});
 
 	return (
-		<Table
-			title='Revpar por Dia da Semana'
-			className='mt-5 bg-zinc-900 rounded-lg'>
-			<TableHeader className='bg-violet-900 rounded-lg text-sm'>
+		<div className='mt-5'>
+			<h2 className='text-zinc-50 text-lg font-semibold'>
+				Revpar por Dia da Semana
+			</h2>
+			<Table
+				title='Revpar por Dia da Semana'
+				className='mt-3 bg-zinc-900 rounded-lg'>
+				<TableHeader className='bg-violet-900 rounded-lg text-sm'>
 				<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
 					<TableHead>Categorias</TableHead>
 					<TableHead className='text-center text-xs'>Domingo</TableHead>
@@ -186,5 +190,6 @@ export function TableKpiRevpar({ data }: TableKpiRevparProps) {
 				</TableRow>
 			</TableFooter>
 		</Table>
+		</div>
 	);
 }

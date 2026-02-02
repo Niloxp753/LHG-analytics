@@ -30,7 +30,7 @@ export default function Login() {
 					height='700'
 					className='h-full w-full object-cover grayscale absolute left-0 top-0 opacity-30'
 				/>
-				<div className='flex mx-auto items-baseline justify-center gap-10 w-fit mb-60 z-50'>
+				<div className='flex mx-auto items-end justify-center gap-10 w-fit mb-60 z-50'>
 					<Image
 						src={logoLush}
 						alt='Image'
@@ -48,6 +48,12 @@ export default function Login() {
 						alt='Image'
 						width={220}
 						height={110}
+					/>
+					<Image
+						src='/logo_liv.png'
+						alt='Image'
+						width={102}
+						height={30}
 					/>
 				</div>
 			</div>

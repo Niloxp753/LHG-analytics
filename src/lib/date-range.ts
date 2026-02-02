@@ -88,8 +88,7 @@ export function getRangeLabel(tag: string | null | undefined): string {
 }
 
 export function getRangeDescription(tag: string | null | undefined): string {
-	const label = getRangeLabel(tag);
-	return label ? `${label} ` : '';
+	return tag ? 'Período anterior ' : '';
 }
 
 export function isNewRangeTag(
@@ -130,6 +129,18 @@ export function getZonedDateParts(
 		day: Number(lookup.day),
 	};
 }
+
+export function getAvailableRangeTags({
+	timeZone = DEFAULT_TIME_ZONE,
+	baseDate = new Date(),
+}: { timeZone?: string; baseDate?: Date } = {}) {
+	const today = getZonedDateParts(timeZone, baseDate);
+	if (today.day === 1) {
+		return DATE_RANGE_TAGS.filter((item) => item.tag !== 'este_mes');
+	}
+	return DATE_RANGE_TAGS;
+}
+
 
 function normalizeDateString(
 	value: string,

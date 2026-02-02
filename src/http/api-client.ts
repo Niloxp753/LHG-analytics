@@ -7,7 +7,6 @@ import ky from 'ky';
 export const maxDuration = 60;
 
 const shouldSimulate500 = process.env.SIMULATE_BACKEND_500 === 'true';
-
 const backendFetch: typeof fetch = async (input, init) => {
 	if (!shouldSimulate500) {
 		return fetch(input, init);

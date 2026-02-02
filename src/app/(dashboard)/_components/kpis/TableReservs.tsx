@@ -78,7 +78,9 @@ export function TableReservs({ data }: TableReservsProps) {
 	if (data === null) {
 		return (
 			<div className='mt-5 bg-zinc-900 rounded-lg p-4'>
-				<Alert variant='destructive' className='w-full'>
+				<Alert
+					variant='destructive'
+					className='w-full'>
 					<AlertTitle>Erro ao carregar</AlertTitle>
 					<AlertDescription>
 						Não foi possível carregar os dados.
@@ -91,10 +93,14 @@ export function TableReservs({ data }: TableReservsProps) {
 	const dataTable = data;
 
 	return (
-		<Table
-			title='Giro por Dia da Semana'
-			className='mt-5 bg-zinc-900 rounded-lg'>
-			<TableHeader className='bg-violet-900 rounded-lg text-sm'>
+		<div className='mt-5'>
+			<h2 className='text-zinc-50 text-lg font-semibold'>
+				Reservas por Canal
+			</h2>
+			<Table
+				title='Giro por Dia da Semana'
+				className='mt-3 bg-zinc-900 rounded-lg'>
+				<TableHeader className='bg-violet-900 rounded-lg text-sm'>
 				<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
 					<TableHead className='text-left text-xs '>KPIS</TableHead>
 					<TableHead className='text-center text-xs '>
@@ -252,51 +258,48 @@ export function TableReservs({ data }: TableReservsProps) {
 						Representatividade
 					</TableCell>
 					<TableCell>
-						{(
-							dataTable.bookingsRepresentativenessByChannelType
-								.TOTALALLREPRESENTATIVENESS * 100
-						).toFixed(2) + '%'}
+						{dataTable.bookingsRepresentativenessByChannelType.TOTALALLREPRESENTATIVENESS.toFixed(
+							2,
+						) + '%'}
 					</TableCell>
 					<TableCell>
-						{(
-							dataTable.bookingsRepresentativenessByChannelType
-								.WEBSITE_IMMEDIATE * 100
-						).toFixed(2) + '%'}
+						{dataTable.bookingsRepresentativenessByChannelType.WEBSITE_IMMEDIATE.toFixed(
+							2,
+						) + '%'}
 					</TableCell>
 					<TableCell>
-						{(
-							dataTable.bookingsRepresentativenessByChannelType
-								.WEBSITE_SCHEDULED * 100
-						).toFixed(2) + '%'}
+						{dataTable.bookingsRepresentativenessByChannelType.WEBSITE_SCHEDULED.toFixed(
+							2,
+						) + '%'}
 					</TableCell>
 					<TableCell>
-						{(
-							dataTable.bookingsRepresentativenessByChannelType.GUIA_GO * 100
-						).toFixed(2) + '%'}
+						{dataTable.bookingsRepresentativenessByChannelType.GUIA_GO.toFixed(
+							2,
+						) + '%'}
 					</TableCell>
 					<TableCell>
-						{(
-							dataTable.bookingsRepresentativenessByChannelType.GUIA_SCHEDULED *
-							100
-						).toFixed(2) + '%'}
+						{dataTable.bookingsRepresentativenessByChannelType.GUIA_SCHEDULED.toFixed(
+							2,
+						) + '%'}
 					</TableCell>
 					<TableCell>
-						{(
-							dataTable.bookingsRepresentativenessByChannelType.INTERNAL * 100
-						).toFixed(2) + '%'}
+						{dataTable.bookingsRepresentativenessByChannelType.INTERNAL.toFixed(
+							2,
+						) + '%'}
 					</TableCell>
 					<TableCell>
-						{(
-							dataTable.bookingsRepresentativenessByChannelType.BOOKING * 100
-						).toFixed(2) + '%'}
+						{dataTable.bookingsRepresentativenessByChannelType.BOOKING.toFixed(
+							2,
+						) + '%'}
 					</TableCell>
 					<TableCell>
-						{(
-							dataTable.bookingsRepresentativenessByChannelType.EXPEDIA * 100
-						).toFixed(2) + '%'}
+						{dataTable.bookingsRepresentativenessByChannelType.EXPEDIA.toFixed(
+							2,
+						) + '%'}
 					</TableCell>
 				</TableRow>
 			</TableBody>
 		</Table>
+		</div>
 	);
 }

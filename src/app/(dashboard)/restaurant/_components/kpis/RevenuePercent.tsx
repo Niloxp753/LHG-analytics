@@ -20,7 +20,7 @@ interface DataProps {
 
 export default function RevenuePercent({ data }: DataProps) {
 	const series = data.series.map((value) => {
-		const newValue = (value * 100).toFixed(2);
+		const newValue = value.toFixed(2);
 		return Number(newValue);
 	});
 	return (
