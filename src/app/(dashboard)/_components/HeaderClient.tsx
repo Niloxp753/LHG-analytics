@@ -5,7 +5,7 @@
 import BtnSignOut from '@/components/btnSingOut';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { DATE_RANGE_TAGS, DEFAULT_RANGE_TAG } from '@/lib/date-range';
+import { DEFAULT_RANGE_TAG, getAvailableRangeTags } from '@/lib/date-range';
 import { useSessionStore } from '@/stores/session-store';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -24,7 +24,7 @@ export default function HeaderClient() {
 	const menu = searchParams.get('menu');
 	const [isPending, startTransition] = useTransition();
 
-	const links = DATE_RANGE_TAGS;
+	const links = getAvailableRangeTags();
 
 	const canShow =
 		pathname.endsWith('general') ||

@@ -15,7 +15,7 @@ import { Filter, Loader2 } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useTransition } from 'react';
 import FormFilter from './FormFilter';
-import { DATE_RANGE_TAGS, DEFAULT_RANGE_TAG } from '@/lib/date-range';
+import { DEFAULT_RANGE_TAG, getAvailableRangeTags } from '@/lib/date-range';
 
 export default function FilterMobile() {
 	const pathname = usePathname();
@@ -24,7 +24,7 @@ export default function FilterMobile() {
 	const preSet = searchParams.get('set') || DEFAULT_RANGE_TAG;
 	const menu = searchParams.get('menu');
 	const startDate = searchParams.get('startDate') || '';
-	const links = DATE_RANGE_TAGS;
+	const links = getAvailableRangeTags();
 
 	const router = useRouter();
 

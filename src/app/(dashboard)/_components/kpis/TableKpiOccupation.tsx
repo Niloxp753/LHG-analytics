@@ -72,10 +72,14 @@ export function TableKpiOccupation({ data }: TableKpiOccupationProps) {
 	// Exibindo o resultado final
 
 	return (
-		<Table
-			title='TX de ocupação por Dia da Semana'
-			className='mt-5 bg-zinc-900 rounded-lg'>
-			<TableHeader className='bg-violet-900 rounded-lg text-sm'>
+		<div className='mt-5'>
+			<h2 className='text-zinc-50 text-lg font-semibold'>
+				Taxa de Ocupação por Dia da Semana
+			</h2>
+			<Table
+				title='TX de ocupação por Dia da Semana'
+				className='mt-3 bg-zinc-900 rounded-lg'>
+				<TableHeader className='bg-violet-900 rounded-lg text-sm'>
 				<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
 					<TableHead>Categorias</TableHead>
 					<TableHead className='text-center text-xs '>Domingo</TableHead>
@@ -135,5 +139,6 @@ export function TableKpiOccupation({ data }: TableKpiOccupationProps) {
 				</TableRow>
 			</TableFooter>
 		</Table>
+		</div>
 	);
 }

@@ -48,6 +48,7 @@ export default function Categories({
 			title='Reservas Por Tipo de Locação'
 			error={resolvedError}
 			categories={newCategories}
+			tooltipLabel='category'
 			series={series ? [{ data: series }] : undefined}
 		/>
 	);

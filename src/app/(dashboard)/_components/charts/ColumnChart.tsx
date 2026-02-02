@@ -12,6 +12,7 @@ interface ColumnChartProps {
 	data?: unknown[];
 	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | null;
 	error?: string | boolean;
+	tooltipLabel?: 'series' | 'category';
 }
 
 export default function ColumnChart(props: ColumnChartProps) {
@@ -105,6 +106,27 @@ export default function ColumnChart(props: ColumnChartProps) {
 				rangeBarOverlap: true,
 			},
 		},
+		tooltip:
+			props.tooltipLabel === 'category'
+				? {
+						custom: ({ series, seriesIndex, dataPointIndex, w }) => {
+							const label =
+								w.globals.labels?.[dataPointIndex] ??
+								w.globals.categories?.[dataPointIndex] ??
+								'';
+							const value =
+								series?.[seriesIndex]?.[dataPointIndex] ?? '0';
+							const color = w.globals.colors?.[seriesIndex] ?? '#a78bfa';
+							return (
+								`<div class="apexcharts-tooltip-title">${label}</div>` +
+								`<div class="apexcharts-tooltip-series-group" style="display:flex;align-items:center;gap:6px;padding:4px 8px;">` +
+								`<span class="apexcharts-tooltip-marker" style="background-color:${color};"></span>` +
+								`<div class="apexcharts-tooltip-text"><div class="apexcharts-tooltip-y-group"><span>Reservas: ${value}</span></div></div>` +
+								`</div>`
+							);
+						},
+				  }
+				: undefined,
 	};
 
 	return (

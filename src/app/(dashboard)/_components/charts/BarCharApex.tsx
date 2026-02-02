@@ -23,6 +23,8 @@ interface BarChartsApexProps {
 	barHeight?: number | string;
 	height?: number;
 	hideDataLabelsOnMobile?: boolean;
+	tooltipLabel?: 'series' | 'category';
+	tooltipValueLabel?: string;
 }
 
 export default function BarChartsApex(props: BarChartsApexProps) {
@@ -75,6 +77,14 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 	};
 
 	const gridColor = showXAxisGrid ? 'rgba(167, 139, 250, 0.2)' : '#a78bfa';
+
+	const formatTooltipValue = (val: number) =>
+		props.money
+			? val.toLocaleString('pt-BR', {
+					style: 'currency',
+					currency: 'BRL',
+			  })
+			: String(val);
 
 	const options: ApexCharts.ApexOptions = {
 		chart: {
@@ -140,19 +150,34 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 			},
 			offsetX: showTotalLabels ? 8 : 0,
 		},
-		tooltip: {
-			y: {
-				formatter: (val: number) =>
-					`${
-						props.money
-							? val.toLocaleString('pt-BR', {
-									style: 'currency',
-									currency: 'BRL',
-							  })
-							: val
-					}`,
-			},
-		},
+		tooltip:
+			props.tooltipLabel === 'category'
+				? {
+						custom: ({ series, seriesIndex, dataPointIndex, w }) => {
+							const label =
+								w.globals.labels?.[dataPointIndex] ??
+								w.globals.categories?.[dataPointIndex] ??
+								'';
+							const value =
+								series?.[seriesIndex]?.[dataPointIndex] ?? 0;
+							const color = w.globals.colors?.[seriesIndex] ?? '#a78bfa';
+							const valueLabel = props.tooltipValueLabel
+								? `${props.tooltipValueLabel}: `
+								: '';
+							return (
+								`<div class="apexcharts-tooltip-title">${label}</div>` +
+								`<div class="apexcharts-tooltip-series-group" style="display:flex;align-items:center;gap:6px;padding:4px 8px;">` +
+								`<span class="apexcharts-tooltip-marker" style="background-color:${color};"></span>` +
+								`<div class="apexcharts-tooltip-text"><div class="apexcharts-tooltip-y-group"><span>${valueLabel}${formatTooltipValue(Number(value))}</span></div></div>` +
+								`</div>`
+							);
+						},
+				  }
+				: {
+						y: {
+							formatter: (val: number) => formatTooltipValue(val),
+						},
+				  },
 		colors: props.colors,
 		fill: {
 			gradient: {

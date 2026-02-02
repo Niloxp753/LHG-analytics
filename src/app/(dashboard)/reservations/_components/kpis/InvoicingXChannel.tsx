@@ -50,6 +50,8 @@ export default function InvoicingXChannel({
 			money
 			error={resolvedError}
 			title='Faturamento por canal de vendas'
+			tooltipLabel='category'
+			tooltipValueLabel='Faturamento'
 			series={series ? [{ data: series, type: 'bar' }] : undefined}
 			colors={['#a78bfa', '#4ade80', '#fbbf24']}
 			dataLabelColors={['#5b21b6', '#22c55e', '#ca8a04']}

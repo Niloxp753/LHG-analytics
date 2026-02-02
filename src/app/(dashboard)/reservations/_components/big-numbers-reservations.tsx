@@ -17,14 +17,18 @@ export default function BigNumbersReservation({
 	data,
 }: BigNumbersReservationProps) {
 	const isLoading = typeof data === 'undefined';
-	const error = data === null ? 'Não foi possível carregar os dados.' : undefined;
+	const error =
+		data === null ? 'Não foi possível carregar os dados.' : undefined;
 	const unified = data?.[0];
 
 	if (isLoading) {
 		return (
-			<div className='grid grid-cols-1 lg:grid-cols-4 gap-5'>
+			<div className='grid grid-cols-1 md:grid-cols-2 min-[1650px]:grid-cols-4 gap-5'>
 				{Array.from({ length: 4 }).map((_, index) => (
-					<Skeleton key={index} className='h-[140px] w-full' />
+					<Skeleton
+						key={index}
+						className='h-[140px] w-full'
+					/>
 				))}
 			</div>
 		);
@@ -32,7 +36,9 @@ export default function BigNumbersReservation({
 
 	if (error) {
 		return (
-			<Alert variant='destructive' className='w-full'>
+			<Alert
+				variant='destructive'
+				className='w-full'>
 				<AlertTitle>Erro ao carregar</AlertTitle>
 				<AlertDescription>{error}</AlertDescription>
 			</Alert>
@@ -55,7 +61,7 @@ export default function BigNumbersReservation({
 		previousDate?.totalAllRepresentativenessPreviousData;
 
 	return (
-		<div className='grid grid-cols-1 lg:grid-cols-4 gap-5'>
+		<div className='grid grid-cols-1 md:grid-cols-2 min-[1680px]:grid-cols-4 gap-5'>
 			<CardDetails
 				showForecast={showForecast}
 				description={
@@ -75,7 +81,8 @@ export default function BigNumbersReservation({
 				value={currentDate.totalAllValue}
 				type='money'
 				Badge={
-					hasPrevious && typeof previousValue === 'number' && (
+					hasPrevious &&
+					typeof previousValue === 'number' && (
 						<GenerateBadge
 							val={currentDate.totalAllValue}
 							previousVal={previousValue}
@@ -87,8 +94,7 @@ export default function BigNumbersReservation({
 				showForecast={showForecast}
 				description={
 					hasPrevious && typeof previousBookings === 'number'
-						? description +
-							previousBookings.toLocaleString('pt-BR')
+						? description + previousBookings.toLocaleString('pt-BR')
 						: ''
 				}
 				icon={<Sigma />}
@@ -100,7 +106,8 @@ export default function BigNumbersReservation({
 				}
 				value={currentDate.totalAllBookings}
 				Badge={
-					hasPrevious && typeof previousBookings === 'number' && (
+					hasPrevious &&
+					typeof previousBookings === 'number' && (
 						<GenerateBadge
 							val={currentDate.totalAllBookings}
 							previousVal={previousBookings}
@@ -113,13 +120,10 @@ export default function BigNumbersReservation({
 				description={
 					hasPrevious && typeof previousTicketAverage === 'number'
 						? description +
-							previousTicketAverage.toLocaleString(
-								'pt-BR',
-								{
-									style: 'currency',
-									currency: 'brl',
-								},
-							)
+							previousTicketAverage.toLocaleString('pt-BR', {
+								style: 'currency',
+								currency: 'brl',
+							})
 						: ''
 				}
 				icon={<SquarePercent />}
@@ -132,7 +136,8 @@ export default function BigNumbersReservation({
 				}
 				value={currentDate.totalAllTicketAverage}
 				Badge={
-					hasPrevious && typeof previousTicketAverage === 'number' && (
+					hasPrevious &&
+					typeof previousTicketAverage === 'number' && (
 						<GenerateBadge
 							val={currentDate.totalAllTicketAverage}
 							previousVal={previousTicketAverage}
@@ -144,9 +149,7 @@ export default function BigNumbersReservation({
 				showForecast={showForecast}
 				description={
 					hasPrevious && typeof previousRepresentativeness === 'number'
-						? description +
-							(previousRepresentativeness * 100).toFixed(2) +
-							'%'
+						? description + previousRepresentativeness.toFixed(2) + '%'
 						: ''
 				}
 				icon={<Blend />}
@@ -159,7 +162,8 @@ export default function BigNumbersReservation({
 				value={currentDate.totalAllRepresentativeness}
 				type='percent'
 				Badge={
-					hasPrevious && typeof previousRepresentativeness === 'number' && (
+					hasPrevious &&
+					typeof previousRepresentativeness === 'number' && (
 						<GenerateBadge
 							val={currentDate.totalAllRepresentativeness}
 							previousVal={previousRepresentativeness}

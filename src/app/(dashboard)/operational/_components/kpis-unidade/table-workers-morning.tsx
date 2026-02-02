@@ -26,7 +26,7 @@ export default function TableWokersMorning({
 }: TableWokersMorningProps) {
 	return (
 		<div>
-			<h2 className='font-bold text-zinc-50 text-xl md:text-3xl mt-10'>
+			<h2 className='font-bold text-zinc-50 text-xl mt-10'>
 				Relatório de Colaboradores - Manhã
 			</h2>
 			<Table

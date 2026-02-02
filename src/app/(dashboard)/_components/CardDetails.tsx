@@ -89,7 +89,7 @@ export default function CardDetails({
 								</span>{' '}
 								<span className='text-xs text-muted-foreground'>
 									{monthlyForecast !== undefined && monthlyForecast !== null
-										? (Number(monthlyForecast) * 100).toFixed(2) + '%'
+										? Number(monthlyForecast).toFixed(2) + '%'
 										: ''}
 								</span>
 							</span>
