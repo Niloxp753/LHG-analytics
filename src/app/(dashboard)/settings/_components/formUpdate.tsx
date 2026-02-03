@@ -9,6 +9,7 @@ import {
 	FormField,
 	FormItem,
 	FormLabel,
+	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import {
@@ -54,6 +55,7 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 			email: user.email,
 			cpf: user.cpf,
 			name: user.name,
+			password: '',
 			unidade: normalizedUnitValue,
 			role: normalizedRole,
 		},
@@ -68,21 +70,25 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 			const email = values.email;
 			const name = values.name;
 			const cpf = values.cpf;
+			const password = values.password;
 			const role = values.role;
 			const id = user.id;
 			const unit = values.unidade as AccessUnit;
 
-			await updateUserAction({
+			const payload = {
 				email,
 				name,
 				cpf,
 				role,
 				unit,
 				id,
-			});
+				...(password ? { password } : {}),
+			};
+
+			await updateUserAction(payload);
 			form.reset();
-			toast.success('Usuário Atualizado - 200', {
-				description: `${name} - Usuário atualizado no banco de dados`,
+			toast.success('Usu?rio Atualizado - 200', {
+				description: `${name} - Usu?rio atualizado no banco de dados`,
 			});
 		} catch (error) {
 			console.error(error);
@@ -113,10 +119,11 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 								<Input
 									id='name'
 									{...field}
-									placeholder='Nome do usuário'
+									placeholder='Nome do usu?rio'
 									className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
 								/>
 							</FormControl>
+							<FormMessage />
 						</FormItem>
 					)}
 				/>
@@ -135,10 +142,11 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 									id='email'
 									type='email'
 									{...field}
-									placeholder='E-mail do usuário'
+									placeholder='E-mail do usu?rio'
 									className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
 								/>
 							</FormControl>
+							<FormMessage />
 						</FormItem>
 					)}
 				/>
@@ -156,10 +164,11 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 								<Input
 									id='cpf'
 									{...field}
-									placeholder='CPF do usuário'
+									placeholder='CPF do usu?rio'
 									className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
 								/>
 							</FormControl>
+							<FormMessage />
 						</FormItem>
 					)}
 				/>
@@ -200,6 +209,7 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 									))}
 								</SelectContent>
 							</Select>
+							<FormMessage />
 						</FormItem>
 					)}
 				/>
@@ -239,6 +249,26 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 									)}
 								</SelectContent>
 							</Select>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={form.control}
+					name='password'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel className='text-zinc-100'>Senha</FormLabel>
+							<FormControl>
+								<Input
+									type='password'
+									className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
+									{...field}
+									placeholder='Deixe em branco para manter'
+								/>
+							</FormControl>
+							<FormMessage />
 						</FormItem>
 					)}
 				/>

@@ -9,6 +9,7 @@ export async function updateUser({
 	id,
 	name,
 	cpf,
+	password,
 	role,
 	unit,
 }: UpdateUserInput) {
@@ -22,6 +23,7 @@ export async function updateUser({
 				email,
 				name,
 				cpf,
+				password,
 				role,
 				unit,
 			},
