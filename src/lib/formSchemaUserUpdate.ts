@@ -8,7 +8,6 @@ export const formSchemaUserUpdate = z.object({
 	name: z
 		.string({
 			description: 'Nome de usuário',
-
 			message: 'Nome obrigatório',
 		})
 		.optional(),
@@ -19,6 +18,13 @@ export const formSchemaUserUpdate = z.object({
 		})
 		.optional(),
 	cpf: cpf({ message: 'CPF inválido' }).optional(),
+	password: z.preprocess(
+		(value) => (value === '' ? undefined : value),
+		z
+			.string()
+			.min(8, { message: 'A senha deve ter no mínimo 8 dígitos' })
+			.optional(),
+	),
 	role: z.enum(ROLE_VALUES).optional(),
 	unidade: z
 		.string({

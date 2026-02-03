@@ -18,12 +18,17 @@ import {
 	UserRoundCog,
 	UtensilsCrossed,
 } from 'lucide-react';
-import { buildModuleHref, canAccessModule, isAdmin } from '@/lib/access-control';
+import {
+	buildModuleHref,
+	canAccessModule,
+	isAdmin,
+} from '@/lib/access-control';
 import { DEFAULT_RANGE_TAG } from '@/lib/date-range';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useTransition } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 
 export default function MenuMobile() {
+	const [mounted, setMounted] = useState(false);
 	const pathname = usePathname();
 	const [isPending, startTransition] = useTransition();
 	const searchParams = useSearchParams();
@@ -61,6 +66,14 @@ export default function MenuMobile() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isPending]);
 
+	useEffect(() => {
+		setMounted(true);
+	}, []);
+
+	if (!mounted) {
+		return null;
+	}
+
 	const links = [
 		{
 			label: 'Painel Admin',
@@ -76,7 +89,7 @@ export default function MenuMobile() {
 			),
 		},
 		{
-			label: 'Visão Geral',
+			label: 'Vis?o Geral',
 			href: companyHref ?? '#',
 			slug: '/general',
 			disabled: !canAccessCompany || !companyHref,
@@ -128,7 +141,7 @@ export default function MenuMobile() {
 			),
 		},
 		{
-			label: 'Avaliações',
+			label: 'Avalia??es',
 			slug: '/nps',
 			href: `/nps?menu=nps&set=${preSet}`,
 			disabled: true,

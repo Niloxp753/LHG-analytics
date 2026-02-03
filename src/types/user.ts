@@ -28,6 +28,7 @@ export type UpdateUserInput = {
 	email?: string;
 	name?: string;
 	cpf?: string;
+	password?: string;
 	role?: Role;
 	unit: AccessUnit | string | null;
 };
