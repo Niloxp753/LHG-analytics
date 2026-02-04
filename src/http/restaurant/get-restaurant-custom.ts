@@ -2,6 +2,7 @@
 
 import { buildAuthCookieHeader } from '@/lib/auth-headers';
 import { api, api_andar_de_cima, api_lapa, api_tout } from '../api-client';
+import { FetchFailedError, withConditionalCache } from '../conditional-cache';
 import { isRetryableError, isRetryableStatus } from '../retry';
 
 async function fetchRestaurantData(
@@ -10,16 +11,16 @@ async function fetchRestaurantData(
 	endDate: string,
 	authHeaders: Record<string, string> | undefined,
 	controller: AbortController,
-	tags: string[],
 ): Promise<Response | null> {
 	let resp: Response | null = null;
 	for (let attempt = 0; attempt < 2; attempt += 1) {
 		try {
 			resp = await client.get('Restaurants/restaurants/date-range', {
 				searchParams: { startDate, endDate },
-				next: { tags, revalidate: 30 },
 				headers: authHeaders,
 				signal: controller.signal,
+				throwHttpErrors: false,
+				cache: 'no-store',
 			});
 
 			if (resp.ok || !isRetryableStatus(resp.status) || attempt === 1) {
@@ -46,86 +47,83 @@ export async function getRestaurantsCustom(
 	const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
 
 	try {
-		switch (company) {
-			case 'lapa':
-				const resp_lapa = await fetchRestaurantData(
-					api_lapa,
-					startDate,
-					endDate,
-					authHeaders,
-					controller,
-					['restaurant_lapa'],
-				);
+		const companyKey = company ?? 'ipiranga';
+		const tags =
+			companyKey === 'lapa'
+				? ['restaurant_lapa']
+				: companyKey === 'tout'
+					? ['restaurant_tout']
+					: companyKey === 'andar_de_cima'
+						? ['restaurant_andar_de_cima']
+						: ['restaurant_ipiranga'];
 
-				if (!resp_lapa || !resp_lapa.ok) {
-					console.error(
-						'getRestaurantsCustom: erro ao buscar dados (lapa)',
-						resp_lapa?.status,
-						resp_lapa?.statusText,
-					);
-					return null;
+		return await withConditionalCache(
+			{
+				keyParts: ['restaurant', 'custom', companyKey, startDate, endDate],
+				tags,
+				revalidate: 30,
+			},
+			async () => {
+				let resp: Response | null = null;
+				switch (companyKey) {
+					case 'lapa':
+						resp = await fetchRestaurantData(
+							api_lapa,
+							startDate,
+							endDate,
+							authHeaders,
+							controller,
+						);
+						break;
+					case 'tout':
+						resp = await fetchRestaurantData(
+							api_tout,
+							startDate,
+							endDate,
+							authHeaders,
+							controller,
+						);
+						break;
+					case 'andar_de_cima':
+						resp = await fetchRestaurantData(
+							api_andar_de_cima,
+							startDate,
+							endDate,
+							authHeaders,
+							controller,
+						);
+						break;
+					default:
+						resp = await fetchRestaurantData(
+							api,
+							startDate,
+							endDate,
+							authHeaders,
+							controller,
+						);
+						break;
 				}
-				return resp_lapa.json();
-			case 'tout':
-				const resp_tout = await fetchRestaurantData(
-					api_tout,
-					startDate,
-					endDate,
-					authHeaders,
-					controller,
-					['restaurant_tout'],
-				);
-
-				if (!resp_tout || !resp_tout.ok) {
-					console.error(
-						'getRestaurantsCustom: erro ao buscar dados (tout)',
-						resp_tout?.status,
-						resp_tout?.statusText,
-					);
-					return null;
-				}
-				return resp_tout.json();
-			case 'andar_de_cima':
-				const resp_andar_de_cima = await fetchRestaurantData(
-					api_andar_de_cima,
-					startDate,
-					endDate,
-					authHeaders,
-					controller,
-					['restaurant_andar_de_cima'],
-				);
-
-				if (!resp_andar_de_cima || !resp_andar_de_cima.ok) {
-					console.error(
-						'getRestaurantsCustom: erro ao buscar dados (andar_de_cima)',
-						resp_andar_de_cima?.status,
-						resp_andar_de_cima?.statusText,
-					);
-					return null;
-				}
-				return resp_andar_de_cima.json();
-
-			default:
-				const resp = await fetchRestaurantData(
-					api,
-					startDate,
-					endDate,
-					authHeaders,
-					controller,
-					['restaurant_ipiranga'],
-				);
 
 				if (!resp || !resp.ok) {
-					console.error(
-						'getRestaurantsCustom: erro ao buscar dados (ipiranga)',
+					throw new FetchFailedError(
+						`getRestaurantsCustom (${companyKey})`,
 						resp?.status,
 						resp?.statusText,
 					);
-					return null;
 				}
+
 				return resp.json();
-		}
+			},
+		);
 	} catch (error) {
+		if (error instanceof FetchFailedError) {
+			console.error(
+				`${error.message}: erro ao buscar dados`,
+				error.status,
+				error.statusText,
+			);
+			return null;
+		}
 		if (error instanceof Error && error.name === 'AbortError') {
 			console.error('getRestaurantsCustom: request timeout');
 			return null;

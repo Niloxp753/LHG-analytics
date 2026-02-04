@@ -7,7 +7,27 @@ import ky from 'ky';
 export const maxDuration = 60;
 
 const shouldSimulate500 = process.env.SIMULATE_BACKEND_500 === 'true';
+const shouldSimulateTimeout = process.env.SIMULATE_BACKEND_TIMEOUT === 'true';
+const shouldCountFetch = process.env.DEBUG_FETCH_COUNT === 'true';
+const globalFetchCountKey = '__lhg_fetch_count__';
+type GlobalWithFetchCount = typeof globalThis & {
+	__lhg_fetch_count__?: number;
+};
+const incrementFetchCount = () => {
+	if (!shouldCountFetch || typeof globalThis === 'undefined') {
+		return;
+	}
+	const store = globalThis as GlobalWithFetchCount;
+	const current = store[globalFetchCountKey];
+	store[globalFetchCountKey] = (current ?? 0) + 1;
+};
 const backendFetch: typeof fetch = async (input, init) => {
+	incrementFetchCount();
+	if (shouldSimulateTimeout) {
+		const abortError = new Error('Simulated timeout');
+		abortError.name = 'AbortError';
+		return Promise.reject(abortError);
+	}
 	if (!shouldSimulate500) {
 		return fetch(input, init);
 	}

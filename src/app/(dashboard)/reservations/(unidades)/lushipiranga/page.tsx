@@ -1,4 +1,4 @@
-/** @format */
+﻿/** @format */
 
 import { getReservationsAction } from '@/actions/reservations/get-reservations';
 import { getReservationsCustomAction } from '@/actions/reservations/get-reservations-custom';
@@ -75,7 +75,7 @@ export default async function Page({
 						</div>
 					</div>
 					<div className=' w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-12 md:mt-32'>
-						<p className='text-zinc-100'>Nao foi possivel carregar os dados.</p>
+						<p className='text-zinc-100'>Não foi possível carregar os dados.</p>
 					</div>
 				</div>
 			</main>
@@ -161,3 +161,4 @@ export default async function Page({
 		</main>
 	);
 }
+

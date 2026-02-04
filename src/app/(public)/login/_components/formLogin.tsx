@@ -33,7 +33,7 @@ async function signIn(
 	});
 
 	return {
-		error: resp.ok ? null : 'E-mail ou senha invǭlidos',
+		error: resp.ok ? null : 'E-mail ou senha inválidos',
 		ok: resp.ok,
 		status: resp.status,
 		data: resp.data,

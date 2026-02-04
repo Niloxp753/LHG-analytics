@@ -67,7 +67,7 @@ export default async function LushIpiranga({
 					<div
 						className={`bg-zinc-950/50 py-4 w-full ${'md:w-[82vw]'} backdrop-blur-md fixed top-0 z-40 flex flex-col gap-2 `}>
 						<h2 className='text-zinc-50 font-bold md:text-3xl text-center pb-1.5 pt-2.5 text-base'>
-							VisÇœo Geral -{' '}
+							Visão Geral -{' '}
 							<span className='text-violet-400 text-base md:text-3xl'>
 								Andar de Cima
 							</span>
@@ -90,7 +90,7 @@ export default async function LushIpiranga({
 				<div
 					className={`bg-zinc-950/50 py-4 w-full ${'md:w-[82vw]'} backdrop-blur-md fixed top-0 z-40 flex flex-col gap-2 `}>
 					<h2 className='text-zinc-50 font-bold md:text-3xl text-center pb-1.5 pt-2.5 text-base'>
-						Visǜo Geral -{' '}
+						Visão Geral -{' '}
 						<span className='text-violet-400 text-base md:text-3xl'>
 							Andar de Cima
 						</span>
