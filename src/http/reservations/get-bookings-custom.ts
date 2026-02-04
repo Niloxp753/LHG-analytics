@@ -2,6 +2,7 @@
 
 import { buildAuthCookieHeader } from '@/lib/auth-headers';
 import { api, api_andar_de_cima, api_lapa, api_tout } from '../api-client';
+import { FetchFailedError, withConditionalCache } from '../conditional-cache';
 import { isRetryableError, isRetryableStatus } from '../retry';
 
 async function fetchReservationsData(
@@ -16,9 +17,10 @@ async function fetchReservationsData(
 		try {
 			resp = await client.get('Bookings/bookings/date-range', {
 				searchParams: { startDate, endDate },
-				next: { tags: ['reservations'], revalidate: 30 },
 				headers: authHeaders,
 				signal: controller.signal,
+				throwHttpErrors: false,
+				cache: 'no-store',
 			});
 
 			if (resp.ok || !isRetryableStatus(resp.status) || attempt === 1) {
@@ -45,88 +47,74 @@ export async function getReservationsCustom(
 	const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
 
 	try {
-		switch (company) {
-			case 'lapa':
-				const resp_lapa = await fetchReservationsData(
-					api_lapa,
-					startDate,
-					endDate,
-					authHeaders,
-					controller,
-				);
-
-				if (!resp_lapa || !resp_lapa.ok) {
-					console.error(
-						'getReservationsCustom: erro ao buscar dados (lapa)',
-						resp_lapa?.status,
-						resp_lapa?.statusText,
-					);
-					return null;
+		const companyKey = company ?? 'ipiranga';
+		return await withConditionalCache(
+			{
+				keyParts: ['reservations', 'custom', companyKey, startDate, endDate],
+				tags: ['reservations'],
+				revalidate: 30,
+			},
+			async () => {
+				let resp: Response | null = null;
+				switch (companyKey) {
+					case 'lapa':
+						resp = await fetchReservationsData(
+							api_lapa,
+							startDate,
+							endDate,
+							authHeaders,
+							controller,
+						);
+						break;
+					case 'tout':
+						resp = await fetchReservationsData(
+							api_tout,
+							startDate,
+							endDate,
+							authHeaders,
+							controller,
+						);
+						break;
+					case 'andar_de_cima':
+						resp = await fetchReservationsData(
+							api_andar_de_cima,
+							startDate,
+							endDate,
+							authHeaders,
+							controller,
+						);
+						break;
+					default:
+						resp = await fetchReservationsData(
+							api,
+							startDate,
+							endDate,
+							authHeaders,
+							controller,
+						);
+						break;
 				}
-
-				return resp_lapa.json();
-
-			case 'tout':
-				const resp_tout = await fetchReservationsData(
-					api_tout,
-					startDate,
-					endDate,
-					authHeaders,
-					controller,
-				);
-
-				if (!resp_tout || !resp_tout.ok) {
-					console.error(
-						'getReservationsCustom: erro ao buscar dados (tout)',
-						resp_tout?.status,
-						resp_tout?.statusText,
-					);
-					return null;
-				}
-
-				return resp_tout.json();
-
-			case 'andar_de_cima':
-				const resp_andar_de_cima = await fetchReservationsData(
-					api_andar_de_cima,
-					startDate,
-					endDate,
-					authHeaders,
-					controller,
-				);
-
-				if (!resp_andar_de_cima || !resp_andar_de_cima.ok) {
-					console.error(
-						'getReservationsCustom: erro ao buscar dados (andar_de_cima)',
-						resp_andar_de_cima?.status,
-						resp_andar_de_cima?.statusText,
-					);
-					return null;
-				}
-
-				return resp_andar_de_cima.json();
-
-			default:
-				const resp = await fetchReservationsData(
-					api,
-					startDate,
-					endDate,
-					authHeaders,
-					controller,
-				);
 
 				if (!resp || !resp.ok) {
-					console.error(
-						'getReservationsCustom: erro ao buscar dados (ipiranga)',
+					throw new FetchFailedError(
+						`getReservationsCustom (${companyKey})`,
 						resp?.status,
 						resp?.statusText,
 					);
-					return null;
 				}
 
 				return resp.json();
-		}
+			},
+		);
 	} catch (error) {
+		if (error instanceof FetchFailedError) {
+			console.error(
+				`${error.message}: erro ao buscar dados`,
+				error.status,
+				error.statusText,
+			);
+			return null;
+		}
 		if (error instanceof Error && error.name === 'AbortError') {
 			console.error('getReservationsCustom: request timeout');
 			return null;

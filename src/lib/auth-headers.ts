@@ -5,6 +5,9 @@ import 'server-only';
 import { cookies } from 'next/headers';
 
 export async function buildAuthCookieHeader() {
+	if (process.env.DISABLE_AUTH_COOKIES === 'true') {
+		return null;
+	}
 	const cookieStore = await cookies();
 	const accessToken = cookieStore.get('access_token')?.value;
 	if (!accessToken) {

@@ -1,4 +1,4 @@
-/** @format */
+﻿/** @format */
 
 import { getRestaurantsCustomAction } from '@/actions/restaurants/get-restaurant-custom';
 import { getRestaurantsAction } from '@/actions/restaurants/get-restaurants';
@@ -77,7 +77,7 @@ export default async function Restaurant({
 						</div>
 					</div>
 					<div className=' w-full  flex gap-5 flex-col justify-start mt-12 lg:mt-32'>
-						<p className='text-zinc-100'>Nao foi possivel carregar os dados.</p>
+						<p className='text-zinc-100'>Não foi possível carregar os dados.</p>
 					</div>
 				</div>
 			</main>
@@ -141,3 +141,4 @@ export default async function Restaurant({
 		</main>
 	);
 }
+
