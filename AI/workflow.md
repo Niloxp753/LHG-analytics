@@ -23,6 +23,6 @@
 
 ## Restrições
 
-1. - Não implemente código sem o plano autorizado
-2. - Não implemente integrações com lib externa sem consultar context7 mcp
-3. - Não implemente componentes do 0 se for possível reutilizar componentes do shadcn ui e utilize o mcp shadcn para isso
+1. Não implemente código sem o plano autorizado
+2. Não implemente integrações com lib externa sem consultar context7 mcp
+3. Não implemente componentes do 0 se for possível reutilizar componentes do shadcn ui e utilize o mcp shadcn para isso
