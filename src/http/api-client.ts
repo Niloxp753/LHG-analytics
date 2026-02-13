@@ -75,6 +75,16 @@ export const api_tout = ky.create({
 	fetch: backendFetch,
 });
 
+export const api_liv = ky.create({
+	prefixUrl:
+		process.env.BACKEND_ENDPOINT_LIV ??
+		'https://analytics-dev.lhgmoteis.com.br/liv/liv/api',
+	timeout: 60000,
+	retry: 3,
+	mode: 'cors',
+	fetch: backendFetch,
+});
+
 export const auth_api = ky.create({
 	prefixUrl:
 		process.env.BACKEND_AUTH_ENDPOINT ??

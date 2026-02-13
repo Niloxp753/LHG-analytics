@@ -3,6 +3,7 @@
 import { z } from 'zod';
 import { cpf } from 'zod-br-tax-id';
 import { ROLE_VALUES, UNIT_VALUES_WITH_ADMIN } from '@/lib/access-control';
+import { normalizeCpf } from '@/lib/cpf';
 
 export const formSchemaUser = z.object({
 	name: z.string({
@@ -13,7 +14,13 @@ export const formSchemaUser = z.object({
 	email: z.string({ coerce: true }).email({
 		message: 'E-mail obrigatório',
 	}),
-	cpf: cpf({ message: 'CPF inválido' }),
+	cpf: z.preprocess(
+		(value) =>
+			normalizeCpf(
+				typeof value === 'string' ? value : value == null ? '' : String(value),
+			),
+		cpf({ message: 'CPF inválido' }),
+	),
 	password: z
 		.string({ coerce: true })
 		.min(8, { message: 'A senha deve ter no mínimo 8 dígitos' }),

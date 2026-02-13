@@ -138,6 +138,12 @@ export default async function General({
 							content={
 								<SparkChart serie={[55, 30, 55, 45, 50, 60, 55, 35, 55]} />
 							}></CardLink>
+						<CardLink
+							href={`/general/liv?menu=${menu}&set=${preSet}`}
+							title={'LIV'}
+							content={
+								<SparkChart serie={[40, 55, 45, 50, 40, 55, 45, 50, 40]} />
+							}></CardLink>
 					</div>
 					<div className=' w-full h-full flex gap-5 flex-col md:px-0 '>
 						<Suspense>

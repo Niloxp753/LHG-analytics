@@ -115,6 +115,12 @@ export default async function Operational({
 							content={
 								<SparkChart serie={[55, 30, 55, 45, 50, 60, 55, 35, 55]} />
 							}></CardLink>
+						<CardLink
+							href={`/operational/liv?menu=${menu}&set=${preSet}`}
+							title={'LIV'}
+							content={
+								<SparkChart serie={[40, 55, 45, 50, 40, 55, 45, 50, 40]} />
+							}></CardLink>
 					</div>
 					<div className='flex gap-5 flex-col w-full h-full '>
 						<BigNumbersPageOp

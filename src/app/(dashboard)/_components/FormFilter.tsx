@@ -27,7 +27,11 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
-export default function FormFilter() {
+export default function FormFilter({
+	popoverPortalled = true,
+}: {
+	popoverPortalled?: boolean;
+}) {
 	const form = useForm<z.infer<typeof formSchemaFilter>>({
 		resolver: zodResolver(formSchemaFilter),
 	});
@@ -101,6 +105,7 @@ export default function FormFilter() {
 									</PopoverTrigger>
 									<PopoverContent
 										forceMount
+										portalled={popoverPortalled}
 										className='w-auto p-0 dark z-[70]'
 										align='start'>
 										<Calendar
@@ -110,7 +115,7 @@ export default function FormFilter() {
 											disabled={(date) =>
 												date > new Date() || date < new Date('1900-01-01')
 											}
-											initialFocus
+											initialFocus={popoverPortalled}
 										/>
 									</PopoverContent>
 								</Popover>
@@ -149,6 +154,7 @@ export default function FormFilter() {
 										</FormControl>
 									</PopoverTrigger>
 									<PopoverContent
+										portalled={popoverPortalled}
 										className='w-full md:w-auto p-0 dark z-[70]'
 										align='start'>
 										<Calendar
@@ -158,7 +164,7 @@ export default function FormFilter() {
 											disabled={(date) =>
 												date > new Date() || date < new Date('1900-01-01')
 											}
-											initialFocus
+											initialFocus={popoverPortalled}
 										/>
 									</PopoverContent>
 								</Popover>

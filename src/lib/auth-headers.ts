@@ -22,3 +22,33 @@ export async function buildAuthCookieHeader() {
 
 	return parts.length ? parts.join('; ') : null;
 }
+
+export async function buildBackendAuthHeaders(): Promise<
+	Record<string, string> | undefined
+> {
+	if (process.env.DISABLE_AUTH_COOKIES === 'true') {
+		return undefined;
+	}
+
+	const cookieStore = await cookies();
+	const accessToken = cookieStore.get('access_token')?.value;
+	if (!accessToken) {
+		return undefined;
+	}
+
+	const refreshToken = cookieStore.get('refresh_token')?.value;
+	const cookieParts = [
+		`access_token=${accessToken}`,
+		refreshToken ? `refresh_token=${refreshToken}` : null,
+	].filter(Boolean);
+
+	const headers: Record<string, string> = {
+		authorization: `Bearer ${accessToken}`,
+	};
+
+	if (cookieParts.length) {
+		headers.cookie = cookieParts.join('; ');
+	}
+
+	return headers;
+}

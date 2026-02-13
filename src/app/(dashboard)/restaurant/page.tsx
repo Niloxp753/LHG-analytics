@@ -135,6 +135,10 @@ export default async function Restaurant({
 							content={
 								<SparkChart serie={[55, 30, 55, 45, 50, 60]} />
 							}></CardLink>
+						<CardLink
+							href={`/restaurant/liv?menu=${menu}&set=${preSet}`}
+							title={'LIV'}
+							content={<SparkChart serie={[40, 55, 45, 50, 40, 55]} />}></CardLink>
 					</div>
 					<Suspense>
 						<BigNumbersPage

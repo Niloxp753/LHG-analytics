@@ -94,7 +94,7 @@ export default function FilterMobile() {
 					})}
 
 					<Separator className='my-5' />
-					<FormFilter />
+					<FormFilter popoverPortalled={false} />
 				</div>
 				<SheetFooter className='mt-5'>
 					<SheetClose
