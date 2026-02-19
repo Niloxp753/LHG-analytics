@@ -18,6 +18,8 @@ interface CategoriesProps {
 
 export default function Categories({ data }: CategoriesProps) {
   const revenueBySuiteCategory = data;
+
+  console.log(revenueBySuiteCategory);
   const error =
     revenueBySuiteCategory === null
       ? "Não foi possível carregar os dados."

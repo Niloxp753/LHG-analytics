@@ -19,13 +19,8 @@ export default function LocationsXReservs({
 	series,
 	error,
 }: LocationsXReservsProps) {
-	const isLoading = typeof series === 'undefined';
 	const resolvedError =
 		error ?? (series === null ? 'Não foi possível carregar os dados.' : undefined);
-
-	if (!isLoading && !resolvedError && (!series?.length || !categories?.length)) {
-		return null;
-	}
 
 	return (
 		<div className='h-full w-full flex items-center justify-center'>

@@ -5,6 +5,7 @@
 import dynamic from 'next/dynamic';
 import ResponsiveContainerChart from '@/app/(dashboard)/_components/ResponsiveContainerChart';
 import DataState from '@/app/(dashboard)/_components/DataState';
+import EmptyState from '@/app/(dashboard)/_components/EmptyState';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
@@ -34,19 +35,18 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 		: false;
 	const hasLabels = props.labels ? props.labels.length > 0 : true;
 
-	if (props.series && (!hasSeriesData || !hasLabels)) {
-		return null;
-	}
+	const isEmptyData = !!props.series && (!hasSeriesData || !hasLabels);
 	const isLoading = typeof props.series === 'undefined';
 	const error =
 		props.error ??
 		(props.series === null ? 'Não foi possível carregar os dados.' : undefined);
+	const emptyTitle = props.title ? props.title : 'Faturamento por unidade';
 
 	const options: ApexCharts.ApexOptions = {
 		chart: {
 			id: 'donut-chart',
 			stacked: false,
-			foreColor: '#000',
+			foreColor: '#fafafa',
 			dropShadow: {
 				enabled: false,
 			},
@@ -177,12 +177,16 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 				isLoading={isLoading}
 				error={error}
 				skeleton={<Skeleton className='w-full h-[324px]' />}>
-				<Chart
-					options={options}
-					width={'100%'}
-					height={400}
-					series={props.series as ApexNonAxisChartSeries}
-					type='donut'></Chart>
+				{isEmptyData ? (
+					<EmptyState title={emptyTitle} minHeight={400} />
+				) : (
+					<Chart
+						options={options}
+						width={'100%'}
+						height={400}
+						series={props.series as ApexNonAxisChartSeries}
+						type='donut'></Chart>
+				)}
 			</DataState>
 		</ResponsiveContainerChart>
 	);

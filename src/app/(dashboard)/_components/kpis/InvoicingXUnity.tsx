@@ -18,15 +18,8 @@ export default function InvoicingXUnity({
 	series,
 	error,
 }: InvoicingXUnityProps) {
-	const isLoading = typeof series === 'undefined';
-	const hasSeries = Array.isArray(series) && series.length > 0;
-	const hasCategories = Array.isArray(categories) && categories.length > 0;
 	const resolvedError =
 		error ?? (series === null ? 'Não foi possível carregar os dados.' : undefined);
-
-	if (!isLoading && !resolvedError && (!hasSeries || !hasCategories)) {
-		return null;
-	}
 
 	return (
 		<>

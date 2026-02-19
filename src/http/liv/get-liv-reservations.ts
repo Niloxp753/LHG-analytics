@@ -4,6 +4,7 @@ import { buildBackendAuthHeaders } from '@/lib/auth-headers';
 import type { LivReservationsKpisResponse } from '@/types/liv/reservations';
 import { api_liv } from '../api-client';
 import { FetchFailedError, withConditionalCache } from '../conditional-cache';
+import { logFetchFailed, logRequestTimeout } from '../logging';
 import { isRetryableError, isRetryableStatus } from '../retry';
 
 export async function getLivReservationsKpis(
@@ -56,15 +57,11 @@ export async function getLivReservationsKpis(
 		);
 	} catch (error) {
 		if (error instanceof FetchFailedError) {
-			console.error(
-				`${error.message}: erro ao buscar dados`,
-				error.status,
-				error.statusText,
-			);
+			logFetchFailed(error);
 			return null;
 		}
 		if (error instanceof Error && error.name === 'AbortError') {
-			console.error('getLivReservationsKpis: request timeout');
+			logRequestTimeout('getLivReservationsKpis');
 			return null;
 		}
 		console.error('getLivReservationsKpis: erro inesperado', error);
@@ -73,4 +70,3 @@ export async function getLivReservationsKpis(
 		clearTimeout(timeout);
 	}
 }
-

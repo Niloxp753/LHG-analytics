@@ -4,6 +4,7 @@ import CardDetails from '@/app/(dashboard)/_components/CardDetails';
 import GenerateBadge from '@/app/(dashboard)/general/_components/generate-badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
+import EmptyState from '@/app/(dashboard)/_components/EmptyState';
 import { OperationalBigNumbersEntry } from '@/types/big-numbers-operational';
 import { generateDescription } from '@/utils/generate-description';
 import { Eye, Leaf, LeafyGreen } from 'lucide-react';
@@ -41,7 +42,7 @@ export default function BigNumbersPageOp({
 	}
 
 	if (!entry) {
-		return null;
+		return <EmptyState title='Sem dados' minHeight={140} />;
 	}
 
 	const currentDate = entry.currentDate;

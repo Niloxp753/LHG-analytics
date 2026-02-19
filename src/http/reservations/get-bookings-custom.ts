@@ -3,6 +3,7 @@
 import { buildAuthCookieHeader } from '@/lib/auth-headers';
 import { api, api_andar_de_cima, api_lapa, api_tout } from '../api-client';
 import { FetchFailedError, withConditionalCache } from '../conditional-cache';
+import { logFetchFailed, logRequestTimeout } from '../logging';
 import { isRetryableError, isRetryableStatus } from '../retry';
 
 async function fetchReservationsData(
@@ -108,15 +109,11 @@ export async function getReservationsCustom(
 		);
 	} catch (error) {
 		if (error instanceof FetchFailedError) {
-			console.error(
-				`${error.message}: erro ao buscar dados`,
-				error.status,
-				error.statusText,
-			);
+			logFetchFailed(error);
 			return null;
 		}
 		if (error instanceof Error && error.name === 'AbortError') {
-			console.error('getReservationsCustom: request timeout');
+			logRequestTimeout('getReservationsCustom');
 			return null;
 		}
 		console.error('getReservationsCustom: erro inesperado', error);

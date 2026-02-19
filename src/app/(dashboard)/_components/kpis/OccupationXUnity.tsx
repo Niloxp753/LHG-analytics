@@ -16,13 +16,8 @@ interface OccupationXUnityProps {
 	data?: EntryData | null;
 }
 export default function OccupationXUnity({ data }: OccupationXUnityProps) {
-	const isLoading = typeof data === 'undefined';
 	const error =
 		data === null ? 'Não foi possível carregar os dados.' : undefined;
-
-	if (!isLoading && !error && (!data?.series?.length || !data?.categories?.length)) {
-		return null;
-	}
 
 	return (
 		<>

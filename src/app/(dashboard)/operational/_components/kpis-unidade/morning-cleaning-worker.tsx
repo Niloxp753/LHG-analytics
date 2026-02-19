@@ -20,13 +20,8 @@ export default function MorningCleaningWorkers({
 	series,
 	error,
 }: MorningCleaningWorkersProps) {
-	const isLoading = typeof series === 'undefined';
 	const resolvedError =
 		error ?? (series === null ? 'Não foi possível carregar os dados.' : undefined);
-
-	if (!isLoading && !resolvedError && (!series?.length || !categories?.length)) {
-		return null;
-	}
 
 	return (
 		<LineChart

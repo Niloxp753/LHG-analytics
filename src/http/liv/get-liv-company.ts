@@ -4,6 +4,7 @@ import { buildBackendAuthHeaders } from '@/lib/auth-headers';
 import type { LivCompanyKpisResponse } from '@/types/liv/company';
 import { api_liv } from '../api-client';
 import { FetchFailedError, withConditionalCache } from '../conditional-cache';
+import { logFetchFailed, logRequestTimeout } from '../logging';
 import { isRetryableError, isRetryableStatus } from '../retry';
 
 export async function getLivCompanyKpis(
@@ -56,15 +57,11 @@ export async function getLivCompanyKpis(
 		);
 	} catch (error) {
 		if (error instanceof FetchFailedError) {
-			console.error(
-				`${error.message}: erro ao buscar dados`,
-				error.status,
-				error.statusText,
-			);
+			logFetchFailed(error);
 			return null;
 		}
 		if (error instanceof Error && error.name === 'AbortError') {
-			console.error('getLivCompanyKpis: request timeout');
+			logRequestTimeout('getLivCompanyKpis');
 			return null;
 		}
 		console.error('getLivCompanyKpis: erro inesperado', error);
@@ -73,4 +70,3 @@ export async function getLivCompanyKpis(
 		clearTimeout(timeout);
 	}
 }
-

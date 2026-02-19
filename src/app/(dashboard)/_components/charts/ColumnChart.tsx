@@ -4,6 +4,7 @@
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
 import DataState from '../DataState';
+import EmptyState from '../EmptyState';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface ColumnChartProps {
@@ -28,9 +29,7 @@ export default function ColumnChart(props: ColumnChartProps) {
 		: false;
 	const hasCategories = props.categories ? props.categories.length > 0 : true;
 
-	if (props.series && (!hasSeriesData || !hasCategories)) {
-		return null;
-	}
+	const isEmptyData = !!props.series && (!hasSeriesData || !hasCategories);
 	const isLoading = typeof props.series === 'undefined';
 	const error =
 		props.error ??
@@ -135,12 +134,16 @@ export default function ColumnChart(props: ColumnChartProps) {
 				isLoading={isLoading}
 				error={error}
 				skeleton={<Skeleton className='w-full h-[280px]' />}>
-				<Chart
-					options={options}
-					series={props.series as ApexAxisChartSeries}
-					type='bar'
-					width={'100%'}
-					height={280}></Chart>
+				{isEmptyData ? (
+					<EmptyState title={props.title} minHeight={280} />
+				) : (
+					<Chart
+						options={options}
+						series={props.series as ApexAxisChartSeries}
+						type='bar'
+						width={'100%'}
+						height={280}></Chart>
+				)}
 			</DataState>
 		</ResponsiveContainerChart>
 	);

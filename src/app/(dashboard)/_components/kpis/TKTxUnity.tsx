@@ -17,13 +17,8 @@ interface TKTxUnityProps {
 }
 
 export default function TKTxUnity({ data }: TKTxUnityProps) {
-	const isLoading = typeof data === 'undefined';
 	const error =
 		data === null ? 'Não foi possível carregar os dados.' : undefined;
-
-	if (!isLoading && !error && (!data?.series?.length || !data?.categories?.length)) {
-		return null;
-	}
 
 	return (
 		<>

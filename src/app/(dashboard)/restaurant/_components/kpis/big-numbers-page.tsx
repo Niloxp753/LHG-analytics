@@ -4,6 +4,7 @@ import CardDetails from '@/app/(dashboard)/_components/CardDetails';
 import GenerateBadge from '@/app/(dashboard)/general/_components/generate-badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
+import EmptyState from '@/app/(dashboard)/_components/EmptyState';
 import { generateDescription } from '@/utils/generate-description';
 import {
 	Blend,
@@ -65,7 +66,7 @@ export default function BigNumbersPage({
 	}
 
 	if (!entry) {
-		return null;
+		return <EmptyState title='Sem dados' minHeight={140} />;
 	}
 
 	const previous = entry.previousDate;

@@ -17,13 +17,8 @@ interface UnityxSalesProps {
 	error?: string | boolean;
 }
 export default function UnityxSales({ data, error }: UnityxSalesProps) {
-	const isLoading = typeof data === 'undefined';
 	const resolvedError =
 		error ?? (data === null ? 'Não foi possível carregar os dados.' : undefined);
-
-	if (!isLoading && !resolvedError && (!data?.series?.length || !data?.categories?.length)) {
-		return null;
-	}
 
 	return (
 		<PieChartsApex
