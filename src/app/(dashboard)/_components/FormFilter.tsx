@@ -34,6 +34,7 @@ export default function FormFilter({
 }) {
 	const form = useForm<z.infer<typeof formSchemaFilter>>({
 		resolver: zodResolver(formSchemaFilter),
+		mode: 'onChange',
 	});
 
 	const params = useSearchParams();

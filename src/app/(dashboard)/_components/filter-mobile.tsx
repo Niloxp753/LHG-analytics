@@ -50,6 +50,8 @@ export default function FilterMobile() {
 				} fixed top-4 right-3 `}>
 				<Button
 					size={'icon'}
+					aria-label='Abrir filtro por data'
+					data-testid='filter-mobile-trigger'
 					className='bg-transparent z-[50]'>
 					<Filter size={22} />
 				</Button>

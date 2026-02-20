@@ -50,8 +50,6 @@ export default async function Page({
 
   const resp = await getData();
 
-  console.log(resp?.RevenueBySuiteCategory);
-
   if (!resp) {
     return (
       <main className="flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5">

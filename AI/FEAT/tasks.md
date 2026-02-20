@@ -156,7 +156,21 @@ Resumo da conclusão (2026-02-12):
   - lint: `npm run lint -- src/components/ui/popover.tsx`, `npm run lint -- src/app/(dashboard)/_components/FormFilter.tsx`, `npm run lint -- src/app/(dashboard)/_components/filter-mobile.tsx`.
 - Arquivos atualizados: `src/components/ui/popover.tsx`, `src/app/(dashboard)/_components/FormFilter.tsx`, `src/app/(dashboard)/_components/filter-mobile.tsx`, `AI/feat/tasks.md`.
 
-13. [ ] Validar seleção de data inicial/final e aplicação do filtro após o ajuste, confirmando atualização correta da URL e dos dados da página.
+13. [x] Validar seleção de data inicial/final e aplicação do filtro após o ajuste, confirmando atualização correta da URL e dos dados da página.
+
+Resumo da conclusão (2026-02-20):
+- Validação automatizada em iPhone/Safari (WebKit) do fluxo de filtro por data: abrir filtro (Sheet), selecionar Data Inicial/Data Final no calendário e aplicar.
+- Confirmado:
+  - atualização correta da URL com `startDate/endDate` no formato `DD/MM/YYYY`;
+  - atualização dos dados da página após aplicar o filtro (Big Numbers “Faturamento” muda conforme o range).
+- Ajustes necessários para viabilizar a validação e garantir interação no WebKit:
+  - `src/components/ui/calendar.tsx`: `pointer-events-auto` no DayPicker para evitar `pointer-events: none` herdado em nested dialogs (Sheet/Popover) no iPhone.
+  - `src/app/(dashboard)/_components/FormFilter.tsx`: `useForm` em `mode: 'onChange'` para habilitar o botão “Atualizar” após selecionar datas.
+  - `src/app/(dashboard)/_components/filter-mobile.tsx`: adicionado `aria-label` e `data-testid` no trigger do filtro mobile.
+  - `src/app/api/mock-backend/[...path]/route.ts`: mock de `Company/kpis/date-range` varia `totalAllValue` por `startDate/endDate` para comprovar refresh de dados.
+  - `playwright.config.ts`: projeto `webkit-iphone` (iPhone 13/WebKit) + `timezoneId: 'America/Sao_Paulo'` + match do spec mobile.
+- Teste adicionado: `e2e/calendar-mobile.spec.ts`.
+- Validação executada: `npm run test:e2e`.
 
 ## Assunto: Navegação e Permissão da Unidade LIV
 
@@ -267,7 +281,16 @@ Resumo da conclusão (2026-02-13):
 
 ## Assunto: Validação Final e Fechamento
 
-23. [ ] Executar regressão funcional dos módulos com big numbers para confirmar consistência da nova descrição e ausência de impacto colateral.
+23. [x] Executar regressão funcional dos módulos com big numbers para confirmar consistência da nova descrição e ausência de impacto colateral.
+
+Resumo da conclusão (2026-02-20):
+- Regressão automatizada com Playwright cobrindo os 4 módulos com Big Numbers (General, Restaurant, Reservations e Operational).
+- Asserções incluídas:
+  - presença do texto "Ano anterior" nos Big Numbers;
+  - garantia de que valor `0` mantém a descrição (caso `generateDescription`);
+  - smoke do fluxo custom via `startDate/endDate` (query) em Restaurant.
+- Validação executada: `npm run test:e2e`.
+- Arquivos adicionados/atualizados: `playwright.config.ts`, `e2e/big-numbers.spec.ts`, `src/app/api/mock-backend/[...path]/route.ts`, `src/app/api/me/route.ts`, `src/app/api/users/email/[email]/route.ts`, `package.json`, `.gitignore`.
 24. [ ] Executar regressão do fluxo de usuários em Settings (tabela, criação e edição) validando máscara e persistência de CPF.
 25. [ ] Validar navegação e carregamento da unidade LIV nos 4 módulos (desktop e mobile) para perfis autorizados e não autorizados.
 26. [ ] Registrar evidências de validação (incluindo teste em iPhone/Safari) e concluir entrega quando todos os critérios de aceite do PRD forem atendidos.
