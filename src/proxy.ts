@@ -5,6 +5,7 @@ import {
 	getDefaultModule,
 	isAdmin,
 	MODULE_TO_PATH,
+	normalizeUnit,
 	PATH_TO_MODULE,
 	UNIT_SLUG_TO_UNIT,
 	UNIT_TO_SLUG,
@@ -135,12 +136,13 @@ function buildDefaultRoute(request: NextRequest, user: AuthUser): URL {
 	}
 
 	const moduleKey = getDefaultModule(user.role);
+	const normalizedUnit = normalizeUnit(user.unit);
 	const unitSlug =
-		user.unit in UNIT_TO_SLUG
-			? UNIT_TO_SLUG[user.unit as keyof typeof UNIT_TO_SLUG]
+		normalizedUnit && normalizedUnit in UNIT_TO_SLUG
+			? UNIT_TO_SLUG[normalizedUnit as keyof typeof UNIT_TO_SLUG]
 			: null;
 
-	if (!moduleKey || !unitSlug) {
+	if (!moduleKey || !unitSlug || !canAccessModule(user, moduleKey)) {
 		url.pathname = '/login';
 		url.search = '';
 		return url;
@@ -176,6 +178,11 @@ export async function proxy(request: NextRequest) {
 		}
 
 		const redirectUrl = buildDefaultRoute(request, auth.user);
+		if (redirectUrl.pathname === '/login') {
+			const response = NextResponse.next();
+			applySetCookies(response, auth.setCookies);
+			return response;
+		}
 		const response = NextResponse.redirect(redirectUrl);
 		applySetCookies(response, auth.setCookies);
 		return response;
@@ -245,7 +252,7 @@ export async function proxy(request: NextRequest) {
 		return response;
 	}
 
-	if (auth.user.unit !== targetUnit) {
+	if (normalizeUnit(auth.user.unit) !== targetUnit) {
 		const redirectUrl = buildDefaultRoute(request, auth.user);
 		const response = NextResponse.redirect(redirectUrl);
 		applySetCookies(response, auth.setCookies);

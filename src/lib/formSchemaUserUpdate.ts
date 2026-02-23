@@ -3,6 +3,7 @@
 import { z } from 'zod';
 import { cpf } from 'zod-br-tax-id';
 import { ROLE_VALUES, UNIT_VALUES_WITH_ADMIN } from '@/lib/access-control';
+import { normalizeCpf } from '@/lib/cpf';
 
 export const formSchemaUserUpdate = z.object({
 	name: z
@@ -17,7 +18,16 @@ export const formSchemaUserUpdate = z.object({
 			message: 'E-mail obrigatório',
 		})
 		.optional(),
-	cpf: cpf({ message: 'CPF inválido' }).optional(),
+	cpf: z.preprocess(
+		(value) => {
+			const normalized = normalizeCpf(
+				typeof value === 'string' ? value : value == null ? '' : String(value),
+			);
+
+			return normalized ? normalized : undefined;
+		},
+		cpf({ message: 'CPF inválido' }).optional(),
+	),
 	password: z.preprocess(
 		(value) => (value === '' ? undefined : value),
 		z

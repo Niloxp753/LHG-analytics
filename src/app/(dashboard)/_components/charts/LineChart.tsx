@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
 import DataState from '../DataState';
+import EmptyState from '../EmptyState';
 import { Skeleton } from '@/components/ui/skeleton';
 import { DEFAULT_RANGE_TAG, isShortRangeTag } from '@/lib/date-range';
 import { useSearchParams } from 'next/navigation';
@@ -43,13 +44,18 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 		: false;
 	const hasCategories = props.categories ? props.categories.length > 0 : true;
 
-	if (props.series && (!hasSeriesData || !hasCategories)) {
-		return null;
-	}
+	const isEmptyData = !!props.series && (!hasSeriesData || !hasCategories);
 	const isLoading = typeof props.series === 'undefined';
 	const error =
 		props.error ??
 		(props.series === null ? 'Não foi possível carregar os dados.' : undefined);
+	const parsedHeight =
+		typeof props.height === 'number'
+			? props.height
+			: typeof props.height === 'string'
+				? Number.parseInt(props.height, 10)
+				: Number.NaN;
+	const emptyHeight = Number.isFinite(parsedHeight) ? parsedHeight : 340;
 
 	const options: ApexCharts.ApexOptions = {
 		chart: {
@@ -275,12 +281,16 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 				isLoading={isLoading}
 				error={error}
 				skeleton={<Skeleton className='w-full h-[340px]' />}>
-				<Chart
-					options={options}
-					series={props.series as ApexAxisChartSeries}
-					type='line'
-					width={'100%'}
-					height={props.height}></Chart>
+				{isEmptyData ? (
+					<EmptyState title={props.title} minHeight={emptyHeight} />
+				) : (
+					<Chart
+						options={options}
+						series={props.series as ApexAxisChartSeries}
+						type='line'
+						width={'100%'}
+						height={props.height}></Chart>
+				)}
 			</DataState>
 		</ResponsiveContainerChart>
 	);

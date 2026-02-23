@@ -18,18 +18,9 @@ interface UnityxTKTxTimePrps {
 	error?: string | boolean;
 }
 export default function UnityxTKTxTime({ data, error }: UnityxTKTxTimePrps) {
-	const isLoading = typeof data === 'undefined';
 	const resolvedError =
 		error ??
 		(data === null ? 'Não foi possível carregar os dados.' : undefined);
-
-	if (
-		!isLoading &&
-		!resolvedError &&
-		(!data?.series?.length || !data?.categories?.length)
-	) {
-		return null;
-	}
 
 	return (
 		<div className='w-full'>

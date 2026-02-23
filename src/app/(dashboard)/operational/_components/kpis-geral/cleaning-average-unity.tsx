@@ -22,14 +22,9 @@ export default function CleaningAverageUnity({
 	data,
 	error,
 }: CleaningAverageUnityProps) {
-	const isLoading = typeof data === 'undefined';
 	const resolvedError =
 		error ?? (data === null ? 'Não foi possível carregar os dados.' : undefined);
 	const series = data?.series?.[0]?.data;
-
-	if (!isLoading && !resolvedError && (!series?.length || !data?.categories?.length)) {
-		return null;
-	}
 
 	return (
 		<PieChartsApex

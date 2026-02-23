@@ -44,6 +44,7 @@ import {
 	UNIT_OPTIONS,
 	type AccessUnit,
 } from '@/lib/access-control';
+import { formatCpf, normalizeCpf } from '@/lib/cpf';
 
 export function ModalCreateUser() {
 	const [isPending, setIsPending] = useState(false);
@@ -175,6 +176,10 @@ export function ModalCreateUser() {
 										<Input
 											id='cpf'
 											{...field}
+											value={formatCpf(field.value)}
+											onChange={(event) =>
+												field.onChange(normalizeCpf(event.target.value))
+											}
 											required
 											placeholder='CPF do usuário'
 											className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'

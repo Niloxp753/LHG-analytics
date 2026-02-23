@@ -18,13 +18,8 @@ interface LocationsxUnityProps {
 
 export default function LocationsxUnity({ data }: LocationsxUnityProps) {
 	const title = 'Locações por unidade';
-	const isLoading = typeof data === 'undefined';
 	const error =
 		data === null ? 'Não foi possível carregar os dados.' : undefined;
-
-	if (!isLoading && !error && (!data?.series?.length || !data?.categories?.length)) {
-		return null;
-	}
 
 	return (
 		<>

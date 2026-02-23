@@ -25,13 +25,8 @@ export default function BookingsByCompany({
 	money = false,
 	error,
 }: BookingsByCompanyProps) {
-	const isLoading = typeof data === 'undefined';
 	const resolvedError =
 		error ?? (data === null ? 'Não foi possível carregar os dados.' : undefined);
-
-	if (!isLoading && !resolvedError && (!data?.series?.length || !data?.categories?.length)) {
-		return null;
-	}
 
 	return (
 		<PieChartsApex

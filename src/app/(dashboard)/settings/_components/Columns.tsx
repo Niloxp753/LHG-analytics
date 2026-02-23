@@ -10,6 +10,7 @@ import {
 	getRoleLabel,
 	getUnitLabel,
 } from '@/lib/access-control';
+import { formatCpf } from '@/lib/cpf';
 
 export const columns: ColumnDef<User>[] = [
 	{
@@ -43,7 +44,11 @@ export const columns: ColumnDef<User>[] = [
 		id: 'CPF',
 		accessorKey: 'cpf',
 		header: 'CPF',
-		cell: ({ row }) => <div className='capitalize'>{row.getValue('CPF')}</div>,
+		cell: ({ row }) => (
+			<div className='capitalize'>
+				{formatCpf(String(row.getValue('CPF') ?? ''))}
+			</div>
+		),
 	},
 	{
 		id: 'Unidade',
