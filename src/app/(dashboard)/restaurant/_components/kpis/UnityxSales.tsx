@@ -25,7 +25,7 @@ export default function UnityxSales({ data, error }: UnityxSalesProps) {
 			height={280}
 			title='Nº de vendas por unidade'
 			error={resolvedError}
-			series={data?.series}
+			series={data?.series?.[0]?.data}
 			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
 			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
 			labels={data?.categories}

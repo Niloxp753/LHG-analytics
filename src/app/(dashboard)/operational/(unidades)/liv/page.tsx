@@ -127,8 +127,8 @@ export default async function Page({
             />
             <TableWokersAfternoon dataTable={employeeReport.Tarde ?? null} />
             <TableWokersNight dataTable={employeeReport.Noite ?? null} />
-            {/* {hasTeamSizing ? (
-              <TableWokersWeekly dataTable={resp.TeamSizing} idealNumber={9} />
+            {hasTeamSizing ? (
+              <TableWokersWeekly dataTable={resp.TeamSizing} idealNumber={18} />
             ) : (
               <Alert variant="destructive" className="w-full">
                 <AlertTitle>Erro ao carregar</AlertTitle>
@@ -136,7 +136,7 @@ export default async function Page({
                   Não foi possível carregar o dimensionamento de equipe.
                 </AlertDescription>
               </Alert>
-            )} */}
+            )}
           </div>
         </div>
       </div>

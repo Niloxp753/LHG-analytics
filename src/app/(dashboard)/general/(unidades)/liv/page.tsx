@@ -22,6 +22,7 @@ import {
   formatDateInput,
   getRangeDescription,
 } from "@/lib/date-range";
+import GiroByDate from "@/app/(dashboard)/_components/kpis/GiroByDate";
 
 export const revalidate = 0;
 
@@ -103,6 +104,7 @@ export default async function Page({
           </div>
           <div className="flex gap-5 flex-col items-center">
             <Invoicing data={resp?.RevenueByDate} />
+            <GiroByDate data={resp?.GiroByDate} />
             <Locations data={resp?.RentalsByDate} />
             <Ticket data={resp?.TicketAverageByDate} />
           </div>

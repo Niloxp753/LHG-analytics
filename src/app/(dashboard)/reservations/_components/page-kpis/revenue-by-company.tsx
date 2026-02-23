@@ -35,7 +35,7 @@ export default function RevenueByCompany({
 			error={resolvedError}
 			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
 			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
-			series={data?.series}
+			series={data?.series?.[0]?.data}
 			labels={data?.categories}
 		/>
 	);

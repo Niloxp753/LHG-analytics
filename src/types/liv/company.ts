@@ -59,6 +59,7 @@ export type LivCompanyKpisResponse = {
 	TrevparByDate: CategoriesSeries;
 	RevparByDate: CategoriesSeries;
 	RevenueByDate: CategoriesSeries;
+	GiroByDate: CategoriesSeries;
 	RentalsByDate: CategoriesSeries;
 	TicketAverageByDate: CategoriesSeries;
 	OccupancyRateByDate: CategoriesSeries;

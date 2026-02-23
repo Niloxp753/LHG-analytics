@@ -9,8 +9,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { DEFAULT_RANGE_TAG, isShortRangeTag } from '@/lib/date-range';
 import { useSearchParams } from 'next/navigation';
 
+type AreaChartSeries = NonNullable<ApexCharts.ApexOptions['series']>;
+
 interface AreaChartsApexProps {
-	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | null;
+	series?: AreaChartSeries | null;
 	categories?: string[];
 	money?: boolean;
 	percent?: boolean;
@@ -265,7 +267,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 				) : (
 					<Chart
 						options={options}
-						series={props.series as ApexAxisChartSeries}
+						series={props.series as AreaChartSeries}
 						type='area'
 						height={280}></Chart>
 				)}
