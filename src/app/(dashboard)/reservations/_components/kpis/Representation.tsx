@@ -19,18 +19,9 @@ export default function Representation({
 	series,
 	error,
 }: RepresentationProps) {
-	const isLoading = typeof series === 'undefined';
 	const resolvedError =
 		error ??
 		(series === null ? 'Não foi possível carregar os dados.' : undefined);
-
-	if (
-		!isLoading &&
-		!resolvedError &&
-		(!series?.length || !categories?.length)
-	) {
-		return null;
-	}
 
 	const mappedSeries = series?.map((item) => {
 		const value = item;

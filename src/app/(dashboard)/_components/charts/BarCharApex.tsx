@@ -4,6 +4,7 @@
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
 import DataState from '../DataState';
+import EmptyState from '../EmptyState';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface BarChartsApexProps {
@@ -41,9 +42,7 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 	const hasCategories =
 		Array.isArray(props.categories) ? props.categories.length > 0 : true;
 
-	if (props.series && (!hasSeriesData || !hasCategories)) {
-		return null;
-	}
+	const isEmptyData = !!props.series && (!hasSeriesData || !hasCategories);
 	const isLoading = typeof props.series === 'undefined';
 	const error =
 		props.error ??
@@ -255,12 +254,16 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 				isLoading={isLoading}
 				error={error}
 				skeleton={<Skeleton className='w-full h-[600px]' />}>
-				<Chart
-					options={options}
-					series={props.series as ApexAxisChartSeries}
-					type='bar'
-					width={'100%'}
-					height={props.height ?? 720}></Chart>
+				{isEmptyData ? (
+					<EmptyState title={props.title} minHeight={props.height ?? 720} />
+				) : (
+					<Chart
+						options={options}
+						series={props.series as ApexAxisChartSeries}
+						type='bar'
+						width={'100%'}
+						height={props.height ?? 720}></Chart>
+				)}
 			</DataState>
 		</ResponsiveContainerChart>
 	);

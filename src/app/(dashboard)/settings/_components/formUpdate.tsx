@@ -38,6 +38,7 @@ import {
 	normalizeUnit,
 	type AccessUnit,
 } from '@/lib/access-control';
+import { formatCpf, normalizeCpf } from '@/lib/cpf';
 
 interface FormUpdateProps {
 	user: UpdateUserInput | User;
@@ -53,7 +54,7 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 		resolver: zodResolver(formSchemaUserUpdate),
 		defaultValues: {
 			email: user.email,
-			cpf: user.cpf,
+			cpf: normalizeCpf(user.cpf),
 			name: user.name,
 			password: '',
 			unidade: normalizedUnitValue,
@@ -164,6 +165,10 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 								<Input
 									id='cpf'
 									{...field}
+									value={formatCpf(field.value)}
+									onChange={(event) =>
+										field.onChange(normalizeCpf(event.target.value))
+									}
 									placeholder='CPF do usu?rio'
 									className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
 								/>

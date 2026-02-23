@@ -18,16 +18,11 @@ export default function AfternoonCleaning({
 	data,
 	error,
 }: AfternoonCleaningProps) {
-	const isLoading = typeof data === 'undefined';
 	const resolvedError =
 		error ?? (data === null ? 'Não foi possível carregar os dados.' : undefined);
 
 	const chartSeries = data?.Tarde;
 	const categories = data?.categories;
-
-	if (!isLoading && !resolvedError && (!chartSeries?.length || !categories?.length)) {
-		return null;
-	}
 
 	return (
 		<LineChart

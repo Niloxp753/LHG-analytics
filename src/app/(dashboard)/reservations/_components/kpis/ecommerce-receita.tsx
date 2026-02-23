@@ -19,13 +19,8 @@ export default function EcommerceRevenue({
 	series,
 	error,
 }: EcommerceRevenueProps) {
-	const isLoading = typeof series === 'undefined';
 	const resolvedError =
 		error ?? (series === null ? 'Não foi possível carregar os dados.' : undefined);
-
-	if (!isLoading && !resolvedError && (!series?.length || !categories?.length)) {
-		return null;
-	}
 
 	return (
 		<>

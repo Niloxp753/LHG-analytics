@@ -4,6 +4,7 @@ import CardDetails from '@/app/(dashboard)/_components/CardDetails';
 import GenerateBadge from '../../general/_components/generate-badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
+import EmptyState from '@/app/(dashboard)/_components/EmptyState';
 import { ReservationsBigNumbersEntry } from '@/types/big-numbers-reservations';
 import { Blend, HandCoins, Sigma, SquarePercent } from 'lucide-react';
 
@@ -46,7 +47,7 @@ export default function BigNumbersReservation({
 	}
 
 	if (!unified) {
-		return null;
+		return <EmptyState title='Sem dados' minHeight={140} />;
 	}
 
 	const currentDate = unified.currentDate;

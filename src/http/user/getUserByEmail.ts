@@ -4,6 +4,7 @@ import { buildAuthCookieHeader } from '@/lib/auth-headers';
 import { auth_api } from '../api-client';
 import type { User } from '@/types/user';
 import { FetchFailedError, withConditionalCache } from '../conditional-cache';
+import { logFetchFailed, logRequestTimeout } from '../logging';
 
 export async function getAllUserByEmail(email: string): Promise<User | null> {
 	const cookieHeader = await buildAuthCookieHeader();
@@ -38,15 +39,11 @@ export async function getAllUserByEmail(email: string): Promise<User | null> {
 		);
 	} catch (error) {
 		if (error instanceof FetchFailedError) {
-			console.error(
-				`${error.message}: erro ao buscar dados`,
-				error.status,
-				error.statusText,
-			);
+			logFetchFailed(error);
 			return null;
 		}
 		if (error instanceof Error && error.name === 'AbortError') {
-			console.error('getAllUserByEmail: request timeout');
+			logRequestTimeout('getAllUserByEmail');
 			return null;
 		}
 		console.error('getAllUserByEmail: erro inesperado', error);

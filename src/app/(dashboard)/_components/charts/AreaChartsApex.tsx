@@ -4,12 +4,15 @@
 import Chart from 'react-apexcharts';
 import ResponsiveContainerChart from '../ResponsiveContainerChart';
 import DataState from '../DataState';
+import EmptyState from '../EmptyState';
 import { Skeleton } from '@/components/ui/skeleton';
 import { DEFAULT_RANGE_TAG, isShortRangeTag } from '@/lib/date-range';
 import { useSearchParams } from 'next/navigation';
 
+type AreaChartSeries = NonNullable<ApexCharts.ApexOptions['series']>;
+
 interface AreaChartsApexProps {
-	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | null;
+	series?: AreaChartSeries | null;
 	categories?: string[];
 	money?: boolean;
 	percent?: boolean;
@@ -42,13 +45,19 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 		: false;
 	const hasCategories = props.categories ? props.categories.length > 0 : true;
 
-	if (props.series && (!hasSeriesData || !hasCategories)) {
-		return null;
-	}
+	const isEmptyData = !!props.series && (!hasSeriesData || !hasCategories);
 	const isLoading = typeof props.series === 'undefined';
 	const error =
 		props.error ??
 		(props.series === null ? 'Não foi possível carregar os dados.' : undefined);
+
+	const seriesName =
+		Array.isArray(props.series) &&
+		props.series.length > 0 &&
+		typeof (props.series[0] as { name?: unknown })?.name === 'string'
+			? (props.series[0] as { name: string }).name
+			: undefined;
+	const emptyTitle = props.title ?? seriesName ?? 'Sem dados';
 
 	const options: ApexCharts.ApexOptions = {
 		chart: {
@@ -253,11 +262,15 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 				isLoading={isLoading}
 				error={error}
 				skeleton={<Skeleton className='w-full h-[280px]' />}>
-				<Chart
-					options={options}
-					series={props.series as ApexAxisChartSeries}
-					type='area'
-					height={280}></Chart>
+				{isEmptyData ? (
+					<EmptyState title={emptyTitle} minHeight={280} />
+				) : (
+					<Chart
+						options={options}
+						series={props.series as AreaChartSeries}
+						type='area'
+						height={280}></Chart>
+				)}
 			</DataState>
 		</ResponsiveContainerChart>
 	);

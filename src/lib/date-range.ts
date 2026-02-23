@@ -88,7 +88,7 @@ export function getRangeLabel(tag: string | null | undefined): string {
 }
 
 export function getRangeDescription(tag: string | null | undefined): string {
-	return tag ? 'Período anterior ' : '';
+	return tag ? 'Ano anterior ' : '';
 }
 
 export function isNewRangeTag(

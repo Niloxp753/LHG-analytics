@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import DataState from '@/app/(dashboard)/_components/DataState';
+import EmptyState from '@/app/(dashboard)/_components/EmptyState';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 
@@ -62,7 +63,7 @@ export default function OccupationCasaLush({ data }: OccupationCasaLushProps) {
 		occupancyData.categories.length > 0;
 
 	if (!hasSeries || !hasCategories) {
-		return null;
+		return <EmptyState title='Ocupação por categoria' minHeight={300} />;
 	}
 
 	const fallbackName = occupancyData.series[0].name;

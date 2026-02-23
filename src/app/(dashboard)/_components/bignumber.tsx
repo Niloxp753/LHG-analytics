@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import GenerateBadge from '../general/_components/generate-badge';
 import CardDetails from './CardDetails';
+import EmptyState from './EmptyState';
 
 interface BigNumbersProps {
 	data?: CompanyBigNumbersEntry[] | null;
@@ -45,7 +46,7 @@ export default function BigNumbers(props: BigNumbersProps) {
 	}
 
 	if (!entry) {
-		return null;
+		return <EmptyState title='Sem dados' minHeight={140} />;
 	}
 
 	const previous = entry.previousDate;

@@ -6,7 +6,7 @@ export function generateDescription(
 	formatOptions?: Intl.NumberFormatOptions,
 	locale: string = 'pt-BR',
 ) {
-	if (!total) {
+	if (total === null || typeof total === 'undefined') {
 		return '';
 	}
 

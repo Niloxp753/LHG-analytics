@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
+import EmptyState from '@/app/(dashboard)/_components/EmptyState';
 
 import CardDetails from '../../_components/CardDetails';
 import GenerateBadge from './generate-badge';
@@ -46,7 +47,7 @@ export default function BigNumbersCompany(props: BigNumbersProps) {
 	}
 
 	if (!data) {
-		return null;
+		return <EmptyState title='Sem dados' minHeight={140} />;
 	}
 
 	const previous = data.previousDate;

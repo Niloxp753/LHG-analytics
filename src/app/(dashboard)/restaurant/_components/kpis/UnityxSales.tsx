@@ -17,20 +17,15 @@ interface UnityxSalesProps {
 	error?: string | boolean;
 }
 export default function UnityxSales({ data, error }: UnityxSalesProps) {
-	const isLoading = typeof data === 'undefined';
 	const resolvedError =
 		error ?? (data === null ? 'Não foi possível carregar os dados.' : undefined);
-
-	if (!isLoading && !resolvedError && (!data?.series?.length || !data?.categories?.length)) {
-		return null;
-	}
 
 	return (
 		<PieChartsApex
 			height={280}
 			title='Nº de vendas por unidade'
 			error={resolvedError}
-			series={data?.series}
+			series={data?.series?.[0]?.data}
 			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
 			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
 			labels={data?.categories}

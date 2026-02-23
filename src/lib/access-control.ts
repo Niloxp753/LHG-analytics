@@ -17,6 +17,7 @@ export const UNIT_VALUES = [
 	'LUSH_LAPA',
 	'ANDAR_DE_CIMA',
 	'TOUT',
+	'LIV',
 ] as const;
 
 export const UNIT_VALUES_WITH_ADMIN = [...UNIT_VALUES, ADMIN_UNIT] as const;
@@ -47,6 +48,7 @@ export const UNIT_LABELS: Record<AccessUnit, string> = {
 	LUSH_LAPA: 'Lush Lapa',
 	ANDAR_DE_CIMA: 'Andar de Cima',
 	TOUT: 'Tout',
+	LIV: 'LIV',
 	LHG: 'LHG',
 };
 
@@ -85,6 +87,7 @@ const LEGACY_UNIT_MAP: Record<string, AccessUnit> = {
 	'2': 'LUSH_LAPA',
 	'3': 'ANDAR_DE_CIMA',
 	'4': 'TOUT',
+	'5': 'LIV',
 	TOUT_CAMPINAS: 'TOUT',
 };
 
@@ -165,6 +168,7 @@ export const UNIT_SLUG_TO_UNIT = {
 	lushlapa: 'LUSH_LAPA',
 	tout: 'TOUT',
 	andardecima: 'ANDAR_DE_CIMA',
+	liv: 'LIV',
 } as const;
 
 export const UNIT_TO_SLUG = {
@@ -172,6 +176,7 @@ export const UNIT_TO_SLUG = {
 	LUSH_LAPA: 'lushlapa',
 	TOUT: 'tout',
 	ANDAR_DE_CIMA: 'andardecima',
+	LIV: 'liv',
 } as const;
 
 export const PATH_TO_MODULE = {
@@ -191,7 +196,10 @@ export const MODULE_TO_PATH = {
 export type ModuleKey = (typeof PATH_TO_MODULE)[keyof typeof PATH_TO_MODULE];
 
 export function isAdmin(user: AccessUser): boolean {
-	return user?.role === ADMIN_ROLE && user?.unit === ADMIN_UNIT;
+	return (
+		normalizeRole(user?.role ?? null) === ADMIN_ROLE &&
+		normalizeUnit(user?.unit ?? null) === ADMIN_UNIT
+	);
 }
 
 export function canAccessModule(user: AccessUser, module: ModuleKey): boolean {
@@ -203,7 +211,15 @@ export function canAccessModule(user: AccessUser, module: ModuleKey): boolean {
 		return true;
 	}
 
-	switch (user.role) {
+	const role = normalizeRole(user.role);
+	const unit = normalizeUnit(user.unit);
+
+	// Regra especial: a unidade LIV é acessível apenas para ADMIN e GERENTE_GERAL (da própria unidade).
+	if (unit === 'LIV') {
+		return role === 'GERENTE_GERAL';
+	}
+
+	switch (role) {
 		case 'GERENTE_GERAL':
 			return true;
 		case 'GERENTE_FINANCEIRO':
@@ -220,7 +236,9 @@ export function canAccessModule(user: AccessUser, module: ModuleKey): boolean {
 }
 
 export function getDefaultModule(role: string): ModuleKey | null {
-	switch (role) {
+	const normalizedRole = normalizeRole(role);
+
+	switch (normalizedRole) {
 		case 'GERENTE_GERAL':
 		case 'GERENTE_FINANCEIRO':
 			return 'company';
@@ -272,7 +290,8 @@ export function canAccessRoute(user: AccessUser, href: string): boolean {
 
 	const targetUnit =
 		UNIT_SLUG_TO_UNIT[unitSlug as keyof typeof UNIT_SLUG_TO_UNIT];
-	if (user.unit !== targetUnit) {
+	const userUnit = normalizeUnit(user.unit);
+	if (!userUnit || userUnit !== targetUnit) {
 		return false;
 	}
 
@@ -280,11 +299,12 @@ export function canAccessRoute(user: AccessUser, href: string): boolean {
 }
 
 export function getUserUnitSlug(user: AccessUser): string | null {
-	if (!user?.unit) {
+	const unit = normalizeUnit(user?.unit ?? null);
+	if (!unit) {
 		return null;
 	}
 
-	return UNIT_TO_SLUG[user.unit as keyof typeof UNIT_TO_SLUG] ?? null;
+	return UNIT_TO_SLUG[unit as keyof typeof UNIT_TO_SLUG] ?? null;
 }
 
 export function buildModuleHref(
@@ -293,6 +313,10 @@ export function buildModuleHref(
 	preSet: string,
 ): string | null {
 	if (!user) {
+		return null;
+	}
+
+	if (!canAccessModule(user, moduleKey)) {
 		return null;
 	}
 
