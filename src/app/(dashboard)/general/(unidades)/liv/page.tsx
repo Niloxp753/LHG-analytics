@@ -23,6 +23,7 @@ import {
   getRangeDescription,
 } from "@/lib/date-range";
 import GiroByDate from "@/app/(dashboard)/_components/kpis/GiroByDate";
+import { LIV_USD_CURRENCY_CONFIG } from "@/lib/currency-format";
 
 export const revalidate = 0;
 
@@ -87,26 +88,48 @@ export default async function Page({
           </div>
         </div>
         <div className=" w-full h-full flex gap-5 flex-col px-3 md:px-0 mt-12 lg:mt-32">
-          <BigNumbers data={resp?.BigNumbers} description={rangeDescription} />
+          <BigNumbers
+            data={resp?.BigNumbers}
+            description={rangeDescription}
+            currencyConfig={LIV_USD_CURRENCY_CONFIG}
+          />
           <div className="flex w-full gap-5 h-full">
             <div className="h-full w-full flex flex-col gap-5 items-center justify-center">
-              <InvoicingXLocation data={resp?.BillingRentalType} />
+              <InvoicingXLocation
+                data={resp?.BillingRentalType}
+                currencyConfig={LIV_USD_CURRENCY_CONFIG}
+              />
             </div>
           </div>
           <div className="gap-5 h-fit w-full grid md:grid-cols-2">
             <div className=" w-full">
-              <Categories data={resp?.RevenueBySuiteCategory} />
+              <Categories
+                data={resp?.RevenueBySuiteCategory}
+                currencyConfig={LIV_USD_CURRENCY_CONFIG}
+              />
             </div>
             <div className=" w-full  flex gap-5 justify-between flex-col ">
-              <TRevPar data={resp?.TrevparByDate} />
-              <RevPar data={resp?.RevparByDate} />
+              <TRevPar
+                data={resp?.TrevparByDate}
+                currencyConfig={LIV_USD_CURRENCY_CONFIG}
+              />
+              <RevPar
+                data={resp?.RevparByDate}
+                currencyConfig={LIV_USD_CURRENCY_CONFIG}
+              />
             </div>
           </div>
           <div className="flex gap-5 flex-col items-center">
-            <Invoicing data={resp?.RevenueByDate} />
+            <Invoicing
+              data={resp?.RevenueByDate}
+              currencyConfig={LIV_USD_CURRENCY_CONFIG}
+            />
             <GiroByDate data={resp?.GiroByDate} />
             <Locations data={resp?.RentalsByDate} />
-            <Ticket data={resp?.TicketAverageByDate} />
+            <Ticket
+              data={resp?.TicketAverageByDate}
+              currencyConfig={LIV_USD_CURRENCY_CONFIG}
+            />
           </div>
           <div className="flex flex-col  h-full w-full gap-5">
             <Occupation data={resp?.OccupancyRateByDate} />
@@ -117,12 +140,16 @@ export default async function Page({
               <TableKpiCategory
                 dataTable={resp?.DataTableSuiteCategory}
                 datatableResult={resp?.TotalResult}
+                currencyConfig={LIV_USD_CURRENCY_CONFIG}
               />
             </div>
           </div>
           <div className="flex gap-5 flex-col w-full">
             <TableKpiGiro data={resp?.DataTableGiroByWeek} />
-            <TableKpiRevpar data={resp?.DataTableRevparByWeek} />
+            <TableKpiRevpar
+              data={resp?.DataTableRevparByWeek}
+              currencyConfig={LIV_USD_CURRENCY_CONFIG}
+            />
             <TableKpiOccupation data={resp?.DataTableOccupancyRateByWeek} />
           </div>
         </div>

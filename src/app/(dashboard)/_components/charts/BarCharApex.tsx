@@ -6,6 +6,11 @@ import ResponsiveContainerChart from '../ResponsiveContainerChart';
 import DataState from '../DataState';
 import EmptyState from '../EmptyState';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+	DEFAULT_BRL_CURRENCY_CONFIG,
+	formatCurrency,
+	type CurrencyConfig,
+} from '@/lib/currency-format';
 
 interface BarChartsApexProps {
 	title: string;
@@ -26,6 +31,7 @@ interface BarChartsApexProps {
 	hideDataLabelsOnMobile?: boolean;
 	tooltipLabel?: 'series' | 'category';
 	tooltipValueLabel?: string;
+	currencyConfig?: CurrencyConfig;
 }
 
 export default function BarChartsApex(props: BarChartsApexProps) {
@@ -59,6 +65,8 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 	const hideDataLabelsOnMobile = props.hideDataLabelsOnMobile ?? false;
 	const seriesLength = Array.isArray(props.series) ? props.series.length : 0;
 	const lastSeriesIndex = seriesLength > 0 ? seriesLength - 1 : 0;
+	const resolvedCurrencyConfig =
+		props.currencyConfig ?? DEFAULT_BRL_CURRENCY_CONFIG;
 
 	const formatCompactValue = (value: number) => {
 		const numericValue = Number(value);
@@ -66,9 +74,7 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 			return '';
 		}
 		if (props.money) {
-			return numericValue.toLocaleString('pt-BR', {
-				style: 'currency',
-				currency: 'BRL',
+			return formatCurrency(numericValue, resolvedCurrencyConfig, {
 				notation: 'compact',
 			});
 		}
@@ -79,10 +85,7 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 
 	const formatTooltipValue = (val: number) =>
 		props.money
-			? val.toLocaleString('pt-BR', {
-					style: 'currency',
-					currency: 'BRL',
-			  })
+			? formatCurrency(val, resolvedCurrencyConfig)
 			: String(val);
 
 	const options: ApexCharts.ApexOptions = {

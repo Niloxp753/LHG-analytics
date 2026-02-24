@@ -9,6 +9,11 @@ import DataState from '../DataState';
 import EmptyState from '../EmptyState';
 import { Skeleton } from '@/components/ui/skeleton';
 import { DEFAULT_RANGE_TAG, isShortRangeTag } from '@/lib/date-range';
+import {
+	DEFAULT_BRL_CURRENCY_CONFIG,
+	formatCurrency,
+	type CurrencyConfig,
+} from '@/lib/currency-format';
 import { useSearchParams } from 'next/navigation';
 
 interface AreaChartsApexProps {
@@ -20,6 +25,7 @@ interface AreaChartsApexProps {
 	money?: boolean;
 	percent?: boolean;
 	error?: string | boolean;
+	currencyConfig?: CurrencyConfig;
 }
 
 export default function LineChartsApexUnity(props: AreaChartsApexProps) {
@@ -56,6 +62,8 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 				? Number.parseInt(props.height, 10)
 				: Number.NaN;
 	const emptyHeight = Number.isFinite(parsedHeight) ? parsedHeight : 340;
+	const resolvedCurrencyConfig =
+		props.currencyConfig ?? DEFAULT_BRL_CURRENCY_CONFIG;
 
 	const options: ApexCharts.ApexOptions = {
 		chart: {
@@ -104,10 +112,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 			formatter: (val: number | string) =>
 				`${
 					props.money
-						? val.toLocaleString('pt-BR', {
-								style: 'currency',
-								currency: 'BRL',
-						  })
+						? formatCurrency(val, resolvedCurrencyConfig)
 						: props.percent
 						? val + '%'
 						: val.toLocaleString('pt-br')
@@ -140,10 +145,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 				formatter: (val: number | string) =>
 					`${
 						props.money
-							? val.toLocaleString('pt-BR', {
-									style: 'currency',
-									currency: 'BRL',
-							  })
+							? formatCurrency(val, resolvedCurrencyConfig)
 							: props.percent
 							? val + '%'
 							: val
@@ -200,10 +202,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 				formatter: (val: number | string) =>
 					`${
 						props.money
-							? val.toLocaleString('pt-BR', {
-									style: 'currency',
-									currency: 'BRL',
-							  })
+							? formatCurrency(val, resolvedCurrencyConfig)
 							: props.percent
 							? val + '%'
 							: val

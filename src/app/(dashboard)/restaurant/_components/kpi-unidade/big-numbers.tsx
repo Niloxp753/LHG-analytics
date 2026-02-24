@@ -13,13 +13,19 @@ import {
 	SquarePercent,
 } from 'lucide-react';
 import { RestaurantBigNumbersEntry } from '@/types/big-numbers-restaurant';
+import { formatCurrency, type CurrencyConfig } from '@/lib/currency-format';
 
 interface BigNumbersProps {
 	data?: RestaurantBigNumbersEntry | null;
 	description: string;
+	currencyConfig?: CurrencyConfig;
 }
 
-export default function BigNumbers({ description, data }: BigNumbersProps) {
+export default function BigNumbers({
+	description,
+	data,
+	currencyConfig,
+}: BigNumbersProps) {
 	const isLoading = typeof data === 'undefined';
 	const error =
 		data === null ? 'Não foi possível carregar os dados.' : undefined;
@@ -78,16 +84,17 @@ export default function BigNumbers({ description, data }: BigNumbersProps) {
 					description={
 						previous
 							? description +
-								previous.totalAllValuePreviousData.toLocaleString('pt-BR', {
-									style: 'currency',
-									currency: 'brl',
-								})
+								formatCurrency(
+									previous.totalAllValuePreviousData,
+									currencyConfig,
+								)
 							: ''
 					}
 					icon={<HandCoins />}
 					title={'Receita de A&B'}
 					monthlyForecast={forecast?.totalAllValueForecast}
 					value={entry.currentDate.totalAllValue}
+					currencyConfig={currencyConfig}
 					Badge={
 						previous && (
 							<GenerateBadge
@@ -105,12 +112,9 @@ export default function BigNumbers({ description, data }: BigNumbersProps) {
 					description={
 						previous
 							? description +
-								previous.totalAllSalesRevenuePreviousData.toLocaleString(
-									'pt-BR',
-									{
-										style: 'currency',
-										currency: 'brl',
-									},
+								formatCurrency(
+									previous.totalAllSalesRevenuePreviousData,
+									currencyConfig,
 								)
 							: ''
 					}
@@ -118,6 +122,7 @@ export default function BigNumbers({ description, data }: BigNumbersProps) {
 					title={'Receita de Vendas'}
 					monthlyForecast={forecast?.totalAllSalesRevenueForecast}
 					value={entry.currentDate.totalAllSalesRevenue}
+					currencyConfig={currencyConfig}
 					Badge={
 						previous && (
 							<GenerateBadge
@@ -158,12 +163,9 @@ export default function BigNumbers({ description, data }: BigNumbersProps) {
 					description={
 						previous
 							? description +
-								previous.totalAllTicketAveragePreviousData.toLocaleString(
-									'pt-BR',
-									{
-										style: 'currency',
-										currency: 'brl',
-									},
+								formatCurrency(
+									previous.totalAllTicketAveragePreviousData,
+									currencyConfig,
 								)
 							: ''
 					}
@@ -171,6 +173,7 @@ export default function BigNumbers({ description, data }: BigNumbersProps) {
 					title={'Ticket médio A&B'}
 					monthlyForecast={forecast?.totalAllTicketAverageForecast}
 					value={entry.currentDate.totalAllTicketAverage}
+					currencyConfig={currencyConfig}
 					Badge={
 						previous && (
 							<GenerateBadge
@@ -188,12 +191,9 @@ export default function BigNumbers({ description, data }: BigNumbersProps) {
 					description={
 						previous
 							? description +
-								previous.totalAllTicketAverageByTotalRentalsPreviousData.toLocaleString(
-									'pt-BR',
-									{
-										style: 'currency',
-										currency: 'brl',
-									},
+								formatCurrency(
+									previous.totalAllTicketAverageByTotalRentalsPreviousData,
+									currencyConfig,
 								)
 							: ''
 					}
@@ -203,6 +203,7 @@ export default function BigNumbers({ description, data }: BigNumbersProps) {
 						forecast?.totalAllTicketAverageByTotalRentalsForecast
 					}
 					value={entry.currentDate.totalAllTicketAverageByTotalRentals}
+					currencyConfig={currencyConfig}
 					Badge={
 						previous && (
 							<GenerateBadge

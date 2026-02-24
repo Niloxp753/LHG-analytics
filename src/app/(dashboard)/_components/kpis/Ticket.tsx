@@ -1,6 +1,7 @@
 /** @format */
 'use client';
 import dynamic from 'next/dynamic';
+import { type CurrencyConfig } from '@/lib/currency-format';
 import React from 'react';
 const AreaChartsApex = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/AreaChartsApex'),
@@ -14,9 +15,10 @@ interface TicketAverageByDateProps {
 
 interface TicketProps {
 	data?: TicketAverageByDateProps | null;
+	currencyConfig?: CurrencyConfig;
 }
 
-export default function Ticket({ data }: TicketProps) {
+export default function Ticket({ data, currencyConfig }: TicketProps) {
 	const ticketAverageByDate = data;
 	const error =
 		ticketAverageByDate === null
@@ -29,6 +31,7 @@ export default function Ticket({ data }: TicketProps) {
 				<AreaChartsApex
 					id='ticket-ipiranga'
 					money
+					currencyConfig={currencyConfig}
 					error={error}
 					series={
 						ticketAverageByDate

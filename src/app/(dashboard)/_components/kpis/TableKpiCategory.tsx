@@ -9,6 +9,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
+import { formatCurrency, type CurrencyConfig } from '@/lib/currency-format';
 
 interface SuiteCategoryMetrics {
 	totalRentalsApartments: number;
@@ -50,11 +51,13 @@ interface SuiteCategoryRow {
 interface TableKpiCategoryProps {
 	dataTable?: SuiteCategoryEntry[];
 	datatableResult?: SuiteCategoryTotals;
+	currencyConfig?: CurrencyConfig;
 }
 
 export default function TableKpiCategory({
 	dataTable,
 	datatableResult,
+	currencyConfig,
 }: TableKpiCategoryProps) {
 	const dataTableSuiteCategory = dataTable;
 
@@ -150,29 +153,17 @@ export default function TableKpiCategory({
 							</TableCell>
 							<TableCell>{invoice.locations}</TableCell>
 							<TableCell>
-								{invoice.revenue.toLocaleString('pt-BR', {
-									style: 'currency',
-									currency: 'brl',
-								})}
+								{formatCurrency(invoice.revenue, currencyConfig)}
 							</TableCell>
 							<TableCell>
-								{invoice.ticket.toLocaleString('pt-BR', {
-									style: 'currency',
-									currency: 'brl',
-								})}
+								{formatCurrency(invoice.ticket, currencyConfig)}
 							</TableCell>
 							<TableCell>{invoice.giro}</TableCell>
 							<TableCell>
-								{invoice.revpar.toLocaleString('pt-BR', {
-									style: 'currency',
-									currency: 'brl',
-								})}
+								{formatCurrency(invoice.revpar, currencyConfig)}
 							</TableCell>
 							<TableCell>
-								{invoice.trevpar.toLocaleString('pt-BR', {
-									style: 'currency',
-									currency: 'brl',
-								})}
+								{formatCurrency(invoice.trevpar, currencyConfig)}
 							</TableCell>
 							<TableCell>{invoice.tmo}</TableCell>
 							<TableCell>{invoice.occupation.toFixed(2)}%</TableCell>
@@ -186,29 +177,17 @@ export default function TableKpiCategory({
 					</TableCell>
 					<TableCell>{formattedTotalResult.locations}</TableCell>
 					<TableCell>
-						{formattedTotalResult.revenue.toLocaleString('pt-BR', {
-							style: 'currency',
-							currency: 'brl',
-						})}
+						{formatCurrency(formattedTotalResult.revenue, currencyConfig)}
 					</TableCell>
 					<TableCell>
-						{formattedTotalResult.ticket.toLocaleString('pt-BR', {
-							style: 'currency',
-							currency: 'brl',
-						})}
+						{formatCurrency(formattedTotalResult.ticket, currencyConfig)}
 					</TableCell>
 					<TableCell>{formattedTotalResult.giro}</TableCell>
 					<TableCell>
-						{formattedTotalResult.revpar.toLocaleString('pt-BR', {
-							style: 'currency',
-							currency: 'brl',
-						})}
+						{formatCurrency(formattedTotalResult.revpar, currencyConfig)}
 					</TableCell>
 					<TableCell>
-						{formattedTotalResult.trevpar.toLocaleString('pt-BR', {
-							style: 'currency',
-							currency: 'brl',
-						})}
+						{formatCurrency(formattedTotalResult.trevpar, currencyConfig)}
 					</TableCell>
 					<TableCell>{formattedTotalResult.tmo}</TableCell>
 					<TableCell>{formattedTotalResult.occupation.toFixed(2)}%</TableCell>

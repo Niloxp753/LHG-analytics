@@ -7,6 +7,11 @@ import DataState from '../DataState';
 import EmptyState from '../EmptyState';
 import { Skeleton } from '@/components/ui/skeleton';
 import { DEFAULT_RANGE_TAG, isShortRangeTag } from '@/lib/date-range';
+import {
+	DEFAULT_BRL_CURRENCY_CONFIG,
+	formatCurrency,
+	type CurrencyConfig,
+} from '@/lib/currency-format';
 import { useSearchParams } from 'next/navigation';
 
 type AreaChartSeries = NonNullable<ApexCharts.ApexOptions['series']>;
@@ -21,6 +26,7 @@ interface AreaChartsApexProps {
 	legend?: string;
 	width?: string;
 	error?: string | boolean;
+	currencyConfig?: CurrencyConfig;
 }
 
 export default function AreaChartsApex(props: AreaChartsApexProps) {
@@ -58,6 +64,8 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			? (props.series[0] as { name: string }).name
 			: undefined;
 	const emptyTitle = props.title ?? seriesName ?? 'Sem dados';
+	const resolvedCurrencyConfig =
+		props.currencyConfig ?? DEFAULT_BRL_CURRENCY_CONFIG;
 
 	const options: ApexCharts.ApexOptions = {
 		chart: {
@@ -106,10 +114,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 				formatter: (val: number | string) =>
 					`${
 						props.money
-							? val.toLocaleString('pt-BR', {
-									style: 'currency',
-									currency: 'BRL',
-							  })
+							? formatCurrency(val, resolvedCurrencyConfig)
 							: props.percent
 							? val + '%'
 							: val ?? 10
@@ -189,10 +194,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 							formatter: (val: number | string) =>
 								`${
 									props.money
-										? val.toLocaleString('pt-BR', {
-												style: 'currency',
-												currency: 'BRL',
-										  })
+										? formatCurrency(val, resolvedCurrencyConfig)
 										: props.percent
 										? val + '%'
 										: val
@@ -223,10 +225,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 						formatter: (val: number | string) =>
 							`${
 								props.money
-									? val.toLocaleString('pt-BR', {
-											style: 'currency',
-											currency: 'BRL',
-									  })
+									? formatCurrency(val, resolvedCurrencyConfig)
 									: props.percent
 									? val + '%'
 									: val
@@ -240,10 +239,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 							formatter: (val: number | string) =>
 								`${
 									props.money
-										? val.toLocaleString('pt-BR', {
-												style: 'currency',
-												currency: 'BRL',
-										  })
+										? formatCurrency(val, resolvedCurrencyConfig)
 										: props.percent
 										? val + '%'
 										: val

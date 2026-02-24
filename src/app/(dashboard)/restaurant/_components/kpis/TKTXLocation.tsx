@@ -2,6 +2,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { type CurrencyConfig } from '@/lib/currency-format';
 import React from 'react';
 const AreaChartsApex = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/AreaChartsApex'),
@@ -15,9 +16,10 @@ interface TKTXLocationProps {
 
 interface DataProps {
 	data: TKTXLocationProps;
+	currencyConfig?: CurrencyConfig;
 }
 
-export default function TKTXLocation({ data }: DataProps) {
+export default function TKTXLocation({ data, currencyConfig }: DataProps) {
 	return (
 		<div className='w-full'>
 			<AreaChartsApex
@@ -29,6 +31,7 @@ export default function TKTXLocation({ data }: DataProps) {
 				]}
 				categories={data.categories}
 				money
+				currencyConfig={currencyConfig}
 			/>
 		</div>
 	);

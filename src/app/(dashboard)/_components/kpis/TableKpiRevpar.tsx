@@ -9,6 +9,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
+import { formatCurrency, type CurrencyConfig } from '@/lib/currency-format';
 
 interface RevparData {
 	revpar: number;
@@ -30,9 +31,10 @@ interface RevparOutput {
 
 interface TableKpiRevparProps {
 	data?: RevparTableEntry[];
+	currencyConfig?: CurrencyConfig;
 }
 
-export function TableKpiRevpar({ data }: TableKpiRevparProps) {
+export function TableKpiRevpar({ data, currencyConfig }: TableKpiRevparProps) {
 	const dataTableRevparByWeek: RevparTableEntry[] | undefined = data;
 
 	const week: { [key: string]: string } = {
@@ -98,46 +100,25 @@ export function TableKpiRevpar({ data }: TableKpiRevparProps) {
 								{invoice.category}
 							</TableCell>
 							<TableCell>
-								{Number(invoice.domingo)?.toLocaleString('pt-BR', {
-									style: 'currency',
-									currency: 'BRL',
-								})}
+								{formatCurrency(Number(invoice.domingo), currencyConfig)}
 							</TableCell>
 							<TableCell>
-								{Number(invoice.segunda)?.toLocaleString('pt-BR', {
-									style: 'currency',
-									currency: 'BRL',
-								})}
+								{formatCurrency(Number(invoice.segunda), currencyConfig)}
 							</TableCell>
 							<TableCell>
-								{Number(invoice.terca)?.toLocaleString('pt-BR', {
-									style: 'currency',
-									currency: 'BRL',
-								})}
+								{formatCurrency(Number(invoice.terca), currencyConfig)}
 							</TableCell>
 							<TableCell>
-								{Number(invoice.quarta)?.toLocaleString('pt-BR', {
-									style: 'currency',
-									currency: 'BRL',
-								})}
+								{formatCurrency(Number(invoice.quarta), currencyConfig)}
 							</TableCell>
 							<TableCell>
-								{Number(invoice.quinta)?.toLocaleString('pt-BR', {
-									style: 'currency',
-									currency: 'BRL',
-								})}
+								{formatCurrency(Number(invoice.quinta), currencyConfig)}
 							</TableCell>
 							<TableCell>
-								{Number(invoice.sexta)?.toLocaleString('pt-BR', {
-									style: 'currency',
-									currency: 'BRL',
-								})}
+								{formatCurrency(Number(invoice.sexta), currencyConfig)}
 							</TableCell>
 							<TableCell>
-								{Number(invoice.sabado)?.toLocaleString('pt-BR', {
-									style: 'currency',
-									currency: 'BRL',
-								})}
+								{formatCurrency(Number(invoice.sabado), currencyConfig)}
 							</TableCell>
 						</TableRow>
 					))}
@@ -146,46 +127,25 @@ export function TableKpiRevpar({ data }: TableKpiRevparProps) {
 				<TableRow className='text-center hover:bg-zinc-700'>
 					<TableCell className=' w-1/5 text-left'>Total Revpar</TableCell>
 					<TableCell>
-						{Number(totalRevpar.domingo)?.toLocaleString('pt-BR', {
-							style: 'currency',
-							currency: 'BRL',
-						})}
+						{formatCurrency(Number(totalRevpar.domingo), currencyConfig)}
 					</TableCell>
 					<TableCell>
-						{Number(totalRevpar.segunda)?.toLocaleString('pt-BR', {
-							style: 'currency',
-							currency: 'BRL',
-						})}
+						{formatCurrency(Number(totalRevpar.segunda), currencyConfig)}
 					</TableCell>
 					<TableCell>
-						{Number(totalRevpar.terca)?.toLocaleString('pt-BR', {
-							style: 'currency',
-							currency: 'BRL',
-						})}
+						{formatCurrency(Number(totalRevpar.terca), currencyConfig)}
 					</TableCell>
 					<TableCell>
-						{Number(totalRevpar.quarta)?.toLocaleString('pt-BR', {
-							style: 'currency',
-							currency: 'BRL',
-						})}
+						{formatCurrency(Number(totalRevpar.quarta), currencyConfig)}
 					</TableCell>
 					<TableCell>
-						{Number(totalRevpar.quinta)?.toLocaleString('pt-BR', {
-							style: 'currency',
-							currency: 'BRL',
-						})}
+						{formatCurrency(Number(totalRevpar.quinta), currencyConfig)}
 					</TableCell>
 					<TableCell>
-						{Number(totalRevpar.sexta)?.toLocaleString('pt-BR', {
-							style: 'currency',
-							currency: 'BRL',
-						})}
+						{formatCurrency(Number(totalRevpar.sexta), currencyConfig)}
 					</TableCell>
 					<TableCell>
-						{Number(totalRevpar.sabado)?.toLocaleString('pt-BR', {
-							style: 'currency',
-							currency: 'BRL',
-						})}
+						{formatCurrency(Number(totalRevpar.sabado), currencyConfig)}
 					</TableCell>
 				</TableRow>
 			</TableFooter>

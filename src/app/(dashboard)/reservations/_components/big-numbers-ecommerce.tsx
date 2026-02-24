@@ -7,15 +7,18 @@ import { Skeleton } from '@/components/ui/skeleton';
 import EmptyState from '@/app/(dashboard)/_components/EmptyState';
 import { ReservationsBigNumbersEntry } from '@/types/big-numbers-reservations';
 import { Blend, HandCoins, Sigma, SquarePercent } from 'lucide-react';
+import { formatCurrency, type CurrencyConfig } from '@/lib/currency-format';
 
 interface BigNumbersEcommerceProps {
 	data?: ReservationsBigNumbersEntry[] | null;
 	description: string;
+	currencyConfig?: CurrencyConfig;
 }
 
 export default function BigNumbersEcommerce({
 	description,
 	data,
+	currencyConfig,
 }: BigNumbersEcommerceProps) {
 	const isLoading = typeof data === 'undefined';
 	const error =
@@ -68,10 +71,7 @@ export default function BigNumbersEcommerce({
 				description={
 					hasPrevious && typeof previousValue === 'number'
 						? description +
-							previousValue.toLocaleString('pt-BR', {
-								style: 'currency',
-								currency: 'brl',
-							})
+							formatCurrency(previousValue, currencyConfig)
 						: ''
 				}
 				icon={<HandCoins />}
@@ -81,6 +81,7 @@ export default function BigNumbersEcommerce({
 				}
 				value={currentDate.totalAllValue}
 				type='money'
+				currencyConfig={currencyConfig}
 				Badge={
 					hasPrevious &&
 					typeof previousValue === 'number' && (
@@ -121,10 +122,7 @@ export default function BigNumbersEcommerce({
 				description={
 					hasPrevious && typeof previousTicketAverage === 'number'
 						? description +
-							previousTicketAverage.toLocaleString('pt-BR', {
-								style: 'currency',
-								currency: 'brl',
-							})
+							formatCurrency(previousTicketAverage, currencyConfig)
 						: ''
 				}
 				icon={<SquarePercent />}
@@ -136,6 +134,7 @@ export default function BigNumbersEcommerce({
 				}
 				value={currentDate.totalAllTicketAverage}
 				type='money'
+				currencyConfig={currencyConfig}
 				Badge={
 					hasPrevious &&
 					typeof previousTicketAverage === 'number' && (

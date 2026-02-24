@@ -8,6 +8,7 @@ import {
   formatDateInput,
   getRangeDescription,
 } from "@/lib/date-range";
+import { LIV_USD_CURRENCY_CONFIG } from "@/lib/currency-format";
 
 import BigNumbersEcommerce from "../../_components/big-numbers-ecommerce";
 import BigNumbersReservation from "../../_components/big-numbers-reservations";
@@ -81,6 +82,7 @@ export default async function Page({
           <BigNumbersReservation
             data={resp?.BigNumbers}
             description={rangeDescription}
+            currencyConfig={LIV_USD_CURRENCY_CONFIG}
           />
           <CategoriesXReservs
             series={resp.ReservationsByRentalType?.series ?? null}
@@ -90,10 +92,12 @@ export default async function Page({
             <InvoicingXTypes
               series={resp.PaymentMethods?.series ?? null}
               categories={resp.PaymentMethods?.categories}
+              currencyConfig={LIV_USD_CURRENCY_CONFIG}
             />
             <InvoicingXChannel
               series={resp.BillingPerChannel?.series ?? null}
               categories={resp.BillingPerChannel?.categories}
+              currencyConfig={LIV_USD_CURRENCY_CONFIG}
             />
           </div>
 
@@ -101,6 +105,7 @@ export default async function Page({
             <InvoicingXReservs
               series={resp.BillingOfReservationsByPeriod?.series ?? null}
               categories={resp.BillingOfReservationsByPeriod?.categories}
+              currencyConfig={LIV_USD_CURRENCY_CONFIG}
             />
             <Representation
               series={resp.RepresentativenessOfReservesByPeriod?.series ?? null}
@@ -112,7 +117,10 @@ export default async function Page({
             />
           </div>
           <div>
-            <TableReservs data={resp.KpiTableByChannelType?.[0] ?? null} />
+            <TableReservs
+              data={resp.KpiTableByChannelType?.[0] ?? null}
+              currencyConfig={LIV_USD_CURRENCY_CONFIG}
+            />
           </div>
           <div>
             <h2 className="text-2xl md:text-4xl font-bold text-zinc-50 mt-10 mb-5">
@@ -122,6 +130,7 @@ export default async function Page({
               <BigNumbersEcommerce
                 data={resp?.BigNumbersEcommerce}
                 description={rangeDescription}
+                currencyConfig={LIV_USD_CURRENCY_CONFIG}
               />
 
               <div className="w-full flex flex-col items-center justify-between gap-5">
@@ -132,6 +141,7 @@ export default async function Page({
                 <EcommerceRevenue
                   series={resp.BillingOfEcommerceByPeriod?.series ?? null}
                   categories={resp.BillingOfEcommerceByPeriod?.categories}
+                  currencyConfig={LIV_USD_CURRENCY_CONFIG}
                 />
               </div>
             </div>

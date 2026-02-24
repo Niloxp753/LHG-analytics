@@ -2,6 +2,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { type CurrencyConfig } from '@/lib/currency-format';
 const LineChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/LineChart'),
 	{ ssr: false },
@@ -19,9 +20,13 @@ interface BillingRentalTypeProps {
 
 interface InvoicingXLocationProps {
 	data?: BillingRentalTypeProps | null;
+	currencyConfig?: CurrencyConfig;
 }
 
-export default function InvoicingXLocation({ data }: InvoicingXLocationProps) {
+export default function InvoicingXLocation({
+	data,
+	currencyConfig,
+}: InvoicingXLocationProps) {
 	const billingRentalType = data;
 	const error =
 		billingRentalType === null
@@ -32,6 +37,7 @@ export default function InvoicingXLocation({ data }: InvoicingXLocationProps) {
 		<>
 			<LineChart
 				money
+				currencyConfig={currencyConfig}
 				error={error}
 				title={'Faturamento por tipo de locação'}
 				height={400}
