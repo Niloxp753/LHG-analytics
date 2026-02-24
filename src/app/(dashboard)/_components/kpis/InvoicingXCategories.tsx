@@ -1,6 +1,7 @@
 /** @format */
 "use client";
 import dynamic from "next/dynamic";
+import { type CurrencyConfig } from "@/lib/currency-format";
 import React from "react";
 const BarCharApex = dynamic(
   () => import("@/app/(dashboard)/_components/charts/BarCharApex"),
@@ -14,9 +15,10 @@ interface RevenueBySuiteCategoryProps {
 
 interface CategoriesProps {
   data?: RevenueBySuiteCategoryProps | null;
+  currencyConfig?: CurrencyConfig;
 }
 
-export default function Categories({ data }: CategoriesProps) {
+export default function Categories({ data, currencyConfig }: CategoriesProps) {
   const revenueBySuiteCategory = data;
 
   const error =
@@ -28,6 +30,7 @@ export default function Categories({ data }: CategoriesProps) {
     <>
       <BarCharApex
         money
+        currencyConfig={currencyConfig}
         error={error}
         series={
           revenueBySuiteCategory

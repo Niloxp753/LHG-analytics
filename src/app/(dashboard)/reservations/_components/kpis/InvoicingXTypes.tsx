@@ -2,6 +2,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { type CurrencyConfig } from '@/lib/currency-format';
 import React from 'react';
 const BarCharApex = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/BarCharApex'),
@@ -12,11 +13,13 @@ interface InvoicingXTypesProps {
 	series?: number[] | null;
 	categories?: string[];
 	error?: string | boolean;
+	currencyConfig?: CurrencyConfig;
 }
 export default function InvoicingXTypes({
 	categories,
 	series,
 	error,
+	currencyConfig,
 }: InvoicingXTypesProps) {
 	const resolvedError =
 		error ?? (series === null ? 'Não foi possível carregar os dados.' : undefined);
@@ -24,6 +27,7 @@ export default function InvoicingXTypes({
 	return (
 		<BarCharApex
 			money
+			currencyConfig={currencyConfig}
 			error={resolvedError}
 			title='Faturamento por formas de pagamento'
 			tooltipLabel='category'

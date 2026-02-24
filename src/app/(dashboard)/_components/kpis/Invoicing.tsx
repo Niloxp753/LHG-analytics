@@ -1,6 +1,7 @@
 /** @format */
 'use client';
 import dynamic from 'next/dynamic';
+import { type CurrencyConfig } from '@/lib/currency-format';
 import React from 'react';
 const AreaChartsApex = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/AreaChartsApex'),
@@ -14,9 +15,10 @@ interface RevenueByDateProps {
 
 interface InvoicingProps {
 	data?: RevenueByDateProps | null;
+	currencyConfig?: CurrencyConfig;
 }
 
-export default function Invoicing({ data }: InvoicingProps) {
+export default function Invoicing({ data, currencyConfig }: InvoicingProps) {
 	const revenueByDate = data;
 	const error =
 		revenueByDate === null ? 'Não foi possível carregar os dados.' : undefined;
@@ -26,6 +28,7 @@ export default function Invoicing({ data }: InvoicingProps) {
 			<AreaChartsApex
 				id='invoicing-ipiranga'
 				money
+				currencyConfig={currencyConfig}
 				error={error}
 				series={
 					revenueByDate

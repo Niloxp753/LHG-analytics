@@ -8,6 +8,11 @@ import {
 	CardTitle,
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+	DEFAULT_BRL_CURRENCY_CONFIG,
+	formatCurrency,
+	type CurrencyConfig,
+} from '@/lib/currency-format';
 import { format } from 'date-fns';
 import { ReactNode } from 'react';
 
@@ -20,6 +25,7 @@ interface CardDetailsProps {
 	Badge?: ReactNode;
 	monthlyForecast?: number | string;
 	showForecast?: boolean;
+	currencyConfig?: CurrencyConfig;
 }
 
 export default function CardDetails({
@@ -31,9 +37,11 @@ export default function CardDetails({
 	monthlyForecast,
 	description,
 	showForecast,
+	currencyConfig,
 }: CardDetailsProps) {
 	const now = new Date();
 	const dateReference = format(now, 'MMM/yy');
+	const resolvedCurrencyConfig = currencyConfig ?? DEFAULT_BRL_CURRENCY_CONFIG;
 	return value ? (
 		<Card className='text-zinc-50 w-full border-none bg-gradient-to-br from-zinc-800 to-zinc-900 '>
 			<CardHeader>
@@ -53,10 +61,7 @@ export default function CardDetails({
 			<CardContent>
 				{type == 'money' ? (
 					<p className='flex gap-2 items-end justify-between text-2xl font-semibold tracking-tight'>
-						{value.toLocaleString('pt-BR', {
-							style: 'currency',
-							currency: 'BRL',
-						})}
+						{formatCurrency(value, resolvedCurrencyConfig)}
 						{showForecast && (
 							<span className='flex flex-col items-start gap-1 text-xs font-normal text-muted-foreground'>
 								<span className='text-xs text-muted-foreground'>
@@ -67,10 +72,10 @@ export default function CardDetails({
 								</span>{' '}
 								<span className='text-xs text-muted-foreground'>
 									{monthlyForecast !== undefined && monthlyForecast !== null
-										? monthlyForecast.toLocaleString('pt-BR', {
-												style: 'currency',
-												currency: 'BRL',
-											})
+										? formatCurrency(
+												monthlyForecast,
+												resolvedCurrencyConfig,
+											)
 										: ''}
 								</span>
 							</span>

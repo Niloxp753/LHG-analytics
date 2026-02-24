@@ -3,6 +3,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { type CurrencyConfig } from '@/lib/currency-format';
 import React from 'react';
 const AreaChartsApex = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/AreaChartsApex'),
@@ -16,9 +17,10 @@ interface TrevparByDateProps {
 
 interface TRevParProps {
 	data?: TrevparByDateProps | null;
+	currencyConfig?: CurrencyConfig;
 }
 
-export default function TRevPar({ data }: TRevParProps) {
+export default function TRevPar({ data, currencyConfig }: TRevParProps) {
 	const trevparByDate = data;
 	const error =
 		trevparByDate === null ? 'Não foi possível carregar os dados.' : undefined;
@@ -40,6 +42,7 @@ export default function TRevPar({ data }: TRevParProps) {
 				}
 				categories={trevparByDate?.categories}
 				money
+				currencyConfig={currencyConfig}
 			/>
 		</>
 	);

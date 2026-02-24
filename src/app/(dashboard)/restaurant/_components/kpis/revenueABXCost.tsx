@@ -2,6 +2,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { type CurrencyConfig } from '@/lib/currency-format';
 import React from 'react';
 const AreaChartsApex = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/AreaChartsApex'),
@@ -15,8 +16,12 @@ interface RevenueABXCostProps {
 
 interface DataProps {
 	data: RevenueABXCostProps;
+	currencyConfig?: CurrencyConfig;
 }
-export default function RevenueABXCost({ data }: DataProps) {
+export default function RevenueABXCost({
+	data,
+	currencyConfig,
+}: DataProps) {
 	return (
 		<div className='w-full'>
 			<AreaChartsApex
@@ -29,6 +34,7 @@ export default function RevenueABXCost({ data }: DataProps) {
 				]}
 				categories={data.categories}
 				money
+				currencyConfig={currencyConfig}
 			/>
 		</div>
 	);

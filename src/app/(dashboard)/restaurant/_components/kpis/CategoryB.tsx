@@ -3,6 +3,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { type CurrencyConfig } from '@/lib/currency-format';
 import React from 'react';
 const LineChart = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/LineChart'),
@@ -16,6 +17,7 @@ interface CategoryBProps {
 
 interface DataProps {
 	data: CategoryBProps;
+	currencyConfig?: CurrencyConfig;
 }
 
 interface Serie {
@@ -23,7 +25,7 @@ interface Serie {
 	data: number[];
 }
 
-export default function CategoryB({ data }: DataProps) {
+export default function CategoryB({ data, currencyConfig }: DataProps) {
 	return (
 		<div className='w-full'>
 			<LineChart
@@ -32,6 +34,7 @@ export default function CategoryB({ data }: DataProps) {
 				series={data.seriesDrink}
 				categories={data.categoriesDrink}
 				money
+				currencyConfig={currencyConfig}
 			/>
 		</div>
 	);

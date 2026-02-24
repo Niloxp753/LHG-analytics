@@ -3,6 +3,7 @@
 import { CompanyBigNumbersEntry } from '@/types/big-numbers-company';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
+import { formatCurrency, type CurrencyConfig } from '@/lib/currency-format';
 import {
 	Activity,
 	AlarmClockCheck,
@@ -18,6 +19,7 @@ import EmptyState from './EmptyState';
 interface BigNumbersProps {
 	data?: CompanyBigNumbersEntry[] | null;
 	description: string;
+	currencyConfig?: CurrencyConfig;
 }
 
 export default function BigNumbers(props: BigNumbersProps) {
@@ -60,16 +62,17 @@ export default function BigNumbers(props: BigNumbersProps) {
 				description={
 					previous
 						? props.description +
-							previous.totalAllValuePreviousData.toLocaleString('pt-BR', {
-								style: 'currency',
-								currency: 'brl',
-							})
+							formatCurrency(
+								previous.totalAllValuePreviousData,
+								props.currencyConfig,
+							)
 						: ''
 				}
 				monthlyForecast={forecast?.totalAllValueForecast}
 				icon={<HandCoins />}
 				title={'Faturamento'}
 				value={entry.currentDate.totalAllValue}
+				currencyConfig={props.currencyConfig}
 				Badge={
 					previous && (
 						<GenerateBadge
@@ -108,12 +111,9 @@ export default function BigNumbers(props: BigNumbersProps) {
 				description={
 					previous
 						? props.description +
-							previous.totalAllTicketAveragePreviousData.toLocaleString(
-								'pt-BR',
-								{
-									style: 'currency',
-									currency: 'brl',
-								},
+							formatCurrency(
+								previous.totalAllTicketAveragePreviousData,
+								props.currencyConfig,
 							)
 						: ''
 				}
@@ -121,6 +121,7 @@ export default function BigNumbers(props: BigNumbersProps) {
 				icon={<SquarePercent />}
 				title={'Ticket Médio'}
 				value={entry.currentDate.totalAllTicketAverage}
+				currencyConfig={props.currencyConfig}
 				Badge={
 					previous && (
 						<GenerateBadge
@@ -136,16 +137,17 @@ export default function BigNumbers(props: BigNumbersProps) {
 				description={
 					previous
 						? props.description +
-							previous.totalAllTrevparPreviousData.toLocaleString('pt-BR', {
-								style: 'currency',
-								currency: 'brl',
-							})
+							formatCurrency(
+								previous.totalAllTrevparPreviousData,
+								props.currencyConfig,
+							)
 						: ''
 				}
 				monthlyForecast={forecast?.totalAllTrevparForecast}
 				icon={<Activity />}
 				title={'Trevpar'}
 				value={entry.currentDate.totalAllTrevpar}
+				currencyConfig={props.currencyConfig}
 				Badge={
 					previous && (
 						<GenerateBadge

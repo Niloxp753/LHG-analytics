@@ -8,6 +8,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
+import { formatCurrency, type CurrencyConfig } from '@/lib/currency-format';
 import { TrendingUp } from 'lucide-react';
 
 type SellingItems = {
@@ -19,9 +20,10 @@ type SellingItems = {
 
 interface DataProps {
 	data: SellingItems[];
+	currencyConfig?: CurrencyConfig;
 }
 
-export function BestSellingDrinks({ data }: DataProps) {
+export function BestSellingDrinks({ data, currencyConfig }: DataProps) {
 	return (
 		<div className='mt-5'>
 			<h2 className='text-zinc-50 text-lg font-semibold'>
@@ -50,10 +52,7 @@ export function BestSellingDrinks({ data }: DataProps) {
 							{invoice.name}
 						</TableCell>
 						<TableCell>
-							{invoice.totalRevenue.toLocaleString('pt-br', {
-								style: 'currency',
-								currency: 'brl',
-							})}
+							{formatCurrency(invoice.totalRevenue, currencyConfig)}
 						</TableCell>
 						<TableCell>{invoice.totalSales}</TableCell>
 						<TableCell>{invoice.totalRepresentation}%</TableCell>

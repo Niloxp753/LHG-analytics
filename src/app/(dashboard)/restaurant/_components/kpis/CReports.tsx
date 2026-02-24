@@ -8,6 +8,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
+import { formatCurrency, type CurrencyConfig } from '@/lib/currency-format';
 
 interface ReportEntry {
 	name: string;
@@ -17,7 +18,12 @@ interface ReportEntry {
 	quantityPercent: number | string;
 }
 
-export function CReports({ data }: { data: ReportEntry[] }) {
+interface CReportsProps {
+	data: ReportEntry[];
+	currencyConfig?: CurrencyConfig;
+}
+
+export function CReports({ data, currencyConfig }: CReportsProps) {
 	return (
 		<div className='mt-5 w-full'>
 			<h2 className='text-zinc-50 text-lg font-semibold'>
@@ -44,10 +50,7 @@ export function CReports({ data }: { data: ReportEntry[] }) {
 								{invoice.name}
 							</TableCell>
 							<TableCell>
-								{invoice.revenue.toLocaleString('pt-br', {
-									style: 'currency',
-									currency: 'brl',
-								})}
+								{formatCurrency(invoice.revenue, currencyConfig)}
 							</TableCell>
 							<TableCell>{invoice.revenuePercent}</TableCell>
 							<TableCell>{invoice.quantity}</TableCell>

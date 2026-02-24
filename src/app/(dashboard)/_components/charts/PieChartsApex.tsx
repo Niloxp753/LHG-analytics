@@ -7,6 +7,11 @@ import ResponsiveContainerChart from '@/app/(dashboard)/_components/ResponsiveCo
 import DataState from '@/app/(dashboard)/_components/DataState';
 import EmptyState from '@/app/(dashboard)/_components/EmptyState';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+	DEFAULT_BRL_CURRENCY_CONFIG,
+	formatCurrency,
+	type CurrencyConfig,
+} from '@/lib/currency-format';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -27,6 +32,7 @@ interface PieChartsApexProps {
 	percent?: boolean;
 	categories?: string[];
 	error?: string | boolean;
+	currencyConfig?: CurrencyConfig;
 }
 
 export default function PieChartsApex(props: PieChartsApexProps) {
@@ -41,6 +47,8 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 		props.error ??
 		(props.series === null ? 'Não foi possível carregar os dados.' : undefined);
 	const emptyTitle = props.title ? props.title : 'Faturamento por unidade';
+	const resolvedCurrencyConfig =
+		props.currencyConfig ?? DEFAULT_BRL_CURRENCY_CONFIG;
 
 	const options: ApexCharts.ApexOptions = {
 		chart: {
@@ -109,10 +117,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 				formatter: (val: number | string) =>
 					`${
 						props.money
-							? val.toLocaleString('pt-BR', {
-									style: 'currency',
-									currency: 'BRL',
-								})
+							? formatCurrency(val, resolvedCurrencyConfig)
 							: props.percent
 								? val + '%'
 								: (val ?? 10)
@@ -132,10 +137,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 							formatter: (val: number | string) =>
 								`${
 									props.money
-										? val.toLocaleString('pt-BR', {
-												style: 'currency',
-												currency: 'BRL',
-											})
+										? formatCurrency(val, resolvedCurrencyConfig)
 										: props.percent
 											? val + '%'
 											: (val ?? 10)
@@ -155,10 +157,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 								);
 								return `${
 									props.money
-										? data.toLocaleString('pt-BR', {
-												style: 'currency',
-												currency: 'BRL',
-											})
+										? formatCurrency(data, resolvedCurrencyConfig)
 										: props.percent
 											? data + '%'
 											: data.toLocaleString('pt-br')

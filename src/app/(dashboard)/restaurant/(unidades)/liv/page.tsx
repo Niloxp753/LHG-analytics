@@ -7,6 +7,7 @@ import {
 	formatDateInput,
 	getRangeDescription,
 } from '@/lib/date-range';
+import { LIV_USD_CURRENCY_CONFIG } from '@/lib/currency-format';
 import BigNumbers from '../../_components/kpi-unidade/big-numbers';
 import { AReports } from '../../_components/kpis/AReports';
 import { BReports } from '../../_components/kpis/BReports';
@@ -110,40 +111,77 @@ export default async function Page({
 					<BigNumbers
 						data={resp?.BigNumbers[0]}
 						description={rangeDescription}
+						currencyConfig={LIV_USD_CURRENCY_CONFIG}
 					/>
 					<div className='flex w-full gap-5 h-full'>
-						<RevenueABXCost data={revenueAbByPeriod} />
+						<RevenueABXCost
+							data={revenueAbByPeriod}
+							currencyConfig={LIV_USD_CURRENCY_CONFIG}
+						/>
 					</div>
 
 					<div className='gap-5 h-fit w-full flex justify-between flex-col'>
 						<RevenuePercent data={revenueAbByPeriodPercent} />
-						<TKTXLocation data={ticketAverageByPeriod} />
+						<TKTXLocation
+							data={ticketAverageByPeriod}
+							currencyConfig={LIV_USD_CURRENCY_CONFIG}
+						/>
 					</div>
 					<div className='flex flex-col md:flex-row items-center justify-between gap-5 h-full w-full'>
 						<div className='md:w-1/2 h-full'>
-							<MostSell data={bestSellingFood} />
+							<MostSell
+								data={bestSellingFood}
+								currencyConfig={LIV_USD_CURRENCY_CONFIG}
+							/>
 						</div>
 						<div className='md:w-1/2 h-full'>
-							<MinusSell data={leastSellingFood} />
+							<MinusSell
+								data={leastSellingFood}
+								currencyConfig={LIV_USD_CURRENCY_CONFIG}
+							/>
 						</div>
 					</div>
 					<div className='flex flex-col gap-5 mb-5'>
 						<div className='flex flex-col md:flex-row items-start justify-between gap-5 w-full'>
 							<div className='md:w-1/2 w-full'>
-								<BestSellingDrinks data={bestSellingDrinks} />
+								<BestSellingDrinks
+									data={bestSellingDrinks}
+									currencyConfig={LIV_USD_CURRENCY_CONFIG}
+								/>
 							</div>
 							<div className='md:w-1/2 w-full'>
-								<LeastSellingDrinks data={leastSellingDrinks} />
+								<LeastSellingDrinks
+									data={leastSellingDrinks}
+									currencyConfig={LIV_USD_CURRENCY_CONFIG}
+								/>
 							</div>
 						</div>
-						<RevenueXGroup data={revenueByGroupPeriod} />
-						<CategoryA data={revenueFoodByPeriod} />
-						<CategoryB data={revenueDrinksByPeriod} />
+						<RevenueXGroup
+							data={revenueByGroupPeriod}
+							currencyConfig={LIV_USD_CURRENCY_CONFIG}
+						/>
+						<CategoryA
+							data={revenueFoodByPeriod}
+							currencyConfig={LIV_USD_CURRENCY_CONFIG}
+						/>
+						<CategoryB
+							data={revenueDrinksByPeriod}
+							currencyConfig={LIV_USD_CURRENCY_CONFIG}
+						/>
 						<div className='flex items-start gap-5 flex-col'>
-							<BReports data={reportByDrinks} />
-							<CReports data={reportByOthers} />
+							<BReports
+								data={reportByDrinks}
+								currencyConfig={LIV_USD_CURRENCY_CONFIG}
+							/>
+							<CReports
+								data={reportByOthers}
+								currencyConfig={LIV_USD_CURRENCY_CONFIG}
+							/>
 						</div>
-						<AReports data={reportByFood} />
+						<AReports
+							data={reportByFood}
+							currencyConfig={LIV_USD_CURRENCY_CONFIG}
+						/>
 					</div>
 				</div>
 			</div>

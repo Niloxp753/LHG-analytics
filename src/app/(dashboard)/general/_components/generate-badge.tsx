@@ -4,6 +4,22 @@ import { Badge } from '@/components/ui/badge';
 import { NormalizeTimeToSec } from '@/utils/normalize-bignumbers-general';
 import { TrendingDown, TrendingUp } from 'lucide-react';
 
+function getSafePercentChange(
+	currentValue: number | string,
+	previousValue: number | string,
+) {
+	const current = Number(currentValue);
+	const previous = Number(previousValue);
+
+	if (!Number.isFinite(current) || !Number.isFinite(previous) || previous === 0) {
+		return 0;
+	}
+
+	const result = ((current - previous) / previous) * 100;
+
+	return Number.isFinite(result) ? result : 0;
+}
+
 export default function GenerateBadge({
 	val,
 	previousVal,
@@ -19,10 +35,7 @@ export default function GenerateBadge({
 			valueB: String(previousVal),
 		});
 
-		const resp =
-			((Number(totalSegundosA) - Number(totalSegundosB)) /
-				Number(totalSegundosB)) *
-			100;
+		const resp = getSafePercentChange(totalSegundosA, totalSegundosB);
 
 		if (resp > 0) {
 			return (
@@ -47,8 +60,7 @@ export default function GenerateBadge({
 		}
 	}
 
-	const resp =
-		((Number(val) - Number(previousVal)) / Number(previousVal)) * 100;
+	const resp = getSafePercentChange(val, previousVal);
 
 	// if (val == 0 || previousVal == 0) {
 	// 	return null;
