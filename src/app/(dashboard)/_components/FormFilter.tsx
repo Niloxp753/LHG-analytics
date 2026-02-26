@@ -105,7 +105,6 @@ export default function FormFilter({
 										</FormControl>
 									</PopoverTrigger>
 									<PopoverContent
-										forceMount
 										portalled={popoverPortalled}
 										className='w-auto p-0 dark z-[70]'
 										align='start'>
