@@ -49,7 +49,7 @@ export default function FormFilter({
 		const formattedStartDate = formatDateInput(startDate);
 		const formattedEndDate = formatDateInput(endDate);
 		if (!formattedStartDate || !formattedEndDate) {
-			toast.error('Datas invalidas');
+			toast.error('Datas inválidas');
 			return;
 		}
 		startTransition(() => {
