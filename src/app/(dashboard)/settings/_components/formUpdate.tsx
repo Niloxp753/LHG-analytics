@@ -88,8 +88,8 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 
 			await updateUserAction(payload);
 			form.reset();
-			toast.success('Usu?rio Atualizado - 200', {
-				description: `${name} - Usu?rio atualizado no banco de dados`,
+			toast.success('Usuário Atualizado - 200', {
+				description: `${name} - Usuário atualizado no banco de dados`,
 			});
 		} catch (error) {
 			console.error(error);
@@ -120,7 +120,7 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 								<Input
 									id='name'
 									{...field}
-									placeholder='Nome do usu?rio'
+									placeholder='Nome do usuário'
 									className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
 								/>
 							</FormControl>
@@ -143,7 +143,7 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 									id='email'
 									type='email'
 									{...field}
-									placeholder='E-mail do usu?rio'
+									placeholder='E-mail do usuário'
 									className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
 								/>
 							</FormControl>
@@ -169,7 +169,7 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 									onChange={(event) =>
 										field.onChange(normalizeCpf(event.target.value))
 									}
-									placeholder='CPF do usu?rio'
+									placeholder='CPF do usuário'
 									className='bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 border border-zinc-600'
 								/>
 							</FormControl>
