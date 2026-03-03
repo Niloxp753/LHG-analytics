@@ -54,9 +54,10 @@ export async function loginWithCookies(input: {
 export async function logoutWithCookies(): Promise<
 	AuthApiResult<JsonValue | string>
 > {
-	const resp = await fetch(`${baseUrl}/api/logout`, {
+	const resp = await fetch('/api/logout', {
 		method: 'POST',
 		credentials: 'include',
+		cache: 'no-store',
 	});
 
 	const payload = await readBody(resp);

@@ -6,6 +6,8 @@ import {
 	Sheet,
 	SheetClose,
 	SheetContent,
+	SheetHeader,
+	SheetTitle,
 	SheetTrigger,
 } from '@/components/ui/sheet';
 import { useSessionStore } from '@/stores/session-store';
@@ -89,7 +91,7 @@ export default function MenuMobile() {
 			),
 		},
 		{
-			label: 'Vis?o Geral',
+			label: 'Visão Geral',
 			href: companyHref ?? '#',
 			slug: '/general',
 			disabled: !canAccessCompany || !companyHref,
@@ -141,7 +143,7 @@ export default function MenuMobile() {
 			),
 		},
 		{
-			label: 'Avalia??es',
+			label: 'Avaliações',
 			slug: '/nps',
 			href: `/nps?menu=nps&set=${preSet}`,
 			disabled: true,
@@ -172,6 +174,9 @@ export default function MenuMobile() {
 				onClick={(e) => e.stopPropagation()}
 				side={'left'}
 				className='dark w-full h-full z-[51]'>
+				<SheetHeader className='sr-only'>
+					<SheetTitle>Menu de navegação</SheetTitle>
+				</SheetHeader>
 				<div
 					onClick={(e) => e.stopPropagation()}
 					className='mt-20 flex flex-col gap-5'>
