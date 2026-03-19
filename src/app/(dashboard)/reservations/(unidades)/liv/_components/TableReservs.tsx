@@ -60,6 +60,14 @@ interface TableReservsProps {
   currencyConfig?: CurrencyConfig;
 }
 
+function formatPercent(value: unknown): string {
+  const numeric = typeof value === "number" ? value : Number(value);
+  if (!Number.isFinite(numeric)) {
+    return "0.00%";
+  }
+  return `${numeric.toFixed(2)}%`;
+}
+
 export function TableReservs({ data, currencyConfig }: TableReservsProps) {
   if (typeof data === "undefined") {
     return (
@@ -218,34 +226,38 @@ export function TableReservs({ data, currencyConfig }: TableReservsProps) {
               Representatividade
             </TableCell>
             <TableCell>
-              {dataTable.bookingsRepresentativenessByChannelType.TOTALALLREPRESENTATIVENESS.toFixed(
-                2,
-              ) + "%"}
+              {formatPercent(
+                dataTable.bookingsRepresentativenessByChannelType
+                  ?.TOTALALLREPRESENTATIVENESS,
+              )}
             </TableCell>
             <TableCell>
-              {dataTable.bookingsRepresentativenessByChannelType.WEBSITE_IMMEDIATE.toFixed(
-                2,
-              ) + "%"}
+              {formatPercent(
+                dataTable.bookingsRepresentativenessByChannelType
+                  ?.WEBSITE_IMMEDIATE,
+              )}
             </TableCell>
             <TableCell>
-              {dataTable.bookingsRepresentativenessByChannelType.WEBSITE_SCHEDULED.toFixed(
-                2,
-              ) + "%"}
+              {formatPercent(
+                dataTable.bookingsRepresentativenessByChannelType
+                  ?.WEBSITE_SCHEDULED,
+              )}
             </TableCell>
             <TableCell>
-              {dataTable.bookingsRepresentativenessByChannelType.GUIA_GO.toFixed(
-                2,
-              ) + "%"}
+              {formatPercent(
+                dataTable.bookingsRepresentativenessByChannelType?.GUIA_GO,
+              )}
             </TableCell>
             <TableCell>
-              {dataTable.bookingsRepresentativenessByChannelType.GUIA_SCHEDULED.toFixed(
-                2,
-              ) + "%"}
+              {formatPercent(
+                dataTable.bookingsRepresentativenessByChannelType
+                  ?.GUIA_SCHEDULED,
+              )}
             </TableCell>
             <TableCell>
-              {dataTable.bookingsRepresentativenessByChannelType.INTERNAL.toFixed(
-                2,
-              ) + "%"}
+              {formatPercent(
+                dataTable.bookingsRepresentativenessByChannelType?.INTERNAL,
+              )}
             </TableCell>
           </TableRow>
         </TableBody>
