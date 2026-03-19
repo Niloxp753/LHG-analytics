@@ -32,6 +32,12 @@ export default function FormFilter({
 }: {
 	popoverPortalled?: boolean;
 }) {
+	const formInstancePrefix = popoverPortalled ? 'header' : 'mobile';
+	const startDateFieldId = `${formInstancePrefix}-start-date`;
+	const endDateFieldId = `${formInstancePrefix}-end-date`;
+	const startDatePopoverId = `${formInstancePrefix}-start-date-popover`;
+	const endDatePopoverId = `${formInstancePrefix}-end-date-popover`;
+
 	const form = useForm<z.infer<typeof formSchemaFilter>>({
 		resolver: zodResolver(formSchemaFilter),
 		mode: 'onChange',
@@ -75,12 +81,15 @@ export default function FormFilter({
 						control={form.control}
 						name='startDate'
 						render={({ field }) => (
-							<FormItem className='flex items-baseline justify-between flex-col md:w-fit w-full'>
+							<FormItem
+								id={startDateFieldId}
+								className='flex items-baseline justify-between flex-col md:w-fit w-full'>
 								<FormLabel className='text-zinc-100 font-bold'>
 									Data Inicial
 								</FormLabel>
 								<Popover>
 									<PopoverTrigger
+										aria-controls={startDatePopoverId}
 										onClick={(e) => e.stopPropagation()}
 										disabled={
 											form.formState.isLoading || form.formState.isSubmitting
@@ -105,6 +114,7 @@ export default function FormFilter({
 										</FormControl>
 									</PopoverTrigger>
 									<PopoverContent
+										id={startDatePopoverId}
 										portalled={popoverPortalled}
 										className='w-auto p-0 dark z-[70]'
 										align='start'>
@@ -126,12 +136,15 @@ export default function FormFilter({
 						control={form.control}
 						name='endDate'
 						render={({ field }) => (
-							<FormItem className='flex items-baseline justify-between flex-col md:w-fit w-full'>
+							<FormItem
+								id={endDateFieldId}
+								className='flex items-baseline justify-between flex-col md:w-fit w-full'>
 								<FormLabel className='text-zinc-100 font-bold'>
 									Data Final
 								</FormLabel>
 								<Popover>
 									<PopoverTrigger
+										aria-controls={endDatePopoverId}
 										disabled={
 											form.formState.isLoading || form.formState.isSubmitting
 										}
@@ -154,6 +167,7 @@ export default function FormFilter({
 										</FormControl>
 									</PopoverTrigger>
 									<PopoverContent
+										id={endDatePopoverId}
 										portalled={popoverPortalled}
 										className='w-full md:w-auto p-0 dark z-[70]'
 										align='start'>

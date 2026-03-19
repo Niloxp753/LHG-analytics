@@ -79,25 +79,27 @@ async function getAuthUser(request: NextRequest): Promise<{
 	const refreshToken = request.cookies.get('refresh_token')?.value;
 	const cookieHeader = buildCookieHeader(accessToken, refreshToken);
 
-	if (!accessToken || !authUrl || !cookieHeader) {
+	if (!authUrl || !cookieHeader) {
 		return { user: null, setCookies: [] };
 	}
 
 	try {
-		const meResp = await fetch(`${authUrl}/api/me`, {
-			method: 'GET',
-			headers: {
-				accept: 'application/json',
-				cookie: cookieHeader,
-			},
-			cache: 'no-store',
-		});
+		if (accessToken) {
+			const meResp = await fetch(`${authUrl}/api/me`, {
+				method: 'GET',
+				headers: {
+					accept: 'application/json',
+					cookie: cookieHeader,
+				},
+				cache: 'no-store',
+			});
 
-		if (meResp.ok) {
-			const data = await meResp.json().catch(() => null);
-			const user = extractUser(data);
-			if (user) {
-				return { user, setCookies: [] };
+			if (meResp.ok) {
+				const data = await meResp.json().catch(() => null);
+				const user = extractUser(data);
+				if (user) {
+					return { user, setCookies: [] };
+				}
 			}
 		}
 
