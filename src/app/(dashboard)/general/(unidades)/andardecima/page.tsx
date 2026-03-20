@@ -25,8 +25,6 @@ import {
 import { TableKpiRevpar } from "@/app/(dashboard)/_components/kpis/TableKpiRevpar";
 import GiroByDate from "@/app/(dashboard)/_components/kpis/GiroByDate";
 
-export const revalidate = 0;
-
 export default async function LushIpiranga({
   searchParams,
 }: {
