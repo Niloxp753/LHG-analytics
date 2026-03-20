@@ -2,7 +2,8 @@
 
 import { buildAuthCookieHeader } from '@/lib/auth-headers';
 import { api, api_andar_de_cima, api_lapa, api_tout } from '../api-client';
-import { FetchFailedError, withConditionalCache } from '../conditional-cache';
+import { FetchFailedError } from '../conditional-cache';
+import { applyPrivateDashboardCache } from '../cache-profiles';
 import { logFetchFailed, logRequestTimeout } from '../logging';
 import { isRetryableError, isRetryableStatus } from '../retry';
 
@@ -21,7 +22,6 @@ async function fetchRestaurantData(
 				headers: authHeaders,
 				signal: controller.signal,
 				throwHttpErrors: false,
-				cache: 'no-store',
 			});
 
 			if (resp.ok || !isRetryableStatus(resp.status) || attempt === 1) {
@@ -36,86 +36,86 @@ async function fetchRestaurantData(
 	return resp;
 }
 
+async function getRestaurantsCustomCached(
+	startDate: string,
+	endDate: string,
+	company: string | undefined,
+	cookieHeader: string | null,
+) {
+	'use cache: private';
+
+	applyPrivateDashboardCache(['restaurant'], 'dashboard');
+
+	const controller = new AbortController();
+	const timeout = setTimeout(() => controller.abort(), 30000);
+	const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
+
+	try {
+		const companyKey = company ?? 'ipiranga';
+		let resp: Response | null = null;
+		switch (companyKey) {
+			case 'lapa':
+				resp = await fetchRestaurantData(
+					api_lapa,
+					startDate,
+					endDate,
+					authHeaders,
+					controller,
+				);
+				break;
+			case 'tout':
+				resp = await fetchRestaurantData(
+					api_tout,
+					startDate,
+					endDate,
+					authHeaders,
+					controller,
+				);
+				break;
+			case 'andar_de_cima':
+				resp = await fetchRestaurantData(
+					api_andar_de_cima,
+					startDate,
+					endDate,
+					authHeaders,
+					controller,
+				);
+				break;
+			default:
+				resp = await fetchRestaurantData(
+					api,
+					startDate,
+					endDate,
+					authHeaders,
+					controller,
+				);
+				break;
+		}
+
+		if (!resp || !resp.ok) {
+			throw new FetchFailedError(
+				`getRestaurantsCustom (${companyKey})`,
+				resp?.status,
+				resp?.statusText,
+			);
+		}
+
+		return resp.json();
+	} finally {
+		clearTimeout(timeout);
+	}
+}
+
 export async function getRestaurantsCustom(
 	startDate: string,
 	endDate: string,
 	company?: string,
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
-	const controller = new AbortController();
-	const timeout = setTimeout(() => controller.abort(), 30000);
 	const cookieHeader = await buildAuthCookieHeader();
-	const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
 
 	try {
-		const companyKey = company ?? 'ipiranga';
-		const tags =
-			companyKey === 'lapa'
-				? ['restaurant_lapa']
-				: companyKey === 'tout'
-					? ['restaurant_tout']
-					: companyKey === 'andar_de_cima'
-						? ['restaurant_andar_de_cima']
-						: ['restaurant_ipiranga'];
-
-		return await withConditionalCache(
-			{
-				keyParts: ['restaurant', 'custom', companyKey, startDate, endDate],
-				tags,
-				revalidate: 30,
-			},
-			async () => {
-				let resp: Response | null = null;
-				switch (companyKey) {
-					case 'lapa':
-						resp = await fetchRestaurantData(
-							api_lapa,
-							startDate,
-							endDate,
-							authHeaders,
-							controller,
-						);
-						break;
-					case 'tout':
-						resp = await fetchRestaurantData(
-							api_tout,
-							startDate,
-							endDate,
-							authHeaders,
-							controller,
-						);
-						break;
-					case 'andar_de_cima':
-						resp = await fetchRestaurantData(
-							api_andar_de_cima,
-							startDate,
-							endDate,
-							authHeaders,
-							controller,
-						);
-						break;
-					default:
-						resp = await fetchRestaurantData(
-							api,
-							startDate,
-							endDate,
-							authHeaders,
-							controller,
-						);
-						break;
-				}
-
-				if (!resp || !resp.ok) {
-					throw new FetchFailedError(
-						`getRestaurantsCustom (${companyKey})`,
-						resp?.status,
-						resp?.statusText,
-					);
-				}
-
-				return resp.json();
-			},
-		);
+		return await getRestaurantsCustomCached(startDate, endDate, company, cookieHeader);
 	} catch (error) {
 		if (error instanceof FetchFailedError) {
 			logFetchFailed(error);
@@ -127,7 +127,5 @@ export async function getRestaurantsCustom(
 		}
 		console.error('getRestaurantsCustom: erro inesperado', error);
 		return null;
-	} finally {
-		clearTimeout(timeout); // Limpa o timeout
 	}
 }

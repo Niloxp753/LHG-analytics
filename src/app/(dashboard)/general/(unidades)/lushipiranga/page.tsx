@@ -25,8 +25,6 @@ import {
   getRangeDescription,
 } from "@/lib/date-range";
 
-export const revalidate = 0;
-
 export default async function LushIpiranga({
   searchParams,
 }: {
