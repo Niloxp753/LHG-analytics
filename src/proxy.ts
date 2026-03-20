@@ -71,7 +71,10 @@ function applySetCookies(response: NextResponse, cookies: string[]) {
 	});
 }
 
-async function getAuthUser(request: NextRequest): Promise<{
+async function getAuthUser(
+	request: NextRequest,
+	options: { allowRefresh: boolean },
+): Promise<{
 	user: AuthUser | null;
 	setCookies: string[];
 }> {
@@ -101,6 +104,10 @@ async function getAuthUser(request: NextRequest): Promise<{
 					return { user, setCookies: [] };
 				}
 			}
+		}
+
+		if (!options.allowRefresh) {
+			return { user: null, setCookies: [] };
 		}
 
 		const refreshResp = await fetch(`${authUrl}/api/refresh`, {
@@ -172,7 +179,10 @@ export async function proxy(request: NextRequest) {
 	const pathname = request.nextUrl.pathname;
 	const segments = pathname.split('/').filter(Boolean);
 
-	const auth = await getAuthUser(request);
+	const shouldAllowRefresh = pathname !== '/login';
+	const auth = await getAuthUser(request, {
+		allowRefresh: shouldAllowRefresh,
+	});
 
 	if (pathname === '/login') {
 		if (!auth.user) {
