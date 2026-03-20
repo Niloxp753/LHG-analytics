@@ -33,29 +33,128 @@ function getSetCookies(headers: Headers): string[] {
   return combined ? [combined] : [];
 }
 
-function expireAuthCookies(response: NextResponse) {
-  response.cookies.set({
-    name: "access_token",
-    value: "",
-    maxAge: 0,
-    path: "/",
-  });
-  response.cookies.set({
-    name: "refresh_token",
-    value: "",
-    maxAge: 0,
-    path: "/",
-  });
+function isLocalHost(hostname: string): boolean {
+  const normalized = hostname.trim().toLowerCase();
+  return normalized === "localhost" || normalized === "127.0.0.1";
+}
+
+function isLikelyIpAddress(hostname: string): boolean {
+  return /^\d{1,3}(\.\d{1,3}){3}$/.test(hostname);
+}
+
+function resolveRegistrableDomain(hostname: string): string | null {
+  const labels = hostname
+    .trim()
+    .toLowerCase()
+    .split(".")
+    .filter(Boolean);
+
+  if (labels.length < 2) {
+    return null;
+  }
+
+  const tld = labels[labels.length - 1];
+  const secondLevel = labels[labels.length - 2];
+  const usesSecondLevelTld =
+    tld.length === 2 &&
+    ["com", "net", "org", "gov", "edu", "co"].includes(secondLevel);
+
+  if (usesSecondLevelTld) {
+    if (labels.length >= 3) {
+      return labels.slice(-3).join(".");
+    }
+    return labels.join(".");
+  }
+
+  return labels.slice(-2).join(".");
+}
+
+function getCandidateCookieDomains(request: NextRequest): string[] {
+  const domains = new Set<string>();
+
+  const addDomainCandidates = (rawHostname?: string | null) => {
+    if (!rawHostname) {
+      return;
+    }
+    const hostname = rawHostname.trim().toLowerCase();
+    if (!hostname || isLocalHost(hostname) || isLikelyIpAddress(hostname)) {
+      return;
+    }
+
+    domains.add(hostname);
+    const registrable = resolveRegistrableDomain(hostname);
+    if (registrable) {
+      domains.add(registrable);
+    }
+  };
+
+  addDomainCandidates(request.nextUrl.hostname);
+
+  const explicitAuthApi = process.env.BACKEND_AUTH_ENDPOINT?.trim();
+  const publicAuthUrl = process.env.NEXT_PUBLIC_AUTH_URL?.trim();
+
+  for (const rawUrl of [explicitAuthApi, publicAuthUrl]) {
+    if (!rawUrl) {
+      continue;
+    }
+    try {
+      addDomainCandidates(new URL(rawUrl).hostname);
+    } catch {
+      // Ignore invalid URL values and keep best-effort cookie cleanup.
+    }
+  }
+
+  return Array.from(domains);
+}
+
+function expireAuthCookies(response: NextResponse, request: NextRequest) {
+  const secure = request.nextUrl.protocol === "https:";
+  const domainCandidates = getCandidateCookieDomains(request);
+
+  const appendExpiredCookie = (
+    name: "access_token" | "refresh_token",
+    domain?: string,
+  ) => {
+    const parts = [
+      `${name}=`,
+      "Path=/",
+      "Max-Age=0",
+      "Expires=Thu, 01 Jan 1970 00:00:00 GMT",
+      "HttpOnly",
+      "SameSite=Lax",
+    ];
+    if (secure) {
+      parts.push("Secure");
+    }
+    if (domain) {
+      parts.push(`Domain=${domain}`);
+    }
+    response.headers.append("set-cookie", parts.join("; "));
+  };
+
+  appendExpiredCookie("access_token");
+  appendExpiredCookie("refresh_token");
+
+  for (const domain of domainCandidates) {
+    appendExpiredCookie("access_token", domain);
+    appendExpiredCookie("refresh_token", domain);
+  }
+}
+
+function normalizeAuthApiBase(rawBaseUrl: string): string {
+  const normalized = rawBaseUrl.replace(/\/+$/, "");
+  return normalized.endsWith("/api") ? normalized : `${normalized}/api`;
 }
 
 function resolveUpstreamLogoutUrl(request: NextRequest): string | null {
   const explicitAuthApi = process.env.BACKEND_AUTH_ENDPOINT?.trim();
   const publicAuthUrl = process.env.NEXT_PUBLIC_AUTH_URL?.trim();
 
-  let baseApi = explicitAuthApi;
-  if (!baseApi && publicAuthUrl) {
-    const normalizedPublicAuth = publicAuthUrl.replace(/\/+$/, "");
-    baseApi = `${normalizedPublicAuth}/api`;
+  let baseApi: string | undefined;
+  if (explicitAuthApi) {
+    baseApi = normalizeAuthApiBase(explicitAuthApi);
+  } else if (publicAuthUrl) {
+    baseApi = normalizeAuthApiBase(publicAuthUrl);
   }
 
   try {
@@ -136,11 +235,12 @@ export async function POST(request: NextRequest) {
   }
 
   const response = NextResponse.json(body);
+  response.headers.set("cache-control", "no-store, no-cache, private, max-age=0");
 
   for (const setCookie of upstreamSetCookies) {
     response.headers.append("set-cookie", setCookie);
   }
 
-  expireAuthCookies(response);
+  expireAuthCookies(response, request);
   return response;
 }
