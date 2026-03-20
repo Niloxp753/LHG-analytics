@@ -130,7 +130,8 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 			formatter: (val: number, opts) => {
 				if (showTotalLabels && stacked) {
 					const totals = opts?.w?.globals?.stackedSeriesTotals;
-					const total = totals?.[opts.dataPointIndex];
+					const dataPointIndex = opts?.dataPointIndex ?? 0;
+					const total = totals?.[dataPointIndex];
 					return formatCompactValue(Number(total ?? val));
 				}
 

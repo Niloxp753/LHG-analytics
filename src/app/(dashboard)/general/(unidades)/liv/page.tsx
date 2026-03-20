@@ -25,8 +25,6 @@ import {
 import GiroByDate from "@/app/(dashboard)/_components/kpis/GiroByDate";
 import { LIV_USD_CURRENCY_CONFIG } from "@/lib/currency-format";
 
-export const revalidate = 0;
-
 export default async function Page({
   searchParams,
 }: {

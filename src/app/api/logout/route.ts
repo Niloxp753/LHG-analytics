@@ -4,8 +4,6 @@ import { AUTH_CACHE_TAGS } from "@/lib/cache-tags";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = "force-dynamic";
-
 const AUTH_PATHS_TO_REVALIDATE = [
   "/settings",
   "/general",

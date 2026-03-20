@@ -3,39 +3,34 @@
 import { buildAuthCookieHeader } from '@/lib/auth-headers';
 import { auth_api } from '../api-client';
 import { User } from '@/types/user';
-import { FetchFailedError, withConditionalCache } from '../conditional-cache';
+import { FetchFailedError } from '../conditional-cache';
+import { applyPrivateDashboardCache } from '../cache-profiles';
 import { logFetchFailed, logRequestTimeout } from '../logging';
+
+async function getAllUsersCached(cookieHeader: string | null): Promise<User[]> {
+	'use cache: private';
+
+	applyPrivateDashboardCache(['users'], 'dashboard_fast');
+
+	const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
+	const resp = await auth_api.get('users', {
+		headers: authHeaders,
+		timeout: 60000,
+		retry: 3,
+		throwHttpErrors: false,
+	});
+
+	if (!resp.ok) {
+		throw new FetchFailedError('getAllUsers', resp.status, resp.statusText);
+	}
+
+	return (await resp.json()) as User[];
+}
 
 export async function getAllUsers(): Promise<User[] | null> {
 	const cookieHeader = await buildAuthCookieHeader();
-	const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
 	try {
-		return await withConditionalCache(
-			{
-				keyParts: ['users', 'all'],
-				tags: ['users'],
-				revalidate: 30,
-			},
-			async () => {
-				const resp = await auth_api.get('users', {
-					headers: authHeaders,
-					timeout: 60000,
-					retry: 3,
-					throwHttpErrors: false,
-					cache: 'no-store',
-				});
-
-				if (!resp.ok) {
-					throw new FetchFailedError(
-						'getAllUsers',
-						resp.status,
-						resp.statusText,
-					);
-				}
-
-				return resp.json();
-			},
-		);
+		return await getAllUsersCached(cookieHeader);
 	} catch (error) {
 		if (error instanceof FetchFailedError) {
 			logFetchFailed(error);
