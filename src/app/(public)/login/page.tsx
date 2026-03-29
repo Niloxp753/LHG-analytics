@@ -5,6 +5,7 @@ import logo from '@/assets/images/logo-analytics.png';
 import logoLush from '@/assets/images/logo-lush.png';
 import logoTout from '@/assets/images/logo_tout.png';
 import logoAC from '@/assets/images/logo_andar_de_cima.png';
+import logoAltana from '@/assets/images/logo_altana.webp';
 import { LogoImage } from '@/components/ui/logo-image';
 import { Card } from '@/components/ui/card';
 import Image from 'next/image';
@@ -34,7 +35,7 @@ export default function Login() {
 					height='700'
 					className='h-full w-full object-cover grayscale absolute left-0 top-0 opacity-30'
 				/>
-				<div className='flex mx-auto items-center justify-center gap-10 w-fit mb-60 z-50'>
+				<div className='flex mx-auto items-center justify-center gap-8 w-fit mb-60 z-50'>
 					<LogoImage
 						src={logoLush}
 						alt='Logo Lush'
@@ -62,6 +63,13 @@ export default function Login() {
 						boxWidth={102}
 						boxHeight={30}
 						sizes='(max-width: 1023px) 0px, 102px'
+					/>
+					<LogoImage
+						src={logoAltana}
+						alt='Logo Altana'
+						boxWidth={60}
+						boxHeight={44}
+						sizes='(max-width: 1023px) 0px, 60px'
 					/>
 				</div>
 			</div>
