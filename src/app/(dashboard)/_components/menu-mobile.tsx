@@ -26,6 +26,7 @@ import {
 	isAdmin,
 } from '@/lib/access-control';
 import { DEFAULT_RANGE_TAG } from '@/lib/date-range';
+import { shouldNavigateToHref } from '@/lib/navigation-target';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, useTransition } from 'react';
 
@@ -48,9 +49,20 @@ export default function MenuMobile() {
 
 	const router = useRouter();
 
+	function prefetchHref(href: string) {
+		if (!href || href === '#') {
+			return;
+		}
+
+		router.prefetch(href);
+	}
+
 	function handleClick(e: React.MouseEvent<HTMLButtonElement>, href: string) {
 		e.stopPropagation();
 		e.preventDefault();
+		if (!shouldNavigateToHref(pathname, searchParams.entries(), href)) {
+			return;
+		}
 		startTransition(() => {
 			router.push(href);
 		});
@@ -186,6 +198,8 @@ export default function MenuMobile() {
 						return (
 							<Button
 								disabled={isDisabled}
+								onMouseEnter={() => prefetchHref(link.href)}
+								onFocus={() => prefetchHref(link.href)}
 								onClick={(e) => handleClick(e, link.href)}
 								key={idx}
 								className={`flex items-center justify-start transition-all ease-linear duration-150 p-2.5 rounded-md ${

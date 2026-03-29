@@ -18,6 +18,7 @@ export const UNIT_VALUES = [
 	'ANDAR_DE_CIMA',
 	'TOUT',
 	'LIV',
+	'ALTANA',
 ] as const;
 
 export const UNIT_VALUES_WITH_ADMIN = [...UNIT_VALUES, ADMIN_UNIT] as const;
@@ -49,6 +50,7 @@ export const UNIT_LABELS: Record<AccessUnit, string> = {
 	ANDAR_DE_CIMA: 'Andar de Cima',
 	TOUT: 'Tout',
 	LIV: 'LIV',
+	ALTANA: 'Altana',
 	LHG: 'LHG',
 };
 
@@ -88,6 +90,7 @@ const LEGACY_UNIT_MAP: Record<string, AccessUnit> = {
 	'3': 'ANDAR_DE_CIMA',
 	'4': 'TOUT',
 	'5': 'LIV',
+	'6': 'ALTANA',
 	TOUT_CAMPINAS: 'TOUT',
 };
 
@@ -169,6 +172,7 @@ export const UNIT_SLUG_TO_UNIT = {
 	tout: 'TOUT',
 	andardecima: 'ANDAR_DE_CIMA',
 	liv: 'LIV',
+	altana: 'ALTANA',
 } as const;
 
 export const UNIT_TO_SLUG = {
@@ -177,6 +181,7 @@ export const UNIT_TO_SLUG = {
 	TOUT: 'tout',
 	ANDAR_DE_CIMA: 'andardecima',
 	LIV: 'liv',
+	ALTANA: 'altana',
 } as const;
 
 export const PATH_TO_MODULE = {

@@ -6,6 +6,7 @@ import BtnSignOut from '@/components/btnSingOut';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { DEFAULT_RANGE_TAG, getAvailableRangeTags } from '@/lib/date-range';
+import { shouldNavigateToHref } from '@/lib/navigation-target';
 import { useSessionStore } from '@/stores/session-store';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -47,11 +48,15 @@ export default function HeaderClient() {
 							<Button
 								variant={'outline'}
 								className='dark border-violet-400 text-white hidden lg:flex w-10'
-								onClick={() =>
+								onClick={() => {
+									const href = `/${menu}?menu=${menu}&set=${preSet}`;
+									if (!shouldNavigateToHref(pathname, searchParams.entries(), href)) {
+										return;
+									}
 									startTransition(() => {
-										router.push(`/${menu}?menu=${menu}&set=${preSet}`);
-									})
-								}>
+										router.push(href);
+									});
+								}}>
 								{isPending ? (
 									<Loader2
 										size={16}

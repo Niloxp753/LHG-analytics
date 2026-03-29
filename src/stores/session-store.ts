@@ -2,25 +2,20 @@
 
 'use client';
 
+import type { SessionUser } from '@/lib/session-user';
 import {
 	getMeWithCookies,
 	getUserByEmailWithCookies,
 	refreshWithCookies,
 } from '@/lib/auth-client';
-import { create } from 'zustand';
-
-export type SessionUser = {
-	email: string;
-	name?: string;
-	cpf?: string;
-	unit?: string;
-	role?: string;
-	[key: string]: unknown;
-};
+import { extractSessionUser } from '@/lib/session-user';
+import { createContext, useContext } from 'react';
+import { useStore } from 'zustand';
+import { createStore, type StoreApi } from 'zustand/vanilla';
 
 export type SessionStatus = 'idle' | 'loading' | 'authed' | 'unauthed';
 
-type SessionStore = {
+type SessionStoreState = {
 	status: SessionStatus;
 	user: SessionUser | null;
 	error: string | null;
@@ -30,59 +25,18 @@ type SessionStore = {
 	refresh: () => Promise<void>;
 };
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-	return typeof value === 'object' && value !== null && !Array.isArray(value);
-}
-
-function sanitizeUser(raw: Record<string, unknown>): SessionUser {
-	const sanitized = { ...raw };
-	delete sanitized.id;
-	delete sanitized.password;
-	delete sanitized.createdAt;
-	delete sanitized.updatedAt;
-	return sanitized as SessionUser;
-}
-
-function sanitizeAndEnsureEmail(
-	raw: Record<string, unknown>,
-): SessionUser | null {
-	const sanitized = sanitizeUser(raw);
-	const email =
-		typeof sanitized.email === 'string'
-			? sanitized.email
-			: typeof raw.email === 'string'
-			? raw.email
-			: null;
-
-	if (!email) {
-		return null;
-	}
-
-	return { ...sanitized, email };
-}
-
-function extractUserFromPayload(payload: unknown): SessionUser | null {
-	if (!isRecord(payload)) {
-		return null;
-	}
-
-	if (isRecord(payload.user)) {
-		return sanitizeAndEnsureEmail(payload.user);
-	}
-
-	return sanitizeAndEnsureEmail(payload);
-}
+export type SessionStoreApi = StoreApi<SessionStoreState>;
 
 async function resolveFullUserByEmail(
 	email: string,
 	fallback: SessionUser,
 ): Promise<SessionUser> {
 	const fullResp = await getUserByEmailWithCookies(email);
-	if (fullResp.ok && fullResp.data && isRecord(fullResp.data)) {
-		const sanitized = sanitizeUser(fullResp.data);
-		const ensuredEmail =
-			typeof sanitized.email === 'string' ? sanitized.email : email;
-		return { ...sanitized, email: ensuredEmail };
+	if (fullResp.ok && fullResp.data) {
+		const resolved = extractSessionUser(fullResp.data);
+		if (resolved) {
+			return resolved.email ? resolved : { ...resolved, email };
+		}
 	}
 
 	return fallback;
@@ -94,7 +48,7 @@ async function resolveSessionFromMe(): Promise<{
 	meOk: boolean;
 }> {
 	const meResp = await getMeWithCookies();
-	if (!meResp.ok || !meResp.data || !isRecord(meResp.data)) {
+	if (!meResp.ok || !meResp.data) {
 		return {
 			user: null,
 			error: meResp.ok ? null : 'Not authenticated',
@@ -102,148 +56,175 @@ async function resolveSessionFromMe(): Promise<{
 		};
 	}
 
-	const email =
-		typeof meResp.data.email === 'string' ? meResp.data.email : null;
-	if (!email) {
+	const baseUser = extractSessionUser(meResp.data);
+	if (!baseUser?.email) {
 		return { user: null, error: 'Missing email', meOk: true };
 	}
 
-	const fallback = sanitizeUser(meResp.data);
-	const fallbackWithEmail = { ...fallback, email };
-	const user = await resolveFullUserByEmail(email, fallbackWithEmail);
+	const user = await resolveFullUserByEmail(baseUser.email, baseUser);
 	return { user, error: null, meOk: true };
 }
 
 let inflightHydrate: Promise<void> | null = null;
 let inflightRefresh: Promise<void> | null = null;
 
-export const useSessionStore = create<SessionStore>((set) => ({
-	status: 'idle',
-	user: null,
-	error: null,
-	setUser: (user) =>
-		set({
-			user,
-			status: user ? 'authed' : 'unauthed',
-			error: null,
-		}),
-	clear: () => set({ user: null, status: 'unauthed', error: null }),
-	hydrate: async () => {
-		if (inflightHydrate) return inflightHydrate;
+export function createSessionStore(
+	initialUser: SessionUser | null = null,
+): SessionStoreApi {
+	return createStore<SessionStoreState>((set) => ({
+		status: initialUser ? 'authed' : 'idle',
+		user: initialUser,
+		error: null,
+		setUser: (user) =>
+			set({
+				user,
+				status: user ? 'authed' : 'unauthed',
+				error: null,
+			}),
+		clear: () => set({ user: null, status: 'unauthed', error: null }),
+		hydrate: async () => {
+			if (inflightHydrate) return inflightHydrate;
 
-		inflightHydrate = (async () => {
+			inflightHydrate = (async () => {
+				try {
+					set({ status: 'loading', error: null });
+
+					const result = await resolveSessionFromMe();
+					if (result.user || result.meOk) {
+						set({
+							user: result.user,
+							status: result.user ? 'authed' : 'unauthed',
+							error: result.error,
+						});
+						return;
+					}
+
+					const refreshResp = await refreshWithCookies();
+					if (!refreshResp.ok) {
+						set({
+							user: null,
+							status: 'unauthed',
+							error: null,
+						});
+						return;
+					}
+
+					const refreshedUser = extractSessionUser(refreshResp.data);
+					if (!refreshedUser) {
+						set({
+							user: null,
+							status: 'unauthed',
+							error: null,
+						});
+						return;
+					}
+
+					const fullUser = await resolveFullUserByEmail(
+						refreshedUser.email,
+						refreshedUser,
+					);
+					set({
+						user: fullUser,
+						status: 'authed',
+						error: null,
+					});
+				} catch (error) {
+					set({
+						user: null,
+						status: 'unauthed',
+						error:
+							error instanceof Error ? error.message : 'Failed to load session',
+					});
+				}
+			})();
+
 			try {
-				set({ status: 'loading', error: null });
-
-				const result = await resolveSessionFromMe();
-				if (result.user || result.meOk) {
-					set({
-						user: result.user,
-						status: result.user ? 'authed' : 'unauthed',
-						error: result.error,
-					});
-					return;
-				}
-
-				const refreshResp = await refreshWithCookies();
-				if (!refreshResp.ok) {
-					set({
-						user: null,
-						status: 'unauthed',
-						error: null,
-					});
-					return;
-				}
-
-				const refreshedUser = extractUserFromPayload(refreshResp.data);
-				if (!refreshedUser) {
-					set({
-						user: null,
-						status: 'unauthed',
-						error: null,
-					});
-					return;
-				}
-
-				const fullUser = await resolveFullUserByEmail(
-					refreshedUser.email,
-					refreshedUser,
-				);
-				set({
-					user: fullUser,
-					status: 'authed',
-					error: null,
-				});
-			} catch (error) {
-				set({
-					user: null,
-					status: 'unauthed',
-					error:
-						error instanceof Error ? error.message : 'Failed to load session',
-				});
-			}
-		})();
-
-		try {
-			await inflightHydrate;
-		} finally {
-			inflightHydrate = null;
-		}
-	},
-	refresh: async () => {
-		if (inflightRefresh) return inflightRefresh;
-
-		inflightRefresh = (async () => {
-			if (inflightHydrate) {
 				await inflightHydrate;
+			} finally {
+				inflightHydrate = null;
 			}
+		},
+		refresh: async () => {
+			if (inflightRefresh) return inflightRefresh;
+
+			inflightRefresh = (async () => {
+				if (inflightHydrate) {
+					await inflightHydrate;
+				}
+
+				try {
+					const refreshResp = await refreshWithCookies();
+					if (!refreshResp.ok) {
+						set({
+							user: null,
+							status: 'unauthed',
+							error: null,
+						});
+						return;
+					}
+
+					const refreshedUser = extractSessionUser(refreshResp.data);
+					if (!refreshedUser) {
+						set({
+							user: null,
+							status: 'unauthed',
+							error: null,
+						});
+						return;
+					}
+
+					const fullUser = await resolveFullUserByEmail(
+						refreshedUser.email,
+						refreshedUser,
+					);
+					set({
+						user: fullUser,
+						status: 'authed',
+						error: null,
+					});
+				} catch (error) {
+					set({
+						user: null,
+						status: 'unauthed',
+						error:
+							error instanceof Error
+								? error.message
+								: 'Failed to refresh session',
+					});
+				}
+			})();
 
 			try {
-				const refreshResp = await refreshWithCookies();
-				if (!refreshResp.ok) {
-					set({
-						user: null,
-						status: 'unauthed',
-						error: null,
-					});
-					return;
-				}
-
-				const refreshedUser = extractUserFromPayload(refreshResp.data);
-				if (!refreshedUser) {
-					set({
-						user: null,
-						status: 'unauthed',
-						error: null,
-					});
-					return;
-				}
-
-				const fullUser = await resolveFullUserByEmail(
-					refreshedUser.email,
-					refreshedUser,
-				);
-				set({
-					user: fullUser,
-					status: 'authed',
-					error: null,
-				});
-			} catch (error) {
-				set({
-					user: null,
-					status: 'unauthed',
-					error:
-						error instanceof Error
-							? error.message
-							: 'Failed to refresh session',
-				});
+				await inflightRefresh;
+			} finally {
+				inflightRefresh = null;
 			}
-		})();
+		},
+	}));
+}
 
-		try {
-			await inflightRefresh;
-		} finally {
-			inflightRefresh = null;
-		}
-	},
-}));
+export const SessionStoreContext = createContext<SessionStoreApi | null>(null);
+
+export function useSessionStore<T>(
+	selector: (state: SessionStoreState) => T,
+): T {
+	const store = useContext(SessionStoreContext);
+
+	if (!store) {
+		throw new Error('useSessionStore must be used within SessionHydratorProvider');
+	}
+
+	return useStore(store, selector);
+}
+
+export function useSessionStoreApi(): SessionStoreApi {
+	const store = useContext(SessionStoreContext);
+
+	if (!store) {
+		throw new Error(
+			'useSessionStoreApi must be used within SessionHydratorProvider',
+		);
+	}
+
+	return store;
+}

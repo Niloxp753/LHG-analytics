@@ -17,11 +17,12 @@ import {
 } from '@/components/ui/popover';
 import { DEFAULT_RANGE_TAG, formatDateInput } from '@/lib/date-range';
 import { formSchemaFilter } from '@/lib/formSchemaFilter';
+import { shouldNavigateToHref } from '@/lib/navigation-target';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { CalendarIcon, Loader2, RefreshCcw } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -44,6 +45,7 @@ export default function FormFilter({
 	});
 
 	const params = useSearchParams();
+	const pathname = usePathname();
 	const set = params.get('set') || DEFAULT_RANGE_TAG;
 	const menu = params.get('menu');
 
@@ -58,12 +60,13 @@ export default function FormFilter({
 			toast.error('Datas inválidas');
 			return;
 		}
+		const href = `?menu=${menu}&set=${set}&startDate=${formattedStartDate}&endDate=${formattedEndDate}`;
+		if (!shouldNavigateToHref(pathname, params.entries(), href)) {
+			return;
+		}
 		startTransition(() => {
 			try {
-				router.push(
-					`?menu=${menu}&set=${set}&startDate=${formattedStartDate}&endDate=${formattedEndDate}`,
-				);
-				router.refresh();
+				router.push(href);
 			} catch (error) {
 				console.log(error);
 				toast.error('Erro ao atualizar');

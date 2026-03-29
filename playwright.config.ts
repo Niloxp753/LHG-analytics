@@ -25,6 +25,7 @@ export default defineConfig({
 			BACKEND_ENDPOINT_LAPA: `${baseURL}/lapa/api`,
 			BACKEND_ENDPOINT_ANDAR_DE_CIMA: `${baseURL}/andar_de_cima/api`,
 			BACKEND_ENDPOINT_TOUT: `${baseURL}/tout/api`,
+			BACKEND_ENDPOINT_ALTANA: `${baseURL}/altana/api`,
 			BACKEND_ENDPOINT_LIV: `${baseURL}/liv/liv/api`,
 		},
 	},

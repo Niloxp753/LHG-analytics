@@ -1,6 +1,8 @@
 /** @format */
+'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 interface BtnSidebarMenuProps {
@@ -14,6 +16,7 @@ interface BtnSidebarMenuProps {
 }
 
 export default function BtnSidebarMenu(props: BtnSidebarMenuProps) {
+	const router = useRouter();
 	const isActive = props.selected == props.role;
 	const className = `p-2 flex gap-3 rounded ${
 		props.disabled
@@ -36,6 +39,8 @@ export default function BtnSidebarMenu(props: BtnSidebarMenuProps) {
 
 	return (
 		<Link
+			onMouseEnter={() => router.prefetch(props.href)}
+			onFocus={() => router.prefetch(props.href)}
 			prefetch={false}
 			href={props.href}
 			className={className}>

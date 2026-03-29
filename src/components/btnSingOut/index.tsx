@@ -7,14 +7,6 @@ import { Loader2, LogOut } from 'lucide-react';
 import { logoutWithCookies } from '@/lib/auth-client';
 import { useSessionStore } from '@/stores/session-store';
 
-async function signOut({ callbackUrl }: { callbackUrl?: string } = {}) {
-	await logoutWithCookies();
-	useSessionStore.getState().clear();
-	if (callbackUrl) {
-		window.location.href = callbackUrl;
-	}
-}
-
 export default function BtnSignOut({
 	isOpened,
 	fit,
@@ -23,6 +15,7 @@ export default function BtnSignOut({
 	fit?: boolean;
 }) {
 	const [loading, setLoading] = useState(false);
+	const clearSession = useSessionStore((s) => s.clear);
 
 	async function handleClick(
 		e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -31,7 +24,9 @@ export default function BtnSignOut({
 		e.preventDefault();
 		e.stopPropagation();
 		try {
-			await signOut({ callbackUrl: '/login' });
+			await logoutWithCookies();
+			clearSession();
+			window.location.href = '/login';
 		} catch (error) {
 			alert(error);
 			setLoading(false);

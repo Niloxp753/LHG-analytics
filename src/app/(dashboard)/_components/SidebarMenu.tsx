@@ -3,6 +3,7 @@
 
 import logo from '@/assets/images/logo-analytics.png';
 import { Button } from '@/components/ui/button';
+import { LogoImage } from '@/components/ui/logo-image';
 import { buildModuleHref, canAccessModule, isAdmin } from '@/lib/access-control';
 import { DEFAULT_RANGE_TAG } from '@/lib/date-range';
 import { useSessionStore } from '@/stores/session-store';
@@ -15,7 +16,7 @@ import {
 	UserRoundCog,
 	UtensilsCrossed,
 } from 'lucide-react';
-import Image from 'next/image';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import BtnSignOut from '../../../components/btnSingOut';
@@ -45,15 +46,18 @@ export default function SidebarMenu() {
 		<div className='h-screen z-50 w-fit bg-zinc-950 fixed left-0 p-1 flex flex-col justify-start'>
 			<div className='h-24'>
 				{open && (
-					<a
+					<Link
 						href='/'
 						className='flex items-center justify-between w-fit mx-auto my-4'>
-						<Image
+						<LogoImage
 							src={logo}
 							alt={'Logo LHG Analytics'}
-							width={120}
-							height={100}></Image>
-					</a>
+							boxWidth={120}
+							boxHeight={100}
+							sizes='120px'
+							priority
+						/>
+					</Link>
 				)}
 			</div>
 			<Button

@@ -3,16 +3,31 @@
 'use server';
 
 import { getRestaurantUnified } from '@/http/restaurant/getRestaurantUnified';
+import { getLivRestaurantKpis } from '@/http/liv/get-liv-restaurant';
 import {
 	DEFAULT_RANGE_TAG,
 	getRangeByTag,
 	normalizeRangeTag,
 } from '@/lib/date-range';
+import { mergeLivIntoRestaurantConsolidated } from '@/lib/merge-liv-into-consolidated';
 
 interface getRestaurantPageDataProps {
 	period?: string;
 	startDate?: string | null;
 	endDate?: string | null;
+}
+
+async function getMergedRestaurantData(startDate: string, endDate: string) {
+	const [data, livData] = await Promise.all([
+		getRestaurantUnified(startDate, endDate),
+		getLivRestaurantKpis(startDate, endDate),
+	]);
+
+	if (!data) {
+		return null;
+	}
+
+	return mergeLivIntoRestaurantConsolidated(data, livData);
 }
 
 export async function getRestaurantPageData({
@@ -24,7 +39,7 @@ export async function getRestaurantPageData({
 	const range = getRangeByTag(normalized);
 
 	if (startDate && endDate) {
-		const data = await getRestaurantUnified(startDate, endDate);
+		const data = await getMergedRestaurantData(startDate, endDate);
 
 		if (data) {
 			return {
@@ -39,7 +54,7 @@ export async function getRestaurantPageData({
 			error: 'Erro ao encontrar dados',
 		};
 	} else if (range) {
-		const data = await getRestaurantUnified(range.startDate, range.endDate);
+		const data = await getMergedRestaurantData(range.startDate, range.endDate);
 
 		if (data) {
 			return {

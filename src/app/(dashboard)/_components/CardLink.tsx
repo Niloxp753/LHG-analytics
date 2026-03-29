@@ -5,6 +5,7 @@ import { canAccessRoute } from '@/lib/access-control';
 import { useSessionStore } from '@/stores/session-store';
 import { ArrowUpRight, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useTransition } from 'react';
 
 interface CardLinkProps {
@@ -15,6 +16,7 @@ interface CardLinkProps {
 }
 
 export default function CardLink(props: CardLinkProps) {
+	const router = useRouter();
 	const [isPending, startTransition] = useTransition();
 	const status = useSessionStore((s) => s.status);
 	const user = useSessionStore((s) => s.user);
@@ -62,6 +64,8 @@ export default function CardLink(props: CardLinkProps) {
 				</div>
 			) : (
 				<Link
+					onMouseEnter={() => router.prefetch(props.href)}
+					onFocus={() => router.prefetch(props.href)}
 					prefetch={false}
 					href={props.href}
 					className={linkClassName}>
