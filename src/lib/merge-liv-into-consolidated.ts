@@ -22,6 +22,12 @@ type NamedSeriesData = {
 };
 type ShiftCleaningData = {
 	categories: string[];
+	Manhã: SeriesEntry[];
+	Tarde: SeriesEntry[];
+	Noite: SeriesEntry[];
+};
+type RawShiftCleaningData = {
+	categories?: string[];
 	[key: string]: string[] | SeriesEntry[] | undefined;
 };
 
@@ -195,22 +201,46 @@ function normalizeShiftKey(value: string) {
 	return lower;
 }
 
-function findExistingShiftKey(data: ShiftCleaningData, target: string) {
-	return Object.keys(data).find((key) => normalizeShiftKey(key) === target);
+function isSeriesEntryArray(
+	value: string[] | SeriesEntry[] | undefined,
+): value is SeriesEntry[] {
+	return Array.isArray(value) && (value.length === 0 || typeof value[0] === 'object');
+}
+
+function findShiftSeries(data: RawShiftCleaningData, target: string): SeriesEntry[] {
+	const shiftKey = Object.keys(data).find((key) => normalizeShiftKey(key) === target);
+	const shiftSeries = shiftKey ? data[shiftKey] : undefined;
+
+	if (!isSeriesEntryArray(shiftSeries)) {
+		return [];
+	}
+
+	return [...shiftSeries];
+}
+
+function normalizeShiftCleaningData(
+	data: RawShiftCleaningData | null | undefined,
+): ShiftCleaningData {
+	return {
+		categories: Array.isArray(data?.categories) ? [...data.categories] : [],
+		Manhã: data ? findShiftSeries(data, 'morning') : [],
+		Tarde: data ? findShiftSeries(data, 'afternoon') : [],
+		Noite: data ? findShiftSeries(data, 'night') : [],
+	};
 }
 
 function findLivShiftSeries(
 	data: LivOperationalKpisResponse['ShiftCleaning'] | null | undefined,
 	target: string,
 ) {
-	return data?.series.find((entry) => normalizeShiftKey(entry.name) === target)?.data;
+	return data?.series?.find((entry) => normalizeShiftKey(entry.name) === target)?.data;
 }
 
 function appendShiftSeries(
-	baseSeries: SeriesEntry[] | undefined,
+	baseSeries: SeriesEntry[],
 	livSeries: number[] | undefined,
 ) {
-	if (!Array.isArray(baseSeries) || !Array.isArray(livSeries) || hasLivSeries(baseSeries)) {
+	if (!Array.isArray(livSeries) || hasLivSeries(baseSeries)) {
 		return baseSeries;
 	}
 
@@ -336,42 +366,42 @@ export function mergeLivIntoOperationalConsolidated(
 	base: OperationalConsolidatedData,
 	liv: LivOperationalKpisResponse | null,
 ): OperationalConsolidatedData {
-	if (!liv || hasLivCategory(base.CleaningsByCompany.categories)) {
-		return base;
+	const normalizedBase = {
+		...base,
+		ShiftCleaning: normalizeShiftCleaningData(base.ShiftCleaning),
+	};
+
+	if (!liv || hasLivCategory(normalizedBase.CleaningsByCompany.categories)) {
+		return normalizedBase;
 	}
 
-	const morningKey = findExistingShiftKey(base.ShiftCleaning, 'morning') ?? 'Manhã';
-	const afternoonKey =
-		findExistingShiftKey(base.ShiftCleaning, 'afternoon') ?? 'Tarde';
-	const nightKey = findExistingShiftKey(base.ShiftCleaning, 'night') ?? 'Noite';
-
 	return {
-		...base,
-		BigNumbers: mergeBigNumbers(base.BigNumbers, liv.BigNumbers),
+		...normalizedBase,
+		BigNumbers: mergeBigNumbers(normalizedBase.BigNumbers, liv.BigNumbers),
 		CleaningsByCompany: appendPieValue(
-			base.CleaningsByCompany,
+			normalizedBase.CleaningsByCompany,
 			liv.BigNumbers[0]?.currentDate.totalAllSuitesCleanings,
 		) as NamedSeriesData,
 		AverageCleaningByCompany: appendPieValue(
-			base.AverageCleaningByCompany,
+			normalizedBase.AverageCleaningByCompany,
 			liv.BigNumbers[0]?.currentDate.totalAllAverageDailyCleaning,
 		) as NamedSeriesData,
 		InspectionsByCompany: appendPieValue(
-			base.InspectionsByCompany,
+			normalizedBase.InspectionsByCompany,
 			liv.BigNumbers[0]?.currentDate.totalAllInspections,
 		) as NamedSeriesData,
 		ShiftCleaning: {
-			...base.ShiftCleaning,
-			[morningKey]: appendShiftSeries(
-				base.ShiftCleaning[morningKey] as SeriesEntry[] | undefined,
+			categories: [...normalizedBase.ShiftCleaning.categories],
+			Manhã: appendShiftSeries(
+				normalizedBase.ShiftCleaning.Manhã,
 				findLivShiftSeries(liv.ShiftCleaning, 'morning'),
 			),
-			[afternoonKey]: appendShiftSeries(
-				base.ShiftCleaning[afternoonKey] as SeriesEntry[] | undefined,
+			Tarde: appendShiftSeries(
+				normalizedBase.ShiftCleaning.Tarde,
 				findLivShiftSeries(liv.ShiftCleaning, 'afternoon'),
 			),
-			[nightKey]: appendShiftSeries(
-				base.ShiftCleaning[nightKey] as SeriesEntry[] | undefined,
+			Noite: appendShiftSeries(
+				normalizedBase.ShiftCleaning.Noite,
 				findLivShiftSeries(liv.ShiftCleaning, 'night'),
 			),
 		},

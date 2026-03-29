@@ -282,4 +282,41 @@ test.describe('LIV consolidated merge contract', () => {
 			data: [1, 2],
 		});
 	});
+
+	test('normalizes operational shift keys for dashboard consumers', async () => {
+		const merged = mergeLivIntoOperationalConsolidated(
+			{
+				BigNumbers: [],
+				CleaningsByCompany: {
+					categories: ['Lush Ipiranga'],
+					series: [{ name: 'Total', data: [40] }],
+				},
+				AverageCleaningByCompany: {
+					categories: ['Lush Ipiranga'],
+					series: [{ name: 'Média', data: [4] }],
+				},
+				InspectionsByCompany: {
+					categories: ['Lush Ipiranga'],
+					series: [{ name: 'Vistorias', data: [14] }],
+				},
+				ShiftCleaning: {
+					categories: ['22/03'],
+					manha: [{ name: 'Lush Ipiranga', data: [10] }],
+					tarde: [{ name: 'Lush Ipiranga', data: [7] }],
+					noite: [{ name: 'Lush Ipiranga', data: [4] }],
+				},
+			} as never,
+			null,
+		);
+
+		expect(merged.ShiftCleaning.Manhã).toEqual([
+			{ name: 'Lush Ipiranga', data: [10] },
+		]);
+		expect(merged.ShiftCleaning.Tarde).toEqual([
+			{ name: 'Lush Ipiranga', data: [7] },
+		]);
+		expect(merged.ShiftCleaning.Noite).toEqual([
+			{ name: 'Lush Ipiranga', data: [4] },
+		]);
+	});
 });
