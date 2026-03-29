@@ -5,6 +5,7 @@ import logo from '@/assets/images/logo-analytics.png';
 import logoLush from '@/assets/images/logo-lush.png';
 import logoTout from '@/assets/images/logo_tout.png';
 import logoAC from '@/assets/images/logo_andar_de_cima.png';
+import { LogoImage } from '@/components/ui/logo-image';
 import { Card } from '@/components/ui/card';
 import Image from 'next/image';
 import { Suspense } from 'react';
@@ -17,11 +18,14 @@ export default function Login() {
 				<a
 					href='/'
 					className='mx-auto h-fit  mt-20 z-50'>
-					<Image
+					<LogoImage
 						src={logo}
-						width={280}
-						height={80}
-						alt='Logo LHG Analytics'></Image>
+						boxWidth={280}
+						boxHeight={80}
+						sizes='(max-width: 1023px) 0px, 280px'
+						priority
+						alt='Logo LHG Analytics'
+					/>
 				</a>
 				<Image
 					src={capaLogin}
@@ -30,40 +34,46 @@ export default function Login() {
 					height='700'
 					className='h-full w-full object-cover grayscale absolute left-0 top-0 opacity-30'
 				/>
-				<div className='flex mx-auto items-end justify-center gap-10 w-fit mb-60 z-50'>
-					<Image
+				<div className='flex mx-auto items-center justify-center gap-10 w-fit mb-60 z-50'>
+					<LogoImage
 						src={logoLush}
-						alt='Image'
-						width={120}
-						height={60}
+						alt='Logo Lush'
+						boxWidth={120}
+						boxHeight={60}
+						sizes='(max-width: 1023px) 0px, 120px'
 					/>
-					<Image
+					<LogoImage
 						src={logoTout}
-						alt='Image'
-						width={120}
-						height={60}
+						alt='Logo Tout'
+						boxWidth={120}
+						boxHeight={60}
+						sizes='(max-width: 1023px) 0px, 120px'
 					/>
-					<Image
+					<LogoImage
 						src={logoAC}
-						alt='Image'
-						width={220}
-						height={110}
+						alt='Logo Andar de Cima'
+						boxWidth={220}
+						boxHeight={110}
+						sizes='(max-width: 1023px) 0px, 220px'
 					/>
-					<Image
+					<LogoImage
 						src='/logo_liv.png'
-						alt='Image'
-						width={102}
-						height={30}
+						alt='Logo LIV'
+						boxWidth={102}
+						boxHeight={30}
+						sizes='(max-width: 1023px) 0px, 102px'
 					/>
 				</div>
 			</div>
 			<div className='flex items-center gap-10 flex-col justify-center w-full lg:w-1/3'>
-				<Image
-					className='lg:hidden'
+				<LogoImage
+					containerClassName='lg:hidden'
 					src={logo}
-					width={140}
-					height={80}
-					alt='Logo LHG Analytics'></Image>
+					boxWidth={140}
+					boxHeight={80}
+					sizes='(max-width: 1023px) 140px, 0px'
+					alt='Logo LHG Analytics'
+				/>
 				<Card className='mx-auto grid md:w-[320px] gap-5 border-zinc-600 bg-zinc-800 p-4'>
 					<div className='grid gap-3 text-center'>
 						<h1 className='text-3xl font-bold text-zinc-50'>Login</h1>

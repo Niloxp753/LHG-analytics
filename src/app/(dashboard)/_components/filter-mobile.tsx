@@ -16,6 +16,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, useTransition } from 'react';
 import FormFilter from './FormFilter';
 import { DEFAULT_RANGE_TAG, getAvailableRangeTags } from '@/lib/date-range';
+import { shouldNavigateToHref } from '@/lib/navigation-target';
 
 export default function FilterMobile() {
 	const [mounted, setMounted] = useState(false);
@@ -92,13 +93,17 @@ export default function FilterMobile() {
 										: 'text-zinc-50 bg-transparent'
 								}  border-violet-400 hover:bg-violet-400 hover:text-black`}
 								key={index}
-								onClick={(e) =>
+								onClick={(e) => {
+									e.stopPropagation();
+									e.preventDefault();
+									const href = `${pathname}/?menu=${menu}&set=${item.tag}`;
+									if (!shouldNavigateToHref(pathname, searchParams.entries(), href)) {
+										return;
+									}
 									startTransition(() => {
-										e.stopPropagation();
-										e.preventDefault();
-										router.push(`${pathname}/?menu=${menu}&set=${item.tag}`);
-									})
-								}>
+										router.push(href);
+									});
+								}}>
 								{item.label}
 							</Button>
 						);

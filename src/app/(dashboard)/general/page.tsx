@@ -7,6 +7,7 @@ import {
   getRangeDescription,
 } from "@/lib/date-range";
 import { Suspense } from "react";
+import type { CompanyBigNumbersEntry } from "@/types/big-numbers-company";
 import CardLink from "../_components/CardLink";
 import Header from "../_components/Header";
 import SparkChart from "../_components/charts/SparkChart";
@@ -17,7 +18,6 @@ import OccupationXUnity from "../_components/kpis/OccupationXUnity";
 import TKTxUnity from "../_components/kpis/TKTxUnity";
 import TRevParXUnity from "../_components/kpis/TRevParXUnity";
 import BigNumbersCompany from "./_components/big-numbers-company";
-import type { CompanyBigNumbersEntry } from "@/types/big-numbers-company";
 
 type NamedSeriesData = {
   categories: string[];
@@ -39,73 +39,160 @@ type GeneralUnifiedData = {
   OccupancyRateByDate: NamedSeriesData;
 };
 
+type GeneralPageDataResult = Awaited<ReturnType<typeof getGeneralPageData>>;
+
+async function resolveGeneralData({
+  period,
+  startDate,
+  endDate,
+}: {
+  period: string;
+  startDate: string | null;
+  endDate: string | null;
+}): Promise<GeneralPageDataResult> {
+  if (startDate && endDate) {
+    const customData = await getGeneralPageData({
+      startDate,
+      endDate,
+    });
+
+    if (customData) {
+      return customData;
+    }
+
+    return { ok: false, data: null, error: "Algo deu errado" };
+  }
+
+  const data = await getGeneralPageData({ period });
+  if (data) {
+    return data;
+  }
+
+  return { ok: false, data: null, error: "Algo deu errado" };
+}
+
+function GeneralKpiContent({
+  rangeDescription,
+  resp,
+}: {
+  rangeDescription: string;
+  resp?: GeneralPageDataResult;
+}) {
+  const isLoading = typeof resp === "undefined";
+  const hasError = !isLoading && (!resp.ok || !resp.data);
+  const errorMessage =
+    !isLoading && hasError
+      ? resp.error
+        ? resp.error
+        : "Não foi possível carregar os dados."
+      : undefined;
+
+  const unifiedData =
+    !isLoading && !hasError && !Array.isArray(resp.data)
+      ? (resp.data as GeneralUnifiedData)
+      : null;
+  const bigNumbers = isLoading
+    ? undefined
+    : hasError
+      ? null
+      : (unifiedData?.BigNumbers ?? null);
+  const revenueByCompany = isLoading
+    ? undefined
+    : hasError
+      ? null
+      : (unifiedData?.RevenueByCompany ?? null);
+  const rentalsByDate = isLoading
+    ? undefined
+    : hasError
+      ? null
+      : (unifiedData?.RentalsByDate ?? null);
+  const ticketAverageByDate = isLoading
+    ? undefined
+    : hasError
+      ? null
+      : (unifiedData?.TicketAverageByDate ?? null);
+  const trevparByDate = isLoading
+    ? undefined
+    : hasError
+      ? null
+      : (unifiedData?.TrevparByDate ?? null);
+  const revenueByDate = isLoading
+    ? undefined
+    : hasError
+      ? null
+      : (unifiedData?.RevenueByDate ?? null);
+  const occupancyRateByDate = isLoading
+    ? undefined
+    : hasError
+      ? null
+      : (unifiedData?.OccupancyRateByDate ?? null);
+
+  return (
+    <div
+      data-testid={isLoading ? "general-kpis-loading" : undefined}
+      className="w-full h-full flex gap-5 flex-col md:px-0"
+    >
+      <BigNumbersCompany data={bigNumbers} description={rangeDescription} />
+
+      <div className="flex gap-5 flex-col md:flex-row w-full h-full">
+        <div className="md:w-1/3 w-full h-full">
+          <InvoicingXUnity
+            error={errorMessage}
+            categories={revenueByCompany?.categories}
+            series={revenueByCompany?.series}
+          />
+        </div>
+        <div className="md:w-2/3 h-full">
+          <LocationsxUnity data={rentalsByDate} />
+        </div>
+      </div>
+      <div className="flex gap-5 flex-col">
+        <TKTxUnity data={ticketAverageByDate} />
+        <TRevParXUnity data={trevparByDate} />
+      </div>
+      <div className="flex flex-col gap-5">
+        <InvoicingXUnityXTime data={revenueByDate} />
+        <OccupationXUnity data={occupancyRateByDate} />
+      </div>
+    </div>
+  );
+}
+
+async function GeneralKpiBoundary({
+  dataPromise,
+  rangeDescription,
+}: {
+  dataPromise: Promise<GeneralPageDataResult>;
+  rangeDescription: string;
+}) {
+  const resp = await dataPromise;
+  return <GeneralKpiContent rangeDescription={rangeDescription} resp={resp} />;
+}
+
 export default async function General({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const resolvedSearchParams = await searchParams;
   const menu = "general";
-  const preSet = (await searchParams).set ?? DEFAULT_RANGE_TAG;
-  const startDate = (await searchParams).startDate;
-  const endDate = (await searchParams).endDate;
+  const preSet = resolvedSearchParams.set ?? DEFAULT_RANGE_TAG;
+  const startDate = resolvedSearchParams.startDate;
+  const endDate = resolvedSearchParams.endDate;
   const rangeDescription = getRangeDescription(preSet as string);
 
   const formattedStartDate = formatDateInput(startDate as string);
   const formattedEndDate = formatDateInput(endDate as string);
-
-  async function getData() {
-    if (formattedStartDate && formattedEndDate) {
-      const customData = await getGeneralPageData({
-        startDate: formattedStartDate,
-        endDate: formattedEndDate,
-      });
-      if (customData) {
-        return customData;
-      }
-      return { ok: false, data: null, error: "Algo deu errado" };
-    } else {
-      const data = await getGeneralPageData({ period: preSet as string });
-      if (data) {
-        return data;
-      }
-      return { ok: false, data: null, error: "Algo deu errado" };
-    }
-  }
-
-  const resp = await getData();
-
-  const hasError = !resp.ok || !resp.data;
-  const errorMessage =
-    hasError && resp.error
-      ? resp.error
-      : hasError
-        ? "Não foi possível carregar os dados."
-        : undefined;
-
-  const unifiedData =
-    !hasError && !Array.isArray(resp.data)
-      ? (resp.data as GeneralUnifiedData)
-      : null;
-  const bigNumbers = hasError ? null : (unifiedData?.BigNumbers ?? null);
-  const revenueByCompany = hasError
-    ? null
-    : (unifiedData?.RevenueByCompany ?? null);
-  const rentalsByDate = hasError ? null : (unifiedData?.RentalsByDate ?? null);
-  const ticketAverageByDate = hasError
-    ? null
-    : (unifiedData?.TicketAverageByDate ?? null);
-  const trevparByDate = hasError ? null : (unifiedData?.TrevparByDate ?? null);
-  const revenueByDate = hasError ? null : (unifiedData?.RevenueByDate ?? null);
-  const occupancyRateByDate = hasError
-    ? null
-    : (unifiedData?.OccupancyRateByDate ?? null);
+  const dataPromise = resolveGeneralData({
+    period: preSet as string,
+    startDate: formattedStartDate,
+    endDate: formattedEndDate,
+  });
 
   return (
     <main className="flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 ">
-      <div className={`relative md:max-w-[82vw] flex  md:ml-auto w-full `}>
-        <div
-          className={`bg-zinc-950/50 p-4 w-full md:max-w-[82vw] backdrop-blur-md fixed z-20 top-0 flex flex-col gap-5 `}
-        >
+      <div className="relative md:max-w-[82vw] flex md:ml-auto w-full">
+        <div className="bg-zinc-950/50 p-4 w-full md:max-w-[82vw] backdrop-blur-md fixed z-20 top-0 flex flex-col gap-5">
           <h2 className="text-zinc-50 font-bold text-2xl text-center">
             Visão <span className="text-violet-400"> Geral</span>
           </h2>
@@ -114,7 +201,7 @@ export default async function General({
           </div>
         </div>
         <div className="flex flex-col mt-10 lg:mt-32 gap-5 w-full px-3">
-          <div className="grid md:grid-cols-5 gap-5">
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
             <CardLink
               href={`/general/lushipiranga?menu=${menu}&set=${preSet}`}
               title={"Lush Ipiranga"}
@@ -144,6 +231,13 @@ export default async function General({
               }
             ></CardLink>
             <CardLink
+              href={`/general/altana?menu=${menu}&set=${preSet}`}
+              title={"Altana"}
+              content={
+                <SparkChart serie={[38, 52, 47, 58, 44, 61, 49, 56, 53]} />
+              }
+            ></CardLink>
+            <CardLink
               href={`/general/liv?menu=${menu}&set=${preSet}`}
               title={"LIV"}
               content={
@@ -151,35 +245,12 @@ export default async function General({
               }
             ></CardLink>
           </div>
-          <div className=" w-full h-full flex gap-5 flex-col md:px-0 ">
-            <Suspense>
-              <BigNumbersCompany
-                data={bigNumbers}
-                description={rangeDescription}
-              />
-
-              <div className="flex gap-5 flex-col md:flex-row w-full h-full ">
-                <div className="md:w-1/3 w-full h-full ">
-                  <InvoicingXUnity
-                    error={errorMessage}
-                    categories={revenueByCompany?.categories}
-                    series={revenueByCompany?.series}
-                  />
-                </div>
-                <div className="md:w-2/3 h-full ">
-                  <LocationsxUnity data={rentalsByDate} />
-                </div>
-              </div>
-              <div className="flex gap-5 flex-col">
-                <TKTxUnity data={ticketAverageByDate} />
-                <TRevParXUnity data={trevparByDate} />
-              </div>
-              <div className="flex flex-col gap-5">
-                <InvoicingXUnityXTime data={revenueByDate} />
-                <OccupationXUnity data={occupancyRateByDate} />
-              </div>
-            </Suspense>
-          </div>
+          <Suspense fallback={<GeneralKpiContent rangeDescription={rangeDescription} />}>
+            <GeneralKpiBoundary
+              dataPromise={dataPromise}
+              rangeDescription={rangeDescription}
+            />
+          </Suspense>
         </div>
       </div>
     </main>

@@ -3,16 +3,31 @@
 'use server';
 
 import { getGovernanceUnified } from '@/http/operation/get-governance-unified';
+import { getLivOperationalKpis } from '@/http/liv/get-liv-operational';
 import {
 	DEFAULT_RANGE_TAG,
 	getRangeByTag,
 	normalizeRangeTag,
 } from '@/lib/date-range';
+import { mergeLivIntoOperationalConsolidated } from '@/lib/merge-liv-into-consolidated';
 
 interface getOperationalPageDataProps {
 	period?: string;
 	startDate?: string | null;
 	endDate?: string | null;
+}
+
+async function getMergedOperationalData(startDate: string, endDate: string) {
+	const [unifiedData, livData] = await Promise.all([
+		getGovernanceUnified(startDate, endDate),
+		getLivOperationalKpis(startDate, endDate),
+	]);
+
+	if (!unifiedData) {
+		return null;
+	}
+
+	return mergeLivIntoOperationalConsolidated(unifiedData, livData);
 }
 
 export async function getOperationalPageData({
@@ -24,7 +39,7 @@ export async function getOperationalPageData({
 	const range = getRangeByTag(normalized);
 
 	if (startDate && endDate) {
-		const unifiedData = await getGovernanceUnified(startDate, endDate);
+		const unifiedData = await getMergedOperationalData(startDate, endDate);
 
 		if (unifiedData) {
 			return {
@@ -40,7 +55,7 @@ export async function getOperationalPageData({
 			};
 		}
 	} else if (range) {
-		const unifiedData = await getGovernanceUnified(
+		const unifiedData = await getMergedOperationalData(
 			range.startDate,
 			range.endDate,
 		);

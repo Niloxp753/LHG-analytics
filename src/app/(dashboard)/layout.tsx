@@ -1,19 +1,24 @@
 /** @format */
 
 import BackBtn from '@/components/back-btn';
+import {
+	decodeSessionUserHeader,
+	SESSION_USER_HEADER,
+} from '@/lib/session-user';
 import SessionHydratorProvider from '@/providers/session-hydrator-provider';
+import { headers } from 'next/headers';
 import React, { Suspense } from 'react';
 import SidebarMenu from './_components/SidebarMenu';
 import FilterMobile from './_components/filter-mobile';
 import MenuMobile from './_components/menu-mobile';
 
-export default async function DashLayout({
+function DashboardShell({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
 	return (
-		<SessionHydratorProvider>
+		<>
 			<div className='lg:hidden flex gap-2 relative '>
 				<Suspense fallback={null}>
 					<MenuMobile />
@@ -32,6 +37,35 @@ export default async function DashLayout({
 			</div>
 
 			{children}
+		</>
+	);
+}
+
+async function DashboardSessionBoundary({
+	children,
+}: Readonly<{
+	children: React.ReactNode;
+}>) {
+	const requestHeaders = await headers();
+	const initialUser = decodeSessionUserHeader(
+		requestHeaders.get(SESSION_USER_HEADER),
+	);
+
+	return (
+		<SessionHydratorProvider initialUser={initialUser}>
+			<DashboardShell>{children}</DashboardShell>
 		</SessionHydratorProvider>
+	);
+}
+
+export default function DashLayout({
+	children,
+}: Readonly<{
+	children: React.ReactNode;
+}>) {
+	return (
+		<Suspense fallback={null}>
+			<DashboardSessionBoundary>{children}</DashboardSessionBoundary>
+		</Suspense>
 	);
 }

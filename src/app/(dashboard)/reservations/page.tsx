@@ -7,15 +7,15 @@ import {
   getRangeDescription,
 } from "@/lib/date-range";
 import { Suspense } from "react";
+import type { ReservationsBigNumbersEntry } from "@/types/big-numbers-reservations";
 import CardLink from "../_components/CardLink";
 import SparkChart from "../_components/charts/SparkChart";
 import Header from "../_components/Header";
 import BigNumbersReservationPage from "./_components/big-numbers-reservation-page";
+import BigNumbersEcommerce from "./_components/big-numbers-ecommerce";
+import BookingsByCompany from "./_components/page-kpis/bookings-by-company";
 import DataByCompanyReservationsInTime from "./_components/page-kpis/revenue-by-company-in-time";
 import RevenueByCompany from "./_components/page-kpis/revenue-by-company";
-import BookingsByCompany from "./_components/page-kpis/bookings-by-company";
-import BigNumbersEcommerce from "./_components/big-numbers-ecommerce";
-import type { ReservationsBigNumbersEntry } from "@/types/big-numbers-reservations";
 
 type NamedSeriesData = {
   categories: string[];
@@ -34,86 +34,216 @@ type ReservationsUnifiedData = {
   BookingsByCompany: NamedSeriesData;
 };
 
+type ReservationsPageDataResult = Awaited<
+  ReturnType<typeof getReservationPageData>
+>;
+
+async function resolveReservationsData({
+  period,
+  startDate,
+  endDate,
+}: {
+  period: string;
+  startDate: string | null;
+  endDate: string | null;
+}): Promise<ReservationsPageDataResult> {
+  if (startDate && endDate) {
+    const customData = await getReservationPageData({
+      startDate,
+      endDate,
+    });
+
+    if (customData) {
+      return customData;
+    }
+
+    return { ok: false, data: null, error: "Algo deu errado" };
+  }
+
+  const data = await getReservationPageData({ period });
+  if (data) {
+    return data;
+  }
+
+  return { ok: false, data: null, error: "Algo deu errado" };
+}
+
+function ReservationsKpiContent({
+  description,
+  resp,
+}: {
+  description: string;
+  resp?: ReservationsPageDataResult;
+}) {
+  const isLoading = typeof resp === "undefined";
+  const hasError = !isLoading && (!resp.ok || !resp.data);
+  const errorMessage =
+    !isLoading && hasError
+      ? resp.error
+        ? resp.error
+        : "Não foi possível carregar os dados."
+      : undefined;
+
+  const unifiedData =
+    !isLoading && !hasError && !Array.isArray(resp.data)
+      ? (resp.data as ReservationsUnifiedData)
+      : null;
+  const bigNumbers = isLoading
+    ? undefined
+    : hasError
+      ? null
+      : (unifiedData?.BigNumbers ?? null);
+  const billingOfReservationsByPeriod = isLoading
+    ? undefined
+    : hasError
+      ? null
+      : (unifiedData?.BillingOfReservationsByPeriod ?? null);
+  const numberOfReservationsPerPeriod = isLoading
+    ? undefined
+    : hasError
+      ? null
+      : (unifiedData?.NumberOfReservationsPerPeriod ?? null);
+  const representativenessOfReservesByPeriod = isLoading
+    ? undefined
+    : hasError
+      ? null
+      : (unifiedData?.RepresentativenessOfReservesByPeriod ?? null);
+  const billingOfEcommerceByPeriod = isLoading
+    ? undefined
+    : hasError
+      ? null
+      : (unifiedData?.BillingOfEcommerceByPeriod ?? null);
+  const reservationsOfEcommerceByPeriod = isLoading
+    ? undefined
+    : hasError
+      ? null
+      : (unifiedData?.ReservationsOfEcommerceByPeriod ?? null);
+  const revenueByCompany = isLoading
+    ? undefined
+    : hasError
+      ? null
+      : (unifiedData?.RevenueByCompany ?? null);
+  const bookingsByCompany = isLoading
+    ? undefined
+    : hasError
+      ? null
+      : (unifiedData?.BookingsByCompany ?? null);
+  const bigNumbersEcommerce = isLoading
+    ? undefined
+    : hasError
+      ? null
+      : (unifiedData?.BigNumbersEcommerce ?? null);
+
+  return (
+    <div
+      data-testid={isLoading ? "reservations-kpis-loading" : undefined}
+      className="w-full flex gap-5 flex-col justify-start px-3 md:px-0"
+    >
+      <div>
+        <BigNumbersReservationPage
+          data={bigNumbers}
+          description={description}
+          ecommerce={false}
+        />
+      </div>
+
+      <div className="flex flex-col md:flex-row gap-5">
+        <RevenueByCompany
+          data={revenueByCompany}
+          title={"Faturamento por unidade"}
+          money
+          error={errorMessage}
+        />
+        <BookingsByCompany
+          data={bookingsByCompany}
+          title={"Número de Reservas por unidade"}
+          error={errorMessage}
+        />
+      </div>
+      <div className="flex flex-col gap-5">
+        <DataByCompanyReservationsInTime
+          data={billingOfReservationsByPeriod}
+          title={"Faturamento por unidade no tempo"}
+          money
+          error={errorMessage}
+        />
+        <DataByCompanyReservationsInTime
+          data={numberOfReservationsPerPeriod}
+          title={"Número de reservas por unidade"}
+          money={false}
+          error={errorMessage}
+        />
+        <DataByCompanyReservationsInTime
+          data={representativenessOfReservesByPeriod}
+          title={"Rep. por unidade"}
+          percent
+          error={errorMessage}
+        />
+      </div>
+
+      <div className="flex flex-col gap-5">
+        <h2 className="text-4xl font-bold text-zinc-50 mt-10">
+          Indicadores de E-Commerce
+        </h2>
+        <BigNumbersEcommerce
+          data={bigNumbersEcommerce}
+          description={description}
+        />
+
+        <div className="w-full flex flex-col items-center justify-between gap-5">
+          <DataByCompanyReservationsInTime
+            data={billingOfEcommerceByPeriod}
+            title={"Faturamento por unidade - Ecommerce"}
+            money
+            error={errorMessage}
+          />
+          <DataByCompanyReservationsInTime
+            data={reservationsOfEcommerceByPeriod}
+            title={"Rep. por unidade - Ecommerce"}
+            percent
+            error={errorMessage}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+async function ReservationsKpiBoundary({
+  dataPromise,
+  description,
+}: {
+  dataPromise: Promise<ReservationsPageDataResult>;
+  description: string;
+}) {
+  const resp = await dataPromise;
+  return <ReservationsKpiContent description={description} resp={resp} />;
+}
+
 export default async function Reservations({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const menu = (await searchParams).menu;
-  const preSet = (await searchParams).set || DEFAULT_RANGE_TAG;
-  const startDate = (await searchParams).startDate;
-  const endDate = (await searchParams).endDate;
+  const resolvedSearchParams = await searchParams;
+  const menu = resolvedSearchParams.menu;
+  const preSet = resolvedSearchParams.set || DEFAULT_RANGE_TAG;
+  const startDate = resolvedSearchParams.startDate;
+  const endDate = resolvedSearchParams.endDate;
   const rangeDescription = getRangeDescription(preSet as string);
 
   const formattedStartDate = formatDateInput(startDate as string);
   const formattedEndDate = formatDateInput(endDate as string);
+  const dataPromise = resolveReservationsData({
+    period: preSet as string,
+    startDate: formattedStartDate,
+    endDate: formattedEndDate,
+  });
 
-  async function getData() {
-    if (formattedStartDate && formattedEndDate) {
-      const customData = await getReservationPageData({
-        startDate: formattedStartDate,
-        endDate: formattedEndDate,
-      });
-      if (customData) {
-        return customData;
-      }
-      return { ok: false, data: null, error: "Algo deu errado" };
-    } else {
-      const data = await getReservationPageData({ period: preSet as string });
-      if (data) {
-        return data;
-      }
-      return { ok: false, data: null, error: "Algo deu errado" };
-    }
-  }
-
-  const resp = await getData();
-
-  const hasError = !resp.ok || !resp.data;
-  const errorMessage =
-    hasError && resp.error
-      ? resp.error
-      : hasError
-        ? "Não foi possível carregar os dados."
-        : undefined;
-
-  const unifiedData =
-    !hasError && !Array.isArray(resp.data)
-      ? (resp.data as ReservationsUnifiedData)
-      : null;
-  const bigNumbers = hasError ? null : (unifiedData?.BigNumbers ?? null);
-  const billingOfReservationsByPeriod = hasError
-    ? null
-    : (unifiedData?.BillingOfReservationsByPeriod ?? null);
-  const numberOfReservationsPerPeriod = hasError
-    ? null
-    : (unifiedData?.NumberOfReservationsPerPeriod ?? null);
-  const representativenessOfReservesByPeriod = hasError
-    ? null
-    : (unifiedData?.RepresentativenessOfReservesByPeriod ?? null);
-  const BillingOfEcommerceByPeriod = hasError
-    ? null
-    : (unifiedData?.BillingOfEcommerceByPeriod ?? null);
-  const reservationsOfEcommerceByPeriod = hasError
-    ? null
-    : (unifiedData?.ReservationsOfEcommerceByPeriod ?? null);
-  const revenueByCompany = hasError
-    ? null
-    : (unifiedData?.RevenueByCompany ?? null);
-  const bookingsByCompany = hasError
-    ? null
-    : (unifiedData?.BookingsByCompany ?? null);
-
-  const bigNumbersEcommerce = hasError
-    ? null
-    : (unifiedData?.BigNumbersEcommerce ?? null);
   return (
     <main className="flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5">
-      <div className={`relative  md:max-w-[82vw] flex  md:ml-auto w-full `}>
-        <div
-          className={`bg-zinc-950/50 py-4 w-full md:w-[82vw]
-					} backdrop-blur-md fixed z-10 top-0 flex flex-col gap-5 md:justify-end `}
-        >
+      <div className="relative md:max-w-[82vw] flex md:ml-auto w-full">
+        <div className="bg-zinc-950/50 py-4 w-full md:w-[82vw] backdrop-blur-md fixed z-10 top-0 flex flex-col gap-5 md:justify-end">
           <h2 className="text-zinc-50 font-bold text-xl md:text-3xl text-center pt-1">
             Painel de<span className="text-violet-400"> {""}Reservas</span>
           </h2>
@@ -122,8 +252,8 @@ export default async function Reservations({
           </div>
         </div>
 
-        <div className=" w-full  flex gap-5 flex-col justify-start px-3 md:px-0  mt-12 lg:mt-32">
-          <div className="grid md:grid-cols-5 gap-5">
+        <div className="w-full flex flex-col gap-5">
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-3 md:px-0 mt-12 lg:mt-32">
             <CardLink
               href={`/reservations/lushipiranga?menu=${menu}&set=${preSet}`}
               title={"Lush Ipiranga"}
@@ -145,93 +275,24 @@ export default async function Reservations({
               content={<SparkChart serie={[55, 30, 55, 45, 50, 60]} />}
             ></CardLink>
             <CardLink
+              href={`/reservations/altana?menu=${menu}&set=${preSet}`}
+              title={"Altana"}
+              content={<SparkChart serie={[41, 54, 46, 59, 51, 57]} />}
+            ></CardLink>
+            <CardLink
               href={`/reservations/liv?menu=${menu}&set=${preSet}`}
               title={"LIV"}
               content={<SparkChart serie={[40, 55, 45, 50, 40, 55]} />}
             ></CardLink>
           </div>
-          <div>
-            <Suspense>
-              <BigNumbersReservationPage
-                data={bigNumbers}
-                description={rangeDescription}
-                ecommerce={false}
-              />
-            </Suspense>
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-5">
-            <Suspense>
-              <RevenueByCompany
-                data={revenueByCompany}
-                title={"Faturamento por unidade"}
-                money
-                error={errorMessage}
-              />
-              <BookingsByCompany
-                data={bookingsByCompany}
-                title={"Número de Reservas por unidade"}
-                error={errorMessage}
-              />
-            </Suspense>
-          </div>
-          <div className="flex flex-col  gap-5">
-            <Suspense>
-              <DataByCompanyReservationsInTime
-                data={billingOfReservationsByPeriod}
-                title={"Faturamento por unidade no tempo"}
-                money
-                error={errorMessage}
-              />
-            </Suspense>
-            <Suspense>
-              <DataByCompanyReservationsInTime
-                data={numberOfReservationsPerPeriod}
-                title={"Número de reservas por unidade"}
-                money={false}
-                error={errorMessage}
-              />
-            </Suspense>
-            <Suspense>
-              <DataByCompanyReservationsInTime
-                data={representativenessOfReservesByPeriod}
-                title={"Rep. por unidade"}
-                percent
-                error={errorMessage}
-              />
-            </Suspense>
-          </div>
-
-          <div className="flex flex-col gap-5">
-            <h2 className="text-4xl font-bold text-zinc-50 mt-10">
-              Indicadores de E-Commerce
-            </h2>
-            <Suspense>
-              <BigNumbersEcommerce
-                data={bigNumbersEcommerce}
-                description={rangeDescription}
-              />
-            </Suspense>
-
-            <div className="w-full flex flex-col items-center justify-between gap-5">
-              <Suspense>
-                <DataByCompanyReservationsInTime
-                  data={BillingOfEcommerceByPeriod}
-                  title={"Faturamento por unidade - Ecommerce"}
-                  money
-                  error={errorMessage}
-                />
-              </Suspense>
-              <Suspense>
-                <DataByCompanyReservationsInTime
-                  data={reservationsOfEcommerceByPeriod}
-                  title={"Rep. por unidade - Ecommerce"}
-                  percent
-                  error={errorMessage}
-                />
-              </Suspense>
-            </div>
-          </div>
+          <Suspense
+            fallback={<ReservationsKpiContent description={rangeDescription} />}
+          >
+            <ReservationsKpiBoundary
+              dataPromise={dataPromise}
+              description={rangeDescription}
+            />
+          </Suspense>
         </div>
       </div>
     </main>
