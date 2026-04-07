@@ -26,6 +26,7 @@ export default function AfternoonCleaning({
 
 	return (
 		<LineChart
+			palette='units'
 			height={48}
 			title='Total de Limpezas - Tarde'
 			error={resolvedError}

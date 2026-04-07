@@ -7,6 +7,73 @@ import {
 } from '../src/lib/merge-liv-into-consolidated';
 
 test.describe('LIV consolidated merge contract', () => {
+	test('normalizes an existing mixed-case Liv label without duplicating general charts', async () => {
+		const merged = mergeLivIntoGeneralConsolidated(
+			{
+				BigNumbers: [],
+				RevenueByCompany: {
+					categories: ['Lush Ipiranga', 'Liv', 'Altana'],
+					series: [300, 200, 100],
+				},
+				RentalsByDate: {
+					categories: ['22/03', '23/03'],
+					series: [
+						{ name: 'Lush Ipiranga', data: [80, 58] },
+						{ name: 'Liv', data: [57, 47] },
+					],
+				},
+				TicketAverageByDate: {
+					categories: ['22/03', '23/03'],
+					series: [{ name: 'Liv', data: [200, 210] }],
+				},
+				TrevparByDate: {
+					categories: ['22/03', '23/03'],
+					series: [{ name: 'Liv', data: [10, 11] }],
+				},
+				RevenueByDate: {
+					categories: ['22/03', '23/03'],
+					series: [{ name: 'Liv', data: [1000, 1100] }],
+				},
+				OccupancyRateByDate: {
+					categories: ['22/03', '23/03'],
+					series: [{ name: 'Liv', data: [80, 81] }],
+				},
+			},
+			{
+				Company: 'LIV',
+				BigNumbers: [{ currentDate: { totalAllValue: 90 } }],
+				RentalsByDate: { categories: ['22/03', '23/03'], series: [95, 75] },
+				TicketAverageByDate: {
+					categories: ['22/03', '23/03'],
+					series: [220, 230],
+				},
+				TrevparByDate: { categories: ['22/03', '23/03'], series: [12, 14] },
+				RevenueByDate: {
+					categories: ['22/03', '23/03'],
+					series: [1200, 1300],
+				},
+				OccupancyRateByDate: {
+					categories: ['22/03', '23/03'],
+					series: [82, 83],
+				},
+			} as never,
+		);
+
+		expect(merged.RevenueByCompany.categories).toEqual([
+			'Lush Ipiranga',
+			'LIV',
+			'Altana',
+		]);
+		expect(merged.RevenueByCompany.series).toEqual([300, 200, 100]);
+		expect(merged.RentalsByDate.series).toEqual([
+			{ name: 'Lush Ipiranga', data: [80, 58] },
+			{ name: 'LIV', data: [57, 47] },
+		]);
+		expect(merged.TicketAverageByDate.series).toEqual([
+			{ name: 'LIV', data: [200, 210] },
+		]);
+	});
+
 	test('adds LIV to general unit charts', async () => {
 		const merged = mergeLivIntoGeneralConsolidated(
 			{
@@ -281,6 +348,70 @@ test.describe('LIV consolidated merge contract', () => {
 			name: 'LIV',
 			data: [1, 2],
 		});
+	});
+
+	test('normalizes an existing mixed-case Liv label without duplicating operational charts', async () => {
+		const merged = mergeLivIntoOperationalConsolidated(
+			{
+				BigNumbers: [],
+				CleaningsByCompany: {
+					categories: ['Lush Ipiranga', 'Liv', 'Altana'],
+					series: [{ name: 'Total', data: [40, 30, 20] }],
+				},
+				AverageCleaningByCompany: {
+					categories: ['Lush Ipiranga', 'Liv', 'Altana'],
+					series: [{ name: 'MÃ©dia', data: [4, 3, 2] }],
+				},
+				InspectionsByCompany: {
+					categories: ['Lush Ipiranga', 'Liv', 'Altana'],
+					series: [{ name: 'Vistorias', data: [14, 13, 12] }],
+				},
+				ShiftCleaning: {
+					categories: ['22/03', '23/03'],
+					Manhã: [
+						{ name: 'Lush Ipiranga', data: [10, 11] },
+						{ name: 'Liv', data: [3, 4] },
+					],
+					Tarde: [{ name: 'Liv', data: [2, 3] }],
+					Noite: [{ name: 'Liv', data: [1, 2] }],
+				},
+			},
+			{
+				Company: 'LIV',
+				BigNumbers: [
+					{
+						currentDate: {
+							totalAllSuitesCleanings: 9,
+							totalAllAverageDailyCleaning: 6,
+							totalAllInspections: 3,
+						},
+					},
+				],
+				ShiftCleaning: {
+					categories: ['22/03', '23/03'],
+					series: [
+						{ name: 'Manhã', data: [3, 4] },
+						{ name: 'Tarde', data: [2, 3] },
+						{ name: 'Noite', data: [1, 2] },
+					],
+				},
+			} as never,
+		);
+
+		expect(merged.CleaningsByCompany.categories).toEqual([
+			'Lush Ipiranga',
+			'LIV',
+			'Altana',
+		]);
+		expect(merged.CleaningsByCompany.series[0]?.data).toEqual([40, 30, 20]);
+		expect(merged.AverageCleaningByCompany.series[0]?.data).toEqual([4, 3, 2]);
+		expect(merged.InspectionsByCompany.series[0]?.data).toEqual([14, 13, 12]);
+		expect(merged.ShiftCleaning.Manhã).toEqual([
+			{ name: 'Lush Ipiranga', data: [10, 11] },
+			{ name: 'LIV', data: [3, 4] },
+		]);
+		expect(merged.ShiftCleaning.Tarde).toEqual([{ name: 'LIV', data: [2, 3] }]);
+		expect(merged.ShiftCleaning.Noite).toEqual([{ name: 'LIV', data: [1, 2] }]);
 	});
 
 	test('normalizes operational shift keys for dashboard consumers', async () => {

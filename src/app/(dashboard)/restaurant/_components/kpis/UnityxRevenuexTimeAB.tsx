@@ -29,6 +29,7 @@ export default function UnityxRevenuexTimeAB({
 	return (
 		<div className='w-full'>
 			<LineChart
+				palette='units'
 				money
 				error={resolvedError}
 				title={'Receita de A&B por unidade'}

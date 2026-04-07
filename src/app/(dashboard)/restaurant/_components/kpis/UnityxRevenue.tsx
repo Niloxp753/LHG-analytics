@@ -2,10 +2,6 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import {
-	CONSOLIDATED_UNIT_COLORS,
-	CONSOLIDATED_UNIT_DATA_LABEL_COLORS,
-} from '@/app/(dashboard)/_components/charts/consolidated-unit-palette';
 import React from 'react';
 
 const PieChartsApex = dynamic(
@@ -67,12 +63,11 @@ export default function UnityxRevenue({ data, error }: UnityxRevenueProps) {
 	return (
 		<PieChartsApex
 			money
+			palette='units'
 			height={280}
 			title='Receita de A&B por unidade'
 			error={resolvedError}
 			series={normalized.series}
-			colors={CONSOLIDATED_UNIT_COLORS}
-			dataLabelColors={CONSOLIDATED_UNIT_DATA_LABEL_COLORS}
 			labels={normalized.categories}
 		/>
 	);

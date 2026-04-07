@@ -5,6 +5,7 @@ import { api, api_altana, api_andar_de_cima, api_lapa, api_tout } from "../api-c
 import { FetchFailedError } from "../conditional-cache";
 import { applyPrivateDashboardCache } from "../cache-profiles";
 import { logFetchFailed, logRequestTimeout } from "../logging";
+import { readJsonResponse } from "../read-json-response";
 import { isRetryableError, isRetryableStatus } from "../retry";
 
 async function fetchGovernanceKpis(
@@ -45,13 +46,14 @@ async function getOperationCustomCached(
   "use cache: private";
 
   applyPrivateDashboardCache(["operational"], "dashboard");
+  const companyKey = company ?? "ipiranga";
+  const requestName = `getOperationCustom (${companyKey})`;
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 30000);
   const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
 
   try {
-    const companyKey = company ?? "ipiranga";
     let resp: Response | null = null;
     switch (companyKey) {
       case "andar_de_cima":
@@ -94,13 +96,13 @@ async function getOperationCustomCached(
 
     if (!resp || !resp.ok) {
       throw new FetchFailedError(
-        `getOperationCustom (${companyKey})`,
+        requestName,
         resp?.status,
         resp?.statusText,
       );
     }
 
-    return resp.json();
+    return readJsonResponse(resp, requestName);
   } finally {
     clearTimeout(timeout);
   }
@@ -111,6 +113,7 @@ async function getOperationCustomToutUncached(
   endDate: string,
   cookieHeader: string | null,
 ) {
+  const requestName = "getOperationCustom (tout)";
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 30000);
   const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
@@ -126,13 +129,13 @@ async function getOperationCustomToutUncached(
 
     if (!resp || !resp.ok) {
       throw new FetchFailedError(
-        "getOperationCustom (tout)",
+        requestName,
         resp?.status,
         resp?.statusText,
       );
     }
 
-    return resp.json();
+    return readJsonResponse(resp, requestName);
   } finally {
     clearTimeout(timeout);
   }

@@ -1,7 +1,5 @@
 /** @format */
 
-import 'server-only';
-
 export class FetchFailedError extends Error {
 	status?: number;
 	statusText?: string;

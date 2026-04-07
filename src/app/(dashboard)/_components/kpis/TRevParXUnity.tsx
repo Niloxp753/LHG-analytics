@@ -23,6 +23,7 @@ export default function TRevParXUnity({ data }: TRevParXUnityProps) {
 	return (
 		<>
 			<LineChart
+				palette='units'
 				money
 				error={error}
 				title='Trevpar por unidade'

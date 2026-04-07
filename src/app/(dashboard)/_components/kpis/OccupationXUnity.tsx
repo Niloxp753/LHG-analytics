@@ -22,6 +22,7 @@ export default function OccupationXUnity({ data }: OccupationXUnityProps) {
 	return (
 		<>
 			<LineChart
+				palette='units'
 				percent
 				height={148}
 				error={error}

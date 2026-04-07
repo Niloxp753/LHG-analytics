@@ -2,10 +2,6 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import {
-	CONSOLIDATED_UNIT_COLORS,
-	CONSOLIDATED_UNIT_DATA_LABEL_COLORS,
-} from '@/app/(dashboard)/_components/charts/consolidated-unit-palette';
 
 const PieChartsApex = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/PieChartsApex'),
@@ -74,9 +70,8 @@ export default function RevenueByCompany({
 		<PieChartsApex
 			title={title}
 			money={money}
+			palette='units'
 			error={resolvedError}
-			colors={CONSOLIDATED_UNIT_COLORS}
-			dataLabelColors={CONSOLIDATED_UNIT_DATA_LABEL_COLORS}
 			series={normalized.series}
 			labels={normalized.categories}
 		/>

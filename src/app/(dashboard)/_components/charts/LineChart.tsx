@@ -15,12 +15,17 @@ import {
 	type CurrencyConfig,
 } from '@/lib/currency-format';
 import { useSearchParams } from 'next/navigation';
+import {
+	resolveChartPalette,
+	type ChartPaletteMode,
+} from './consolidated-unit-palette';
 
 interface AreaChartsApexProps {
 	title: string;
 	categories?: string[];
 	data?: unknown[];
 	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | null;
+	palette?: ChartPaletteMode;
 	height: string | number | undefined;
 	money?: boolean;
 	percent?: boolean;
@@ -64,6 +69,42 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 	const emptyHeight = Number.isFinite(parsedHeight) ? parsedHeight : 340;
 	const resolvedCurrencyConfig =
 		props.currencyConfig ?? DEFAULT_BRL_CURRENCY_CONFIG;
+	const seriesNames = Array.isArray(props.series)
+		? props.series.flatMap((entry) =>
+				typeof entry === 'object' &&
+				entry !== null &&
+				typeof (entry as { name?: unknown }).name === 'string'
+					? [(entry as { name: string }).name]
+					: [],
+		  )
+		: undefined;
+	const fallbackSeriesColors = [
+		'#a78bfa',
+		'#60a5fa',
+		'#818cf8',
+		'#e879f9',
+		'#fb7185',
+		'#fb923c',
+		'#facc15',
+		'#a3e635',
+	];
+	const fallbackAccentColors = [
+		'#7c3aed',
+		'#2563eb',
+		'#4f46e5',
+		'#c026d3',
+		'#e11d48',
+		'#ea580c',
+		'#ca8a04',
+		'#65a30d',
+	];
+	const palette = resolveChartPalette({
+		palette: props.palette,
+		labels: props.categories,
+		seriesNames,
+		fallbackSeriesColors,
+		fallbackAccentColors,
+	});
 
 	const options: ApexCharts.ApexOptions = {
 		chart: {
@@ -127,16 +168,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 				foreColor: '#fafafa',
 			},
 			style: {
-				colors: [
-					'#7c3aed',
-					'#2563eb',
-					'#4f46e5',
-					'#c026d3',
-					'#e11d48',
-					'#ea580c',
-					'#ca8a04',
-					'#65a30d',
-				],
+				colors: palette.accentColors,
 				fontSize: '10px',
 			},
 		},
@@ -152,16 +184,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 					} `,
 			},
 		},
-		colors: [
-			'#a78bfa',
-			'#60a5fa',
-			'#818cf8',
-			'#e879f9',
-			'#fb7185',
-			'#fb923c',
-			'#facc15',
-			'#a3e635',
-		],
+		colors: palette.seriesColors,
 		title: {
 			text: props.title,
 			style: { fontWeight: 'bold', fontSize: '18px' },
@@ -174,16 +197,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 		},
 		markers: {
 			size: 3,
-			colors: [
-				'#7c3aed',
-				'#2563eb',
-				'#4f46e5',
-				'#c026d3',
-				'#e11d48',
-				'#ea580c',
-				'#ca8a04',
-				'#65a30d',
-			],
+			colors: palette.accentColors,
 			hover: { size: 5 },
 			strokeWidth: 1,
 		},

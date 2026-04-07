@@ -25,6 +25,7 @@ export default function UnityxTKTxTime({ data, error }: UnityxTKTxTimePrps) {
 	return (
 		<div className='w-full'>
 			<LineChart
+				palette='units'
 				money
 				error={resolvedError}
 				title={'Ticket médio por unidade'}

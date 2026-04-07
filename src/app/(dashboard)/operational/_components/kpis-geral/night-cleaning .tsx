@@ -23,6 +23,7 @@ export default function NightCleaning({ data, error }: NightCleaningProps) {
 
 	return (
 		<LineChart
+			palette='units'
 			height={48}
 			title='Total de Limpezas - Noite'
 			error={resolvedError}

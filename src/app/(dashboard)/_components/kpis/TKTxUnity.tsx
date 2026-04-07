@@ -23,6 +23,7 @@ export default function TKTxUnity({ data }: TKTxUnityProps) {
 	return (
 		<>
 			<LineChart
+				palette='units'
 				money
 				error={error}
 				height={148}
