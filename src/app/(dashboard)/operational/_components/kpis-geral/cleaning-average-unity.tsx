@@ -3,10 +3,6 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import {
-	CONSOLIDATED_UNIT_COLORS,
-	CONSOLIDATED_UNIT_DATA_LABEL_COLORS,
-} from '@/app/(dashboard)/_components/charts/consolidated-unit-palette';
 import React from 'react';
 const PieChartsApex = dynamic(
 	() => import('@/app/(dashboard)/_components/charts/PieChartsApex'),
@@ -33,11 +29,10 @@ export default function CleaningAverageUnity({
 	return (
 		<PieChartsApex
 			height={340}
+			palette='units'
 			error={resolvedError}
 			series={series ?? undefined}
 			title='Média de Limpezas por Unidade'
-			colors={CONSOLIDATED_UNIT_COLORS}
-			dataLabelColors={CONSOLIDATED_UNIT_DATA_LABEL_COLORS}
 			labels={data?.categories}
 		/>
 	);

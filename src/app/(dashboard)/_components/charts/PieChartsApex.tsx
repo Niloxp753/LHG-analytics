@@ -12,6 +12,10 @@ import {
 	formatCurrency,
 	type CurrencyConfig,
 } from '@/lib/currency-format';
+import {
+	resolveChartPalette,
+	type ChartPaletteMode,
+} from './consolidated-unit-palette';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -27,6 +31,7 @@ interface PieChartsApexProps {
 	series?: ApexNonAxisChartSeries | null;
 	colors?: string[];
 	dataLabelColors?: string[];
+	palette?: ChartPaletteMode;
 	height?: number;
 	money?: boolean;
 	percent?: boolean;
@@ -49,6 +54,26 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 	const emptyTitle = props.title ? props.title : 'Faturamento por unidade';
 	const resolvedCurrencyConfig =
 		props.currencyConfig ?? DEFAULT_BRL_CURRENCY_CONFIG;
+	const fallbackSeriesColors = props.colors ?? [
+		'#a78bfa',
+		'#60a5fa',
+		'#818cf8',
+		'#e879f9',
+		'#fb7185',
+	];
+	const fallbackAccentColors = props.dataLabelColors ?? [
+		'#7c3aed',
+		'#2563eb',
+		'#4f46e5',
+		'#c026d3',
+		'#e11d48',
+	];
+	const palette = resolveChartPalette({
+		palette: props.palette,
+		labels: props.labels,
+		fallbackSeriesColors,
+		fallbackAccentColors,
+	});
 
 	const options: ApexCharts.ApexOptions = {
 		chart: {
@@ -87,7 +112,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 			margin: 12,
 		},
 
-		colors: ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9', '#fb7185'],
+		colors: palette.seriesColors,
 		labels: props.labels
 			? props.labels
 			: ['Lush Ipiranga', 'Lush Lapa', 'Tout', 'Andar de Cima'],
@@ -96,7 +121,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 			enabled: true,
 			textAnchor: 'end',
 			style: {
-				colors: ['#7c3aed', '#2563eb', '#4f46e5', '#c026d3', '#e11d48'],
+				colors: palette.accentColors,
 				fontWeight: 'semibold',
 				fontSize: '12px',
 			},

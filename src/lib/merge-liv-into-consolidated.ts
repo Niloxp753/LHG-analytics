@@ -31,6 +31,49 @@ type RawShiftCleaningData = {
 	[key: string]: string[] | SeriesEntry[] | undefined;
 };
 
+function isLivLabel(value?: string | null) {
+	return value?.trim().toLowerCase() === LIV_LABEL.toLowerCase();
+}
+
+function normalizeCategoryLabel(category: string) {
+	return isLivLabel(category) ? LIV_LABEL : category;
+}
+
+function normalizeSeriesEntries(series: SeriesEntry[]) {
+	return series.map((entry) =>
+		isLivLabel(entry.name) ? { ...entry, name: LIV_LABEL } : entry,
+	);
+}
+
+function normalizePieChartData(data: PieChartData): PieChartData {
+	if (!Array.isArray(data.series) || data.series.length === 0) {
+		return {
+			...data,
+			categories: data.categories.map(normalizeCategoryLabel),
+		};
+	}
+
+	if (typeof data.series[0] === 'number') {
+		return {
+			...data,
+			categories: data.categories.map(normalizeCategoryLabel),
+		};
+	}
+
+	return {
+		...data,
+		categories: data.categories.map(normalizeCategoryLabel),
+		series: normalizeSeriesEntries(data.series as SeriesEntry[]),
+	};
+}
+
+function normalizeNamedSeriesData(data: NamedSeriesData): NamedSeriesData {
+	return {
+		...data,
+		series: normalizeSeriesEntries(data.series),
+	};
+}
+
 export type GeneralConsolidatedData = {
 	BigNumbers: CompanyBigNumbersEntry[];
 	RevenueByCompany: PieChartData;
@@ -71,11 +114,11 @@ export type OperationalConsolidatedData = {
 };
 
 function hasLivCategory(categories?: string[]) {
-	return categories?.some((category) => category === LIV_LABEL) ?? false;
+	return categories?.some((category) => isLivLabel(category)) ?? false;
 }
 
 function hasLivSeries(series?: SeriesEntry[]) {
-	return series?.some((entry) => entry.name === LIV_LABEL) ?? false;
+	return series?.some((entry) => isLivLabel(entry.name)) ?? false;
 }
 
 function mergeMetrics<T extends NumericLikeRecord | undefined>(base: T, extra: T): T {
@@ -223,9 +266,9 @@ function normalizeShiftCleaningData(
 ): ShiftCleaningData {
 	return {
 		categories: Array.isArray(data?.categories) ? [...data.categories] : [],
-		Manhã: data ? findShiftSeries(data, 'morning') : [],
-		Tarde: data ? findShiftSeries(data, 'afternoon') : [],
-		Noite: data ? findShiftSeries(data, 'night') : [],
+		Manhã: data ? normalizeSeriesEntries(findShiftSeries(data, 'morning')) : [],
+		Tarde: data ? normalizeSeriesEntries(findShiftSeries(data, 'afternoon')) : [],
+		Noite: data ? normalizeSeriesEntries(findShiftSeries(data, 'night')) : [],
 	};
 }
 
@@ -257,26 +300,45 @@ export function mergeLivIntoGeneralConsolidated(
 	base: GeneralConsolidatedData,
 	liv: LivCompanyKpisResponse | null,
 ): GeneralConsolidatedData {
-	if (!liv || hasLivCategory(base.RevenueByCompany.categories)) {
-		return base;
+	const normalizedBase = {
+		...base,
+		RevenueByCompany: normalizePieChartData(base.RevenueByCompany),
+		RentalsByDate: normalizeNamedSeriesData(base.RentalsByDate),
+		TicketAverageByDate: normalizeNamedSeriesData(base.TicketAverageByDate),
+		TrevparByDate: normalizeNamedSeriesData(base.TrevparByDate),
+		RevenueByDate: normalizeNamedSeriesData(base.RevenueByDate),
+		OccupancyRateByDate: normalizeNamedSeriesData(base.OccupancyRateByDate),
+	};
+
+	if (!liv || hasLivCategory(normalizedBase.RevenueByCompany.categories)) {
+		return normalizedBase;
 	}
 
 	return {
-		...base,
-		BigNumbers: mergeBigNumbers(base.BigNumbers, liv.BigNumbers),
+		...normalizedBase,
+		BigNumbers: mergeBigNumbers(normalizedBase.BigNumbers, liv.BigNumbers),
 		RevenueByCompany: appendPieValue(
-			base.RevenueByCompany,
+			normalizedBase.RevenueByCompany,
 			liv.BigNumbers[0]?.currentDate.totalAllValue,
 		),
-		RentalsByDate: appendNamedSeries(base.RentalsByDate, liv.RentalsByDate.series),
+		RentalsByDate: appendNamedSeries(
+			normalizedBase.RentalsByDate,
+			liv.RentalsByDate.series,
+		),
 		TicketAverageByDate: appendNamedSeries(
-			base.TicketAverageByDate,
+			normalizedBase.TicketAverageByDate,
 			liv.TicketAverageByDate.series,
 		),
-		TrevparByDate: appendNamedSeries(base.TrevparByDate, liv.TrevparByDate.series),
-		RevenueByDate: appendNamedSeries(base.RevenueByDate, liv.RevenueByDate.series),
+		TrevparByDate: appendNamedSeries(
+			normalizedBase.TrevparByDate,
+			liv.TrevparByDate.series,
+		),
+		RevenueByDate: appendNamedSeries(
+			normalizedBase.RevenueByDate,
+			liv.RevenueByDate.series,
+		),
 		OccupancyRateByDate: appendNamedSeries(
-			base.OccupancyRateByDate,
+			normalizedBase.OccupancyRateByDate,
 			liv.OccupancyRateByDate.series,
 		),
 	};
@@ -286,31 +348,42 @@ export function mergeLivIntoRestaurantConsolidated(
 	base: RestaurantConsolidatedData,
 	liv: LivRestaurantKpisResponse | null,
 ): RestaurantConsolidatedData {
-	if (!liv || hasLivCategory(base.RevenueByCompany.categories)) {
-		return base;
+	const normalizedBase = {
+		...base,
+		RevenueAbByPeriod: normalizeNamedSeriesData(base.RevenueAbByPeriod),
+		TicketAverageByPeriod: normalizeNamedSeriesData(base.TicketAverageByPeriod),
+		RevenueAbByPeriodPercent: normalizeNamedSeriesData(
+			base.RevenueAbByPeriodPercent,
+		),
+		RevenueByCompany: normalizePieChartData(base.RevenueByCompany),
+		SalesByCompany: normalizePieChartData(base.SalesByCompany),
+	};
+
+	if (!liv || hasLivCategory(normalizedBase.RevenueByCompany.categories)) {
+		return normalizedBase;
 	}
 
 	return {
-		...base,
-		BigNumbers: mergeBigNumbers(base.BigNumbers, liv.BigNumbers),
+		...normalizedBase,
+		BigNumbers: mergeBigNumbers(normalizedBase.BigNumbers, liv.BigNumbers),
 		RevenueAbByPeriod: appendNamedSeries(
-			base.RevenueAbByPeriod,
+			normalizedBase.RevenueAbByPeriod,
 			liv.RevenueAbByPeriod.series,
 		),
 		TicketAverageByPeriod: appendNamedSeries(
-			base.TicketAverageByPeriod,
+			normalizedBase.TicketAverageByPeriod,
 			liv.TicketAverageByPeriod.series,
 		),
 		RevenueAbByPeriodPercent: appendNamedSeries(
-			base.RevenueAbByPeriodPercent,
+			normalizedBase.RevenueAbByPeriodPercent,
 			liv.RevenueAbByPeriodPercent.series,
 		),
 		RevenueByCompany: appendPieValue(
-			base.RevenueByCompany,
+			normalizedBase.RevenueByCompany,
 			liv.BigNumbers[0]?.currentDate.totalAllSalesRevenue,
 		),
 		SalesByCompany: appendPieValue(
-			base.SalesByCompany,
+			normalizedBase.SalesByCompany,
 			liv.BigNumbers[0]?.currentDate.totalAllSales,
 		),
 	};
@@ -320,43 +393,64 @@ export function mergeLivIntoReservationsConsolidated(
 	base: ReservationsConsolidatedData,
 	liv: LivReservationsKpisResponse | null,
 ): ReservationsConsolidatedData {
-	if (!liv || hasLivCategory(base.RevenueByCompany.categories)) {
-		return base;
+	const normalizedBase = {
+		...base,
+		BillingOfReservationsByPeriod: normalizeNamedSeriesData(
+			base.BillingOfReservationsByPeriod,
+		),
+		NumberOfReservationsPerPeriod: normalizeNamedSeriesData(
+			base.NumberOfReservationsPerPeriod,
+		),
+		RepresentativenessOfReservesByPeriod: normalizeNamedSeriesData(
+			base.RepresentativenessOfReservesByPeriod,
+		),
+		BillingOfEcommerceByPeriod: normalizeNamedSeriesData(
+			base.BillingOfEcommerceByPeriod,
+		),
+		ReservationsOfEcommerceByPeriod: normalizeNamedSeriesData(
+			base.ReservationsOfEcommerceByPeriod,
+		),
+		RevenueByCompany: normalizePieChartData(base.RevenueByCompany),
+		BookingsByCompany: normalizePieChartData(base.BookingsByCompany),
+	};
+
+	if (!liv || hasLivCategory(normalizedBase.RevenueByCompany.categories)) {
+		return normalizedBase;
 	}
 
 	return {
-		...base,
-		BigNumbers: mergeBigNumbers(base.BigNumbers, liv.BigNumbers),
+		...normalizedBase,
+		BigNumbers: mergeBigNumbers(normalizedBase.BigNumbers, liv.BigNumbers),
 		BigNumbersEcommerce: mergeBigNumbers(
-			base.BigNumbersEcommerce,
+			normalizedBase.BigNumbersEcommerce,
 			liv.BigNumbersEcommerce,
 		),
 		BillingOfReservationsByPeriod: appendNamedSeries(
-			base.BillingOfReservationsByPeriod,
+			normalizedBase.BillingOfReservationsByPeriod,
 			liv.BillingOfReservationsByPeriod.series,
 		),
 		NumberOfReservationsPerPeriod: appendNamedSeries(
-			base.NumberOfReservationsPerPeriod,
+			normalizedBase.NumberOfReservationsPerPeriod,
 			liv.NumberOfReservationsPerPeriod.series,
 		),
 		RepresentativenessOfReservesByPeriod: appendNamedSeries(
-			base.RepresentativenessOfReservesByPeriod,
+			normalizedBase.RepresentativenessOfReservesByPeriod,
 			liv.RepresentativenessOfReservesByPeriod.series,
 		),
 		BillingOfEcommerceByPeriod: appendNamedSeries(
-			base.BillingOfEcommerceByPeriod,
+			normalizedBase.BillingOfEcommerceByPeriod,
 			liv.BillingOfEcommerceByPeriod.series,
 		),
 		ReservationsOfEcommerceByPeriod: appendNamedSeries(
-			base.ReservationsOfEcommerceByPeriod,
+			normalizedBase.ReservationsOfEcommerceByPeriod,
 			liv.ReservationsOfEcommerceByPeriod.series,
 		),
 		RevenueByCompany: appendPieValue(
-			base.RevenueByCompany,
+			normalizedBase.RevenueByCompany,
 			liv.BigNumbers[0]?.currentDate.totalAllValue,
 		),
 		BookingsByCompany: appendPieValue(
-			base.BookingsByCompany,
+			normalizedBase.BookingsByCompany,
 			liv.BigNumbers[0]?.currentDate.totalAllBookings,
 		),
 	};
@@ -368,6 +462,15 @@ export function mergeLivIntoOperationalConsolidated(
 ): OperationalConsolidatedData {
 	const normalizedBase = {
 		...base,
+		CleaningsByCompany: normalizePieChartData(
+			base.CleaningsByCompany,
+		) as NamedSeriesData,
+		AverageCleaningByCompany: normalizePieChartData(
+			base.AverageCleaningByCompany,
+		) as NamedSeriesData,
+		InspectionsByCompany: normalizePieChartData(
+			base.InspectionsByCompany,
+		) as NamedSeriesData,
 		ShiftCleaning: normalizeShiftCleaningData(base.ShiftCleaning),
 	};
 

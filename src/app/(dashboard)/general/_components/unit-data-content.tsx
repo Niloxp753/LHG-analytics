@@ -1,5 +1,6 @@
 /** @format */
 
+import type { ComponentProps } from "react";
 import BigNumbers from "@/app/(dashboard)/_components/bignumber";
 import GiroByDate from "@/app/(dashboard)/_components/kpis/GiroByDate";
 import Invoicing from "@/app/(dashboard)/_components/kpis/Invoicing";
@@ -17,9 +18,28 @@ import Ticket from "@/app/(dashboard)/_components/kpis/Ticket";
 import TRevPar from "@/app/(dashboard)/_components/kpis/TRevPar";
 import { type CurrencyConfig } from "@/lib/currency-format";
 
+type GeneralUnitDataContentData = {
+  BigNumbers?: ComponentProps<typeof BigNumbers>["data"];
+  BillingRentalType?: ComponentProps<typeof InvoicingXLocation>["data"];
+  RevenueBySuiteCategory?: ComponentProps<typeof Categories>["data"];
+  TrevparByDate?: ComponentProps<typeof TRevPar>["data"];
+  RevparByDate?: ComponentProps<typeof RevPar>["data"];
+  RevenueByDate?: ComponentProps<typeof Invoicing>["data"];
+  GiroByDate?: ComponentProps<typeof GiroByDate>["data"];
+  RentalsByDate?: ComponentProps<typeof Locations>["data"];
+  TicketAverageByDate?: ComponentProps<typeof Ticket>["data"];
+  OccupancyRateByDate?: ComponentProps<typeof Occupation>["data"];
+  OccupancyRateBySuiteCategory?: ComponentProps<typeof OccupationCasaLush>["data"];
+  DataTableSuiteCategory?: ComponentProps<typeof TableKpiCategory>["dataTable"];
+  TotalResult?: ComponentProps<typeof TableKpiCategory>["datatableResult"];
+  DataTableGiroByWeek?: ComponentProps<typeof TableKpiGiro>["data"];
+  DataTableRevparByWeek?: ComponentProps<typeof TableKpiRevpar>["data"];
+  DataTableOccupancyRateByWeek?: ComponentProps<typeof TableKpiOccupation>["data"];
+};
+
 type GeneralUnitDataContentProps = {
   currencyConfig?: CurrencyConfig;
-  data: any;
+  data: GeneralUnitDataContentData | null | undefined;
   rangeDescription: string;
 };
 

@@ -33,6 +33,7 @@ export default function DataByCompanyReservationsInTime({
 
 	return (
 		<LineChartsApex
+			palette='units'
 			money={money}
 			percent={percent}
 			error={resolvedError}

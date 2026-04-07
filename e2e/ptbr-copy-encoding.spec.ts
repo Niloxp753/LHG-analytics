@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 
 const SOURCE_ROOTS = [
@@ -12,7 +12,7 @@ const FILE_EXTENSIONS = new Set(['.ts', '.tsx']);
 const MOJIBAKE_PATTERN = /Ãƒ|Ã‚|Ã|Â|�/;
 
 function* walk(dir: string): Generator<string> {
-	const entries = require('node:fs').readdirSync(dir, { withFileTypes: true });
+	const entries = readdirSync(dir, { withFileTypes: true });
 	for (const entry of entries) {
 		const fullPath = path.join(dir, entry.name);
 		if (entry.isDirectory()) {

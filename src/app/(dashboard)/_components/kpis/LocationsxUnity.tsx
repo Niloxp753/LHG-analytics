@@ -24,6 +24,7 @@ export default function LocationsxUnity({ data }: LocationsxUnityProps) {
 	return (
 		<>
 			<LineChart
+				palette='units'
 				height={52}
 				error={error}
 				title={title}

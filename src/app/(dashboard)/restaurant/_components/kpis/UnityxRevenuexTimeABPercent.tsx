@@ -29,6 +29,7 @@ export default function UnityxRevenuexTimeABPercent({
 	return (
 		<div className='w-full'>
 			<LineChart
+				palette='units'
 				percent
 				error={resolvedError}
 				title={'% de A&B por unidade'}

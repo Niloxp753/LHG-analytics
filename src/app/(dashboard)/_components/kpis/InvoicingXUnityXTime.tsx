@@ -23,6 +23,7 @@ export default function InvoicingXUnityXTime({
 
 	return (
 		<LineChart
+			palette='units'
 			money
 			error={error}
 			height={148}

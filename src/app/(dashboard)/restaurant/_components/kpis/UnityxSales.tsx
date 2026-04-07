@@ -64,10 +64,9 @@ export default function UnityxSales({ data, error }: UnityxSalesProps) {
 		<PieChartsApex
 			height={280}
 			title='Nº de vendas por unidade'
+			palette='units'
 			error={resolvedError}
 			series={normalized.series}
-			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
-			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
 			labels={normalized.categories}
 		/>
 	);

@@ -23,6 +23,7 @@ export default function MorningCleaning({ data, error }: MorningCleaningProps) {
 
 	return (
 		<LineChart
+			palette='units'
 			height={48}
 			title='Total de Limpezas - Manhã'
 			error={resolvedError}

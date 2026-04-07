@@ -70,9 +70,8 @@ export default function BookingsByCompany({
 		<PieChartsApex
 			title={title}
 			money={money}
+			palette='units'
 			error={resolvedError}
-			colors={['#a78bfa', '#fbbf24', '#2dd4bf', '#ef4444']}
-			dataLabelColors={['#5b21b6', '#d97706', '#115e59', '#991b1b']}
 			series={normalized.series}
 			labels={normalized.categories}
 		/>
