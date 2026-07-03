@@ -5,8 +5,8 @@ import {
 	normalizeOperationalShiftKey,
 } from './operational-shifts';
 
-const SHIFT_LABELS = ['Manh\u00e3', 'Tarde', 'Noite'] as const;
-const SHIFT_ERROR = 'N\u00e3o foi poss\u00edvel carregar os dados.';
+const SHIFT_LABELS = ['Manhã', 'Tarde', 'Noite'] as const;
+const SHIFT_ERROR = 'Não foi possível carregar os dados.';
 
 type ShiftSeriesEntry = {
 	name?: unknown;

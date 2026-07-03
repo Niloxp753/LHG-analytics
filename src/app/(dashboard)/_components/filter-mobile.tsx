@@ -13,13 +13,14 @@ import {
 } from '@/components/ui/sheet';
 import { Filter, Loader2 } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useTransition } from 'react';
 import FormFilter from './FormFilter';
 import { DEFAULT_RANGE_TAG, getAvailableRangeTags } from '@/lib/date-range';
 import { shouldNavigateToHref } from '@/lib/navigation-target';
+import { useMounted } from '@/lib/use-mounted';
 
 export default function FilterMobile() {
-	const [mounted, setMounted] = useState(false);
+	const mounted = useMounted();
 	const pathname = usePathname();
 	const [isPending, startTransition] = useTransition();
 	const searchParams = useSearchParams();
@@ -41,10 +42,6 @@ export default function FilterMobile() {
 		handleClose();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isPending]);
-
-	useEffect(() => {
-		setMounted(true);
-	}, []);
 
 	if (!mounted) {
 		return null;
@@ -121,5 +118,4 @@ export default function FilterMobile() {
 		</Sheet>
 	);
 }
-
 

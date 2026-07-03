@@ -27,12 +27,12 @@ export default function MorningCleaningWorkers({
 }: MorningCleaningWorkersProps) {
 	const resolvedError =
 		error ??
-		(series === null ? 'N\u00e3o foi poss\u00edvel carregar os dados.' : undefined);
+		(series === null ? 'Não foi possível carregar os dados.' : undefined);
 
 	return (
 		<LineChart
 			height={height ?? 480}
-			title={title ?? 'Total de Limpezas - Manh\u00e3'}
+			title={title ?? 'Total de Limpezas - Manhã'}
 			error={resolvedError}
 			series={series ?? undefined}
 			categories={categories}

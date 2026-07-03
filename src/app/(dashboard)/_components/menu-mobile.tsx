@@ -27,11 +27,12 @@ import {
 } from '@/lib/access-control';
 import { DEFAULT_RANGE_TAG } from '@/lib/date-range';
 import { shouldNavigateToHref } from '@/lib/navigation-target';
+import { useMounted } from '@/lib/use-mounted';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useTransition } from 'react';
 
 export default function MenuMobile() {
-	const [mounted, setMounted] = useState(false);
+	const mounted = useMounted();
 	const pathname = usePathname();
 	const [isPending, startTransition] = useTransition();
 	const searchParams = useSearchParams();
@@ -79,10 +80,6 @@ export default function MenuMobile() {
 		handleClose();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isPending]);
-
-	useEffect(() => {
-		setMounted(true);
-	}, []);
 
 	if (!mounted) {
 		return null;

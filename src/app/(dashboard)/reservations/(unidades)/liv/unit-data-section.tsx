@@ -40,7 +40,7 @@ export default async function ReservationsLivDataSection({
       <Alert variant="destructive" className="w-full">
         <AlertTitle>Erro ao carregar</AlertTitle>
         <AlertDescription>
-          N\u00e3o foi poss\u00edvel carregar os dados de reservas da LIV.
+          Não foi possível carregar os dados de reservas da LIV.
         </AlertDescription>
       </Alert>
     );

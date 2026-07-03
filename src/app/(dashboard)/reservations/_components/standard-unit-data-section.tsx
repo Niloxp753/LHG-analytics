@@ -60,7 +60,7 @@ export async function StandardReservationsUnitDataSection({
       <Alert variant="destructive" className="w-full">
         <AlertTitle>Erro ao carregar</AlertTitle>
         <AlertDescription>
-          {`N\u00e3o foi poss\u00edvel carregar os dados de reservas da ${unitName}.`}
+          {`Não foi possível carregar os dados de reservas da ${unitName}.`}
         </AlertDescription>
       </Alert>
     );

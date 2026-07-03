@@ -75,7 +75,7 @@ export default function TableWokersWeekly({
 					Dimensionamento de Equipe - Semanal
 				</h2>
 				<p className='border border-violet-400 rounded-lg p-4'>
-					N\u00famero ideal de su\u00edtes limpas:{' '}
+					Número ideal de suítes limpas:{' '}
 					<strong className='text-lg'>{idealNumber}</strong>
 				</p>
 			</div>
@@ -84,7 +84,7 @@ export default function TableWokersWeekly({
 				className='mt-5 bg-zinc-900 rounded-lg'>
 				<TableHeader className='bg-violet-900 rounded-lg text-sm'>
 					<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
-						<TableHead>Hor\u00e1rio</TableHead>
+						<TableHead>Horário</TableHead>
 						<TableHead className='text-center text-xs text-nowrap'>
 							Domingo
 						</TableHead>
@@ -92,7 +92,7 @@ export default function TableWokersWeekly({
 							Segunda-Feira
 						</TableHead>
 						<TableHead className='text-center text-xs text-nowrap'>
-							Ter\u00e7a-Feira
+							Terça-Feira
 						</TableHead>
 						<TableHead className='text-center text-xs text-nowrap'>
 							Quarta-Feira
@@ -104,10 +104,10 @@ export default function TableWokersWeekly({
 							Sexta-Feira
 						</TableHead>
 						<TableHead className='text-center text-xs text-nowrap'>
-							S\u00e1bado
+							Sábado
 						</TableHead>
 						<TableHead className='text-center text-xs text-nowrap'>
-							M\u00e9dia
+							Média
 						</TableHead>
 						<TableHead className='text-center lg:max-w-28 text-xs text-nowrap md:text-wrap'>
 							Camareiras por turno (IDEAL)
