@@ -61,22 +61,6 @@ const UNIT_COLOR_KEY_BY_ALIAS: Record<string, UnitColorKey> = {
   altana: "altana",
 };
 
-const DEFAULT_UNIT_ORDER: UnitColorKey[] = [
-  "ipiranga",
-  "lapa",
-  "tout",
-  "andarDeCima",
-  "liv",
-  "altana",
-];
-
-export const CONSOLIDATED_UNIT_COLORS = DEFAULT_UNIT_ORDER.map(
-  (unitKey) => UNIT_CHART_COLORS[unitKey].series,
-);
-
-export const CONSOLIDATED_UNIT_DATA_LABEL_COLORS = DEFAULT_UNIT_ORDER.map(
-  (unitKey) => UNIT_CHART_COLORS[unitKey].accent,
-);
 
 function normalizeLabelToken(label: string) {
   return label

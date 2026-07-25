@@ -43,6 +43,13 @@ const backendFetch: typeof fetch = async (input, init) => {
   );
 };
 
+const consolidatedEndpoint =
+  process.env.BACKEND_CONSOLIDATED_ENDPOINT?.trim();
+
+if (!consolidatedEndpoint) {
+  throw new Error("BACKEND_CONSOLIDATED_ENDPOINT is required");
+}
+
 export const api = ky.create({
   prefixUrl: process.env.BACKEND_ENDPOINT_IPIRANGA,
   timeout: 60000,
@@ -93,6 +100,14 @@ export const api_altana = ky.create({
 
 export const auth_api = ky.create({
   prefixUrl: process.env.BACKEND_AUTH_ENDPOINT,
+  timeout: 60000,
+  retry: 0,
+  mode: "cors",
+  fetch: backendFetch,
+});
+
+export const consolidated_api = ky.create({
+  prefixUrl: consolidatedEndpoint,
   timeout: 60000,
   retry: 0,
   mode: "cors",

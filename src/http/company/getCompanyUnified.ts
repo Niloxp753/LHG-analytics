@@ -1,7 +1,7 @@
 /** @format */
 
 import { buildAuthCookieHeader } from '@/lib/auth-headers';
-import { auth_api } from '../api-client';
+import { consolidated_api } from '../api-client';
 import { FetchFailedError } from '../conditional-cache';
 import { applyPrivateDashboardCache } from '../cache-profiles';
 import { logFetchFailed, logRequestTimeout } from '../logging';
@@ -24,7 +24,7 @@ async function getCompanyUnifiedCached(
 		let resp: Response | null = null;
 		for (let attempt = 0; attempt < 2; attempt += 1) {
 			try {
-				resp = await auth_api.get('Company/kpis/date-range', {
+				resp = await consolidated_api.get('Company/kpis/date-range', {
 					searchParams: { startDate, endDate },
 					headers: authHeaders,
 					signal: controller.signal,
