@@ -10,34 +10,47 @@ import ReservationsUnitDataFallback from "../../_components/unit-data-fallback";
 import ReservationsUnitPageShell from "../../_components/unit-page-shell";
 import ReservationsAltanaDataSection from "./unit-data-section";
 
-export default async function Altana({
+type ReservationsUnitSearchParams = Promise<{
+  [key: string]: string | string[] | undefined;
+}>;
+
+export default function Altana({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: ReservationsUnitSearchParams;
 }) {
-  const resolvedSearchParams = await searchParams;
-  const preSet = resolvedSearchParams.set ?? DEFAULT_RANGE_TAG;
-  const startDate = resolvedSearchParams.startDate;
-  const endDate = resolvedSearchParams.endDate;
-  const rangeDescription = getRangeDescription(preSet as string);
-
-  const formattedStartDate = formatDateInput(startDate as string);
-  const formattedEndDate = formatDateInput(endDate as string);
+  const fallbackRangeDescription = getRangeDescription(DEFAULT_RANGE_TAG);
 
   return (
     <ReservationsUnitPageShell title="Altana">
       <Suspense
         fallback={
-          <ReservationsUnitDataFallback description={rangeDescription} />
+          <ReservationsUnitDataFallback
+            description={fallbackRangeDescription}
+          />
         }
       >
-        <ReservationsAltanaDataSection
-          description={rangeDescription}
-          endDate={formattedEndDate}
-          preSet={preSet as string}
-          startDate={formattedStartDate}
-        />
+        <ReservationsUnitDataFromSearchParams searchParams={searchParams} />
       </Suspense>
     </ReservationsUnitPageShell>
+  );
+}
+
+async function ReservationsUnitDataFromSearchParams({
+  searchParams,
+}: {
+  searchParams: ReservationsUnitSearchParams;
+}) {
+  const resolvedSearchParams = await searchParams;
+  const preSet = resolvedSearchParams.set ?? DEFAULT_RANGE_TAG;
+  const rangeDescription = getRangeDescription(preSet as string);
+
+  return (
+    <ReservationsAltanaDataSection
+      description={rangeDescription}
+      endDate={formatDateInput(resolvedSearchParams.endDate as string)}
+      preSet={preSet as string}
+      startDate={formatDateInput(resolvedSearchParams.startDate as string)}
+    />
   );
 }

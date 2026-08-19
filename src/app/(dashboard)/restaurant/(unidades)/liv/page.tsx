@@ -10,32 +10,47 @@ import RestaurantUnitDataFallback from "../../_components/unit-data-fallback";
 import RestaurantUnitPageShell from "../../_components/unit-page-shell";
 import RestaurantLivDataSection from "./unit-data-section";
 
-export default async function Liv({
+type RestaurantUnitSearchParams = Promise<{
+  [key: string]: string | string[] | undefined;
+}>;
+
+export default function Liv({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: RestaurantUnitSearchParams;
 }) {
-  const resolvedSearchParams = await searchParams;
-  const preSet = resolvedSearchParams.set ?? DEFAULT_RANGE_TAG;
-  const startDate = resolvedSearchParams.startDate;
-  const endDate = resolvedSearchParams.endDate;
-  const rangeDescription = getRangeDescription(preSet as string);
-
-  const formattedStartDate = formatDateInput(startDate as string);
-  const formattedEndDate = formatDateInput(endDate as string);
+  const fallbackRangeDescription = getRangeDescription(DEFAULT_RANGE_TAG);
 
   return (
     <RestaurantUnitPageShell title="LIV">
       <Suspense
-        fallback={<RestaurantUnitDataFallback description={rangeDescription} />}
+        fallback={
+          <RestaurantUnitDataFallback
+            description={fallbackRangeDescription}
+          />
+        }
       >
-        <RestaurantLivDataSection
-          description={rangeDescription}
-          endDate={formattedEndDate}
-          preSet={preSet as string}
-          startDate={formattedStartDate}
-        />
+        <RestaurantUnitDataFromSearchParams searchParams={searchParams} />
       </Suspense>
     </RestaurantUnitPageShell>
+  );
+}
+
+async function RestaurantUnitDataFromSearchParams({
+  searchParams,
+}: {
+  searchParams: RestaurantUnitSearchParams;
+}) {
+  const resolvedSearchParams = await searchParams;
+  const preSet = resolvedSearchParams.set ?? DEFAULT_RANGE_TAG;
+  const rangeDescription = getRangeDescription(preSet as string);
+
+  return (
+    <RestaurantLivDataSection
+      description={rangeDescription}
+      endDate={formatDateInput(resolvedSearchParams.endDate as string)}
+      preSet={preSet as string}
+      startDate={formatDateInput(resolvedSearchParams.startDate as string)}
+    />
   );
 }

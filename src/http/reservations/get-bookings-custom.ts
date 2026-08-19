@@ -1,7 +1,14 @@
 /** @format */
 
 import { buildAuthCookieHeader } from '@/lib/auth-headers';
-import { api, api_altana, api_andar_de_cima, api_lapa, api_tout } from '../api-client';
+import {
+	api,
+	api_altana,
+	api_andar_de_cima,
+	api_getan_pq_oeste,
+	api_lapa,
+	api_tout,
+} from '../api-client';
 import { FetchFailedError } from '../conditional-cache';
 import { applyPrivateDashboardCache } from '../cache-profiles';
 import { logFetchFailed, logRequestTimeout } from '../logging';
@@ -75,6 +82,15 @@ async function getReservationsCustomCached(
 			case 'altana':
 				resp = await fetchReservationsData(
 					api_altana,
+					startDate,
+					endDate,
+					authHeaders,
+					controller,
+				);
+				break;
+			case 'getan_pq_oeste':
+				resp = await fetchReservationsData(
+					api_getan_pq_oeste,
 					startDate,
 					endDate,
 					authHeaders,

@@ -98,6 +98,14 @@ export const api_altana = ky.create({
   fetch: backendFetch,
 });
 
+export const api_getan_pq_oeste = ky.create({
+  prefixUrl: process.env.BACKEND_ENDPOINT_GETAN_PQ_OESTE,
+  timeout: 60000,
+  retry: 0,
+  mode: "cors",
+  fetch: backendFetch,
+});
+
 export const auth_api = ky.create({
   prefixUrl: process.env.BACKEND_AUTH_ENDPOINT,
   timeout: 60000,

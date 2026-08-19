@@ -19,6 +19,7 @@ export const UNIT_VALUES = [
 	'TOUT',
 	'LIV',
 	'ALTANA',
+	'GETAN_PQ_OESTE',
 ] as const;
 
 export const UNIT_VALUES_WITH_ADMIN = [...UNIT_VALUES, ADMIN_UNIT] as const;
@@ -51,6 +52,7 @@ export const UNIT_LABELS: Record<AccessUnit, string> = {
 	TOUT: 'Tout',
 	LIV: 'LIV',
 	ALTANA: 'Altana',
+	GETAN_PQ_OESTE: 'Getan Parque Oeste',
 	LHG: 'LHG',
 };
 
@@ -91,6 +93,7 @@ const LEGACY_UNIT_MAP: Record<string, AccessUnit> = {
 	'4': 'TOUT',
 	'5': 'LIV',
 	'6': 'ALTANA',
+	'7': 'GETAN_PQ_OESTE',
 	TOUT_CAMPINAS: 'TOUT',
 };
 
@@ -173,6 +176,7 @@ export const UNIT_SLUG_TO_UNIT = {
 	andardecima: 'ANDAR_DE_CIMA',
 	liv: 'LIV',
 	altana: 'ALTANA',
+	getanpqoeste: 'GETAN_PQ_OESTE',
 } as const;
 
 export const UNIT_TO_SLUG = {
@@ -182,6 +186,7 @@ export const UNIT_TO_SLUG = {
 	ANDAR_DE_CIMA: 'andardecima',
 	LIV: 'liv',
 	ALTANA: 'altana',
+	GETAN_PQ_OESTE: 'getanpqoeste',
 } as const;
 
 export const PATH_TO_MODULE = {
@@ -190,6 +195,8 @@ export const PATH_TO_MODULE = {
 	reservations: 'bookings',
 	restaurant: 'restaurant',
 } as const;
+
+export type DashboardModulePath = keyof typeof PATH_TO_MODULE;
 
 export const MODULE_TO_PATH = {
 	company: 'general',

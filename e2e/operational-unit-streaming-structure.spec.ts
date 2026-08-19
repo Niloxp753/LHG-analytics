@@ -5,6 +5,7 @@ import path from 'node:path';
 const STREAMED_UNIT_PAGES = [
 	'altana',
 	'andardecima',
+	'getanpqoeste',
 	'liv',
 	'lushipiranga',
 	'lushlapa',

@@ -10,34 +10,49 @@ import OperationalUnitDataFallback from '../../_components/unit-data-fallback';
 import OperationalUnitPageShell from '../../_components/unit-page-shell';
 import OperationalAndarDeCimaDataSection from './unit-data-section';
 
-export default async function AndarDeCima({
+type OperationalUnitSearchParams = Promise<{
+	[key: string]: string | string[] | undefined;
+}>;
+
+export default function AndarDeCima({
 	searchParams,
 }: {
-	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+	searchParams: OperationalUnitSearchParams;
 }) {
-	const resolvedSearchParams = await searchParams;
-	const preSet = resolvedSearchParams.set ?? DEFAULT_RANGE_TAG;
-	const startDate = resolvedSearchParams.startDate;
-	const endDate = resolvedSearchParams.endDate;
-	const rangeDescription = getRangeDescription(preSet as string);
-
-	const formattedStartDate = formatDateInput(startDate as string);
-	const formattedEndDate = formatDateInput(endDate as string);
+	const fallbackRangeDescription = getRangeDescription(DEFAULT_RANGE_TAG);
 
 	return (
 		<OperationalUnitPageShell title='Andar de Cima'>
 			<Suspense
 				fallback={
-					<OperationalUnitDataFallback description={rangeDescription} />
+					<OperationalUnitDataFallback
+						description={fallbackRangeDescription}
+					/>
 				}>
-				<OperationalAndarDeCimaDataSection
-					company='andar_de_cima'
-					description={rangeDescription}
-					endDate={formattedEndDate}
-					preSet={preSet as string}
-					startDate={formattedStartDate}
+				<OperationalUnitDataFromSearchParams
+					searchParams={searchParams}
 				/>
 			</Suspense>
 		</OperationalUnitPageShell>
+	);
+}
+
+async function OperationalUnitDataFromSearchParams({
+	searchParams,
+}: {
+	searchParams: OperationalUnitSearchParams;
+}) {
+	const resolvedSearchParams = await searchParams;
+	const preSet = resolvedSearchParams.set ?? DEFAULT_RANGE_TAG;
+	const rangeDescription = getRangeDescription(preSet as string);
+
+	return (
+		<OperationalAndarDeCimaDataSection
+			company='andar_de_cima'
+			description={rangeDescription}
+			endDate={formatDateInput(resolvedSearchParams.endDate as string)}
+			preSet={preSet as string}
+			startDate={formatDateInput(resolvedSearchParams.startDate as string)}
+		/>
 	);
 }

@@ -15,7 +15,6 @@ import {
 	BarChart3,
 	Menu,
 	PieChart,
-	ScanEye,
 	ScatterChart,
 	UserRoundCog,
 	UtensilsCrossed,
@@ -154,19 +153,6 @@ export default function MenuMobile() {
 				/>
 			),
 		},
-		{
-			label: 'Avaliações',
-			slug: '/nps',
-			href: `/nps?menu=nps&set=${preSet}`,
-			disabled: true,
-			icon: (
-				<ScanEye
-					className={` ${
-						pathname.includes('/nps') ? 'text-zinc-900' : ''
-					} text-zinc-200 group-hover:text-zinc-900 h-5 w-5 flex-shrink-0`}
-				/>
-			),
-		},
 	];
 
 	return (
@@ -224,7 +210,7 @@ export default function MenuMobile() {
 						);
 					})}
 				</div>
-				<div className='mt-20'>
+				<div className='absolute inset-x-6 bottom-5'>
 					<BtnSignOut />
 					<SheetClose
 						id='myclose'

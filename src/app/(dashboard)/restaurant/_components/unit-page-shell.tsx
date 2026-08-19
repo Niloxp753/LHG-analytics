@@ -13,7 +13,7 @@ export default function RestaurantUnitPageShell({
   title,
 }: RestaurantUnitPageShellProps) {
   return (
-    <main className="flex h-full w-full min-h-screen gap-2 flex-col justify-center bg-zinc-950 overflow-x-hidden px-3 md:px-5 py-10">
+    <main className="flex h-full w-full min-h-screen gap-2 flex-col justify-start bg-zinc-950 overflow-x-hidden px-3 pt-20 pb-10 md:px-5 lg:pt-44">
       <div className="relative w-full md:max-w-[82vw] md:ml-auto flex z-40">
         <div className="bg-zinc-950/50 z-40 py-4 ml-auto w-full md:w-[82vw] backdrop-blur-md fixed top-0 flex flex-col gap-2 justify-end">
           <h2 className="text-zinc-50 font-bold md:text-3xl text-center py-2 text-base">
@@ -26,7 +26,7 @@ export default function RestaurantUnitPageShell({
             <Header />
           </div>
         </div>
-        <div className="w-full flex gap-5 flex-col justify-start mt-12 lg:mt-32">
+        <div className="w-full flex gap-5 flex-col justify-start">
           {children}
         </div>
       </div>

@@ -10,34 +10,47 @@ import GeneralUnitDataFallback from "../../_components/unit-data-fallback";
 import GeneralUnitPageShell from "../../_components/unit-page-shell";
 import GeneralLivDataSection from "./unit-data-section";
 
-export default async function Liv({
+type GeneralUnitSearchParams = Promise<{
+  [key: string]: string | string[] | undefined;
+}>;
+
+export default function Liv({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: GeneralUnitSearchParams;
 }) {
-  const resolvedSearchParams = await searchParams;
-  const preSet = resolvedSearchParams.set ?? DEFAULT_RANGE_TAG;
-  const startDate = resolvedSearchParams.startDate;
-  const endDate = resolvedSearchParams.endDate;
-  const rangeDescription = getRangeDescription(preSet as string);
-
-  const formattedStartDate = formatDateInput(startDate as string);
-  const formattedEndDate = formatDateInput(endDate as string);
+  const fallbackRangeDescription = getRangeDescription(DEFAULT_RANGE_TAG);
 
   return (
     <GeneralUnitPageShell title="LIV">
       <Suspense
         fallback={
-          <GeneralUnitDataFallback rangeDescription={rangeDescription} />
+          <GeneralUnitDataFallback
+            rangeDescription={fallbackRangeDescription}
+          />
         }
       >
-        <GeneralLivDataSection
-          endDate={formattedEndDate}
-          preSet={preSet as string}
-          rangeDescription={rangeDescription}
-          startDate={formattedStartDate}
-        />
+        <GeneralUnitDataFromSearchParams searchParams={searchParams} />
       </Suspense>
     </GeneralUnitPageShell>
+  );
+}
+
+async function GeneralUnitDataFromSearchParams({
+  searchParams,
+}: {
+  searchParams: GeneralUnitSearchParams;
+}) {
+  const resolvedSearchParams = await searchParams;
+  const preSet = resolvedSearchParams.set ?? DEFAULT_RANGE_TAG;
+  const rangeDescription = getRangeDescription(preSet as string);
+
+  return (
+    <GeneralLivDataSection
+      endDate={formatDateInput(resolvedSearchParams.endDate as string)}
+      preSet={preSet as string}
+      rangeDescription={rangeDescription}
+      startDate={formatDateInput(resolvedSearchParams.startDate as string)}
+    />
   );
 }
