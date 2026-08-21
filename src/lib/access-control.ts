@@ -19,6 +19,7 @@ export const UNIT_VALUES = [
 	'TOUT',
 	'LIV',
 	'ALTANA',
+	'GETAN_GARAVELO',
 	'GETAN_PQ_OESTE',
 ] as const;
 
@@ -52,6 +53,7 @@ export const UNIT_LABELS: Record<AccessUnit, string> = {
 	TOUT: 'Tout',
 	LIV: 'LIV',
 	ALTANA: 'Altana',
+	GETAN_GARAVELO: 'Getan Garavelo',
 	GETAN_PQ_OESTE: 'Getan Parque Oeste',
 	LHG: 'LHG',
 };
@@ -94,6 +96,7 @@ const LEGACY_UNIT_MAP: Record<string, AccessUnit> = {
 	'5': 'LIV',
 	'6': 'ALTANA',
 	'7': 'GETAN_PQ_OESTE',
+	'8': 'GETAN_GARAVELO',
 	TOUT_CAMPINAS: 'TOUT',
 };
 
@@ -176,6 +179,7 @@ export const UNIT_SLUG_TO_UNIT = {
 	andardecima: 'ANDAR_DE_CIMA',
 	liv: 'LIV',
 	altana: 'ALTANA',
+	getangaravelo: 'GETAN_GARAVELO',
 	getanpqoeste: 'GETAN_PQ_OESTE',
 } as const;
 
@@ -186,6 +190,7 @@ export const UNIT_TO_SLUG = {
 	ANDAR_DE_CIMA: 'andardecima',
 	LIV: 'liv',
 	ALTANA: 'altana',
+	GETAN_GARAVELO: 'getangaravelo',
 	GETAN_PQ_OESTE: 'getanpqoeste',
 } as const;
 

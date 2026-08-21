@@ -4,6 +4,7 @@ import { getReservationsAction } from "@/actions/reservations/get-reservations";
 import { getReservationsCustomAction } from "@/actions/reservations/get-reservations-custom";
 import { TableReservs } from "@/app/(dashboard)/_components/kpis/TableReservs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { type CurrencyConfig } from "@/lib/currency-format";
 import BigNumbersEcommerce from "./big-numbers-ecommerce";
 import BigNumbersReservation from "./big-numbers-reservations";
 import CategoriesXReservs from "./kpis/CategoriesXReservs";
@@ -17,6 +18,7 @@ import Representation from "./kpis/Representation";
 
 export type StandardReservationsUnitDataSectionProps = {
   company?: string;
+  currencyConfig?: CurrencyConfig;
   description: string;
   endDate: string | null;
   preSet: string;
@@ -42,6 +44,7 @@ async function getStandardReservationsUnitData({
 
 export async function StandardReservationsUnitDataSection({
   company,
+  currencyConfig,
   description,
   endDate,
   preSet,
@@ -71,6 +74,7 @@ export async function StandardReservationsUnitDataSection({
       <BigNumbersReservation
         data={resp.BigNumbers ?? null}
         description={description}
+        currencyConfig={currencyConfig}
       />
       <CategoriesXReservs
         series={resp.ReservationsByRentalType?.series ?? null}
@@ -80,10 +84,12 @@ export async function StandardReservationsUnitDataSection({
         <InvoicingXTypes
           series={resp.PaymentMethods?.series ?? null}
           categories={resp.PaymentMethods?.categories}
+          currencyConfig={currencyConfig}
         />
         <InvoicingXChannel
           series={resp.BillingPerChannel?.series ?? null}
           categories={resp.BillingPerChannel?.categories}
+          currencyConfig={currencyConfig}
         />
       </div>
 
@@ -91,6 +97,7 @@ export async function StandardReservationsUnitDataSection({
         <InvoicingXReservs
           series={resp.BillingOfReservationsByPeriod?.series ?? null}
           categories={resp.BillingOfReservationsByPeriod?.categories}
+          currencyConfig={currencyConfig}
         />
         <Representation
           series={resp.RepresentativenessOfReservesByPeriod?.series ?? null}
@@ -102,7 +109,10 @@ export async function StandardReservationsUnitDataSection({
         />
       </div>
       <div>
-        <TableReservs data={resp.KpiTableByChannelType?.[0] ?? null} />
+        <TableReservs
+          data={resp.KpiTableByChannelType?.[0] ?? null}
+          currencyConfig={currencyConfig}
+        />
       </div>
       <div>
         <h2 className="text-2xl md:text-4xl font-bold text-zinc-50 mt-10 mb-5">
@@ -112,6 +122,7 @@ export async function StandardReservationsUnitDataSection({
           <BigNumbersEcommerce
             data={resp.BigNumbersEcommerce ?? null}
             description={description}
+            currencyConfig={currencyConfig}
           />
 
           <div className="w-full flex flex-col items-center justify-between gap-5">
@@ -122,6 +133,7 @@ export async function StandardReservationsUnitDataSection({
             <EcommerceRevenue
               series={resp.BillingOfEcommerceByPeriod?.series ?? null}
               categories={resp.BillingOfEcommerceByPeriod?.categories}
+              currencyConfig={currencyConfig}
             />
           </div>
         </div>

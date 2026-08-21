@@ -68,6 +68,22 @@ export async function StandardOperationalUnitDataSection({
 		);
 	}
 
+	const employeeCleaningByShiftSeries =
+		resp.EmployeeCleaningByShift?.series ?? {};
+	const morningShiftKey =
+		Object.keys(employeeCleaningByShiftSeries).find((key) =>
+			key.toLowerCase().startsWith('manh'),
+		) ?? 'Manhã';
+	const employeeReport = resp.EmployeeReport ?? {};
+	const morningReportKey =
+		Object.keys(employeeReport).find((key) =>
+			key.toLowerCase().startsWith('manh'),
+		) ?? 'Manhã';
+	const hasTeamSizing =
+		!!resp.TeamSizing &&
+		typeof resp.TeamSizing === 'object' &&
+		'Totals' in resp.TeamSizing;
+
 	return (
 		<>
 			<BigNumbersOperation
@@ -84,7 +100,7 @@ export async function StandardOperationalUnitDataSection({
 			<div className='flex gap-5 flex-col items-center'>
 				<MorningCleaningWorkers
 					categories={resp.EmployeeCleaningByShift?.categories}
-					series={resp.EmployeeCleaningByShift?.series['Manhã'] ?? null}
+					series={employeeCleaningByShiftSeries[morningShiftKey] ?? null}
 				/>
 				<AfternoonCleaningWorkers
 					categories={resp.EmployeeCleaningByShift?.categories}
@@ -96,13 +112,24 @@ export async function StandardOperationalUnitDataSection({
 				/>
 			</div>
 			<div className='flex gap-5 flex-col w-full'>
-				<TableWokersMorning dataTable={resp.EmployeeReport?.Manhã ?? null} />
-				<TableWokersAfternoon dataTable={resp.EmployeeReport?.Tarde ?? null} />
-				<TableWokersNight dataTable={resp.EmployeeReport?.Noite ?? null} />
-				<TableWokersWeekly
-					dataTable={resp.TeamSizing}
-					idealNumber={idealNumber}
+				<TableWokersMorning
+					dataTable={employeeReport[morningReportKey] ?? null}
 				/>
+				<TableWokersAfternoon dataTable={employeeReport.Tarde ?? null} />
+				<TableWokersNight dataTable={employeeReport.Noite ?? null} />
+				{hasTeamSizing ? (
+					<TableWokersWeekly
+						dataTable={resp.TeamSizing}
+						idealNumber={idealNumber}
+					/>
+				) : (
+					<Alert variant='destructive' className='w-full'>
+						<AlertTitle>Erro ao carregar</AlertTitle>
+						<AlertDescription>
+							{`N\u00e3o foi poss\u00edvel carregar o dimensionamento de equipe de ${unitName}.`}
+						</AlertDescription>
+					</Alert>
+				)}
 			</div>
 		</>
 	);

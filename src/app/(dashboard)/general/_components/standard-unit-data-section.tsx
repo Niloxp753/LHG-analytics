@@ -3,10 +3,12 @@
 import { getCompanyAction } from "@/actions/getCompany";
 import { getCompanyCustomAction } from "@/actions/getCompanyCustom";
 import ErrorState from "@/app/(dashboard)/_components/ErrorState";
+import { type CurrencyConfig } from "@/lib/currency-format";
 import GeneralUnitDataContent from "./unit-data-content";
 
 export type StandardGeneralUnitDataSectionProps = {
   company?: string;
+  currencyConfig?: CurrencyConfig;
   endDate: string | null;
   preSet: string;
   rangeDescription: string;
@@ -31,6 +33,7 @@ async function getStandardGeneralUnitData({
 
 export async function StandardGeneralUnitDataSection({
   company,
+  currencyConfig,
   endDate,
   preSet,
   rangeDescription,
@@ -48,6 +51,10 @@ export async function StandardGeneralUnitDataSection({
   }
 
   return (
-    <GeneralUnitDataContent data={resp} rangeDescription={rangeDescription} />
+    <GeneralUnitDataContent
+      currencyConfig={currencyConfig}
+      data={resp}
+      rangeDescription={rangeDescription}
+    />
   );
 }

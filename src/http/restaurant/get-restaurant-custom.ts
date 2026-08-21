@@ -3,11 +3,7 @@
 import { buildAuthCookieHeader } from '@/lib/auth-headers';
 import {
 	api,
-	api_altana,
-	api_andar_de_cima,
-	api_getan_pq_oeste,
-	api_lapa,
-	api_tout,
+	getUnitApiClient,
 } from '../api-client';
 import { FetchFailedError } from '../conditional-cache';
 import { applyPrivateDashboardCache } from '../cache-profiles';
@@ -59,63 +55,13 @@ async function getRestaurantsCustomCached(
 
 	try {
 		const companyKey = company ?? 'ipiranga';
-		let resp: Response | null = null;
-		switch (companyKey) {
-			case 'lapa':
-				resp = await fetchRestaurantData(
-					api_lapa,
-					startDate,
-					endDate,
-					authHeaders,
-					controller,
-				);
-				break;
-			case 'tout':
-				resp = await fetchRestaurantData(
-					api_tout,
-					startDate,
-					endDate,
-					authHeaders,
-					controller,
-				);
-				break;
-			case 'altana':
-				resp = await fetchRestaurantData(
-					api_altana,
-					startDate,
-					endDate,
-					authHeaders,
-					controller,
-				);
-				break;
-			case 'getan_pq_oeste':
-				resp = await fetchRestaurantData(
-					api_getan_pq_oeste,
-					startDate,
-					endDate,
-					authHeaders,
-					controller,
-				);
-				break;
-			case 'andar_de_cima':
-				resp = await fetchRestaurantData(
-					api_andar_de_cima,
-					startDate,
-					endDate,
-					authHeaders,
-					controller,
-				);
-				break;
-			default:
-				resp = await fetchRestaurantData(
-					api,
-					startDate,
-					endDate,
-					authHeaders,
-					controller,
-				);
-				break;
-		}
+		const resp = await fetchRestaurantData(
+			getUnitApiClient(companyKey),
+			startDate,
+			endDate,
+			authHeaders,
+			controller,
+		);
 
 		if (!resp || !resp.ok) {
 			throw new FetchFailedError(
