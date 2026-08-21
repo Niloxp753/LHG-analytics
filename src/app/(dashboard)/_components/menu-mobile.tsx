@@ -27,10 +27,16 @@ import {
 import { DEFAULT_RANGE_TAG } from '@/lib/date-range';
 import { shouldNavigateToHref } from '@/lib/navigation-target';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useSyncExternalStore, useTransition } from 'react';
+
+const subscribeToHydration = () => () => {};
 
 export default function MenuMobile() {
-	const [mounted, setMounted] = useState(false);
+	const mounted = useSyncExternalStore(
+		subscribeToHydration,
+		() => true,
+		() => false,
+	);
 	const pathname = usePathname();
 	const [isPending, startTransition] = useTransition();
 	const searchParams = useSearchParams();
@@ -78,10 +84,6 @@ export default function MenuMobile() {
 		handleClose();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isPending]);
-
-	useEffect(() => {
-		setMounted(true);
-	}, []);
 
 	if (!mounted) {
 		return null;

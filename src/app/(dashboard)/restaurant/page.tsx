@@ -2,17 +2,17 @@
 
 import {
 	DEFAULT_RANGE_TAG,
-	formatDateInput,
 	getRangeDescription,
 } from '@/lib/date-range';
 import { Suspense } from 'react';
 import Header from '../_components/Header';
 import UnitNavigation from '../_components/UnitNavigation';
-import { RestaurantKpiFallback, RestaurantKpiSection } from './kpi-section';
+import RestaurantKpiFallback from './_components/restaurant-kpi-fallback';
+import RestaurantKpisFromSearchParams from './_components/restaurant-kpis-from-search-params';
+import RestaurantUnitNavigationFromSearchParams from './_components/restaurant-unit-navigation-from-search-params';
+import type { RestaurantSearchParams } from './search-params';
 
-type RestaurantSearchParams = Promise<{
-	[key: string]: string | string[] | undefined;
-}>;
+export const instant = true;
 
 export default function Restaurant({
 	searchParams,
@@ -58,43 +58,5 @@ export default function Restaurant({
 				</div>
 			</div>
 		</main>
-	);
-}
-
-async function RestaurantUnitNavigationFromSearchParams({
-	searchParams,
-}: {
-	searchParams: RestaurantSearchParams;
-}) {
-	const resolvedSearchParams = await searchParams;
-	const preSet = (resolvedSearchParams.set ?? DEFAULT_RANGE_TAG) as string;
-
-	return (
-		<UnitNavigation
-			className='mx-3 md:mx-0 lg:hidden'
-			endDate={resolvedSearchParams.endDate as string}
-			modulePath='restaurant'
-			preSet={preSet}
-			startDate={resolvedSearchParams.startDate as string}
-		/>
-	);
-}
-
-async function RestaurantKpisFromSearchParams({
-	searchParams,
-}: {
-	searchParams: RestaurantSearchParams;
-}) {
-	const resolvedSearchParams = await searchParams;
-	const preSet = (resolvedSearchParams.set ?? DEFAULT_RANGE_TAG) as string;
-	const rangeDescription = getRangeDescription(preSet);
-
-	return (
-		<RestaurantKpiSection
-			description={rangeDescription}
-			endDate={formatDateInput(resolvedSearchParams.endDate as string)}
-			period={preSet}
-			startDate={formatDateInput(resolvedSearchParams.startDate as string)}
-		/>
 	);
 }

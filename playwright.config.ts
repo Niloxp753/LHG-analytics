@@ -21,6 +21,7 @@ export default defineConfig({
 			DISABLE_AUTH_COOKIES: 'true',
 			NEXT_PUBLIC_AUTH_URL: baseURL,
 			BACKEND_AUTH_ENDPOINT: `${baseURL}/api/mock-backend`,
+			BACKEND_CONSOLIDATED_ENDPOINT: `${baseURL}/api/mock-backend`,
 			BACKEND_ENDPOINT_IPIRANGA: `${baseURL}/ipiranga/api`,
 			BACKEND_ENDPOINT_LAPA: `${baseURL}/lapa/api`,
 			BACKEND_ENDPOINT_ANDAR_DE_CIMA: `${baseURL}/andar_de_cima/api`,

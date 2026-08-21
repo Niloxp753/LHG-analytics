@@ -1,23 +1,19 @@
 /** @format */
 
-import {
-  DEFAULT_RANGE_TAG,
-  formatDateInput,
-  getRangeDescription,
-} from "@/lib/date-range";
+import { DEFAULT_RANGE_TAG, getRangeDescription } from "@/lib/date-range";
 import { Suspense } from "react";
 import RestaurantUnitDataFallback from "../../_components/unit-data-fallback";
 import RestaurantUnitPageShell from "../../_components/unit-page-shell";
-import RestaurantToutDataSection from "./unit-data-section";
+import UnitDataFromSearchParams, {
+  type UnitSearchParams,
+} from "./unit-data-from-search-params";
 
-type RestaurantUnitSearchParams = Promise<{
-  [key: string]: string | string[] | undefined;
-}>;
+export const instant = true;
 
 export default function Tout({
   searchParams,
 }: {
-  searchParams: RestaurantUnitSearchParams;
+  searchParams: UnitSearchParams;
 }) {
   const fallbackRangeDescription = getRangeDescription(DEFAULT_RANGE_TAG);
 
@@ -30,27 +26,8 @@ export default function Tout({
           />
         }
       >
-        <RestaurantUnitDataFromSearchParams searchParams={searchParams} />
+        <UnitDataFromSearchParams searchParams={searchParams} />
       </Suspense>
     </RestaurantUnitPageShell>
-  );
-}
-
-async function RestaurantUnitDataFromSearchParams({
-  searchParams,
-}: {
-  searchParams: RestaurantUnitSearchParams;
-}) {
-  const resolvedSearchParams = await searchParams;
-  const preSet = resolvedSearchParams.set ?? DEFAULT_RANGE_TAG;
-  const rangeDescription = getRangeDescription(preSet as string);
-
-  return (
-    <RestaurantToutDataSection
-      description={rangeDescription}
-      endDate={formatDateInput(resolvedSearchParams.endDate as string)}
-      preSet={preSet as string}
-      startDate={formatDateInput(resolvedSearchParams.startDate as string)}
-    />
   );
 }

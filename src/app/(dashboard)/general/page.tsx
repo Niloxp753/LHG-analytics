@@ -2,17 +2,17 @@
 
 import {
 	DEFAULT_RANGE_TAG,
-	formatDateInput,
 	getRangeDescription,
 } from '@/lib/date-range';
 import { Suspense } from 'react';
 import Header from '../_components/Header';
 import UnitNavigation from '../_components/UnitNavigation';
-import { GeneralKpiFallback, GeneralKpiSection } from './kpi-section';
+import GeneralKpiFallback from './_components/general-kpi-fallback';
+import GeneralKpisFromSearchParams from './_components/general-kpis-from-search-params';
+import GeneralUnitNavigationFromSearchParams from './_components/general-unit-navigation-from-search-params';
+import type { GeneralSearchParams } from './search-params';
 
-type GeneralSearchParams = Promise<{
-	[key: string]: string | string[] | undefined;
-}>;
+export const instant = true;
 
 export default function General({
 	searchParams,
@@ -56,43 +56,5 @@ export default function General({
 				</div>
 			</div>
 		</main>
-	);
-}
-
-async function GeneralUnitNavigationFromSearchParams({
-	searchParams,
-}: {
-	searchParams: GeneralSearchParams;
-}) {
-	const resolvedSearchParams = await searchParams;
-	const preSet = (resolvedSearchParams.set ?? DEFAULT_RANGE_TAG) as string;
-
-	return (
-		<UnitNavigation
-			className='lg:hidden'
-			endDate={resolvedSearchParams.endDate as string}
-			modulePath='general'
-			preSet={preSet}
-			startDate={resolvedSearchParams.startDate as string}
-		/>
-	);
-}
-
-async function GeneralKpisFromSearchParams({
-	searchParams,
-}: {
-	searchParams: GeneralSearchParams;
-}) {
-	const resolvedSearchParams = await searchParams;
-	const preSet = (resolvedSearchParams.set ?? DEFAULT_RANGE_TAG) as string;
-	const rangeDescription = getRangeDescription(preSet);
-
-	return (
-		<GeneralKpiSection
-			endDate={formatDateInput(resolvedSearchParams.endDate as string)}
-			period={preSet}
-			rangeDescription={rangeDescription}
-			startDate={formatDateInput(resolvedSearchParams.startDate as string)}
-		/>
 	);
 }

@@ -2,20 +2,17 @@
 
 import {
 	DEFAULT_RANGE_TAG,
-	formatDateInput,
 	getRangeDescription,
 } from '@/lib/date-range';
 import { Suspense } from 'react';
 import Header from '../_components/Header';
 import UnitNavigation from '../_components/UnitNavigation';
-import {
-	OperationalKpiFallback,
-	OperationalKpiSection,
-} from './kpi-section';
+import OperationalKpiFallback from './_components/operational-kpi-fallback';
+import OperationalKpisFromSearchParams from './_components/operational-kpis-from-search-params';
+import OperationalUnitNavigationFromSearchParams from './_components/operational-unit-navigation-from-search-params';
+import type { OperationalSearchParams } from './search-params';
 
-type OperationalSearchParams = Promise<{
-	[key: string]: string | string[] | undefined;
-}>;
+export const instant = true;
 
 export default function Operational({
 	searchParams,
@@ -63,43 +60,5 @@ export default function Operational({
 				</div>
 			</div>
 		</main>
-	);
-}
-
-async function OperationalUnitNavigationFromSearchParams({
-	searchParams,
-}: {
-	searchParams: OperationalSearchParams;
-}) {
-	const resolvedSearchParams = await searchParams;
-	const preSet = (resolvedSearchParams.set || DEFAULT_RANGE_TAG) as string;
-
-	return (
-		<UnitNavigation
-			className='mx-3 md:mx-0 lg:hidden'
-			endDate={resolvedSearchParams.endDate as string}
-			modulePath='operational'
-			preSet={preSet}
-			startDate={resolvedSearchParams.startDate as string}
-		/>
-	);
-}
-
-async function OperationalKpisFromSearchParams({
-	searchParams,
-}: {
-	searchParams: OperationalSearchParams;
-}) {
-	const resolvedSearchParams = await searchParams;
-	const preSet = (resolvedSearchParams.set || DEFAULT_RANGE_TAG) as string;
-	const rangeDescription = getRangeDescription(preSet);
-
-	return (
-		<OperationalKpiSection
-			description={rangeDescription}
-			endDate={formatDateInput(resolvedSearchParams.endDate as string)}
-			period={preSet}
-			startDate={formatDateInput(resolvedSearchParams.startDate as string)}
-		/>
 	);
 }

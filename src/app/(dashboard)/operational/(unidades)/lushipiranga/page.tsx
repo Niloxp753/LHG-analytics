@@ -1,23 +1,19 @@
 /** @format */
 
-import {
-	DEFAULT_RANGE_TAG,
-	formatDateInput,
-	getRangeDescription,
-} from '@/lib/date-range';
+import { DEFAULT_RANGE_TAG, getRangeDescription } from '@/lib/date-range';
 import { Suspense } from 'react';
 import OperationalUnitDataFallback from '../../_components/unit-data-fallback';
 import OperationalUnitPageShell from '../../_components/unit-page-shell';
-import OperationalLushIpirangaDataSection from './unit-data-section';
+import UnitDataFromSearchParams, {
+	type UnitSearchParams,
+} from './unit-data-from-search-params';
 
-type OperationalUnitSearchParams = Promise<{
-	[key: string]: string | string[] | undefined;
-}>;
+export const instant = true;
 
 export default function LushIpiranga({
 	searchParams,
 }: {
-	searchParams: OperationalUnitSearchParams;
+	searchParams: UnitSearchParams;
 }) {
 	const fallbackRangeDescription = getRangeDescription(DEFAULT_RANGE_TAG);
 
@@ -29,29 +25,10 @@ export default function LushIpiranga({
 						description={fallbackRangeDescription}
 					/>
 				}>
-				<OperationalUnitDataFromSearchParams
+				<UnitDataFromSearchParams
 					searchParams={searchParams}
 				/>
 			</Suspense>
 		</OperationalUnitPageShell>
-	);
-}
-
-async function OperationalUnitDataFromSearchParams({
-	searchParams,
-}: {
-	searchParams: OperationalUnitSearchParams;
-}) {
-	const resolvedSearchParams = await searchParams;
-	const preSet = resolvedSearchParams.set ?? DEFAULT_RANGE_TAG;
-	const rangeDescription = getRangeDescription(preSet as string);
-
-	return (
-		<OperationalLushIpirangaDataSection
-			description={rangeDescription}
-			endDate={formatDateInput(resolvedSearchParams.endDate as string)}
-			preSet={preSet as string}
-			startDate={formatDateInput(resolvedSearchParams.startDate as string)}
-		/>
 	);
 }

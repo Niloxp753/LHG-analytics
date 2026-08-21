@@ -8,7 +8,7 @@ const nextConfig = {
       expire: 300,
     },
     dashboard_fast: {
-      stale: 10,
+      stale: 30,
       revalidate: 10,
       expire: 60,
     },

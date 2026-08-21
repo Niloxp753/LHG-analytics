@@ -2,20 +2,17 @@
 
 import {
 	DEFAULT_RANGE_TAG,
-	formatDateInput,
 	getRangeDescription,
 } from '@/lib/date-range';
 import { Suspense } from 'react';
 import Header from '../_components/Header';
 import UnitNavigation from '../_components/UnitNavigation';
-import {
-	ReservationsKpiFallback,
-	ReservationsKpiSection,
-} from './kpi-section';
+import ReservationsKpiFallback from './_components/reservations-kpi-fallback';
+import ReservationsKpisFromSearchParams from './_components/reservations-kpis-from-search-params';
+import ReservationsUnitNavigationFromSearchParams from './_components/reservations-unit-navigation-from-search-params';
+import type { ReservationsSearchParams } from './search-params';
 
-type ReservationsSearchParams = Promise<{
-	[key: string]: string | string[] | undefined;
-}>;
+export const instant = true;
 
 export default function Reservations({
 	searchParams,
@@ -62,43 +59,5 @@ export default function Reservations({
 				</div>
 			</div>
 		</main>
-	);
-}
-
-async function ReservationsUnitNavigationFromSearchParams({
-	searchParams,
-}: {
-	searchParams: ReservationsSearchParams;
-}) {
-	const resolvedSearchParams = await searchParams;
-	const preSet = (resolvedSearchParams.set || DEFAULT_RANGE_TAG) as string;
-
-	return (
-		<UnitNavigation
-			className='mx-3 md:mx-0 lg:hidden'
-			endDate={resolvedSearchParams.endDate as string}
-			modulePath='reservations'
-			preSet={preSet}
-			startDate={resolvedSearchParams.startDate as string}
-		/>
-	);
-}
-
-async function ReservationsKpisFromSearchParams({
-	searchParams,
-}: {
-	searchParams: ReservationsSearchParams;
-}) {
-	const resolvedSearchParams = await searchParams;
-	const preSet = (resolvedSearchParams.set || DEFAULT_RANGE_TAG) as string;
-	const rangeDescription = getRangeDescription(preSet);
-
-	return (
-		<ReservationsKpiSection
-			description={rangeDescription}
-			endDate={formatDateInput(resolvedSearchParams.endDate as string)}
-			period={preSet}
-			startDate={formatDateInput(resolvedSearchParams.startDate as string)}
-		/>
 	);
 }

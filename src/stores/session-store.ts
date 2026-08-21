@@ -211,7 +211,7 @@ export function useSessionStore<T>(
 	const store = useContext(SessionStoreContext);
 
 	if (!store) {
-		throw new Error('useSessionStore must be used within SessionHydratorProvider');
+		throw new Error('useSessionStore must be used within SessionStoreProvider');
 	}
 
 	return useStore(store, selector);
@@ -222,7 +222,7 @@ export function useSessionStoreApi(): SessionStoreApi {
 
 	if (!store) {
 		throw new Error(
-			'useSessionStoreApi must be used within SessionHydratorProvider',
+			'useSessionStoreApi must be used within SessionStoreProvider',
 		);
 	}
 

@@ -1,23 +1,19 @@
 /** @format */
 
-import {
-  DEFAULT_RANGE_TAG,
-  formatDateInput,
-  getRangeDescription,
-} from "@/lib/date-range";
+import { DEFAULT_RANGE_TAG, getRangeDescription } from "@/lib/date-range";
 import { Suspense } from "react";
 import GeneralUnitDataFallback from "../../_components/unit-data-fallback";
 import GeneralUnitPageShell from "../../_components/unit-page-shell";
-import GeneralAltanaDataSection from "./unit-data-section";
+import UnitDataFromSearchParams, {
+  type UnitSearchParams,
+} from "./unit-data-from-search-params";
 
-type GeneralUnitSearchParams = Promise<{
-  [key: string]: string | string[] | undefined;
-}>;
+export const instant = true;
 
 export default function Altana({
   searchParams,
 }: {
-  searchParams: GeneralUnitSearchParams;
+  searchParams: UnitSearchParams;
 }) {
   const fallbackRangeDescription = getRangeDescription(DEFAULT_RANGE_TAG);
 
@@ -30,27 +26,8 @@ export default function Altana({
           />
         }
       >
-        <GeneralUnitDataFromSearchParams searchParams={searchParams} />
+        <UnitDataFromSearchParams searchParams={searchParams} />
       </Suspense>
     </GeneralUnitPageShell>
-  );
-}
-
-async function GeneralUnitDataFromSearchParams({
-  searchParams,
-}: {
-  searchParams: GeneralUnitSearchParams;
-}) {
-  const resolvedSearchParams = await searchParams;
-  const preSet = resolvedSearchParams.set ?? DEFAULT_RANGE_TAG;
-  const rangeDescription = getRangeDescription(preSet as string);
-
-  return (
-    <GeneralAltanaDataSection
-      endDate={formatDateInput(resolvedSearchParams.endDate as string)}
-      preSet={preSet as string}
-      rangeDescription={rangeDescription}
-      startDate={formatDateInput(resolvedSearchParams.startDate as string)}
-    />
   );
 }

@@ -5,6 +5,13 @@ import nextTs from 'eslint-config-next/typescript'
 const eslintConfig = defineConfig([
     ...nextVitals,
     ...nextTs,
+    {
+        files: ['src/**/*.{jsx,tsx}'],
+        ignores: ['src/components/ui/**/*.{jsx,tsx}'],
+        rules: {
+            'react/no-multi-comp': 'error',
+        },
+    },
     globalIgnores([
         '.next/**',
         'out/**',

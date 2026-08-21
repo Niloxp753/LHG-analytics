@@ -1,16 +1,13 @@
 /** @format */
 
 import { buildAuthCookieHeader } from "@/lib/auth-headers";
+import { cacheLife, cacheTag } from "next/cache";
 import {
   api,
-  api_altana,
-  api_andar_de_cima,
-  api_getan_pq_oeste,
-  api_lapa,
   api_tout,
+  getUnitApiClient,
 } from "../api-client";
 import { FetchFailedError } from "../conditional-cache";
-import { applyPrivateDashboardCache } from "../cache-profiles";
 import { logFetchFailed, logRequestTimeout } from "../logging";
 import { readJsonResponse } from "../read-json-response";
 import { isRetryableError, isRetryableStatus } from "../retry";
@@ -50,9 +47,10 @@ async function getOperationCustomCached(
   company: string | undefined,
   cookieHeader: string | null,
 ) {
-  "use cache: private";
+  "use cache";
 
-  applyPrivateDashboardCache(["operational"], "dashboard");
+  cacheLife("dashboard");
+  cacheTag("operational");
   const companyKey = company ?? "ipiranga";
   const requestName = `getOperationCustom (${companyKey})`;
 
@@ -61,54 +59,13 @@ async function getOperationCustomCached(
   const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
 
   try {
-    let resp: Response | null = null;
-    switch (companyKey) {
-      case "andar_de_cima":
-        resp = await fetchGovernanceKpis(
-          api_andar_de_cima,
-          startDate,
-          endDate,
-          authHeaders,
-          controller,
-        );
-        break;
-      case "lapa":
-        resp = await fetchGovernanceKpis(
-          api_lapa,
-          startDate,
-          endDate,
-          authHeaders,
-          controller,
-        );
-        break;
-      case "altana":
-        resp = await fetchGovernanceKpis(
-          api_altana,
-          startDate,
-          endDate,
-          authHeaders,
-          controller,
-        );
-        break;
-      case "getan_pq_oeste":
-        resp = await fetchGovernanceKpis(
-          api_getan_pq_oeste,
-          startDate,
-          endDate,
-          authHeaders,
-          controller,
-        );
-        break;
-      default:
-        resp = await fetchGovernanceKpis(
-          api,
-          startDate,
-          endDate,
-          authHeaders,
-          controller,
-        );
-        break;
-    }
+    const resp = await fetchGovernanceKpis(
+      getUnitApiClient(companyKey),
+      startDate,
+      endDate,
+      authHeaders,
+      controller,
+    );
 
     if (!resp || !resp.ok) {
       throw new FetchFailedError(

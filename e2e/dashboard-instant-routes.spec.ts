@@ -1,9 +1,11 @@
+import { instant } from '@next/playwright';
 import { expect, test } from '@playwright/test';
 
 const dashboardRoutes = [
 	'/general',
 	'/general/altana',
 	'/general/andardecima',
+	'/general/getangaravelo',
 	'/general/getanpqoeste',
 	'/general/liv',
 	'/general/lushipiranga',
@@ -12,6 +14,7 @@ const dashboardRoutes = [
 	'/restaurant',
 	'/restaurant/altana',
 	'/restaurant/andardecima',
+	'/restaurant/getangaravelo',
 	'/restaurant/getanpqoeste',
 	'/restaurant/liv',
 	'/restaurant/lushipiranga',
@@ -20,6 +23,7 @@ const dashboardRoutes = [
 	'/reservations',
 	'/reservations/altana',
 	'/reservations/andardecima',
+	'/reservations/getangaravelo',
 	'/reservations/getanpqoeste',
 	'/reservations/liv',
 	'/reservations/lushipiranga',
@@ -28,6 +32,7 @@ const dashboardRoutes = [
 	'/operational',
 	'/operational/altana',
 	'/operational/andardecima',
+	'/operational/getangaravelo',
 	'/operational/getanpqoeste',
 	'/operational/liv',
 	'/operational/lushipiranga',
@@ -35,6 +40,51 @@ const dashboardRoutes = [
 	'/operational/tout',
 	'/settings',
 ] as const;
+
+test('general exposes a meaningful static shell on first load', async ({
+	browser,
+	baseURL,
+}) => {
+	if (!baseURL) {
+		throw new Error('Missing baseURL in Playwright config');
+	}
+
+	const context = await browser.newContext({
+		baseURL,
+		javaScriptEnabled: false,
+	});
+	const page = await context.newPage();
+	const origin = new URL(baseURL).origin;
+	await page.context().addCookies([
+		{
+			name: 'access_token',
+			value: 'playwright',
+			url: `${origin}/`,
+		},
+		{
+			name: 'refresh_token',
+			value: 'playwright_refresh',
+			url: `${origin}/`,
+		},
+	]);
+
+	try {
+		await instant(
+			page,
+			async () => {
+				await page.goto('/general?set=ultimos_7_dias');
+				await expect(page.locator('main')).toBeVisible();
+				await expect(
+					page.getByRole('heading', { name: /Visão Geral/i }),
+				).toBeVisible();
+				await expect(page.getByTestId('general-kpis-loading')).toBeVisible();
+			},
+			{ baseURL },
+		);
+	} finally {
+		await context.close();
+	}
+});
 
 test('dashboard routes render without blocking runtime insights', async ({
 	page,

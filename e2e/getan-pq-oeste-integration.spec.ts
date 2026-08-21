@@ -55,6 +55,8 @@ test.describe('Getan Parque Oeste integration', () => {
 		expect(apiClient).toContain(
 			'export const api_getan_pq_oeste = ky.create({',
 		);
+		expect(apiClient).toContain(`case "${backendUnitKey}":`);
+		expect(apiClient).toContain('return api_getan_pq_oeste;');
 
 		for (const relativePath of [
 			'src/http/company/getCompanyCustom.ts',
@@ -63,8 +65,7 @@ test.describe('Getan Parque Oeste integration', () => {
 			'src/http/operation/get-governance-custom.ts',
 		]) {
 			const source = readRelativeFile(relativePath);
-			expect(source).toContain(backendUnitKey);
-			expect(source).toContain('api_getan_pq_oeste');
+			expect(source).toContain('getUnitApiClient(companyKey)');
 		}
 	});
 

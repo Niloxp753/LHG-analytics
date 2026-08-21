@@ -1,23 +1,19 @@
 /** @format */
 
-import {
-  DEFAULT_RANGE_TAG,
-  formatDateInput,
-  getRangeDescription,
-} from "@/lib/date-range";
+import { DEFAULT_RANGE_TAG, getRangeDescription } from "@/lib/date-range";
 import { Suspense } from "react";
 import GeneralUnitDataFallback from "../../_components/unit-data-fallback";
 import GeneralUnitPageShell from "../../_components/unit-page-shell";
-import GeneralGetanParqueOesteDataSection from "./unit-data-section";
+import UnitDataFromSearchParams, {
+  type UnitSearchParams,
+} from "./unit-data-from-search-params";
 
-type GetanParqueOesteSearchParams = Promise<{
-  [key: string]: string | string[] | undefined;
-}>;
+export const instant = true;
 
 export default function GetanParqueOeste({
   searchParams,
 }: {
-  searchParams: GetanParqueOesteSearchParams;
+  searchParams: UnitSearchParams;
 }) {
   const fallbackRangeDescription = getRangeDescription(DEFAULT_RANGE_TAG);
 
@@ -30,32 +26,8 @@ export default function GetanParqueOeste({
           />
         }
       >
-        <GetanParqueOesteDataFromSearchParams searchParams={searchParams} />
+        <UnitDataFromSearchParams searchParams={searchParams} />
       </Suspense>
     </GeneralUnitPageShell>
-  );
-}
-
-async function GetanParqueOesteDataFromSearchParams({
-  searchParams,
-}: {
-  searchParams: GetanParqueOesteSearchParams;
-}) {
-  const resolvedSearchParams = await searchParams;
-  const preSet = resolvedSearchParams.set ?? DEFAULT_RANGE_TAG;
-  const startDate = resolvedSearchParams.startDate;
-  const endDate = resolvedSearchParams.endDate;
-  const rangeDescription = getRangeDescription(preSet as string);
-
-  const formattedStartDate = formatDateInput(startDate as string);
-  const formattedEndDate = formatDateInput(endDate as string);
-
-  return (
-    <GeneralGetanParqueOesteDataSection
-      endDate={formattedEndDate}
-      preSet={preSet as string}
-      rangeDescription={rangeDescription}
-      startDate={formattedStartDate}
-    />
   );
 }

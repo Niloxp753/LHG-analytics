@@ -1,9 +1,9 @@
 /** @format */
 
 import { buildAuthCookieHeader } from '@/lib/auth-headers';
+import { cacheLife, cacheTag } from 'next/cache';
 import { consolidated_api } from '../api-client';
 import { FetchFailedError } from '../conditional-cache';
-import { applyPrivateDashboardCache } from '../cache-profiles';
 import { logFetchFailed, logRequestTimeout } from '../logging';
 import { isRetryableError, isRetryableStatus } from '../retry';
 
@@ -12,9 +12,10 @@ async function getCompanyUnifiedCached(
 	endDate: string,
 	cookieHeader: string | null,
 ) {
-	'use cache: private';
+	'use cache';
 
-	applyPrivateDashboardCache(['company'], 'dashboard');
+	cacheLife('dashboard');
+	cacheTag('company');
 
 	const controller = new AbortController();
 	const timeout = setTimeout(() => controller.abort(), 30000);

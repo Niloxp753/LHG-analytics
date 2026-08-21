@@ -13,22 +13,24 @@ import {
 } from '@/components/ui/sheet';
 import { Filter } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import FormFilter from './FormFilter';
 import PeriodSelector from './PeriodSelector';
 
+const subscribeToHydration = () => () => {};
+
 export default function FilterMobile() {
-	const [mounted, setMounted] = useState(false);
+	const mounted = useSyncExternalStore(
+		subscribeToHydration,
+		() => true,
+		() => false,
+	);
 	const pathname = usePathname();
 
 	function handleClose() {
 		const btn = document.getElementById('myclose');
 		btn?.click();
 	}
-
-	useEffect(() => {
-		setMounted(true);
-	}, []);
 
 	if (!mounted) {
 		return null;
@@ -71,4 +73,3 @@ export default function FilterMobile() {
 		</Sheet>
 	);
 }
-

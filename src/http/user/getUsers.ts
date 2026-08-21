@@ -1,16 +1,17 @@
 /** @format */
 
 import { buildAuthCookieHeader } from '@/lib/auth-headers';
+import { cacheLife, cacheTag } from 'next/cache';
 import { auth_api } from '../api-client';
 import { User } from '@/types/user';
 import { FetchFailedError } from '../conditional-cache';
-import { applyPrivateDashboardCache } from '../cache-profiles';
 import { logFetchFailed, logRequestTimeout } from '../logging';
 
 async function getAllUsersCached(cookieHeader: string | null): Promise<User[]> {
 	'use cache: private';
 
-	applyPrivateDashboardCache(['users'], 'dashboard_fast');
+	cacheLife('dashboard_fast');
+	cacheTag('users');
 
 	const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
 	const resp = await auth_api.get('users', {

@@ -1,6 +1,6 @@
 /** @format */
 
-import SessionHydratorProvider from '@/providers/session-hydrator-provider';
+import SessionStoreProvider from '@/providers/session-store-provider';
 import React from 'react';
 
 export default function PublicLayout({
@@ -8,5 +8,5 @@ export default function PublicLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	return <SessionHydratorProvider autoHydrate={false}>{children}</SessionHydratorProvider>;
+	return <SessionStoreProvider>{children}</SessionStoreProvider>;
 }

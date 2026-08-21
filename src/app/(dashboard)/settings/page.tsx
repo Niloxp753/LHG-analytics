@@ -1,30 +1,11 @@
 /** @format */
 
-import { getAllUsersAction } from '@/actions/getAllUsers';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Suspense } from 'react';
-import { DataTableDemo } from './_components/dataTable';
+import { SettingsData } from './_components/settings-data';
+import { SettingsDataFallback } from './_components/settings-data-fallback';
 import WelcomeMessage from './_components/WelcomeMessage';
 
-function SettingsDataFallback() {
-	return (
-		<div
-			className='w-full space-y-4 px-3 md:pr-10'
-			data-testid='settings-data-loading'>
-			<div className='flex items-center justify-between gap-5 py-4'>
-				<Skeleton className='h-10 w-64' />
-				<Skeleton className='h-10 w-32' />
-			</div>
-			<Skeleton className='h-80 w-full rounded-md' />
-		</div>
-	);
-}
-
-async function SettingsData() {
-	const users = await getAllUsersAction();
-
-	return users && <DataTableDemo data={users} />;
-}
+export const instant = true;
 
 export default function Page() {
 	return (
