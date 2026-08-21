@@ -70,7 +70,8 @@ test.describe('Task 03 - RSC navigation dedup', () => {
 		const target = '/general?menu=general&set=este_mes';
 		counts.delete(target);
 
-		await page.getByRole('link', { name: /este m[êe]s/i }).click();
+		await page.getByRole('combobox', { name: 'Selecionar período' }).click();
+		await page.getByRole('option', { name: /este m[êe]s/i }).click();
 		await expect(page).toHaveURL(/set=este_mes/);
 		await page.waitForTimeout(1000);
 
@@ -82,9 +83,9 @@ test.describe('Task 03 - RSC navigation dedup', () => {
 
 		await page.goto('/general?menu=general&set=ultimos_7_dias');
 		const target =
-			'/general?menu=general&set=ultimos_7_dias&startDate=01%2F03%2F2026&endDate=07%2F03%2F2026';
+			'/general?menu=general&set=ultimos_7_dias&startDate=01%2F08%2F2026&endDate=07%2F08%2F2026';
 		const pageUrlTarget =
-			/general\?menu=general&set=ultimos_7_dias&startDate=01\/03\/2026&endDate=07\/03\/2026/;
+			/general\?menu=general&set=ultimos_7_dias&startDate=01\/08\/2026&endDate=07\/08\/2026/;
 		counts.delete(target);
 
 		await page.getByRole('button', { name: 'Data Inicial' }).click();
@@ -124,7 +125,10 @@ test.describe('Task 03 - RSC navigation dedup', () => {
 		const sheet = page.getByRole('dialog', { name: /Filtrar por data/i });
 		await expect(sheet).toBeVisible();
 
-		await sheet.getByRole('button', { name: /7 dias/i }).click();
+		await sheet
+			.getByRole('combobox', { name: 'Selecionar período' })
+			.click();
+		await page.getByRole('option', { name: /7 dias/i }).click();
 		await page.waitForTimeout(1000);
 
 		expect(readCount(counts, target)).toBe(0);

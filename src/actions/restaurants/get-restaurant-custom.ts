@@ -3,6 +3,7 @@
 'use server';
 
 import { getRestaurantsCustom } from '@/http/restaurant/get-restaurant-custom';
+import { resolveCustomDashboardCacheMode } from '@/lib/dashboard-cache-policy';
 
 export async function getRestaurantsCustomAction(
 	startDate: string | null,
@@ -11,7 +12,13 @@ export async function getRestaurantsCustomAction(
 ) {
 	try {
 		if (startDate && endDate) {
-			const resp = await getRestaurantsCustom(startDate, endDate, company);
+			const cacheMode = resolveCustomDashboardCacheMode(endDate);
+			const resp = await getRestaurantsCustom(
+				startDate,
+				endDate,
+				cacheMode,
+				company,
+			);
 			return resp;
 		}
 	} catch (error) {

@@ -171,6 +171,25 @@ export async function GET(
 	const startDate = url.searchParams.get('startDate');
 	const endDate = url.searchParams.get('endDate');
 
+	if (startDate === '01/01/2097' && endDate === '07/01/2097') {
+		return NextResponse.json(
+			{ message: 'non-retryable fixture' },
+			{ status: 400 },
+		);
+	}
+	if (startDate === '01/01/2098' && endDate === '07/01/2098') {
+		return NextResponse.json(
+			{ message: 'retryable fixture' },
+			{ status: 503 },
+		);
+	}
+	if (startDate === '01/01/2099' && endDate === '07/01/2099') {
+		await new Promise((resolve) => setTimeout(resolve, 5000));
+	}
+	if (startDate === '01/04/2026' && endDate === '07/04/2026') {
+		await new Promise((resolve) => setTimeout(resolve, 12000));
+	}
+
 	switch (normalizedPath) {
 		case 'Company/kpis/date-range':
 			if (startDate === '01/03/2026' && endDate === '07/03/2026') {

@@ -8,6 +8,10 @@ import {
 	getRangeByTag,
 	normalizeRangeTag,
 } from '@/lib/date-range';
+import {
+	resolveCustomDashboardCacheMode,
+	resolvePresetDashboardCacheMode,
+} from '@/lib/dashboard-cache-policy';
 
 interface getOperationalPageDataProps {
 	period?: string;
@@ -24,7 +28,12 @@ export async function getOperationalPageData({
 	const range = getRangeByTag(normalized);
 
 	if (startDate && endDate) {
-		const unifiedData = await getGovernanceUnified(startDate, endDate);
+		const cacheMode = resolveCustomDashboardCacheMode(endDate);
+		const unifiedData = await getGovernanceUnified(
+			startDate,
+			endDate,
+			cacheMode,
+		);
 
 		if (unifiedData) {
 			return {
@@ -40,9 +49,11 @@ export async function getOperationalPageData({
 			};
 		}
 	} else if (range) {
+		const cacheMode = resolvePresetDashboardCacheMode(normalized);
 		const unifiedData = await getGovernanceUnified(
 			range.startDate,
 			range.endDate,
+			cacheMode,
 		);
 
 		if (unifiedData) {

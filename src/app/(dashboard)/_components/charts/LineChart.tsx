@@ -19,6 +19,7 @@ import {
 	resolveChartPalette,
 	type ChartPaletteMode,
 } from './consolidated-unit-palette';
+import { resolveChartDensity } from './chart-density';
 
 interface AreaChartsApexProps {
 	title: string;
@@ -42,6 +43,9 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 	function isEnabled() {
 		return isShortRange && !isCustomData;
 	}
+
+	const density = resolveChartDensity(props.series);
+	const dataLabelsEnabled = density.allowDataLabels && isEnabled();
 
 	const hasSeriesData = Array.isArray(props.series)
 		? props.series.length > 0 &&
@@ -113,6 +117,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 			width: '100%',
 			type: 'line',
 			foreColor: '#fafafa',
+			animations: { enabled: density.animationsEnabled },
 			zoom: {
 				enabled: false,
 			},
@@ -158,7 +163,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 						? val + '%'
 						: val.toLocaleString('pt-br')
 				} `,
-			enabled: false,
+			enabled: dataLabelsEnabled,
 			distributed: false,
 			background: {
 				enabled: true,
@@ -196,9 +201,9 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 			},
 		},
 		markers: {
-			size: 3,
+			size: density.markerSize,
 			colors: palette.accentColors,
-			hover: { size: 5 },
+			hover: { size: density.markerHoverSize },
 			strokeWidth: 1,
 		},
 
@@ -224,7 +229,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 			},
 			axisBorder: { show: true },
 		},
-		stroke: { curve: 'smooth', width: 2 },
+		stroke: { curve: density.curve, width: 2 },
 		responsive: [
 			{
 				breakpoint: 580,
@@ -264,13 +269,13 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 						height: 340,
 					},
 					dataLabels: {
-						enabled: isEnabled(),
+						enabled: dataLabelsEnabled,
 					},
 					xaxis: {
 						labels: {
 							trim: false,
 							style: { fontSize: '12px' },
-							rotate: isEnabled() ? 0 : -45,
+							rotate: dataLabelsEnabled ? 0 : -45,
 							hideOverlappingLabels: true,
 						},
 					},

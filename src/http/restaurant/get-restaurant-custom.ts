@@ -1,6 +1,7 @@
 /** @format */
 
 import { buildAuthCookieHeader } from '@/lib/auth-headers';
+import { type DashboardCacheMode } from '@/lib/dashboard-cache-policy';
 import { cacheLife, cacheTag } from 'next/cache';
 import {
 	api,
@@ -9,6 +10,12 @@ import {
 import { FetchFailedError } from '../conditional-cache';
 import { logFetchFailed, logRequestTimeout } from '../logging';
 import { isRetryableError, isRetryableStatus } from '../retry';
+import { withKpiRequestTimeout } from '../kpi-request-timeout';
+import {
+	captureKpiCacheFailure,
+	getKpiCacheIdentityTag,
+	unwrapKpiCacheResult,
+} from '../kpi-cache-result';
 
 async function fetchRestaurantData(
 	client: typeof api,
@@ -22,8 +29,15 @@ async function fetchRestaurantData(
 		try {
 			resp = await client.get('Restaurants/restaurants/date-range', {
 				searchParams: { startDate, endDate },
-				headers: authHeaders,
+				headers:
+					attempt === 0
+						? authHeaders
+						: {
+								...(authHeaders ?? {}),
+								'x-lhg-retry-attempt': String(attempt),
+						  },
 				signal: controller.signal,
+				cache: 'no-store',
 				throwHttpErrors: false,
 			});
 
@@ -42,52 +56,84 @@ async function fetchRestaurantData(
 async function getRestaurantsCustomCached(
 	startDate: string,
 	endDate: string,
+	cacheMode: DashboardCacheMode,
 	company: string | undefined,
 	cookieHeader: string | null,
 ) {
 	'use cache';
 
-	cacheLife('dashboard');
 	cacheTag('restaurant');
-
-	const controller = new AbortController();
-	const timeout = setTimeout(() => controller.abort(), 30000);
-	const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
-
-	try {
-		const companyKey = company ?? 'ipiranga';
-		const resp = await fetchRestaurantData(
-			getUnitApiClient(companyKey),
+	const companyKey = company ?? 'ipiranga';
+	const requestName = `getRestaurantsCustom (${companyKey})`;
+	cacheTag(
+		getKpiCacheIdentityTag(
+			'restaurant-custom',
 			startDate,
 			endDate,
-			authHeaders,
+			cacheMode,
+			companyKey,
+			cookieHeader,
+		),
+	);
+
+	const controller = new AbortController();
+	const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
+	let failed = false;
+	let result: unknown;
+
+	try {
+		const resp = await withKpiRequestTimeout(
+			fetchRestaurantData(
+				getUnitApiClient(companyKey),
+				startDate,
+				endDate,
+				authHeaders,
+				controller,
+			),
 			controller,
 		);
 
 		if (!resp || !resp.ok) {
 			throw new FetchFailedError(
-				`getRestaurantsCustom (${companyKey})`,
+				requestName,
 				resp?.status,
 				resp?.statusText,
 			);
 		}
 
-		return resp.json();
-	} finally {
-		clearTimeout(timeout);
+		result = await resp.json();
+	} catch (error) {
+		failed = true;
+		result = captureKpiCacheFailure(error, requestName);
 	}
+
+	if (failed) {
+		cacheLife({ stale: 0, revalidate: 0, expire: 0 });
+	} else if (cacheMode === 'historical') {
+		cacheLife('dashboard_historical');
+	} else {
+		cacheLife('dashboard');
+	}
+	return result;
 }
 
 export async function getRestaurantsCustom(
 	startDate: string,
 	endDate: string,
+	cacheMode: DashboardCacheMode,
 	company?: string,
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
 	const cookieHeader = await buildAuthCookieHeader();
-
 	try {
-		return await getRestaurantsCustomCached(startDate, endDate, company, cookieHeader);
+		const result = await getRestaurantsCustomCached(
+			startDate,
+			endDate,
+			cacheMode,
+			company,
+			cookieHeader,
+		);
+		return unwrapKpiCacheResult(result);
 	} catch (error) {
 		if (error instanceof FetchFailedError) {
 			logFetchFailed(error);

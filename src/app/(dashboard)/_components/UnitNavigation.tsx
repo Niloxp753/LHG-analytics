@@ -23,10 +23,12 @@ import {
 	UNIT_TO_SLUG,
 	UNIT_VALUES,
 } from '@/lib/access-control';
+import { useIntentPrefetch } from '@/hooks/use-intent-prefetch';
+import { shouldNavigateToHref } from '@/lib/navigation-target';
 import { cn } from '@/lib/utils';
 import { useSessionStore } from '@/stores/session-store';
 import { ArrowUpRight, Building2, ChevronsUpDown } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { resolveUnitPaletteFromLabels } from './charts/consolidated-unit-palette';
 
@@ -46,6 +48,9 @@ export default function UnitNavigation({
 	startDate,
 }: UnitNavigationProps) {
 	const router = useRouter();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
+	const intent = useIntentPrefetch();
 	const [open, setOpen] = useState(false);
 	const status = useSessionStore((state) => state.status);
 	const user = useSessionStore((state) => state.user);
@@ -59,7 +64,7 @@ export default function UnitNavigation({
 	}
 
 	const units = UNIT_VALUES.map((unit) => {
-		const href = `/${modulePath}/${UNIT_TO_SLUG[unit]}?${search.toString()}`;
+										const href = `/${modulePath}/${UNIT_TO_SLUG[unit]}?${search.toString()}`;
 
 		return {
 			href,
@@ -112,29 +117,40 @@ export default function UnitNavigation({
 								Nenhuma unidade encontrada.
 							</CommandEmpty>
 							<CommandGroup heading='Unidades disponíveis'>
-								{units.map((unit, index) => (
-									<CommandItem
-										key={unit.unit}
-										value={unit.label}
-										onFocus={() => router.prefetch(unit.href)}
-										onMouseEnter={() => router.prefetch(unit.href)}
-										onSelect={() => {
-											setOpen(false);
-											router.push(unit.href);
-										}}
-										className='gap-3 py-2.5 text-zinc-200 data-[selected=true]:bg-zinc-800 data-[selected=true]:text-white'>
-										<span
-											aria-hidden='true'
-											className='size-2.5 shrink-0 rounded-full ring-2 ring-white/15'
-											style={{ backgroundColor: colors[index] ?? '#a78bfa' }}
-										/>
-										<span className='truncate'>{unit.label}</span>
-										<ArrowUpRight
-											aria-hidden='true'
-											className='ml-auto size-4 text-zinc-500'
-										/>
-									</CommandItem>
-								))}
+								{units.map((unit, index) => {
+									const enabled = shouldNavigateToHref(
+										pathname,
+										searchParams.entries(),
+										unit.href,
+									);
+
+									return (
+										<CommandItem
+											key={unit.unit}
+											value={unit.label}
+											tabIndex={0}
+											onPointerEnter={() => intent.schedule(unit.href, enabled)}
+											onPointerLeave={() => intent.cancel(unit.href)}
+											onFocus={() => intent.prefetchNow(unit.href, enabled)}
+											onPointerDown={() => intent.prefetchNow(unit.href, enabled)}
+											onSelect={() => {
+												setOpen(false);
+												router.push(unit.href);
+											}}
+											className='gap-3 py-2.5 text-zinc-200 data-[selected=true]:bg-zinc-800 data-[selected=true]:text-white'>
+											<span
+												aria-hidden='true'
+												className='size-2.5 shrink-0 rounded-full ring-2 ring-white/15'
+												style={{ backgroundColor: colors[index] ?? '#a78bfa' }}
+											/>
+											<span className='truncate'>{unit.label}</span>
+											<ArrowUpRight
+												aria-hidden='true'
+												className='ml-auto size-4 text-zinc-500'
+											/>
+										</CommandItem>
+									);
+								})}
 							</CommandGroup>
 						</CommandList>
 					</Command>

@@ -9,6 +9,7 @@
 		"test:e2e": "playwright test",
 		"test:e2e:ui": "playwright test --ui",
 		"test:build": "next build",
+		"performance:dashboard": "node scripts/dashboard-performance-budget.mjs",
 		"lint": "eslint",
 		"lint:fix": "eslint --fix"
 	},

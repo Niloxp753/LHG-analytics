@@ -21,6 +21,7 @@ import {
 } from '@/lib/date-range';
 import { shouldNavigateToHref } from '@/lib/navigation-target';
 import { cn } from '@/lib/utils';
+import { useIntentPrefetch } from '@/hooks/use-intent-prefetch';
 import {
 	CalendarRange,
 	Check,
@@ -28,7 +29,7 @@ import {
 	Loader2,
 } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useState, useTransition } from 'react';
+import { useRef, useState, useTransition } from 'react';
 
 type PeriodSelectorProps = {
 	className?: string;
@@ -44,6 +45,8 @@ export default function PeriodSelector({
 	const searchParams = useSearchParams();
 	const [open, setOpen] = useState(false);
 	const [isPending, startTransition] = useTransition();
+	const isPointerSelecting = useRef(false);
+	const intent = useIntentPrefetch();
 	const preSet = searchParams.get('set') || DEFAULT_RANGE_TAG;
 	const menu = searchParams.get('menu') || pathname.split('/')[1] || 'general';
 	const hasCustomDates =
@@ -95,14 +98,37 @@ export default function PeriodSelector({
 								{periods.map((period) => {
 									const isSelected = !hasCustomDates && period.tag === preSet;
 									const href = `?menu=${menu}&set=${period.tag}`;
+									const enabled = shouldNavigateToHref(
+										pathname,
+										searchParams.entries(),
+										href,
+									);
 
 									return (
-										<CommandItem
-											aria-current={isSelected ? 'true' : undefined}
+						<CommandItem
+							aria-current={isSelected ? 'true' : undefined}
+							tabIndex={0}
 											key={period.tag}
 											value={period.label}
-											onFocus={() => router.prefetch(href)}
-											onMouseEnter={() => router.prefetch(href)}
+											onPointerEnter={() => intent.schedule(href, enabled)}
+											onPointerLeave={() => {
+												isPointerSelecting.current = false;
+												intent.cancel(href);
+											}}
+											onPointerDown={() => {
+												isPointerSelecting.current = true;
+											}}
+											onPointerUp={() => {
+												isPointerSelecting.current = false;
+											}}
+											onPointerCancel={() => {
+												isPointerSelecting.current = false;
+											}}
+											onFocus={() => {
+												if (!isPointerSelecting.current) {
+													intent.prefetchNow(href, enabled);
+												}
+											}}
 											onSelect={() => {
 												setOpen(false);
 												if (

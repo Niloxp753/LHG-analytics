@@ -7,6 +7,11 @@ const nextConfig = {
       revalidate: 30,
       expire: 300,
     },
+    dashboard_historical: {
+      stale: 300,
+      revalidate: 900,
+      expire: 86400,
+    },
     dashboard_fast: {
       stale: 30,
       revalidate: 10,

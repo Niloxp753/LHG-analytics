@@ -35,7 +35,9 @@ export default function HeaderClient() {
 			: null;
 
 	return (
-		<div className=' pt-1 pb-1 w-full'>
+		<div
+			data-testid='dashboard-header-client'
+			className=' pt-1 pb-1 w-full'>
 			<div
 				aria-label='Filtros do dashboard'
 				role='region'

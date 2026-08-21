@@ -3,6 +3,7 @@
 'use server';
 
 import { getCompanyCustom } from '@/http/company/getCompanyCustom';
+import { resolveCustomDashboardCacheMode } from '@/lib/dashboard-cache-policy';
 
 export async function getCompanyCustomAction(
 	startDate: string | null,
@@ -11,7 +12,13 @@ export async function getCompanyCustomAction(
 ) {
 	try {
 		if (startDate && endDate) {
-			const resp = await getCompanyCustom(startDate, endDate, company);
+			const cacheMode = resolveCustomDashboardCacheMode(endDate);
+			const resp = await getCompanyCustom(
+				startDate,
+				endDate,
+				cacheMode,
+				company,
+			);
 			return resp;
 		}
 	} catch (error) {

@@ -3,6 +3,7 @@
 'use server';
 
 import { getReservationsCustom } from '@/http/reservations/get-bookings-custom';
+import { resolveCustomDashboardCacheMode } from '@/lib/dashboard-cache-policy';
 
 export async function getReservationsCustomAction(
 	startDate: string | null,
@@ -11,7 +12,13 @@ export async function getReservationsCustomAction(
 ) {
 	try {
 		if (startDate && endDate) {
-			const resp = await getReservationsCustom(startDate, endDate, company);
+			const cacheMode = resolveCustomDashboardCacheMode(endDate);
+			const resp = await getReservationsCustom(
+				startDate,
+				endDate,
+				cacheMode,
+				company,
+			);
 			return resp;
 		}
 	} catch (error) {

@@ -1,43 +1,23 @@
 /** @format */
 'use client';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import {
-	Sheet,
-	SheetClose,
-	SheetContent,
-	SheetFooter,
-	SheetHeader,
-	SheetTitle,
-	SheetTrigger,
-} from '@/components/ui/sheet';
-import { Filter } from 'lucide-react';
-import { usePathname } from 'next/navigation';
-import { useSyncExternalStore } from 'react';
-import FormFilter from './FormFilter';
-import PeriodSelector from './PeriodSelector';
 
-const subscribeToHydration = () => () => {};
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetTrigger } from '@/components/ui/sheet';
+import { Filter } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+
+const MobileFilterContent = dynamic(() => import('./mobile-filter-content'), {
+	ssr: false,
+});
 
 export default function FilterMobile() {
-	const mounted = useSyncExternalStore(
-		subscribeToHydration,
-		() => true,
-		() => false,
-	);
 	const pathname = usePathname();
-
-	function handleClose() {
-		const btn = document.getElementById('myclose');
-		btn?.click();
-	}
-
-	if (!mounted) {
-		return null;
-	}
+	const [open, setOpen] = useState(false);
 
 	return (
-		<Sheet>
+		<Sheet open={open} onOpenChange={setOpen}>
 			<SheetTrigger
 				onClick={(e) => e.stopPropagation()}
 				asChild
@@ -52,24 +32,9 @@ export default function FilterMobile() {
 					<Filter size={22} />
 				</Button>
 			</SheetTrigger>
-			<SheetContent
-				onClick={(e) => e.stopPropagation()}
-				side={'right'}
-				className='dark w-full z-[51]'>
-				<SheetHeader>
-					<SheetTitle className='text-xl'>Filtrar por data</SheetTitle>
-				</SheetHeader>
-				<div className='mt-10 flex flex-col gap-2.5 z-[70]'>
-					<PeriodSelector onNavigate={handleClose} />
-					<Separator className='my-5' />
-					<FormFilter popoverPortalled={false} />
-				</div>
-				<SheetFooter className='mt-5'>
-					<SheetClose
-						id='myclose'
-						className='hidden'></SheetClose>
-				</SheetFooter>
-			</SheetContent>
+			{open ? (
+				<MobileFilterContent onNavigate={() => setOpen(false)} />
+			) : null}
 		</Sheet>
 	);
 }
