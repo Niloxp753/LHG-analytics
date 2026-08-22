@@ -93,9 +93,8 @@ test.describe('Task 13 - Calendário Mobile (iPhone)', () => {
 			expectedEndDate,
 		);
 
-		await page.getByRole('button', { name: 'Close' }).click();
+		await page.getByRole('button', { name: 'Fechar' }).click();
 
 		await expect(faturamentoValue).not.toHaveText(initialValueText);
 	});
 });
-

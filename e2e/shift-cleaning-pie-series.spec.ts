@@ -9,12 +9,12 @@ test.describe('buildShiftCleaningPieData', () => {
 
 		expect(
 			buildShiftCleaningPieData({
-				categories: ['Manh\u00e3', 'Noite', 'Terceirizado'],
+				categories: ['Manhã', 'Noite', 'Terceirizado'],
 				series: [78, 39, 57],
 			}),
 		).toEqual({
 			error: undefined,
-			labels: ['Manh\u00e3', 'Noite', 'Terceirizado'],
+			labels: ['Manhã', 'Noite', 'Terceirizado'],
 			series: [78, 39, 57],
 		});
 	});

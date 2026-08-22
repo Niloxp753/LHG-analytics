@@ -8,6 +8,7 @@ import {
 	getRangeByTag,
 	normalizeRangeTag,
 } from '@/lib/date-range';
+import { resolvePresetDashboardCacheMode } from '@/lib/dashboard-cache-policy';
 
 export async function getReservationsAction(period: string, company?: string) {
 	const normalized = normalizeRangeTag(period, DEFAULT_RANGE_TAG);
@@ -17,9 +18,11 @@ export async function getReservationsAction(period: string, company?: string) {
 	}
 
 	try {
+		const cacheMode = resolvePresetDashboardCacheMode(normalized);
 		const resp = await getReservationsCustom(
 			range.startDate,
 			range.endDate,
+			cacheMode,
 			company,
 		);
 		return resp;

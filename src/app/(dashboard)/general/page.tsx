@@ -2,32 +2,27 @@
 
 import {
 	DEFAULT_RANGE_TAG,
-	formatDateInput,
 	getRangeDescription,
 } from '@/lib/date-range';
 import { Suspense } from 'react';
-import CardLink from '../_components/CardLink';
 import Header from '../_components/Header';
-import SparkChart from '../_components/charts/SparkChart';
-import { GeneralKpiFallback, GeneralKpiSection } from './kpi-section';
+import UnitNavigation from '../_components/UnitNavigation';
+import GeneralKpiFallback from './_components/general-kpi-fallback';
+import GeneralKpisFromSearchParams from './_components/general-kpis-from-search-params';
+import GeneralUnitNavigationFromSearchParams from './_components/general-unit-navigation-from-search-params';
+import type { GeneralSearchParams } from './search-params';
 
-export default async function General({
+export const instant = true;
+
+export default function General({
 	searchParams,
 }: {
-	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+	searchParams: GeneralSearchParams;
 }) {
-	const resolvedSearchParams = await searchParams;
-	const menu = 'general';
-	const preSet = resolvedSearchParams.set ?? DEFAULT_RANGE_TAG;
-	const startDate = resolvedSearchParams.startDate;
-	const endDate = resolvedSearchParams.endDate;
-	const rangeDescription = getRangeDescription(preSet as string);
-
-	const formattedStartDate = formatDateInput(startDate as string);
-	const formattedEndDate = formatDateInput(endDate as string);
+	const fallbackRangeDescription = getRangeDescription(DEFAULT_RANGE_TAG);
 
 	return (
-		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 '>
+		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-start bg-zinc-950 overflow-x-hidden pt-20 pb-10 md:px-5 lg:pt-44'>
 			<div className='relative md:max-w-[82vw] flex md:ml-auto w-full'>
 				<div className='bg-zinc-950/50 p-4 w-full md:max-w-[82vw] backdrop-blur-md fixed z-20 top-0 flex flex-col gap-5'>
 					<h2 className='text-zinc-50 font-bold text-2xl text-center'>
@@ -37,67 +32,26 @@ export default async function General({
 						<Header />
 					</div>
 				</div>
-				<div className='flex flex-col mt-10 lg:mt-32 gap-5 w-full px-3'>
-					<div className='grid md:grid-cols-2 xl:grid-cols-3 gap-5'>
-						<CardLink
-							href={`/general/lushipiranga?menu=${menu}&set=${preSet}`}
-							title={'Lush Ipiranga'}
-							content={
-								<SparkChart
-									serie={[35, 40, 55, 45, 50, 40, 55, 45, 50]}
-								/>
-							}></CardLink>
-						<CardLink
-							href={`/general/lushlapa?menu=${menu}&set=${preSet}`}
-							title={'Lush Lapa'}
-							content={
-								<SparkChart
-									serie={[45, 30, 55, 55, 45, 50, 35, 60, 40]}
-								/>
-							}></CardLink>
-						<CardLink
-							href={`/general/tout?menu=${menu}&set=${preSet}`}
-							title={'Tout'}
-							content={
-								<SparkChart
-									serie={[45, 40, 55, 45, 30, 55, 35, 55, 30]}
-								/>
-							}></CardLink>{' '}
-						<CardLink
-							href={`/general/andardecima?menu=${menu}&set=${preSet}`}
-							title={'Andar de Cima'}
-							content={
-								<SparkChart
-									serie={[55, 30, 55, 45, 50, 60, 55, 35, 55]}
-								/>
-							}></CardLink>
-						<CardLink
-							href={`/general/altana?menu=${menu}&set=${preSet}`}
-							title={'Altana'}
-							content={
-								<SparkChart
-									serie={[38, 52, 47, 58, 44, 61, 49, 56, 53]}
-								/>
-							}></CardLink>
-						<CardLink
-							href={`/general/liv?menu=${menu}&set=${preSet}`}
-							title={'LIV'}
-							content={
-								<SparkChart
-									serie={[40, 55, 45, 50, 40, 55, 45, 50, 40]}
-								/>
-							}></CardLink>
-					</div>
+				<div className='flex flex-col gap-5 w-full px-3'>
 					<Suspense
 						fallback={
-							<GeneralKpiFallback rangeDescription={rangeDescription} />
+							<UnitNavigation
+								className='lg:hidden'
+								modulePath='general'
+								preSet={DEFAULT_RANGE_TAG}
+							/>
 						}>
-						<GeneralKpiSection
-							endDate={formattedEndDate}
-							period={preSet as string}
-							rangeDescription={rangeDescription}
-							startDate={formattedStartDate}
+						<GeneralUnitNavigationFromSearchParams
+							searchParams={searchParams}
 						/>
+					</Suspense>
+					<Suspense
+						fallback={
+							<GeneralKpiFallback
+								rangeDescription={fallbackRangeDescription}
+							/>
+						}>
+						<GeneralKpisFromSearchParams searchParams={searchParams} />
 					</Suspense>
 				</div>
 			</div>

@@ -3,7 +3,6 @@
 import { getGovernanceAction } from '@/actions/getGovernance';
 import { getOperationCustomAction } from '@/actions/getoperationsCustom';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Skeleton } from '@/components/ui/skeleton';
 import BigNumbersOperation from '../../_components/kpis-unidade/big-numbers-operation';
 import MorningCleaningWorkers from '../../_components/kpis-unidade/morning-cleaning-worker';
 import { orderOperationalShiftKeys } from '../../_components/kpis-unidade/operational-shifts';
@@ -13,7 +12,7 @@ import TableWokersMorning from '../../_components/kpis-unidade/table-workers-mor
 import TableWokersWeekly from '../../_components/kpis-unidade/table-workers-weekly';
 import TotalCleaning from '../../_components/kpis-unidade/total-cleaning';
 
-type OperationalAltanaDataSectionProps = {
+export type OperationalAltanaDataSectionProps = {
 	description: string;
 	endDate: string | null;
 	preSet: string;
@@ -30,34 +29,6 @@ async function getOperationalAltanaData({
 	}
 
 	return getGovernanceAction(preSet, 'altana');
-}
-
-export function OperationalAltanaDataFallback({
-	description,
-}: Pick<OperationalAltanaDataSectionProps, 'description'>) {
-	return (
-		<div
-			data-testid='operational-altana-unit-loading'
-			className='w-full h-full flex gap-5 flex-col'>
-			<BigNumbersOperation description={description} />
-			<div className='flex items-center gap-5 justify-between flex-col md:flex-row'>
-				<Skeleton className='h-[340px] w-full rounded-xl' />
-				<Skeleton className='h-[340px] w-full rounded-xl' />
-			</div>
-			<Skeleton className='h-[360px] w-full rounded-xl' />
-			<div className='flex gap-5 flex-col items-center w-full'>
-				<Skeleton className='h-[480px] w-full rounded-xl' />
-				<Skeleton className='h-[480px] w-full rounded-xl' />
-				<Skeleton className='h-[480px] w-full rounded-xl' />
-			</div>
-			<div className='flex gap-5 flex-col w-full'>
-				<Skeleton className='h-[260px] w-full rounded-xl' />
-				<Skeleton className='h-[260px] w-full rounded-xl' />
-				<Skeleton className='h-[260px] w-full rounded-xl' />
-				<Skeleton className='h-[380px] w-full rounded-xl' />
-			</div>
-		</div>
-	);
 }
 
 export async function OperationalAltanaDataSection({

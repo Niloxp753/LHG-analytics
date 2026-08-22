@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Loader2, LogOut } from 'lucide-react';
 import { logoutWithCookies } from '@/lib/auth-client';
 import { useSessionStore } from '@/stores/session-store';
+import { useRouter } from 'next/navigation';
 
 export default function BtnSignOut({
 	isOpened,
@@ -16,6 +17,7 @@ export default function BtnSignOut({
 }) {
 	const [loading, setLoading] = useState(false);
 	const clearSession = useSessionStore((s) => s.clear);
+	const router = useRouter();
 
 	async function handleClick(
 		e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -26,7 +28,7 @@ export default function BtnSignOut({
 		try {
 			await logoutWithCookies();
 			clearSession();
-			window.location.href = '/login';
+			router.push('/login');
 		} catch (error) {
 			alert(error);
 			setLoading(false);

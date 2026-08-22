@@ -14,12 +14,14 @@ interface InvoicingXTypesProps {
 	categories?: string[];
 	error?: string | boolean;
 	currencyConfig?: CurrencyConfig;
+	height?: number;
 }
 export default function InvoicingXTypes({
 	categories,
 	series,
 	error,
 	currencyConfig,
+	height,
 }: InvoicingXTypesProps) {
 	const resolvedError =
 		error ?? (series === null ? 'Não foi possível carregar os dados.' : undefined);
@@ -27,6 +29,7 @@ export default function InvoicingXTypes({
 	return (
 		<BarCharApex
 			money
+			height={height}
 			currencyConfig={currencyConfig}
 			error={resolvedError}
 			title='Faturamento por formas de pagamento'

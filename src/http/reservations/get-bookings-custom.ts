@@ -1,11 +1,21 @@
 /** @format */
 
 import { buildAuthCookieHeader } from '@/lib/auth-headers';
-import { api, api_altana, api_andar_de_cima, api_lapa, api_tout } from '../api-client';
+import { type DashboardCacheMode } from '@/lib/dashboard-cache-policy';
+import { cacheLife, cacheTag } from 'next/cache';
+import {
+	api,
+	getUnitApiClient,
+} from '../api-client';
 import { FetchFailedError } from '../conditional-cache';
-import { applyPrivateDashboardCache } from '../cache-profiles';
 import { logFetchFailed, logRequestTimeout } from '../logging';
 import { isRetryableError, isRetryableStatus } from '../retry';
+import { withKpiRequestTimeout } from '../kpi-request-timeout';
+import {
+	captureKpiCacheFailure,
+	getKpiCacheIdentityTag,
+	unwrapKpiCacheResult,
+} from '../kpi-cache-result';
 
 async function fetchReservationsData(
 	client: typeof api,
@@ -19,8 +29,15 @@ async function fetchReservationsData(
 		try {
 			resp = await client.get('Bookings/bookings/date-range', {
 				searchParams: { startDate, endDate },
-				headers: authHeaders,
+					headers:
+					attempt === 0
+						? authHeaders
+						: {
+								...(authHeaders ?? {}),
+								'x-lhg-retry-attempt': String(attempt),
+						  },
 				signal: controller.signal,
+				cache: 'no-store',
 				throwHttpErrors: false,
 			});
 
@@ -39,97 +56,84 @@ async function fetchReservationsData(
 async function getReservationsCustomCached(
 	startDate: string,
 	endDate: string,
+	cacheMode: DashboardCacheMode,
 	company: string | undefined,
 	cookieHeader: string | null,
 ) {
-	'use cache: private';
+	'use cache';
 
-	applyPrivateDashboardCache(['reservations'], 'dashboard');
+	cacheTag('reservations');
+	const companyKey = company ?? 'ipiranga';
+	const requestName = `getReservationsCustom (${companyKey})`;
+	cacheTag(
+		getKpiCacheIdentityTag(
+			'reservations-custom',
+			startDate,
+			endDate,
+			cacheMode,
+			companyKey,
+			cookieHeader,
+		),
+	);
 
 	const controller = new AbortController();
-	const timeout = setTimeout(() => controller.abort(), 30000);
 	const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
+	let failed = false;
+	let result: unknown;
 
 	try {
-		const companyKey = company ?? 'ipiranga';
-		let resp: Response | null = null;
-		switch (companyKey) {
-			case 'lapa':
-				resp = await fetchReservationsData(
-					api_lapa,
-					startDate,
-					endDate,
-					authHeaders,
-					controller,
-				);
-				break;
-			case 'tout':
-				resp = await fetchReservationsData(
-					api_tout,
-					startDate,
-					endDate,
-					authHeaders,
-					controller,
-				);
-				break;
-			case 'altana':
-				resp = await fetchReservationsData(
-					api_altana,
-					startDate,
-					endDate,
-					authHeaders,
-					controller,
-				);
-				break;
-			case 'andar_de_cima':
-				resp = await fetchReservationsData(
-					api_andar_de_cima,
-					startDate,
-					endDate,
-					authHeaders,
-					controller,
-				);
-				break;
-			default:
-				resp = await fetchReservationsData(
-					api,
-					startDate,
-					endDate,
-					authHeaders,
-					controller,
-				);
-				break;
-		}
+		const resp = await withKpiRequestTimeout(
+			fetchReservationsData(
+				getUnitApiClient(companyKey),
+				startDate,
+				endDate,
+				authHeaders,
+				controller,
+			),
+			controller,
+		);
 
 		if (!resp || !resp.ok) {
 			throw new FetchFailedError(
-				`getReservationsCustom (${companyKey})`,
+				requestName,
 				resp?.status,
 				resp?.statusText,
 			);
 		}
 
-		return resp.json();
-	} finally {
-		clearTimeout(timeout);
+		result = await resp.json();
+	} catch (error) {
+		failed = true;
+		result = captureKpiCacheFailure(error, requestName);
 	}
+
+	if (failed) {
+		cacheLife({ stale: 0, revalidate: 0, expire: 0 });
+	} else if (cacheMode === 'historical') {
+		cacheLife('dashboard_historical');
+	} else {
+		cacheLife('dashboard');
+	}
+	return result;
 }
 
 export async function getReservationsCustom(
 	startDate: string,
 	endDate: string,
+	cacheMode: DashboardCacheMode,
 	company?: string,
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
 	const cookieHeader = await buildAuthCookieHeader();
-
 	try {
-		return await getReservationsCustomCached(
+		const result = await getReservationsCustomCached(
 			startDate,
 			endDate,
+			cacheMode,
 			company,
 			cookieHeader,
 		);
+		return unwrapKpiCacheResult(result);
 	} catch (error) {
 		if (error instanceof FetchFailedError) {
 			logFetchFailed(error);

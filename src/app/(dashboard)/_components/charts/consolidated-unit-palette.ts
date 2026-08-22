@@ -14,38 +14,50 @@ type UnitColorKey =
   | "tout"
   | "andarDeCima"
   | "liv"
-  | "altana";
+  | "altana"
+  | "getanGaravelo"
+  | "getanParqueOeste";
 
 export const UNIT_CHART_COLORS: Record<UnitColorKey, UnitColorToken> = {
   ipiranga: {
     canonicalLabel: "Lush Ipiranga",
-    series: colors.violet[500],
-    accent: colors.violet[700],
+    series: colors.violet[400],
+    accent: colors.violet[600],
   },
   lapa: {
     canonicalLabel: "Lush Lapa",
-    series: colors.indigo[600],
-    accent: colors.indigo[800],
+    series: colors.blue[400],
+    accent: colors.blue[600],
   },
   tout: {
     canonicalLabel: "Tout",
-    series: colors.purple[500],
-    accent: colors.purple[700],
+    series: colors.indigo[400],
+    accent: colors.indigo[600],
   },
   andarDeCima: {
     canonicalLabel: "Andar de Cima",
-    series: colors.fuchsia[500],
-    accent: colors.fuchsia[700],
+    series: colors.fuchsia[400],
+    accent: colors.fuchsia[600],
   },
   liv: {
     canonicalLabel: "LIV",
-    series: colors.red[500],
-    accent: colors.red[700],
+    series: colors.rose[400],
+    accent: colors.rose[600],
   },
   altana: {
     canonicalLabel: "Altana",
-    series: colors.blue[500],
-    accent: colors.blue[700],
+    series: colors.orange[400],
+    accent: colors.orange[600],
+  },
+  getanGaravelo: {
+    canonicalLabel: "Getan Garavelo",
+    series: colors.yellow[400],
+    accent: colors.yellow[600],
+  },
+  getanParqueOeste: {
+    canonicalLabel: "Getan Parque Oeste",
+    series: colors.lime[400],
+    accent: colors.lime[600],
   },
 };
 
@@ -59,8 +71,14 @@ const UNIT_COLOR_KEY_BY_ALIAS: Record<string, UnitColorKey> = {
   andardecima: "andarDeCima",
   liv: "liv",
   altana: "altana",
+  "getan garavelo": "getanGaravelo",
+  getan_garavelo: "getanGaravelo",
+  getangaravelo: "getanGaravelo",
+  "getan parque oeste": "getanParqueOeste",
+  "getan pq oeste": "getanParqueOeste",
+  getan_pq_oeste: "getanParqueOeste",
+  getanpqoeste: "getanParqueOeste",
 };
-
 
 function normalizeLabelToken(label: string) {
   return label

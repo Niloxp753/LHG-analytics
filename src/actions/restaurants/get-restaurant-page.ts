@@ -8,6 +8,10 @@ import {
 	getRangeByTag,
 	normalizeRangeTag,
 } from '@/lib/date-range';
+import {
+	resolveCustomDashboardCacheMode,
+	resolvePresetDashboardCacheMode,
+} from '@/lib/dashboard-cache-policy';
 
 interface getRestaurantPageDataProps {
 	period?: string;
@@ -24,7 +28,8 @@ export async function getRestaurantPageData({
 	const range = getRangeByTag(normalized);
 
 	if (startDate && endDate) {
-		const data = await getRestaurantUnified(startDate, endDate);
+		const cacheMode = resolveCustomDashboardCacheMode(endDate);
+		const data = await getRestaurantUnified(startDate, endDate, cacheMode);
 
 		if (data) {
 			return {
@@ -39,7 +44,12 @@ export async function getRestaurantPageData({
 			error: 'Erro ao encontrar dados',
 		};
 	} else if (range) {
-		const data = await getRestaurantUnified(range.startDate, range.endDate);
+		const cacheMode = resolvePresetDashboardCacheMode(normalized);
+		const data = await getRestaurantUnified(
+			range.startDate,
+			range.endDate,
+			cacheMode,
+		);
 
 		if (data) {
 			return {

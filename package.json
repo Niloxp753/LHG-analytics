@@ -9,6 +9,7 @@
 		"test:e2e": "playwright test",
 		"test:e2e:ui": "playwright test --ui",
 		"test:build": "next build",
+		"performance:dashboard": "node scripts/dashboard-performance-budget.mjs",
 		"lint": "eslint",
 		"lint:fix": "eslint --fix"
 	},
@@ -44,7 +45,7 @@
 		"react-hook-form": "^7.53.1",
 		"react-icons": "^5.3.0",
 		"server-only": "^0.0.1",
-		"sharp": "^0.33.5",
+		"sharp": "^0.35.3",
 		"sonner": "^1.4.41",
 		"tailwind-merge": "^2.5.4",
 		"tailwindcss-animate": "^1.0.7",
@@ -53,6 +54,7 @@
 		"zustand": "^5.0.9"
 	},
 	"devDependencies": {
+		"@next/playwright": "^16.3.1",
 		"@playwright/test": "^1.58.2",
 		"@types/bcrypt": "^5.0.2",
 		"@types/node": "^20.17.0",

@@ -2,35 +2,27 @@
 
 import {
 	DEFAULT_RANGE_TAG,
-	formatDateInput,
 	getRangeDescription,
 } from '@/lib/date-range';
 import { Suspense } from 'react';
-import CardLink from '../_components/CardLink';
 import Header from '../_components/Header';
-import SparkChart from '../_components/charts/SparkChart';
-import {
-	OperationalKpiFallback,
-	OperationalKpiSection,
-} from './kpi-section';
+import UnitNavigation from '../_components/UnitNavigation';
+import OperationalKpiFallback from './_components/operational-kpi-fallback';
+import OperationalKpisFromSearchParams from './_components/operational-kpis-from-search-params';
+import OperationalUnitNavigationFromSearchParams from './_components/operational-unit-navigation-from-search-params';
+import type { OperationalSearchParams } from './search-params';
 
-export default async function Operational({
+export const instant = true;
+
+export default function Operational({
 	searchParams,
 }: {
-	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+	searchParams: OperationalSearchParams;
 }) {
-	const resolvedSearchParams = await searchParams;
-	const menu = 'operational';
-	const preSet = resolvedSearchParams.set || DEFAULT_RANGE_TAG;
-	const startDate = resolvedSearchParams.startDate;
-	const endDate = resolvedSearchParams.endDate;
-	const rangeDescription = getRangeDescription(preSet as string);
-
-	const formattedStartDate = formatDateInput(startDate as string);
-	const formattedEndDate = formatDateInput(endDate as string);
+	const fallbackRangeDescription = getRangeDescription(DEFAULT_RANGE_TAG);
 
 	return (
-		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-center bg-zinc-950 overflow-x-hidden py-10 md:px-5 '>
+		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-start bg-zinc-950 overflow-x-hidden pt-20 pb-10 md:px-5 lg:pt-44'>
 			<div className='relative md:max-w-[82vw] flex md:ml-auto w-full'>
 				<div className='bg-zinc-950/50 py-4 w-full md:w-[82vw] backdrop-blur-md fixed z-20 top-0 flex flex-col gap-5'>
 					<h2 className='text-zinc-50 font-bold md:text-3xl text-center text-xl'>
@@ -43,65 +35,26 @@ export default async function Operational({
 				</div>
 
 				<div className='w-full flex flex-col gap-5'>
-					<div className='grid md:grid-cols-2 xl:grid-cols-3 gap-5 px-3 md:px-0 mt-12 md:mt-32'>
-						<CardLink
-							href={`/operational/lushipiranga?menu=${menu}&set=${preSet}`}
-							title={'Lush Ipiranga'}
-							content={
-								<SparkChart
-									serie={[35, 40, 55, 45, 50, 40, 55, 45, 50]}
-								/>
-							}></CardLink>
-						<CardLink
-							href={`/operational/lushlapa?menu=${menu}&set=${preSet}`}
-							title={'Lush Lapa'}
-							content={
-								<SparkChart
-									serie={[45, 30, 55, 55, 45, 50, 35, 60, 40]}
-								/>
-							}></CardLink>
-						<CardLink
-							href={`/operational/tout?menu=${menu}&set=${preSet}`}
-							title={'Tout'}
-							content={
-								<SparkChart
-									serie={[45, 40, 55, 45, 30, 55, 35, 55, 30]}
-								/>
-							}></CardLink>{' '}
-						<CardLink
-							href={`/operational/andardecima?menu=${menu}&set=${preSet}`}
-							title={'Andar de Cima'}
-							content={
-								<SparkChart
-									serie={[55, 30, 55, 45, 50, 60, 55, 35, 55]}
-								/>
-							}></CardLink>
-						<CardLink
-							href={`/operational/altana?menu=${menu}&set=${preSet}`}
-							title={'Altana'}
-							content={
-								<SparkChart
-									serie={[39, 53, 47, 58, 44, 60, 48, 55, 51]}
-								/>
-							}></CardLink>
-						<CardLink
-							href={`/operational/liv?menu=${menu}&set=${preSet}`}
-							title={'LIV'}
-							content={
-								<SparkChart
-									serie={[40, 55, 45, 50, 40, 55, 45, 50, 40]}
-								/>
-							}></CardLink>
-					</div>
 					<Suspense
 						fallback={
-							<OperationalKpiFallback description={rangeDescription} />
+							<UnitNavigation
+								className='mx-3 md:mx-0 lg:hidden'
+								modulePath='operational'
+								preSet={DEFAULT_RANGE_TAG}
+							/>
 						}>
-						<OperationalKpiSection
-							description={rangeDescription}
-							endDate={formattedEndDate}
-							period={preSet as string}
-							startDate={formattedStartDate}
+						<OperationalUnitNavigationFromSearchParams
+							searchParams={searchParams}
+						/>
+					</Suspense>
+					<Suspense
+						fallback={
+							<OperationalKpiFallback
+								description={fallbackRangeDescription}
+							/>
+						}>
+						<OperationalKpisFromSearchParams
+							searchParams={searchParams}
 						/>
 					</Suspense>
 				</div>

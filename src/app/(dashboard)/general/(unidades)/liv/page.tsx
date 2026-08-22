@@ -1,42 +1,32 @@
 /** @format */
 
-import {
-  DEFAULT_RANGE_TAG,
-  formatDateInput,
-  getRangeDescription,
-} from "@/lib/date-range";
+import { DEFAULT_RANGE_TAG, getRangeDescription } from "@/lib/date-range";
 import { Suspense } from "react";
 import GeneralUnitDataFallback from "../../_components/unit-data-fallback";
 import GeneralUnitPageShell from "../../_components/unit-page-shell";
-import GeneralLivDataSection from "./unit-data-section";
+import UnitDataFromSearchParams, {
+  type UnitSearchParams,
+} from "./unit-data-from-search-params";
 
-export default async function Liv({
+export const instant = true;
+
+export default function Liv({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: UnitSearchParams;
 }) {
-  const resolvedSearchParams = await searchParams;
-  const preSet = resolvedSearchParams.set ?? DEFAULT_RANGE_TAG;
-  const startDate = resolvedSearchParams.startDate;
-  const endDate = resolvedSearchParams.endDate;
-  const rangeDescription = getRangeDescription(preSet as string);
-
-  const formattedStartDate = formatDateInput(startDate as string);
-  const formattedEndDate = formatDateInput(endDate as string);
+  const fallbackRangeDescription = getRangeDescription(DEFAULT_RANGE_TAG);
 
   return (
     <GeneralUnitPageShell title="LIV">
       <Suspense
         fallback={
-          <GeneralUnitDataFallback rangeDescription={rangeDescription} />
+          <GeneralUnitDataFallback
+            rangeDescription={fallbackRangeDescription}
+          />
         }
       >
-        <GeneralLivDataSection
-          endDate={formattedEndDate}
-          preSet={preSet as string}
-          rangeDescription={rangeDescription}
-          startDate={formattedStartDate}
-        />
+        <UnitDataFromSearchParams searchParams={searchParams} />
       </Suspense>
     </GeneralUnitPageShell>
   );

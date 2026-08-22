@@ -1,12 +1,23 @@
 /** @format */
 
 import { buildAuthCookieHeader } from "@/lib/auth-headers";
-import { api, api_altana, api_andar_de_cima, api_lapa, api_tout } from "../api-client";
+import { type DashboardCacheMode } from "@/lib/dashboard-cache-policy";
+import { cacheLife, cacheTag } from "next/cache";
+import {
+  api,
+  api_tout,
+  getUnitApiClient,
+} from "../api-client";
 import { FetchFailedError } from "../conditional-cache";
-import { applyPrivateDashboardCache } from "../cache-profiles";
 import { logFetchFailed, logRequestTimeout } from "../logging";
 import { readJsonResponse } from "../read-json-response";
 import { isRetryableError, isRetryableStatus } from "../retry";
+import { withKpiRequestTimeout } from "../kpi-request-timeout";
+import {
+  captureKpiCacheFailure,
+  getKpiCacheIdentityTag,
+  unwrapKpiCacheResult,
+} from "../kpi-cache-result";
 
 async function fetchGovernanceKpis(
   client: typeof api,
@@ -20,8 +31,15 @@ async function fetchGovernanceKpis(
     try {
       resp = await client.get("Governance/kpis/date-range", {
         searchParams: { startDate, endDate },
-        headers: authHeaders,
+        headers:
+          attempt === 0
+            ? authHeaders
+            : {
+                ...(authHeaders ?? {}),
+                "x-lhg-retry-attempt": String(attempt),
+              },
         signal: controller.signal,
+        cache: "no-store",
         throwHttpErrors: false,
       });
 
@@ -40,90 +58,40 @@ async function fetchGovernanceKpis(
 async function getOperationCustomCached(
   startDate: string,
   endDate: string,
+  cacheMode: DashboardCacheMode,
   company: string | undefined,
   cookieHeader: string | null,
 ) {
-  "use cache: private";
+  "use cache";
 
-  applyPrivateDashboardCache(["operational"], "dashboard");
+  cacheTag("operational");
   const companyKey = company ?? "ipiranga";
   const requestName = `getOperationCustom (${companyKey})`;
-
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 30000);
-  const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
-
-  try {
-    let resp: Response | null = null;
-    switch (companyKey) {
-      case "andar_de_cima":
-        resp = await fetchGovernanceKpis(
-          api_andar_de_cima,
-          startDate,
-          endDate,
-          authHeaders,
-          controller,
-        );
-        break;
-      case "lapa":
-        resp = await fetchGovernanceKpis(
-          api_lapa,
-          startDate,
-          endDate,
-          authHeaders,
-          controller,
-        );
-        break;
-      case "altana":
-        resp = await fetchGovernanceKpis(
-          api_altana,
-          startDate,
-          endDate,
-          authHeaders,
-          controller,
-        );
-        break;
-      default:
-        resp = await fetchGovernanceKpis(
-          api,
-          startDate,
-          endDate,
-          authHeaders,
-          controller,
-        );
-        break;
-    }
-
-    if (!resp || !resp.ok) {
-      throw new FetchFailedError(
-        requestName,
-        resp?.status,
-        resp?.statusText,
-      );
-    }
-
-    return readJsonResponse(resp, requestName);
-  } finally {
-    clearTimeout(timeout);
-  }
-}
-
-async function getOperationCustomToutUncached(
-  startDate: string,
-  endDate: string,
-  cookieHeader: string | null,
-) {
-  const requestName = "getOperationCustom (tout)";
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 30000);
-  const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
-
-  try {
-    const resp = await fetchGovernanceKpis(
-      api_tout,
+  cacheTag(
+    getKpiCacheIdentityTag(
+      "operational-custom",
       startDate,
       endDate,
-      authHeaders,
+      cacheMode,
+      companyKey,
+      cookieHeader,
+    ),
+  );
+
+  const controller = new AbortController();
+  const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
+  let failed = false;
+  let result: unknown;
+
+  try {
+    const resp = await withKpiRequestTimeout(
+      fetchGovernanceKpis(
+        getUnitApiClient(companyKey),
+        startDate,
+        endDate,
+        authHeaders,
+        controller,
+      ),
       controller,
     );
 
@@ -135,20 +103,61 @@ async function getOperationCustomToutUncached(
       );
     }
 
-    return readJsonResponse(resp, requestName);
-  } finally {
-    clearTimeout(timeout);
+    result = await readJsonResponse(resp, requestName);
+  } catch (error) {
+    failed = true;
+    result = captureKpiCacheFailure(error, requestName);
   }
+
+  if (failed) {
+    cacheLife({ stale: 0, revalidate: 0, expire: 0 });
+  } else if (cacheMode === "historical") {
+    cacheLife("dashboard_historical");
+  } else {
+    cacheLife("dashboard");
+  }
+  return result;
+}
+
+async function getOperationCustomToutUncached(
+  startDate: string,
+  endDate: string,
+  cookieHeader: string | null,
+) {
+  const requestName = "getOperationCustom (tout)";
+  const controller = new AbortController();
+  const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
+
+  const resp = await withKpiRequestTimeout(
+    fetchGovernanceKpis(
+      api_tout,
+      startDate,
+      endDate,
+      authHeaders,
+      controller,
+    ),
+    controller,
+  );
+
+  if (!resp || !resp.ok) {
+    throw new FetchFailedError(
+      requestName,
+      resp?.status,
+      resp?.statusText,
+    );
+  }
+
+  return readJsonResponse(resp, requestName);
 }
 
 export async function getOperationCustom(
   startDate: string,
   endDate: string,
+  cacheMode: DashboardCacheMode,
   company?: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
   const cookieHeader = await buildAuthCookieHeader();
-
   try {
     const companyKey = company ?? "ipiranga";
     if (companyKey === "tout") {
@@ -159,12 +168,14 @@ export async function getOperationCustom(
       );
     }
 
-    return await getOperationCustomCached(
+    const result = await getOperationCustomCached(
       startDate,
       endDate,
+      cacheMode,
       company,
       cookieHeader,
     );
+    return unwrapKpiCacheResult(result);
   } catch (error) {
     if (error instanceof FetchFailedError) {
       logFetchFailed(error);

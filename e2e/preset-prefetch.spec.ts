@@ -22,7 +22,7 @@ test.describe('Task 01 - Preset prefetch', () => {
 		]);
 	});
 
-	test('initial load does not prefetch alternate presets and current preset is not clickable', async ({
+	test('initial load does not prefetch alternate presets or navigate when reselecting the current period', async ({
 		page,
 	}) => {
 		const alternatePresetRequests: string[] = [];
@@ -46,8 +46,15 @@ test.describe('Task 01 - Preset prefetch', () => {
 		await page.goto('/general?menu=general&set=ultimos_7_dias');
 		await page.waitForTimeout(1500);
 
-		await expect(page.getByRole('link', { name: /7 dias/i })).toHaveCount(0);
-		await expect(page.locator('[aria-current="page"]')).toContainText(/7 dias/i);
+		const periodSelector = page.getByRole('combobox', {
+			name: 'Selecionar período',
+		});
+		await expect(periodSelector).toContainText(/7 dias/i);
+		await periodSelector.click();
+		await page.getByRole('option', { name: /7 dias/i }).click();
+		await expect(page).toHaveURL(
+			'/general?menu=general&set=ultimos_7_dias',
+		);
 		expect(alternatePresetRequests).toEqual([]);
 	});
 });

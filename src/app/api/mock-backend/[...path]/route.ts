@@ -1,5 +1,15 @@
 import { NextResponse } from 'next/server';
 
+type MockBackendGlobal = typeof globalThis & {
+	__lhg_mock_backend_counts__?: Record<string, number>;
+};
+
+function getMockBackendCounts() {
+	const scope = globalThis as MockBackendGlobal;
+	scope.__lhg_mock_backend_counts__ ??= {};
+	return scope.__lhg_mock_backend_counts__;
+}
+
 function mocksEnabled() {
 	return process.env.PLAYWRIGHT_MOCKS === 'true';
 }
@@ -21,7 +31,15 @@ function mockCompanyUnified({
 } = {}) {
 	const rangeKey = `${startDate ?? ''}|${endDate ?? ''}`;
 	const rangeHash = hashToSixDigits(rangeKey);
-	const totalAllValue = Number((100000 + rangeHash + 0.78).toFixed(2));
+	const isStreamingInitialRange =
+		startDate === '01/02/2026' && endDate === '07/02/2026';
+	const isStreamingDelayedRange =
+		startDate === '01/03/2026' && endDate === '07/03/2026';
+	const totalAllValue = isStreamingInitialRange
+		? 123456.78
+		: isStreamingDelayedRange
+			? 223456.78
+			: Number((100000 + rangeHash + 0.78).toFixed(2));
 
 	return {
 		BigNumbers: [
@@ -322,11 +340,42 @@ export async function GET(
 	const { path } = await params;
 	const normalizedPath = path.join('/');
 	const url = new URL(request.url);
+
+	if (normalizedPath === '__test__/fetch-counts') {
+		return NextResponse.json(getMockBackendCounts());
+	}
+
+	const requestKey = `${normalizedPath}${url.search}`;
+	const counts = getMockBackendCounts();
+	counts[requestKey] = (counts[requestKey] ?? 0) + 1;
+
 	const startDate = url.searchParams.get('startDate');
 	const endDate = url.searchParams.get('endDate');
 
+	if (startDate === '01/01/2097' && endDate === '07/01/2097') {
+		return NextResponse.json(
+			{ message: 'non-retryable fixture' },
+			{ status: 400 },
+		);
+	}
+	if (startDate === '01/01/2098' && endDate === '07/01/2098') {
+		return NextResponse.json(
+			{ message: 'retryable fixture' },
+			{ status: 503 },
+		);
+	}
+	if (startDate === '01/01/2099' && endDate === '07/01/2099') {
+		await new Promise((resolve) => setTimeout(resolve, 5000));
+	}
+	if (startDate === '01/04/2026' && endDate === '07/04/2026') {
+		await new Promise((resolve) => setTimeout(resolve, 12000));
+	}
+
 	switch (normalizedPath) {
 		case 'Company/kpis/date-range':
+			if (startDate === '01/03/2026' && endDate === '07/03/2026') {
+				await new Promise((resolve) => setTimeout(resolve, 2500));
+			}
 			return NextResponse.json(mockCompanyUnified({ startDate, endDate }));
 		case 'Restaurant/kpis/date-range':
 			return NextResponse.json(mockRestaurantUnified());
@@ -339,4 +388,17 @@ export async function GET(
 		default:
 			return NextResponse.json({ message: 'Not found' }, { status: 404 });
 	}
+}
+
+export async function DELETE(
+	_request: Request,
+	{ params }: { params: Promise<{ path: string[] }> },
+) {
+	const { path } = await params;
+	if (!mocksEnabled() || path.join('/') !== '__test__/fetch-counts') {
+		return new NextResponse(null, { status: 404 });
+	}
+
+	(globalThis as MockBackendGlobal).__lhg_mock_backend_counts__ = {};
+	return new NextResponse(null, { status: 204 });
 }

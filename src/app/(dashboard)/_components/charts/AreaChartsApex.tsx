@@ -17,6 +17,7 @@ import {
 	resolveChartPalette,
 	type ChartPaletteMode,
 } from './consolidated-unit-palette';
+import { resolveChartDensity } from './chart-density';
 
 type AreaChartSeries = NonNullable<ApexCharts.ApexOptions['series']>;
 
@@ -43,6 +44,9 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 	function isEnabled() {
 		return isShortRange && !isCustomData;
 	}
+
+	const density = resolveChartDensity(props.series);
+	const dataLabelsEnabled = density.allowDataLabels && isEnabled();
 
 	const hasSeriesData = Array.isArray(props.series)
 		? props.series.length > 0 &&
@@ -104,6 +108,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			id: props.id ?? 'chart',
 			type: 'area',
 			foreColor: '#fafafa',
+			animations: { enabled: density.animationsEnabled },
 			zoom: {
 				enabled: false,
 			},
@@ -132,7 +137,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 				colors: palette.accentColors,
 				fontSize: '10px',
 			},
-			enabled: isEnabled(),
+			enabled: dataLabelsEnabled,
 			distributed: false,
 			background: {
 				enabled: true,
@@ -162,9 +167,9 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 		},
 
 		markers: {
-			size: 3,
+			size: density.markerSize,
 			colors: palette.accentColors,
-			hover: { size: 5 },
+			hover: { size: density.markerHoverSize },
 			strokeWidth: 1,
 		},
 
@@ -183,7 +188,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			categories: props.categories ?? ['categoria1', 'categoria2'],
 		},
 
-		stroke: { curve: 'smooth' },
+		stroke: { curve: density.curve },
 		plotOptions: { area: { fillTo: 'origin' } },
 		responsive: [
 			{
@@ -244,7 +249,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 						},
 					},
 					dataLabels: {
-						enabled: isEnabled(),
+						enabled: dataLabelsEnabled,
 						formatter: (val: number | string) =>
 							`${
 								props.money

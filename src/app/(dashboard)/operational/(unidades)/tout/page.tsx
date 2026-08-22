@@ -1,41 +1,32 @@
 /** @format */
 
-import {
-	DEFAULT_RANGE_TAG,
-	formatDateInput,
-	getRangeDescription,
-} from '@/lib/date-range';
+import { DEFAULT_RANGE_TAG, getRangeDescription } from '@/lib/date-range';
 import { Suspense } from 'react';
 import OperationalUnitDataFallback from '../../_components/unit-data-fallback';
 import OperationalUnitPageShell from '../../_components/unit-page-shell';
-import OperationalToutDataSection from './unit-data-section';
+import UnitDataFromSearchParams, {
+	type UnitSearchParams,
+} from './unit-data-from-search-params';
 
-export default async function Tout({
+export const instant = true;
+
+export default function Tout({
 	searchParams,
 }: {
-	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+	searchParams: UnitSearchParams;
 }) {
-	const resolvedSearchParams = await searchParams;
-	const preSet = resolvedSearchParams.set ?? DEFAULT_RANGE_TAG;
-	const startDate = resolvedSearchParams.startDate;
-	const endDate = resolvedSearchParams.endDate;
-	const rangeDescription = getRangeDescription(preSet as string);
-
-	const formattedStartDate = formatDateInput(startDate as string);
-	const formattedEndDate = formatDateInput(endDate as string);
+	const fallbackRangeDescription = getRangeDescription(DEFAULT_RANGE_TAG);
 
 	return (
 		<OperationalUnitPageShell title='Tout'>
 			<Suspense
 				fallback={
-					<OperationalUnitDataFallback description={rangeDescription} />
+					<OperationalUnitDataFallback
+						description={fallbackRangeDescription}
+					/>
 				}>
-				<OperationalToutDataSection
-					company='tout'
-					description={rangeDescription}
-					endDate={formattedEndDate}
-					preSet={preSet as string}
-					startDate={formattedStartDate}
+				<UnitDataFromSearchParams
+					searchParams={searchParams}
 				/>
 			</Suspense>
 		</OperationalUnitPageShell>

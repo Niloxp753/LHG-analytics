@@ -13,7 +13,7 @@ export async function updateUserAction(props: UpdateUserInput) {
 	await requireAccessToken();
 	try {
 		if (!props.id) {
-			throw new Error('User id is required for update');
+			throw new Error('O ID do usuário é obrigatório para a atualização');
 		}
 
 		const unit = props.role === ADMIN_ROLE ? ADMIN_UNIT : props.unit;

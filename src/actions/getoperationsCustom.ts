@@ -3,6 +3,7 @@
 'use server';
 
 import { getOperationCustom } from '@/http/operation/get-governance-custom';
+import { resolveCustomDashboardCacheMode } from '@/lib/dashboard-cache-policy';
 
 export async function getOperationCustomAction(
 	startDate: string | null,
@@ -11,7 +12,13 @@ export async function getOperationCustomAction(
 ) {
 	try {
 		if (startDate && endDate) {
-			const resp = await getOperationCustom(startDate, endDate, company);
+			const cacheMode = resolveCustomDashboardCacheMode(endDate);
+			const resp = await getOperationCustom(
+				startDate,
+				endDate,
+				cacheMode,
+				company,
+			);
 			return resp;
 		}
 	} catch (error) {

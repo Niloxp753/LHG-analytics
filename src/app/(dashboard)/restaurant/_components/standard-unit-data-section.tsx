@@ -3,10 +3,12 @@
 import { getRestaurantsCustomAction } from "@/actions/restaurants/get-restaurant-custom";
 import { getRestaurantsAction } from "@/actions/restaurants/get-restaurants";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { type CurrencyConfig } from "@/lib/currency-format";
 import RestaurantUnitDataContent from "./unit-data-content";
 
 export type StandardRestaurantUnitDataSectionProps = {
   company?: string;
+  currencyConfig?: CurrencyConfig;
   description: string;
   endDate: string | null;
   preSet: string;
@@ -32,6 +34,7 @@ async function getStandardRestaurantUnitData({
 
 export async function StandardRestaurantUnitDataSection({
   company,
+  currencyConfig,
   description,
   endDate,
   preSet,
@@ -56,5 +59,11 @@ export async function StandardRestaurantUnitDataSection({
     );
   }
 
-  return <RestaurantUnitDataContent data={resp} description={description} />;
+  return (
+    <RestaurantUnitDataContent
+      currencyConfig={currencyConfig}
+      data={resp}
+      description={description}
+    />
+  );
 }

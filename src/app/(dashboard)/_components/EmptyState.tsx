@@ -23,12 +23,12 @@ export default function EmptyState({
 		<Empty
 			style={minHeight ? { minHeight } : undefined}
 			className={cn(
-				'w-full border border-dashed border-border/60 bg-muted/30 text-foreground',
+				'w-full border border-dashed border-border/60 bg-transparent text-destructive',
 				className,
 			)}>
 			<EmptyHeader>
-				<EmptyTitle className='text-foreground'>{title}</EmptyTitle>
-				<EmptyDescription className='text-muted-foreground'>
+				<EmptyTitle className='text-destructive'>{title}</EmptyTitle>
+				<EmptyDescription className='text-destructive'>
 					{description}
 				</EmptyDescription>
 			</EmptyHeader>

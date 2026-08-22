@@ -1,41 +1,32 @@
 /** @format */
 
-import {
-	DEFAULT_RANGE_TAG,
-	formatDateInput,
-	getRangeDescription,
-} from '@/lib/date-range';
+import { DEFAULT_RANGE_TAG, getRangeDescription } from '@/lib/date-range';
 import { Suspense } from 'react';
 import OperationalUnitDataFallback from '../../_components/unit-data-fallback';
 import OperationalUnitPageShell from '../../_components/unit-page-shell';
-import OperationalLushLapaDataSection from './unit-data-section';
+import UnitDataFromSearchParams, {
+	type UnitSearchParams,
+} from './unit-data-from-search-params';
 
-export default async function LushLapa({
+export const instant = true;
+
+export default function LushLapa({
 	searchParams,
 }: {
-	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+	searchParams: UnitSearchParams;
 }) {
-	const resolvedSearchParams = await searchParams;
-	const preSet = resolvedSearchParams.set ?? DEFAULT_RANGE_TAG;
-	const startDate = resolvedSearchParams.startDate;
-	const endDate = resolvedSearchParams.endDate;
-	const rangeDescription = getRangeDescription(preSet as string);
-
-	const formattedStartDate = formatDateInput(startDate as string);
-	const formattedEndDate = formatDateInput(endDate as string);
+	const fallbackRangeDescription = getRangeDescription(DEFAULT_RANGE_TAG);
 
 	return (
 		<OperationalUnitPageShell title='Lush Lapa'>
 			<Suspense
 				fallback={
-					<OperationalUnitDataFallback description={rangeDescription} />
+					<OperationalUnitDataFallback
+						description={fallbackRangeDescription}
+					/>
 				}>
-				<OperationalLushLapaDataSection
-					company='lapa'
-					description={rangeDescription}
-					endDate={formattedEndDate}
-					preSet={preSet as string}
-					startDate={formattedStartDate}
+				<UnitDataFromSearchParams
+					searchParams={searchParams}
 				/>
 			</Suspense>
 		</OperationalUnitPageShell>

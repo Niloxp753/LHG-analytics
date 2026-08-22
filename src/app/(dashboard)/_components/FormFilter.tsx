@@ -29,8 +29,10 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 
 export default function FormFilter({
+	className,
 	popoverPortalled = true,
 }: {
+	className?: string;
 	popoverPortalled?: boolean;
 }) {
 	const formInstancePrefix = popoverPortalled ? 'header' : 'mobile';
@@ -77,17 +79,20 @@ export default function FormFilter({
 	return (
 		<Form {...form}>
 			<form
-				className='flex flex-col md:flex-row items-center gap-5 w-full z-50'
+				className={cn(
+					'flex w-full flex-col gap-3 z-50 lg:flex-row lg:items-end lg:gap-2',
+					className,
+				)}
 				onSubmit={form.handleSubmit(onSubmit)}>
-				<div className='flex flex-col md:flex-row items-center lg:justify-end justify-between gap-5 w-full'>
+				<div className='flex w-full flex-col gap-3 lg:w-auto lg:flex-row lg:items-end lg:gap-2'>
 					<FormField
 						control={form.control}
 						name='startDate'
 						render={({ field }) => (
 							<FormItem
 								id={startDateFieldId}
-								className='flex items-baseline justify-between flex-col md:w-fit w-full'>
-								<FormLabel className='text-zinc-100 font-bold'>
+								className='flex w-full flex-col justify-between lg:w-fit lg:shrink-0'>
+								<FormLabel className='text-zinc-100 font-bold lg:text-xs xl:text-sm'>
 									Data Inicial
 								</FormLabel>
 								<Popover>
@@ -102,9 +107,9 @@ export default function FormFilter({
 										<FormControl>
 											<Button
 												onClick={(e) => e.stopPropagation()}
-												variant={'outline'}
-												className={cn(
-													'w-full lg:w-[220px] pl-3 text-left font-normal border-none bg-zinc-800 text-zinc-200',
+											variant={'outline'}
+											className={cn(
+												'w-full lg:w-[150px] xl:w-[180px] 2xl:w-[205px] pl-3 text-left font-normal border-none bg-zinc-800 text-zinc-200',
 													!field.value && 'text-muted-foreground',
 												)}>
 												{field.value ? (
@@ -141,8 +146,8 @@ export default function FormFilter({
 						render={({ field }) => (
 							<FormItem
 								id={endDateFieldId}
-								className='flex items-baseline justify-between flex-col md:w-fit w-full'>
-								<FormLabel className='text-zinc-100 font-bold'>
+								className='flex w-full flex-col justify-between lg:w-fit lg:shrink-0'>
+								<FormLabel className='text-zinc-100 font-bold lg:text-xs xl:text-sm'>
 									Data Final
 								</FormLabel>
 								<Popover>
@@ -155,9 +160,9 @@ export default function FormFilter({
 										asChild>
 										<FormControl>
 											<Button
-												variant={'outline'}
-												className={cn(
-													'w-full lg:w-[220px] pl-3 text-left font-normal border-none bg-zinc-800 text-zinc-200',
+											variant={'outline'}
+											className={cn(
+												'w-full lg:w-[150px] xl:w-[180px] 2xl:w-[205px] pl-3 text-left font-normal border-none bg-zinc-800 text-zinc-200',
 													!field.value && 'text-muted-foreground',
 												)}>
 												{field.value ? (
@@ -198,7 +203,7 @@ export default function FormFilter({
 						!form.formState.isValid ||
 						isPending
 					}
-					className='bg-violet-400 w-full lg:w-fit text-zinc-950 font-semibold hover:bg-violet-500 mt-4 flex gap-2'>
+					className='bg-violet-400 w-full lg:w-fit lg:shrink-0 text-zinc-950 font-semibold hover:bg-violet-500 flex gap-2'>
 					{form.formState.isLoading ||
 					form.formState.isSubmitting ||
 					isPending ? (

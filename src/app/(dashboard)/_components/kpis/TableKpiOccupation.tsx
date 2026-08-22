@@ -83,11 +83,11 @@ export function TableKpiOccupation({ data }: TableKpiOccupationProps) {
 				<TableRow className='hover:bg-violet-900 rounded-lg transition-all duration-300 ease-linear text-center'>
 					<TableHead>Categorias</TableHead>
 					<TableHead className='text-center text-xs '>Domingo</TableHead>
-					<TableHead className='text-center text-xs '>Segunda-Feira</TableHead>
-					<TableHead className='text-center text-xs'>Terça-Feira</TableHead>
-					<TableHead className='text-center text-xs '>Quarta-Feira</TableHead>
-					<TableHead className='text-center text-xs '>Quinta-Feira</TableHead>
-					<TableHead className='text-center text-xs'>Sexta-Feira</TableHead>
+					<TableHead className='text-center text-xs '>Segunda-feira</TableHead>
+					<TableHead className='text-center text-xs'>Terça-feira</TableHead>
+					<TableHead className='text-center text-xs '>Quarta-feira</TableHead>
+					<TableHead className='text-center text-xs '>Quinta-feira</TableHead>
+					<TableHead className='text-center text-xs'>Sexta-feira</TableHead>
 					<TableHead className='text-center text-xs '>Sábado</TableHead>
 				</TableRow>
 			</TableHeader>

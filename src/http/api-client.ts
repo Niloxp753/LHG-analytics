@@ -47,7 +47,7 @@ const consolidatedEndpoint =
   process.env.BACKEND_CONSOLIDATED_ENDPOINT?.trim();
 
 if (!consolidatedEndpoint) {
-  throw new Error("BACKEND_CONSOLIDATED_ENDPOINT is required");
+  throw new Error("A variável BACKEND_CONSOLIDATED_ENDPOINT é obrigatória");
 }
 
 export const api = ky.create({
@@ -98,6 +98,22 @@ export const api_altana = ky.create({
   fetch: backendFetch,
 });
 
+export const api_getan_garavelo = ky.create({
+  prefixUrl: process.env.BACKEND_ENDPOINT_GETAN_GARAVELO,
+  timeout: 60000,
+  retry: 0,
+  mode: "cors",
+  fetch: backendFetch,
+});
+
+export const api_getan_pq_oeste = ky.create({
+  prefixUrl: process.env.BACKEND_ENDPOINT_GETAN_PQ_OESTE,
+  timeout: 60000,
+  retry: 0,
+  mode: "cors",
+  fetch: backendFetch,
+});
+
 export const auth_api = ky.create({
   prefixUrl: process.env.BACKEND_AUTH_ENDPOINT,
   timeout: 60000,
@@ -113,3 +129,24 @@ export const consolidated_api = ky.create({
   mode: "cors",
   fetch: backendFetch,
 });
+
+export function getUnitApiClient(company?: string): typeof api {
+  switch (company) {
+    case "lapa":
+      return api_lapa;
+    case "andar_de_cima":
+      return api_andar_de_cima;
+    case "tout":
+      return api_tout;
+    case "liv":
+      return api_liv;
+    case "altana":
+      return api_altana;
+    case "getan_garavelo":
+      return api_getan_garavelo;
+    case "getan_pq_oeste":
+      return api_getan_pq_oeste;
+    default:
+      return api;
+  }
+}

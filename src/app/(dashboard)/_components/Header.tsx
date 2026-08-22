@@ -1,13 +1,21 @@
 /** @format */
 
-import { Suspense } from 'react';
-import HeaderClient from './HeaderClient';
+'use client';
+
+import dynamic from 'next/dynamic';
+import { useDashboardViewport } from '@/hooks/use-dashboard-viewport';
+import HeaderFallback from './header-fallback';
+
+const HeaderClient = dynamic(() => import('./HeaderClient'), {
+	ssr: false,
+	loading: HeaderFallback,
+});
 
 export default function Header() {
-	return (
-		<Suspense fallback={null}>
-			<HeaderClient />
-		</Suspense>
-	);
-}
+	const viewport = useDashboardViewport();
 
+	if (viewport === 'pending') return <HeaderFallback />;
+	if (viewport === 'mobile') return null;
+
+	return <HeaderClient />;
+}
