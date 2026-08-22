@@ -6,6 +6,7 @@ import logoLush from '@/assets/images/logo-lush.png';
 import logoTout from '@/assets/images/logo_tout.png';
 import logoAC from '@/assets/images/logo_andar_de_cima.png';
 import logoAltana from '@/assets/images/logo_altana.webp';
+import logoGetan from '@/assets/images/logo-getan.png';
 import { LogoImage } from '@/components/ui/logo-image';
 import { Card } from '@/components/ui/card';
 import Image from 'next/image';
@@ -70,6 +71,13 @@ export default function Login() {
 						boxWidth={60}
 						boxHeight={44}
 						sizes='(max-width: 1023px) 0px, 60px'
+					/>
+					<LogoImage
+						src={logoGetan}
+						alt='Logo Getan'
+						boxWidth={120}
+						boxHeight={60}
+						sizes='(max-width: 1023px) 0px, 120px'
 					/>
 				</div>
 			</div>
