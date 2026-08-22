@@ -47,7 +47,7 @@ const consolidatedEndpoint =
   process.env.BACKEND_CONSOLIDATED_ENDPOINT?.trim();
 
 if (!consolidatedEndpoint) {
-  throw new Error("BACKEND_CONSOLIDATED_ENDPOINT is required");
+  throw new Error("A variável BACKEND_CONSOLIDATED_ENDPOINT é obrigatória");
 }
 
 export const api = ky.create({

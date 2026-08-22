@@ -43,7 +43,7 @@ const MultiSelectContext = createContext<MultiSelectContextProps | null>(null);
 const useMultiSelect = () => {
 	const context = useContext(MultiSelectContext);
 	if (!context) {
-		throw new Error('useMultiSelect must be used within MultiSelectProvider');
+		throw new Error('useMultiSelect deve ser usado dentro de MultiSelectProvider');
 	}
 	return context;
 };
@@ -72,7 +72,7 @@ const MultiSelector = ({
 		[onValueChange, value],
 	);
 
-	// TODO : change from else if use to switch case statement
+	// TODO: alterar a lógica de else if para uma instrução switch
 
 	const handleKeyDown = useCallback(
 		(e: KeyboardEvent<HTMLDivElement>) => {
@@ -177,12 +177,12 @@ const MultiSelectorTrigger = forwardRef<
 					variant={'secondary'}>
 					<span className='text-xs'>{item}</span>
 					<button
-						aria-label={`Remove ${item} option`}
-						aria-roledescription='button to remove option'
+						aria-label={`Remover a opção ${item}`}
+						aria-roledescription='botão para remover opção'
 						type='button'
 						onMouseDown={mousePreventDefault}
 						onClick={() => onValueChange(item)}>
-						<span className='sr-only'>Remove {item} option</span>
+						<span className='sr-only'>Remover a opção {item}</span>
 						<RemoveIcon className='h-4 w-4 hover:stroke-destructive' />
 					</button>
 				</Badge>
@@ -249,7 +249,7 @@ const MultiSelectorList = forwardRef<
 			)}>
 			{children}
 			<CommandEmpty>
-				<span className='text-muted-foreground'>No results found</span>
+				<span className='text-muted-foreground'>Nenhum resultado encontrado</span>
 			</CommandEmpty>
 		</CommandList>
 	);

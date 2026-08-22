@@ -230,7 +230,7 @@ export function DataTableDemo({ data }: { data: User[] }) {
 			</div>
 			<div className='flex items-center justify-between gap-4 py-4'>
 				<div className='flex items-center gap-3 text-sm text-zinc-200'>
-					<span className='text-nowrap'>Linhas por pagina</span>
+					<span className='text-nowrap'>Linhas por página</span>
 					<Select
 						value={String(pageSize)}
 						onValueChange={(value) => {

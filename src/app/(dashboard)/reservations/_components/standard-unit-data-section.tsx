@@ -7,6 +7,8 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { type CurrencyConfig } from "@/lib/currency-format";
 import BigNumbersEcommerce from "./big-numbers-ecommerce";
 import BigNumbersReservation from "./big-numbers-reservations";
+import { hasEcommerceIndicatorsData } from "./ecommerce-visibility";
+import { resolvePairedBarChartHeight } from "./paired-bar-chart-height";
 import CategoriesXReservs from "./kpis/CategoriesXReservs";
 import EcommerceRevenue from "./kpis/ecommerce-receita";
 import EcommerceRevervs from "./kpis/ecommerce-reservas";
@@ -63,11 +65,21 @@ export async function StandardReservationsUnitDataSection({
       <Alert variant="destructive" className="w-full">
         <AlertTitle>Erro ao carregar</AlertTitle>
         <AlertDescription>
-          {`N\u00e3o foi poss\u00edvel carregar os dados de reservas da ${unitName}.`}
+          {`Não foi possível carregar os dados de reservas da ${unitName}.`}
         </AlertDescription>
       </Alert>
     );
   }
+
+  const hasEcommerceData = hasEcommerceIndicatorsData({
+    bigNumbers: resp.BigNumbersEcommerce,
+    reservationsSeries: resp.ReservationsOfEcommerceByPeriod?.series,
+    billingSeries: resp.BillingOfEcommerceByPeriod?.series,
+  });
+  const pairedBarChartHeight = resolvePairedBarChartHeight(
+    resp.PaymentMethods?.categories,
+    resp.BillingPerChannel?.categories,
+  );
 
   return (
     <>
@@ -82,11 +94,13 @@ export async function StandardReservationsUnitDataSection({
       />
       <div className="flex flex-col md:flex-row w-full gap-5">
         <InvoicingXTypes
+          height={pairedBarChartHeight}
           series={resp.PaymentMethods?.series ?? null}
           categories={resp.PaymentMethods?.categories}
           currencyConfig={currencyConfig}
         />
         <InvoicingXChannel
+          height={pairedBarChartHeight}
           series={resp.BillingPerChannel?.series ?? null}
           categories={resp.BillingPerChannel?.categories}
           currencyConfig={currencyConfig}
@@ -114,30 +128,32 @@ export async function StandardReservationsUnitDataSection({
           currencyConfig={currencyConfig}
         />
       </div>
-      <div>
-        <h2 className="text-2xl md:text-4xl font-bold text-zinc-50 mt-10 mb-5">
-          Indicadores de E-Commerce
-        </h2>
-        <div className="flex flex-col w-full items-start justify-between gap-5">
-          <BigNumbersEcommerce
-            data={resp.BigNumbersEcommerce ?? null}
-            description={description}
-            currencyConfig={currencyConfig}
-          />
-
-          <div className="w-full flex flex-col items-center justify-between gap-5">
-            <EcommerceRevervs
-              series={resp.ReservationsOfEcommerceByPeriod?.series ?? null}
-              categories={resp.ReservationsOfEcommerceByPeriod?.categories}
-            />
-            <EcommerceRevenue
-              series={resp.BillingOfEcommerceByPeriod?.series ?? null}
-              categories={resp.BillingOfEcommerceByPeriod?.categories}
+      {hasEcommerceData && (
+        <div>
+          <h2 className="text-2xl md:text-4xl font-bold text-zinc-50 mt-10 mb-5">
+            Indicadores de E-Commerce
+          </h2>
+          <div className="flex flex-col w-full items-start justify-between gap-5">
+            <BigNumbersEcommerce
+              data={resp.BigNumbersEcommerce ?? null}
+              description={description}
               currencyConfig={currencyConfig}
             />
+
+            <div className="w-full flex flex-col items-center justify-between gap-5">
+              <EcommerceRevervs
+                series={resp.ReservationsOfEcommerceByPeriod?.series ?? null}
+                categories={resp.ReservationsOfEcommerceByPeriod?.categories}
+              />
+              <EcommerceRevenue
+                series={resp.BillingOfEcommerceByPeriod?.series ?? null}
+                categories={resp.BillingOfEcommerceByPeriod?.categories}
+                currencyConfig={currencyConfig}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

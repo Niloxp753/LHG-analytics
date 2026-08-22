@@ -14,7 +14,7 @@ test.describe('buildWeeklyCleaningRows', () => {
 				realShiftMaid: 2,
 				difference: -1,
 			},
-			'Manh\u00e3': {
+			'Manhã': {
 				totalAverageShiftCleaning: 39,
 				idealShiftMaid: 6,
 				realShiftMaid: 5,
@@ -34,7 +34,7 @@ test.describe('buildWeeklyCleaningRows', () => {
 		});
 
 		expect(rows.map((row: { label: string }) => row.label)).toEqual([
-			'Manh\u00e3',
+			'Manhã',
 			'Noite',
 		]);
 	});

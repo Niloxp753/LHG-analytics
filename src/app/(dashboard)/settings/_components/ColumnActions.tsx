@@ -73,7 +73,7 @@ export default function ColumnActions({
       <DropdownMenu open={openDrop}>
         <DropdownMenuTrigger asChild onClick={() => setOpenDrop(true)}>
           <Button className="h-8 w-8 p-0 bg-zinc-800">
-            <span className="sr-only">Open menu</span>
+            <span className="sr-only">Abrir menu</span>
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>

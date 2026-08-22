@@ -31,7 +31,7 @@ export default function Login() {
 				</a>
 				<Image
 					src={capaLogin}
-					alt='Image'
+					alt='Imagem de fundo da tela de login'
 					width='1400'
 					height='700'
 					className='h-full w-full object-cover grayscale absolute left-0 top-0 opacity-30'

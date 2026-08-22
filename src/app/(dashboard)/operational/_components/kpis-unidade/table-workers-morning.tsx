@@ -30,16 +30,16 @@ export default function TableWokersMorning({
 	tableTitle,
 	totalColumnLabel,
 }: TableWokersMorningProps) {
-	const resolvedHeadingLabel = headingLabel ?? 'Manh\u00e3';
+	const resolvedHeadingLabel = headingLabel ?? 'Manhã';
 	const resolvedTableTitle =
 		tableTitle ?? `Colaboradores - ${resolvedHeadingLabel}`;
 	const resolvedTotalColumnLabel =
-		totalColumnLabel ?? 'Total de Su\u00edtes';
+		totalColumnLabel ?? 'Total de Suítes';
 
 	return (
 		<div>
 			<h2 className='font-bold text-zinc-50 text-xl mt-10'>
-				{`Relat\u00f3rio de Colaboradores - ${resolvedHeadingLabel}`}
+				{`Relatório de Colaboradores - ${resolvedHeadingLabel}`}
 			</h2>
 			<Table
 				title={resolvedTableTitle}
@@ -54,7 +54,7 @@ export default function TableWokersMorning({
 							Dias Trabalhados
 						</TableHead>
 						<TableHead className='text-center text-xs text-nowrap'>
-							M\u00e9dia de Limpezas por Dia
+							Média de Limpezas por Dia
 						</TableHead>
 					</TableRow>
 				</TableHeader>
@@ -62,7 +62,7 @@ export default function TableWokersMorning({
 					{!dataTable ? (
 						<TableRow>
 							<TableCell className='font-bold text-left text-nowrap'>
-								Dados n\u00e3o encontrados
+								Dados não encontrados
 							</TableCell>
 						</TableRow>
 					) : (
