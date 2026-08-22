@@ -1,5 +1,8 @@
 import { expect, test } from '@playwright/test';
-import { resolveChartDensity } from '../src/app/(dashboard)/_components/charts/chart-density';
+import {
+	resolveChartDensity,
+	resolveXAxisLabelPolicy,
+} from '../src/app/(dashboard)/_components/charts/chart-density';
 
 const series = (...lengths: number[]) =>
 	lengths.map((length, index) => ({
@@ -49,4 +52,26 @@ test('does not mutate or reduce the series', () => {
 	resolveChartDensity(input);
 	expect(input).toEqual(snapshot);
 	expect(input[0].data).toHaveLength(32);
+});
+
+test('keeps every x-axis label when they fit the approved desktop limit', () => {
+	const categories = Array.from({ length: 10 }, (_, index) =>
+		String(index + 1).padStart(2, '0'),
+	);
+	const policy = resolveXAxisLabelPolicy(categories, 12);
+
+	expect(policy.rotate).toBe(0);
+	expect(policy.tickAmount).toBeUndefined();
+});
+
+test('limits crowded x-axis ticks without replacing category labels', () => {
+	const categories = Array.from(
+		{ length: 21 },
+		(_, index) => `${String(index + 1).padStart(2, '0')}/08/2026`,
+	);
+	const policy = resolveXAxisLabelPolicy(categories, 8);
+
+	expect(policy.tickAmount).toBe(7);
+	expect(policy.rotate).toBe(-45);
+	expect(categories).toHaveLength(21);
 });

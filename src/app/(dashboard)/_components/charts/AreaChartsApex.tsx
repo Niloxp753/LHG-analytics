@@ -17,7 +17,11 @@ import {
 	resolveChartPalette,
 	type ChartPaletteMode,
 } from './consolidated-unit-palette';
-import { resolveChartDensity } from './chart-density';
+import {
+	resolveChartDensity,
+	resolveXAxisLabelPolicy,
+	Y_AXIS_READABILITY,
+} from './chart-density';
 
 type AreaChartSeries = NonNullable<ApexCharts.ApexOptions['series']>;
 
@@ -46,6 +50,8 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 	}
 
 	const density = resolveChartDensity(props.series);
+	const desktopXAxisLabels = resolveXAxisLabelPolicy(props.categories, 12);
+	const mobileXAxisLabels = resolveXAxisLabelPolicy(props.categories, 6);
 	const dataLabelsEnabled = density.allowDataLabels && isEnabled();
 
 	const hasSeriesData = Array.isArray(props.series)
@@ -175,10 +181,13 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 
 		xaxis: {
 			type: 'category',
+			tickAmount: desktopXAxisLabels.tickAmount,
 
 			labels: {
 				trim: false,
 				hideOverlappingLabels: true,
+				rotate: desktopXAxisLabels.rotate,
+				rotateAlways: desktopXAxisLabels.rotate !== 0,
 			},
 
 			crosshairs: {
@@ -189,6 +198,10 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 		},
 
 		stroke: { curve: density.curve },
+		yaxis: {
+			...Y_AXIS_READABILITY,
+			labels: { ...Y_AXIS_READABILITY.labels },
+		},
 		plotOptions: { area: { fillTo: 'origin' } },
 		responsive: [
 			{
@@ -202,14 +215,17 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 						enabled: false,
 					},
 					xaxis: {
+						tickAmount: mobileXAxisLabels.tickAmount,
 						tickPlacement: 'on',
 						offsetX: 0,
 						labels: {
-							rotate: -45,
+							rotate: mobileXAxisLabels.rotate,
+							rotateAlways: mobileXAxisLabels.rotate !== 0,
 							style: { fontSize: '10px' },
 						},
 					},
 					yaxis: {
+						...Y_AXIS_READABILITY,
 						show: true,
 						crosshairs: {
 							show: true,
@@ -218,6 +234,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 							show: true,
 						},
 						labels: {
+							...Y_AXIS_READABILITY.labels,
 							style: { fontSize: '10px' },
 							formatter: (val: number | string) =>
 								`${
@@ -239,12 +256,14 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 						width: props.width ?? '100%',
 					},
 					xaxis: {
+						tickAmount: desktopXAxisLabels.tickAmount,
 						tickPlacement: 'between',
 						offsetX: 0,
 						offsetY: 8,
 
 						labels: {
-							rotate: -45,
+							rotate: desktopXAxisLabels.rotate,
+							rotateAlways: desktopXAxisLabels.rotate !== 0,
 							style: { fontSize: '11px' },
 						},
 					},
@@ -260,9 +279,11 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 							} `,
 					},
 					yaxis: {
+						...Y_AXIS_READABILITY,
 						show: true,
 						axisBorder: { show: true },
 						labels: {
+							...Y_AXIS_READABILITY.labels,
 							show: true,
 							formatter: (val: number | string) =>
 								`${

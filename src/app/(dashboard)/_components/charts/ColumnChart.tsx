@@ -6,6 +6,16 @@ import ResponsiveContainerChart from '../ResponsiveContainerChart';
 import DataState from '../DataState';
 import EmptyState from '../EmptyState';
 import { Skeleton } from '@/components/ui/skeleton';
+import { resolveXAxisLabelPolicy } from './chart-density';
+
+const DEFAULT_CATEGORIES = [
+	'3 horas',
+	'6 horas',
+	'12 horas',
+	'Day Use',
+	'Diária',
+	'Pernoite',
+];
 
 interface ColumnChartProps {
 	title: string;
@@ -17,6 +27,9 @@ interface ColumnChartProps {
 }
 
 export default function ColumnChart(props: ColumnChartProps) {
+	const categories = props.categories ?? DEFAULT_CATEGORIES;
+	const desktopXAxisLabels = resolveXAxisLabelPolicy(categories, 12);
+	const mobileXAxisLabels = resolveXAxisLabelPolicy(categories, 6);
 	const hasSeriesData = Array.isArray(props.series)
 		? props.series.length > 0 &&
 		  props.series.some((entry) => {
@@ -88,11 +101,15 @@ export default function ColumnChart(props: ColumnChartProps) {
 		},
 		xaxis: {
 			type: 'category',
+			tickAmount: desktopXAxisLabels.tickAmount,
 			axisBorder: { show: true },
-
-			categories: props.categories
-				? props.categories
-				: ['3 horas', '6 horas', '12 horas', 'Day Use', 'Diária', 'Pernoite'],
+			categories,
+			labels: {
+				hideOverlappingLabels: true,
+				rotate: desktopXAxisLabels.rotate,
+				rotateAlways: desktopXAxisLabels.rotate !== 0,
+				trim: false,
+			},
 		},
 		yaxis: { show: false, labels: { show: true } },
 		stroke: { curve: 'smooth' },
@@ -126,6 +143,22 @@ export default function ColumnChart(props: ColumnChartProps) {
 						},
 				  }
 				: undefined,
+		responsive: [
+			{
+				breakpoint: 580,
+				options: {
+					xaxis: {
+						tickAmount: mobileXAxisLabels.tickAmount,
+						labels: {
+							hideOverlappingLabels: true,
+							rotate: mobileXAxisLabels.rotate,
+							rotateAlways: mobileXAxisLabels.rotate !== 0,
+							trim: false,
+						},
+					},
+				},
+			},
+		],
 	};
 
 	return (
