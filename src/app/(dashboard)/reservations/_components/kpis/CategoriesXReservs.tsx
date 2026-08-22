@@ -14,6 +14,19 @@ interface CategoriesProps {
 	categories?: string[];
 	error?: string | boolean;
 }
+
+const RENTAL_TYPE_LABELS: Record<string, string> = {
+	ONE_HOUR: '1 hora',
+	TWO_HOURS: '2 horas',
+	THREE_HOURS: '3 horas',
+	FOUR_HOURS: '4 horas',
+	SIX_HOURS: '6 horas',
+	TWELVE_HOURS: '12 horas',
+	OVERNIGHT: 'Pernoite',
+	DAILY: 'Diária',
+	DAY_USE: 'Day Use',
+};
+
 export default function Categories({
 	categories,
 	series,
@@ -22,25 +35,11 @@ export default function Categories({
 	const resolvedError =
 		error ?? (series === null ? 'Não foi possível carregar os dados.' : undefined);
 
-	const newCategories = categories?.map((item) => {
-		if (item === 'OVERNIGHT') {
-			return 'Pernoite';
-		} else if (item === 'DAILY') {
-			return 'Diária';
-		} else if (item === 'THREE_HOURS') {
-			return '03 Horas';
-		} else if (item === 'SIX_HOURS') {
-			return '06 Horas';
-		} else if (item === 'TWELVE_HOURS') {
-			return '12 Horas';
-		} else if (item === 'DAY_USE') {
-			return 'Day Use';
-		}
-		return item;
-	});
+	const newCategories = categories?.map((item) => RENTAL_TYPE_LABELS[item] ?? item);
+
 	return (
 		<ColumnChart
-			title='Reservas Por Tipo de Locação'
+			title='Reservas por Tipo de Locação'
 			error={resolvedError}
 			categories={newCategories}
 			tooltipLabel='category'
