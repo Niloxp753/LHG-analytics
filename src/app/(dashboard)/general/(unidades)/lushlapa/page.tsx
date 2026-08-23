@@ -1,5 +1,6 @@
 /** @format */
 
+import DashboardPageSessionBoundary from '@/app/(dashboard)/_components/dashboard-page-session-boundary';
 import { DEFAULT_RANGE_TAG, getRangeDescription } from "@/lib/date-range";
 import { Suspense } from "react";
 import GeneralUnitDataFallback from "../../_components/unit-data-fallback";
@@ -18,7 +19,8 @@ export default function LushLapa({
   const fallbackRangeDescription = getRangeDescription(DEFAULT_RANGE_TAG);
 
   return (
-    <GeneralUnitPageShell title="Lush Lapa">
+    <DashboardPageSessionBoundary>
+      <GeneralUnitPageShell title="Lush Lapa">
       <Suspense
         fallback={
           <GeneralUnitDataFallback
@@ -28,6 +30,7 @@ export default function LushLapa({
       >
         <UnitDataFromSearchParams searchParams={searchParams} />
       </Suspense>
-    </GeneralUnitPageShell>
+      </GeneralUnitPageShell>
+    </DashboardPageSessionBoundary>
   );
 }

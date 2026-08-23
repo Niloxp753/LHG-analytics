@@ -1,5 +1,6 @@
 /** @format */
 
+import DashboardPageSessionBoundary from '@/app/(dashboard)/_components/dashboard-page-session-boundary';
 import { Suspense } from 'react';
 import { SettingsData } from './_components/settings-data';
 import { SettingsDataFallback } from './_components/settings-data-fallback';
@@ -9,7 +10,8 @@ export const instant = true;
 
 export default function Page() {
 	return (
-		<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-start bg-zinc-950 overflow-x-hidden pt-24 pb-10 md:px-5'>
+		<DashboardPageSessionBoundary>
+			<main className='flex h-full w-full min-h-screen gap-2 flex-col justify-start bg-zinc-950 overflow-x-hidden pt-24 pb-10 md:px-5'>
 			<div
 				className={` 
 				md:max-w-[82vw]	 md:ml-auto w-full bg-zinc-950 h-full relative`}>
@@ -23,6 +25,7 @@ export default function Page() {
 					</Suspense>
 				</div>
 			</div>
-		</main>
+			</main>
+		</DashboardPageSessionBoundary>
 	);
 }

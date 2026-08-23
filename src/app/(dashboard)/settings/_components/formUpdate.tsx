@@ -2,6 +2,7 @@
 'use client';
 
 import { updateUserAction } from '@/actions/updateUser';
+import { userActionFailureCopy } from '@/actions/user-action-result';
 import { Button } from '@/components/ui/button';
 import {
 	Form,
@@ -66,8 +67,8 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 	const isAdminRole = selectedRole === ADMIN_ROLE;
 
 	async function onSubmit(values: z.infer<typeof formSchemaUserUpdate>) {
+		setIsPending(true);
 		try {
-			setIsPending(true);
 			const email = values.email;
 			const name = values.name;
 			const cpf = values.cpf;
@@ -86,20 +87,24 @@ export default function FormUpdate({ user }: FormUpdateProps) {
 				...(password ? { password } : {}),
 			};
 
-			await updateUserAction(payload);
+			const result = await updateUserAction(payload);
+			if (!result.ok) {
+				const copy = userActionFailureCopy(result.code);
+				toast.error(copy.title, { description: copy.description });
+				return;
+			}
 			form.reset();
 			toast.success('Usuário Atualizado - 200', {
 				description: `${name} - Usuário atualizado no banco de dados`,
 			});
 		} catch (error) {
 			console.error(error);
-			toast.error('Algo deu errado - 500', {
-				description: 'Tente novamente',
+			toast.error('Erro inesperado', {
+				description: 'Não foi possível atualizar o usuário. Tente novamente.',
 			});
-
+		} finally {
 			setIsPending(false);
 		}
-		setIsPending(false);
 	}
 	return (
 		<Form {...form}>

@@ -28,6 +28,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { createUserAction } from '@/actions/createUser';
+import { userActionFailureCopy } from '@/actions/user-action-result';
 import {
 	Select,
 	SelectContent,
@@ -65,15 +66,27 @@ export function ModalCreateUser() {
 	const isAdminRole = selectedRole === ADMIN_ROLE;
 
 	async function onSubmit(values: z.infer<typeof formSchemaUser>) {
+		setIsPending(true);
 		try {
-			setIsPending(true);
 			const email = values.email;
 			const password = values.password;
 			const name = values.name;
 			const cpf = values.cpf;
 			const role = values.role;
 			const unit = values.unidade as AccessUnit;
-			await createUserAction({ email, password, name, cpf, role, unit });
+			const result = await createUserAction({
+				email,
+				password,
+				name,
+				cpf,
+				role,
+				unit,
+			});
+			if (!result.ok) {
+				const copy = userActionFailureCopy(result.code);
+				toast.error(copy.title, { description: copy.description });
+				return;
+			}
 			form.reset();
 			toast.success('Usuário Cadastrado - 204', {
 				description: `${name} - Novo usuário salvo no banco de dados`,
@@ -81,13 +94,12 @@ export function ModalCreateUser() {
 			setModal(false);
 		} catch (error) {
 			console.error(error);
-			toast.error('Algo deu errado - 500', {
-				description: 'Tente novamente',
+			toast.error('Erro inesperado', {
+				description: 'Não foi possível cadastrar o usuário. Tente novamente.',
 			});
-			setModal(true);
+		} finally {
 			setIsPending(false);
 		}
-		setIsPending(false);
 	}
 	return (
 		<Dialog open={modal}>

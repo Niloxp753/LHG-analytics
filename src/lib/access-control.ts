@@ -285,7 +285,7 @@ export function canAccessRoute(user: AccessUser, href: string): boolean {
 	}
 
 	const path = getPathname(href);
-	if (path === '/settings') {
+	if (path === '/settings' || path.startsWith('/settings/')) {
 		return false;
 	}
 

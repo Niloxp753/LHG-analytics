@@ -2,30 +2,43 @@ import { defineConfig, devices } from '@playwright/test';
 
 const PORT = process.env.PW_PORT ? Number(process.env.PW_PORT) : 3116;
 const baseURL = `http://localhost:${PORT}`;
+const AUTH_PORT = process.env.PW_AUTH_PORT
+	? Number(process.env.PW_AUTH_PORT)
+	: 35555;
+const AUTH_BASE_PATH = process.env.PW_AUTH_BASE_PATH ?? '';
+const authBaseURL = `http://127.0.0.1:${AUTH_PORT}${AUTH_BASE_PATH}`;
+const serverCommand =
+	process.env.PW_SERVER === 'start'
+		? `npm run start -- -p ${PORT}`
+		: `npx next dev --webpack -p ${PORT}`;
 
 export default defineConfig({
 	testDir: './e2e',
 	reporter: 'list',
+	workers: 1,
 	use: {
 		baseURL,
 		trace: 'on-first-retry',
 	},
 	webServer: {
-		command: `npx next dev --webpack -p ${PORT}`,
+		command: serverCommand,
 		url: baseURL,
 		reuseExistingServer: false,
 		timeout: 120 * 1000,
 		env: {
-			PLAYWRIGHT_MOCKS: 'false',
+			PLAYWRIGHT_MOCKS: 'true',
 			DISABLE_AUTH_COOKIES: 'false',
-			NEXT_PUBLIC_AUTH_URL: 'http://127.0.0.1:35555',
-			BACKEND_AUTH_ENDPOINT: 'http://127.0.0.1:35556',
-			BACKEND_ENDPOINT_IPIRANGA: 'http://127.0.0.1:35556',
-			BACKEND_ENDPOINT_LAPA: 'http://127.0.0.1:35556',
-			BACKEND_ENDPOINT_ANDAR_DE_CIMA: 'http://127.0.0.1:35556',
-			BACKEND_ENDPOINT_TOUT: 'http://127.0.0.1:35556',
-			BACKEND_ENDPOINT_ALTANA: 'http://127.0.0.1:35556',
-			BACKEND_ENDPOINT_LIV: 'http://127.0.0.1:35556',
+			NEXT_PUBLIC_AUTH_URL: authBaseURL,
+			BACKEND_AUTH_ENDPOINT: authBaseURL,
+			BACKEND_CONSOLIDATED_ENDPOINT: `${baseURL}/api/mock-backend`,
+			BACKEND_ENDPOINT_IPIRANGA: `${baseURL}/api/mock-backend`,
+			BACKEND_ENDPOINT_LAPA: `${baseURL}/api/mock-backend`,
+			BACKEND_ENDPOINT_ANDAR_DE_CIMA: `${baseURL}/api/mock-backend`,
+			BACKEND_ENDPOINT_TOUT: `${baseURL}/api/mock-backend`,
+			BACKEND_ENDPOINT_ALTANA: `${baseURL}/api/mock-backend`,
+			BACKEND_ENDPOINT_LIV: `${baseURL}/api/mock-backend`,
+			BACKEND_ENDPOINT_GETAN_GARAVELO: `${baseURL}/api/mock-backend`,
+			BACKEND_ENDPOINT_GETAN_PQ_OESTE: `${baseURL}/api/mock-backend`,
 		},
 	},
 	projects: [

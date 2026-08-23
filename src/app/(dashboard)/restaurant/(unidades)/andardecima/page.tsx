@@ -1,5 +1,6 @@
 /** @format */
 
+import DashboardPageSessionBoundary from '@/app/(dashboard)/_components/dashboard-page-session-boundary';
 import { DEFAULT_RANGE_TAG, getRangeDescription } from "@/lib/date-range";
 import { Suspense } from "react";
 import RestaurantUnitDataFallback from "../../_components/unit-data-fallback";
@@ -18,7 +19,8 @@ export default function AndarDeCima({
   const fallbackRangeDescription = getRangeDescription(DEFAULT_RANGE_TAG);
 
   return (
-    <RestaurantUnitPageShell title="Andar de Cima">
+    <DashboardPageSessionBoundary>
+      <RestaurantUnitPageShell title="Andar de Cima">
       <Suspense
         fallback={
           <RestaurantUnitDataFallback
@@ -28,6 +30,7 @@ export default function AndarDeCima({
       >
         <UnitDataFromSearchParams searchParams={searchParams} />
       </Suspense>
-    </RestaurantUnitPageShell>
+      </RestaurantUnitPageShell>
+    </DashboardPageSessionBoundary>
   );
 }

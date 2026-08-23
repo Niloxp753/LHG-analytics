@@ -3,6 +3,7 @@
 import { buildAuthCookieHeader } from '@/lib/auth-headers';
 import { auth_api } from '../api-client';
 import type { UpdateUserInput } from '@/types/user';
+import { UserUpstreamError } from './user-upstream-error';
 
 export async function updateUser({
 	email,
@@ -13,23 +14,15 @@ export async function updateUser({
 	role,
 	unit,
 }: UpdateUserInput) {
+	const cookieHeader = await buildAuthCookieHeader();
+	const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
 	try {
-		const cookieHeader = await buildAuthCookieHeader();
-		const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
 		await auth_api.patch(`users/${id}`, {
 			headers: authHeaders,
 			next: { tags: ['users', `users/${id}`] },
-			json: {
-				email,
-				name,
-				cpf,
-				password,
-				role,
-				unit,
-			},
+			json: { email, name, cpf, password, role, unit },
 		});
 	} catch (error) {
-		console.error(error);
-		return error;
+		throw new UserUpstreamError(error);
 	}
 }

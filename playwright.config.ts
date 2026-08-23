@@ -24,7 +24,7 @@ export default defineConfig({
 			PLAYWRIGHT_MOCKS: 'true',
 			DISABLE_AUTH_COOKIES: 'true',
 			NEXT_PUBLIC_AUTH_URL: baseURL,
-			BACKEND_AUTH_ENDPOINT: `${baseURL}/api/mock-backend`,
+			BACKEND_AUTH_ENDPOINT: baseURL,
 			BACKEND_CONSOLIDATED_ENDPOINT: `${baseURL}/api/mock-backend`,
 			BACKEND_ENDPOINT_IPIRANGA: `${baseURL}/ipiranga/api`,
 			BACKEND_ENDPOINT_LAPA: `${baseURL}/lapa/api`,

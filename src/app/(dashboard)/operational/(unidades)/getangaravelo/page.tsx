@@ -1,5 +1,6 @@
 /** @format */
 
+import DashboardPageSessionBoundary from '@/app/(dashboard)/_components/dashboard-page-session-boundary';
 import { DEFAULT_RANGE_TAG, getRangeDescription } from '@/lib/date-range';
 import { Suspense } from 'react';
 import OperationalUnitDataFallback from '../../_components/unit-data-fallback';
@@ -18,7 +19,8 @@ export default function GetanGaravelo({
 	const fallbackRangeDescription = getRangeDescription(DEFAULT_RANGE_TAG);
 
 	return (
-		<OperationalUnitPageShell title='Getan Garavelo'>
+		<DashboardPageSessionBoundary>
+			<OperationalUnitPageShell title='Getan Garavelo'>
 			<Suspense
 				fallback={
 					<OperationalUnitDataFallback
@@ -29,6 +31,7 @@ export default function GetanGaravelo({
 					searchParams={searchParams}
 				/>
 			</Suspense>
-		</OperationalUnitPageShell>
+			</OperationalUnitPageShell>
+		</DashboardPageSessionBoundary>
 	);
 }

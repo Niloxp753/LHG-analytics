@@ -41,7 +41,7 @@ const dashboardRoutes = [
 	'/settings',
 ] as const;
 
-test('general exposes a meaningful static shell on first load', async ({
+test('general blocks protected static content without a fullscreen auth interstitial', async ({
 	browser,
 	baseURL,
 }) => {
@@ -73,11 +73,15 @@ test('general exposes a meaningful static shell on first load', async ({
 			page,
 			async () => {
 				await page.goto('/general?set=ultimos_7_dias');
-				await expect(page.locator('main')).toBeVisible();
+				await expect(page.locator('main')).toBeHidden();
 				await expect(
 					page.getByRole('heading', { name: /Visão Geral/i }),
-				).toBeVisible();
-				await expect(page.getByTestId('general-kpis-loading')).toBeVisible();
+				).toBeHidden();
+				await expect(
+					page.locator('div[class*="bg-zinc-950/80"]').filter({
+						has: page.locator('img[alt="Logo LHG Analytics"]'),
+					}),
+				).toHaveCount(0);
 			},
 			{ baseURL },
 		);

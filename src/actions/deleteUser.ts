@@ -3,17 +3,21 @@
 'use server';
 
 import { deleteUser } from '@/http/user/deleteuser';
-import { requireAccessToken } from '@/lib/require-auth';
 import { revalidatePath, updateTag } from 'next/cache';
+import { authorizeAdminAction, upstreamActionFailure } from './admin-action-boundary';
+import { type UserActionResult, userActionSuccess } from './user-action-result';
 
-export async function deleteUserAction(id: string) {
-	await requireAccessToken();
+export async function deleteUserAction(id: string): Promise<UserActionResult<null>> {
+	const authorizationFailure = await authorizeAdminAction();
+	if (authorizationFailure) return authorizationFailure;
 
 	try {
 		await deleteUser(id);
-		updateTag('users');
-		revalidatePath('/settings');
 	} catch (error) {
-		console.log(error);
+		return upstreamActionFailure(error);
 	}
+
+	updateTag('users');
+	revalidatePath('/settings');
+	return userActionSuccess(null);
 }

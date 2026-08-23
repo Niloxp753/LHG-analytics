@@ -1,5 +1,6 @@
 /** @format */
 
+import DashboardPageSessionBoundary from '@/app/(dashboard)/_components/dashboard-page-session-boundary';
 import { DEFAULT_RANGE_TAG, getRangeDescription } from "@/lib/date-range";
 import { Suspense } from "react";
 import ReservationsUnitDataFallback from "../../_components/unit-data-fallback";
@@ -18,7 +19,8 @@ export default function LushIpiranga({
   const fallbackRangeDescription = getRangeDescription(DEFAULT_RANGE_TAG);
 
   return (
-    <ReservationsUnitPageShell title="Lush Ipiranga">
+    <DashboardPageSessionBoundary>
+      <ReservationsUnitPageShell title="Lush Ipiranga">
       <Suspense
         fallback={
           <ReservationsUnitDataFallback
@@ -28,6 +30,7 @@ export default function LushIpiranga({
       >
         <UnitDataFromSearchParams searchParams={searchParams} />
       </Suspense>
-    </ReservationsUnitPageShell>
+      </ReservationsUnitPageShell>
+    </DashboardPageSessionBoundary>
   );
 }
