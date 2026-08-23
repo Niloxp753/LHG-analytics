@@ -3,6 +3,7 @@
 import { getGovernanceAction } from '@/actions/getGovernance';
 import { getOperationCustomAction } from '@/actions/getoperationsCustom';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import type { DashboardCompanyKey } from '@/lib/dashboard-company';
 import AfternoonCleaningWorkers from './kpis-unidade/afternoon-cleaning-worker';
 import BigNumbersOperation from './kpis-unidade/big-numbers-operation';
 import MorningCleaningWorkers from './kpis-unidade/morning-cleaning-worker';
@@ -16,7 +17,7 @@ import TableWokersWeekly from './kpis-unidade/table-workers-weekly';
 import TotalCleaning from './kpis-unidade/total-cleaning';
 
 export type StandardOperationalUnitDataSectionProps = {
-	company?: string;
+	company?: DashboardCompanyKey;
 	description: string;
 	endDate: string | null;
 	idealNumber: number;

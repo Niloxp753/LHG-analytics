@@ -2,6 +2,10 @@
 
 import { buildAuthCookieHeader } from '@/lib/auth-headers';
 import { type DashboardCacheMode } from '@/lib/dashboard-cache-policy';
+import {
+	resolveDashboardCompanyKey,
+	type DashboardCompanyKey,
+} from '@/lib/dashboard-company';
 import { cacheLife, cacheTag } from 'next/cache';
 import {
 	api,
@@ -57,13 +61,12 @@ async function getRestaurantsCustomCached(
 	startDate: string,
 	endDate: string,
 	cacheMode: DashboardCacheMode,
-	company: string | undefined,
-	cookieHeader: string | null,
+	company: DashboardCompanyKey,
 ) {
-	'use cache';
+	'use cache: private';
 
 	cacheTag('restaurant');
-	const companyKey = company ?? 'ipiranga';
+	const companyKey = company;
 	const requestName = `getRestaurantsCustom (${companyKey})`;
 	cacheTag(
 		getKpiCacheIdentityTag(
@@ -72,14 +75,11 @@ async function getRestaurantsCustomCached(
 			endDate,
 			cacheMode,
 			companyKey,
-			cookieHeader,
 		),
 	);
-
+	const cookieHeader = await buildAuthCookieHeader();
 	const controller = new AbortController();
 	const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
-	let failed = false;
-	let result: unknown;
 
 	try {
 		const resp = await withKpiRequestTimeout(
@@ -101,20 +101,13 @@ async function getRestaurantsCustomCached(
 			);
 		}
 
-		result = await resp.json();
+		const result = await resp.json();
+		cacheLife('dashboard_session');
+		return result;
 	} catch (error) {
-		failed = true;
-		result = captureKpiCacheFailure(error, requestName);
-	}
-
-	if (failed) {
 		cacheLife({ stale: 0, revalidate: 0, expire: 0 });
-	} else if (cacheMode === 'historical') {
-		cacheLife('dashboard_historical');
-	} else {
-		cacheLife('dashboard');
+		return captureKpiCacheFailure(error, requestName);
 	}
-	return result;
 }
 
 export async function getRestaurantsCustom(
@@ -124,14 +117,13 @@ export async function getRestaurantsCustom(
 	company?: string,
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
-	const cookieHeader = await buildAuthCookieHeader();
+	const companyKey = resolveDashboardCompanyKey(company);
 	try {
 		const result = await getRestaurantsCustomCached(
 			startDate,
 			endDate,
 			cacheMode,
-			company,
-			cookieHeader,
+			companyKey,
 		);
 		return unwrapKpiCacheResult(result);
 	} catch (error) {

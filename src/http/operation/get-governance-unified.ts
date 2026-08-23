@@ -18,9 +18,8 @@ async function getGovernanceUnifiedCached(
 	startDate: string,
 	endDate: string,
 	cacheMode: DashboardCacheMode,
-	cookieHeader: string | null,
 ) {
-	'use cache';
+	'use cache: private';
 
 	cacheTag('operational');
 	cacheTag(
@@ -29,15 +28,12 @@ async function getGovernanceUnifiedCached(
 			startDate,
 			endDate,
 			cacheMode,
-			cookieHeader,
 		),
 	);
-
+	const cookieHeader = await buildAuthCookieHeader();
 	const controller = new AbortController();
 	const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
 	const requestName = 'getGovernanceUnified';
-	let failed = false;
-	let result: unknown;
 
 	try {
 		const resp = await withKpiRequestTimeout(
@@ -81,20 +77,13 @@ async function getGovernanceUnifiedCached(
 			throw new FetchFailedError(requestName, resp?.status, resp?.statusText);
 		}
 
-		result = await resp.json();
+		const result = await resp.json();
+		cacheLife('dashboard_session');
+		return result;
 	} catch (error) {
-		failed = true;
-		result = captureKpiCacheFailure(error, requestName);
-	}
-
-	if (failed) {
 		cacheLife({ stale: 0, revalidate: 0, expire: 0 });
-	} else if (cacheMode === 'historical') {
-		cacheLife('dashboard_historical');
-	} else {
-		cacheLife('dashboard');
+		return captureKpiCacheFailure(error, requestName);
 	}
-	return result;
 }
 
 export async function getGovernanceUnified(
@@ -103,13 +92,11 @@ export async function getGovernanceUnified(
 	cacheMode: DashboardCacheMode,
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
-	const cookieHeader = await buildAuthCookieHeader();
 	try {
 		const result = await getGovernanceUnifiedCached(
 			startDate,
 			endDate,
 			cacheMode,
-			cookieHeader,
 		);
 		return unwrapKpiCacheResult(result);
 	} catch (error) {

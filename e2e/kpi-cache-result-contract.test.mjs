@@ -32,8 +32,8 @@ for (const relativePath of readerPaths) {
 	const cacheLifeCalls = [...readerSource.matchAll(/\bcacheLife\s*\(/g)];
 	assert.equal(
 		cacheLifeCalls.length,
-		3,
-		`${relativePath} must select cacheLife from the failure, historical, or live branch`,
+		2,
+		`${relativePath} must select cacheLife from the success or failure branch`,
 	);
 	const outcomeIndex = readerSource.indexOf('} catch (error) {');
 	assert.notEqual(

@@ -12,6 +12,8 @@ import {
 	resolveCustomDashboardCacheMode,
 	resolvePresetDashboardCacheMode,
 } from '@/lib/dashboard-cache-policy';
+import { requireKpiAccess } from '@/lib/kpi-authorization';
+import { connection } from 'next/server';
 
 interface getRestaurantPageDataProps {
 	period?: string;
@@ -24,8 +26,8 @@ export async function getRestaurantPageData({
 	period,
 	startDate,
 }: getRestaurantPageDataProps) {
+	await requireKpiAccess({ module: 'restaurant', consolidated: true });
 	const normalized = normalizeRangeTag(period, DEFAULT_RANGE_TAG);
-	const range = getRangeByTag(normalized);
 
 	if (startDate && endDate) {
 		const cacheMode = resolveCustomDashboardCacheMode(endDate);
@@ -43,7 +45,11 @@ export async function getRestaurantPageData({
 			data: null,
 			error: 'Erro ao encontrar dados',
 		};
-	} else if (range) {
+	}
+
+	await connection();
+	const range = getRangeByTag(normalized);
+	if (range) {
 		const cacheMode = resolvePresetDashboardCacheMode(normalized);
 		const data = await getRestaurantUnified(
 			range.startDate,

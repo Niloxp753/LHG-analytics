@@ -17,6 +17,11 @@ const nextConfig = {
       revalidate: 10,
       expire: 60,
     },
+    dashboard_session: {
+      stale: 900,
+      revalidate: 900,
+      expire: 1800,
+    },
   },
   images: {
     remotePatterns: [

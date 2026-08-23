@@ -9,9 +9,17 @@ import {
 	normalizeRangeTag,
 } from '@/lib/date-range';
 import { resolvePresetDashboardCacheMode } from '@/lib/dashboard-cache-policy';
+import type { DashboardCompanyKey } from '@/lib/dashboard-company';
+import { requireKpiAccess } from '@/lib/kpi-authorization';
+import { connection } from 'next/server';
 
-export async function getCompanyAction(period: string, company?: string) {
+export async function getCompanyAction(
+	period: string,
+	company?: DashboardCompanyKey,
+) {
+	await requireKpiAccess({ module: 'company', company });
 	const normalized = normalizeRangeTag(period, DEFAULT_RANGE_TAG);
+	await connection();
 	const range = getRangeByTag(normalized);
 	if (!range) {
 		return null;

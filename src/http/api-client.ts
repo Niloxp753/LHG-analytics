@@ -2,6 +2,7 @@
 
 import "server-only";
 
+import type { DashboardCompanyKey } from "@/lib/dashboard-company";
 import ky from "ky";
 
 export const maxDuration = 60;
@@ -130,8 +131,10 @@ export const consolidated_api = ky.create({
   fetch: backendFetch,
 });
 
-export function getUnitApiClient(company?: string): typeof api {
+export function getUnitApiClient(company: DashboardCompanyKey): typeof api {
   switch (company) {
+    case "ipiranga":
+      return api;
     case "lapa":
       return api_lapa;
     case "andar_de_cima":
@@ -146,7 +149,5 @@ export function getUnitApiClient(company?: string): typeof api {
       return api_getan_garavelo;
     case "getan_pq_oeste":
       return api_getan_pq_oeste;
-    default:
-      return api;
   }
 }

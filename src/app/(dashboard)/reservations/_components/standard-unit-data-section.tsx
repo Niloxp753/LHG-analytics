@@ -5,6 +5,7 @@ import { getReservationsCustomAction } from "@/actions/reservations/get-reservat
 import { TableReservs } from "@/app/(dashboard)/_components/kpis/TableReservs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { type CurrencyConfig } from "@/lib/currency-format";
+import type { DashboardCompanyKey } from "@/lib/dashboard-company";
 import BigNumbersEcommerce from "./big-numbers-ecommerce";
 import BigNumbersReservation from "./big-numbers-reservations";
 import { hasEcommerceIndicatorsData } from "./ecommerce-visibility";
@@ -19,7 +20,7 @@ import LocationsXReservs from "./kpis/LocationsXReservs";
 import Representation from "./kpis/Representation";
 
 export type StandardReservationsUnitDataSectionProps = {
-  company?: string;
+  company?: DashboardCompanyKey;
   currencyConfig?: CurrencyConfig;
   description: string;
   endDate: string | null;
