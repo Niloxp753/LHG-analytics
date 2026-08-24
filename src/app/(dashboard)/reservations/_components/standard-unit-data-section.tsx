@@ -18,6 +18,7 @@ import InvoicingXReservs from "./kpis/InvoicingXReservs";
 import InvoicingXTypes from "./kpis/InvoicingXTypes";
 import LocationsXReservs from "./kpis/LocationsXReservs";
 import Representation from "./kpis/Representation";
+import DeferredChartMount from "../../_components/charts/deferred-chart-mount";
 
 export type StandardReservationsUnitDataSectionProps = {
   company?: DashboardCompanyKey;
@@ -93,35 +94,51 @@ export async function StandardReservationsUnitDataSection({
         series={resp.ReservationsByRentalType?.series ?? null}
         categories={resp.ReservationsByRentalType?.categories}
       />
-      <div className="flex flex-col md:flex-row w-full gap-5">
-        <InvoicingXTypes
-          height={pairedBarChartHeight}
-          series={resp.PaymentMethods?.series ?? null}
-          categories={resp.PaymentMethods?.categories}
-          currencyConfig={currencyConfig}
-        />
-        <InvoicingXChannel
-          height={pairedBarChartHeight}
-          series={resp.BillingPerChannel?.series ?? null}
-          categories={resp.BillingPerChannel?.categories}
-          currencyConfig={currencyConfig}
-        />
-      </div>
+      <DeferredChartMount
+        minHeight={pairedBarChartHeight}
+        name="reservations-unit-payment-channel">
+        <div className="flex flex-col md:flex-row w-full gap-5">
+          <InvoicingXTypes
+            height={pairedBarChartHeight}
+            series={resp.PaymentMethods?.series ?? null}
+            categories={resp.PaymentMethods?.categories}
+            currencyConfig={currencyConfig}
+          />
+          <InvoicingXChannel
+            height={pairedBarChartHeight}
+            series={resp.BillingPerChannel?.series ?? null}
+            categories={resp.BillingPerChannel?.categories}
+            currencyConfig={currencyConfig}
+          />
+        </div>
+      </DeferredChartMount>
 
       <div className="grid grid-cols-1 w-full gap-5">
-        <InvoicingXReservs
-          series={resp.BillingOfReservationsByPeriod?.series ?? null}
-          categories={resp.BillingOfReservationsByPeriod?.categories}
-          currencyConfig={currencyConfig}
-        />
-        <Representation
-          series={resp.RepresentativenessOfReservesByPeriod?.series ?? null}
-          categories={resp.RepresentativenessOfReservesByPeriod?.categories}
-        />
-        <LocationsXReservs
-          series={resp.NumberOfReservationsPerPeriod?.series ?? null}
-          categories={resp.NumberOfReservationsPerPeriod?.categories}
-        />
+        <DeferredChartMount
+          minHeight={420}
+          name="reservations-unit-billing-by-period">
+          <InvoicingXReservs
+            series={resp.BillingOfReservationsByPeriod?.series ?? null}
+            categories={resp.BillingOfReservationsByPeriod?.categories}
+            currencyConfig={currencyConfig}
+          />
+        </DeferredChartMount>
+        <DeferredChartMount
+          minHeight={420}
+          name="reservations-unit-representation-by-period">
+          <Representation
+            series={resp.RepresentativenessOfReservesByPeriod?.series ?? null}
+            categories={resp.RepresentativenessOfReservesByPeriod?.categories}
+          />
+        </DeferredChartMount>
+        <DeferredChartMount
+          minHeight={420}
+          name="reservations-unit-number-by-period">
+          <LocationsXReservs
+            series={resp.NumberOfReservationsPerPeriod?.series ?? null}
+            categories={resp.NumberOfReservationsPerPeriod?.categories}
+          />
+        </DeferredChartMount>
       </div>
       <div>
         <TableReservs
@@ -142,15 +159,23 @@ export async function StandardReservationsUnitDataSection({
             />
 
             <div className="w-full flex flex-col items-center justify-between gap-5">
-              <EcommerceRevervs
-                series={resp.ReservationsOfEcommerceByPeriod?.series ?? null}
-                categories={resp.ReservationsOfEcommerceByPeriod?.categories}
-              />
-              <EcommerceRevenue
-                series={resp.BillingOfEcommerceByPeriod?.series ?? null}
-                categories={resp.BillingOfEcommerceByPeriod?.categories}
-                currencyConfig={currencyConfig}
-              />
+              <DeferredChartMount
+                minHeight={420}
+                name="reservations-unit-ecommerce-reservations">
+                <EcommerceRevervs
+                  series={resp.ReservationsOfEcommerceByPeriod?.series ?? null}
+                  categories={resp.ReservationsOfEcommerceByPeriod?.categories}
+                />
+              </DeferredChartMount>
+              <DeferredChartMount
+                minHeight={420}
+                name="reservations-unit-ecommerce-billing">
+                <EcommerceRevenue
+                  series={resp.BillingOfEcommerceByPeriod?.series ?? null}
+                  categories={resp.BillingOfEcommerceByPeriod?.categories}
+                  currencyConfig={currencyConfig}
+                />
+              </DeferredChartMount>
             </div>
           </div>
         </div>

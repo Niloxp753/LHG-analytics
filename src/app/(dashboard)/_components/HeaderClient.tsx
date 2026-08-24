@@ -74,7 +74,7 @@ export default function HeaderClient() {
 								)}
 							</Button>
 						))}
-				<PeriodSelector className='shrink-0 lg:w-40 xl:w-44' />
+				<PeriodSelector className='shrink-0 lg:w-fit' />
 				{landingModule && (
 					<UnitNavigation
 						className='hidden shrink-0 lg:block lg:w-[205px] xl:w-64'

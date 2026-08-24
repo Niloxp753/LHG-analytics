@@ -4,6 +4,7 @@ import { getGovernanceAction } from '@/actions/getGovernance';
 import { getOperationCustomAction } from '@/actions/getoperationsCustom';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import type { DashboardCompanyKey } from '@/lib/dashboard-company';
+import DeferredChartMount from '../../_components/charts/deferred-chart-mount';
 import AfternoonCleaningWorkers from './kpis-unidade/afternoon-cleaning-worker';
 import BigNumbersOperation from './kpis-unidade/big-numbers-operation';
 import MorningCleaningWorkers from './kpis-unidade/morning-cleaning-worker';
@@ -91,26 +92,47 @@ export async function StandardOperationalUnitDataSection({
 				data={resp.BigNumbers}
 				description={description}
 			/>
-			<div className='flex items-center gap-5 justify-between flex-col md:flex-row'>
-				<Performance data={resp.SupervisorsPerformance} />
-				<SuitesOutsourcedInternal data={resp.ShiftCleaning} />
-			</div>
-			<div className='w-full h-full flex gap-5 justify-between flex-col'>
-				<TotalCleaning data={resp.CleaningByDate} />
-			</div>
+			<DeferredChartMount
+				eager
+				minHeight={420}
+				name='operational-unit-summary'>
+				<div className='flex items-center gap-5 justify-between flex-col md:flex-row'>
+					<Performance data={resp.SupervisorsPerformance} />
+					<SuitesOutsourcedInternal data={resp.ShiftCleaning} />
+				</div>
+			</DeferredChartMount>
+			<DeferredChartMount
+				minHeight={420}
+				name='operational-unit-total-cleaning'>
+				<div className='w-full h-full flex gap-5 justify-between flex-col'>
+					<TotalCleaning data={resp.CleaningByDate} />
+				</div>
+			</DeferredChartMount>
 			<div className='flex gap-5 flex-col items-center'>
-				<MorningCleaningWorkers
-					categories={resp.EmployeeCleaningByShift?.categories}
-					series={employeeCleaningByShiftSeries[morningShiftKey] ?? null}
-				/>
-				<AfternoonCleaningWorkers
-					categories={resp.EmployeeCleaningByShift?.categories}
-					series={resp.EmployeeCleaningByShift?.series.Tarde ?? null}
-				/>
-				<NightCleaningWorkers
-					categories={resp.EmployeeCleaningByShift?.categories}
-					series={resp.EmployeeCleaningByShift?.series.Noite ?? null}
-				/>
+				<DeferredChartMount
+					minHeight={520}
+					name='operational-unit-morning-workers'>
+					<MorningCleaningWorkers
+						categories={resp.EmployeeCleaningByShift?.categories}
+						series={employeeCleaningByShiftSeries[morningShiftKey] ?? null}
+					/>
+				</DeferredChartMount>
+				<DeferredChartMount
+					minHeight={360}
+					name='operational-unit-afternoon-workers'>
+					<AfternoonCleaningWorkers
+						categories={resp.EmployeeCleaningByShift?.categories}
+						series={resp.EmployeeCleaningByShift?.series.Tarde ?? null}
+					/>
+				</DeferredChartMount>
+				<DeferredChartMount
+					minHeight={360}
+					name='operational-unit-night-workers'>
+					<NightCleaningWorkers
+						categories={resp.EmployeeCleaningByShift?.categories}
+						series={resp.EmployeeCleaningByShift?.series.Noite ?? null}
+					/>
+				</DeferredChartMount>
 			</div>
 			<div className='flex gap-5 flex-col w-full'>
 				<TableWokersMorning

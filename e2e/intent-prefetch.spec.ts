@@ -133,15 +133,32 @@ test('a current target can be prefetched after it becomes eligible', async ({
 });
 
 test('initial render does not prefetch unit routes', async ({ page }) => {
-	const unitRequests: string[] = [];
+	const alternateDashboardRequests: string[] = [];
 	page.on('request', (request) => {
 		const url = new URL(request.url());
-		if (/^\/general\/[^/]+$/.test(url.pathname)) {
-			unitRequests.push(request.url());
+		const isDashboardRoute = [
+			'/general',
+			'/restaurant',
+			'/reservations',
+			'/operational',
+		].includes(url.pathname);
+		const isUnitRoute = /^\/(general|restaurant|reservations|operational)\/[^/]+$/.test(
+			url.pathname,
+		);
+		const isAlternatePreset =
+			url.pathname === '/general' &&
+			url.searchParams.get('set') !== null &&
+			url.searchParams.get('set') !== 'ultimos_7_dias';
+		const isAlternateModule = isDashboardRoute && url.pathname !== '/general';
+		if (isAlternateModule || isAlternatePreset) {
+			alternateDashboardRequests.push(request.url());
+		}
+		if (isUnitRoute) {
+			alternateDashboardRequests.push(request.url());
 		}
 	});
 
 	await page.goto('/general?menu=general&set=ultimos_7_dias');
 	await page.waitForTimeout(500);
-	expect(unitRequests).toEqual([]);
+	expect(alternateDashboardRequests).toEqual([]);
 });

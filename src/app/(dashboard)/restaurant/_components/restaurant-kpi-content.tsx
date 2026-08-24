@@ -7,6 +7,7 @@ import UnityxRevenuexTimeAB from './kpis/UnityxRevenuexTimeAB';
 import UnityxRevenuexTimeABPercent from './kpis/UnityxRevenuexTimeABPercent';
 import UnityxSales from './kpis/UnityxSales';
 import UnityxTKTxTime from './kpis/UnityxTKTxTime';
+import DeferredChartMount from '../../_components/charts/deferred-chart-mount';
 import type { RestaurantPageDataResult } from '../kpi-section';
 
 type NamedSeriesData = {
@@ -86,18 +87,30 @@ export function RestaurantKpiContent({
 			</div>
 
 			<div className='flex flex-col gap-5'>
-				<UnityxRevenuexTimeAB
-					data={revenueAbByPeriod}
-					error={errorMessage}
-				/>
-				<UnityxRevenuexTimeABPercent
-					data={revenueAbByPeriodPercent}
-					error={errorMessage}
-				/>
-				<UnityxTKTxTime
-					data={ticketAverageByPeriod}
-					error={errorMessage}
-				/>
+				<DeferredChartMount
+					minHeight={420}
+					name='restaurant-consolidated-revenue-ab'>
+					<UnityxRevenuexTimeAB
+						data={revenueAbByPeriod}
+						error={errorMessage}
+					/>
+				</DeferredChartMount>
+				<DeferredChartMount
+					minHeight={420}
+					name='restaurant-consolidated-revenue-ab-percent'>
+					<UnityxRevenuexTimeABPercent
+						data={revenueAbByPeriodPercent}
+						error={errorMessage}
+					/>
+				</DeferredChartMount>
+				<DeferredChartMount
+					minHeight={420}
+					name='restaurant-consolidated-ticket-average'>
+					<UnityxTKTxTime
+						data={ticketAverageByPeriod}
+						error={errorMessage}
+					/>
+				</DeferredChartMount>
 			</div>
 		</div>
 	);

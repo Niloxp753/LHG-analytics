@@ -1,14 +1,10 @@
 'use client';
 
-import { intentPrefetchRegistry } from '@/lib/intent-prefetch-registry';
+import { isInternalNavigationHref } from '@/lib/navigation-target';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 const INTENT_DELAY_MS = 120;
-
-type RouterPrefetchOptions = NonNullable<
-	Parameters<ReturnType<typeof useRouter>['prefetch']>[1]
->;
 
 export type IntentPrefetchController = {
 	cancel(href: string): void;
@@ -22,24 +18,19 @@ export function useIntentPrefetch(): IntentPrefetchController {
 
 	const cancel = useCallback((href: string) => {
 		const timer = timers.current.get(href);
-		if (timer) clearTimeout(timer);
+		if (timer !== undefined) clearTimeout(timer);
 		timers.current.delete(href);
 	}, []);
 
 	const prefetchNow = useCallback(
 		(href: string, enabled = true) => {
 			cancel(href);
-			if (!enabled) return;
+			if (!enabled || !isInternalNavigationHref(href)) return;
 
-			const reserved = intentPrefetchRegistry.reserve(href);
-			if (!reserved) return;
 			try {
-				router.prefetch(href, {
-					kind: 'full' as RouterPrefetchOptions['kind'],
-					onInvalidate: () => intentPrefetchRegistry.release(href),
-				});
+				router.prefetch(href);
 			} catch {
-				intentPrefetchRegistry.release(href);
+				// Prefetch is an optimization; an unsupported target must not break input.
 			}
 		},
 		[cancel, router],
@@ -51,7 +42,7 @@ export function useIntentPrefetch(): IntentPrefetchController {
 			if (!enabled) return;
 			const timer = setTimeout(() => {
 				timers.current.delete(href);
-				prefetchNow(href, true);
+				prefetchNow(href, enabled);
 			}, INTENT_DELAY_MS);
 			timers.current.set(href, timer);
 		},

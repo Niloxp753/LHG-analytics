@@ -1,6 +1,7 @@
 /** @format */
 'use client';
 
+import { useIntentPrefetch } from '@/hooks/use-intent-prefetch';
 import Link from 'next/link';
 import React from 'react';
 
@@ -16,6 +17,8 @@ interface BtnSidebarMenuProps {
 
 export default function BtnSidebarMenu(props: BtnSidebarMenuProps) {
 	const isActive = props.selected == props.role;
+	const intent = useIntentPrefetch();
+	const canPrefetch = !props.disabled && !isActive;
 	const className = `p-2 flex gap-3 rounded ${
 		props.disabled
 			? 'bg-transparent text-zinc-400 opacity-50 cursor-not-allowed'
@@ -37,9 +40,13 @@ export default function BtnSidebarMenu(props: BtnSidebarMenuProps) {
 
 	return (
 		<Link
-			prefetch='auto'
+			prefetch={false}
 			href={props.href}
-			className={className}>
+			className={className}
+			onPointerEnter={() => intent.schedule(props.href, canPrefetch)}
+			onPointerLeave={() => intent.cancel(props.href)}
+			onPointerDown={() => intent.cancel(props.href)}
+			onFocus={() => intent.prefetchNow(props.href, canPrefetch)}>
 			{props.openned ? props.children : null}
 			{props.icon}
 		</Link>

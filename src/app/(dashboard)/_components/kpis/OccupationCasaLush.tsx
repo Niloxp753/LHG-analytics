@@ -47,10 +47,10 @@ export default function OccupationCasaLush({ data }: OccupationCasaLushProps) {
 				isLoading={isLoading}
 				error={error}
 				skeleton={
-					<>
+					<div className='flex w-full flex-col gap-2'>
 						<Skeleton className='w-56 h-10' />
 						<Skeleton className='w-full h-[300px]' />
-					</>
+					</div>
 				}
 			/>
 		);
@@ -73,7 +73,7 @@ export default function OccupationCasaLush({ data }: OccupationCasaLushProps) {
 		occupancyData.series[0];
 
 	return (
-		<>
+		<div className='flex w-full flex-col gap-2'>
 			<Select
 				defaultValue={currentName}
 				onValueChange={(value: string) => setSelectedName(value)}>
@@ -101,6 +101,6 @@ export default function OccupationCasaLush({ data }: OccupationCasaLushProps) {
 				series={[{ name: selectedSeries.name, data: selectedSeries.data }]}
 				categories={occupancyData.categories}
 			/>
-		</>
+		</div>
 	);
 }

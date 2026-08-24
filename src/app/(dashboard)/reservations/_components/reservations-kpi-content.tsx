@@ -6,6 +6,7 @@ import BigNumbersReservationPage from './big-numbers-reservation-page';
 import BookingsByCompany from './page-kpis/bookings-by-company';
 import DataByCompanyReservationsInTime from './page-kpis/revenue-by-company-in-time';
 import RevenueByCompany from './page-kpis/revenue-by-company';
+import DeferredChartMount from '../../_components/charts/deferred-chart-mount';
 import type { ReservationsPageDataResult } from '../kpi-section';
 
 type NamedSeriesData = {
@@ -117,24 +118,36 @@ export function ReservationsKpiContent({
 				/>
 			</div>
 			<div className='flex flex-col gap-5'>
-				<DataByCompanyReservationsInTime
-					data={billingOfReservationsByPeriod}
-					title={'Faturamento por unidade no tempo'}
-					money
-					error={errorMessage}
-				/>
-				<DataByCompanyReservationsInTime
-					data={numberOfReservationsPerPeriod}
-					title={'Número de reservas por unidade'}
-					money={false}
-					error={errorMessage}
-				/>
-				<DataByCompanyReservationsInTime
-					data={representativenessOfReservesByPeriod}
-					title={'Rep. por unidade'}
-					percent
-					error={errorMessage}
-				/>
+				<DeferredChartMount
+					minHeight={420}
+					name='reservations-consolidated-billing-by-period'>
+					<DataByCompanyReservationsInTime
+						data={billingOfReservationsByPeriod}
+						title={'Faturamento por unidade no tempo'}
+						money
+						error={errorMessage}
+					/>
+				</DeferredChartMount>
+				<DeferredChartMount
+					minHeight={420}
+					name='reservations-consolidated-number-by-period'>
+					<DataByCompanyReservationsInTime
+						data={numberOfReservationsPerPeriod}
+						title={'Número de reservas por unidade'}
+						money={false}
+						error={errorMessage}
+					/>
+				</DeferredChartMount>
+				<DeferredChartMount
+					minHeight={420}
+					name='reservations-consolidated-representation-by-period'>
+					<DataByCompanyReservationsInTime
+						data={representativenessOfReservesByPeriod}
+						title={'Rep. por unidade'}
+						percent
+						error={errorMessage}
+					/>
+				</DeferredChartMount>
 			</div>
 
 			<div className='flex flex-col gap-5'>
@@ -147,18 +160,26 @@ export function ReservationsKpiContent({
 				/>
 
 				<div className='w-full flex flex-col items-center justify-between gap-5'>
-					<DataByCompanyReservationsInTime
-						data={billingOfEcommerceByPeriod}
-						title={'Faturamento por unidade - Ecommerce'}
-						money
-						error={errorMessage}
-					/>
-					<DataByCompanyReservationsInTime
-						data={reservationsOfEcommerceByPeriod}
-						title={'Rep. por unidade - Ecommerce'}
-						percent
-						error={errorMessage}
-					/>
+					<DeferredChartMount
+						minHeight={420}
+						name='reservations-consolidated-ecommerce-billing'>
+						<DataByCompanyReservationsInTime
+							data={billingOfEcommerceByPeriod}
+							title={'Faturamento por unidade - Ecommerce'}
+							money
+							error={errorMessage}
+						/>
+					</DeferredChartMount>
+					<DeferredChartMount
+						minHeight={420}
+						name='reservations-consolidated-ecommerce-reservations'>
+						<DataByCompanyReservationsInTime
+							data={reservationsOfEcommerceByPeriod}
+							title={'Rep. por unidade - Ecommerce'}
+							percent
+							error={errorMessage}
+						/>
+					</DeferredChartMount>
 				</div>
 			</div>
 		</div>
