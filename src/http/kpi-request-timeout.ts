@@ -11,15 +11,21 @@ export async function withKpiRequestTimeout<T>(
 	operation: Promise<T>,
 	controller: AbortController,
 ): Promise<T> {
-	const timeout = setTimeout(() => {
-		const error = new Error('KPI request timeout');
-		error.name = 'AbortError';
-		controller.abort(error);
-	}, getKpiRequestTimeoutMs());
+	let timeout: ReturnType<typeof setTimeout> | undefined;
+	const timeoutPromise = new Promise<never>((_, reject) => {
+		timeout = setTimeout(() => {
+			const error = new Error('KPI request timeout');
+			error.name = 'AbortError';
+			controller.abort(error);
+			reject(error);
+		}, getKpiRequestTimeoutMs());
+	});
 
 	try {
-		return await operation;
+		return await Promise.race([operation, timeoutPromise]);
 	} finally {
-		clearTimeout(timeout);
+		if (timeout) {
+			clearTimeout(timeout);
+		}
 	}
 }

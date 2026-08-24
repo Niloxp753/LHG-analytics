@@ -355,15 +355,16 @@ test('selects one lifetime after the private reader outcome is known', async () 
 	expect(violations).toEqual([]);
 });
 
-test('keeps the KPI request promise in the React render context while timing out', async () => {
+test('rejects KPI requests independently while aborting the underlying operation', async () => {
 	const source = await readFile(
 		path.join(projectRoot, 'src/http/kpi-request-timeout.ts'),
 		'utf8',
 	);
 
-	expect(source).not.toContain('Promise.race');
+	expect(source).toContain('Promise.race');
 	expect(source).toContain('controller.abort(error)');
-	expect(source).toContain('return await operation');
+	expect(source).toContain('reject(error)');
+	expect(source).toContain('clearTimeout(timeout)');
 });
 
 test('aborts an in-flight KPI request with AbortError', async () => {
@@ -383,6 +384,36 @@ test('aborts an in-flight KPI request with AbortError', async () => {
 			{ name: 'AbortError' },
 		);
 		expect(controller.signal.aborted).toBe(true);
+	} finally {
+		if (previousTimeout === undefined) {
+			delete process.env.KPI_REQUEST_TIMEOUT_MS;
+		} else {
+			process.env.KPI_REQUEST_TIMEOUT_MS = previousTimeout;
+		}
+	}
+});
+
+test('rejects a KPI operation that does not observe the abort signal', async () => {
+	const previousTimeout = process.env.KPI_REQUEST_TIMEOUT_MS;
+	process.env.KPI_REQUEST_TIMEOUT_MS = '5';
+	const controller = new AbortController();
+	const operation = new Promise<never>(() => {});
+
+	try {
+		const outcome = await Promise.race([
+			withKpiRequestTimeout(operation, controller).then(
+				() => ({ status: 'resolved' as const }),
+				(error) => ({ status: 'rejected' as const, error }),
+			),
+			new Promise<{ status: 'timed-out' }>((resolve) => {
+				setTimeout(() => resolve({ status: 'timed-out' }), 100);
+			}),
+		]);
+
+		expect(outcome.status).toBe('rejected');
+		if (outcome.status === 'rejected') {
+			expect(outcome.error).toMatchObject({ name: 'AbortError' });
+		}
 	} finally {
 		if (previousTimeout === undefined) {
 			delete process.env.KPI_REQUEST_TIMEOUT_MS;
