@@ -6,7 +6,6 @@ import {
 	DASHBOARD_REQUEST_PATH_HEADER,
 	buildInternalRequestPath,
 } from '@/lib/session/request-path';
-import { SessionUnavailableError } from '@/lib/session/session-errors';
 import { extractSessionUser, type SessionUser } from '@/lib/session-user';
 import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
@@ -105,7 +104,7 @@ export async function requireDashboardSession(): Promise<SessionUser> {
 	}
 
 	if (session.status === 'unavailable') {
-		throw new SessionUnavailableError();
+		redirect('/api/session/logout');
 	}
 
 	const requestPath = await getRequestPath();

@@ -40,7 +40,10 @@ export default defineConfig({
 		{
 			name: 'chromium',
 			use: { ...devices['Desktop Chrome'] },
-			testIgnore: /calendar-mobile\.spec\.ts/,
+			testIgnore: [
+				/calendar-mobile\.spec\.ts/,
+				/refresh-dashboard-flow\.spec\.ts/,
+			],
 		},
 		{
 			name: 'webkit-iphone',

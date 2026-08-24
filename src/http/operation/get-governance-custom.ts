@@ -12,7 +12,8 @@ import {
   getUnitApiClient,
 } from "../api-client";
 import { FetchFailedError } from "../conditional-cache";
-import { logFetchFailed, logRequestTimeout } from "../logging";
+import { handleKpiFetchFailure } from "../kpi-fetch-failure";
+import { logRequestTimeout } from "../logging";
 import { readJsonResponse } from "../read-json-response";
 import { isRetryableError, isRetryableStatus } from "../retry";
 import { withKpiRequestTimeout } from "../kpi-request-timeout";
@@ -129,8 +130,7 @@ export async function getOperationCustom(
     return unwrapKpiCacheResult(result);
   } catch (error) {
     if (error instanceof FetchFailedError) {
-      logFetchFailed(error);
-      return null;
+      return handleKpiFetchFailure(error);
     }
     if (error instanceof Error && error.name === "AbortError") {
       logRequestTimeout("getOperationCustom");

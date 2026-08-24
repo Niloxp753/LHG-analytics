@@ -5,7 +5,8 @@ import { type DashboardCacheMode } from "@/lib/dashboard-cache-policy";
 import { cacheLife, cacheTag } from "next/cache";
 import { consolidated_api } from "../api-client";
 import { FetchFailedError } from "../conditional-cache";
-import { logFetchFailed, logRequestTimeout } from "../logging";
+import { handleKpiFetchFailure } from "../kpi-fetch-failure";
+import { logRequestTimeout } from "../logging";
 import { isRetryableError, isRetryableStatus } from "../retry";
 import { withKpiRequestTimeout } from "../kpi-request-timeout";
 import {
@@ -101,8 +102,7 @@ export async function getBookingsUnified(
     return unwrapKpiCacheResult(result);
   } catch (error) {
     if (error instanceof FetchFailedError) {
-      logFetchFailed(error);
-      return null;
+      return handleKpiFetchFailure(error);
     }
     if (error instanceof Error && error.name === "AbortError") {
       logRequestTimeout("getBookingsUnified");

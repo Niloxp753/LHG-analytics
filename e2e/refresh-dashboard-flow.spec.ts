@@ -1,9 +1,12 @@
 import { expect, test, type APIResponse } from '@playwright/test';
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
 
-const AUTH_PORT = process.env.PW_AUTH_PORT
-	? Number(process.env.PW_AUTH_PORT)
-	: 35555;
+const AUTH_PORT = Number(process.env.PW_AUTH_PORT);
+if (!Number.isInteger(AUTH_PORT) || AUTH_PORT <= 0 || AUTH_PORT > 65_535) {
+	throw new Error(
+		'PW_AUTH_PORT must be provided by playwright.refresh-flow.config.ts',
+	);
+}
 const AUTH_BASE_PATH = (process.env.PW_AUTH_BASE_PATH ?? '').replace(/\/+$/, '');
 const AUTH_API_PATH = AUTH_BASE_PATH.endsWith('/api')
 	? AUTH_BASE_PATH
@@ -12,8 +15,11 @@ const AUTH_REFRESH_PATH = `${AUTH_API_PATH}/refresh`;
 const AUTH_ME_PATH = `${AUTH_API_PATH}/me`;
 
 const ORIGINAL_DASHBOARD = '/general?menu=general&set=ultimos_7_dias';
+const KPI_UNAUTHORIZED_URL =
+	'/restaurant?menu=restaurant&set=custom&startDate=2091-01-01&endDate=2091-01-07';
 const SAFE_RETURN_TO = '/general?menu=general&set=ultimos_7_dias';
 const FAILURE_REASON = 'session_refresh_failed';
+const SESSION_FAILURE_REASON = 'session_validation_failed';
 const SENSITIVE_UPSTREAM_VALUE = 'upstream-secret-token-value';
 const TRUSTED_NAVIGATION_HEADERS = {
 	'Sec-Fetch-Site': 'same-origin',
@@ -30,7 +36,9 @@ type Scenario =
 	| 'refresh-network'
 	| 'refresh-timeout'
 	| 'verification-network'
-	| 'verification-timeout-body';
+	| 'verification-timeout-body'
+	| 'session-unavailable'
+	| 'kpi-unauthorized';
 
 type RecordedAuthRequest = {
 	method: string;
@@ -41,6 +49,42 @@ type RecordedAuthRequest = {
 
 let scenario: Scenario = 'success';
 let authRequests: RecordedAuthRequest[] = [];
+const pendingAuthTimers = new Set<NodeJS.Timeout>();
+
+function scheduleAuthResponse(callback: () => void, delay: number) {
+	const timer = setTimeout(() => {
+		pendingAuthTimers.delete(timer);
+		callback();
+	}, delay);
+	pendingAuthTimers.add(timer);
+}
+
+function clearPendingAuthTimers() {
+	for (const timer of pendingAuthTimers) {
+		clearTimeout(timer);
+	}
+	pendingAuthTimers.clear();
+}
+
+async function stopAuthServer(
+	server: ReturnType<typeof createServer>,
+): Promise<void> {
+	if (!server.listening) {
+		server.closeAllConnections();
+		return;
+	}
+
+	await new Promise<void>((resolve, reject) => {
+		server.close((error) => {
+			if (error) {
+				reject(error);
+				return;
+			}
+			resolve();
+		});
+		server.closeAllConnections();
+	});
+}
 
 function json(res: ServerResponse, status: number, body: unknown) {
 	res.statusCode = status;
@@ -78,7 +122,7 @@ function handleAuthRequest(req: IncomingMessage, res: ServerResponse) {
 		}
 
 		if (scenario === 'refresh-timeout') {
-			setTimeout(() => {
+			scheduleAuthResponse(() => {
 				if (!res.destroyed) {
 					json(res, 200, { ignored: SENSITIVE_UPSTREAM_VALUE });
 				}
@@ -111,6 +155,29 @@ function handleAuthRequest(req: IncomingMessage, res: ServerResponse) {
 	}
 
 	if (req.url === AUTH_ME_PATH && req.method === 'GET') {
+		if (scenario === 'session-unavailable') {
+			json(res, 503, { detail: SENSITIVE_UPSTREAM_VALUE });
+			return;
+		}
+
+		if (scenario === 'kpi-unauthorized') {
+			if (!cookie.includes('access_token=kpi-token')) {
+				json(res, 401, { detail: SENSITIVE_UPSTREAM_VALUE });
+				return;
+			}
+
+			json(res, 200, {
+				user: {
+					email: 'admin@local.test',
+					role: 'ADMIN',
+					unit: 'LHG',
+					name: 'Admin Local',
+					cpf: '359.267.460-94',
+				},
+			});
+			return;
+		}
+
 		if (!cookie.includes('access_token=fresh-token')) {
 			json(res, 401, { detail: SENSITIVE_UPSTREAM_VALUE });
 			return;
@@ -141,7 +208,7 @@ function handleAuthRequest(req: IncomingMessage, res: ServerResponse) {
 		if (scenario === 'verification-timeout-body') {
 			res.writeHead(200, { 'content-type': 'application/json' });
 			res.write('{"user":{"email":"admin@local.test"');
-			setTimeout(() => {
+			scheduleAuthResponse(() => {
 				if (!res.destroyed) {
 					res.end('}}');
 				}
@@ -225,34 +292,89 @@ async function expectFailedTransaction(response: APIResponse) {
 }
 
 test.describe('transparent refresh route handler', () => {
+	test.describe.configure({ mode: 'serial' });
+
 	let authServer: ReturnType<typeof createServer> | null = null;
 
 	test.beforeAll(async () => {
 		authServer = createServer(handleAuthRequest);
-		await new Promise<void>((resolve) => {
-			authServer?.listen(AUTH_PORT, '127.0.0.1', resolve);
-		});
+		const server = authServer;
+		try {
+			await new Promise<void>((resolve, reject) => {
+				server.once('error', reject);
+				server.listen(AUTH_PORT, '127.0.0.1', () => {
+					server.off('error', reject);
+					resolve();
+				});
+			});
+		} catch (error) {
+			server.closeAllConnections();
+			authServer = null;
+			throw error;
+		}
 	});
 
 	test.afterAll(async () => {
-		await new Promise<void>((resolve, reject) => {
-			if (!authServer) {
-				resolve();
-				return;
-			}
-			authServer.close((error) => {
-				if (error) {
-					reject(error);
-					return;
-				}
-				resolve();
-			});
-		});
+		clearPendingAuthTimers();
+		const server = authServer;
+		authServer = null;
+		if (server) {
+			await stopAuthServer(server);
+		}
 	});
 
 	test.beforeEach(() => {
 		scenario = 'success';
 		authRequests = [];
+	});
+
+	test('logs out and redirects to login when /me cannot validate the session', async ({
+		page,
+	}, testInfo) => {
+		scenario = 'session-unavailable';
+		const baseURL = testInfo.project.use.baseURL;
+		if (!baseURL) throw new Error('Missing baseURL in Playwright config');
+
+		const cookieUrl = `${new URL(baseURL).origin}/`;
+		await page.context().addCookies([
+			{ name: 'access_token', value: 'unavailable-token', url: cookieUrl },
+			{ name: 'refresh_token', value: 'unavailable-refresh', url: cookieUrl },
+		]);
+
+		await page.goto(ORIGINAL_DASHBOARD);
+		await expect(page).toHaveURL(
+			new RegExp(`/login\\?reason=${SESSION_FAILURE_REASON}$`),
+		);
+		await expect(
+			page.getByText('Sessão temporariamente indisponível'),
+		).toHaveCount(0);
+
+		const cookies = await page.context().cookies();
+		expect(cookies.find((cookie) => cookie.name === 'access_token')).toBeUndefined();
+		expect(cookies.find((cookie) => cookie.name === 'refresh_token')).toBeUndefined();
+	});
+
+	test('logs out when the authenticated dashboard receives a KPI 401', async ({
+		page,
+	}, testInfo) => {
+		scenario = 'kpi-unauthorized';
+		const baseURL = testInfo.project.use.baseURL;
+		if (!baseURL) throw new Error('Missing baseURL in Playwright config');
+
+		const cookieUrl = `${new URL(baseURL).origin}/`;
+		await page.context().addCookies([
+			{ name: 'access_token', value: 'kpi-token', url: cookieUrl },
+			{ name: 'refresh_token', value: 'kpi-refresh', url: cookieUrl },
+		]);
+
+		await page.goto(KPI_UNAUTHORIZED_URL);
+		await expect(page).toHaveURL(
+			new RegExp(`/login\\?reason=${SESSION_FAILURE_REASON}$`),
+		);
+
+		const cookies = await page.context().cookies();
+		expect(cookies.find((cookie) => cookie.name === 'access_token')).toBeUndefined();
+		expect(cookies.find((cookie) => cookie.name === 'refresh_token')).toBeUndefined();
 	});
 
 	test('returns a bodyless private 303 after refresh and one verified /api/me', async ({
