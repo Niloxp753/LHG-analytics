@@ -100,18 +100,16 @@ export function GeneralKpiContent({
 				eager
 				minHeight={420}
 				name='general-consolidated-summary'>
-				<div className='flex gap-5 flex-col md:flex-row w-full h-full'>
-					<div className='md:w-1/3 w-full h-full'>
-						<InvoicingXUnity
-							error={errorMessage}
-							categories={revenueByCompany?.categories}
-							series={revenueByCompany?.series}
-						/>
-					</div>
-					<div className='md:w-2/3 h-full'>
-						<LocationsxUnity data={rentalsByDate} />
-					</div>
-				</div>
+				<InvoicingXUnity
+					error={errorMessage}
+					categories={revenueByCompany?.categories}
+					series={revenueByCompany?.series}
+				/>
+			</DeferredChartMount>
+			<DeferredChartMount
+				minHeight={420}
+				name='general-consolidated-rentals'>
+				<LocationsxUnity data={rentalsByDate} />
 			</DeferredChartMount>
 			<DeferredChartMount
 				minHeight={700}

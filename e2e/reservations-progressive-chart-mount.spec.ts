@@ -132,12 +132,12 @@ test.describe('Reservations progressive chart browser behavior', () => {
 			page.getByRole('heading', { name: 'Indicadores de E-Commerce' }),
 		).toBeVisible();
 		await expect(
-			page.locator('[data-chart-deferred="reservations-consolidated-ecommerce-billing"]'),
+			page.locator('[data-chart-deferred="reservations-consolidated-ecommerce-billing"]:visible'),
 		).toHaveAttribute('data-chart-state', 'placeholder');
 		const countBeforeScroll = await waitForStableBookingKpiCount(page, request);
 
 		const finalChart = page.locator(
-			'[data-chart-deferred="reservations-consolidated-ecommerce-reservations"]',
+			'[data-chart-deferred="reservations-consolidated-ecommerce-reservations"]:visible',
 		);
 		await finalChart.scrollIntoViewIfNeeded();
 		await expect(finalChart).toHaveAttribute('data-chart-state', 'mounted');

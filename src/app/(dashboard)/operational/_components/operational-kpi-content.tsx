@@ -64,7 +64,7 @@ export function OperationalKpiContent({
 					eager
 					minHeight={420}
 					name='operational-consolidated-summary'>
-					<div className='w-full h-full flex gap-5 flex-col md:flex-row'>
+					<div className='w-full h-full flex gap-5 flex-col'>
 						<TotalCleaningUnity
 							data={cleaningsByCompany}
 							error={errorMessage}

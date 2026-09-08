@@ -2,8 +2,8 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-const PieChartsApex = dynamic(
-	() => import('@/app/(dashboard)/_components/charts/PieChartsApex'),
+const ColumnChart = dynamic(
+	() => import('@/app/(dashboard)/_components/charts/ColumnChart'),
 	{ ssr: false },
 );
 
@@ -22,14 +22,14 @@ export default function InvoicingXUnity({
 		error ?? (series === null ? 'Não foi possível carregar os dados.' : undefined);
 
 	return (
-		<>
-			<PieChartsApex
-				money
-				palette='units'
-				error={resolvedError}
-				series={series ?? undefined}
-				labels={categories}
-			/>
-		</>
+		<ColumnChart
+			title='Faturamento por unidade'
+			money
+			palette='units'
+			height={400}
+			error={resolvedError}
+			series={series}
+			categories={categories}
+		/>
 	);
 }

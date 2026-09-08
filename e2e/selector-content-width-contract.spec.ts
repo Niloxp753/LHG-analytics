@@ -21,7 +21,7 @@ test('keeps the selected period label intrinsic instead of truncating it', () =>
 	);
 
 	expect(periodSelector).toContain("'w-full lg:w-fit'");
-	expect(periodSelector).toContain('lg:w-fit lg:min-w-40');
+	expect(periodSelector).toContain('lg:w-fit lg:min-w-56');
 	expect(periodSelector).toContain('whitespace-nowrap');
 	expect(periodSelector).not.toContain(
 		"<span className='truncate'>{selectedLabel}</span>",

@@ -4,8 +4,8 @@
 
 import dynamic from 'next/dynamic';
 import React from 'react';
-const PieChartsApex = dynamic(
-	() => import('@/app/(dashboard)/_components/charts/PieChartsApex'),
+const ColumnChart = dynamic(
+	() => import('@/app/(dashboard)/_components/charts/ColumnChart'),
 	{ ssr: false },
 );
 
@@ -24,13 +24,13 @@ export default function TotalCleaningUnity({ data, error }: TotalCleaningUnityPr
 	const series = data?.series?.[0]?.data;
 
 	return (
-		<PieChartsApex
-			height={340}
+		<ColumnChart
+			height={400}
 			palette='units'
 			error={resolvedError}
 			series={series ?? undefined}
 			title='Total de Limpezas por Unidade'
-			labels={data?.categories}
+			categories={data?.categories}
 		/>
 	);
 }

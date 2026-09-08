@@ -81,7 +81,7 @@ export function RestaurantKpiContent({
 			className='w-full flex flex-col h-full gap-5 px-3 md:px-0'>
 			<BigNumbersPage description={description} data={bigNumbers} />
 
-			<div className='flex gap-5 flex-col md:flex-row mx-auto w-full h-full'>
+			<div className='flex gap-5 flex-col mx-auto w-full h-full'>
 				<UnityxRevenue data={revenueByCompany} error={errorMessage} />
 				<UnityxSales data={salesByCompany} error={errorMessage} />
 			</div>

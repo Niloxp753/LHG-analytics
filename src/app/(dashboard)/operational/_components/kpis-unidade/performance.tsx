@@ -3,8 +3,8 @@
 
 import dynamic from 'next/dynamic';
 import React from 'react';
-const PieChartsApex = dynamic(
-	() => import('@/app/(dashboard)/_components/charts/PieChartsApex'),
+const ColumnChart = dynamic(
+	() => import('@/app/(dashboard)/_components/charts/ColumnChart'),
 	{ ssr: false },
 );
 
@@ -23,11 +23,12 @@ export default function Performance({ data }: PerformanceProps) {
 		supPerformance === null ? 'Não foi possível carregar os dados.' : undefined;
 
 	return (
-		<PieChartsApex
+		<ColumnChart
+			comparison
 			error={error}
-			labels={supPerformance?.categories}
+			categories={supPerformance?.categories}
 			series={supPerformance?.series ?? undefined}
-			height={340}
+			height={400}
 			title='Performance de Supervisores'
 		/>
 	);

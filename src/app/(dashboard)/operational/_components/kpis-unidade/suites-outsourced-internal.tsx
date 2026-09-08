@@ -4,8 +4,8 @@
 import dynamic from "next/dynamic";
 import { buildShiftCleaningPieData } from "./shift-cleaning-pie-data";
 
-const PieChartsApex = dynamic(
-  () => import("@/app/(dashboard)/_components/charts/PieChartsApex"),
+const ColumnChart = dynamic(
+  () => import("@/app/(dashboard)/_components/charts/ColumnChart"),
   { ssr: false },
 );
 
@@ -17,11 +17,12 @@ export default function SuitesOutsourcedInternal({ data }: entryData) {
   const pieData = buildShiftCleaningPieData(data);
 
   return (
-    <PieChartsApex
+    <ColumnChart
+      comparison
       error={pieData.error}
-      labels={pieData.labels}
+      categories={pieData.labels}
       series={pieData.series}
-      height={340}
+      height={400}
       title="Limpezas por Turno"
     />
   );

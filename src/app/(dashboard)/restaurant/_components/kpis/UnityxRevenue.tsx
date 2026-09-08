@@ -4,8 +4,8 @@
 import dynamic from 'next/dynamic';
 import React from 'react';
 
-const PieChartsApex = dynamic(
-	() => import('@/app/(dashboard)/_components/charts/PieChartsApex'),
+const ColumnChart = dynamic(
+	() => import('@/app/(dashboard)/_components/charts/ColumnChart'),
 	{ ssr: false },
 );
 
@@ -21,7 +21,7 @@ interface UnityxRevenueProps {
 	error?: string | boolean;
 }
 
-function normalizePieInput(data?: EntryData | EntryData[] | null) {
+function normalizeComparisonInput(data?: EntryData | EntryData[] | null) {
 	const entry = Array.isArray(data) ? data[0] : data;
 	const categories = entry?.categories;
 	const rawSeries = entry?.series;
@@ -56,19 +56,19 @@ function normalizePieInput(data?: EntryData | EntryData[] | null) {
 }
 
 export default function UnityxRevenue({ data, error }: UnityxRevenueProps) {
-	const normalized = normalizePieInput(data);
+	const normalized = normalizeComparisonInput(data);
 	const resolvedError =
 		error ?? (data === null ? 'Não foi possível carregar os dados.' : undefined);
 
 	return (
-		<PieChartsApex
+		<ColumnChart
 			money
 			palette='units'
-			height={280}
+			height={400}
 			title='Receita de A&B por unidade'
 			error={resolvedError}
 			series={normalized.series}
-			labels={normalized.categories}
+			categories={normalized.categories}
 		/>
 	);
 }

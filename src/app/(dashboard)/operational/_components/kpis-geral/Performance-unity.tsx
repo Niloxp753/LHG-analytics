@@ -3,8 +3,8 @@
 
 import dynamic from 'next/dynamic';
 import React from 'react';
-const PieChartsApex = dynamic(
-	() => import('@/app/(dashboard)/_components/charts/PieChartsApex'),
+const ColumnChart = dynamic(
+	() => import('@/app/(dashboard)/_components/charts/ColumnChart'),
 	{ ssr: false },
 );
 
@@ -23,14 +23,13 @@ export default function PerformanceUnity({ data, error }: PerformanceUnityProps)
 	const series = data?.series?.[0]?.data;
 
 	return (
-		<PieChartsApex
-			height={340}
+		<ColumnChart
+			height={400}
 			palette='units'
 			error={resolvedError}
 			series={series ?? undefined}
-			categories={['Lush Ipiranga', 'Lush Lapa', 'Andar de Cima', 'Tout']}
 			title='Total de Vistorias por Unidade'
-			labels={data?.categories}
+			categories={data?.categories}
 		/>
 	);
 }

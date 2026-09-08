@@ -115,6 +115,22 @@ export const api_getan_pq_oeste = ky.create({
   fetch: backendFetch,
 });
 
+export const api_getan_independencia = ky.create({
+  prefixUrl: process.env.BACKEND_ENDPOINT_GETAN_INDEPENDENCIA,
+  timeout: 60000,
+  retry: 0,
+  mode: "cors",
+  fetch: backendFetch,
+});
+
+export const api_getan_novo_mundo = ky.create({
+  prefixUrl: process.env.BACKEND_ENDPOINT_GETAN_NOVO_MUNDO,
+  timeout: 60000,
+  retry: 0,
+  mode: "cors",
+  fetch: backendFetch,
+});
+
 export const auth_api = ky.create({
   prefixUrl: process.env.BACKEND_AUTH_ENDPOINT,
   timeout: 60000,
@@ -149,5 +165,9 @@ export function getUnitApiClient(company: DashboardCompanyKey): typeof api {
       return api_getan_garavelo;
     case "getan_pq_oeste":
       return api_getan_pq_oeste;
+    case "getan_independencia":
+      return api_getan_independencia;
+    case "getan_novo_mundo":
+      return api_getan_novo_mundo;
   }
 }

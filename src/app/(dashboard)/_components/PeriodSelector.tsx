@@ -81,7 +81,7 @@ export default function PeriodSelector({
 						disabled={isPending}
 						role='combobox'
 						variant='outline'
-						className='w-full justify-between gap-2 border-zinc-700 bg-zinc-800 px-3 font-medium normal-case text-zinc-100 hover:border-violet-400 hover:bg-zinc-800 hover:text-white lg:w-fit lg:min-w-40'>
+						className='w-full justify-between gap-2 border-zinc-700 bg-zinc-800 px-3 font-medium normal-case text-zinc-100 hover:border-violet-400 hover:bg-zinc-800 hover:text-white lg:w-fit lg:min-w-56'>
 						<span className='flex items-center gap-2 whitespace-nowrap'>
 							{isPending ? (
 								<Loader2
@@ -104,7 +104,7 @@ export default function PeriodSelector({
 				</PopoverTrigger>
 				<PopoverContent
 					align='start'
-					className='w-[var(--radix-popover-trigger-width)] border-zinc-700 bg-zinc-900 p-0'>
+					className='min-w-56 w-[var(--radix-popover-trigger-width)] border-zinc-700 bg-zinc-900 p-0'>
 					<Command className='bg-zinc-900 text-zinc-100'>
 						<CommandList>
 							<CommandGroup heading='Períodos disponíveis'>
@@ -157,11 +157,11 @@ export default function PeriodSelector({
 												onNavigate?.();
 												startTransition(() => router.push(href));
 											}}
-											className='gap-2 py-2.5 text-zinc-200 data-[selected=true]:bg-zinc-800 data-[selected=true]:text-white'>
+											className='gap-2 whitespace-nowrap py-2.5 text-zinc-200 data-[selected=true]:bg-zinc-800 data-[selected=true]:text-white'>
 											<Check
 												aria-hidden='true'
 												className={cn(
-													'size-4 text-violet-400',
+													'size-4 shrink-0 text-violet-400',
 													isSelected ? 'opacity-100' : 'opacity-0',
 												)}
 											/>

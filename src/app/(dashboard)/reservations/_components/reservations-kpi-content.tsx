@@ -104,7 +104,7 @@ export function ReservationsKpiContent({
 				/>
 			</div>
 
-			<div className='flex flex-col md:flex-row gap-5'>
+			<div className='flex flex-col gap-5'>
 				<RevenueByCompany
 					data={revenueByCompany}
 					title={'Faturamento por unidade'}

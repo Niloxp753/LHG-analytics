@@ -96,7 +96,7 @@ export async function StandardOperationalUnitDataSection({
 				eager
 				minHeight={420}
 				name='operational-unit-summary'>
-				<div className='flex items-center gap-5 justify-between flex-col md:flex-row'>
+				<div className='flex items-center gap-5 justify-between flex-col'>
 					<Performance data={resp.SupervisorsPerformance} />
 					<SuitesOutsourcedInternal data={resp.ShiftCleaning} />
 				</div>

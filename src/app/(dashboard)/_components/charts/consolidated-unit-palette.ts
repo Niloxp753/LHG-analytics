@@ -16,7 +16,11 @@ type UnitColorKey =
   | "liv"
   | "altana"
   | "getanGaravelo"
-  | "getanParqueOeste";
+  | "getanParqueOeste"
+  | "getanIndependencia"
+  | "getanNovoMundo"
+  | "getanVeraCruz"
+  | "getanGrid";
 
 export const UNIT_CHART_COLORS: Record<UnitColorKey, UnitColorToken> = {
   ipiranga: {
@@ -59,6 +63,26 @@ export const UNIT_CHART_COLORS: Record<UnitColorKey, UnitColorToken> = {
     series: colors.lime[400],
     accent: colors.lime[600],
   },
+  getanIndependencia: {
+    canonicalLabel: "Getan Independência",
+    series: colors.cyan[400],
+    accent: colors.cyan[600],
+  },
+  getanNovoMundo: {
+    canonicalLabel: "Getan Novo Mundo",
+    series: colors.emerald[400],
+    accent: colors.emerald[600],
+  },
+  getanVeraCruz: {
+    canonicalLabel: "Getan Vera Cruz",
+    series: colors.pink[400],
+    accent: colors.pink[600],
+  },
+  getanGrid: {
+    canonicalLabel: "Getan Grid",
+    series: colors.teal[400],
+    accent: colors.teal[600],
+  },
 };
 
 const UNIT_COLOR_KEY_BY_ALIAS: Record<string, UnitColorKey> = {
@@ -78,6 +102,20 @@ const UNIT_COLOR_KEY_BY_ALIAS: Record<string, UnitColorKey> = {
   "getan pq oeste": "getanParqueOeste",
   getan_pq_oeste: "getanParqueOeste",
   getanpqoeste: "getanParqueOeste",
+  "getan - independencia": "getanIndependencia",
+  "getan independencia": "getanIndependencia",
+  getan_independencia: "getanIndependencia",
+  getanindependencia: "getanIndependencia",
+  "getan - novo mundo": "getanNovoMundo",
+  "getan novo mundo": "getanNovoMundo",
+  getan_novo_mundo: "getanNovoMundo",
+  getannovomundo: "getanNovoMundo",
+  "getan vera cruz": "getanVeraCruz",
+  getan_vera_cruz: "getanVeraCruz",
+  getanveracruz: "getanVeraCruz",
+  "getan grid": "getanGrid",
+  getan_grid: "getanGrid",
+  getangrid: "getanGrid",
 };
 
 function normalizeLabelToken(label: string) {
@@ -154,11 +192,7 @@ export function resolveChartPalette({
   const seriesColors = resolveUnitPaletteFromLabels(identityLabels);
   const accentColors = resolveUnitAccentPaletteFromLabels(identityLabels);
 
-  if (
-    seriesColors.length === 0 ||
-    seriesColors.some((color) => typeof color !== "string") ||
-    accentColors.some((color) => typeof color !== "string")
-  ) {
+  if (seriesColors.length === 0) {
     return {
       seriesColors: fallbackSeriesColors,
       accentColors: fallbackAccentColors,
@@ -166,7 +200,7 @@ export function resolveChartPalette({
   }
 
   return {
-    seriesColors: seriesColors as string[],
-    accentColors: accentColors as string[],
+    seriesColors: seriesColors.map((color) => color ?? colors.slate[400]),
+    accentColors: accentColors.map((color) => color ?? colors.slate[600]),
   };
 }

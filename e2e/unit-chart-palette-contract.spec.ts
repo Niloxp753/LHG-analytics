@@ -8,6 +8,34 @@ function loadPaletteModule() {
 }
 
 test.describe('unit chart palette contract', () => {
+	test('preserves unit colors when a comparison includes an unknown unit', () => {
+		const { resolveChartPalette } = loadPaletteModule();
+		const labels = ['Altana', 'Unidade nova', 'Getan Independência', 'Getan Novo Mundo'];
+		const fromLabels = resolveChartPalette({
+			palette: 'units', labels,
+			fallbackSeriesColors: ['#111111'],
+			fallbackAccentColors: ['#222222'],
+		});
+		const fromSeries = resolveChartPalette({
+			palette: 'units', seriesNames: [...labels].reverse(),
+			fallbackSeriesColors: ['#333333'],
+			fallbackAccentColors: ['#444444'],
+		});
+		expect(fromLabels.seriesColors).toEqual(['#fb923c', '#94a3b8', '#22d3ee', '#34d399']);
+		expect(fromSeries.seriesColors).toEqual([...fromLabels.seriesColors].reverse());
+		expect(fromSeries.accentColors).toEqual([...fromLabels.accentColors].reverse());
+	});
+
+	test('assigns distinct stable colors to Vera Cruz and Grid in consolidated data', () => {
+		const { resolveUnitPaletteFromLabels } = loadPaletteModule();
+		expect(resolveUnitPaletteFromLabels(['Getan Vera Cruz', 'Getan Grid'])).toEqual([
+			'#f472b6', '#2dd4bf',
+		]);
+		expect(resolveUnitPaletteFromLabels(['getan_grid', 'getan_vera_cruz'])).toEqual([
+			'#2dd4bf', '#f472b6',
+		]);
+	});
+
 	test('maps all eight units to the approved colors', async () => {
 		const {
 			resolveUnitAccentPaletteFromLabels,

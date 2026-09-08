@@ -6,7 +6,16 @@ import ResponsiveContainerChart from '../ResponsiveContainerChart';
 import DataState from '../DataState';
 import EmptyState from '../EmptyState';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useDashboardViewport } from '@/hooks/use-dashboard-viewport';
 import { resolveXAxisLabelPolicy } from './chart-density';
+import { sortUnitComparison } from './unit-comparison-data';
+import MobileBarChart from './MobileBarChart';
+import { DEFAULT_BRL_CURRENCY_CONFIG, formatCurrency } from '@/lib/currency-format';
+import {
+	normalizeUnitLabel,
+	resolveUnitPaletteFromLabels,
+	type ChartPaletteMode,
+} from './consolidated-unit-palette';
 
 const DEFAULT_CATEGORIES = [
 	'3 horas',
@@ -16,6 +25,7 @@ const DEFAULT_CATEGORIES = [
 	'Diária',
 	'Pernoite',
 ];
+const DEFAULT_COLORS = ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9', '#fb7185'];
 
 interface ColumnChartProps {
 	title: string;
@@ -24,10 +34,35 @@ interface ColumnChartProps {
 	series?: ApexAxisChartSeries | ApexNonAxisChartSeries | null;
 	error?: string | boolean;
 	tooltipLabel?: 'series' | 'category';
+	money?: boolean;
+	palette?: ChartPaletteMode;
+	comparison?: boolean;
+	height?: number;
 }
 
 export default function ColumnChart(props: ColumnChartProps) {
-	const categories = props.categories ?? DEFAULT_CATEGORIES;
+	const unitPalette = props.palette === 'units';
+	const comparison = unitPalette || props.comparison;
+	const ranked = comparison && Array.isArray(props.series)
+		&& props.series.every((value) => typeof value === 'number')
+		? sortUnitComparison(props.categories ?? [], props.series as number[])
+		: undefined;
+	const categories = ranked?.categories ?? props.categories ?? (comparison ? [] : DEFAULT_CATEGORIES);
+	const series = ranked
+		? [{ name: props.title, data: ranked.series }]
+		: props.series;
+	const viewport = useDashboardViewport();
+	const mobile = comparison && viewport === 'mobile';
+	const height = props.height ?? 280;
+	const chartLabels = unitPalette ? categories.map(normalizeUnitLabel) : categories;
+	const chartColors = unitPalette
+		? resolveUnitPaletteFromLabels(categories).map((color) => color ?? '#94a3b8')
+		: categories.map((label) => DEFAULT_COLORS[Math.max(0, props.categories?.indexOf(label) ?? 0) % DEFAULT_COLORS.length]);
+	const formatCompactValue = (value: number) =>
+		formatCurrency(value, DEFAULT_BRL_CURRENCY_CONFIG, { notation: 'compact' });
+	const formatValue = (value: number) => props.money
+		? formatCompactValue(value)
+		: value.toLocaleString('pt-BR', { maximumFractionDigits: 2 });
 	const desktopXAxisLabels = resolveXAxisLabelPolicy(categories, 12);
 	const mobileXAxisLabels = resolveXAxisLabelPolicy(categories, 6);
 	const hasSeriesData = Array.isArray(props.series)
@@ -40,7 +75,7 @@ export default function ColumnChart(props: ColumnChartProps) {
 				return Array.isArray(data) ? data.length > 0 : false;
 		  })
 		: false;
-	const hasCategories = props.categories ? props.categories.length > 0 : true;
+	const hasCategories = comparison || props.categories ? categories.length > 0 : true;
 
 	const isEmptyData = !!props.series && (!hasSeriesData || !hasCategories);
 	const isLoading = typeof props.series === 'undefined';
@@ -50,7 +85,6 @@ export default function ColumnChart(props: ColumnChartProps) {
 
 	const options: ApexCharts.ApexOptions = {
 		chart: {
-			id: 'bar-chart',
 			stacked: false,
 			type: 'bar',
 
@@ -81,18 +115,22 @@ export default function ColumnChart(props: ColumnChartProps) {
 		dataLabels: {
 			enabled: true,
 			distributed: false,
+			...(props.money || comparison ? { formatter: formatValue } : {}),
+			offsetY: comparison ? -20 : 0,
 			background: {
-				enabled: true,
+				enabled: !comparison,
 				borderRadius: 4,
 				padding: 12,
 				borderWidth: 1,
 			},
 			style: {
-				colors: ['#7c3aed', '#2563eb', '#4f46e5', '#c026d3', '#e11d48'],
+				colors: comparison ? ['#f4f4f5'] : ['#7c3aed', '#2563eb', '#4f46e5', '#c026d3', '#e11d48'],
+				...(comparison ? { fontSize: '12px' } : {}),
 			},
 		},
-		colors: ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9'],
-		fill: {
+		colors: comparison ? chartColors : ['#a78bfa', '#60a5fa', '#818cf8', '#e879f9'],
+		...(comparison ? { legend: { show: false } } : {}),
+		fill: comparison ? { type: 'solid', opacity: 1 } : {
 			gradient: {
 				opacityFrom: 0.5,
 				opacityTo: 0.2,
@@ -101,22 +139,34 @@ export default function ColumnChart(props: ColumnChartProps) {
 		},
 		xaxis: {
 			type: 'category',
-			tickAmount: desktopXAxisLabels.tickAmount,
+			tickAmount: comparison ? undefined : desktopXAxisLabels.tickAmount,
 			axisBorder: { show: true },
-			categories,
+			categories: comparison
+				? chartLabels.map((label) => label.split(' '))
+				: categories,
 			labels: {
-				hideOverlappingLabels: true,
-				rotate: desktopXAxisLabels.rotate,
-				rotateAlways: desktopXAxisLabels.rotate !== 0,
+				hideOverlappingLabels: !comparison,
+				rotate: comparison ? 0 : desktopXAxisLabels.rotate,
+				rotateAlways: !comparison && desktopXAxisLabels.rotate !== 0,
 				trim: false,
+				...(comparison ? { style: { fontSize: '12px' } } : {}),
 			},
 		},
-		yaxis: { show: false, labels: { show: true } },
+		yaxis: {
+			show: !!props.money || comparison,
+			...(props.money || comparison ? { min: 0 } : {}),
+			labels: {
+				show: true,
+				...(props.money || comparison ? { formatter: formatValue } : {}),
+			},
+		},
 		stroke: { curve: 'smooth' },
 		plotOptions: {
 			bar: {
 				borderRadius: 4,
-				columnWidth: 24,
+				columnWidth: comparison ? '55%' : 24,
+				distributed: !!comparison,
+				...(comparison ? { dataLabels: { position: 'top' } } : {}),
 				borderRadiusApplication: 'end',
 				horizontal: false,
 				rangeBarOverlap: true,
@@ -142,8 +192,15 @@ export default function ColumnChart(props: ColumnChartProps) {
 							);
 						},
 				  }
-				: undefined,
-		responsive: [
+				: props.money || comparison
+					? {
+						x: { formatter: (_value, context) => chartLabels[context?.dataPointIndex ?? -1] ?? '' },
+						y: { formatter: (value) => props.money
+							? formatCurrency(value, DEFAULT_BRL_CURRENCY_CONFIG)
+							: formatValue(value) },
+					}
+					: undefined,
+		responsive: comparison ? [] : [
 			{
 				breakpoint: 580,
 				options: {
@@ -166,16 +223,35 @@ export default function ColumnChart(props: ColumnChartProps) {
 			<DataState
 				isLoading={isLoading}
 				error={error}
-				skeleton={<Skeleton className='w-full h-[280px]' />}>
+				skeleton={<Skeleton className='w-full' style={{ height }} />}>
 				{isEmptyData ? (
-					<EmptyState title={props.title} minHeight={280} />
+					<EmptyState title={props.title} minHeight={height} />
+				) : mobile && ranked ? (
+					<MobileBarChart
+						title={props.title}
+						labels={chartLabels}
+						values={ranked.series}
+						colors={chartColors}
+						formatValue={props.money
+							? (value) => formatCurrency(value, DEFAULT_BRL_CURRENCY_CONFIG)
+							: formatValue}
+					/>
 				) : (
-					<Chart
-						options={options}
-						series={props.series as ApexAxisChartSeries}
-						type='bar'
-						width={'100%'}
-						height={280}></Chart>
+					<div
+						className={comparison ? 'overflow-x-auto' : undefined}
+						role={comparison ? 'region' : undefined}
+						aria-label={comparison ? props.title : undefined}
+						tabIndex={comparison ? 0 : undefined}>
+						<div style={comparison ? { minWidth: Math.max(600, categories.length * 80 + 64) } : undefined}>
+							<Chart
+								options={options}
+								series={series as ApexAxisChartSeries}
+								type='bar'
+								width='100%'
+								height={height}
+							/>
+						</div>
+					</div>
 				)}
 			</DataState>
 		</ResponsiveContainerChart>
