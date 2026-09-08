@@ -56,11 +56,24 @@ export default function PeriodSelector({
 		: getRangeLabel(preSet) || getRangeLabel(DEFAULT_RANGE_TAG);
 	const periods = getAvailableRangeTags();
 
+	function getPeriodHref(tag: string) {
+		return `${pathname}?menu=${menu}&set=${tag}`;
+	}
+
+	function handleOpenChange(nextOpen: boolean) {
+		if (!nextOpen) {
+			for (const period of periods) {
+				intent.cancel(getPeriodHref(period.tag));
+			}
+		}
+		setOpen(nextOpen);
+	}
+
 	return (
-		<div className={cn('w-full', className)}>
+		<div className={cn('w-full lg:w-fit', className)}>
 			<Popover
 				open={open}
-				onOpenChange={setOpen}>
+				onOpenChange={handleOpenChange}>
 				<PopoverTrigger asChild>
 					<Button
 						aria-expanded={open}
@@ -68,8 +81,8 @@ export default function PeriodSelector({
 						disabled={isPending}
 						role='combobox'
 						variant='outline'
-						className='w-full justify-between gap-2 border-zinc-700 bg-zinc-800 px-3 font-medium normal-case text-zinc-100 hover:border-violet-400 hover:bg-zinc-800 hover:text-white'>
-						<span className='flex min-w-0 items-center gap-2'>
+						className='w-full justify-between gap-2 border-zinc-700 bg-zinc-800 px-3 font-medium normal-case text-zinc-100 hover:border-violet-400 hover:bg-zinc-800 hover:text-white lg:w-fit lg:min-w-56'>
+						<span className='flex items-center gap-2 whitespace-nowrap'>
 							{isPending ? (
 								<Loader2
 									aria-hidden='true'
@@ -81,7 +94,7 @@ export default function PeriodSelector({
 									className='size-4 shrink-0 text-violet-400'
 								/>
 							)}
-							<span className='truncate'>{selectedLabel}</span>
+							<span>{selectedLabel}</span>
 						</span>
 						<ChevronsUpDown
 							aria-hidden='true'
@@ -91,13 +104,13 @@ export default function PeriodSelector({
 				</PopoverTrigger>
 				<PopoverContent
 					align='start'
-					className='w-[var(--radix-popover-trigger-width)] border-zinc-700 bg-zinc-900 p-0'>
+					className='min-w-56 w-[var(--radix-popover-trigger-width)] border-zinc-700 bg-zinc-900 p-0'>
 					<Command className='bg-zinc-900 text-zinc-100'>
 						<CommandList>
 							<CommandGroup heading='Períodos disponíveis'>
 								{periods.map((period) => {
 									const isSelected = !hasCustomDates && period.tag === preSet;
-									const href = `?menu=${menu}&set=${period.tag}`;
+									const href = getPeriodHref(period.tag);
 									const enabled = shouldNavigateToHref(
 										pathname,
 										searchParams.entries(),
@@ -105,9 +118,9 @@ export default function PeriodSelector({
 									);
 
 									return (
-						<CommandItem
-							aria-current={isSelected ? 'true' : undefined}
-							tabIndex={0}
+										<CommandItem
+											aria-current={isSelected ? 'true' : undefined}
+											tabIndex={0}
 											key={period.tag}
 											value={period.label}
 											onPointerEnter={() => intent.schedule(href, enabled)}
@@ -117,6 +130,7 @@ export default function PeriodSelector({
 											}}
 											onPointerDown={() => {
 												isPointerSelecting.current = true;
+												intent.cancel(href);
 											}}
 											onPointerUp={() => {
 												isPointerSelecting.current = false;
@@ -130,7 +144,7 @@ export default function PeriodSelector({
 												}
 											}}
 											onSelect={() => {
-												setOpen(false);
+												handleOpenChange(false);
 												if (
 													!shouldNavigateToHref(
 														pathname,
@@ -143,11 +157,11 @@ export default function PeriodSelector({
 												onNavigate?.();
 												startTransition(() => router.push(href));
 											}}
-											className='gap-2 py-2.5 text-zinc-200 data-[selected=true]:bg-zinc-800 data-[selected=true]:text-white'>
+											className='gap-2 whitespace-nowrap py-2.5 text-zinc-200 data-[selected=true]:bg-zinc-800 data-[selected=true]:text-white'>
 											<Check
 												aria-hidden='true'
 												className={cn(
-													'size-4 text-violet-400',
+													'size-4 shrink-0 text-violet-400',
 													isSelected ? 'opacity-100' : 'opacity-0',
 												)}
 											/>

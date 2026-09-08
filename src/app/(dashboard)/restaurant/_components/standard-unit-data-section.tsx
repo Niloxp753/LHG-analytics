@@ -4,10 +4,11 @@ import { getRestaurantsCustomAction } from "@/actions/restaurants/get-restaurant
 import { getRestaurantsAction } from "@/actions/restaurants/get-restaurants";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { type CurrencyConfig } from "@/lib/currency-format";
+import type { DashboardCompanyKey } from "@/lib/dashboard-company";
 import RestaurantUnitDataContent from "./unit-data-content";
 
 export type StandardRestaurantUnitDataSectionProps = {
-  company?: string;
+  company?: DashboardCompanyKey;
   currencyConfig?: CurrencyConfig;
   description: string;
   endDate: string | null;

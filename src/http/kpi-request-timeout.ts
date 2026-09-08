@@ -14,9 +14,9 @@ export async function withKpiRequestTimeout<T>(
 	let timeout: ReturnType<typeof setTimeout> | undefined;
 	const timeoutPromise = new Promise<never>((_, reject) => {
 		timeout = setTimeout(() => {
-			controller.abort();
 			const error = new Error('KPI request timeout');
 			error.name = 'AbortError';
+			controller.abort(error);
 			reject(error);
 		}, getKpiRequestTimeoutMs());
 	});

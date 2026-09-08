@@ -9,6 +9,20 @@ export type ChartDensityProfile = Readonly<{
 	markerSize: number;
 }>;
 
+export type XAxisLabelPolicy = Readonly<{
+	rotate: 0 | -45;
+	tickAmount?: number;
+}>;
+
+export const Y_AXIS_READABILITY = Object.freeze({
+	forceNiceScale: true,
+	tickAmount: 5,
+	labels: Object.freeze({
+		maxWidth: 120,
+		minWidth: 48,
+	}),
+});
+
 const DETAILED_PROFILE: ChartDensityProfile = Object.freeze({
 	mode: 'detailed',
 	animationsEnabled: true,
@@ -43,4 +57,23 @@ export function resolveChartDensity(series: unknown): ChartDensityProfile {
 	return maxPointsPerSeries <= 31 && totalPoints <= 250
 		? DETAILED_PROFILE
 		: DENSE_PROFILE;
+}
+
+export function resolveXAxisLabelPolicy(
+	categories: readonly string[] | undefined,
+	maxVisibleLabels: number,
+): XAxisLabelPolicy {
+	const labels = categories ?? [];
+	const visibleLimit = Math.max(2, Math.floor(maxVisibleLabels));
+
+	if (labels.length <= visibleLimit) {
+		return {
+			rotate: 0,
+		};
+	}
+
+	return {
+		rotate: -45,
+		tickAmount: visibleLimit - 1,
+	};
 }

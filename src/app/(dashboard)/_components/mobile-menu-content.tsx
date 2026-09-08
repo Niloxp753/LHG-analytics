@@ -159,8 +159,8 @@ export default function MobileMenuContent({
 							disabled={isDisabled}
 							onPointerEnter={() => intent.schedule(link.href, enabled)}
 							onPointerLeave={() => intent.cancel(link.href)}
+							onPointerDown={() => intent.cancel(link.href)}
 							onFocus={() => intent.prefetchNow(link.href, enabled)}
-							onPointerDown={() => intent.prefetchNow(link.href, enabled)}
 							onClick={(event) => handleClick(event, link.href)}
 							key={link.label}
 							className={`flex items-center justify-start transition-all ease-linear duration-150 p-2.5 rounded-md ${

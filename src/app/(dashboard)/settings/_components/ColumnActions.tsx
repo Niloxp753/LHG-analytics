@@ -19,6 +19,7 @@ import {
 import { useState } from "react";
 
 import { deleteUserAction } from "@/actions/deleteUser";
+import { userActionFailureCopy } from "@/actions/user-action-result";
 import {
   Dialog,
   DialogClose,
@@ -54,19 +55,25 @@ export default function ColumnActions({
         return;
       }
 
-      await deleteUserAction(String(user.id));
+      const result = await deleteUserAction(String(user.id));
+      if (!result.ok) {
+        const copy = userActionFailureCopy(result.code);
+        toast.error(copy.title, { description: copy.description });
+        return;
+      }
       toast.success("Usuário Deletado - 200", {
         description: `Usuário ${user.name} foi deletado`,
       });
       setOpenDialogDel(false);
       setOpenDrop(false);
     } catch (error) {
-      toast.error("Algo deu errado, tente novamente - 500", {
-        description: `Usuário ${user.name} não foi deletado`,
+      toast.error("Erro inesperado", {
+        description: `Não foi possível excluir ${user.name}. Tente novamente.`,
       });
-      console.log(error);
+      console.error(error);
+    } finally {
+      setPending(false);
     }
-    setPending(false);
   }
   return (
     <>

@@ -2,14 +2,18 @@
 
 import { buildAuthCookieHeader } from "@/lib/auth-headers";
 import { type DashboardCacheMode } from "@/lib/dashboard-cache-policy";
+import {
+  resolveDashboardCompanyKey,
+  type DashboardCompanyKey,
+} from "@/lib/dashboard-company";
 import { cacheLife, cacheTag } from "next/cache";
 import {
   api,
-  api_tout,
   getUnitApiClient,
 } from "../api-client";
 import { FetchFailedError } from "../conditional-cache";
-import { logFetchFailed, logRequestTimeout } from "../logging";
+import { handleKpiFetchFailure } from "../kpi-fetch-failure";
+import { logRequestTimeout } from "../logging";
 import { readJsonResponse } from "../read-json-response";
 import { isRetryableError, isRetryableStatus } from "../retry";
 import { withKpiRequestTimeout } from "../kpi-request-timeout";
@@ -59,13 +63,12 @@ async function getOperationCustomCached(
   startDate: string,
   endDate: string,
   cacheMode: DashboardCacheMode,
-  company: string | undefined,
-  cookieHeader: string | null,
+  company: DashboardCompanyKey,
 ) {
-  "use cache";
+  "use cache: private";
 
   cacheTag("operational");
-  const companyKey = company ?? "ipiranga";
+  const companyKey = company;
   const requestName = `getOperationCustom (${companyKey})`;
   cacheTag(
     getKpiCacheIdentityTag(
@@ -74,14 +77,11 @@ async function getOperationCustomCached(
       endDate,
       cacheMode,
       companyKey,
-      cookieHeader,
     ),
   );
-
+  const cookieHeader = await buildAuthCookieHeader();
   const controller = new AbortController();
   const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
-  let failed = false;
-  let result: unknown;
 
   try {
     const resp = await withKpiRequestTimeout(
@@ -103,51 +103,13 @@ async function getOperationCustomCached(
       );
     }
 
-    result = await readJsonResponse(resp, requestName);
+    const result = await readJsonResponse(resp, requestName);
+    cacheLife("dashboard_session");
+    return result;
   } catch (error) {
-    failed = true;
-    result = captureKpiCacheFailure(error, requestName);
-  }
-
-  if (failed) {
     cacheLife({ stale: 0, revalidate: 0, expire: 0 });
-  } else if (cacheMode === "historical") {
-    cacheLife("dashboard_historical");
-  } else {
-    cacheLife("dashboard");
+    return captureKpiCacheFailure(error, requestName);
   }
-  return result;
-}
-
-async function getOperationCustomToutUncached(
-  startDate: string,
-  endDate: string,
-  cookieHeader: string | null,
-) {
-  const requestName = "getOperationCustom (tout)";
-  const controller = new AbortController();
-  const authHeaders = cookieHeader ? { cookie: cookieHeader } : undefined;
-
-  const resp = await withKpiRequestTimeout(
-    fetchGovernanceKpis(
-      api_tout,
-      startDate,
-      endDate,
-      authHeaders,
-      controller,
-    ),
-    controller,
-  );
-
-  if (!resp || !resp.ok) {
-    throw new FetchFailedError(
-      requestName,
-      resp?.status,
-      resp?.statusText,
-    );
-  }
-
-  return readJsonResponse(resp, requestName);
 }
 
 export async function getOperationCustom(
@@ -157,29 +119,18 @@ export async function getOperationCustom(
   company?: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
-  const cookieHeader = await buildAuthCookieHeader();
+  const companyKey = resolveDashboardCompanyKey(company);
   try {
-    const companyKey = company ?? "ipiranga";
-    if (companyKey === "tout") {
-      return await getOperationCustomToutUncached(
-        startDate,
-        endDate,
-        cookieHeader,
-      );
-    }
-
     const result = await getOperationCustomCached(
       startDate,
       endDate,
       cacheMode,
-      company,
-      cookieHeader,
+      companyKey,
     );
     return unwrapKpiCacheResult(result);
   } catch (error) {
     if (error instanceof FetchFailedError) {
-      logFetchFailed(error);
-      return null;
+      return handleKpiFetchFailure(error);
     }
     if (error instanceof Error && error.name === "AbortError") {
       logRequestTimeout("getOperationCustom");

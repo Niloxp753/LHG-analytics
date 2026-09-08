@@ -1,5 +1,18 @@
 const INTERNAL_ORIGIN = 'http://lhg.local';
 
+export function isInternalNavigationHref(href: string) {
+	if (!href || href.startsWith('#')) {
+		return false;
+	}
+
+	try {
+		const url = new URL(href, INTERNAL_ORIGIN);
+		return url.origin === INTERNAL_ORIGIN;
+	} catch {
+		return false;
+	}
+}
+
 function normalizePathname(pathname: string) {
 	if (!pathname || pathname === '/') {
 		return '/';

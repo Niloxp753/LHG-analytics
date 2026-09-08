@@ -16,6 +16,7 @@ import { TableKpiOccupation } from "@/app/(dashboard)/_components/kpis/TableKpiO
 import { TableKpiRevpar } from "@/app/(dashboard)/_components/kpis/TableKpiRevpar";
 import Ticket from "@/app/(dashboard)/_components/kpis/Ticket";
 import TRevPar from "@/app/(dashboard)/_components/kpis/TRevPar";
+import DeferredChartMount from "@/app/(dashboard)/_components/charts/deferred-chart-mount";
 import { type CurrencyConfig } from "@/lib/currency-format";
 
 type GeneralUnitDataContentData = {
@@ -55,47 +56,70 @@ export default function GeneralUnitDataContent({
         description={rangeDescription}
         currencyConfig={currencyConfig}
       />
-      <div className="flex w-full gap-5 h-full">
-        <div className="h-full w-full flex flex-col gap-5 items-center justify-center">
-          <InvoicingXLocation
-            data={data?.BillingRentalType ?? null}
-            currencyConfig={currencyConfig}
-          />
+      <DeferredChartMount
+        eager
+        minHeight={420}
+        name="general-unit-billing-by-rental-type"
+      >
+        <div className="flex w-full gap-5 h-full">
+          <div className="h-full w-full flex flex-col gap-5 items-center justify-center">
+            <InvoicingXLocation
+              data={data?.BillingRentalType ?? null}
+              currencyConfig={currencyConfig}
+            />
+          </div>
         </div>
-      </div>
-      <div className="gap-5 h-fit w-full grid md:grid-cols-2">
-        <div className="w-full">
-          <Categories
-            data={data?.RevenueBySuiteCategory ?? null}
-            currencyConfig={currencyConfig}
-          />
+      </DeferredChartMount>
+      <DeferredChartMount minHeight={720} name="general-unit-category-revpar">
+        <div className="gap-5 h-fit w-full grid md:grid-cols-2">
+          <div className="w-full">
+            <Categories
+              data={data?.RevenueBySuiteCategory ?? null}
+              currencyConfig={currencyConfig}
+            />
+          </div>
+          <div className="w-full flex gap-5 justify-between flex-col">
+            <TRevPar
+              data={data?.TrevparByDate ?? null}
+              currencyConfig={currencyConfig}
+            />
+            <RevPar
+              data={data?.RevparByDate ?? null}
+              currencyConfig={currencyConfig}
+            />
+          </div>
         </div>
-        <div className="w-full flex gap-5 justify-between flex-col">
-          <TRevPar
-            data={data?.TrevparByDate ?? null}
-            currencyConfig={currencyConfig}
-          />
-          <RevPar
-            data={data?.RevparByDate ?? null}
-            currencyConfig={currencyConfig}
-          />
-        </div>
-      </div>
+      </DeferredChartMount>
       <div className="flex gap-5 flex-col items-center">
-        <Invoicing
-          data={data?.RevenueByDate ?? null}
-          currencyConfig={currencyConfig}
-        />
-        <GiroByDate data={data?.GiroByDate ?? null} />
-        <Locations data={data?.RentalsByDate ?? null} />
-        <Ticket
-          data={data?.TicketAverageByDate ?? null}
-          currencyConfig={currencyConfig}
-        />
+        <DeferredChartMount minHeight={420} name="general-unit-revenue-by-date">
+          <Invoicing
+            data={data?.RevenueByDate ?? null}
+            currencyConfig={currencyConfig}
+          />
+        </DeferredChartMount>
+        <DeferredChartMount minHeight={420} name="general-unit-giro-by-date">
+          <GiroByDate data={data?.GiroByDate ?? null} />
+        </DeferredChartMount>
+        <DeferredChartMount minHeight={420} name="general-unit-rentals-by-date">
+          <Locations data={data?.RentalsByDate ?? null} />
+        </DeferredChartMount>
+        <DeferredChartMount minHeight={420} name="general-unit-ticket-by-date">
+          <Ticket
+            data={data?.TicketAverageByDate ?? null}
+            currencyConfig={currencyConfig}
+          />
+        </DeferredChartMount>
       </div>
       <div className="flex flex-col h-full w-full gap-5">
-        <Occupation data={data?.OccupancyRateByDate ?? null} />
-        <OccupationCasaLush data={data?.OccupancyRateBySuiteCategory ?? null} />
+        <DeferredChartMount minHeight={420} name="general-unit-occupancy-by-date">
+          <Occupation data={data?.OccupancyRateByDate ?? null} />
+        </DeferredChartMount>
+        <DeferredChartMount
+          minHeight={420}
+          name="general-unit-occupancy-by-category"
+        >
+          <OccupationCasaLush data={data?.OccupancyRateBySuiteCategory ?? null} />
+        </DeferredChartMount>
       </div>
       <div className="w-full h-full flex-col gap-5 md:flex-row flex items-baseline justify-between">
         <div className="w-full">

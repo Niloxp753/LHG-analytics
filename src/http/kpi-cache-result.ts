@@ -13,8 +13,12 @@ function hashCacheIdentity(value: string) {
 
 export function getKpiCacheIdentityTag(
 	name: string,
-	...parts: Array<string | null | undefined>
+	startDate: string,
+	endDate: string,
+	cacheMode: string,
+	company?: string | null,
 ) {
+	const parts = [startDate, endDate, cacheMode, company];
 	return `lhg:kpi:${name}:${hashCacheIdentity(parts.join('\u001f'))}`;
 }
 

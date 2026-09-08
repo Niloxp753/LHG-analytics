@@ -7,6 +7,7 @@ import LocationsxUnity from '../../_components/kpis/LocationsxUnity';
 import OccupationXUnity from '../../_components/kpis/OccupationXUnity';
 import TKTxUnity from '../../_components/kpis/TKTxUnity';
 import TRevParXUnity from '../../_components/kpis/TRevParXUnity';
+import DeferredChartMount from '../../_components/charts/deferred-chart-mount';
 import BigNumbersCompany from './big-numbers-company';
 import type { GeneralPageDataResult } from '../kpi-section';
 
@@ -95,25 +96,40 @@ export function GeneralKpiContent({
 				description={rangeDescription}
 			/>
 
-			<div className='flex gap-5 flex-col md:flex-row w-full h-full'>
-				<div className='md:w-1/3 w-full h-full'>
-					<InvoicingXUnity
-						error={errorMessage}
-						categories={revenueByCompany?.categories}
-						series={revenueByCompany?.series}
-					/>
+			<DeferredChartMount
+				eager
+				minHeight={420}
+				name='general-consolidated-summary'>
+				<InvoicingXUnity
+					error={errorMessage}
+					categories={revenueByCompany?.categories}
+					series={revenueByCompany?.series}
+				/>
+			</DeferredChartMount>
+			<DeferredChartMount
+				minHeight={420}
+				name='general-consolidated-rentals'>
+				<LocationsxUnity data={rentalsByDate} />
+			</DeferredChartMount>
+			<DeferredChartMount
+				minHeight={700}
+				name='general-consolidated-ticket-trevpar'>
+				<div className='flex gap-5 flex-col'>
+					<TKTxUnity data={ticketAverageByDate} />
+					<TRevParXUnity data={trevparByDate} />
 				</div>
-				<div className='md:w-2/3 h-full'>
-					<LocationsxUnity data={rentalsByDate} />
-				</div>
-			</div>
-			<div className='flex gap-5 flex-col'>
-				<TKTxUnity data={ticketAverageByDate} />
-				<TRevParXUnity data={trevparByDate} />
-			</div>
+			</DeferredChartMount>
 			<div className='flex flex-col gap-5'>
-				<InvoicingXUnityXTime data={revenueByDate} />
-				<OccupationXUnity data={occupancyRateByDate} />
+				<DeferredChartMount
+					minHeight={420}
+					name='general-consolidated-revenue-by-date'>
+					<InvoicingXUnityXTime data={revenueByDate} />
+				</DeferredChartMount>
+				<DeferredChartMount
+					minHeight={420}
+					name='general-consolidated-occupancy'>
+					<OccupationXUnity data={occupancyRateByDate} />
+				</DeferredChartMount>
 			</div>
 		</div>
 	);

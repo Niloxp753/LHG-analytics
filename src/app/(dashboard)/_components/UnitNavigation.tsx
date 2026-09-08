@@ -64,7 +64,7 @@ export default function UnitNavigation({
 	}
 
 	const units = UNIT_VALUES.map((unit) => {
-										const href = `/${modulePath}/${UNIT_TO_SLUG[unit]}?${search.toString()}`;
+		const href = `/${modulePath}/${UNIT_TO_SLUG[unit]}?${search.toString()}`;
 
 		return {
 			href,
@@ -77,11 +77,20 @@ export default function UnitNavigation({
 	);
 	const isLoading = status === 'idle' || status === 'loading';
 
+	function handleOpenChange(nextOpen: boolean) {
+		if (!nextOpen) {
+			for (const unit of units) {
+				intent.cancel(unit.href);
+			}
+		}
+		setOpen(nextOpen);
+	}
+
 	return (
 		<div className={cn('w-full', className)}>
 			<Popover
 				open={open}
-				onOpenChange={setOpen}>
+				onOpenChange={handleOpenChange}>
 				<PopoverTrigger asChild>
 					<Button
 						aria-expanded={open}
@@ -131,10 +140,10 @@ export default function UnitNavigation({
 											tabIndex={0}
 											onPointerEnter={() => intent.schedule(unit.href, enabled)}
 											onPointerLeave={() => intent.cancel(unit.href)}
+											onPointerDown={() => intent.cancel(unit.href)}
 											onFocus={() => intent.prefetchNow(unit.href, enabled)}
-											onPointerDown={() => intent.prefetchNow(unit.href, enabled)}
 											onSelect={() => {
-												setOpen(false);
+												handleOpenChange(false);
 												router.push(unit.href);
 											}}
 											className='gap-3 py-2.5 text-zinc-200 data-[selected=true]:bg-zinc-800 data-[selected=true]:text-white'>

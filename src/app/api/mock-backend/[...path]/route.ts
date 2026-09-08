@@ -25,9 +25,11 @@ function hashToSixDigits(input: string) {
 function mockCompanyUnified({
 	startDate,
 	endDate,
+	sessionMarker,
 }: {
 	startDate?: string | null;
 	endDate?: string | null;
+	sessionMarker?: string;
 } = {}) {
 	const rangeKey = `${startDate ?? ''}|${endDate ?? ''}`;
 	const rangeHash = hashToSixDigits(rangeKey);
@@ -40,8 +42,26 @@ function mockCompanyUnified({
 		: isStreamingDelayedRange
 			? 223456.78
 			: Number((100000 + rangeHash + 0.78).toFixed(2));
+	const categories = Array.from(
+		{ length: 21 },
+		(_, index) => `${String(index + 1).padStart(2, '0')}/08/2026`,
+	);
+	const seriesFor = (name: string, offset: number) => ({
+		categories,
+		series: [
+			{
+				name,
+				data: categories.map((_, index) => offset + index),
+			},
+		],
+	});
+	const simpleSeriesFor = (offset: number) => ({
+		categories: ['Lush Ipiranga', 'Lush Lapa', 'Tout', 'Liv', 'Altana'],
+		series: [100 + offset, 80 + offset, 60 + offset, 40 + offset, 20 + offset],
+	});
 
 	return {
+		...(sessionMarker ? { __sessionMarker: sessionMarker } : {}),
 		BigNumbers: [
 			{
 				currentDate: {
@@ -62,6 +82,52 @@ function mockCompanyUnified({
 				},
 			},
 		],
+		RevenueByCompany: simpleSeriesFor(0),
+		RentalsByDate: seriesFor('Locações', 10),
+		TicketAverageByDate: seriesFor('Ticket Médio', 20),
+		TrevparByDate: seriesFor('TRevPar', 30),
+		RevenueByDate: {
+			categories,
+			series: categories.map((_, index) => 1000 + index * 20),
+		},
+		OccupancyRateByDate: {
+			categories,
+			series: categories.map((_, index) => 40 + (index % 8)),
+		},
+		BillingRentalType: seriesFor('Faturamento', 40),
+		RevenueBySuiteCategory: {
+			categories: ['Standard', 'Luxo', 'Master', 'Presidencial'],
+			series: [1200, 900, 700, 450],
+		},
+		RevparByDate: {
+			categories,
+			series: categories.map((_, index) => 70 + index),
+		},
+		GiroByDate: {
+			categories,
+			series: categories.map((_, index) => 2 + (index % 4)),
+		},
+		OccupancyRateBySuiteCategory: {
+			categories,
+			series: [
+				{ name: 'Standard', data: categories.map((_, index) => 35 + (index % 6)) },
+				{ name: 'Luxo', data: categories.map((_, index) => 42 + (index % 5)) },
+			],
+		},
+		DataTableSuiteCategory: [],
+		TotalResult: {
+			totalAllRentalsApartments: 420,
+			totalAllValue,
+			totalAllTicketAverage: 123.45,
+			totalGiro: 3.21,
+			totalRevpar: 70,
+			totalTrevpar: 234.56,
+			totalAverageOccupationTime: '01:23',
+			totalOccupancyRate: 40,
+		},
+		DataTableGiroByWeek: [],
+		DataTableRevparByWeek: [],
+		DataTableOccupancyRateByWeek: [],
 	};
 }
 
@@ -339,6 +405,9 @@ export async function GET(
 
 	const { path } = await params;
 	const normalizedPath = path.join('/');
+	const analyticsPath = normalizedPath
+		.replace(/^consolidated\//, '')
+		.replace(/^unit\/[^/]+\//, '');
 	const url = new URL(request.url);
 
 	if (normalizedPath === '__test__/fetch-counts') {
@@ -351,33 +420,92 @@ export async function GET(
 
 	const startDate = url.searchParams.get('startDate');
 	const endDate = url.searchParams.get('endDate');
+	const sessionMarker = request.headers
+		.get('cookie')
+		?.match(/(?:^|;\s*)access_token=([^;]+)/)?.[1];
 
-	if (startDate === '01/01/2097' && endDate === '07/01/2097') {
+	if (
+		(startDate === '01/01/2091' && endDate === '07/01/2091') ||
+		(startDate === '01/02/2091' && endDate === '07/02/2091')
+	) {
+		return NextResponse.json({ message: 'unauthorized fixture' }, { status: 401 });
+	}
+	if (
+		(startDate === '01/01/2092' && endDate === '07/01/2092') ||
+		(startDate === '01/02/2092' && endDate === '07/02/2092')
+	) {
+		return NextResponse.json({ message: 'forbidden fixture' }, { status: 403 });
+	}
+	if (
+		(startDate === '01/01/2093' && endDate === '07/01/2093') ||
+		(startDate === '01/02/2093' && endDate === '07/02/2093')
+	) {
+		return new NextResponse('{"invalid":', {
+			headers: { 'content-type': 'application/json' },
+		});
+	}
+	if (
+		(startDate === '01/01/2094' && endDate === '07/01/2094') ||
+		(startDate === '01/02/2094' && endDate === '07/02/2094')
+	) {
+		return new NextResponse('not json', {
+			headers: { 'content-type': 'text/plain' },
+		});
+	}
+	if (
+		startDate === '01/03/2095' &&
+		endDate === '07/03/2095' &&
+		counts[requestKey] === 1
+	) {
+		return NextResponse.json(
+			{ message: 'first request failure fixture' },
+			{ status: 400 },
+		);
+	}
+
+	if (
+		(startDate === '01/01/2097' && endDate === '07/01/2097') ||
+		(startDate === '01/02/2097' && endDate === '07/02/2097')
+	) {
 		return NextResponse.json(
 			{ message: 'non-retryable fixture' },
 			{ status: 400 },
 		);
 	}
-	if (startDate === '01/01/2098' && endDate === '07/01/2098') {
+	if (
+		(startDate === '01/01/2098' && endDate === '07/01/2098') ||
+		(startDate === '01/02/2098' && endDate === '07/02/2098')
+	) {
 		return NextResponse.json(
 			{ message: 'retryable fixture' },
 			{ status: 503 },
 		);
 	}
-	if (startDate === '01/01/2099' && endDate === '07/01/2099') {
+	if (
+		(startDate === '01/01/2099' && endDate === '07/01/2099') ||
+		(startDate === '01/02/2099' && endDate === '07/02/2099')
+	) {
 		await new Promise((resolve) => setTimeout(resolve, 5000));
 	}
 	if (startDate === '01/04/2026' && endDate === '07/04/2026') {
 		await new Promise((resolve) => setTimeout(resolve, 12000));
 	}
 
-	switch (normalizedPath) {
+	switch (analyticsPath) {
 		case 'Company/kpis/date-range':
 			if (startDate === '01/03/2026' && endDate === '07/03/2026') {
 				await new Promise((resolve) => setTimeout(resolve, 2500));
 			}
-			return NextResponse.json(mockCompanyUnified({ startDate, endDate }));
+			return NextResponse.json(
+				mockCompanyUnified({
+					startDate,
+					endDate,
+					sessionMarker,
+				}),
+			);
 		case 'Restaurant/kpis/date-range':
+			return NextResponse.json(mockRestaurantUnified());
+		case 'Restaurants/restaurants/date-range':
 			return NextResponse.json(mockRestaurantUnified());
 		case 'Bookings/kpis/date-range':
 			return NextResponse.json(mockBookingsUnified());

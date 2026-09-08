@@ -1,5 +1,6 @@
 /** @format */
 
+import DashboardPageSessionBoundary from '@/app/(dashboard)/_components/dashboard-page-session-boundary';
 import { DEFAULT_RANGE_TAG, getRangeDescription } from "@/lib/date-range";
 import { Suspense } from "react";
 import GeneralUnitDataFallback from "../../_components/unit-data-fallback";
@@ -18,7 +19,8 @@ export default function Tout({
   const fallbackRangeDescription = getRangeDescription(DEFAULT_RANGE_TAG);
 
   return (
-    <GeneralUnitPageShell title="Tout">
+    <DashboardPageSessionBoundary>
+      <GeneralUnitPageShell title="Tout">
       <Suspense
         fallback={
           <GeneralUnitDataFallback
@@ -28,6 +30,7 @@ export default function Tout({
       >
         <UnitDataFromSearchParams searchParams={searchParams} />
       </Suspense>
-    </GeneralUnitPageShell>
+      </GeneralUnitPageShell>
+    </DashboardPageSessionBoundary>
   );
 }

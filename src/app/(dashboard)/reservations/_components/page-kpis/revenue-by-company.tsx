@@ -3,8 +3,8 @@
 
 import dynamic from 'next/dynamic';
 
-const PieChartsApex = dynamic(
-	() => import('@/app/(dashboard)/_components/charts/PieChartsApex'),
+const ColumnChart = dynamic(
+	() => import('@/app/(dashboard)/_components/charts/ColumnChart'),
 	{ ssr: false },
 );
 
@@ -22,7 +22,7 @@ interface RevenueByCompanyProps {
 	error?: string | boolean;
 }
 
-function normalizePieInput(data?: EntryData | EntryData[] | null) {
+function normalizeComparisonInput(data?: EntryData | EntryData[] | null) {
 	const entry = Array.isArray(data) ? data[0] : data;
 	const categories = entry?.categories;
 	const rawSeries = entry?.series;
@@ -62,18 +62,19 @@ export default function RevenueByCompany({
 	money = false,
 	error,
 }: RevenueByCompanyProps) {
-	const normalized = normalizePieInput(data);
+	const normalized = normalizeComparisonInput(data);
 	const resolvedError =
 		error ?? (data === null ? 'Não foi possível carregar os dados.' : undefined);
 
 	return (
-		<PieChartsApex
+		<ColumnChart
+			height={400}
 			title={title}
 			money={money}
 			palette='units'
 			error={resolvedError}
 			series={normalized.series}
-			labels={normalized.categories}
+			categories={normalized.categories}
 		/>
 	);
 }

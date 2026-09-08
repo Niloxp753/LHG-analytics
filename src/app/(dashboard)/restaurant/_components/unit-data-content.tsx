@@ -16,6 +16,7 @@ import RevenueABXCost from "./kpis/revenueABXCost";
 import RevenuePercent from "./kpis/RevenuePercent";
 import RevenueXGroup from "./kpis/RevenueXGroup";
 import TKTXLocation from "./kpis/TKTXLocation";
+import DeferredChartMount from "../../_components/charts/deferred-chart-mount";
 
 type SeriesByDate = {
   categories: string[];
@@ -129,18 +130,28 @@ export default function RestaurantUnitDataContent({
         currencyConfig={currencyConfig}
       />
       <div className="flex w-full gap-5 h-full">
-        <RevenueABXCost
-          data={revenueAbByPeriod}
-          currencyConfig={currencyConfig}
-        />
+        <DeferredChartMount minHeight={420} name="restaurant-unit-revenue-ab">
+          <RevenueABXCost
+            data={revenueAbByPeriod}
+            currencyConfig={currencyConfig}
+          />
+        </DeferredChartMount>
       </div>
 
       <div className="gap-5 h-fit w-full flex justify-between flex-col">
-        <RevenuePercent data={revenueAbByPeriodPercent} />
-        <TKTXLocation
-          data={ticketAverageByPeriod}
-          currencyConfig={currencyConfig}
-        />
+        <DeferredChartMount
+          minHeight={420}
+          name="restaurant-unit-revenue-ab-percent">
+          <RevenuePercent data={revenueAbByPeriodPercent} />
+        </DeferredChartMount>
+        <DeferredChartMount
+          minHeight={420}
+          name="restaurant-unit-ticket-average">
+          <TKTXLocation
+            data={ticketAverageByPeriod}
+            currencyConfig={currencyConfig}
+          />
+        </DeferredChartMount>
       </div>
       <div className="flex flex-col md:flex-row items-center justify-between gap-5 h-full w-full">
         <div className="w-full md:w-1/2 h-full">
@@ -165,15 +176,24 @@ export default function RestaurantUnitDataContent({
             />
           </div>
         </div>
-        <RevenueXGroup
-          data={revenueByGroupPeriod}
-          currencyConfig={currencyConfig}
-        />
-        <CategoryA data={revenueFoodByPeriod} currencyConfig={currencyConfig} />
-        <CategoryB
-          data={revenueDrinksByPeriod}
-          currencyConfig={currencyConfig}
-        />
+        <DeferredChartMount minHeight={720} name="restaurant-unit-revenue-by-group">
+          <RevenueXGroup
+            data={revenueByGroupPeriod}
+            currencyConfig={currencyConfig}
+          />
+        </DeferredChartMount>
+        <DeferredChartMount minHeight={520} name="restaurant-unit-category-food">
+          <CategoryA
+            data={revenueFoodByPeriod}
+            currencyConfig={currencyConfig}
+          />
+        </DeferredChartMount>
+        <DeferredChartMount minHeight={520} name="restaurant-unit-category-drinks">
+          <CategoryB
+            data={revenueDrinksByPeriod}
+            currencyConfig={currencyConfig}
+          />
+        </DeferredChartMount>
         <div className="flex items-start gap-5 flex-col">
           <BReports data={reportByDrinks} currencyConfig={currencyConfig} />
           <CReports data={reportByOthers} currencyConfig={currencyConfig} />

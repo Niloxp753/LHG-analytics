@@ -4,10 +4,11 @@ import { getCompanyAction } from "@/actions/getCompany";
 import { getCompanyCustomAction } from "@/actions/getCompanyCustom";
 import ErrorState from "@/app/(dashboard)/_components/ErrorState";
 import { type CurrencyConfig } from "@/lib/currency-format";
+import type { DashboardCompanyKey } from "@/lib/dashboard-company";
 import GeneralUnitDataContent from "./unit-data-content";
 
 export type StandardGeneralUnitDataSectionProps = {
-  company?: string;
+  company?: DashboardCompanyKey;
   currencyConfig?: CurrencyConfig;
   endDate: string | null;
   preSet: string;

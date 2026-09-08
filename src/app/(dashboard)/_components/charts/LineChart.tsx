@@ -19,7 +19,11 @@ import {
 	resolveChartPalette,
 	type ChartPaletteMode,
 } from './consolidated-unit-palette';
-import { resolveChartDensity } from './chart-density';
+import {
+	resolveChartDensity,
+	resolveXAxisLabelPolicy,
+	Y_AXIS_READABILITY,
+} from './chart-density';
 
 interface AreaChartsApexProps {
 	title: string;
@@ -45,6 +49,8 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 	}
 
 	const density = resolveChartDensity(props.series);
+	const desktopXAxisLabels = resolveXAxisLabelPolicy(props.categories, 12);
+	const mobileXAxisLabels = resolveXAxisLabelPolicy(props.categories, 6);
 	const dataLabelsEnabled = density.allowDataLabels && isEnabled();
 
 	const hasSeriesData = Array.isArray(props.series)
@@ -209,13 +215,22 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 
 		xaxis: {
 			type: 'category',
+			tickAmount: desktopXAxisLabels.tickAmount,
 			tickPlacement: 'between',
 			axisBorder: { show: true },
 			categories: props.categories,
+			labels: {
+				hideOverlappingLabels: true,
+				rotate: desktopXAxisLabels.rotate,
+				rotateAlways: desktopXAxisLabels.rotate !== 0,
+				trim: false,
+			},
 		},
 		yaxis: {
+			...Y_AXIS_READABILITY,
 			show: true,
 			labels: {
+				...Y_AXIS_READABILITY.labels,
 				show: true,
 				style: { fontSize: '9px' },
 				formatter: (val: number | string) =>
@@ -242,13 +257,15 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 					},
 					xaxis: {
 						axisTicks: { show: true },
+						tickAmount: mobileXAxisLabels.tickAmount,
 						tickPlacement: 'on',
 						offsetY: 2,
 						labels: {
 							trim: false,
 							style: { fontSize: '10px' },
 							hideOverlappingLabels: true,
-							rotate: -45,
+							rotate: mobileXAxisLabels.rotate,
+							rotateAlways: mobileXAxisLabels.rotate !== 0,
 						},
 					},
 					legend: {
@@ -272,10 +289,12 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 						enabled: dataLabelsEnabled,
 					},
 					xaxis: {
+						tickAmount: desktopXAxisLabels.tickAmount,
 						labels: {
 							trim: false,
 							style: { fontSize: '12px' },
-							rotate: dataLabelsEnabled ? 0 : -45,
+							rotate: desktopXAxisLabels.rotate,
+							rotateAlways: desktopXAxisLabels.rotate !== 0,
 							hideOverlappingLabels: true,
 						},
 					},

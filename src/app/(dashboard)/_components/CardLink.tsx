@@ -1,10 +1,13 @@
 /** @format */
 'use client';
+import { useIntentPrefetch } from '@/hooks/use-intent-prefetch';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { canAccessRoute } from '@/lib/access-control';
+import { shouldNavigateToHref } from '@/lib/navigation-target';
 import { useSessionStore } from '@/stores/session-store';
 import { ArrowUpRight, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname, useSearchParams } from 'next/navigation';
 import React, { useTransition } from 'react';
 
 interface CardLinkProps {
@@ -16,10 +19,16 @@ interface CardLinkProps {
 
 export default function CardLink(props: CardLinkProps) {
 	const [isPending, startTransition] = useTransition();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
+	const intent = useIntentPrefetch();
 	const status = useSessionStore((s) => s.status);
 	const user = useSessionStore((s) => s.user);
 	const isDisabled =
 		props.disabled ?? (status !== 'authed' || !canAccessRoute(user, props.href));
+	const canPrefetch =
+		!isDisabled &&
+		shouldNavigateToHref(pathname, searchParams.entries(), props.href);
 	const linkClassName = `bg-zinc-800 ${
 		isPending && !isDisabled ? 'opacity-50 grayscale' : ''
 	} ${isDisabled ? 'opacity-50 grayscale cursor-not-allowed' : ''}`;
@@ -62,9 +71,13 @@ export default function CardLink(props: CardLinkProps) {
 				</div>
 			) : (
 				<Link
-					prefetch='auto'
+					prefetch={false}
 					href={props.href}
-					className={linkClassName}>
+					className={linkClassName}
+					onPointerEnter={() => intent.schedule(props.href, canPrefetch)}
+					onPointerLeave={() => intent.cancel(props.href)}
+					onPointerDown={() => intent.cancel(props.href)}
+					onFocus={() => intent.prefetchNow(props.href, canPrefetch)}>
 					{contentNode}
 				</Link>
 			)}

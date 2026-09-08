@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  cacheComponents: true,
+	cacheComponents: true,
+	partialPrefetching: true,
   cacheLife: {
     dashboard: {
       stale: 30,
@@ -16,6 +17,11 @@ const nextConfig = {
       stale: 30,
       revalidate: 10,
       expire: 60,
+    },
+    dashboard_session: {
+      stale: 900,
+      revalidate: 900,
+      expire: 1800,
     },
   },
   images: {

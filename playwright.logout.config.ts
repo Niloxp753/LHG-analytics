@@ -2,6 +2,10 @@ import { defineConfig, devices } from '@playwright/test';
 
 const PORT = process.env.PW_PORT ? Number(process.env.PW_PORT) : 3111;
 const baseURL = `http://localhost:${PORT}`;
+const serverCommand =
+	process.env.PW_SERVER === 'start'
+		? `npm run start -- -p ${PORT}`
+		: `npm run dev -- -p ${PORT}`;
 
 export default defineConfig({
 	testDir: './e2e',
@@ -11,7 +15,7 @@ export default defineConfig({
 		trace: 'on-first-retry',
 	},
 	webServer: {
-		command: `npm run dev -- -p ${PORT}`,
+		command: serverCommand,
 		url: baseURL,
 		reuseExistingServer: false,
 		timeout: 120 * 1000,

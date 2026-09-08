@@ -5,7 +5,7 @@ import { cacheLife, cacheTag } from 'next/cache';
 import { auth_api } from '../api-client';
 import { User } from '@/types/user';
 import { FetchFailedError } from '../conditional-cache';
-import { logFetchFailed, logRequestTimeout } from '../logging';
+import { UserUpstreamError } from './user-upstream-error';
 
 async function getAllUsersCached(cookieHeader: string | null): Promise<User[]> {
 	'use cache: private';
@@ -28,20 +28,11 @@ async function getAllUsersCached(cookieHeader: string | null): Promise<User[]> {
 	return (await resp.json()) as User[];
 }
 
-export async function getAllUsers(): Promise<User[] | null> {
+export async function getAllUsers(): Promise<User[]> {
 	const cookieHeader = await buildAuthCookieHeader();
 	try {
 		return await getAllUsersCached(cookieHeader);
 	} catch (error) {
-		if (error instanceof FetchFailedError) {
-			logFetchFailed(error);
-			return null;
-		}
-		if (error instanceof Error && error.name === 'AbortError') {
-			logRequestTimeout('getAllUsers');
-			return null;
-		}
-		console.error('getAllUsers: erro inesperado', error);
-		return null;
+		throw new UserUpstreamError(error);
 	}
 }

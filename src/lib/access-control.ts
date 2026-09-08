@@ -21,6 +21,8 @@ export const UNIT_VALUES = [
 	'ALTANA',
 	'GETAN_GARAVELO',
 	'GETAN_PQ_OESTE',
+	'GETAN_INDEPENDENCIA',
+	'GETAN_NOVO_MUNDO',
 ] as const;
 
 export const UNIT_VALUES_WITH_ADMIN = [...UNIT_VALUES, ADMIN_UNIT] as const;
@@ -55,6 +57,8 @@ export const UNIT_LABELS: Record<AccessUnit, string> = {
 	ALTANA: 'Altana',
 	GETAN_GARAVELO: 'Getan Garavelo',
 	GETAN_PQ_OESTE: 'Getan Parque Oeste',
+	GETAN_INDEPENDENCIA: 'Getan Independência',
+	GETAN_NOVO_MUNDO: 'Getan Novo Mundo',
 	LHG: 'LHG',
 };
 
@@ -181,6 +185,8 @@ export const UNIT_SLUG_TO_UNIT = {
 	altana: 'ALTANA',
 	getangaravelo: 'GETAN_GARAVELO',
 	getanpqoeste: 'GETAN_PQ_OESTE',
+	getanindependencia: 'GETAN_INDEPENDENCIA',
+	getannovomundo: 'GETAN_NOVO_MUNDO',
 } as const;
 
 export const UNIT_TO_SLUG = {
@@ -192,6 +198,8 @@ export const UNIT_TO_SLUG = {
 	ALTANA: 'altana',
 	GETAN_GARAVELO: 'getangaravelo',
 	GETAN_PQ_OESTE: 'getanpqoeste',
+	GETAN_INDEPENDENCIA: 'getanindependencia',
+	GETAN_NOVO_MUNDO: 'getannovomundo',
 } as const;
 
 export const PATH_TO_MODULE = {
@@ -285,7 +293,7 @@ export function canAccessRoute(user: AccessUser, href: string): boolean {
 	}
 
 	const path = getPathname(href);
-	if (path === '/settings') {
+	if (path === '/settings' || path.startsWith('/settings/')) {
 		return false;
 	}
 

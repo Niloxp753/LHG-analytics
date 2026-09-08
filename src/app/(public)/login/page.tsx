@@ -9,15 +9,32 @@ import logoAltana from '@/assets/images/logo_altana.webp';
 import logoGetan from '@/assets/images/logo-getan.png';
 import { LogoImage } from '@/components/ui/logo-image';
 import { Card } from '@/components/ui/card';
+import { getDefaultSessionHref } from '@/lib/session/default-route';
+import { getOptionalSessionUser } from '@/lib/session/session-dal';
 import Image from 'next/image';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import FormLogin from './_components/formLogin';
 
-export default function Login() {
+export const instant = false;
+
+type LoginPageProps = {
+	searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
+
+export default async function Login({ searchParams }: LoginPageProps) {
+	const params = await searchParams;
+	const requestedSet = Array.isArray(params.set) ? params.set[0] : params.set;
+	const user = await getOptionalSessionUser();
+	if (user) {
+		redirect(getDefaultSessionHref(user, requestedSet));
+	}
+
 	return (
 		<div className='w-full flex h-screen bg-zinc-950 overflow-hidden'>
 			<div className='hidden bg-zinc-800 lg:flex relative lg:w-2/3 h-full flex-col justify-between items-center'>
-				<a
+				<Link
 					href='/'
 					className='mx-auto h-fit  mt-20 z-50'>
 					<LogoImage
@@ -28,7 +45,7 @@ export default function Login() {
 						priority
 						alt='Logo LHG Analytics'
 					/>
-				</a>
+				</Link>
 				<Image
 					src={capaLogin}
 					alt='Imagem de fundo da tela de login'

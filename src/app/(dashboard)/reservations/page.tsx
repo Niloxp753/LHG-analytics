@@ -1,5 +1,6 @@
 /** @format */
 
+import DashboardPageSessionBoundary from '@/app/(dashboard)/_components/dashboard-page-session-boundary';
 import {
 	DEFAULT_RANGE_TAG,
 	getRangeDescription,
@@ -22,7 +23,8 @@ export default function Reservations({
 	const fallbackRangeDescription = getRangeDescription(DEFAULT_RANGE_TAG);
 
 	return (
-		<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-start bg-zinc-950 overflow-x-hidden pt-20 pb-10 md:px-5 lg:pt-44'>
+		<DashboardPageSessionBoundary>
+			<main className='flex h-full w-full mx-auto md:ml-auto min-h-screen gap-5 flex-col justify-start bg-zinc-950 overflow-x-hidden pt-20 pb-10 md:px-5 lg:pt-44'>
 			<div className='relative md:max-w-[82vw] flex md:ml-auto w-full'>
 				<div className='bg-zinc-950/50 py-4 w-full md:w-[82vw] backdrop-blur-md fixed z-10 top-0 flex flex-col gap-5 md:justify-end'>
 					<h2 className='text-zinc-50 font-bold text-xl md:text-3xl text-center pt-1'>
@@ -58,6 +60,7 @@ export default function Reservations({
 					</Suspense>
 				</div>
 			</div>
-		</main>
+			</main>
+		</DashboardPageSessionBoundary>
 	);
 }

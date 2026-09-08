@@ -2,6 +2,7 @@
 
 import "server-only";
 
+import type { DashboardCompanyKey } from "@/lib/dashboard-company";
 import ky from "ky";
 
 export const maxDuration = 60;
@@ -114,6 +115,22 @@ export const api_getan_pq_oeste = ky.create({
   fetch: backendFetch,
 });
 
+export const api_getan_independencia = ky.create({
+  prefixUrl: process.env.BACKEND_ENDPOINT_GETAN_INDEPENDENCIA,
+  timeout: 60000,
+  retry: 0,
+  mode: "cors",
+  fetch: backendFetch,
+});
+
+export const api_getan_novo_mundo = ky.create({
+  prefixUrl: process.env.BACKEND_ENDPOINT_GETAN_NOVO_MUNDO,
+  timeout: 60000,
+  retry: 0,
+  mode: "cors",
+  fetch: backendFetch,
+});
+
 export const auth_api = ky.create({
   prefixUrl: process.env.BACKEND_AUTH_ENDPOINT,
   timeout: 60000,
@@ -130,8 +147,10 @@ export const consolidated_api = ky.create({
   fetch: backendFetch,
 });
 
-export function getUnitApiClient(company?: string): typeof api {
+export function getUnitApiClient(company: DashboardCompanyKey): typeof api {
   switch (company) {
+    case "ipiranga":
+      return api;
     case "lapa":
       return api_lapa;
     case "andar_de_cima":
@@ -146,7 +165,9 @@ export function getUnitApiClient(company?: string): typeof api {
       return api_getan_garavelo;
     case "getan_pq_oeste":
       return api_getan_pq_oeste;
-    default:
-      return api;
+    case "getan_independencia":
+      return api_getan_independencia;
+    case "getan_novo_mundo":
+      return api_getan_novo_mundo;
   }
 }

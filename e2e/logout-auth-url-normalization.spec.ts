@@ -1,7 +1,9 @@
 import { expect, test } from '@playwright/test';
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
 
-const AUTH_MOCK_PORT = 35555;
+const AUTH_MOCK_PORT = process.env.PW_AUTH_PORT
+	? Number(process.env.PW_AUTH_PORT)
+	: 35555;
 
 async function startAuthMockServer() {
 	const server = createServer((req: IncomingMessage, res: ServerResponse) => {
@@ -54,4 +56,3 @@ test('logout normalizes NEXT_PUBLIC_AUTH_URL when it already ends with /api', as
 		});
 	}
 });
-

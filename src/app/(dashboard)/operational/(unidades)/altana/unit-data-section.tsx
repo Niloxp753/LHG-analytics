@@ -63,7 +63,7 @@ export async function OperationalAltanaDataSection({
 				data={resp.BigNumbers}
 				description={description}
 			/>
-			<div className='flex items-center gap-5 justify-between flex-col md:flex-row'>
+			<div className='flex items-center gap-5 justify-between flex-col'>
 				<Performance data={resp.SupervisorsPerformance} />
 				<SuitesOutsourcedInternal data={resp.ShiftCleaning} />
 			</div>
