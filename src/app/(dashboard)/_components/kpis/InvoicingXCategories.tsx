@@ -3,8 +3,8 @@
 import dynamic from "next/dynamic";
 import { type CurrencyConfig } from "@/lib/currency-format";
 import React from "react";
-const BarCharApex = dynamic(
-  () => import("@/app/(dashboard)/_components/charts/BarCharApex"),
+const ColumnChart = dynamic(
+  () => import("@/app/(dashboard)/_components/charts/ColumnChart"),
   { ssr: false },
 );
 
@@ -20,8 +20,6 @@ interface CategoriesProps {
 
 export default function Categories({ data, currencyConfig }: CategoriesProps) {
   const revenueBySuiteCategory = data;
-  // Reserve space for every category plus the title and chart axes.
-  const chartHeight = Math.max(320, (data?.categories.length ?? 0) * 56 + 110);
 
   const error =
     revenueBySuiteCategory === null
@@ -30,23 +28,13 @@ export default function Categories({ data, currencyConfig }: CategoriesProps) {
 
   return (
     <>
-      <BarCharApex
-        height={chartHeight}
+      <ColumnChart
+        comparison
+        height={340}
         money
         currencyConfig={currencyConfig}
         error={error}
-        series={
-          revenueBySuiteCategory
-            ? [
-                {
-                  name: "Faturamento",
-                  data: revenueBySuiteCategory?.series,
-                  type: "bar",
-                },
-              ]
-            : undefined
-        }
-        dataLabelColors={["#5b21b6"]}
+        series={revenueBySuiteCategory?.series}
         colors={["#a78bfa"]}
         title="Faturamento por Categoria de Suíte"
         categories={revenueBySuiteCategory?.categories}

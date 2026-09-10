@@ -10,7 +10,7 @@ import { useDashboardViewport } from '@/hooks/use-dashboard-viewport';
 import { resolveXAxisLabelPolicy } from './chart-density';
 import { sortUnitComparison } from './unit-comparison-data';
 import MobileBarChart from './MobileBarChart';
-import { DEFAULT_BRL_CURRENCY_CONFIG, formatCurrency } from '@/lib/currency-format';
+import { DEFAULT_BRL_CURRENCY_CONFIG, formatCurrency, type CurrencyConfig } from '@/lib/currency-format';
 import {
 	normalizeUnitLabel,
 	resolveUnitPaletteFromLabels,
@@ -38,6 +38,8 @@ interface ColumnChartProps {
 	palette?: ChartPaletteMode;
 	comparison?: boolean;
 	height?: number;
+	colors?: string[];
+	currencyConfig?: CurrencyConfig;
 }
 
 export default function ColumnChart(props: ColumnChartProps) {
@@ -55,11 +57,13 @@ export default function ColumnChart(props: ColumnChartProps) {
 	const mobile = comparison && viewport === 'mobile';
 	const height = props.height ?? 280;
 	const chartLabels = unitPalette ? categories.map(normalizeUnitLabel) : categories;
+	const categoryColors = props.colors ?? DEFAULT_COLORS;
+	const currencyConfig = props.currencyConfig ?? DEFAULT_BRL_CURRENCY_CONFIG;
 	const chartColors = unitPalette
 		? resolveUnitPaletteFromLabels(categories).map((color) => color ?? '#94a3b8')
-		: categories.map((label) => DEFAULT_COLORS[Math.max(0, props.categories?.indexOf(label) ?? 0) % DEFAULT_COLORS.length]);
+		: categories.map((label) => categoryColors[Math.max(0, props.categories?.indexOf(label) ?? 0) % categoryColors.length]);
 	const formatCompactValue = (value: number) =>
-		formatCurrency(value, DEFAULT_BRL_CURRENCY_CONFIG, { notation: 'compact' });
+		formatCurrency(value, currencyConfig, { notation: 'compact' });
 	const formatValue = (value: number) => props.money
 		? formatCompactValue(value)
 		: value.toLocaleString('pt-BR', { maximumFractionDigits: 2 });
@@ -196,7 +200,7 @@ export default function ColumnChart(props: ColumnChartProps) {
 					? {
 						x: { formatter: (_value, context) => chartLabels[context?.dataPointIndex ?? -1] ?? '' },
 						y: { formatter: (value) => props.money
-							? formatCurrency(value, DEFAULT_BRL_CURRENCY_CONFIG)
+							? formatCurrency(value, currencyConfig)
 							: formatValue(value) },
 					}
 					: undefined,
@@ -233,7 +237,7 @@ export default function ColumnChart(props: ColumnChartProps) {
 						values={ranked.series}
 						colors={chartColors}
 						formatValue={props.money
-							? (value) => formatCurrency(value, DEFAULT_BRL_CURRENCY_CONFIG)
+							? (value) => formatCurrency(value, currencyConfig)
 							: formatValue}
 					/>
 				) : (

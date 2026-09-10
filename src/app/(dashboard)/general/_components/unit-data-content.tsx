@@ -71,14 +71,14 @@ export default function GeneralUnitDataContent({
         </div>
       </DeferredChartMount>
       <DeferredChartMount minHeight={720} name="general-unit-category-revpar">
-        <div className="gap-5 h-fit w-full grid md:grid-cols-2">
+        <div className="gap-5 w-full grid">
           <div className="w-full min-w-0">
             <Categories
               data={data?.RevenueBySuiteCategory ?? null}
               currencyConfig={currencyConfig}
             />
           </div>
-          <div className="w-full min-w-0 grid grid-rows-2 gap-5">
+          <div className="w-full min-w-0 grid md:grid-cols-2 gap-5">
             <TRevPar
               fillHeight
               data={data?.TrevparByDate ?? null}
