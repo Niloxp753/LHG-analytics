@@ -23,6 +23,8 @@ export const UNIT_VALUES = [
 	'GETAN_PQ_OESTE',
 	'GETAN_INDEPENDENCIA',
 	'GETAN_NOVO_MUNDO',
+	'GETAN_VERA_CRUZ',
+	'GETAN_GRID',
 ] as const;
 
 export const UNIT_VALUES_WITH_ADMIN = [...UNIT_VALUES, ADMIN_UNIT] as const;
@@ -59,6 +61,8 @@ export const UNIT_LABELS: Record<AccessUnit, string> = {
 	GETAN_PQ_OESTE: 'Getan Parque Oeste',
 	GETAN_INDEPENDENCIA: 'Getan Independência',
 	GETAN_NOVO_MUNDO: 'Getan Novo Mundo',
+	GETAN_VERA_CRUZ: 'Getan Vera Cruz',
+	GETAN_GRID: 'Getan Grid',
 	LHG: 'LHG',
 };
 
@@ -187,6 +191,8 @@ export const UNIT_SLUG_TO_UNIT = {
 	getanpqoeste: 'GETAN_PQ_OESTE',
 	getanindependencia: 'GETAN_INDEPENDENCIA',
 	getannovomundo: 'GETAN_NOVO_MUNDO',
+	getanveracruz: 'GETAN_VERA_CRUZ',
+	getangrid: 'GETAN_GRID',
 } as const;
 
 export const UNIT_TO_SLUG = {
@@ -200,6 +206,8 @@ export const UNIT_TO_SLUG = {
 	GETAN_PQ_OESTE: 'getanpqoeste',
 	GETAN_INDEPENDENCIA: 'getanindependencia',
 	GETAN_NOVO_MUNDO: 'getannovomundo',
+	GETAN_VERA_CRUZ: 'getanveracruz',
+	GETAN_GRID: 'getangrid',
 } as const;
 
 export const PATH_TO_MODULE = {

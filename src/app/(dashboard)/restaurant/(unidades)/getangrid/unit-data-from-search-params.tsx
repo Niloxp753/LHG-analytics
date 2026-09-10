@@ -1,0 +1,33 @@
+/** @format */
+
+import {
+	DEFAULT_RANGE_TAG,
+	formatDateInput,
+	getRangeDescription,
+} from '@/lib/date-range';
+import { StandardRestaurantUnitDataSection } from '../../_components/standard-unit-data-section';
+
+export type UnitSearchParams = Promise<{
+	[key: string]: string | string[] | undefined;
+}>;
+
+export default async function UnitDataFromSearchParams({
+	searchParams,
+}: {
+	searchParams: UnitSearchParams;
+}) {
+	const resolvedSearchParams = await searchParams;
+	const preSet = resolvedSearchParams.set ?? DEFAULT_RANGE_TAG;
+
+	return (
+		<StandardRestaurantUnitDataSection
+			company='getan_grid'
+			unitName='Getan Grid'
+			description={getRangeDescription(preSet as string)}
+			endDate={formatDateInput(resolvedSearchParams.endDate as string)}
+			preSet={preSet as string}
+			startDate={formatDateInput(resolvedSearchParams.startDate as string)}
+		/>
+	);
+}
+

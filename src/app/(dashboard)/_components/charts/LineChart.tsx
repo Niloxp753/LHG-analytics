@@ -137,7 +137,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 			position: 'top',
 			horizontalAlign: 'center',
 			fontSize: '8x',
-			fontWeight: 'bold',
+			fontWeight: 400,
 			onItemHover: { highlightDataSeries: true },
 			onItemClick: { toggleDataSeries: false },
 			itemMargin: {
@@ -198,7 +198,7 @@ export default function LineChartsApexUnity(props: AreaChartsApexProps) {
 		colors: palette.seriesColors,
 		title: {
 			text: props.title,
-			style: { fontWeight: 'bold', fontSize: '18px' },
+			style: { fontWeight: 400, fontSize: '18px' },
 		},
 		fill: {
 			gradient: {

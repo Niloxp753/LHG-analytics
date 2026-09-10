@@ -17,6 +17,18 @@ const units = [
 		slug: 'getannovomundo',
 		company: 'getan_novo_mundo',
 	},
+	{
+		unit: 'GETAN_VERA_CRUZ',
+		label: 'Getan Vera Cruz',
+		slug: 'getanveracruz',
+		company: 'getan_vera_cruz',
+	},
+	{
+		unit: 'GETAN_GRID',
+		label: 'Getan Grid',
+		slug: 'getangrid',
+		company: 'getan_grid',
+	},
 ] as const;
 
 const modules = [
@@ -43,8 +55,9 @@ for (const unit of units) {
 				const user = { role: dashboardModule.role, unit: unit.unit };
 				expect(canAccessRoute(user, `/${dashboardModule.path}/${unit.slug}`)).toBe(true);
 				expect(canAccessRoute(user, `/${dashboardModule.path}/getanpqoeste`)).toBe(false);
-				const otherUnit = units.find((candidate) => candidate.unit !== unit.unit)!;
-				expect(canAccessRoute(user, `/${dashboardModule.path}/${otherUnit.slug}`)).toBe(false);
+				for (const otherUnit of units.filter((candidate) => candidate.unit !== unit.unit)) {
+					expect(canAccessRoute(user, `/${dashboardModule.path}/${otherUnit.slug}`)).toBe(false);
+				}
 				for (const otherModule of modules.filter((candidate) => candidate.path !== dashboardModule.path)) {
 					expect(canAccessRoute(user, `/${otherModule.path}/${unit.slug}`)).toBe(false);
 				}

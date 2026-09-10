@@ -97,7 +97,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 			position: 'bottom',
 			itemMargin: { vertical: 6, horizontal: 24 },
 			fontSize: '12px',
-			fontWeight: 'bold',
+			fontWeight: 400,
 			offsetY: 8,
 			labels: {
 				colors: '#f4f4f5',
@@ -108,7 +108,7 @@ export default function PieChartsApex(props: PieChartsApexProps) {
 		title: {
 			align: 'left',
 			text: props.title ? props.title : 'Faturamento por unidade',
-			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 'bold' },
+			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 400 },
 			margin: 12,
 		},
 

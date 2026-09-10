@@ -100,7 +100,7 @@ export default function ColumnChart(props: ColumnChartProps) {
 		title: {
 			align: 'left',
 			text: props.title,
-			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 'bold' },
+			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 400 },
 			margin: 4,
 		},
 		grid: {

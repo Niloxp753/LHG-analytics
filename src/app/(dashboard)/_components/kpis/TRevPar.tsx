@@ -18,9 +18,10 @@ interface TrevparByDateProps {
 interface TRevParProps {
 	data?: TrevparByDateProps | null;
 	currencyConfig?: CurrencyConfig;
+	fillHeight?: boolean;
 }
 
-export default function TRevPar({ data, currencyConfig }: TRevParProps) {
+export default function TRevPar({ data, currencyConfig, fillHeight }: TRevParProps) {
 	const trevparByDate = data;
 	const error =
 		trevparByDate === null ? 'Não foi possível carregar os dados.' : undefined;
@@ -28,6 +29,7 @@ export default function TRevPar({ data, currencyConfig }: TRevParProps) {
 	return (
 		<>
 			<AreaChartsApex
+				fillHeight={fillHeight}
 				id='trevpar-ipiranga'
 				error={error}
 				series={

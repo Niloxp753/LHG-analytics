@@ -37,6 +37,7 @@ interface AreaChartsApexProps {
 	width?: string;
 	error?: string | boolean;
 	currencyConfig?: CurrencyConfig;
+	fillHeight?: boolean;
 }
 
 export default function AreaChartsApex(props: AreaChartsApexProps) {
@@ -125,7 +126,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 		},
 		title: {
 			text: props.title,
-			style: { fontSize: '16px', fontWeight: '600' },
+			style: { fontSize: '16px', fontWeight: 400 },
 		},
 		legend: {
 			show: true,
@@ -133,7 +134,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 			position: 'top',
 			horizontalAlign: 'left',
 			fontSize: '16px',
-			fontWeight: 'bold',
+			fontWeight: 400,
 			onItemHover: { highlightDataSeries: true },
 			onItemClick: { toggleDataSeries: false },
 		},
@@ -208,7 +209,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 				breakpoint: 580,
 				options: {
 					chart: {
-						height: 400,
+						height: props.fillHeight ? '100%' : 400,
 						width: '100%',
 					},
 					dataLabels: {
@@ -252,7 +253,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 				breakpoint: 3000,
 				options: {
 					chart: {
-						height: 280,
+						height: props.fillHeight ? '100%' : 280,
 						width: props.width ?? '100%',
 					},
 					xaxis: {
@@ -301,8 +302,10 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 		],
 	};
 
+	// Size containment lets the grid size the card without the SVG expanding its row.
 	return (
-		<ResponsiveContainerChart>
+		<ResponsiveContainerChart
+			className={props.fillHeight ? 'min-h-[327px] max-[580px]:min-h-[447px] [contain:size]' : undefined}>
 			<DataState
 				isLoading={isLoading}
 				error={error}
@@ -314,7 +317,7 @@ export default function AreaChartsApex(props: AreaChartsApexProps) {
 						options={options}
 						series={props.series as AreaChartSeries}
 						type='area'
-						height={280}></Chart>
+						height={props.fillHeight ? '100%' : 280}></Chart>
 				)}
 			</DataState>
 		</ResponsiveContainerChart>

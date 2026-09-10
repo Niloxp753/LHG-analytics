@@ -131,6 +131,22 @@ export const api_getan_novo_mundo = ky.create({
   fetch: backendFetch,
 });
 
+export const api_getan_vera_cruz = ky.create({
+  prefixUrl: process.env.BACKEND_ENDPOINT_GETAN_VERA_CRUZ,
+  timeout: 60000,
+  retry: 0,
+  mode: "cors",
+  fetch: backendFetch,
+});
+
+export const api_getan_grid = ky.create({
+  prefixUrl: process.env.BACKEND_ENDPOINT_GETAN_GRID,
+  timeout: 60000,
+  retry: 0,
+  mode: "cors",
+  fetch: backendFetch,
+});
+
 export const auth_api = ky.create({
   prefixUrl: process.env.BACKEND_AUTH_ENDPOINT,
   timeout: 60000,
@@ -169,5 +185,9 @@ export function getUnitApiClient(company: DashboardCompanyKey): typeof api {
       return api_getan_independencia;
     case "getan_novo_mundo":
       return api_getan_novo_mundo;
+    case "getan_vera_cruz":
+      return api_getan_vera_cruz;
+    case "getan_grid":
+      return api_getan_grid;
   }
 }

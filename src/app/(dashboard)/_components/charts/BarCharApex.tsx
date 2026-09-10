@@ -106,7 +106,7 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 		title: {
 			align: 'left',
 			text: props.title,
-			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 'bold' },
+			style: { color: '#f4f4f5', fontSize: '16px', fontWeight: 400 },
 			margin: 8,
 		},
 		grid: {
@@ -234,7 +234,7 @@ export default function BarChartsApex(props: BarChartsApexProps) {
 			position: 'top',
 			horizontalAlign: 'left',
 			fontSize: '11px',
-			fontWeight: 600,
+			fontWeight: 400,
 			itemMargin: { horizontal: 8, vertical: 0 },
 		};
 	}

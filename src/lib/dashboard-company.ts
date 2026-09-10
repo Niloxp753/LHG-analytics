@@ -11,6 +11,8 @@ export const DASHBOARD_COMPANY_TO_UNIT = {
 	getan_pq_oeste: 'GETAN_PQ_OESTE',
 	getan_independencia: 'GETAN_INDEPENDENCIA',
 	getan_novo_mundo: 'GETAN_NOVO_MUNDO',
+	getan_vera_cruz: 'GETAN_VERA_CRUZ',
+	getan_grid: 'GETAN_GRID',
 } as const satisfies Record<string, Unit>;
 
 export type DashboardCompanyKey = keyof typeof DASHBOARD_COMPANY_TO_UNIT;
