@@ -99,6 +99,42 @@
     }
   }
 
+  /* Keep long unit lists scrollable without extending the page. */
+  .apexcharts-canvas .apexcharts-tooltip {
+    box-sizing: border-box;
+    /* Date (32px), four rows (36px each), padding and border (6px). */
+    max-height: min(182px, 50dvh);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+
+  .apexcharts-canvas .apexcharts-tooltip > * {
+    flex-shrink: 0;
+  }
+
+  .apexcharts-canvas .apexcharts-tooltip-title {
+    box-sizing: border-box;
+    height: 32px;
+  }
+
+  .apexcharts-canvas .apexcharts-tooltip-series-group {
+    box-sizing: border-box;
+    height: 36px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .apexcharts-canvas .apexcharts-tooltip.apexcharts-active,
+  .apexcharts-canvas .apexcharts-tooltip:hover {
+    pointer-events: auto;
+  }
+
+  /* ApexCharts removes the active class when the pointer leaves the plot. */
+  .apexcharts-canvas .apexcharts-tooltip:hover {
+    opacity: 1;
+  }
+
   @layer utilities {
     .selector-scrollbar {
       scrollbar-color: rgb(82 82 91) transparent;

@@ -111,9 +111,11 @@ const UNIT_COLOR_KEY_BY_ALIAS: Record<string, UnitColorKey> = {
   getan_novo_mundo: "getanNovoMundo",
   getannovomundo: "getanNovoMundo",
   "getan vera cruz": "getanVeraCruz",
+  "getan - vera cruz": "getanVeraCruz",
   getan_vera_cruz: "getanVeraCruz",
   getanveracruz: "getanVeraCruz",
   "getan grid": "getanGrid",
+  "getan - grid": "getanGrid",
   getan_grid: "getanGrid",
   getangrid: "getanGrid",
 };

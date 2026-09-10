@@ -36,6 +36,8 @@ export default defineConfig({
 			BACKEND_ENDPOINT_GETAN_PQ_OESTE: `${baseURL}/api/mock-backend/unit/getan_pq_oeste`,
 			BACKEND_ENDPOINT_GETAN_INDEPENDENCIA: `${baseURL}/api/mock-backend/unit/getan_independencia`,
 			BACKEND_ENDPOINT_GETAN_NOVO_MUNDO: `${baseURL}/api/mock-backend/unit/getan_novo_mundo`,
+			BACKEND_ENDPOINT_GETAN_VERA_CRUZ: `${baseURL}/api/mock-backend/unit/getan_vera_cruz`,
+			BACKEND_ENDPOINT_GETAN_GRID: `${baseURL}/api/mock-backend/unit/getan_grid`,
 		},
 	},
 	projects: [

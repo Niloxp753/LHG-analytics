@@ -13,7 +13,7 @@ export default function MobileBarChart({
 
 	return (
 		<section aria-label={title} className='w-full px-2'>
-			<h3 className='mb-6 text-base font-bold text-zinc-100'>{title}</h3>
+			<h3 className='mb-6 text-base font-normal text-zinc-100'>{title}</h3>
 			<ul role='list' className='space-y-5'>
 				{labels.map((label, index) => (
 					<li key={`${label}-${index}`}>

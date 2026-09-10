@@ -20,6 +20,8 @@ interface CategoriesProps {
 
 export default function Categories({ data, currencyConfig }: CategoriesProps) {
   const revenueBySuiteCategory = data;
+  // Reserve space for every category plus the title and chart axes.
+  const chartHeight = Math.max(320, (data?.categories.length ?? 0) * 56 + 110);
 
   const error =
     revenueBySuiteCategory === null
@@ -29,6 +31,7 @@ export default function Categories({ data, currencyConfig }: CategoriesProps) {
   return (
     <>
       <BarCharApex
+        height={chartHeight}
         money
         currencyConfig={currencyConfig}
         error={error}

@@ -17,9 +17,10 @@ interface RevparByDateProps {
 interface RevParProps {
 	data?: RevparByDateProps | null;
 	currencyConfig?: CurrencyConfig;
+	fillHeight?: boolean;
 }
 
-export default function RevPar({ data, currencyConfig }: RevParProps) {
+export default function RevPar({ data, currencyConfig, fillHeight }: RevParProps) {
 	const revparByDate = data;
 	const error =
 		revparByDate === null ? 'Não foi possível carregar os dados.' : undefined;
@@ -27,6 +28,7 @@ export default function RevPar({ data, currencyConfig }: RevParProps) {
 	return (
 		<>
 			<AreaChartsApex
+				fillHeight={fillHeight}
 				money
 				currencyConfig={currencyConfig}
 				id='revpar-ipiranga'

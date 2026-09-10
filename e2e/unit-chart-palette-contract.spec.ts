@@ -36,7 +36,7 @@ test.describe('unit chart palette contract', () => {
 		]);
 	});
 
-	test('maps all eight units to the approved colors', async () => {
+	test('maps all twelve units to the approved colors', async () => {
 		const {
 			resolveUnitAccentPaletteFromLabels,
 			resolveUnitPaletteFromLabels,
@@ -50,6 +50,10 @@ test.describe('unit chart palette contract', () => {
 			'Altana',
 			'Getan Garavelo',
 			'Getan Parque Oeste',
+			'Getan Independência',
+			'Getan Novo Mundo',
+			'Getan Vera Cruz',
+			'Getan Grid',
 		];
 
 		expect(resolveUnitPaletteFromLabels(labels)).toEqual([
@@ -61,6 +65,10 @@ test.describe('unit chart palette contract', () => {
 			'#fb923c',
 			'#facc15',
 			'#a3e635',
+			'#22d3ee',
+			'#34d399',
+			'#f472b6',
+			'#2dd4bf',
 		]);
 		expect(resolveUnitAccentPaletteFromLabels(labels)).toEqual([
 			'#7c3aed',
@@ -71,6 +79,10 @@ test.describe('unit chart palette contract', () => {
 			'#ea580c',
 			'#ca8a04',
 			'#65a30d',
+			'#0891b2',
+			'#059669',
+			'#db2777',
+			'#0d9488',
 		]);
 	});
 
