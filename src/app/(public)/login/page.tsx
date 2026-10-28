@@ -5,8 +5,8 @@ import logo from '@/assets/images/logo-analytics.png';
 import logoLush from '@/assets/images/logo-lush.png';
 import logoTout from '@/assets/images/logo_tout.png';
 import logoAC from '@/assets/images/logo_andar_de_cima.png';
-import logoAltana from '@/assets/images/logo_altana.webp';
-import logoGetan from '@/assets/images/logo-getan.png';
+import logoAltana from '@/assets/images/logo-altana-login.png';
+import logoGetan from '@/assets/images/logo-getan-login.png';
 import { LogoImage } from '@/components/ui/logo-image';
 import { Card } from '@/components/ui/card';
 import { getDefaultSessionHref } from '@/lib/session/default-route';
@@ -53,48 +53,54 @@ export default async function Login({ searchParams }: LoginPageProps) {
 					height='700'
 					className='h-full w-full object-cover grayscale absolute left-0 top-0 opacity-30'
 				/>
-				<div className='flex mx-auto items-center justify-center gap-8 w-fit mb-60 z-50'>
+				<div className='flex mx-auto max-w-full items-center justify-center gap-4 px-6 xl:gap-6 2xl:gap-8 w-fit mb-60 z-50'>
 					<LogoImage
 						src={logoLush}
 						alt='Logo Lush'
-						boxWidth={120}
+						containerClassName='min-w-0 shrink'
+						boxWidth={108}
 						boxHeight={60}
-						sizes='(max-width: 1023px) 0px, 120px'
+						sizes='(max-width: 1023px) 0px, 108px'
 					/>
 					<LogoImage
 						src={logoTout}
 						alt='Logo Tout'
-						boxWidth={120}
+						containerClassName='min-w-0 shrink'
+						boxWidth={94}
 						boxHeight={60}
-						sizes='(max-width: 1023px) 0px, 120px'
+						sizes='(max-width: 1023px) 0px, 94px'
 					/>
 					<LogoImage
 						src={logoAC}
 						alt='Logo Andar de Cima'
-						boxWidth={220}
-						boxHeight={110}
-						sizes='(max-width: 1023px) 0px, 220px'
+						containerClassName='min-w-0 shrink'
+						boxWidth={248}
+						boxHeight={60}
+						sizes='(max-width: 1023px) 0px, 248px'
 					/>
 					<LogoImage
 						src='/logo_liv.png'
 						alt='Logo LIV'
-						boxWidth={102}
-						boxHeight={30}
-						sizes='(max-width: 1023px) 0px, 102px'
+						containerClassName='min-w-0 shrink'
+						boxWidth={88}
+						boxHeight={60}
+						sizes='(max-width: 1023px) 0px, 88px'
 					/>
 					<LogoImage
 						src={logoAltana}
 						alt='Logo Altana'
-						boxWidth={60}
-						boxHeight={44}
-						sizes='(max-width: 1023px) 0px, 60px'
+						containerClassName='min-w-0 shrink'
+						boxWidth={180}
+						boxHeight={60}
+						sizes='(max-width: 1023px) 0px, 180px'
 					/>
 					<LogoImage
 						src={logoGetan}
 						alt='Logo Getan'
-						boxWidth={120}
+						containerClassName='min-w-0 shrink'
+						boxWidth={144}
 						boxHeight={60}
-						sizes='(max-width: 1023px) 0px, 120px'
+						sizes='(max-width: 1023px) 0px, 144px'
 					/>
 				</div>
 			</div>
