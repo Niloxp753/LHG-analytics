@@ -1,16 +1,13 @@
 /** @format */
 
 import { z } from 'zod';
-import { cpf } from 'zod-br-tax-id';
 import { ROLE_VALUES, UNIT_VALUES_WITH_ADMIN } from '@/lib/access-control';
-import { normalizeCpf } from '@/lib/cpf';
+import { isValidCpf, normalizeCpf } from '@/lib/cpf';
 
 export const formSchemaUserUpdate = z.object({
 	name: z
-		.string({
-			description: 'Nome de usuário',
-			message: 'Nome obrigatório',
-		})
+		.string({ error: 'Nome obrigatório' })
+		.describe('Nome de usuário')
 		.optional(),
 	email: z
 		.string()
@@ -26,7 +23,7 @@ export const formSchemaUserUpdate = z.object({
 
 			return normalized ? normalized : undefined;
 		},
-		cpf({ message: 'CPF inválido' }).optional(),
+		z.string().refine(isValidCpf, { message: 'CPF inválido' }).optional(),
 	),
 	password: z.preprocess(
 		(value) => (value === '' ? undefined : value),
@@ -37,10 +34,8 @@ export const formSchemaUserUpdate = z.object({
 	),
 	role: z.enum(ROLE_VALUES).optional(),
 	unidade: z
-		.string({
-			description: 'LUSH_IPIRANGA, LUSH_LAPA, ANDAR_DE_CIMA, TOUT ou LHG',
-			message: 'informe a unidade do usuário',
-		})
+		.string({ error: 'informe a unidade do usuário' })
+		.describe('LUSH_IPIRANGA, LUSH_LAPA, ANDAR_DE_CIMA, TOUT ou LHG')
 		.optional()
 		.refine(
 			(value) =>

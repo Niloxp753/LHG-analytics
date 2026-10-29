@@ -1,36 +1,28 @@
 /** @format */
 
 import { z } from 'zod';
-import { cpf } from 'zod-br-tax-id';
 import { ROLE_VALUES, UNIT_VALUES_WITH_ADMIN } from '@/lib/access-control';
-import { normalizeCpf } from '@/lib/cpf';
+import { isValidCpf, normalizeCpf } from '@/lib/cpf';
 
 export const formSchemaUser = z.object({
-	name: z.string({
-		description: 'Nome de usuário',
-		coerce: true,
-		message: 'Nome obrigatório',
-	}),
-	email: z.string({ coerce: true }).email({
-		message: 'E-mail obrigatório',
-	}),
+	name: z.coerce
+		.string({ error: 'Nome obrigatório' })
+		.describe('Nome de usuário'),
+	email: z.coerce.string().pipe(z.email({ error: 'E-mail obrigatório' })),
 	cpf: z.preprocess(
 		(value) =>
 			normalizeCpf(
 				typeof value === 'string' ? value : value == null ? '' : String(value),
 			),
-		cpf({ message: 'CPF inválido' }),
+		z.string().refine(isValidCpf, { message: 'CPF inválido' }),
 	),
 	password: z
-		.string({ coerce: true })
+		.coerce.string()
 		.min(8, { message: 'A senha deve ter no mínimo 8 dígitos' }),
 	role: z.enum(ROLE_VALUES),
 	unidade: z
-		.string({
-			coerce: true,
-			description: 'LUSH_IPIRANGA, LUSH_LAPA, ANDAR_DE_CIMA, TOUT ou LHG',
-			message: 'informe a unidade do usuário',
-		})
+		.coerce.string({ error: 'informe a unidade do usuário' })
+		.describe('LUSH_IPIRANGA, LUSH_LAPA, ANDAR_DE_CIMA, TOUT ou LHG')
 		.refine(
 			(value) => (UNIT_VALUES_WITH_ADMIN as readonly string[]).includes(value),
 			{
