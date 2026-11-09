@@ -1,5 +1,6 @@
 /** @format */
 
+import { resolveHubLoginUrl } from '@/lib/auth-url';
 import { normalizeRangeTag } from '@/lib/date-range';
 import {
 	buildInternalRequestPath,
@@ -39,13 +40,19 @@ export function proxy(request: NextRequest): NextResponse {
 		return nextResponse(request);
 	}
 
+	const returnTo = buildInternalRequestPath(
+		request.nextUrl.pathname,
+		request.nextUrl.search,
+	);
+	const hubLoginUrl = resolveHubLoginUrl(returnTo);
+	if (hubLoginUrl) {
+		return NextResponse.redirect(hubLoginUrl);
+	}
+
 	const loginUrl = request.nextUrl.clone();
 	loginUrl.pathname = '/login';
 	loginUrl.search = '';
-	loginUrl.searchParams.set(
-		'returnTo',
-		buildInternalRequestPath(request.nextUrl.pathname, request.nextUrl.search),
-	);
+	loginUrl.searchParams.set('returnTo', returnTo);
 	return NextResponse.redirect(loginUrl);
 }
 

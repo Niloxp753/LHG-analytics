@@ -1,3 +1,7 @@
+import { sanitizeSessionReturnTo } from '@/lib/session/return-to';
+
+export const HUB_PORTAL_URL = 'https://hub.lhgmoteis.com.br/';
+
 export function normalizeAuthApiBaseUrl(
 	rawBaseUrl: string | null | undefined,
 ): string | null {
@@ -29,7 +33,21 @@ export function resolveAuthApiBaseUrl(): string | null {
 	);
 }
 
-export function resolveAuthApiUrl(endpoint: 'logout' | 'me' | 'refresh') {
+export function resolveAuthApiUrl(
+	endpoint: 'me' | 'refresh' | 'hub/login' | 'hub/logout',
+) {
 	const baseUrl = resolveAuthApiBaseUrl();
 	return baseUrl ? `${baseUrl}/${endpoint}` : null;
+}
+
+export function resolveHubLoginUrl(returnTo: string | null): string | null {
+	const hubLoginUrl = resolveAuthApiUrl('hub/login');
+	if (!hubLoginUrl) {
+		return null;
+	}
+
+	const safeReturnTo = sanitizeSessionReturnTo(returnTo);
+	return safeReturnTo === '/'
+		? hubLoginUrl
+		: `${hubLoginUrl}?returnTo=${encodeURIComponent(safeReturnTo)}`;
 }
